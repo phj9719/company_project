@@ -1,0 +1,707 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUA800CT" width="1112" height="570" titletext="모니터링지역설정" onload="form_onload" onbeforeclose="form_onbeforeclose">
+    <Layouts>
+      <Layout width="1112" height="570">
+        <Div id="div_search" taborder="1" left="0" top="22" right="0.00%" height="74" cssclass="s01">
+          <Layouts>
+            <Layout>
+              <Static id="sta_are_nm" taborder="2" text="모니터링명" cssclass="sta_WF_SearchLabel" left="15" top="25" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_are_nm" taborder="0" left="110" top="25" width="130" height="21" maxlength="0" autoselect="true"/>
+              <Static id="sta_use_yn" taborder="3" text="사용유무" cssclass="sta_WF_SearchLabel" left="255" top="25" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_use_yn" taborder="1" left="350" top="25" width="130" height="21" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" innerdataset="ds_cm_use_yn"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="2" left="0" top="120" right="0.00%" bottom="0.00%">
+          <Layouts>
+            <Layout>
+              <Button id="btn_gHMove" taborder="1" left="645" top="40%" width="25" icon="URL('imagerc::grid_horizontal.png')" background="transparent" borderRadius="10px" height="50"/>
+              <Div id="div_left" taborder="0" left="0" top="0" bottom="0" width="645" text="">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_mon_area" taborder="0" binddataset="ds_mon_area" left="0" top="30" bottom="0" right="0" autoenter="select" autosizingtype="row" extendsizetype="row" onsetfocus="grd_list_onsetfocus">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="40"/>
+                            <Column size="40"/>
+                            <Column size="40"/>
+                            <Column size="110"/>
+                            <Column size="110"/>
+                            <Column size="200"/>
+                            <Column size="80"/>
+                            <Column size="98"/>
+                            <Column size="95"/>
+                            <Column size="99"/>
+                            <Column size="91"/>
+                            <Column size="90"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell expandchar="status"/>
+                            <Cell col="1" expandchar="delete"/>
+                            <Cell col="2" text="순번"/>
+                            <Cell col="3" text="모니터링코드" cssclass="CellEssential"/>
+                            <Cell col="4" text="모니터링명" cssclass="CellEssential"/>
+                            <Cell col="5" text="비고"/>
+                            <Cell col="6" text="사용유무" cssclass="CellEssential"/>
+                            <Cell col="7" text="등록자ID"/>
+                            <Cell col="8" text="등록자명"/>
+                            <Cell col="9" text="등록일자"/>
+                            <Cell col="10" text="수정자명"/>
+                            <Cell col="11" text="수정일자"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell/>
+                            <Cell col="1"/>
+                            <Cell col="2" text="expr:currow + 1"/>
+                            <Cell col="3" text="bind:ARE_CD" textAlign="center" combodataset="gds_company" combodatacol="COMPANY_NM" combocodecol="COMPANY_CD" edittype="expr:dataset.getRowType(currow) == 2 ? 'normal' : 'none'"/>
+                            <Cell col="4" text="bind:ARE_NM" edittype="normal" combodataset="ds_cm_service_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="5" text="bind:REMARK" textareaacceptsenter="true" textareaautoselect="true" edittype="textarea" displaytype="textareacontrol"/>
+                            <Cell col="6" text="bind:USE_YN" textAlign="center" displaytype="combotext" edittype="combo" combodataset="ds_cm_use_yn" combodatacol="CMNM" combocodecol="CMCD"/>
+                            <Cell col="7" text="bind:REG_USER"/>
+                            <Cell col="8" text="bind:REG_USER_NM"/>
+                            <Cell col="9" displaytype="date" text="bind:REG_DT"/>
+                            <Cell col="10" text="bind:MOD_USER_NM"/>
+                            <Cell col="11" displaytype="date" text="bind:MOD_DT"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="Static_mid_label_left01" taborder="2" text="모니터링 지역 목록" cssclass="lb01" left="0" top="6" width="194" height="20"/>
+                    <Static id="sta_alert" taborder="3" text="※모니터링 지역을 먼저 저장하세요" left="160" top="11" width="250" height="18" cssclass="sta_alert"/>
+                    <Button id="btn_addrow_mon_area" taborder="1" text="행추가" top="0" width="80" height="29" right="0" cssclass="btn_com_add" onclick="div_cont_div_left_btn_addrow_mon_area_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="2" left="670" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_gVMove" taborder="0" left="40%" top="217" height="25" icon="URL('imagerc::grid_vertical.png')" background="transparent" borderRadius="10px" width="50"/>
+                    <Div id="div_up" taborder="1" left="0" top="0" right="0" height="217">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grd_location" taborder="0" binddataset="ds_location" left="0" top="30" right="0" bottom="0" onheadclick="div_cont_div_right_div_up_grd_location_onheadclick" oncelldblclick="div_cont_div_right_div_up_grd_location_oncelldblclick" autoenter="select">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="40"/>
+                                  <Column size="40"/>
+                                  <Column size="52"/>
+                                  <Column size="80"/>
+                                  <Column size="80"/>
+                                  <Column size="96"/>
+                                  <Column size="90"/>
+                                  <Column size="94"/>
+                                  <Column size="88"/>
+                                  <Column size="92"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="24"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                                  <Cell col="1" text="순번"/>
+                                  <Cell col="2" text="층"/>
+                                  <Cell col="3" text="생활실코드"/>
+                                  <Cell col="4" text="생활실명"/>
+                                  <Cell col="5" text="등록자ID"/>
+                                  <Cell col="6" text="등록자명"/>
+                                  <Cell col="7" text="등록일자"/>
+                                  <Cell col="8" text="수정자명"/>
+                                  <Cell col="9" text="수정일자"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                                  <Cell col="1" text="expr:currow + 1"/>
+                                  <Cell col="2" text="bind:ARE_NM"/>
+                                  <Cell col="3" text="bind:LOC_CD"/>
+                                  <Cell col="4" text="bind:LOC_NM" textAlign="left"/>
+                                  <Cell col="5" text="bind:REG_USER"/>
+                                  <Cell col="6" text="bind:REG_USER_NM"/>
+                                  <Cell col="7" displaytype="date" text="bind:REG_DT"/>
+                                  <Cell col="8" text="bind:MOD_USER_NM"/>
+                                  <Cell col="9" displaytype="date" text="bind:MOD_DT"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="Static_mid_label_left01" taborder="1" text="생활실 목록" cssclass="lb01" left="0" top="6" width="194" height="20"/>
+                          <Button id="btn_addrow_location" taborder="2" text="모니터링 생활실 목록 추가" top="0" width="195" height="29" right="0" onclick="div_cont_div_right_div_up_btn_addrow_location_onclick" cssclass="btn_com_add"/>
+                          <Static id="sta_alert" taborder="3" text="※더블 클릭시 아래로 추가됩니다." left="109" top="11" width="250" height="18" cssclass="sta_alert"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_down" taborder="2" left="0" top="240" right="0" text="" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grd_mon_location" taborder="0" binddataset="ds_mon_location" left="0" top="30" right="0" bottom="0" autoenter="select" onsetfocus="grd_list_onsetfocus">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="40"/>
+                                  <Column size="40"/>
+                                  <Column size="40"/>
+                                  <Column size="48"/>
+                                  <Column size="80"/>
+                                  <Column size="80"/>
+                                  <Column size="80"/>
+                                  <Column size="81"/>
+                                  <Column size="85"/>
+                                  <Column size="82"/>
+                                  <Column size="83"/>
+                                  <Column size="81"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="24"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell expandchar="status"/>
+                                  <Cell col="1" expandchar="delete"/>
+                                  <Cell col="2" text="순번"/>
+                                  <Cell col="3" text="층"/>
+                                  <Cell col="4" text="생활실코드"/>
+                                  <Cell col="5" text="생활실명"/>
+                                  <Cell col="6" text="사용유무" cssclass="CellEssential"/>
+                                  <Cell col="7" text="등록자ID"/>
+                                  <Cell col="8" text="등록자명"/>
+                                  <Cell col="9" text="등록일자"/>
+                                  <Cell col="10" text="수정자명"/>
+                                  <Cell col="11" text="수정일자"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell/>
+                                  <Cell col="1"/>
+                                  <Cell col="2" text="expr:currow + 1"/>
+                                  <Cell col="3" text="bind:ARE_NM"/>
+                                  <Cell col="4" text="bind:LOC_CD"/>
+                                  <Cell col="5" text="bind:LOC_NM" textAlign="left"/>
+                                  <Cell col="6" text="bind:USE_YN" displaytype="combotext" edittype="combo" combodataset="ds_cm_use_yn" combodatacol="CMNM" combocodecol="CMCD"/>
+                                  <Cell col="7" text="bind:REG_USER"/>
+                                  <Cell col="8" text="bind:REG_USER_NM"/>
+                                  <Cell col="9" displaytype="date" text="bind:REG_DT"/>
+                                  <Cell col="10" text="bind:MOD_USER_NM"/>
+                                  <Cell col="11" displaytype="date" text="bind:MOD_DT"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="Static_mid_label_left01" taborder="1" text="모니터링 생활실 목록" cssclass="lb01" left="0" top="6" width="194" height="20"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static60" taborder="0" text="검색조건" cssclass="lb01" left="0" top="-1" width="120" height="22"/>
+        <Button id="btn_sMove" taborder="3" onclick="search_reset" left="44.78%" top="96" height="16" ondrag="search_resize" right="44.78%" background="url('imagerc::search_open.png') no-repeat transparent" border="0px solid"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_mon_area" useclientlayout="true" onrowposchanged="ds_mon_area_onrowposchanged" onrowsetchanged="ds_mon_area_onrowsetchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mon_location" useclientlayout="true" cancolumnchange="ds_mon_location_cancolumnchange">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cm_use_yn">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUA800CT
+ * 화면명   	: 모니터링지역설정
+ * 화면설명 	: 모니터링할 생활실을 결정하는 화면
+ * 작성일    	: 2021-08-23
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일   	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+*/
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_mon_area;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_mon_area;
+this.fv_rowidx;
+
+this.nMoveX;
+this.nMoveY;
+this.fv_flag = false;
+this.outvar = "";
+
+const fv_Company = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD"); // 회사코드
+const fv_ServiceTp = nexacro.getApplication().gds_userInfo.getColumn(0,"SERVICE_TP");
+const fv_appTp = nexacro.getApplication().gv_applicationTp;
+
+this.pgmId = nexacro.getApplication().gv_curWinKey;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj, e)
+{
+	this.form_onload_com(obj, e);
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_Company);
+	this.ds_search.setColumn(0, "SERVICE_TP", fv_ServiceTp);
+	this.ds_search.setColumn(0, "APPLICATION_TP", fv_appTp);
+	
+	//drag 버튼 활성화
+	this.gfn_setDivDrag(this.div_cont.form.btn_gHMove, this.div_cont.form.div_left, this.div_cont.form.div_right);
+	this.gfn_setDivDrag(this.div_cont.form.div_right.form.btn_gVMove, this.div_cont.form.div_right.form.div_up, this.div_cont.form.div_right.form.div_down);
+	
+	// 화면 오픈시 조회
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.edt_are_nm.setFocus();
+};
+
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	this.fn_save();
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	//조회전 그리드에 변경된 데이터가 있을경우 ..
+	if(Sct.Grid.isUpdate(this.div_cont.form.div_right.form.div_down.form.grd_mon_location)
+		|| Sct.Grid.isUpdate(this.div_cont.form.div_left.form.grd_mon_area))
+	{
+		//메세지로 변경된 데이터 여부와 상관없이 조회 할지 확인
+		if(!Sct.confirm(this,"000171","")){
+			this.div_cont.form.div_left.form.grd_mon_area.setFocus();
+            return false;
+		}
+	}
+	
+	//조회조건 필수여부확인
+	 if(!this.gfn_findSnull(this.div_search)) return false;
+	 
+	 //디테일 초기화
+	 this.ds_location.clearData();
+	 this.ds_mon_location.clearData();
+	 return true;
+};
+
+//저장 전 validation
+this.fn_save_pre = function ()
+{
+	//저장여부
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.ds_mon_area) && !Sct.Grid.hasInsertAndUpdateRow(this.ds_mon_location))
+	{
+		Sct.alert(this, "000240"); //추가나 수정한 데이터가 없습니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	//입력한값 중복 여부 체크
+	var keyArr ;
+	if(this.fv_currentDS.name == "ds_head")	keyArr = ["COMPANY_CD", "ARE_CD"];
+	else									keyArr = ["COMPANY_CD", "ARE_CD", "LOC_SEQ"];
+	if(!this.gfn_duplicateCheck(this.fv_currentDS, keyArr)) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasDeletedRow(this.fv_currentDS))
+	{
+		Sct.alert(this, "000150"); //삭제할 데이터가 없습니다.
+		return false;
+	}
+
+	//다른상태값 존재여부
+	if(!Sct.Grid.hasDifferentRowType(this.fv_currentDS, Dataset.ROWTYPE_DELETE))
+	{
+		Sct.alert(this, "000239"); //삭제작업 외 다른 작업상태가 존재합니다.
+		return false;
+	}
+	
+	//삭제하시겠습니까?
+	if(!Sct.confirm(this, "000152", "")) return false;
+
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//Header 조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_mon_area=output1";
+	const argument = "method=getList "
+		+ "sqlId=NUA800CT.NUA800CT_DS_MON_AREA_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//Detail 조회
+this.fn_searchDetail = function ()
+{
+	const nRow = this.ds_mon_area.rowposition;
+	const areCd = this.ds_mon_area.getColumn(nRow, "ARE_CD");
+	const comCd = this.ds_mon_area.getColumn(nRow, "COMPANY_CD");
+
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_location=output1 ds_mon_location=output2";
+	const argument = "method=getList "
+		+ "sqlId='NUA800CT.NUA800CT_DS_LOCATION_S NUA800CT.NUA800CT_DS_MON_LOCATION_S' "
+		+ "ARE_CD=" + areCd + " "
+		+ "COMPANY_CD=" + comCd + " ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//저장
+this.fn_save = function ()
+{
+	if(!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const inDs = "ds_mon_area,ds_mon_location";
+	this.fn_save_com(svcId, inDs);
+};
+
+//삭제
+this.fn_delete = function ()
+{
+	//validation
+	if(!this.fn_delete_pre()) return;
+	
+	let sqlId = "";
+	if(this.fv_currentDS.name == "ds_mon_area")	sqlId = "NUA800CT.NUA800CT_DS_MON_AREA_D";
+	else										sqlId = "NUA800CT.NUA800CT_DS_MON_LOCATION_D";
+
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=" + this.fv_currentDS.name + ":U";
+	const outDatasets = "";
+	const argument = "method=delete "
+		+ "sqlId=" + sqlId + " ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0)
+	{
+		let count;
+		if(strSvcID == "search")
+		{
+			count = this.ds_mon_area.rowcount;
+			Sct.alert(this, "000175", count + "|");
+			
+			//저장후 조회후 변경된 row로 rowposition 설정
+			this.gfn_saveAfterFindRow(this.ds_mon_area);
+		}
+		else if(strSvcID == "searchDetail")
+		{
+			count = this.ds_mon_location.rowcount;
+			Sct.alert(this, "000175", count + "|");
+			
+			//저장후 조회후 변경된 row로 rowposition 설정
+			this.gfn_saveAfterFindRow(this.ds_mon_location, this.ds_mon_location);
+		}
+		else if(strSvcID == "save")
+		{
+			Sct.alert(this, "000050");	// 정상적으로 저장되었습니다.
+		
+			if(this.fv_currentDS.name == "ds_mon_area")	this.fn_search();
+			else										this.fn_searchDetail();
+			
+			//저장후 조회후 변경된 row로 rowposition 설정
+			this.gfn_saveAfterFindRow(this.ds_mon_area, this.ds_mon_area);
+		}
+		else if(strSvcID == "delete")
+		{
+			Sct.alert(this, "000052");	// 정상적으로 삭제되었습니다.
+		
+			if(this.fv_currentDS.name == "ds_mon_area")	this.fn_search();
+			else										this.fn_searchDetail();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 모니터링 지역 목록 행추가
+this.div_cont_div_left_btn_addrow_mon_area_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const nRow = this.ds_mon_area.addRow();
+	// 초기화
+	this.ds_mon_area.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+	this.ds_mon_area.setColumn(nRow, "USE_YN", "Y");
+	
+	//포커스
+	this.gfn_SetCellPos(this.div_cont.form.div_left.form.grd_mon_area, "ARE_CD");
+};
+
+this.ds_mon_area_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	// 생활실 목록 체크박스 HEAD 0 초기화
+	const grdLocation = this.div_cont.form.div_right.form.div_up.form.grd_location;
+	grdLocation.setCellProperty("head", grdLocation.getBindCellIndex("body", "CHK"), "text", "0");
+	
+	const nRow = this.ds_mon_area.rowposition;
+	const areCd = this.ds_mon_area.getColumn(nRow, "ARE_CD");
+	
+	// 생활실 목록, 모니터링 생활실 목록 조회
+	if(!Sct.Util.isEmpty(areCd)) this.fn_searchDetail();
+	else
+	{
+		this.ds_location.clearData();
+		this.ds_mon_location.clearData();
+	}
+	
+};
+
+// 생활실 목록 그리드 헤더클릭 이벤트
+this.div_cont_div_right_div_up_grd_location_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//체크박스 헤더클릭시 이벤트
+	if(e.col == obj.getBindCellIndex("body", "CHK"))
+	{
+		var chkValue = obj.getCellProperty("head", e.col, "text");
+		var chk = "";
+		if(chkValue != "1")	chk = "1";
+		else				chk = "0";
+
+		//체크박스 설정
+		obj.setCellProperty("head", e.col, "text", chk);
+		for(var i=0; i<this.ds_location.rowcount; i++) this.ds_location.setColumn(i, "CHK", chk);
+	}
+};
+
+
+// 모니터링 생활실 목록 추가 버튼
+this.div_cont_div_right_div_up_btn_addrow_location_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const fRow = this.ds_location.findRow("CHK", "1");
+	if(fRow < 0)
+	{
+		Sct.alert(this, "000119"); // 선택된 데이터가 없습니다.
+		return ;
+	}
+	
+	// 모니터링 지역 목록이 추가행일경우
+	if(this.ds_mon_area.getRowType(this.ds_mon_area.rowposition) == Dataset.ROWTYPE_INSERT)
+	{
+		Sct.alert(this, "000179"); // 저장 후 행추가 해주시기 바랍니다.
+		return ;
+	}
+
+	const areCd = this.ds_mon_area.getColumn(this.ds_mon_area.rowposition, "ARE_CD");
+	const companyCd = this.ds_mon_area.getColumn(this.ds_mon_area.rowposition, "COMPANY_CD");
+
+	for(var i=0; i<this.ds_location.rowcount; i++)
+	{
+		// 생활실 목록 -> 모니터링 생활실 목록 (ds_location -> ds_mon_location)
+		if(this.ds_location.getColumn(i, "CHK") == "1")
+		{
+			const nRow = this.ds_mon_location.addRow();
+			this.ds_mon_location.copyRow(nRow, this.ds_location, i);
+			this.ds_mon_location.setColumn(nRow, "ARE_CD", areCd);
+			this.ds_mon_location.setColumn(nRow, "USE_YN", "Y");
+			this.ds_location.deleteRow(i);
+			i--;
+		}
+	}
+	
+	this.div_cont.form.div_right.form.div_down.form.grd_mon_location.setFocus();
+};
+
+// 생활실 목록 그리드 더블클릭 이벤트
+this.div_cont_div_right_div_up_grd_location_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 모니터링 지역 목록이 추가행일경우
+	if(this.ds_mon_area.getRowType(this.ds_mon_area.rowposition) == Dataset.ROWTYPE_INSERT)
+	{
+		Sct.alert(this, "000179"); // 저장 후 행추가 해주시기 바랍니다.
+		return ;
+	}
+
+	// 생활실 목록 -> 모니터링 생활실 목록 (ds_location -> ds_mon_location)
+	const areCd = this.ds_mon_area.getColumn(this.ds_mon_area.rowposition, "ARE_CD");
+	const nRow = this.ds_mon_location.addRow();
+	this.ds_mon_location.copyRow(nRow, this.ds_location, e.row);
+	this.ds_mon_location.setColumn(nRow, "ARE_CD", areCd);
+	this.ds_mon_location.setColumn(nRow, "USE_YN", "Y");
+	this.ds_location.deleteRow(e.row);
+	this.div_cont.form.div_right.form.div_down.form.grd_mon_location.setFocus();
+};
+
+this.ds_mon_location_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	//삭제버튼 check event
+	if(e.columnid == "DEL_CHECKBOX")
+	{
+		//추가된row 삭제컬럼 체크시
+		if(obj.getRowType(e.row) == Dataset.ROWTYPE_INSERT)
+		{
+			// 모니터링 생활실 목록 -> 생활실 목록 (ds_mon_location -> ds_location)
+			const nRow = this.ds_location.addRow();
+			this.ds_location.copyRow(nRow, obj, e.row);
+		}
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_use_yn" propid="value" datasetid="ds_search" columnid="USE_YN"/>
+      <BindItem id="item1" compid="div_search.form.edt_are_nm" propid="value" datasetid="ds_search" columnid="ARE_NM"/>
+    </Bind>
+  </Form>
+</FDL>

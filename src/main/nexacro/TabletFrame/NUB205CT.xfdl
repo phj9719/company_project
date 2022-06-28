@@ -1,0 +1,750 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1180" height="700" onload="form_onload" titletext="체온측정" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclick="formClick">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Div id="div_cont" taborder="0" left="2.12%" top="65" right="3.39%" text="" bottom="4.29%" formscrolltype="vertical" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_name01" taborder="2" text="| 입소일 :" left="-495" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+              <Div id="div_head" taborder="1" text="Div00" left="0.00%" top="-15" height="145" right="0.00%" onclick="formClick">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static02" taborder="1" left="0" top="55" width="150" height="80" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                    <Static id="sta_temp" taborder="3" text="체온" left="150" top="15" width="120" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                    <Static id="Static02_00" taborder="4" left="150" top="55" width="120" height="80" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                    <Static id="Static02_00_00_00" taborder="7" left="270" top="55" height="80" cssclass="sta_tDataBForm3" onclick="formClick" width="630"/>
+                    <Static id="sta_remark" taborder="6" text="비고" left="270" top="15" height="40" cssclass="sta_tDataHForm2" onclick="formClick" width="630"/>
+                    <Edit id="edt_temp" taborder="5" left="170" top="75" width="80" height="40" textAlign="center" inputtype="number" onsetfocus="fn_onsetfocus" cssclass="essential"/>
+                    <TextArea id="txt_remark" taborder="8" left="290" top="75" width="590" height="40" onsetfocus="fn_onsetfocus"/>
+                    <Static id="sta_preDt" taborder="0" text="시간" left="0" top="15" width="150" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                    <Static id="sta_manager" taborder="9" text="처리자" left="900" top="15" height="40" cssclass="sta_tDataHForm2" onclick="formClick" width="150"/>
+                    <Static id="Static02_00_00_00_00" taborder="10" left="900" top="55" height="80" cssclass="sta_tDataBForm3" onclick="formClick" width="150"/>
+                    <Combo id="cmb_manager" taborder="11" text="Combo00" left="920" top="75" width="110" height="40" itemheight="36" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" onsetfocus="fn_onsetfocus" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                    <MaskEdit id="mae_temDt" taborder="2" left="20" top="75" width="110" height="40" cssclass="medt_clock, essential" format="## : ##" type="string" onsetfocus="fn_onsetfocus" oneditclick="preDt_oneditclick" onchanged="fn_mdt_onchanged"/>
+                    <Button id="btn_tRecord3" taborder="12" left="615" top="25" width="40" height="20" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Grid id="grd_list" taborder="0" left="0.00%" top="150" binddataset="ds_temperature" cssclass="grd_DataList_h2" right="0.00%" autosizingtype="row" bottom="0.85%" onexpandup="fn_onexpandup" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="70"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="520"/>
+                      <Column size="120"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번"/>
+                      <Cell col="1" text="시간"/>
+                      <Cell col="2" text="체온"/>
+                      <Cell col="3" text="비고"/>
+                      <Cell col="4" text="처리자"/>
+                      <Cell col="5" expandchar="tEdit"/>
+                      <Cell col="6" expandchar="tDelete"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow + 1"/>
+                      <Cell col="1" text="bind:TEM_TIME" displaytype="mask" maskedittype="string" maskeditformat="##:##"/>
+                      <Cell col="2" text="bind:TEMPERATURE"/>
+                      <Cell col="3" text="bind:REMARK"/>
+                      <Cell col="4" text="bind:MANAGER_ID" displaytype="combotext" edittype="combo" combocodecol="CMCD" combodatacol="CMNM" combodataset="ds_manager"/>
+                      <Cell col="5"/>
+                      <Cell col="6"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="1" left="2.12%" top="14" height="40" right="3.39%" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Button id="btn_tSearch" taborder="4" text="검색" left="560" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+              <Button id="btn_tSave" taborder="7" text="저장" top="0" width="90" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="0"/>
+              <Button id="btn_tMeasure" taborder="6" text="측정" top="0" width="90" height="40" cssclass="btn_tMeasure" right="100" onclick="tab_head_Tabpage2_div_search_btn_tMeasure_onclick"/>
+              <Button id="btn_tReset" taborder="5" text="초기화" top="0" width="100" height="40" right="200" onclick="fn_resetBtn" cssclass="btn_tReset"/>
+              <Calendar id="cal_date" taborder="0" left="0" top="0" width="160" height="40" locale="ko_KR" displaynulltext="일자" readonly="true"/>
+              <Combo id="cmb_area" taborder="1" text="" left="170" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" displaynulltext="층(생활실)" readonly="false" onitemchanged="cmb_area_onitemchanged2"/>
+              <Combo id="cmb_location" taborder="2" text="Combo00" left="300" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="호실" readonly="false" onitemchanged="cmb_location_onitemchanged2"/>
+              <Combo id="cmb_resident" taborder="3" text="Combo00" left="430" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명" oneditclick="div_search_cmb_resident_oneditclick" buttonsize="0 0" popupsize="0 0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="TAB_MACADD" type="STRING" size="256"/>
+          <Column id="MACH_TP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temperature">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="TEM_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="TEM_DT" type="STRING" size="256"/>
+          <Column id="TEM_TIME" type="STRING" size="256"/>
+          <Column id="TEM_TIME2" type="STRING" size="256"/>
+          <Column id="TEMPERATURE" type="STRING" size="256"/>
+          <Column id="IR_TEMP" type="STRING" size="256"/>
+          <Column id="IR_TEMP_TIME" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="INDS" type="STRING" size="256"/>
+          <Column id="EDIT" type="STRING" size="256"/>
+          <Column id="DEL" type="STRING" size="256"/>
+          <Column id="REF_SYS_RES_ID" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resInfo">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="NAME_AGE" type="STRING" size="256"/>
+          <Column id="ENTER_DT" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="PRE_DT" type="STRING" size="256"/>
+          <Column id="PRE_DT2" type="STRING" size="256"/>
+          <Column id="REF_SYS_RES_ID" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temperature_i">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="TEM_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="TEM_DT" type="STRING" size="256"/>
+          <Column id="TEM_TIME" type="STRING" size="256"/>
+          <Column id="TEM_TIME2" type="STRING" size="256"/>
+          <Column id="TEMPERATURE" type="STRING" size="256"/>
+          <Column id="IR_TEMP" type="STRING" size="256"/>
+          <Column id="IR_TEMP_TIME" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="INDS" type="STRING" size="256"/>
+          <Column id="REF_SYS_RES_ID" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+          <Column id="EDIT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_connlist">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="USE_SEQ" type="STRING" size="256"/>
+          <Column id="TAB_ID" type="STRING" size="256"/>
+          <Column id="CON_MACH_ID" type="STRING" size="256"/>
+          <Column id="MACH_TP" type="STRING" size="256"/>
+          <Column id="MACH_NO" type="STRING" size="256"/>
+          <Column id="MACH_NM" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="DEL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUB205CT
+ * 화면명   	: 체온측정
+ * 화면설명 	: 체온 블루투스 기기를 이용
+				  하여 측정 or 수기로 작성하여 기록하는 화면
+ * 작성일    	: ?
+ * 작성자   	: ?
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2021-07-26		박한준		1차수정
+ *		2021-09-15		조기종		건강기록일지에서 바로가기 버튼으로 화면
+									오픈시 측정 바로 하지 않도록 수정
+ *		2021-11-19		이승규		NUB202CT 탭 분리
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_temperature;
+this.fv_currentDS_i = this.ds_temperature_i;
+this.fv_currentGrid = "";
+this.tabFlag = nexacro.getApplication().gv_measureFlag;
+var tabMacAdd = nexacro.getApplication().gds_taCurRes.getColumn(0, "TAB_MACADD"); // 탭 맥어드레스
+var temMacAdd = nexacro.getApplication().gds_taCurRes.getColumn(0, "CON_TEM_MACADD"); // 체온계 맥어드레스
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 검색조건 세팅
+	this.taSearchDataSetting(obj);
+	// 처리자 콤보 세팅
+	this.fn_setComboDs(obj);
+	
+	this.ds_location.filter("ARE_CD == '" + this.ds_search.getColumn(0, "AREA") + "'");
+	
+	this.ds_search.setColumn(0,"TAB_MACADD", tabMacAdd);
+	
+	this.fn_search();
+	
+};
+
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+		 { outDsName : "ds_manager", sqlId : "NUB_COMMON.NUB_COMMON_DS_MANAGER_S",param : this.ds_search, bEmptyRow : true}
+		,{ outDsName : "ds_location", sqlId : "NUB_COMMON.NUB_COMMON_DS_LOCATION_ALL_S", param : this.ds_search, bEmptyRow : true }
+		,{ outDsName : "ds_resident", sqlId : "NUB_COMMON.NUB_COMMON_DS_RESIDENT_ALL_S", param : this.ds_search, bEmptyRow : true }
+     ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{	
+	this.fn_search(this.fv_currentDS, this.fv_currentDS_i);
+	//this.fn_search(this.fv_currentDS);
+
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{	
+	//입력 필수여부체크
+	if(!this.fn_save_pre(this.fv_currentDS_i)) return false;
+	this.fn_save(this.fv_currentDS_i);
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	//this.fn_delete(this.fv_currentDS);
+};
+
+// 초기화 버튼
+this.fn_resetBtn = function ()
+{
+	this.fn_reset();
+}
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+// 검색 전 validation
+this.fn_search_pre = function()
+{	
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function(ds)
+{	
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	// 입력 데이터셋에 법인코드(COMPANY_CD) 값이 없으면 저장
+	if(Sct.Util.isEmpty(ds.getColumn(0,"COMPANY_CD"))){
+		Sct.alert(this, "000569", "저장");	// {0}할 내용이 없습니다.
+		return false;		
+	}else{ // 법인코드 값이 있으면 필수체크
+		if(!this.gfn_findSnull(this.div_cont.form.div_head)) return false;
+	}
+	
+	//입력한값 중복 여부 체크
+	var keyArr = ["COMPANY_CD", "TEM_SEQ"];
+
+	if(!this.gfn_duplicateCheck(this.ds_temperature, keyArr)) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function(ds, row)
+{	
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	//삭제하시겠습니까?
+	if(!Sct.confirm(this, "000152", "")){ // 취소
+		//취소시 ROWTYPE NORMAL TYPE으로 변경
+		ds.set_enableevent(false);
+		ds.set_updatecontrol(false);
+		ds.setRowType(row, Dataset.ROWTYPE_NORMAL);
+		ds.set_updatecontrol(true);
+		ds.set_enableevent(true);
+		return false;
+	}
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function(ds, ds_i)
+{
+	if(!this.fn_search_pre()) return;
+	
+	if(!Sct.Util.isEmpty(ds_i)){ // 입력데이터셋의 COMPANY_CD가 빈값이 아니면 초기화
+		ds_i.clearData(); // 클리어
+		ds_i.addRow();
+	}
+	
+	let svcId = "search";
+	let params = "/commonController.do";
+	let inDatasets = "input1=ds_search input2=ds_search";
+	let outDatasets = "ds_resInfo=output1 ds_temperature=output2";
+	let argument = "method=getList ";
+		argument += "sqlId='NUB205CT.NUB205CT_DS_RESINFO_S NUB205CT.NUB205CT_DS_TEMP_S'";
+	
+	let callbackFunc = "fn_callback";
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+//저장
+this.fn_save = function (ds)
+{
+ 	let inDs = "";
+	inDs = ds.name;
+	
+	var svcId = "save";
+	var params = "/NUB205CTController.do";
+	var inDatasets = "input1="+inDs+":U";
+	var outDatasets = "";
+	var argument = "method=save ";
+	var callbackFunc = "fn_callback";
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 삭제
+this.fn_delete = function(ds, row)
+{
+	if(!this.fn_delete_pre(ds, row)) return;
+	
+	let sqlId = "";
+	let inDs = "";
+	if(!Sct.Util.isEmpty(ds))
+	{
+		if(ds.name == "ds_temperature"){
+			inDs = ds.name;
+			sqlId = "sqlId='NUB205CT.NUB205CT_DS_TEMP_D' ";
+		}
+	}
+	
+	let svcId = "delete";
+	let params = "/commonController.do";
+	let inDatasets = "input1=" + inDs + ":U";
+	let outDatasets = "";
+	let argument = "method=delete ";
+		argument += sqlId;
+	
+	let callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{	
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "AREA", this.ds_resInfo.getColumn(0,"AREA"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "LOCATION", this.ds_resInfo.getColumn(0,"LOCATION"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "RES_ID", this.ds_resInfo.getColumn(0,"RES_ID"));
+			
+			if(this.ds_temperature.rowcount < 1){ // 조회된 데이터가 없으면 작성일 빈값
+				this.ds_resInfo.setColumn(0,"PRE_DT2", "");
+			}else{
+				this.ds_resInfo.setColumn(0,"PRE_DT2", this.ds_search.getColumn(0,"DATE"));
+			}
+		}
+		else if(strSvcID == "save")
+		{
+			Sct.alert(this, "000570", "저장");	// {0} 되었습니다.
+			this.fn_search(this.fv_currentDS, this.fv_currentDS_i);
+			//this.fn_search();
+		}
+		else if(strSvcID == "delete")
+		{
+			Sct.alert(this, "000570", "삭제");	// {0} 되었습니다.
+			this.fn_search(this.fv_currentDS, this.fv_currentDS_i);
+			//this.fn_search();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+// 연결된 기기조회
+this.fn_connnSearch = function (machTp)
+{
+	this.ds_search.setColumn(0,"MACH_TP", machTp);
+	const svcId = "connsearch";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_connlist=output1";
+	const argument = "method=getList "
+		+ "sqlId='NUB202CT.NUB202CT_DS_CONNLIST_S' ";
+
+	const callbackFunc = "fn_callback";
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+//초기화
+this.fn_reset = function() {
+	this.ds_search.setColumn(0, "DATE", Sct.Util.getToday()); // 오늘
+	this.fn_search(this.fv_currentDS, this.fv_currentDS_i);
+	//this.fn_search();
+}
+
+// 연결된 기기 조회
+this.fn_connList = function (machTp)
+{	
+	this.fn_connnSearch(machTp);
+	
+	if(this.ds_connlist.rowcount < 1){
+		//this.alert("연결된 기기가 없습니다. 기기 연결 후 측정하시기 바랍니다.");
+		Sct.alert(this, "000583"); // 연결된 기기가 없습니다. 건강측정 기기연결 화면 이동 후 기기 연결하시기 바랍니다. 
+		return false;
+	}
+	return true;
+};
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 체온 측정 팝업
+this.tab_head_Tabpage2_div_search_btn_tMeasure_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	
+	//this.fn_connList("0500"); // 연결된 체온계 조회
+	if(!this.fn_connList("0500")) return false;
+
+	var param = {mac : temMacAdd};
+	
+	Sct.tPopup(this, "pop3", 350, 350, param, "TabletPOP::NUB_TEMP_POP.xfdl", "fn_popCallback");
+};
+
+// 측정팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "pop3" : // 체온
+			this.fn_onsetfocus();
+			this.ds_temperature_i.setColumn(0, "TEMPERATURE", objDs.getColumn(0,"TEMP"));
+			this.ds_temperature_i.setColumn(0, "TEM_TIME", Sct.Util.getHour() + Sct.Util.getMin());
+			this.ds_temperature_i.setColumn(0, "IR_TEMP", objDs.getColumn(0,"TEMP"));
+			this.ds_temperature_i.setColumn(0, "TEM_TIME2", this.ds_temperature_i.getColumn(0, "TEM_DT") + Sct.Util.getHour() + Sct.Util.getMin() + "00");
+			this.ds_temperature_i.setColumn(0, "IR_TEMP_TIME", this.ds_temperature_i.getColumn(0, "TEM_DT") + Sct.Util.getHour() + Sct.Util.getMin() + "00");
+			this.fn_save(this.ds_temperature_i);
+			break;
+		case "pop5" : // 처리자
+			this.ds_temperature_i.setColumn(0, "MANAGER_ID", objDs.getColumn(0,"USER_ID"));
+			break;
+		case "pop6" : // 입소자
+			this.ds_location.filter("ARE_CD == '"+objDs.getColumn(0, "AREA")+"'");
+			this.ds_resident.filter("");
+			this.div_search.form.cmb_area.set_value(objDs.getColumn(0, "AREA"));
+			this.div_search.form.cmb_location.set_value(objDs.getColumn(0, "LOCATION"));
+			this.div_search.form.cmb_resident.set_value(objDs.getColumn(0, "RES_ID"));
+			this.fn_search();
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// head editbox 선택시 데이터셋 설정
+this.fn_onsetfocus = function()
+{
+	//if(this.fv_currentDS_i.getRowType(0) !=2 || this.fv_currentDS_i.getRowType(0) !=2 ){ // 행추가나 수정상태값이 아닌 경우
+	if(this.fv_currentDS_i.getRowType(0) == 1 || this.fv_currentDS_i.getRowType(0) == 2){ // 초기행 또는 행추가 상태일때 기본값세팅
+		if(Sct.Util.isEmpty(this.fv_currentDS_i.getColumn(0,"COMPANY_CD"))){ // 법인코드가 빈값이면 세팅
+			
+			this.fv_currentDS_i.setColumn(0, "COMPANY_CD", this.ds_resInfo.getColumn(0,"COMPANY_CD"));
+			this.fv_currentDS_i.setColumn(0, "RES_ID", this.ds_resInfo.getColumn(0,"RES_ID"));
+			this.fv_currentDS_i.setColumn(0, "INDS", this.fv_currentDS_i.name);
+			this.fv_currentDS_i.setColumn(0, "REF_SYS_RES_ID", this.ds_resInfo.getColumn(0, "REF_SYS_RES_ID"));
+			this.fv_currentDS_i.setColumn(0, "REF_SYS_COMP_CD", this.ds_resInfo.getColumn(0, "REF_SYS_COMP_CD"));
+			
+			const userId = nexacro.getApplication().gds_userInfo.getColumn(0,"USER_ID");
+			this.fv_currentDS_i.setColumn(0, "MANAGER_ID", userId);
+			
+			//현재시간
+			const time = Sct.Util.getHour()+Sct.Util.getMin();
+			
+			//초기값 설정
+			this.fv_currentDS_i.setColumn(0, "TEM_DT", this.ds_resInfo.getColumn(0,"PRE_DT"));
+			this.fv_currentDS_i.setColumn(0, "TEM_TIME", time);
+			this.fv_currentDS_i.setColumn(0, "TEM_TIME2", this.ds_resInfo.getColumn(0, "PRE_DT") + time + "00");
+		}
+		
+	}
+};
+
+// 그리드 수정, 삭제 클릭 이벤트
+this.fn_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if(obj.getBindCellIndex("body", "EDIT_COL") == e.col){
+		this.fv_currentDS.setColumn(e.row, "Y");
+		this.fv_currentDS_i.copyRow(0, this.fv_currentDS, e.row);
+		
+		const userId = nexacro.getApplication().gds_userInfo.getColumn(0,"USER_ID");
+		this.fv_currentDS_i.setColumn(0, "MANAGER_ID", userId);		
+	}
+	
+	if(obj.getBindCellIndex("body", "DEL_COL") == e.col){
+			
+		//삭제버튼 클릭시 rowtype 변경
+		this.fv_currentDS.set_updatecontrol(false);
+		this.fv_currentDS.setRowType(e.row, Dataset.ROWTYPE_DELETE);
+		this.fv_currentDS.set_updatecontrol(true);
+		
+		this.fn_delete(this.fv_currentDS, e.row);
+	}
+	
+};
+
+// 시간 클릭 이벤트
+this.preDt_oneditclick = function(obj:nexacro.MaskEdit,e:nexacro.EditClickEventInfo)
+{
+	let param;
+	
+	param = {arg1 : "3"
+		,	hour : Sct.Util.getHour()
+		,	min : Sct.Util.getMin()
+	};
+	
+	this.makeStandardObject();
+	this.standardPlugin.callMethod("TIMEPICKER", param);
+};
+
+this.btn_tRecord_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let param;
+	
+	param = {arg1 : "3"};
+	
+	this.makeStandardObject();
+	this.standardPlugin.callMethod("VOICE", param);
+};
+
+// 앱에서 _oncallback의 callback 호출시
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	// 탭별 비고 콜백
+	if(e.svcid == "VOICE3")
+	{
+		if(e.reason == 0)
+		{
+			this.fn_onsetfocus();
+			let rmkValue = this.div_cont.form.div_head.form.txt_remark.value;
+			if (rmkValue == undefined)
+			{
+				this.div_cont.form.div_head.form.txt_remark.set_value(e.returnvalue);
+			}
+			else
+			{
+				this.div_cont.form.div_head.form.txt_remark.set_value(rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+	
+	// 시간 콜백
+	if(e.svcid == "TIMEPICKER3")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.div_head.form.mae_temDt.set_value(e.returnvalue);
+		}
+	}
+};
+
+this.on_standardPlugin_permission_result = function(obj, e)
+{
+	trace("this.on_permission_result ::: " + e.svcid);
+	trace("this.on_permission_result ::: " + e.reason);
+	trace("this.on_permission_result ::: " + e.returnvalue);
+	
+	if (e.reason == -9)
+	{
+		this.alert("권한허용이 되지 않았습니다.");
+	}
+};
+
+this.fn_mdt_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	if (obj.id == "mae_temDt")
+	{
+		this.ds_temperature_i.setColumn(0, "TEM_TIME2", this.ds_temperature_i.getColumn(0, "TEM_DT") + e.postvalue.substr(0, 2) + e.postvalue.substr(2, 2) + "00");
+	}
+};
+
+this.cmb_manager_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+	
+	Sct.tPopup(this, "pop5", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+};
+
+// 입소자 조회 팝업
+this.div_search_cmb_resident_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {
+			COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")
+		,	FLAG : "NUB205CT"
+		,   AREA : this.ds_search.getColumn(0, "AREA")
+		,   LOCATION : this.ds_search.getColumn(0, "LOCATION")
+		,	DATE : this.ds_search.getColumn(0, "DATE")
+	};
+	
+	Sct.tPopup(this, "pop6", 350, 350, param, "TabletPOP::NUB_RESIDENT_POP.xfdl", "fn_popCallback");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item3" compid="div_cont.form.div_head.form.mae_temDt" propid="value" datasetid="ds_temperature_i" columnid="TEM_TIME"/>
+      <BindItem id="item4" compid="div_cont.form.div_head.form.edt_temp" propid="value" datasetid="ds_temperature_i" columnid="TEMPERATURE"/>
+      <BindItem id="item5" compid="div_cont.form.div_head.form.txt_remark" propid="value" datasetid="ds_temperature_i" columnid="REMARK"/>
+      <BindItem id="item6" compid="div_cont.form.div_head.form.cmb_manager" propid="value" datasetid="ds_temperature_i" columnid="MANAGER_ID"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item2" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item7" compid="div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+    </Bind>
+  </Form>
+</FDL>

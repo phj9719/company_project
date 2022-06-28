@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00716                                                         
+     * 프로그램 명     	: 7-16 비상구점검일지                                                     
+     * Description 	: 비상구점검일지 목록 확인
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-23 09:30        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00716_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00716">
+	<!-- 조회 -->
+    <select id="DAY00716_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-16 조회 */
+    WITH RECURSIVE day AS
+    (
+        SELECT 1 AS rnum
+        UNION ALL
+        SELECT rnum + 1 AS rnum
+        FROM day
+        WHERE rnum &lt; 1000
+    )
+    , daily AS
+    (
+        SELECT
+          a.date_ymd
+        , DATE_FORMAT(a.date_ymd, '%w') AS ddd
+        , a.date_ym
+        , CASE WHEN kp.순찰번호 IS NOT NULL THEN '◑' ELSE NULL END AS 작성
+        , ROW_NUMBER() OVER(PARTITION BY a.date_ym ORDER BY a.date_ymd) AS rnum
+        FROM
+        (
+            SELECT
+              #{DATE_TO} - INTERVAL(a.rnum - 1) DAY AS date_ymd
+            , DATE_FORMAT(#{DATE_TO} - INTERVAL(a.rnum - 1) DAY, '%Y-%m') AS date_ym
+            FROM day a
+        ) AS a
+        LEFT JOIN km_patrol kp
+        ON a.date_ymd = kp.순찰일
+        AND kp.sicode = #{SICODE}
+        WHERE a.date_ymd BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    )
+    SELECT
+      rnum
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '01' THEN date_ymd END) AS 'jan'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '01' THEN ddd END) AS 'jan_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '01' THEN 작성 END) AS 'jan_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '02' THEN date_ymd END) AS 'feb'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '02' THEN ddd END) AS 'feb_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '02' THEN 작성 END) AS 'feb_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '03' THEN date_ymd END) AS 'mar'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '03' THEN ddd END) AS 'mar_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '03' THEN 작성 END) AS 'mar_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '04' THEN date_ymd END) AS 'apr'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '04' THEN ddd END) AS 'apr_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '04' THEN 작성 END) AS 'apr_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '05' THEN date_ymd END) AS 'may'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '05' THEN ddd END) AS 'may_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '05' THEN 작성 END) AS 'may_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '06' THEN date_ymd END) AS 'jun'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '06' THEN ddd END) AS 'jun_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '06' THEN 작성 END) AS 'jun_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '07' THEN date_ymd END) AS 'jul'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '07' THEN ddd END) AS 'jul_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '07' THEN 작성 END) AS 'jul_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '08' THEN date_ymd END) AS 'aug'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '08' THEN ddd END) AS 'aug_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '08' THEN 작성 END) AS 'aug_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '09' THEN date_ymd END) AS 'sep'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '09' THEN ddd END) AS 'sep_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '09' THEN 작성 END) AS 'sep_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '10' THEN date_ymd END) AS 'oct'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '10' THEN ddd END) AS 'oct_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '10' THEN 작성 END) AS 'oct_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '11' THEN date_ymd END) AS 'nov'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '11' THEN ddd END) AS 'nov_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '11' THEN 작성 END) AS 'nov_c'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '12' THEN date_ymd END) AS 'dec'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '12' THEN ddd END) AS 'dec_wd'
+    , MAX(CASE WHEN SUBSTRING(date_ym, 6, 2) = '12' THEN 작성 END) AS 'dec_c'
+    FROM daily
+    GROUP BY rnum
+    </select>                                          
+</mapper>

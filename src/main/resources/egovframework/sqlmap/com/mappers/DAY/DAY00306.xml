@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00306                                                  
+     * 프로그램 명     	: 3-6 연간 물리치료 제공기록·집계
+     * Description 		: 연간 수급자별 물리치료 제공기록 집계 조회
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-05-31 15:00        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00306_DS_HEAD_S			헤더 조회
+        DAY00306_DS_DETAIL_HEAD_S	디테일 헤드 조회
+        DAY00306_DS_DETAIL_S		디테일 조회
+     *================================================================
+-->
+<mapper namespace="DAY00306">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00306_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-6 헤더 조회 */
+    SELECT
+      bha.sicode
+    , bha.ha_number
+    , mat.거주현황
+    , mat.m_group
+    , mat.m_name
+    , mat.성별
+    , bha.계획시작
+    , bha.계획종료
+    , mat.m_code
+    , mat.m_roomname
+    , TIMESTAMPDIFF(
+        YEAR
+      , STR_TO_DATE(
+          SUBSTRING(
+            CONCAT(
+              CASE
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN (1, 2, 5, 6) THEN 19
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN (3, 4, 7, 8) THEN 20
+              END
+            , mat.m_jumin1
+            )
+          , 1
+          , 8
+          )
+        , '%Y%m%d'
+        )
+      , NOW()
+      ) AS 나이
+    , CONCAT(
+        SUBSTRING(mat.m_jumin1, 1, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 3, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 5, 2)
+      ) AS 생일
+    , mat.m_regist
+    , mat.m_enday
+    , DATE_FORMAT(mat.m_enday, '%Y.%m.%d') AS 입소일
+    , mat.m_reday
+    , CASE WHEN mat.m_reday != '2100-01-01' THEN DATE_FORMAT(mat.m_reday, '%Y.%m.%d') ELSE NULL END AS 퇴소일
+    , mat.m_history
+    , FN_GRADE_NM(mat.sicode, mat.m_code, DATE_FORMAT(#{DATE_TO}, '%Y%m%d')) AS 등급
+    FROM base_mate mat
+    JOIN base_habilit bha
+    ON (mat.sicode = bha.sicode
+        AND mat.m_code = bha.대상자코드)
+    WHERE mat.sicode = #{SICODE}
+    AND bha.계획종료 &gt;= #{DATE_FROM}
+    AND bha.계획시작 &lt;= #{DATE_TO}
+    ORDER BY
+      mat.m_group
+    , mat.m_name
+    </select>
+    
+    <!-- 디테일 헤드 조회 -->
+    <select id="DAY00306_DS_DETAIL_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-6 디테일 제목 조회 */
+    WITH RECURSIVE line AS
+    (
+        SELECT 1 AS row_num
+        UNION ALL
+        SELECT row_num + 1 AS row_num
+        FROM line
+        WHERE row_num &lt; 8
+    )
+    SELECT
+      mai.치료01
+    , mai.치료02
+    , mai.치료03
+    , mai.치료04
+    , mai.치료05
+    , mai.치료06
+    , mai.치료07
+    , mai.치료08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = mai.치료08) AS 치료명08
+    FROM
+    (
+        SELECT
+          CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 THEN SUBSTRING(hed.h_치료, 1, FN_INSTR(hed.h_치료, ',', 1, 1) - 1) END AS 치료01
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 1) + 1, FN_INSTR(hed.h_치료, ',', 1, 2) - FN_INSTR(hed.h_치료, ',', 1, 1) - 1) END AS 치료02
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 2) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 2) + 1, FN_INSTR(hed.h_치료, ',', 1, 3) - FN_INSTR(hed.h_치료, ',', 1, 2) - 1) END AS 치료03
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 3) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 3) + 1, FN_INSTR(hed.h_치료, ',', 1, 4) - FN_INSTR(hed.h_치료, ',', 1, 3) - 1) END AS 치료04
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 4) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 4) + 1, FN_INSTR(hed.h_치료, ',', 1, 5) - FN_INSTR(hed.h_치료, ',', 1, 4) - 1) END AS 치료05
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 5) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 5) + 1, FN_INSTR(hed.h_치료, ',', 1, 6) - FN_INSTR(hed.h_치료, ',', 1, 5) - 1) END AS 치료06
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 6) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 6) + 1, FN_INSTR(hed.h_치료, ',', 1, 7) - FN_INSTR(hed.h_치료, ',', 1, 6) - 1) END AS 치료07
+        , CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 7) &gt; 0 THEN SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 7) + 1, FN_INSTR(hed.h_치료, ',', 1, 8) - FN_INSTR(hed.h_치료, ',', 1, 7) - 1) END AS 치료08
+        FROM
+        (
+            SELECT 
+              CONCAT(
+                GROUP_CONCAT(sub.h_치료 ORDER BY sub.h_치료)
+              , ','
+              ) AS h_치료
+            FROM
+            (
+                SELECT DISTINCT
+                  CASE
+                    WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN hab.치료01
+                    WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN hab.치료02
+                    WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN hab.치료03
+                    WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN hab.치료04
+                    WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN hab.치료05
+                    WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN hab.치료06
+                    WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN hab.치료07
+                    WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN hab.치료08
+                  END AS h_치료
+                FROM
+                (
+                    SELECT hea.*
+                    FROM heal_habilit AS hea
+                    WHERE hea.sicode = #{SICODE}
+                    AND hea.mulday BETWEEN #{DATE_FROM} AND #{DATE_TO}
+                    AND hea.mulcode = #{CODE}
+                ) AS hab
+                JOIN line AS lin
+            ) AS sub
+        ) AS hed
+    ) AS mai
+    </select>
+    
+    <!-- 디테일 조회 -->
+    <select id="DAY00306_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-6 디테일 조회 */
+    WITH RECURSIVE line AS
+    (
+        SELECT 1 AS row_num
+        UNION ALL
+        SELECT row_num + 1 AS row_num
+        FROM line
+        WHERE row_num &lt; 12
+    )
+    , habilit AS
+    (
+        SELECT *
+        FROM heal_habilit AS hea
+        WHERE hea.sicode = #{SICODE}
+        AND hea.mulday BETWEEN #{DATE_FROM} AND #{DATE_TO}
+        AND hea.mulcode = #{CODE}
+    )
+    SELECT
+      smo.mon
+    , CONCAT(
+        SUBSTRING(smo.mon, 1, 4)
+      , '년 '
+      , SUBSTRING(smo.mon, 5, 2)
+      , '월'
+      ) AS 제공월
+    , smo.cnt
+    , sub.치료01
+    , sub.치료02
+    , sub.치료03
+    , sub.치료04
+    , sub.치료05
+    , sub.치료06
+    , sub.치료07
+    , sub.치료08
+    , sub.참여01
+    , sub.참여02
+    , sub.참여03
+    , sub.참여04
+    , sub.참여05
+    , sub.참여06
+    , sub.참여07
+    , sub.참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = sub.치료08) AS 치료명08
+    FROM
+    (
+        SELECT
+          mon.mon
+        , sub.cnt
+        FROM
+        (
+            SELECT 
+              CONCAT(
+                DATE_FORMAT(#{DATE_FROM}, '%Y')
+              , LPAD(lin.row_num, 2, '0')
+              ) AS mon
+            FROM line AS lin
+        ) AS mon
+        LEFT JOIN
+        (
+            SELECT
+              DATE_FORMAT(cnt.mulday, '%Y%m') AS mon
+            , COUNT(1) AS cnt
+            FROM habilit AS cnt
+            WHERE cnt.참여01 + cnt.참여02 + cnt.참여03 + cnt.참여04 + cnt.참여05 + cnt.참여06 + cnt.참여07 + cnt.참여08 &gt; 0
+            GROUP BY mon
+        ) AS sub
+        ON (mon.mon = sub.mon)
+    ) AS smo
+    LEFT JOIN
+    (
+        SELECT
+          dat.mon
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 AND SUBSTRING(hed.h_치료, 1, FN_INSTR(hed.h_치료, ',', 1, 1) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료01
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 1) + 1, FN_INSTR(hed.h_치료, ',', 1, 2) - FN_INSTR(hed.h_치료, ',', 1, 1) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료02
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 2) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 2) + 1, FN_INSTR(hed.h_치료, ',', 1, 3) - FN_INSTR(hed.h_치료, ',', 1, 2) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료03
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 3) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 3) + 1, FN_INSTR(hed.h_치료, ',', 1, 4) - FN_INSTR(hed.h_치료, ',', 1, 3) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료04
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 4) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 4) + 1, FN_INSTR(hed.h_치료, ',', 1, 5) - FN_INSTR(hed.h_치료, ',', 1, 4) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료05
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 5) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 5) + 1, FN_INSTR(hed.h_치료, ',', 1, 6) - FN_INSTR(hed.h_치료, ',', 1, 5) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료06
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 6) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 6) + 1, FN_INSTR(hed.h_치료, ',', 1, 7) - FN_INSTR(hed.h_치료, ',', 1, 6) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료07
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 7) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 7) + 1, FN_INSTR(hed.h_치료, ',', 1, 8) - FN_INSTR(hed.h_치료, ',', 1, 7) - 1) = dat.d_치료 THEN dat.d_치료 END) AS 치료08
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 AND SUBSTRING(hed.h_치료, 1, FN_INSTR(hed.h_치료, ',', 1, 1) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여01
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 1) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 1) + 1, FN_INSTR(hed.h_치료, ',', 1, 2) - FN_INSTR(hed.h_치료, ',', 1, 1) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여02
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 2) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 2) + 1, FN_INSTR(hed.h_치료, ',', 1, 3) - FN_INSTR(hed.h_치료, ',', 1, 2) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여03
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 3) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 3) + 1, FN_INSTR(hed.h_치료, ',', 1, 4) - FN_INSTR(hed.h_치료, ',', 1, 3) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여04
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 4) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 4) + 1, FN_INSTR(hed.h_치료, ',', 1, 5) - FN_INSTR(hed.h_치료, ',', 1, 4) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여05
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 5) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 5) + 1, FN_INSTR(hed.h_치료, ',', 1, 6) - FN_INSTR(hed.h_치료, ',', 1, 5) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여06
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 6) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 6) + 1, FN_INSTR(hed.h_치료, ',', 1, 7) - FN_INSTR(hed.h_치료, ',', 1, 6) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여07
+        , MAX(CASE WHEN FN_INSTR(hed.h_치료, ',', 1, 7) &gt; 0 AND SUBSTRING(hed.h_치료, FN_INSTR(hed.h_치료, ',', 1, 7) + 1, FN_INSTR(hed.h_치료, ',', 1, 8) - FN_INSTR(hed.h_치료, ',', 1, 7) - 1) = dat.d_치료 THEN dat.d_참여 END) AS 참여08
+        FROM
+        (
+            SELECT
+              CONCAT(
+                GROUP_CONCAT(sub.치료 ORDER BY sub.치료)
+              , ','
+              ) AS h_치료
+            FROM
+            (
+                SELECT DISTINCT
+                  CASE
+                    WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN hab.치료01
+                    WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN hab.치료02
+                    WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN hab.치료03
+                    WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN hab.치료04
+                    WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN hab.치료05
+                    WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN hab.치료06
+                    WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN hab.치료07
+                    WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN hab.치료08
+                  END AS 치료
+                FROM habilit AS hab
+                JOIN line AS lin
+                ON (lin.row_num &lt;= 8)
+            ) AS sub
+        ) AS hed
+        JOIN
+        (
+            SELECT
+              DATE_FORMAT(hab.mulday, '%Y%m') AS mon
+            , CASE
+                WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN hab.치료01
+                WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN hab.치료02
+                WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN hab.치료03
+                WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN hab.치료04
+                WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN hab.치료05
+                WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN hab.치료06
+                WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN hab.치료07
+                WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN hab.치료08
+              END AS d_치료
+            , SUM(
+                CASE
+                  WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN 1
+                  WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN 1
+                  WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN 1
+                  WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN 1
+                  WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN 1
+                  WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN 1
+                  WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN 1
+                  WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN 1
+                END
+              ) AS d_참여
+            FROM habilit AS hab
+            JOIN line AS lin
+            ON (lin.row_num &lt;= 8)
+            GROUP BY
+              d_치료
+            , mon
+            HAVING d_치료 IS NOT NULL
+        ) AS dat
+        GROUP BY dat.mon
+    ) AS sub
+    ON (smo.mon = sub.mon)
+    ORDER BY smo.mon
+    </select>
+</mapper>

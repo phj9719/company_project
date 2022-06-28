@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC101QR" width="480" height="606" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="생활현황" scrollindicatorsize="5" onload="NUC101QR_onload">
+    <Layouts>
+      <Layout width="480" height="606" screenid="Mobile">
+        <Div id="div_resident" taborder="0" text="Div00" left="5.00%" top="1.65%" height="14.03%" background="#dee7f6" right="5.00%" borderRadius="6px">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="imv_resident" taborder="0" borderRadius="50px" border="1px solid transparent" top="18%" width="60" left="6.02%" height="60" stretch="fit"/>
+              <Static id="sta_resident" taborder="1" text="홍길동" left="29%" top="17%" width="89" height="31.76%" color="#6a8ed3" verticalAlign="bottom" letterSpacing="-1px" font="normal 700 17pt/normal &quot;Noto Sans KR &quot;"/>
+              <Static id="Static01" taborder="2" text="님" left="sta_resident:0" top="18%" width="5.79%" height="30.59%" color="#999999" verticalAlign="bottom" textAlign="right" font="normal 500 16pt/normal &quot;Noto Sans KR &quot;"/>
+              <Calendar id="cal_date" taborder="3" left="29%" top="50%" width="41.67%" height="30.59%" usesoftkeyboard="false" dateformat="yyyy.MM.dd (ddd)" initvalueid="iv_cal_yyyyMMddddd" buttonsize="0 0" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_roboTitle" taborder="1" text="로봇인지훈련" left="5.00%" top="42.9%" height="4.95%" right="5.00%" textAlign="left" cssclass="sta_title"/>
+        <Static id="sta_remark" taborder="2" text="각 항목 클릭 시 상세내역을 보실 수 있습니다." top="15.68%" height="3.3%" right="5.00%" letterSpacing="-1px" left="5.00%" fittocontents="both" cssclass="sta_txt"/>
+        <Static id="sta_meal_title" taborder="3" text="식사" left="5%" top="20.3%" width="21.46%" height="4.95%" textAlign="left" cssclass="sta_title"/>
+        <Div id="div_meal" taborder="4" left="5.00%" top="25.74%" height="16.5%" right="5.00%" background="#88dc95" borderRadius="6px" onclick="meal_go" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_mealToday" taborder="0" text="오늘식사현황" left="2.78%" top="6.5%" height="20.2%" color="#ffffff" right="2.78%" onclick="meal_go" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;"/>
+              <Div id="div_mealLine" taborder="1" text="Div00" left="2.78%" top="33.33%" height="1.01%" right="2.78%" onclick="meal_go"/>
+              <Static id="sta_breH" taborder="2" text="아침식사" left="2.78%" top="42.42%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="15.97%" textAlign="center" onclick="meal_go"/>
+              <Static id="sta_lunH" taborder="3" text="점심식사" left="21.53%" top="42.42%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="15.97%" textAlign="center" onclick="meal_go"/>
+              <Static id="sta_dinH" taborder="4" text="저녁식사" left="41.44%" top="42.42%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="15.97%" textAlign="center" onclick="meal_go"/>
+              <Static id="sta_morSnackH" taborder="5" text="오전간식" left="61.81%" top="42.42%" height="25.25%" color="#ffffff" width="15.97%" textAlign="center" onclick="meal_go" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_aftSnackH" taborder="6" text="오후간식" top="42.42%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="15.97%" textAlign="center" right="2.78%" onclick="meal_go"/>
+              <Static id="sta_breVal" taborder="7" left="2.78%" top="68.69%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="15.97%" textAlign="center" text="-" onclick="meal_go"/>
+              <Static id="sta_lunVal" taborder="8" left="21.3%" top="68.69%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="15.97%" textAlign="center" text="-" onclick="meal_go"/>
+              <Static id="sta_dinVal" taborder="9" left="40.51%" top="68.69%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="15.97%" textAlign="center" text="-" onclick="meal_go"/>
+              <Static id="sta_morSnackVal" taborder="10" left="60.88%" top="68.69%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="15.97%" textAlign="center" text="-" onclick="meal_go"/>
+              <Static id="sta_aftSnackVal" taborder="11" top="68.69%" height="25.25%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="15.97%" textAlign="center" right="2.78%" text="-" onclick="meal_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_compositionTitle" taborder="5" text="체성분" left="5%" top="75.25%" width="21.46%" height="4.95%" textAlign="left" cssclass="sta_title" onclick="weight_go"/>
+        <Static id="sta_comDt" taborder="6" text="최근 측정일 : " top="76%" width="66.67%" height="4%" textAlign="right" right="5.00%" cssclass="sta_txt"/>
+        <Div id="div_smm" taborder="7" text="Div03" left="5.00%" top="80.69%" width="16.25%" borderRadius="6px" edge="url('theme://images/bg_diary_bc1.png') 0px 0px" onclick="weight_go" bottom="3.14%">
+          <Layouts>
+            <Layout>
+              <Static id="sta_smmTitle" taborder="0" text="골격근량" left="0%" top="10.1%" width="100%" height="24%" font="normal 700 14pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#fcecf2" verticalAlign="middle" onclick="weight_go" letterSpacing="-0.5px"/>
+              <Static id="sta_smmVal" taborder="1" text="VAL" left="0.00%" top="39.39%" width="100.00%" height="29.29%" textAlign="center" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" onclick="weight_go"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0%" top="65%" width="100.00%" height="25%" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" onclick="weight_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_weight" taborder="8" text="Div03" top="80.69%" width="16.25%" borderRadius="6px" left="23.13%" edge="url('theme://images/bg_diary_bc2.png') 0px 0px" onclick="weight_go" bottom="3.14%">
+          <Layouts>
+            <Layout>
+              <Static id="sta_weightTitle" taborder="0" text="체중" left="0%" top="9.9%" width="100%" height="24%" font="normal 700 14pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#ffe9e2" verticalAlign="middle" onclick="weight_go" letterSpacing="-0.5px"/>
+              <Static id="sta_weightVal" taborder="1" text="VAL" left="0.00%" top="39.39%" width="100.00%" height="29.29%" textAlign="center" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" onclick="weight_go"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0%" top="65%" width="100.00%" height="25%" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" onclick="weight_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_height" taborder="9" text="Div03" left="41.67%" top="80.69%" width="16.25%" borderRadius="6px" edge="url('theme://images/bg_diary_bc3.png') 0px 0px" onclick="weight_go" bottom="3.14%">
+          <Layouts>
+            <Layout>
+              <Static id="sta_heightTitle" taborder="0" text="신장" left="0%" top="10%" width="100%" height="24%" font="normal 700 14pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#fff2d6" verticalAlign="middle" onclick="weight_go" letterSpacing="-0.5px"/>
+              <Static id="sta_heightVal" taborder="1" text="VAL" left="0.00%" top="39.39%" width="100.00%" height="29.29%" textAlign="center" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" onclick="weight_go"/>
+              <Static id="sta_unit" taborder="2" text="㎝" left="0%" top="65%" width="100.00%" height="25%" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" onclick="weight_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_bfm" taborder="10" text="Div03" left="60.00%" top="80.69%" width="16.25%" borderRadius="6px" edge="url('theme://images/bg_diary_bc4.png') 0px 0px" onclick="weight_go" bottom="3.14%">
+          <Layouts>
+            <Layout>
+              <Static id="sta_bfmTitle" taborder="0" text="체지방량" left="0%" top="10%" width="100%" height="24%" font="normal 700 14pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#dff2f5" verticalAlign="middle" onclick="weight_go" letterSpacing="-0.5px"/>
+              <Static id="sta_bfmVal" taborder="1" text="VAL" left="0.00%" top="39.39%" width="100.00%" height="29.29%" textAlign="center" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" onclick="weight_go"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0%" top="65%" width="100.00%" height="25%" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" onclick="weight_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_pbf" taborder="11" text="Div03" left="78.13%" top="80.69%" borderRadius="6px" right="5.00%" edge="url('theme://images/bg_diary_bc5.png') 0px 0px" onclick="weight_go" bottom="3.14%">
+          <Layouts>
+            <Layout>
+              <Static id="sta_pbfTitle" taborder="0" text="체지방률" left="0%" top="10%" width="100%" height="24%" font="normal 700 14pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#e7e1ff" verticalAlign="middle" onclick="weight_go" letterSpacing="-0.5px"/>
+              <Static id="sta_pbfVal" taborder="1" text="VAL" left="0.00%" top="39.39%" height="29.29%" textAlign="center" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" onclick="weight_go" width="100.00%"/>
+              <Static id="sta_unit" taborder="2" text="％" left="0%" top="65%" width="100.00%" height="25%" textAlign="center" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" onclick="weight_go"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_robo" taborder="12" text="Div01" left="5.00%" top="48.35%" height="26.4%" background="#6a8ed3" borderRadius="6px" formscrolltype="both" formscrollindicatorsize="0" right="5.00%" formscrollbartype="autoindicator">
+          <Layouts>
+            <Layout>
+              <Div id="div_bomi" taborder="1" left="1.85%" top="5.03%" height="87.42%" width="27.78%" background="#6a8ed3" onclick="bomi_go">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_bomiTitle" taborder="0" text="훈련점수" left="7.5%" top="3.6%" height="14.39%" color="#ffffff" width="83.33%" textAlign="center" onclick="bomi_go" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;"/>
+                    <Static id="sta_contVal" taborder="1" text="프로그램" left="7.5%" top="32.61%" width="83.33%" height="14.49%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="bomi_go"/>
+                    <Static id="sta_bomiPtVal" taborder="2" text="점" left="7.5%" top="47.1%" width="83.33%" height="14.49%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="bomi_go"/>
+                    <Static id="sta_bomDt" taborder="3" text="일자" left="7.5%" top="82.61%" width="83.33%" height="14.49%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="bomi_go"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_cist" taborder="2" left="35.42%" top="5.03%" height="87.42%" width="27.78%" background="#6a8ed3" onclick="cist_go">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_cistTitle" taborder="0" text="CIST 검사" left="7.5%" top="3.6%" height="14.39%" color="#ffffff" textAlign="center" onclick="cist_go" width="83.33%" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;"/>
+                    <Static id="sta_cistPtVal7" taborder="1" text="점" left="7.5%" top="32.37%" height="14.39%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="cist_go" width="83.33%"/>
+                    <Static id="sta_cistGradeVal" taborder="2" text="판정" left="7.5%" top="46.76%" height="14.39%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="cist_go" width="83.33%"/>
+                    <Static id="sta_cistDt" taborder="3" text="일자" left="7.5%" top="82.01%" height="14.39%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="cist_go" width="83.33%"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_line00" taborder="3" left="66.9%" top="6.29%" width="1" bottom="6.29%"/>
+              <Div id="div_sgds" taborder="4" left="69.91%" top="5.03%" height="87.42%" width="27.78%" background="#6a8ed3" onclick="sgds_go">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_sgdsTitle" taborder="0" text="우울검사" left="7.5%" top="3.6%" height="14.39%" color="#ffffff" textAlign="center" onclick="sgds_go" width="83.33%" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;"/>
+                    <Static id="sta_sgdsPtVal" taborder="1" text="점" left="7.5%" top="39.57%" height="14.39%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="sgds_go" width="83.33%"/>
+                    <Static id="sta_sgdDt" taborder="2" text="일자" left="7.5%" top="82.61%" height="14.49%" color="#ffffff" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;" letterSpacing="-0.5px" textAlign="center" onclick="sgds_go" width="83.33%"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_line" taborder="0" left="32.18%" top="6.29%" width="1" bottom="6.29%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_meal" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="MEA_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BRE_QTY" type="STRING" size="256"/>
+          <Column id="LUN_QTY" type="STRING" size="256"/>
+          <Column id="DIN_QTY" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_QTY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_composition" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="COM_DT" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="PBF" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bomi" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BOM_DT" type="STRING" size="256"/>
+          <Column id="CONTENT_ID_VAL" type="STRING" size="256"/>
+          <Column id="CONT_LVL_VAL" type="STRING" size="256"/>
+          <Column id="SCORE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cist" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+          <Column id="PT7_VAL" type="STRING" size="256"/>
+          <Column id="CIS_GRADE_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sgds">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="SGD_DT" type="STRING" size="256"/>
+          <Column id="PT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC101QR
+ * 화면명   	: 생활현황
+ * 화면설명 	: 모바일에서 입소자의 생활현황을 조회하는 화면
+ * 작성일    	: 2021-09-08
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC101QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const today = Sct.Util.getToday();
+	const resName = nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_NAME");
+	const resNameSize = nexacro.getTextSize(resName, "normal 700 19pt/normal 'Noto Sans KR'");
+	
+	this.div_resident.form.cal_date.set_value(today);
+	this.div_resident.form.sta_resident.set_text(resName);
+	this.div_resident.form.sta_resident.set_width(resNameSize.nx);
+	this.div_resident.form.Static01.set_left("sta_resident:0px");
+	
+	this.fn_getSignImage();
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "DATE", today);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search input2=ds_search input3=ds_search input4=ds_search input5=ds_search";
+	var outDatasets = "ds_meal=output1 ds_composition=output2 ds_bomi=output3 ds_cist=output4 ds_sgds=output5";
+	var argument = "method=getList "
+		+ "sqlId='NUC101QR.NUC101QR_DS_MEAL_S NUC101QR.NUC101QR_DS_COMPOSITION_S NUC101QR.NUC101QR_DS_BOMI_S NUC101QR.NUC101QR_DS_CIST_S NUC101QR.NUC101QR_DS_SGDS_S' ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if(this.ds_meal.rowcount < 1)
+			{
+				this.div_meal.form.sta_breVal.set_text('X');
+				this.div_meal.form.sta_lunVal.set_text('X');
+				this.div_meal.form.sta_dinVal.set_text('X');
+				this.div_meal.form.sta_morSnackVal.set_text('X');
+				this.div_meal.form.sta_aftSnackVal.set_text('X');
+			}
+		
+			if(this.ds_composition.rowcount < 1)
+			{
+				this.sta_comDt.set_text("최근 측정일 : 없음");
+			}
+			else
+			{
+				const comDt = this.ds_composition.getColumn(0, "COM_DT");
+				const day = Sct.Util.getDayH(comDt, false);
+				const comDate = comDt.substr(0, 4) + "." + comDt.substr(4, 2) + "." + comDt.substr(6, 2) + "(" + day + ")";
+				this.sta_comDt.set_text("최근 측정일 : " + comDate);
+			}
+			
+			if(this.ds_bomi.rowcount < 1)
+			{
+				this.div_robo.form.sta_bomDt.set_text("측정 정보 없음");
+				this.div_robo.form.sta_contVal.set_text("-");
+				this.div_robo.form.sta_lvlVal.set_text("-");
+				this.div_robo.form.sta_bomiPtVal.set_text("-");
+			}
+			
+			if(this.ds_cist.rowcount < 1)
+			{
+				this.div_robo.form.sta_cistDt.set_text("측정 정보 없음");
+				this.div_robo.form.sta_cistPtVal7.set_text("-");
+				this.div_robo.form.sta_cistGradeVal.set_text("-");
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 로봇인지훈련
+this.bomi_go = function()
+{
+	const id = "NUC104QR";
+	const url = "MobileFrame::NUC104QR.xfdl";
+	const title = "로봇인지훈련";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// CIST 검사
+this.cist_go = function()
+{
+	const id = "NUC105QR";
+	const url = "MobileFrame::NUC105QR.xfdl";
+	const title = "CIST 검사";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 우울 검사
+this.sgds_go = function()
+{
+	const id = "NUC106QR";
+	const url = "MobileFrame::NUC106QR.xfdl";
+	const title = "우울검사";
+	
+	this.mMenuOpen(id, url, title);
+};
+
+// 식사
+this.meal_go = function()
+{
+	const id = "NUC102QR";
+	const url = "MobileFrame::NUC102QR.xfdl";
+	const title = "식사";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 체성분
+this.weight_go = function()
+{
+	const id = "NUC103QR";
+	const url = "MobileFrame::NUC103QR.xfdl";
+	const title = "체성분";
+
+	this.mMenuOpen(id, url, title);
+};
+
+/***********************************************************************    
+ * FILE
+ ***********************************************************************/
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = nexacro.getApplication().gds_mUserInfo.getColumn(0, "FILE_REAL_NAME");
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/Argos/FILES";
+		imgUrl = webHost + path + fileGrp;
+		const chk = this.fileCheck(imgUrl);
+		if(chk == "404")
+		{
+			this.div_resident.form.imv_resident.set_image("theme://images/imv_profile_e.png");
+			this.div_resident.form.imv_resident.set_stretch("fit");
+		}
+		else
+		{
+			this.div_resident.form.imv_resident.set_image("URL('" + imgUrl + "')");
+			this.div_resident.form.imv_resident.set_stretch("fit");
+		}		
+	}
+	else
+	{
+		this.div_resident.form.imv_resident.set_image("theme://images/imv_profile_e.png");
+		this.div_resident.form.imv_resident.set_stretch("fit");
+	}
+};
+
+// 파일 존재 유무 체크
+// 파일이 존재하지 않으면 404를 리턴함
+this.fileCheck = function(val)
+{
+	let req = new XMLHttpRequest();
+	req.open('GET', val, false);
+	req.send(null);
+	let headers = req.status;
+	return headers;
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_meal.form.sta_breVal" propid="text" datasetid="ds_meal" columnid="BRE_QTY"/>
+      <BindItem id="item1" compid="div_meal.form.sta_lunVal" propid="text" datasetid="ds_meal" columnid="LUN_QTY"/>
+      <BindItem id="item2" compid="div_meal.form.sta_dinVal" propid="text" datasetid="ds_meal" columnid="DIN_QTY"/>
+      <BindItem id="item3" compid="div_meal.form.sta_morSnackVal" propid="text" datasetid="ds_meal" columnid="MOR_SNACK_QTY"/>
+      <BindItem id="item4" compid="div_meal.form.sta_aftSnackVal" propid="text" datasetid="ds_meal" columnid="AFT_SNACK_QTY"/>
+      <BindItem id="item5" compid="div_smm.form.sta_smmVal" propid="text" datasetid="ds_composition" columnid="SMM"/>
+      <BindItem id="item6" compid="div_weight.form.sta_weightVal" propid="text" datasetid="ds_composition" columnid="WEIGHT"/>
+      <BindItem id="item7" compid="div_height.form.sta_heightVal" propid="text" datasetid="ds_composition" columnid="HEIGHT"/>
+      <BindItem id="item8" compid="div_bfm.form.sta_bfmVal" propid="text" datasetid="ds_composition" columnid="BFM"/>
+      <BindItem id="item9" compid="div_pbf.form.sta_pbfVal" propid="text" datasetid="ds_composition" columnid="PBF"/>
+      <BindItem id="item10" compid="div_robo.form.div_bomi.form.sta_contVal" propid="text" datasetid="ds_bomi" columnid="CONTENT_ID_VAL"/>
+      <BindItem id="item12" compid="div_robo.form.div_bomi.form.sta_bomiPtVal" propid="text" datasetid="ds_bomi" columnid="SCORE"/>
+      <BindItem id="item13" compid="div_robo.form.div_bomi.form.sta_bomDt" propid="text" datasetid="ds_bomi" columnid="BOM_DT"/>
+      <BindItem id="item14" compid="div_robo.form.div_cist.form.sta_cistPtVal7" propid="text" datasetid="ds_cist" columnid="PT7_VAL"/>
+      <BindItem id="item15" compid="div_robo.form.div_cist.form.sta_cistGradeVal" propid="text" datasetid="ds_cist" columnid="CIS_GRADE_VAL"/>
+      <BindItem id="item16" compid="div_robo.form.div_cist.form.sta_cistDt" propid="text" datasetid="ds_cist" columnid="CIS_DT"/>
+      <BindItem id="item11" compid="div_robo.form.div_sgds.form.sta_sgdsPtVal" propid="text" datasetid="ds_sgds" columnid="PT"/>
+      <BindItem id="item18" compid="div_robo.form.div_sgds.form.sta_sgdDt" propid="text" datasetid="ds_sgds" columnid="SGD_DT"/>
+    </Bind>
+  </Form>
+</FDL>

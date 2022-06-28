@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00301_P03
+     * 프로그램 명     	: 물리치료 운영일지 삭제
+     * Description 		: 물리치료 운영일지 조회, 삭제
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-05-25 10:30        	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00301_P03_DS_DATA_S		조회
+        DAY00301_P03_DS_DATA_D		삭제
+     *================================================================
+-->
+<mapper namespace="DAY00301_P03">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00301_P03_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 P03 조회 */
+    SELECT
+      kh.sicode
+    , kh.km_number
+    , LPAD(kh.km_number, 7, '0') AS 일지번호
+    , kh.제공일
+    , DATE_FORMAT(kh.제공일, '%Y.%m.%d') AS 운영일
+    , kh.제공그룹
+    , kh.담당자01
+    , kh.담당코드01
+    , kh.근무내용
+    , kh.특이사항
+    , (SELECT COUNT(1)
+       FROM heal_habilit AS hea
+       WHERE hea.sicode = kh.sicode
+       AND hea.mulday = kh.제공일
+       AND hea.mulgroup = kh.제공그룹
+       AND 0 &lt; hea.참여01 + hea.참여02 + hea.참여03 + hea.참여04 + hea.참여05 + hea.참여06 + hea.참여07 + hea.참여08) AS count
+    FROM km_habilit AS kh
+    WHERE kh.sicode = #{SICODE}
+    AND kh.km_number = #{KM_NUMBER}
+    </select>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00301_P03_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 3-1 P03 삭제 */
+    BEGIN NOT ATOMIC
+    
+    DELETE FROM km_habilit
+    WHERE sicode = #{sicode}
+    AND km_number = #{km_number};
+    
+    DELETE FROM heal_habilit
+    WHERE sicode = #{sicode}
+    AND mulday = #{제공일}
+    AND mulgroup = #{제공그룹};
+    
+    END
+    </delete>
+</mapper>

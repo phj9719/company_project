@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="GridCopyAndPaste" width="1210" height="888" titletext="그리드 복사/붙여넣기" onload="GridCopyAndPaste_onload">
+    <Layouts>
+      <Layout width="1210" height="888">
+        <Grid id="grd_bottom" taborder="1" binddataset="ds_bottom" autofittype="col" left="24" top="319" width="582" height="201" autoenter="none" selecttype="area">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="A"/>
+                <Cell col="1" text="B"/>
+                <Cell col="2" text="C"/>
+                <Cell col="3" text="D"/>
+                <Cell col="4" text="E"/>
+                <Cell col="5" text="F"/>
+                <Cell col="6" text="G"/>
+                <Cell col="7" text="H"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:A"/>
+                <Cell col="1" edittype="normal" text="bind:B"/>
+                <Cell col="2" edittype="normal" text="bind:C"/>
+                <Cell col="3" edittype="normal" text="bind:D"/>
+                <Cell col="4" edittype="normal" text="bind:E"/>
+                <Cell col="5" edittype="normal" text="bind:F"/>
+                <Cell col="6" edittype="normal" text="bind:G"/>
+                <Cell col="7" edittype="normal" text="bind:H"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_top" taborder="3" binddataset="ds_top" selecttype="area" cellsizingtype="col" autofittype="none" left="24" top="55" width="584" height="201">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="A"/>
+                <Cell col="1" text="B"/>
+                <Cell col="2" text="C"/>
+                <Cell col="3" text="D"/>
+                <Cell col="4" text="E"/>
+                <Cell col="5" text="F"/>
+                <Cell col="6" text="G"/>
+                <Cell col="7" text="H"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:A"/>
+                <Cell col="1" edittype="normal" text="bind:B"/>
+                <Cell col="2" edittype="normal" text="bind:C"/>
+                <Cell col="3" edittype="normal" text="bind:D"/>
+                <Cell col="4" edittype="normal" text="bind:E"/>
+                <Cell col="5" edittype="normal" text="bind:F"/>
+                <Cell col="6" edittype="normal" text="bind:G"/>
+                <Cell col="7" edittype="normal" text="bind:H"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="st_msg" taborder="4" text="◀ cell &gt; &lt;b v='true'&gt;selectbackground&lt;/b&gt;: EXPR((currow%2)?'#e8f587ff':'#fdd695ff')" left="96" top="387" width="480" height="42" visible="false" usedecorate="true" background="yellow" border="3px solid rgba(128,128,128,1)"/>
+        <Button id="btn_onOff" taborder="5" text="on / off" left="24" top="272" width="62" height="40" onclick="btn_onOff_onclick"/>
+        <Tab id="Tab00" taborder="6" left="633" top="14" width="556" height="232" tabindex="0" scrollbars="autoboth">
+          <Tabpages>
+            <Tabpage id="tabpage1" text="tabpage1" url="Test::GridCopyAndPasteSub.xfdl"/>
+            <Tabpage id="tabpage2" text="tabpage2"/>
+          </Tabpages>
+        </Tab>
+        <Div id="Div00" taborder="7" text="Div00" left="633" top="318" width="556" height="199" url="Test::GridCopyAndPasteSub.xfdl" border="1px solid rgba(128,128,128,1)"/>
+        <Static id="Static00" taborder="8" text="Div" left="632" top="291" width="105" height="21" font="bold 11pt &quot;Verdana&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_bottom" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" oncolumnchanged="ds_bottom_oncolumnchanged" onrowposchanged="ds_bottom_onrowposchanged">
+        <ColumnInfo>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="B" type="STRING" size="256"/>
+          <Column id="C" type="STRING" size="256"/>
+          <Column id="D" type="STRING" size="256"/>
+          <Column id="E" type="STRING" size="256"/>
+          <Column id="F" type="STRING" size="256"/>
+          <Column id="G" type="STRING" size="256"/>
+          <Column id="H" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row>
+            <Col id="B">11</Col>
+            <Col id="C">22</Col>
+            <Col id="D">33</Col>
+          </Row>
+          <Row>
+            <Col id="B">14.2</Col>
+            <Col id="C">15.2</Col>
+            <Col id="D">16.2</Col>
+          </Row>
+          <Row>
+            <Col id="B">500</Col>
+            <Col id="C">600</Col>
+            <Col id="D">700</Col>
+          </Row>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_top" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="B" type="STRING" size="256"/>
+          <Column id="C" type="STRING" size="256"/>
+          <Column id="D" type="STRING" size="256"/>
+          <Column id="E" type="STRING" size="256"/>
+          <Column id="F" type="STRING" size="256"/>
+          <Column id="G" type="STRING" size="256"/>
+          <Column id="H" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row>
+            <Col id="B">1</Col>
+            <Col id="C">2</Col>
+            <Col id="D">3</Col>
+          </Row>
+          <Row>
+            <Col id="B">4.2</Col>
+            <Col id="C">5.2</Col>
+            <Col id="D">6.2</Col>
+          </Row>
+          <Row>
+            <Col id="B">100</Col>
+            <Col id="C">200</Col>
+            <Col id="D">300</Col>
+          </Row>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_top01" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="B" type="STRING" size="256"/>
+          <Column id="C" type="STRING" size="256"/>
+          <Column id="D" type="STRING" size="256"/>
+          <Column id="E" type="STRING" size="256"/>
+          <Column id="F" type="STRING" size="256"/>
+          <Column id="G" type="STRING" size="256"/>
+          <Column id="H" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row>
+            <Col id="B">1</Col>
+            <Col id="C">2</Col>
+            <Col id="D">3</Col>
+          </Row>
+          <Row>
+            <Col id="B">4.2</Col>
+            <Col id="C">5.2</Col>
+            <Col id="D">6.2</Col>
+          </Row>
+          <Row>
+            <Col id="B">A</Col>
+            <Col id="C">B</Col>
+            <Col id="D">C</Col>
+          </Row>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[// include "Example::GridCopyAndPaste.xjs";
+
+
+this.GridCopyAndPaste_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var copyPaste = new Link.CellDataCopy(this, true, true);
+
+	copyPaste.addGrid(this.grd_top);
+	copyPaste.addGrid(this.grd_bottom, this.copyCallback, this.pasteCallback);
+};
+
+
+
+
+
+
+this.copyCallback = function (obj:Grid, e:nexacro.KeyEventInfo, area)
+{
+	// 복사 후 "후처리" 필요시 사용!!!
+	trace("this.copyCallback >>> " + obj.name + " 복사완료.");
+	trace("startrow=" + area.startrow + ",startcol=" + area.startcol + ",endrow=" + area.endrow + ",endcol=" + area.endcol);
+};
+
+
+this.pasteCallback = function (obj:Grid, e:nexacro.KeyEventInfo, area)
+{
+	// 붙여넣기 후 "후처리" 필요시 사용!!!
+	trace("this.pasteCallback >>> " + obj.name + " 붙여넣기 완료");
+	trace("startrow=" + area.startrow + ",startcol=" + area.startcol + ",endrow=" + area.endrow + ",endcol=" + area.endcol);
+};
+
+// this.ds_top_oncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+// {
+// trace("\t\t ds_top_oncolumnchanged colidx=" + e.colidx + ", col=" + e.col + ", columnid=" + e.columnid + ", row="  + e.row);
+// }
+// 
+// this.ds_top_onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+// {
+// trace("\t\t ds_top_onrowposchanged oldrow=" + e.oldrow + ", newrow="  + e.newrow + ", reason=" + e.reason);
+// }
+
+
+this.ds_bottom_oncolumnchanged = function (obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	trace("\t\t ds_bottom_oncolumnchanged colidx=" + e.colidx + ", col=" + e.col + ", columnid=" + e.columnid + ", row=" + e.row);
+};
+
+this.ds_bottom_onrowposchanged = function (obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	trace("\t\t ds_bottom_onrowposchanged oldrow=" + e.oldrow + ", newrow=" + e.newrow + ", reason=" + e.reason);
+};
+
+
+
+
+
+this.btn_onOff_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (this.st_msg.visible) 
+	{
+		this.st_msg.set_visible(false);
+	}
+	else 
+	{
+		this.st_msg.set_visible(true);
+	}
+}
+;
+]]></Script>
+  </Form>
+</FDL>

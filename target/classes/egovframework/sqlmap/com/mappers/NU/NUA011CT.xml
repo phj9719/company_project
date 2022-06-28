@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 09:54                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA011CT
+     * 프로그램 명     : 권한관리(PC&Tablet) 
+     * Description :
+     *================================================================                  
+                작성일자                                  |  작성자    |  비고                                    
+     *================================================================                  
+       2021-08-20 09:54        |  임명수    | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                        
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA011CT"> 
+	<select id="NUA011CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            	  SELECT CU.COMPANY_CD
+                        ,CU.USER_ID
+                        ,CU.USER_NM_KOR
+                        ,CU.RANK_CD
+                        ,#{SERVICE_TP} AS SERVICE_TP
+                        ,#{APPLICATION_TP} AS APPLICATION_TP
+                        ,IFNULL(UR.PC_ROLE1,0) AS PC_ROLE1
+                        ,IFNULL(UR.PC_ROLE2  ,0) AS PC_ROLE2
+                        ,IFNULL(UR.PC_ROLE3  ,0) AS PC_ROLE3
+                        ,IFNULL(UR.PC_ROLE4  ,0) AS PC_ROLE4
+                        ,IFNULL(UR.PC_ROLE5  ,0) AS PC_ROLE5
+                        ,IFNULL(UR.PC_ROLE6  ,0) AS PC_ROLE6
+                        ,IFNULL(UR.PC_ROLE7  ,0) AS PC_ROLE7
+                        ,IFNULL(UR.PC_ROLE8  ,0) AS PC_ROLE8
+                        ,IFNULL(UR.PC_ROLE9  ,0) AS PC_ROLE9
+                        ,IFNULL(UR.PC_ROLE10 ,0) AS PC_ROLE10
+                        ,IFNULL(UR.PC_ROLE11 ,0) AS PC_ROLE11
+						,IFNULL(UR.PC_ROLE12 ,0) AS PC_ROLE12
+						,IFNULL(UR.PC_ROLE13 ,0) AS PC_ROLE13
+						,IFNULL(UR.PC_ROLE14 ,0) AS PC_ROLE14
+						,IFNULL(UR.PC_ROLE15 ,0) AS PC_ROLE15
+						,IFNULL(UR.TAB_ROLE1 ,0) AS TAB_ROLE1
+						,IFNULL(UR.TAB_ROLE2 ,0) AS TAB_ROLE2
+						,IFNULL(UR.TAB_ROLE3 ,0) AS TAB_ROLE3
+						,IFNULL(UR.TAB_ROLE4 ,0) AS TAB_ROLE4
+						,IFNULL(UR.TAB_ROLE5 ,0) AS TAB_ROLE5
+						,IFNULL(UR.TAB_ROLE6 ,0) AS TAB_ROLE6
+						,IFNULL(UR.TAB_ROLE7 ,0) AS TAB_ROLE7
+						,IFNULL(UR.TAB_ROLE8 ,0) AS TAB_ROLE8
+						,IFNULL(UR.TAB_ROLE9 ,0) AS TAB_ROLE9
+						,IFNULL(UR.TAB_ROLE10,0) AS TAB_ROLE10
+						,IFNULL(UR.TAB_ROLE11,0) AS TAB_ROLE11
+						,IFNULL(UR.TAB_ROLE12,0) AS TAB_ROLE12
+						,IFNULL(UR.TAB_ROLE13,0) AS TAB_ROLE13
+						,IFNULL(UR.TAB_ROLE14,0) AS TAB_ROLE14
+						,IFNULL(UR.TAB_ROLE15,0) AS TAB_ROLE15
+						,UR.REG_PGM_ID
+						,UR.REG_USER
+						,UR.REG_DT
+						,UR.REG_DT_CURR
+						,UR.REG_DT_LOC
+						,UR.REG_IP
+						,UR.MOD_PGM_ID
+						,UR.MOD_USER
+						,UR.MOD_DT
+						,UR.MOD_DT_CURR
+						,UR.MOD_DT_LOC
+						,UR.MOD_IP
+                    FROM T_CM_USER CU
+         LEFT OUTER JOIN T_NU_USER_ROLE UR
+                      ON(CU.COMPANY_CD = UR.COMPANY_CD
+                     AND CU.USER_ID = UR.USER_ID)
+             	   WHERE 1=1 
+             ]]>
+               <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                     AND CU.COMPANY_CD = #{COMPANY_CD}
+               </if>
+               <if test="NAME != '' and NAME != null">
+                     AND CU.USER_NM_KOR LIKE CONCAT('%', #{NAME},'%') 
+               </if>
+               <if test="USER_ID != '' and USER_ID != null">
+                     AND CU.USER_ID LIKE CONCAT('%', #{USER_ID},'%')
+               </if>
+              	ORDER BY CU.USER_NM_KOR ASC
+    </select>
+	<insert id="NUA011CT_DS_LIST_I" parameterType="java.util.HashMap">
+    <![CDATA[
+			   INSERT INTO T_NU_USER_ROLE (
+			               	 COMPANY_CD
+							,USER_ID
+							,PC_ROLE1
+							,PC_ROLE2
+							,PC_ROLE3
+							,PC_ROLE4
+							,PC_ROLE5
+							,PC_ROLE6
+							,PC_ROLE7
+							,PC_ROLE8
+							,PC_ROLE9
+							,PC_ROLE10
+							,PC_ROLE11
+							,PC_ROLE12
+							,PC_ROLE13
+							,PC_ROLE14
+							,PC_ROLE15
+							,TAB_ROLE1
+							,TAB_ROLE2
+							,TAB_ROLE3
+							,TAB_ROLE4
+							,TAB_ROLE5
+							,TAB_ROLE6
+							,TAB_ROLE7
+							,TAB_ROLE8
+							,TAB_ROLE9
+							,TAB_ROLE10
+							,TAB_ROLE11
+							,TAB_ROLE12
+							,TAB_ROLE13
+							,TAB_ROLE14
+							,TAB_ROLE15
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+				) VALUES ( 
+				           	 #{COMPANY_CD }
+							,#{USER_ID    }
+							,#{PC_ROLE1   }
+							,#{PC_ROLE2   }
+							,#{PC_ROLE3   }
+							,#{PC_ROLE4   }
+							,#{PC_ROLE5   }
+							,#{PC_ROLE6   }
+							,#{PC_ROLE7   }
+							,#{PC_ROLE8   }
+							,#{PC_ROLE9   }
+							,#{PC_ROLE10  }
+							,#{PC_ROLE11  }
+							,#{PC_ROLE12  }
+							,#{PC_ROLE13  }
+							,#{PC_ROLE14  }
+							,#{PC_ROLE15  }
+							,#{TAB_ROLE1  }
+							,#{TAB_ROLE2  }
+							,#{TAB_ROLE3  }
+							,#{TAB_ROLE4  }
+							,#{TAB_ROLE5  }
+							,#{TAB_ROLE6  }
+							,#{TAB_ROLE7  }
+							,#{TAB_ROLE8  }
+							,#{TAB_ROLE9  }
+							,#{TAB_ROLE10 }
+							,#{TAB_ROLE11 }
+							,#{TAB_ROLE12 }
+							,#{TAB_ROLE13 }
+							,#{TAB_ROLE14 }
+							,#{TAB_ROLE15 }
+							,#{REG_PGM_ID }
+							,#{REG_USER   }
+							,#{REG_DT     }
+							,#{REG_DT_CURR}
+							,#{REG_DT_LOC }
+							,#{REG_IP     }
+				)
+    ]]>
+    </insert>
+    <update id="NUA011CT_DS_LIST_U" parameterType="java.util.HashMap">
+    <![CDATA[
+			          UPDATE T_NU_USER_ROLE
+					   	 SET PC_ROLE1      = #{PC_ROLE1    }
+							,PC_ROLE2      = #{PC_ROLE2    }
+							,PC_ROLE3      = #{PC_ROLE3    }
+							,PC_ROLE4      = #{PC_ROLE4    }
+							,PC_ROLE5      = #{PC_ROLE5    }
+							,PC_ROLE6      = #{PC_ROLE6    }
+							,PC_ROLE7      = #{PC_ROLE7    }
+							,PC_ROLE8      = #{PC_ROLE8    }
+							,PC_ROLE9      = #{PC_ROLE9    }
+							,PC_ROLE10     = #{PC_ROLE10   }
+							,PC_ROLE11     = #{PC_ROLE11   }
+							,PC_ROLE12     = #{PC_ROLE12   }
+							,PC_ROLE13     = #{PC_ROLE13   }
+							,PC_ROLE14     = #{PC_ROLE14   }
+							,PC_ROLE15     = #{PC_ROLE15   }
+							,TAB_ROLE1     = #{TAB_ROLE1   }
+							,TAB_ROLE2     = #{TAB_ROLE2   }
+							,TAB_ROLE3     = #{TAB_ROLE3   }
+							,TAB_ROLE4     = #{TAB_ROLE4   }
+							,TAB_ROLE5     = #{TAB_ROLE5   }
+							,TAB_ROLE6     = #{TAB_ROLE6   }
+							,TAB_ROLE7     = #{TAB_ROLE7   }
+							,TAB_ROLE8     = #{TAB_ROLE8   }
+							,TAB_ROLE9     = #{TAB_ROLE9   }
+							,TAB_ROLE10    = #{TAB_ROLE10  }
+							,TAB_ROLE11    = #{TAB_ROLE11  }
+							,TAB_ROLE12    = #{TAB_ROLE12  }
+							,TAB_ROLE13    = #{TAB_ROLE13  }
+							,TAB_ROLE14    = #{TAB_ROLE14  }
+							,TAB_ROLE15    = #{TAB_ROLE15  }
+							,MOD_PGM_ID    = #{MOD_PGM_ID  }
+							,MOD_USER      = #{MOD_USER    }
+							,MOD_DT        = #{MOD_DT      }
+							,MOD_DT_CURR   = #{MOD_DT_CURR }
+							,MOD_DT_LOC    = #{MOD_DT_LOC  }
+							,MOD_IP        = #{MOD_IP      }
+			         WHERE COMPANY_CD  = #{COMPANY_CD}
+                   	   AND USER_ID = #{USER_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>
+     <insert id="NUA011CT_DS_ROLE_I" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            	BEGIN NOT ATOMIC
+            	
+			        INSERT INTO T_CM_USER_ROLE
+			          (GRP_CD,
+			          SERVICE_TP,
+			          APPLICATION_TP,
+			           COMPANY_CD,
+			           USER_ID,
+			           REG_PGM_ID,
+			           REG_USER,
+			           REG_DT,
+			           REG_DT_CURR,
+			           REG_DT_LOC,
+			           REG_IP,
+			           MOD_PGM_ID,
+			           MOD_USER,
+			           MOD_DT,
+			           MOD_DT_CURR,
+			           MOD_DT_LOC,
+			           MOD_IP)
+			        VALUES
+			          (#{GRP_CD},
+			          #{SERVICE_TP},
+			          #{APPLICATION_TP},
+			           #{COMPANY_CD},
+			           #{USER_ID},
+			           #{REG_PGM_ID},
+			           #{REG_USER},
+			           #{REG_DT},
+			           #{REG_DT_CURR},
+			           #{REG_DT_LOC},
+			           #{REG_IP},
+			           #{MOD_PGM_ID},
+			           '',
+			           '',
+			           '',
+			           '',
+			           '');
+					
+				END
+		     ]]>                                                                                                                                                                                                              
+    </insert>
+     <delete id="NUA011CT_DS_ROLE_D" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            BEGIN NOT ATOMIC
+            
+           	DELETE FROM T_CM_USER_ROLE
+		 	 WHERE GRP_CD = #{GRP_CD} 
+		 	   AND USER_ID = #{USER_ID}
+		 	   AND COMPANY_CD = #{COMPANY_CD}
+	           AND SERVICE_TP = #{SERVICE_TP}
+	           AND APPLICATION_TP = #{APPLICATION_TP};
+
+		    END                                                                                                                                                                
+     ]]>                                                                                                                                                                                                              
+    </delete>
+        <select id="NUA011CT_DATA_YN" parameterType="java.util.HashMap" resultType="java.lang.String">
+<![CDATA[
+            SELECT CASE WHEN COUNT(*)>0 THEN 'Y'
+			       ELSE 'N'
+			       END AS DATA_YN
+			  FROM T_NU_USER_ROLE
+			 WHERE COMPANY_CD = #{COMPANY_CD}
+			   AND USER_ID = #{USER_ID}  
+        ]]>
+	</select>  
+	<select id="NUA011CT_ROLE_YN" parameterType="java.util.HashMap" resultType="java.lang.String">
+	<![CDATA[
+	            SELECT CASE WHEN COUNT(*)>0 THEN 'Y'
+				       ELSE 'N'
+				       END AS ROLE_YN
+				  FROM T_CM_USER_ROLE
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND SERVICE_TP = #{SERVICE_TP}
+				   AND APPLICATION_TP = #{APPLICATION_TP}
+				   AND USER_ID = #{USER_ID}
+				   AND GRP_CD = #{GRP_CD}
+	        ]]>
+	</select>
+	<select id="NUA011CT_DS_ROLE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT CC.CMCD,CC.USEYN 
+              FROM T_CM_CODE CC
+             WHERE CC.COMPANY_CD = #{COMPANY_CD}
+               AND CC.SERVICE_TP = #{SERVICE_TP}
+               AND CC.GRP_CD= 'NU_PC_TAB_ROLE'
+    	]]>                
+    </select>       
+</mapper>

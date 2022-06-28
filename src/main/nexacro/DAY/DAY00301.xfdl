@@ -1,0 +1,1004 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00301" width="1920" height="800" titletext="3-1 물리(작업)치료일지·제공기록 작성" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" right="0" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" left="0" top="0" width="350" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_head" taborder="1" left="0" top="0" right="0" bottom="0" binddataset="ds_head" autofittype="col" oncellclick="div_cont_div_left_grd_head_oncellclick" oncelldblclick="div_cont_div_left_grd_head_oncelldblclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="운영일"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="작성자"/>
+                            <Cell col="3" text="일지번호"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:제공일" displaytype="date" expandchar="dot" cursor="pointer" cssclass="CellBf7fcff"/>
+                            <Cell col="1" text="bind:제공그룹"/>
+                            <Cell col="2" text="bind:담당자01" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                            <Cell col="3" text="bind:일지번호" cursor="pointer"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" text="div_00" left="div_left:10" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" text="div_00" left="0" top="0" right="0" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle2" taborder="19" text="물리(작업)치료 운영일지·제공기록 작성" left="635" top="0" width="290" height="25" cssclass="lb01"/>
+                          <Static id="sta_no" taborder="20" text="기록번호 : " left="4" top="0" width="58" height="26"/>
+                          <Static id="sta_no_value" taborder="21" text="00000000" left="67" top="0" width="60" height="26"/>
+                          <Div id="div_line" taborder="22" left="0" top="30" height="1" background="#e2e2e2" right="0"/>
+                          <Static id="sta_head1" taborder="23" text="작성일" left="0" top="37" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="24" left="82" top="37" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Calendar id="cal_date_new" taborder="0" left="90" top="41" width="90" height="26" readonly="true" buttonsize="0 0" initvalueid="iv_cal_dot"/>
+                          <Calendar id="cal_date_new_pic" taborder="1" left="179" top="41" width="25" height="26" onchanged="div_cont_div_right_div_main_cal_date_new_pic_onchanged"/>
+                          <Static id="sta_head1_00" taborder="25" text="치료그룹" left="280" top="37" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <CheckBox id="chk_group1" taborder="2" text="A 그룹" left="371" top="43" width="60" height="22" truevalue="1" falsevalue="0" onchanged="chk_group_onchanged" cssclass="chk_d9ffb3"/>
+                          <CheckBox id="chk_group2" taborder="3" text="B 그룹" left="451" top="43" width="60" height="22" truevalue="2" falsevalue="0" onchanged="chk_group_onchanged" cssclass="chk_d9ffb3"/>
+                          <Button id="btn_new" taborder="4" text="물리(작업)치료운영일지 새로생성" left="558" top="42" width="235" height="25" onclick="div_cont_div_right_div_main_btn_new_onclick" cssclass="btn_newdoc"/>
+                          <Static id="sta_head2" taborder="26" left="0" top="70" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Button id="btn_worker" taborder="5" text="작성자" left="5" top="74" width="73" height="26" cssclass="btn_worker" onclick="div_cont_div_right_div_main_btn_worker_onclick"/>
+                          <Static id="sta_body2" taborder="27" left="82" top="70" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_worker_code" taborder="28" text="작성코드" left="171" top="78" width="79" height="19"/>
+                          <Static id="sta_worker_name" taborder="29" text="작성자" left="92" top="78" width="69" height="19"/>
+                          <Static id="sta_head3" taborder="30" left="0" top="103" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="운영내용"/>
+                          <Static id="sta_body3" taborder="31" left="82" top="103" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Edit id="edt_work" taborder="6" left="90" top="108" width="534" height="25" maxlength="100"/>
+                          <Static id="sta_head4" taborder="32" left="0" top="136" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body4" taborder="33" left="82" top="136" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_count1" taborder="34" text="평가인원 : " left="92" top="144" width="65" height="19"/>
+                          <Edit id="edt_count1" taborder="8" left="162" top="141" width="64" height="25" readonly="true" background="#ecffec" text="0" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" displaynulltext="0"/>
+                          <Static id="sta_count2" taborder="35" text="제공인원 :" left="252" top="144" width="65" height="19"/>
+                          <Edit id="edt_count2" taborder="9" left="322" top="141" width="64" height="25" readonly="true" background="#ecffec" text="0" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" displaynulltext="0"/>
+                          <Static id="sta_head5" taborder="36" left="631" top="70" width="83" height="100" cssclass="sta_WF_DetailLabel01" textAlign="center" text="특이사항"/>
+                          <Static id="sta_body5" taborder="37" left="713" top="70" height="100" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <TextArea id="txt_rmk" taborder="7" left="720" top="75" height="67" scrolltype="vertical" scrollbartype="none fixed" maxlength="65535" right="10" wordWrap="char"/>
+                          <Static id="sta_rmk" taborder="38" text="▲ 4문장 내외로 작성. 저장후 운영일 변경 불가" left="734" top="147" width="293" height="19" color="red"/>
+                          <CheckBox id="chk_heal1" taborder="10" text="치료1전체표시" left="93" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" onchanged="chk_heal_onchanged" falsevalue="0" truevalue="1"/>
+                          <CheckBox id="chk_heal2" taborder="11" text="치료2전체표시" left="213" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal3" taborder="12" text="치료3전체표시" left="333" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal4" taborder="13" text="치료4전체표시" left="453" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal5" taborder="14" text="치료5전체표시" left="573" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal6" taborder="15" text="치료6전체표시" left="693" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal7" taborder="16" text="치료7전체표시" left="813" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <CheckBox id="chk_heal8" taborder="17" text="치료8전체표시" left="933" top="178" width="110" height="22" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" falsevalue="0" truevalue="1" onchanged="chk_heal_onchanged"/>
+                          <Grid id="grd_detail" taborder="18" left="0" top="210" right="0" bottom="0" autofittype="col" binddataset="ds_detail" oncellclick="div_cont_div_right_div_main_grd_detail_oncellclick" selecttype="cell">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="80"/>
+                                  <Column size="50"/>
+                                  <Column size="60"/>
+                                  <Column size="60"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="30"/>
+                                  <Column size="90"/>
+                                  <Column size="250"/>
+                                  <Column size="50"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="24"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell text="수급자"/>
+                                  <Cell col="1" text="성별"/>
+                                  <Cell col="2" text="시작시"/>
+                                  <Cell col="3" text="종료시"/>
+                                  <Cell col="4" text="①"/>
+                                  <Cell col="5" text="치료①"/>
+                                  <Cell col="6" text="②"/>
+                                  <Cell col="7" text="치료②"/>
+                                  <Cell col="8" text="③"/>
+                                  <Cell col="9" text="치료③"/>
+                                  <Cell col="10" text="④"/>
+                                  <Cell col="11" text="치료④"/>
+                                  <Cell col="12" text="⑤"/>
+                                  <Cell col="13" text="치료⑤"/>
+                                  <Cell col="14" text="⑥"/>
+                                  <Cell col="15" text="치료⑥"/>
+                                  <Cell col="16" text="⑦"/>
+                                  <Cell col="17" text="치료⑦"/>
+                                  <Cell col="18" text="⑧"/>
+                                  <Cell col="19" text="치료⑧"/>
+                                  <Cell col="20" text="비 고 (↓ 기록가능)"/>
+                                  <Cell col="21" text="그룹"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" text="bind:수급자명" textAlign="left"/>
+                                  <Cell col="1" text="bind:성별"/>
+                                  <Cell col="2" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" color="blue" text="bind:시작시간"/>
+                                  <Cell col="3" color="blue" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" text="bind:종료시간"/>
+                                  <Cell col="4" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여01" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="5" text="bind:치료명01" textAlign="left"/>
+                                  <Cell col="6" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여02" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="7" text="bind:치료명02" textAlign="left"/>
+                                  <Cell col="8" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여03" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="9" text="bind:치료명03" textAlign="left"/>
+                                  <Cell col="10" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여04" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="11" text="bind:치료명04" textAlign="left"/>
+                                  <Cell col="12" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여05" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="13" text="bind:치료명05" textAlign="left"/>
+                                  <Cell col="14" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여06" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="15" text="bind:치료명06" textAlign="left"/>
+                                  <Cell col="16" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여07" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="17" text="bind:치료명07" textAlign="left"/>
+                                  <Cell col="18" displaytype="checkboxcontrol" edittype="checkbox" text="bind:참여08" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                  <Cell col="19" text="bind:치료명08" textAlign="left"/>
+                                  <Cell col="20" text="bind:제공비고" edittype="text" textAlign="left" editmaxlength="40"/>
+                                  <Cell col="21" text="bind:그룹"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="435">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_from" taborder="1" left="122" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="235" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="250" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Calendar id="cal_date" taborder="0" left="0" top="5" width="90" height="25" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Calendar id="cal_date_pic" taborder="4" left="cal_date:-1" top="5" width="25" height="25" initvalueid="iv_cal_yyyyMM" onchanged="div_search_cal_date_pic_onchanged" tabstop="false"/>
+              <Button id="btn_search" taborder="5" text="조회" top="4" height="26" onclick="fn_searchBtn" right="0" width="70" cssclass="btn_search"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="div_search:10" top="0" height="36" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="1" text="물리치료운영일지" left="100" top="4" width="145" height="26" onclick="fn_report" cssclass="btn_print"/>
+              <CheckBox id="chk_sign" taborder="0" text="결재란표시" left="0" top="5" width="85" height="25" truevalue="1" falsevalue="0"/>
+              <Button id="btn_save" taborder="2" text="저장" top="3" width="70" height="25" onclick="fn_saveBtn" right="0" cssclass="btn_save"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_time_from" taborder="3" text="div_time_from" left="-200" top="23" width="165" height="340" url="DAY_POP::DAY00301_P01.xfdl" visible="false" onkillfocus="div_time_from_onkillfocus"/>
+        <Div id="div_time_to" taborder="4" text="div_time_to" left="-373" top="22" width="110" height="200" url="DAY_POP::DAY00301_P02.xfdl" visible="false" onkillfocus="div_time_to_onkillfocus"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_head" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="제공일" type="DATE" size="256"/>
+          <Column id="제공그룹" type="STRING" size="256"/>
+          <Column id="담당자01" type="STRING" size="256"/>
+          <Column id="담당코드01" type="STRING" size="256"/>
+          <Column id="km_number" type="STRING" size="256"/>
+          <Column id="일지번호" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="MON" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="km_number" type="STRING" size="256"/>
+          <Column id="기록번호" type="STRING" size="256"/>
+          <Column id="제공일" type="DATE" size="256"/>
+          <Column id="제공그룹" type="STRING" size="256"/>
+          <Column id="group_a" type="STRING" size="256"/>
+          <Column id="group_b" type="STRING" size="256"/>
+          <Column id="담당자01" type="STRING" size="256"/>
+          <Column id="담당코드01" type="STRING" size="256"/>
+          <Column id="근무내용" type="STRING" size="256"/>
+          <Column id="특이사항" type="STRING" size="256"/>
+          <Column id="count_all" type="STRING" size="256"/>
+          <Column id="count" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true" oncolumnchanged="ds_detail_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="mulnumber" type="STRING" size="256"/>
+          <Column id="mulday" type="DATE" size="256"/>
+          <Column id="수급자명" type="STRING" size="256"/>
+          <Column id="수급코드" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="시작시간" type="STRING" size="256"/>
+          <Column id="종료시간" type="STRING" size="256"/>
+          <Column id="치료01" type="STRING" size="256"/>
+          <Column id="치료02" type="STRING" size="256"/>
+          <Column id="치료03" type="STRING" size="256"/>
+          <Column id="치료04" type="STRING" size="256"/>
+          <Column id="치료05" type="STRING" size="256"/>
+          <Column id="치료06" type="STRING" size="256"/>
+          <Column id="치료07" type="STRING" size="256"/>
+          <Column id="치료08" type="STRING" size="256"/>
+          <Column id="참여01" type="STRING" size="256"/>
+          <Column id="참여02" type="STRING" size="256"/>
+          <Column id="참여03" type="STRING" size="256"/>
+          <Column id="참여04" type="STRING" size="256"/>
+          <Column id="참여05" type="STRING" size="256"/>
+          <Column id="참여06" type="STRING" size="256"/>
+          <Column id="참여07" type="STRING" size="256"/>
+          <Column id="참여08" type="STRING" size="256"/>
+          <Column id="치료명01" type="STRING" size="256"/>
+          <Column id="치료명02" type="STRING" size="256"/>
+          <Column id="치료명03" type="STRING" size="256"/>
+          <Column id="치료명04" type="STRING" size="256"/>
+          <Column id="치료명05" type="STRING" size="256"/>
+          <Column id="치료명06" type="STRING" size="256"/>
+          <Column id="치료명07" type="STRING" size="256"/>
+          <Column id="치료명08" type="STRING" size="256"/>
+          <Column id="제공비고" type="STRING" size="256"/>
+          <Column id="그룹" type="STRING" size="256"/>
+          <Column id="ha_number" type="STRING" size="256"/>
+          <Column id="작성자" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_count" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="count" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00301
+ * 화면명   	: 3-1 물리(작업)치료일지·제공기록 작성
+ * 화면설명 	: 물리(작업)치료일지·제공기록을 입력하는 화면
+ * 작성일   	: 2022-05-23
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ * 비고 : 마이너스 좌표계에 시간 팝업 div들 배치중
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.newFlag = true;	// 일지 새로생성용 플래그
+this.dbFlag = "";		// 저장용 플래그 I : 삽입, U : 수정
+this.reSearchData = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 팝업 div __form 변수에 현재화면 넣기
+	this.div_time_from.__form = this;
+	this.div_time_to.__form = this;
+	
+	// 팝업 div 위치 이동시키기
+	this.div_time_from.move(680, 360);
+	this.div_time_to.move(680, 360);
+	
+	// 날짜 세팅
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMon = year + ((month + 1) + "").padStart(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", firstDay);
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMon);
+	
+	// 작성 패널 초기화
+	this.fn_dsDataInit();
+	this.ds_data.setColumn(0, "sicode", fv_sicode);
+	this.ds_data.setColumn(0, "제공일", Sct.Util.getToday());
+	this.ds_data.setColumn(0, "제공그룹", "A");
+	this.ds_data.setColumn(0, "group_a", 1);
+	
+	// 리포트 결재란 체크박스 기본값 세팅
+	this.ds_report.setColumn(0, "SIGN", 1);
+	
+	// 조회
+	this.fn_search("search");
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	for (let i = 1; i <= 8; i++)
+	{
+		const idx = grid.getBindCellIndex("body", "치료명0" + i);
+		// 체크박스에 체크가 되어있고 치료명이 있는경우에 CSS 변경
+		const cssStr = "expr:dataset.getColumn(currow, '참여0" + i + "') == '1' && dataset.getColumn(currow, '치료명0" + i + "') != undefined ? 'CellBd9ffb3B' : ''";
+		grid.setCellProperty("body", idx, "cssclass", cssStr);
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	// 상세 그리드에 내용이 없을 경우 저장 안됨
+	if (this.ds_detail.rowcount == 0)
+	{
+		this.alert("물리(작업)치료 운영일지 새로작성 실행후 저장하세요");
+		return false;
+	}
+	
+	// 작성자가 지정되지 않은경우 저장 안됨
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "담당코드01")))
+	{
+		this.alert("작성자를 지정해주세요.");
+		return false;
+	}
+	
+	//trace("dbFlag : " + this.dbFlag);
+	
+	// 상세그리드에 작성자, 작성코드, 작성일 세팅
+	this.ds_detail.set_updatecontrol(false);
+	for (let i = 0; i < this.ds_detail.rowcount; i++)
+	{
+		this.ds_detail.setColumn(i, "sicode", fv_sicode);
+		this.ds_detail.setColumn(i, "작성자", this.ds_data.getColumn(0, "담당자01"));
+		this.ds_detail.setColumn(i, "작성코드", this.ds_data.getColumn(0, "담당코드01"));
+		this.ds_detail.setColumn(i, "mulday", this.ds_data.getColumn(0, "제공일"));
+		//trace("mulday : " + this.ds_detail.getColumn(i, "mulday"));
+		if (Sct.Util.isEmpty(this.ds_detail.getColumn(i, "mulnumber")))
+			this.ds_detail.setColumn(i, "mulnumber", "");
+		
+		// 자바단에서 행 인식을 시키기 위해서 수정행으로 세팅
+		this.ds_detail.setRowType(i, 4);
+		
+		//trace("detail rowType : " + this.ds_detail.getRowType(i));
+	}
+	this.ds_detail.set_updatecontrol(true);
+	
+	// 새로 작성인 경우 입력 패널 데이터셋 rowType 추가 상태로 변경
+	this.ds_data.set_updatecontrol(false);
+	if (this.dbFlag == "I")
+		this.ds_data.setRowType(0, 2);
+	else
+		this.ds_data.setRowType(0, 4);
+	this.ds_data.set_updatecontrol(true);
+	
+	//trace("ds_data rowType : " + this.ds_data.getRowType(0));
+	
+	this.reSearchData = this.ds_data.getColumn(0, "제공일");
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function(flag) 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_head=output1";
+	const argument = "method=getList"
+				   + " sqlId='DAY00301.DAY00301_DS_HEAD_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 상세 조회
+this.fn_searchDetail = function(date, group)
+{
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_data=output1 ds_detail=output2";
+	const argument = "method=getList"
+				   + " sqlId='DAY00301.DAY00301_DS_DATA_S DAY00301.DAY00301_DS_DETAIL_S'"
+				   + " SICODE=" + fv_sicode
+				   + " DATE=" + date
+				   + " GROUP=" + group;
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 새로작성시 데이터 유무 확인
+this.fn_searchData = function(date, group)
+{
+	const svcId = "searchData";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_count=output1";
+	const argument = "method=getList"
+				   + " sqlId='DAY00301.DAY00301_DS_COUNT_S'"
+				   + " SICODE=" + fv_sicode
+				   + " DATE=" + date
+				   + " GROUP=" + group;
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 새로작성 조회
+this.fn_searchNew = function(date, group)
+{
+	const svcId = "searchNew";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail=output1";
+	const argument = "method=getList"
+				   + " sqlId='DAY00301.DAY00301_DS_NEW_S'"
+				   + " SICODE=" + fv_sicode
+				   + " DATE=" + date
+				   + " GROUP=" + group;
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const params = "/DAY00301Controller.do";
+	const inDatasets = "input1=ds_data:U input2=ds_detail:U";
+	const outDatasets = "";
+	const argument = "method=save";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 작성패널 일부 초기화
+			this.fn_dsDataInit();
+			this.ds_data.setColumn(0, "제공일", Sct.Util.getToday());
+			this.ds_data.setColumn(0, "제공그룹", "A");
+			this.ds_data.setColumn(0, "group_a", 1);
+			this.ds_data.setColumn(0, "group_b", 0);
+			
+			this.div_time_from.set_visible(false);
+		}
+		else if (strSvcID == "searchDetail" || strSvcID == "searchNew")
+		{
+			if (this.ds_detail.rowcount != 0)
+			{
+				switch(strSvcID) {
+					case "searchDetail" :
+						this.dbFlag = "U";
+						break;
+					case "searchNew" :
+						this.dbFlag = "I";
+						this.ds_data.setColumn(0, "km_number", "");
+						this.ds_data.setColumn(0, "기록번호", "");
+						break;
+					default:
+				}
+			
+				// 치료명 전체 선택 체크박스 텍스트 세팅
+				for (let i = 1; i <= 8; i++)
+				{
+					const heal = this.ds_detail.getColumn(0, "치료명0" + i);
+					this.div_cont.form.div_right.form.div_main.form.components["chk_heal" + i].set_text(heal);
+				}
+				
+				// 그리드 체크 박스 변경시 CSS 변경
+				this.initGrid(this.div_cont.form.div_right.form.div_main.form.grd_detail);
+				
+				// 행 선택 해제
+				this.ds_detail.set_rowposition(-1);
+				
+				// 평가인원 세팅
+				this.ds_data.setColumn(0, "count_all", this.ds_detail.rowcount);
+				
+				// 제공인원 세팅
+				let count = 0;
+				for (let i = 0; i < this.ds_detail.rowcount; i++)
+				{
+					for (let j = 1; j <= 8; j++)
+					{
+						const chkVal = parseInt(this.ds_detail.getColumn(i, "참여0" + j));
+						if (chkVal == 1)
+						{
+							count++;
+							break;
+						}
+					}
+				}
+				//trace(count);
+				this.ds_data.setColumn(0, "count", count);
+			}
+			
+			this.div_time_from.set_visible(false);
+		}
+		else if (strSvcID == "searchData")
+		{
+			if (this.ds_count.rowcount != 0)
+			{
+				// 일지 작성유무에 따른 작성 플래그 조정
+				const count = parseInt(this.ds_count.getColumn(0, "count"));
+				if (count > 0)
+				{
+					this.alert("물리치료제공일지가 이미작성되어 있습니다.");
+					this.newFlag = false;
+					return;
+				}
+				else
+					this.newFlag = true;
+			}
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* 날짜 스트링 만들기
+ *
+ * @param date DATE
+ * @return String yyyyMMdd
+ */
+this.fn_getDateString = function(date)
+{
+	const year = date.getFullYear() + "";
+	const month = ((date.getMonth() + 1) + "").padStart(2, '0');
+	const day = (date.getDate() + "").padStart(2, '0');
+	
+	return year + month + day;
+};
+
+// 작성 패널 일부 초기화
+this.fn_dsDataInit = function()
+{
+	this.ds_detail.clearData();
+	this.ds_data.setColumn(0, "담당자01", nexacro.getApplication().gds_userInfo.getColumn(0, "c_name").trim());
+	this.ds_data.setColumn(0, "담당코드01", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid").trim());
+	this.ds_data.setColumn(0, "근무내용", "");
+	this.ds_data.setColumn(0, "특이사항", "");
+	this.ds_data.setColumn(0, "count_all", 0);
+	this.ds_data.setColumn(0, "count", 0);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) 
+{
+	const sFindRow = this.ds_head.findRow("제공일", fv_saveRefNo);
+	if (sFindRow > -1) 
+	{
+		this.ds_head.set_rowposition(sFindRow);
+		const date = this.ds_head.getColumn(sFindRow, "제공일");
+		const group = this.ds_head.getColumn(sFindRow, "제공그룹");
+		this.fn_searchDetail(date, group);
+	}
+	
+	return sFindRow;
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 작성자 버튼 클릭
+this.div_cont_div_right_div_main_btn_worker_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "제공일")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if (popid != "del")
+	{
+		if(Sct.Util.isEmpty(strDs)) return;
+	}
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "담당자01", name);
+				this.ds_data.setColumn(0, "담당코드01", staffid);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "담당자01", "");
+				this.ds_data.setColumn(0, "담당코드01", "");
+			}
+			break;
+		case "del" :
+			this.fn_search("search");
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "km_number")))
+	{
+		this.alert("일지를 선택해주세요.");
+		return;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00301_R01.jrf";
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + this.ds_data.getColumn(0, "제공일") + "#"
+			  + "P_GROUP#" + this.ds_data.getColumn(0, "제공그룹") + "#"
+			  + "P_SIGN#" + this.ds_report.getColumn(0, "SIGN") + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	const year = this.ds_search.getColumn(0, "DATE").substr(0,4);
+	const month = this.ds_search.getColumn(0, "DATE").substr(4);
+	const firstDay = new Date(year, month - 1 , 1);
+	const lastDay = new Date(year, month, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMonth = year + month;
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMonth);
+	
+	this.fn_search("search");
+};
+
+// 헤더 그리드 셀 클릭 이벤트
+this.div_cont_div_left_grd_head_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 운영일
+	const dateIdx = obj.getBindCellIndex("body", "제공일")
+	if (e.col == dateIdx)
+	{
+		const date = this.ds_head.getColumn(e.row, "제공일");
+		const group = this.ds_head.getColumn(e.row, "제공그룹");
+		
+		this.fn_searchDetail(date, group);
+	}
+};
+
+// 헤더 그리드 셀 더블클릭 이벤트
+this.div_cont_div_left_grd_head_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const noIdx = obj.getBindCellIndex("body", "일지번호");
+	if (e.col == noIdx)
+	{
+		const param = {
+			SICODE : fv_sicode
+		,	KM_NUMBER : this.ds_head.getColumn(e.row, "km_number")
+		};
+
+		Sct.popup(this, "del", 450, 400, "", param, "DAY_POP::DAY00301_P03.xfdl", "fn_popCallback");
+	}
+};
+
+// 작성일 변경 이벤트
+this.div_cont_div_right_div_main_cal_date_new_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 작성 패널 일부 초기화
+	this.fn_dsDataInit();
+};
+
+// 치료그룹 체크박스 체인지 이벤트
+this.chk_group_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) 
+	{
+		case "0" :
+			obj.set_value(e.prevalue);
+			break;
+		case "1" :
+			this.ds_data.setColumn(0, "group_b", 0);
+			this.ds_data.setColumn(0, "제공그룹", "A");
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "group_a", 0);
+			this.ds_data.setColumn(0, "제공그룹", "B");
+			break;
+		default:
+	}
+	
+	// 작성패널 일부 초기화
+	this.fn_dsDataInit();
+};
+
+// 물리(작업)치료운영일지 새로생성 버튼 클릭
+this.div_cont_div_right_div_main_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const date = this.ds_data.getColumn(0, "제공일");
+	const group = this.ds_data.getColumn(0, "제공그룹");
+	
+	// 일지 중복여부 확인
+	this.fn_searchData(date, group);
+	
+	// 일지 중복이 없으면
+	if (this.newFlag)
+	{
+		// 일지 새로작성 조회
+		this.fn_searchNew(date, group);
+	}
+};
+
+// 치료명 체크박스 체인지 이벤트
+this.chk_heal_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	// 상세그리드에 내용이 없으면 체크박스 선택 안되도록 하기
+	if (this.ds_detail.rowcount == 0)
+	{
+		obj.set_value(0);
+		return;
+	}
+	
+	// 체크박스 텍스트값이 유효하지 않으면 선택 안되도록 하기
+	if (obj.text.trim() == "")
+	{
+		obj.set_value(0);
+		return;
+	}
+	
+	// 해당 항목 전체 선택 or 전체 해제
+	const mainTxt = obj.text.trim();
+	for (let i = 0; i < this.ds_detail.rowcount; i++)
+	{
+		for (let j = 1; j <= 8; j++)
+		{
+			const txt = this.ds_detail.getColumn(i, "치료명0" + j);
+			if (mainTxt == txt)
+			{
+				this.ds_detail.setColumn(i, "참여0" + j, e.postvalue);
+			}
+		}
+	}
+};
+
+// 상세 그리드 데이터셋 컬럼 체인지 이벤트
+this.ds_detail_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	// 치료명이 없는경우 체크박스 선택 안되도록 하기
+	switch(e.columnid) 
+	{
+		case "참여01":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명01")))
+				obj.setColumn(e.row, "참여01", 0);
+			break;
+		case "참여02":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명02")))
+				obj.setColumn(e.row, "참여02", 0);
+			break;
+		case "참여03":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명03")))
+				obj.setColumn(e.row, "참여03", 0);
+			break;
+		case "참여04":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명04")))
+				obj.setColumn(e.row, "참여04", 0);
+			break;
+		case "참여05":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명05")))
+				obj.setColumn(e.row, "참여05", 0);
+			break;
+		case "참여06":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명06")))
+				obj.setColumn(e.row, "참여06", 0);
+			break;
+		case "참여07":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명07")))
+				obj.setColumn(e.row, "참여07", 0);
+			break;
+		case "참여08":
+			if (Sct.Util.isEmpty(obj.getColumn(e.row, "치료명08")))
+				obj.setColumn(e.row, "참여08", 0);
+			break;
+		default:
+	}
+};
+
+// 상세 그리드 셀 클릭 이벤트
+this.div_cont_div_right_div_main_grd_detail_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const hourIdx = obj.getBindCellIndex("body", "시작시간");
+	const endIdx = obj.getBindCellIndex("body", "종료시간");
+	
+	// 시작시
+	if (e.col == hourIdx)
+	{
+		this.div_time_from.__row = e.row;
+		this.div_time_from.__col = "시작시간";
+		this.div_time_from.__col2 = "종료시간";
+		this.div_time_from.__ds = "ds_detail";
+		this.div_time_from.set_visible(true);
+		this.div_time_from.setFocus();
+		this.div_time_to.set_visible(false);
+	}
+	
+	// 종료시
+	if (e.col == endIdx)
+	{
+		this.div_time_to.__row = e.row;
+		this.div_time_to.__col = "종료시간";
+		this.div_time_to.__col2 = "시작시간";
+		this.div_time_to.__ds = "ds_detail";
+		this.div_time_to.set_visible(true);
+		this.div_time_to.setFocus();
+		this.div_time_from.set_visible(false);
+	}
+};
+
+// 시작시간 선택 팝업 킬 포커스 이벤트
+this.div_time_from_onkillfocus = function(obj:nexacro.Div,e:nexacro.KillFocusEventInfo)
+{
+	obj.set_visible(false);
+};
+
+// 종료시간 선택 팝업 킬 포커스 이벤트
+this.div_time_to_onkillfocus = function(obj:nexacro.Div,e:nexacro.KillFocusEventInfo)
+{
+	obj.set_visible(false);
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item3" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.cal_date_new" propid="value" datasetid="ds_data" columnid="제공일"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.cal_date_new_pic" propid="value" datasetid="ds_data" columnid="제공일"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_worker_name" propid="text" datasetid="ds_data" columnid="담당자01"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_worker_code" propid="text" datasetid="ds_data" columnid="담당코드01"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.edt_work" propid="value" datasetid="ds_data" columnid="근무내용"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.txt_rmk" propid="value" datasetid="ds_data" columnid="특이사항"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.edt_count1" propid="value" datasetid="ds_data" columnid="count_all"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.edt_count2" propid="value" datasetid="ds_data" columnid="count"/>
+      <BindItem id="item14" compid="div_func.form.chk_sign" propid="value" datasetid="ds_report" columnid="SIGN"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="기록번호"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.chk_group1" propid="value" datasetid="ds_data" columnid="group_a"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.chk_group2" propid="value" datasetid="ds_data" columnid="group_b"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00601                                                         
+     * 프로그램 명     	: 6-1 프로그램 의견수렴현황                                                     
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-23 13:30        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00601_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00601">
+	<!-- 조회 -->
+    <select id="DAY00601_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00601_DS_LIST_S */
+			SELECT 
+			  '0' AS chk
+			, bpr.sicode    
+			, bpr.기록번호
+			, DATE_FORMAT(bpr.수렴일, '%Y%m%d') AS 수렴일
+			, bpr.수급코드
+			, bpr.수급자명
+			, bpr.영역구분
+			, (SELECT cod.s_value FROM vw_code_prog cod WHERE cod.s_code = bpr.영역구분) AS 영역구분명
+			, bpr.수렴내용
+			, bpr.반영내용
+			, bpr.작성코드
+			, bpr.작성자명
+			FROM base_prgch bpr
+			WHERE bpr.sicode = #{sicode}
+			AND bpr.수렴일 BETWEEN #{date_from} AND #{date_to}
+			<if test="name != null and name != ''">
+			AND bpr.수급자명 like CONCAT('%', #{name}, '%')
+			</if>
+			ORDER BY  bpr.수렴일 DESC
+					, bpr.수급자명
+			 		, bpr.기록번호
+    </select>
+</mapper>

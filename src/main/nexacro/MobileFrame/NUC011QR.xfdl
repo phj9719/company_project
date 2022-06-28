@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC011QR" width="480" height="768" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="이용약관 개인정보취급방침" onload="NUC011QR_onload" ondevicebuttonup="NUC011QR_ondevicebuttonup" background="#">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Static id="sta_main_title" taborder="0" text="스마트안심요양원&#13;&#10;서비스이용약관 및 개인정보처리방침" left="5.00%" top="26" height="60" verticalAlign="top" cssclass="sta_title" right="5.00%" letterSpacing="-1px" color="#082c71"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="TOS_TP" type="STRING" size="256"/>
+          <Column id="TOS_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_SUB_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_SUB_DATA_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_DATA" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC011QR
+ * 화면명   	: 이용약관 개인정보취급방침
+ * 화면설명 	: 이용약관 및 개인정보취급방침을 확인하는 화면
+ * 작성일    	: 2021-09-02
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC011QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	//조회조건
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	
+	//조회
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC011QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	let argument = "method=getList ";
+		argument += "sqlId=NUC011QR.NUC011QR_DS_LIST_S ";
+		
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 조회후 내용 그리기
+			this.fn_drawData();
+			this.resetScroll();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 이용약관 및 개인정보취급방침 내용 그리기
+this.fn_drawData = function()
+{
+	const left = "5%";
+	const right = "5%";
+	let top = 120;
+	let height;
+	let gap;	// 간격
+	
+	for(let i = 0; i < this.ds_list.rowcount; i++)
+	{
+		let staId;		// static id
+		let text;		// 내용
+		let objSize;	// 내용 사이즈 구하기
+		let font;		// 폰트
+		let align;		// 정렬
+		let color;		// 색
+		
+		// 제목
+		staId = "sta_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_TITLE");
+		font = "normal 700 16pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font);
+		align = "center";
+		color = "#082c71";
+		gap = 10;
+		top = top + (i == 0 ? 0 : height) + (i == 0 ? 0 : gap);
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 부제목
+		staId = "sta_sub_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_SUB_TITLE");
+		font = "normal 500 12pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font);
+		align = "center";
+		color = "#7d7f97";
+		top = top + height + gap;
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 보조내용제목
+		staId = "sta_sub_data_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_SUB_DATA_TITLE");
+		font = "normal 700 16pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font, 420, "char");
+		align = "left";
+		color = "#000000";
+		top = top + height + gap;
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 내용
+		staId = "sta_data" + i;
+		text = this.ds_list.getColumn(i, "TOS_DATA");
+		font = "normal 500 12pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font, 420, "char");
+		align = "left";
+		color = "#000000";
+		top = top + height + gap;
+		height = objSize.ny;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+	}
+};
+
+// 스태틱 생성
+this.fn_makeStatic = function(id, text, left, top, height, right, font, align, color)
+{
+	const objStatic = new Static();
+	objStatic.init(id, left, top, null, height, right, null);
+	objStatic.set_text(text);
+	objStatic.set_color(color);
+	objStatic.set_font(font);
+	objStatic.set_usedecorate(true);
+	objStatic.set_wordWrap("char");
+	objStatic.set_letterSpacing("-1px");
+	objStatic.set_verticalAlign("top");
+	objStatic.set_textAlign(align);
+	
+	this.addChild(id, objStatic);
+	
+	objStatic.show();
+};
+]]></Script>
+  </Form>
+</FDL>

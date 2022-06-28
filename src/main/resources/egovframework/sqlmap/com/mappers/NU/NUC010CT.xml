@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC010CT                                                         
+     * 프로그램 명     	: 모바일 마이페이지                                              
+     * Description 	: 모바일의 보호자 정보와 약관, 업데이트 확인 및 로그아웃
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-14 15:56     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        NUC010CT_PASS_RESET				비밀번호 초기화                                                                                    
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC010CT">
+	<!-- 비밀번호 초기화 -->
+	<update id="NUC010CT_PASS_RESET" parameterType="java.util.HashMap">
+	/* NUC010CT_PASS_RESET */
+		UPDATE
+				T_NU_RESIDENT
+		SET
+				APP_PW = #{DEFAULT_PASS}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+	</update>                                                                                                                                                                                 
+</mapper>                                                                                                                                                                                                          

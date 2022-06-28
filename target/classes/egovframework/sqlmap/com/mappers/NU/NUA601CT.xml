@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA601CT                                                         
+     * 프로그램 명     : 건강기록일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA601CT"> 
+	<!--SELECT  -->   
+	<select id="NUA601CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.CAR_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,A.CAR_DT
+					,A.LONG_TERM_CARE_NO
+					,A.CARE_TP
+					,A.DOCTOR_ID
+					,A.DOCTOR_NAME
+					,A.HOSPITAL_ID
+					,A.HOSPITAL_NAME
+					,A.SYMPTOM
+					,A.PAY_TP
+					,A.QUE_ID
+					,A.CAR_FR_TIME
+					,A.CAR_TO_TIME
+					,A.MED_EXP
+					,A.PHA_EXP
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_COMM_CARE_HEAD A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="CAR_SEQ != '' and CAR_SEQ != null">
+                    AND A.CAR_SEQ = #{CAR_SEQ}
+              </if>
+              <if test="RES_ID != '' and RES_ID != null">
+                    AND A.RES_ID = #{RES_ID}
+              </if>
+              <if test="CAR_DT != '' and CAR_DT != null">                    
+                    AND A.CAR_DT = #{CAR_DT}								                    				    			  	
+              </if>
+    </select> 
+	<select id="NUA601CT_DS_QUE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.QUE_ID
+					,A.QUE_NO
+					,A.QUE_DESC
+					,A.USE_YN
+					,A.QUE_TYPE
+					,A.OBJ_TP1
+					,A.TIT_TP1
+					,A.TIT_VALUE1
+					,A.OBJ_TP2
+					,A.TIT_TP2
+					,A.TIT_VALUE2
+					,A.OBJ_TP3
+					,A.TIT_TP3
+					,A.TIT_VALUE3
+					,A.OBJ_TP4
+					,A.TIT_TP4
+					,A.TIT_VALUE4
+					,A.OBJ_TP5
+					,A.TIT_TP5
+					,A.TIT_VALUE5
+					,A.OBJ_TP6
+					,A.TIT_TP6
+					,A.TIT_VALUE6
+					,A.OBJ_TP7
+					,A.TIT_TP7
+					,A.TIT_VALUE7
+					,A.OBJ_TP8
+					,A.TIT_TP8
+					,A.TIT_VALUE8
+					,A.OBJ_TP9
+					,A.TIT_TP9
+					,A.TIT_VALUE9
+					,A.OBJ_TP10
+					,A.TIT_TP10
+					,A.TIT_VALUE10
+					,A.OBJ_TP11
+					,A.TIT_TP11
+					,A.TIT_VALUE11
+					,A.OBJ_TP12
+					,A.TIT_TP12
+					,A.TIT_VALUE12
+					,A.OBJ_TP13
+					,A.TIT_TP13
+					,A.TIT_VALUE13
+					,A.OBJ_TP14
+					,A.TIT_TP14
+					,A.TIT_VALUE14
+					,A.OBJ_TP15
+					,A.TIT_TP15
+					,A.TIT_VALUE15
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_COMM_CARE_QUE_DETAIL A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+               	 AND A.QUE_ID = (SELECT MAX(QH.QUE_ID)
+                    			   FROM T_NU_COMM_CARE_QUE_HEAD QH
+                    			  WHERE QH.COMPANY_CD = #{COMPANY_CD}
+                    				AND QH.USE_YN = 'Y') 
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+                                                                                                                                                                                                                                                                                                                                                                                   
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA601CT_DS_HEAD_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_COMM_CARE_HEAD (                                                                                                                                                                                 
+					         COMPANY_CD
+							,CAR_SEQ
+							,RES_ID
+							,CAR_DT
+							,LONG_TERM_CARE_NO
+							,CARE_TP
+							,DOCTOR_ID
+							,DOCTOR_NAME
+							,HOSPITAL_ID
+							,HOSPITAL_NAME
+							,SYMPTOM
+							,PAY_TP
+							,QUE_ID
+							,CAR_FR_TIME
+							,CAR_TO_TIME
+							,MED_EXP
+							,PHA_EXP
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					       #{COMPANY_CD}
+							,#{CAR_SEQ           }
+							,#{RES_ID            }
+							,#{CAR_DT            }
+							,#{LONG_TERM_CARE_NO }
+							,#{CARE_TP           }
+							,#{DOCTOR_ID         }
+							,#{DOCTOR_NAME       }
+							,#{HOSPITAL_ID		 }
+							,#{HOSPITAL_NAME	 }
+							,#{SYMPTOM           }
+							,#{PAY_TP            }
+							,#{QUE_ID            }
+							,#{CAR_FR_TIME       }
+							,#{CAR_TO_TIME       }
+							,#{MED_EXP           }
+							,#{PHA_EXP           }
+							,#{REG_PGM_ID        }
+							,#{REG_USER          }
+							,#{REG_DT            }
+							,#{REG_DT_CURR       }
+							,#{REG_DT_LOC        }
+							,#{REG_IP            }
+							,#{MOD_PGM_ID        }
+							,#{MOD_USER          }
+							,#{MOD_DT            }
+							,#{MOD_DT_CURR       }
+							,#{MOD_DT_LOC        }
+							,#{MOD_IP            }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+    <select id="NUA601CT_CAR_SEQ" parameterType="java.util.HashMap" resultType="java.lang.String">
+          <![CDATA[
+			 
+			SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_COMM_CARE_HEAD ),12,0)) AS CAR_SEQ
+			  FROM DUAL  
+			 
+			 
+          ]]>
+	</select>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA601CT_DS_HEAD_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_COMM_CARE_HEAD                                                                                                                                                                                              
+						 SET RES_ID             = #{RES_ID            }
+							,CAR_DT             = #{CAR_DT            }
+							,LONG_TERM_CARE_NO  = #{LONG_TERM_CARE_NO }
+							,CARE_TP            = #{CARE_TP           }
+							,DOCTOR_ID          = #{DOCTOR_ID         }
+							,DOCTOR_NAME        = #{DOCTOR_NAME       }
+							,HOSPITAL_ID		= #{OSPITAL_ID		  }
+							,HOSPITAL_NAME      = #{HOSPITAL_NAME     }
+							,SYMPTOM            = #{SYMPTOM           }
+							,PAY_TP             = #{PAY_TP            }
+							,QUE_ID             = #{QUE_ID            }
+							,CAR_FR_TIME        = #{CAR_FR_TIME       }
+							,CAR_TO_TIME        = #{CAR_TO_TIME       }
+							,MED_EXP            = #{MED_EXP           }
+							,PHA_EXP            = #{PHA_EXP           }
+							,MOD_PGM_ID         = #{MOD_PGM_ID        }
+							,MOD_USER           = #{MOD_USER          }
+							,MOD_DT             = #{MOD_DT            }
+							,MOD_DT_CURR        = #{MOD_DT_CURR       }
+							,MOD_DT_LOC         = #{MOD_DT_LOC        }
+							,MOD_IP             = #{MOD_IP            }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       AND CAR_SEQ    = #{CAR_SEQ   }
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA601CT_DS_HEAD_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_COMM_CARE_HEAD
+                 WHERE COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                   AND CAR_SEQ  = #{CAR_SEQ};
+                
+           DELETE FROM T_NU_COMM_CARE_DELTAIL
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND CAR_SEQ  = #{CAR_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    <!-- DETAIL SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA601CT_DS_CARE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+							,A.CAR_SEQ
+							,A.QUE_NO
+							,A.QUE_DESC
+							,A.QUE_TYPE
+							,A.OBJ_TP1
+							,A.OBJ_VALUE1
+							,A.TIT_TP1
+							,A.TIT_VALUE1
+							,A.OBJ_TP2
+							,A.OBJ_VALUE2
+							,A.TIT_TP2
+							,A.TIT_VALUE2
+							,A.OBJ_TP3
+							,A.OBJ_VALUE3
+							,A.TIT_TP3
+							,A.TIT_VALUE3
+							,A.OBJ_TP4
+							,A.OBJ_VALUE4
+							,A.TIT_TP4
+							,A.TIT_VALUE4
+							,A.OBJ_TP5
+							,A.OBJ_VALUE5
+							,A.TIT_TP5
+							,A.TIT_VALUE5
+							,A.OBJ_TP6
+							,A.OBJ_VALUE6
+							,A.TIT_TP6
+							,A.TIT_VALUE6
+							,A.OBJ_TP7
+							,A.OBJ_VALUE7
+							,A.TIT_TP7
+							,A.TIT_VALUE7
+							,A.OBJ_TP8
+							,A.OBJ_VALUE8
+							,A.TIT_TP8
+							,A.TIT_VALUE8
+							,A.OBJ_TP9
+							,A.OBJ_VALUE9
+							,A.TIT_TP9
+							,A.TIT_VALUE9
+							,A.OBJ_TP10
+							,A.OBJ_VALUE10
+							,A.TIT_TP10
+							,A.TIT_VALUE10
+							,A.OBJ_TP11
+							,A.OBJ_VALUE11
+							,A.TIT_TP11
+							,A.TIT_VALUE11
+							,A.OBJ_TP12
+							,A.OBJ_VALUE12
+							,A.TIT_TP12
+							,A.TIT_VALUE12
+							,A.OBJ_TP13
+							,A.OBJ_VALUE13
+							,A.TIT_TP13
+							,A.TIT_VALUE13
+							,A.OBJ_TP14
+							,A.OBJ_VALUE14
+							,A.TIT_TP14
+							,A.TIT_VALUE14
+							,A.OBJ_TP15
+							,A.OBJ_VALUE15
+							,A.TIT_TP15
+							,A.TIT_VALUE15
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_NU_COMM_CARE_DELTAIL A                                                                                                                                                                                      
+             		 WHERE 1=1 
+               		   AND A.COMPANY_CD = #{COMPANY_CD}
+               		   AND A.CAR_SEQ	= #{CAR_SEQ}
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!--INSERT  -->                                                                                                                                                            
+	<insert id="NUA601CT_DS_QUE_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_COMM_CARE_DELTAIL (                                                                                                                                                                                 
+					         COMPANY_CD
+							,CAR_SEQ
+							,QUE_NO
+							,QUE_DESC
+							,QUE_TYPE
+							,OBJ_TP1
+							,OBJ_VALUE1
+							,TIT_TP1
+							,TIT_VALUE1
+							,OBJ_TP2
+							,OBJ_VALUE2
+							,TIT_TP2
+							,TIT_VALUE2
+							,OBJ_TP3
+							,OBJ_VALUE3
+							,TIT_TP3
+							,TIT_VALUE3
+							,OBJ_TP4
+							,OBJ_VALUE4
+							,TIT_TP4
+							,TIT_VALUE4
+							,OBJ_TP5
+							,OBJ_VALUE5
+							,TIT_TP5
+							,TIT_VALUE5
+							,OBJ_TP6
+							,OBJ_VALUE6
+							,TIT_TP6
+							,TIT_VALUE6
+							,OBJ_TP7
+							,OBJ_VALUE7
+							,TIT_TP7
+							,TIT_VALUE7
+							,OBJ_TP8
+							,OBJ_VALUE8
+							,TIT_TP8
+							,TIT_VALUE8
+							,OBJ_TP9
+							,OBJ_VALUE9
+							,TIT_TP9
+							,TIT_VALUE9
+							,OBJ_TP10
+							,OBJ_VALUE10
+							,TIT_TP10
+							,TIT_VALUE10
+							,OBJ_TP11
+							,OBJ_VALUE11
+							,TIT_TP11
+							,TIT_VALUE11
+							,OBJ_TP12
+							,OBJ_VALUE12
+							,TIT_TP12
+							,TIT_VALUE12
+							,OBJ_TP13
+							,OBJ_VALUE13
+							,TIT_TP13
+							,TIT_VALUE13
+							,OBJ_TP14
+							,OBJ_VALUE14
+							,TIT_TP14
+							,TIT_VALUE14
+							,OBJ_TP15
+							,OBJ_VALUE15
+							,TIT_TP15
+							,TIT_VALUE15
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					    	#{COMPANY_CD  }
+							,#{CAR_SEQ     }
+							,#{QUE_NO      }
+							,#{QUE_DESC    }
+							,#{QUE_TYPE    }
+							,#{OBJ_TP1     }
+							,#{OBJ_VALUE1  }
+							,#{TIT_TP1     }
+							,#{TIT_VALUE1  }
+							,#{OBJ_TP2     }
+							,#{OBJ_VALUE2  }
+							,#{TIT_TP2     }
+							,#{TIT_VALUE2  }
+							,#{OBJ_TP3     }
+							,#{OBJ_VALUE3  }
+							,#{TIT_TP3     }
+							,#{TIT_VALUE3  }
+							,#{OBJ_TP4     }
+							,#{OBJ_VALUE4  }
+							,#{TIT_TP4     }
+							,#{TIT_VALUE4  }
+							,#{OBJ_TP5     }
+							,#{OBJ_VALUE5  }
+							,#{TIT_TP5     }
+							,#{TIT_VALUE5  }
+							,#{OBJ_TP6     }
+							,#{OBJ_VALUE6  }
+							,#{TIT_TP6     }
+							,#{TIT_VALUE6  }
+							,#{OBJ_TP7     }
+							,#{OBJ_VALUE7  }
+							,#{TIT_TP7     }
+							,#{TIT_VALUE7  }
+							,#{OBJ_TP8     }
+							,#{OBJ_VALUE8  }
+							,#{TIT_TP8     }
+							,#{TIT_VALUE8  }
+							,#{OBJ_TP9     }
+							,#{OBJ_VALUE9  }
+							,#{TIT_TP9     }
+							,#{TIT_VALUE9  }
+							,#{OBJ_TP10    }
+							,#{OBJ_VALUE10 }
+							,#{TIT_TP10    }
+							,#{TIT_VALUE10 }
+							,#{OBJ_TP11    }
+							,#{OBJ_VALUE11 }
+							,#{TIT_TP11    }
+							,#{TIT_VALUE11 }
+							,#{OBJ_TP12    }
+							,#{OBJ_VALUE12 }
+							,#{TIT_TP12    }
+							,#{TIT_VALUE12 }
+							,#{OBJ_TP13    }
+							,#{OBJ_VALUE13 }
+							,#{TIT_TP13    }
+							,#{TIT_VALUE13 }
+							,#{OBJ_TP14    }
+							,#{OBJ_VALUE14 }
+							,#{TIT_TP14    }
+							,#{TIT_VALUE14 }
+							,#{OBJ_TP15    }
+							,#{OBJ_VALUE15 }
+							,#{TIT_TP15    }
+							,#{TIT_VALUE15 }
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+							,#{MOD_PGM_ID  }
+							,#{MOD_USER    }
+							,#{MOD_DT      }
+							,#{MOD_DT_CURR }
+							,#{MOD_DT_LOC  }
+							,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA601CT_DS_QUE_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			          UPDATE T_NU_COMM_CARE_DELTAIL                                                                                                                                                                                              
+					     SET QUE_DESC   = #{QUE_DESC    }
+							,QUE_TYPE   = #{QUE_TYPE    }
+							,OBJ_TP1    = #{OBJ_TP1     }
+							,OBJ_VALUE1 = #{OBJ_VALUE1  }
+							,TIT_TP1    = #{TIT_TP1     }
+							,TIT_VALUE1 = #{TIT_VALUE1  }
+							,OBJ_TP2    = #{OBJ_TP2     }
+							,OBJ_VALUE2 = #{OBJ_VALUE2  }
+							,TIT_TP2    = #{TIT_TP2     }
+							,TIT_VALUE2 = #{TIT_VALUE2  }
+							,OBJ_TP3    = #{OBJ_TP3     }
+							,OBJ_VALUE3 = #{OBJ_VALUE3  }
+							,TIT_TP3    = #{TIT_TP3     }
+							,TIT_VALUE3 = #{TIT_VALUE3  }
+							,OBJ_TP4    = #{OBJ_TP4     }
+							,OBJ_VALUE4 = #{OBJ_VALUE4  }
+							,TIT_TP4    = #{TIT_TP4     }
+							,TIT_VALUE4 = #{TIT_VALUE4  }
+							,OBJ_TP5    = #{OBJ_TP5     }
+							,OBJ_VALUE5 = #{OBJ_VALUE5  }
+							,TIT_TP5    = #{TIT_TP5     }
+							,TIT_VALUE5 = #{TIT_VALUE5  }
+							,OBJ_TP6    = #{OBJ_TP6     }
+							,OBJ_VALUE6 = #{OBJ_VALUE6  }
+							,TIT_TP6    = #{TIT_TP6     }
+							,TIT_VALUE6 = #{TIT_VALUE6  }
+							,OBJ_TP7    = #{OBJ_TP7     }
+							,OBJ_VALUE7 = #{OBJ_VALUE7  }
+							,TIT_TP7    = #{TIT_TP7     }
+							,TIT_VALUE7 = #{TIT_VALUE7  }
+							,OBJ_TP8    = #{OBJ_TP8     }
+							,OBJ_VALUE8 = #{OBJ_VALUE8  }
+							,TIT_TP8    = #{TIT_TP8     }
+							,TIT_VALUE8 = #{TIT_VALUE8  }
+							,OBJ_TP9    = #{OBJ_TP9     }
+							,OBJ_VALUE9 = #{OBJ_VALUE9  }
+							,TIT_TP9    = #{TIT_TP9     }
+							,TIT_VALUE9 = #{TIT_VALUE9  }
+							,OBJ_TP10   = #{OBJ_TP10    }
+							,OBJ_VALUE10= #{OBJ_VALUE10 }
+							,TIT_TP10   = #{TIT_TP10    }
+							,TIT_VALUE10= #{TIT_VALUE10 }
+							,OBJ_TP11   = #{OBJ_TP11    }
+							,OBJ_VALUE11= #{OBJ_VALUE11 }
+							,TIT_TP11   = #{TIT_TP11    }
+							,TIT_VALUE11= #{TIT_VALUE11 }
+							,OBJ_TP12   = #{OBJ_TP12    }
+							,OBJ_VALUE12= #{OBJ_VALUE12 }
+							,TIT_TP12   = #{TIT_TP12    }
+							,TIT_VALUE12= #{TIT_VALUE12 }
+							,OBJ_TP13   = #{OBJ_TP13    }
+							,OBJ_VALUE13= #{OBJ_VALUE13 }
+							,TIT_TP13   = #{TIT_TP13    }
+							,TIT_VALUE13= #{TIT_VALUE13 }
+							,OBJ_TP14   = #{OBJ_TP14    }
+							,OBJ_VALUE14= #{OBJ_VALUE14 }
+							,TIT_TP14   = #{TIT_TP14    }
+							,TIT_VALUE14= #{TIT_VALUE14 }
+							,OBJ_TP15   = #{OBJ_TP15    }
+							,OBJ_VALUE15= #{OBJ_VALUE15 }
+							,TIT_TP15   = #{TIT_TP15    }
+							,TIT_VALUE15= #{TIT_VALUE15 }
+							,REG_PGM_ID = #{REG_PGM_ID  }
+							,REG_USER   = #{REG_USER    }
+							,REG_DT     = #{REG_DT      }
+							,REG_DT_CURR= #{REG_DT_CURR }
+							,REG_DT_LOC = #{REG_DT_LOC  }
+							,REG_IP     = #{REG_IP      }
+							,MOD_PGM_ID = #{MOD_PGM_ID  }
+							,MOD_USER   = #{MOD_USER    }
+							,MOD_DT     = #{MOD_DT      }
+							,MOD_DT_CURR= #{MOD_DT_CURR }
+							,MOD_DT_LOC = #{MOD_DT_LOC  }
+							,MOD_IP     = #{MOD_IP      }
+			         WHERE 1=1                                                                                                                                                                                      
+                       AND COMPANY_CD = #{COMPANY_CD}
+                       AND CAR_SEQ  = #{CAR_SEQ}
+                       AND QUE_NO   = #{QUE_NO }
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<select id="NUA601CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.PRE_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,A.FROM_DT
+					,A.TO_DT
+					,A.MED_NM
+					,A.MED_CD
+					,A.ONE_DOSE
+					,A.DAILY_DOSE_CNT
+					,A.REGULAR_YN
+					,A.DOSE_TP
+					,A.BREAKFAST_YN
+					,A.LUNCH_YN
+					,A.DINNNER_YN
+					,A.BED_YN
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+					,A.FILE_GRP_ID
+					,(SELECT CONCAT(#{URL},CF.FILE_REAL_NAME)
+						FROM T_CM_FILE CF
+					   WHERE CF.COMPANY_CD = A.COMPANY_CD
+					   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID
+					   	 AND CF.DELETE_YN = 'N'
+					   	 LIMIT 1) AS FILE_REAL_NAME
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_PREDISCRIPTION A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="RES_ID != '' and RES_ID != null">
+                    AND A.RES_ID = #{RES_ID}
+              </if>
+              <if test="DT != '' and DT != null">                    
+                    AND A.TO_DT BETWEEN DATE_FORMAT(DATE_ADD(#{DT},INTERVAL -2 WEEK),'%Y%m%d')AND '99991231'
+                    AND A.FROM_DT <![CDATA[<=]]>#{DT}
+              </if>
+               ORDER BY A.FROM_DT ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select> 
+
+    <select id="NUA601CT_DS_CARE_TP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT CMCD AS CMCD
+				      ,CMNM AS CMNM
+				  FROM T_CM_CODE
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND GRP_CD = 'NU_COMM_CARE_TP'
+     ]]>                                                                                                                                                                 
+    </select>
+    <select id="NUA601CT_DS_CARE_PAY_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT CMCD AS CMCD
+				      ,CMNM AS CMNM
+				  FROM T_CM_CODE
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND GRP_CD = 'NU_COMM_CARE_PAY'
+     ]]>                                                                                                                                                                 
+    </select>
+    <select id="NUA601CT_DS_CHART_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	          SELECT DATE_FORMAT(A.HEA_DT,'%y년%m월%d일') AS HEA_DT
+					,A.PRE_H
+					,A.PRE_L
+					,A.PULSE
+					,A.SUGAR_FBS
+					,A.SUGAR_PP2
+			FROM T_NU_HEALTH_CHECK A
+     	   WHERE A.COMPANY_CD = #{COMPANY_CD}
+     	   	 AND A.RES_ID = #{RES_ID}
+     	   	 AND A.HEA_DT BETWEEN DATE_FORMAT(DATE_ADD(#{DT},INTERVAL -2 WEEK),'%Y%m%d') AND #{DT}
+     	ORDER BY A.HEA_DT ASC
+     ]]>                                                                                                                                                                 
+    </select>
+</mapper>                                                                                                                                                                                                          

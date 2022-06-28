@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00110
+     * 프로그램 명     	: 1-10 수급자 상태설정
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-13 10:00        	|  이성탄		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00110_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00110">
+	<!-- 조회 -->
+    <select id="DAY00110_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00110_DS_LIST_S */
+				SELECT 
+					m.sicode
+			    	, m.m_code
+			  		, m.m_group
+			  		, m.m_name
+			  		, m.m_age
+		     		, m.sex_nm
+				    , m.meal_type
+			     	, SUBSTRING(m.to_type_06,1,(CHAR_LENGTH(m.to_type_06)-2)) AS to_type_06
+			     	, m.to_type AS 기능장애
+			  		, m.b_type1_nm AS 변의장애
+			  		, m.b_type2_nm AS 뇨의장애
+					, m.b_type3_nm AS 보조기구
+					, m.drugtime AS 투약전달시간
+			  		, NULLIF(m.신장, '0') AS 신장 
+			  		, NULLIF(m.체중, '0.0') AS 체중
+			  		, m.혈액형
+			  		, m.침실사용
+			  		, m.r_type1_nm AS 상급침실
+			  		, m.종교
+			  		, m.type_31_01 AS 바이탈
+					, m.type_31_02 AS 투약관리
+					, m.type_32_01 AS 욕창간호
+					, m.type_32_02 AS 배설간호
+					, m.type_32_03 AS 비위관
+					, m.type_32_04 AS 도뇨관
+			  		FROM ( SELECT bm.sicode
+			     	, bm.m_code
+			  		, bm.m_group
+			  		, bm.m_name
+			     	, bm.성별 AS sex_nm
+			     	, FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+			              WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+			             WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+			             ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS m_age
+			     	, bm.식사종류
+			     	, (CASE WHEN bm.식사종류 = '1' THEN '일반식' 
+			     	WHEN bm.식사종류 = '2' THEN '죽식' 
+			    	WHEN bm.식사종류 = '3' THEN '유동식(미음)' 
+			     	ELSE '' END) AS meal_type
+			     	, bm.기능장애
+			     	, SUBSTRING(bm.기능장애,1,1) AS to_01
+				    , SUBSTRING(bm.기능장애,2,1) AS to_02
+			     	, SUBSTRING(bm.기능장애,3,1) AS to_03
+			     	, SUBSTRING(bm.기능장애,4,1) AS to_04
+			     	, SUBSTRING(bm.기능장애,5,1) AS to_05
+			
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,1,1) = '1' THEN '저작곤란'
+			          	WHEN SUBSTRING(bm.기능장애,2,1) = '1' THEN '연하곤란'  
+			  		  	WHEN SUBSTRING(bm.기능장애,3,1) = '1' THEN '소화불량'  
+			    		WHEN SUBSTRING(bm.기능장애,4,1) = '1' THEN '당뇨'  
+			 			WHEN SUBSTRING(bm.기능장애,5,1) = '1' THEN '위관영양'  
+			  		ELSE '' END) AS to_type
+			
+				    , (CASE WHEN SUBSTRING(bm.기능장애,1,1) = '1' THEN '저작곤란'
+			  		ELSE '' END) AS to_type_01
+			    	, (CASE WHEN SUBSTRING(bm.기능장애,2,1) = '1' THEN '연하곤란' 
+			  		ELSE '' END) AS to_type_02
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,3,1) = '1' THEN '소화불량'
+			  		ELSE '' END) AS to_type_03
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,4,1) = '1' THEN '당뇨'
+			  		ELSE '' END) AS to_type_04
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,5,1) = '1' THEN '위관영양'
+			  		ELSE '' END) AS to_type_05
+			
+			     	, CONCAT((CASE WHEN SUBSTRING(bm.기능장애,1,1) = '1' THEN '저작곤란, '
+			    	ELSE '' END)
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,2,1) = '1' THEN '연하곤란, ' 
+			  		ELSE '' END)
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,3,1) = '1' THEN '소화불량, '
+			  		ELSE '' END)
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,4,1) = '1' THEN '당뇨, '
+			  		ELSE '' END)
+			     	, (CASE WHEN SUBSTRING(bm.기능장애,5,1) = '1' THEN '위관영양, '
+			  		ELSE '' END)
+			     	) AS to_type_06
+			
+			       
+			     	, bm.배설변의 AS b_type1
+			     	, (CASE WHEN bm.배설변의 = '1' THEN '있다'
+			      	WHEN bm.배설변의 = '2' THEN '없다'
+			      	ELSE '' END) AS b_type1_nm
+			     	, bm.배설뇨의 AS b_type2
+			     	, (CASE WHEN bm.배설뇨의 = '1' THEN '있다'
+			      	WHEN bm.배설뇨의 = '2' THEN '없다'
+			      	ELSE '' END) AS b_type2_nm
+			     	, bm.배설보조 AS b_type3
+			     	, (CASE WHEN bm.배설보조 = '1' THEN '인공장루(요루)'
+			      	WHEN bm.배설보조 = '2' THEN '유치도뇨관'
+			      	WHEN bm.배설보조 = '3' THEN '기저귀착용'
+			      	WHEN bm.배설보조 = '4' THEN '도뇨관+기저귀'      
+			      	ELSE '' END) AS b_type3_nm     
+			  		, bm.drugtime
+			  		, bm.신장
+			  		, bm.체중
+			  		, bm.혈액형
+			  		, bm.침실사용
+			  		, (CASE WHEN bm.침실사용 = '1' THEN '상급'
+			      		ELSE '일반' END) AS r_type1_nm
+			  		, bm.종교
+			  		, bm.추가시분
+			     	, SUBSTRING(bm.추가시분,1,2) AS type_31_01
+			     	, SUBSTRING(bm.추가시분,3,2) AS type_31_02
+			     	, SUBSTRING(bm.추가시분,5,2) AS type_32_01
+			     	, SUBSTRING(bm.추가시분,7,2) AS type_32_02
+			     	, SUBSTRING(bm.추가시분,9,2) AS type_32_03
+			     	, SUBSTRING(bm.추가시분,11,2) AS type_32_04       
+			 		-- , bm.*    
+			  		FROM base_mate bm
+					WHERE bm.sicode = #{sicode}
+ 					AND CURRENT_DATE BETWEEN bm.m_enday AND bm.m_reday
+    				) m
+					ORDER BY m.m_name
+					
+    </select>
+</mapper>

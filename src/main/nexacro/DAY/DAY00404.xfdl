@@ -1,0 +1,1475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00404" width="1920" height="800" titletext="4-4 송영 일정표·제공계획서(매월)" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" right="0" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" left="0" top="30" width="400" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="1" left="0" top="0" bottom="0" binddataset="ds_list" right="0" autofittype="col" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:거주현황"/>
+                            <Cell col="1" text="bind:m_group"/>
+                            <Cell col="2" text="bind:m_name" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                            <Cell col="3" text="bind:성별"/>
+                            <Cell col="4" text="bind:등급"/>
+                            <Cell col="5" text="bind:m_roomname"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" text="div_00" left="div_left:5" top="30" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_mate" taborder="0" text="div_00" left="0" top="0" height="105" right="0">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_pic" taborder="0" left="0" top="0" width="90" height="100"/>
+                          <Static id="sta_head1" taborder="1" text="수급자명" left="91" top="0" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="2" left="173" top="0" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_head2" taborder="3" left="91" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="생 활 실"/>
+                          <Static id="sta_body2" taborder="4" left="173" top="33" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_head2_1" taborder="5" left="421" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="케어그룹"/>
+                          <Static id="sta_head1_1" taborder="6" left="421" top="0" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="성별·생일"/>
+                          <Static id="sta_roomname" taborder="7" text="생활실" left="191" top="41" width="119" height="19"/>
+                          <Static id="sta_group" taborder="8" text="A" left="521" top="41" width="69" height="19"/>
+                          <Static id="sta_sex" taborder="9" text="남" left="521" top="8" width="39" height="19"/>
+                          <Static id="sta_birth" taborder="10" text="38-08-11" left="601" top="8" width="79" height="19"/>
+                          <Static id="sta_mname" taborder="11" text="이동철" left="191" top="8" width="69" height="19"/>
+                          <Static id="sta_mcode" taborder="12" text="20210004" left="291" top="8" width="79" height="19"/>
+                          <Static id="sta_head3" taborder="13" left="91" top="66" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="자택주소"/>
+                          <Static id="sta_body3" taborder="14" left="173" top="66" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_addr" taborder="15" text="2022년 12월" left="191" top="74" height="19" right="20"/>
+                          <Static id="sta_head1_2" taborder="16" left="751" top="0" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="입 소 일"/>
+                          <Static id="sta_head1_3" taborder="17" left="1091" top="0" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="인정번호"/>
+                          <Static id="sta_head2_2" taborder="18" left="751" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="퇴 소 일"/>
+                          <Static id="sta_head2_3" taborder="19" left="1091" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="인정등급"/>
+                          <Static id="sta_enday" taborder="20" text="2021.10.12" left="851" top="8" width="69" height="19"/>
+                          <Static id="sta_reday" taborder="21" text="2021.10.12" left="851" top="41" width="69" height="19" color="red"/>
+                          <Static id="sta_enday00" taborder="22" text="L2106093441-100" left="1191" top="8" width="129" height="19"/>
+                          <Static id="sta_group00" taborder="23" text="5등급" left="1191" top="41" width="69" height="19"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_mon" taborder="1" text="div_mon" left="0" top="105" width="900" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_head1" taborder="0" text="미이용일" left="0" top="0" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="1" left="82" top="0" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_head2" taborder="2" text="년월" left="0" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body2" taborder="3" left="82" top="33" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_head2_1" taborder="4" text="제공일수" left="570" top="33" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Edit id="edt_notIn1" taborder="5" left="94" top="5" width="40" height="25" textAlign="right" inputtype="digit" maxlength="2" onchanged="edt_notIn_onchanged"/>
+                          <Edit id="edt_notIn2" taborder="6" left="139" top="5" width="40" height="25" textAlign="right" inputtype="digit" maxlength="2" onchanged="edt_notIn_onchanged"/>
+                          <Edit id="edt_notIn3" taborder="7" left="184" top="5" width="40" height="25" textAlign="right" inputtype="digit" maxlength="2" onchanged="edt_notIn_onchanged"/>
+                          <Edit id="edt_notIn4" taborder="8" left="229" top="5" width="40" height="25" textAlign="right" inputtype="digit" maxlength="2" onchanged="edt_notIn_onchanged"/>
+                          <Edit id="edt_notIn5" taborder="9" left="274" top="5" width="40" height="25" textAlign="right" inputtype="digit" maxlength="2" onchanged="edt_notIn_onchanged"/>
+                          <Static id="sta_remark" taborder="10" text="◀ 미이용일 - 5일까지 지정" left="321" top="8" width="169" height="19" color="#400080"/>
+                          <Static id="sta_yearMon" taborder="11" text="년월" left="191" top="38" width="189" height="25" textAlign="center" font="normal 13pt/normal &quot;Noto Sans KR&quot;" background="#f7fcff" border="1px solid #f2f2f1"/>
+                          <Static id="sta_day" taborder="12" text="30" left="771" top="38" width="50" height="25" textAlign="center" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" background="#f7fcff" border="1px solid #f2f2f1"/>
+                          <Div id="div_cal" taborder="13" text="div_cal" left="0" top="70" right="0" bottom="0">
+                            <Layouts>
+                              <Layout>
+                                <Grid id="grd_cal" taborder="0" left="0" top="0" right="0" autofittype="col" binddataset="ds_cal" bottom="30" selecttype="cell" oncelldblclick="div_cont_div_right_div_mon_div_cal_grd_cal_oncelldblclick" oncellclick="div_cont_div_right_div_mon_div_cal_grd_cal_oncellclick">
+                                  <Formats>
+                                    <Format id="default">
+                                      <Columns>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                        <Column size="130"/>
+                                      </Columns>
+                                      <Rows>
+                                        <Row size="25" band="head"/>
+                                        <Row size="25"/>
+                                        <Row size="27"/>
+                                        <Row size="27"/>
+                                      </Rows>
+                                      <Band id="head">
+                                        <Cell text="일요일" background="#ffdbca"/>
+                                        <Cell col="1" text="월요일" background="#fbfeff"/>
+                                        <Cell col="2" text="화요일" background="#fbfeff"/>
+                                        <Cell col="3" text="수요일" background="#fbfeff"/>
+                                        <Cell col="4" text="목요일" background="#fbfeff"/>
+                                        <Cell col="5" text="금요일" background="#fbfeff"/>
+                                        <Cell col="6" text="토요일" background="#f7fcff"/>
+                                      </Band>
+                                      <Band id="body">
+                                        <Cell rowspan="3" cursor="pointer">
+                                          <Cell text="bind:sun" textAlign="left"/>
+                                          <Cell row="1" text="bind:suntext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:suntext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="1" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:mon" textAlign="left"/>
+                                          <Cell row="1" text="bind:montext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:montext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="2" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:tue" textAlign="left"/>
+                                          <Cell row="1" text="bind:tuetext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:tuetext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="3" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:wed" textAlign="left"/>
+                                          <Cell row="1" text="bind:wedtext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:wedtext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="4" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:thu" textAlign="left"/>
+                                          <Cell row="1" text="bind:thutext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:thutext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="5" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:fri" textAlign="left"/>
+                                          <Cell row="1" text="bind:fritext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:fritext2" textAlign="left"/>
+                                        </Cell>
+                                        <Cell col="6" rowspan="3" cursor="pointer">
+                                          <Cell text="bind:sat" textAlign="left"/>
+                                          <Cell row="1" text="bind:sattext1" textAlign="left"/>
+                                          <Cell row="2" text="bind:sattext2" textAlign="left"/>
+                                        </Cell>
+                                      </Band>
+                                    </Format>
+                                  </Formats>
+                                </Grid>
+                                <Static id="sta_remark" taborder="1" text="▲ 송영정보를 지우시려면 해당일 항목을 더블클릭 !" left="11" top="518" width="319" height="19" color="#400080"/>
+                              </Layout>
+                            </Layouts>
+                          </Div>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_plan" taborder="2" text="div_plan" left="div_mon:5" top="105" right="0" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_head3" taborder="0" left="9" top="73" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="이용시간"/>
+                          <Static id="sta_body3" taborder="1" left="91" top="73" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4" taborder="2" left="9" top="106" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="월요일"/>
+                          <Static id="sta_body4" taborder="3" left="91" top="106" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head5" taborder="4" left="9" top="139" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="화요일"/>
+                          <Static id="sta_body5" taborder="5" left="91" top="139" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head3_1" taborder="6" left="379" top="73" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="이용차량"/>
+                          <Static id="sta_head6" taborder="7" left="9" top="172" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="수요일"/>
+                          <Static id="sta_body6" taborder="8" left="91" top="172" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head7" taborder="9" left="9" top="205" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="목요일"/>
+                          <Static id="sta_body7" taborder="10" left="91" top="205" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head8" taborder="11" left="9" top="238" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="금요일"/>
+                          <Static id="sta_body8" taborder="12" left="91" top="238" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4_1" taborder="13" left="379" top="106" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="월요차량"/>
+                          <Static id="sta_head5_1" taborder="14" left="379" top="139" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="화요차량"/>
+                          <Static id="sta_head6_1" taborder="15" left="379" top="172" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="수요차량"/>
+                          <Static id="sta_head7_1" taborder="16" left="379" top="205" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="목요차량"/>
+                          <Static id="sta_head8_1" taborder="17" left="379" top="238" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="금요차량"/>
+                          <Static id="sta_subTitle2" taborder="18" text="수급자 주간송영 운행일정" left="11" top="-1" width="260" height="24" cssclass="lb01"/>
+                          <Div id="div_line00" taborder="19" left="10" top="30" height="2" background="#000000" right="10">
+                            <Layouts>
+                              <Layout/>
+                            </Layouts>
+                          </Div>
+                          <Edit id="edt_from_hour" taborder="20" left="177" top="77" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_timeColon1" taborder="21" text=":" left="210" top="78" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_from_min" taborder="22" left="220" top="77" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_timeColon2" taborder="23" text="-" left="260" top="78" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_to_hour" taborder="24" left="277" top="77" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_timeColon3" taborder="25" text=":" left="310" top="78" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_to_min" taborder="26" left="320" top="77" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_bighead1" taborder="27" left="9" top="40" width="371" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="송영서비스 이용시간" background="#ebf1de"/>
+                          <Static id="sta_bighead2" taborder="28" left="379" top="40" width="182" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="이용차량" background="#ebf1de"/>
+                          <Static id="sta_head9" taborder="29" left="9" top="271" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="토요일"/>
+                          <Static id="sta_body9" taborder="30" left="91" top="271" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head9_1" taborder="31" left="379" top="271" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="토요차량"/>
+                          <Static id="sta_head10" taborder="32" left="9" top="304" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="일요일"/>
+                          <Static id="sta_body10" taborder="33" left="91" top="304" width="470" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head10_1" taborder="34" left="379" top="304" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="일요차량"/>
+                          <Edit id="edt_car" taborder="35" left="482" top="78" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_mon_from_hour" taborder="36" left="177" top="110" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_mon_timeColon1" taborder="37" text=":" left="210" top="111" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_mon_from_min" taborder="38" left="220" top="110" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_mon_timeColon2" taborder="39" text="-" left="260" top="111" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_mon_to_hour" taborder="40" left="277" top="110" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_mon_timeColon3" taborder="41" text=":" left="310" top="111" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_mon_to_min" taborder="42" left="320" top="110" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_mon" taborder="43" text="월" left="115" top="110" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <CheckBox id="chk_tue" taborder="44" text="화" left="115" top="144" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_tue_from_hour" taborder="45" left="177" top="143" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_tue_timeColon1" taborder="46" text=":" left="210" top="144" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_tue_from_min" taborder="47" left="220" top="143" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_tue_timeColon2" taborder="48" text="-" left="260" top="144" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_tue_to_hour" taborder="49" left="277" top="143" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_tie_timeColon3" taborder="50" text=":" left="310" top="144" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_tue_to_min" taborder="51" left="320" top="143" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_wed" taborder="52" text="수" left="115" top="177" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_wed_from_hour" taborder="53" left="177" top="176" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_wed_timeColon1" taborder="54" text=":" left="210" top="177" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_wed_from_min" taborder="55" left="220" top="176" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_wed_timeColon2" taborder="56" text="-" left="260" top="177" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_wed_to_hour" taborder="57" left="277" top="176" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_wed_timeColon3" taborder="58" text=":" left="310" top="177" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_wed_to_min" taborder="59" left="320" top="176" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_thu" taborder="60" text="목" left="115" top="210" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_thu_from_hour" taborder="61" left="177" top="209" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_thu_timeColon1" taborder="62" text=":" left="210" top="210" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_thu_from_min" taborder="63" left="220" top="209" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_thu_timeColon2" taborder="64" text="-" left="260" top="210" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_thu_to_hour" taborder="65" left="277" top="209" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_thu_timeColon3" taborder="66" text=":" left="310" top="210" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_thu_to_min" taborder="67" left="320" top="209" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_fri" taborder="68" text="금" left="115" top="243" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_fri_from_hour" taborder="69" left="177" top="242" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_fri_timeColon1" taborder="70" text=":" left="210" top="243" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_fri_from_min" taborder="71" left="220" top="242" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_fri_timeColon2" taborder="72" text="-" left="260" top="243" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_fri_to_hour" taborder="73" left="277" top="242" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_fri_timeColon3" taborder="74" text=":" left="310" top="243" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_fri_to_min" taborder="75" left="320" top="242" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_sat" taborder="76" text="토" left="115" top="276" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_sat_from_hour" taborder="77" left="177" top="275" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_sat_timeColon1" taborder="78" text=":" left="210" top="276" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sat_from_min" taborder="79" left="220" top="275" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_sat_timeColon2" taborder="80" text="-" left="260" top="276" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sat_to_hour" taborder="81" left="277" top="275" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_sat_timeColon3" taborder="82" text=":" left="310" top="276" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sat_to_min" taborder="83" left="320" top="275" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <CheckBox id="chk_sun" taborder="84" text="일" left="115" top="309" width="45" height="25" cssclass="chk_x" falsevalue="0" truevalue="1" onchanged="chk_day_onchanged"/>
+                          <Edit id="edt_sun_from_hour" taborder="85" left="177" top="308" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_sun_timeColon1" taborder="86" text=":" left="210" top="309" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sun_from_min" taborder="87" left="220" top="308" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_sun_timeColon2" taborder="88" text="-" left="260" top="309" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sun_to_hour" taborder="89" left="277" top="308" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_sun_timeColon3" taborder="90" text=":" left="310" top="309" width="10" height="25" textAlign="center"/>
+                          <Edit id="edt_sun_to_min" taborder="91" left="320" top="308" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Edit id="edt_mon_car" taborder="92" left="482" top="111" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_tue_car" taborder="93" left="482" top="144" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_wed_car" taborder="94" left="482" top="177" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_thu_car" taborder="95" left="482" top="210" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_fri_car" taborder="96" left="482" top="243" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_sat_car" taborder="97" left="482" top="276" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                          <Edit id="edt_sun_car" taborder="98" left="482" top="309" width="60" height="25" readonly="true" textAlign="center" oneditclick="edt_car_oneditclick" cssclass="readonly" cursor="pointer"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="sta_subTitle1" taborder="2" text="월간 송영일정표·제공계획서" left="0" top="0" width="220" height="25" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="365">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_from" taborder="1" left="122" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="235" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="250" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Calendar id="cal_date" taborder="0" left="0" top="5" width="90" height="25" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Calendar id="cal_date_pic" taborder="4" left="cal_date:-1" top="5" width="25" height="25" initvalueid="iv_cal_yyyyMM" onchanged="div_search_cal_date_pic_onchanged" tabstop="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="div_search:10" top="0" height="36" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="0" text="급여제공 계획서서식" left="200" top="4" width="165" height="26" onclick="fn_report" cssclass="btn_print"/>
+              <Button id="btn_report2" taborder="1" text="급여제공 계획서" left="370" top="4" width="135" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report3" taborder="2" text="송영일정표(목욕일정)" left="510" top="4" width="165" height="26" onclick="fn_report" cssclass="btn_print"/>
+              <Button id="btn_save" taborder="3" text="저장" top="5" width="70" height="25" onclick="fn_saveBtn" right="0" cssclass="btn_save"/>
+              <Static id="sta_report_body" taborder="4" left="0" top="2" width="195" height="30" cssclass="sta_WF_DetailLabel02" text=""/>
+              <Static id="sta_print" taborder="5" text="출력일자 설정 : " left="8" top="8" width="95" height="19"/>
+              <MaskEdit id="mae_print" taborder="6" left="110" top="4" width="74" height="26" format="####.##.##" type="string" maskchar=" " onkillfocus="div_func_mae_print_onkillfocus"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ord1" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="일수" type="STRING" size="256"/>
+          <Column id="아침" type="STRING" size="256"/>
+          <Column id="점심" type="STRING" size="256"/>
+          <Column id="저녁" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="입소일" type="STRING" size="256"/>
+          <Column id="퇴소일" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="sajin" type="STRING" size="256"/>
+          <Column id="월" type="STRING" size="256"/>
+          <Column id="화" type="STRING" size="256"/>
+          <Column id="수" type="STRING" size="256"/>
+          <Column id="목" type="STRING" size="256"/>
+          <Column id="금" type="STRING" size="256"/>
+          <Column id="토" type="STRING" size="256"/>
+          <Column id="일요일" type="STRING" size="256"/>
+          <Column id="이용시간" type="STRING" size="256"/>
+          <Column id="이용시작시" type="STRING" size="256"/>
+          <Column id="이용시작분" type="STRING" size="256"/>
+          <Column id="이용종료시" type="STRING" size="256"/>
+          <Column id="이용종료분" type="STRING" size="256"/>
+          <Column id="이용차량" type="STRING" size="256"/>
+          <Column id="월요시간" type="STRING" size="256"/>
+          <Column id="월요시작" type="STRING" size="256"/>
+          <Column id="월요종료" type="STRING" size="256"/>
+          <Column id="월요시작시" type="STRING" size="256"/>
+          <Column id="월요시작분" type="STRING" size="256"/>
+          <Column id="월요종료시" type="STRING" size="256"/>
+          <Column id="월요종료분" type="STRING" size="256"/>
+          <Column id="월요차량" type="STRING" size="256"/>
+          <Column id="화요시간" type="STRING" size="256"/>
+          <Column id="화요시작" type="STRING" size="256"/>
+          <Column id="화요종료" type="STRING" size="256"/>
+          <Column id="화요시작시" type="STRING" size="256"/>
+          <Column id="화요시작분" type="STRING" size="256"/>
+          <Column id="화요종료시" type="STRING" size="256"/>
+          <Column id="화요종료분" type="STRING" size="256"/>
+          <Column id="화요차량" type="STRING" size="256"/>
+          <Column id="수요시간" type="STRING" size="256"/>
+          <Column id="수요시작" type="STRING" size="256"/>
+          <Column id="수요종료" type="STRING" size="256"/>
+          <Column id="수요시작시" type="STRING" size="256"/>
+          <Column id="수요시작분" type="STRING" size="256"/>
+          <Column id="수요종료시" type="STRING" size="256"/>
+          <Column id="수요종료분" type="STRING" size="256"/>
+          <Column id="수요차량" type="STRING" size="256"/>
+          <Column id="목요시간" type="STRING" size="256"/>
+          <Column id="목요시작" type="STRING" size="256"/>
+          <Column id="목요종료" type="STRING" size="256"/>
+          <Column id="목요시작시" type="STRING" size="256"/>
+          <Column id="목요시작분" type="STRING" size="256"/>
+          <Column id="목요종료시" type="STRING" size="256"/>
+          <Column id="목요종료분" type="STRING" size="256"/>
+          <Column id="목요차량" type="STRING" size="256"/>
+          <Column id="금요시간" type="STRING" size="256"/>
+          <Column id="금요시작" type="STRING" size="256"/>
+          <Column id="금요종료" type="STRING" size="256"/>
+          <Column id="금요시작시" type="STRING" size="256"/>
+          <Column id="금요시작분" type="STRING" size="256"/>
+          <Column id="금요종료시" type="STRING" size="256"/>
+          <Column id="금요종료분" type="STRING" size="256"/>
+          <Column id="금요차량" type="STRING" size="256"/>
+          <Column id="토요시간" type="STRING" size="256"/>
+          <Column id="토요시작" type="STRING" size="256"/>
+          <Column id="토요종료" type="STRING" size="256"/>
+          <Column id="토요시작시" type="STRING" size="256"/>
+          <Column id="토요시작분" type="STRING" size="256"/>
+          <Column id="토요종료시" type="STRING" size="256"/>
+          <Column id="토요종료분" type="STRING" size="256"/>
+          <Column id="토요차량" type="STRING" size="256"/>
+          <Column id="일요시간" type="STRING" size="256"/>
+          <Column id="일요시작" type="STRING" size="256"/>
+          <Column id="일요종료" type="STRING" size="256"/>
+          <Column id="일요시작시" type="STRING" size="256"/>
+          <Column id="일요시작분" type="STRING" size="256"/>
+          <Column id="일요종료시" type="STRING" size="256"/>
+          <Column id="일요종료분" type="STRING" size="256"/>
+          <Column id="일요차량" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="MON" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cal" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sun" type="STRING" size="256"/>
+          <Column id="mon" type="STRING" size="256"/>
+          <Column id="tue" type="STRING" size="256"/>
+          <Column id="wed" type="STRING" size="256"/>
+          <Column id="thu" type="STRING" size="256"/>
+          <Column id="fri" type="STRING" size="256"/>
+          <Column id="sat" type="STRING" size="256"/>
+          <Column id="suntext1" type="STRING" size="256"/>
+          <Column id="montext1" type="STRING" size="256"/>
+          <Column id="tuetext1" type="STRING" size="256"/>
+          <Column id="wedtext1" type="STRING" size="256"/>
+          <Column id="thutext1" type="STRING" size="256"/>
+          <Column id="fritext1" type="STRING" size="256"/>
+          <Column id="sattext1" type="STRING" size="256"/>
+          <Column id="suntext2" type="STRING" size="256"/>
+          <Column id="montext2" type="STRING" size="256"/>
+          <Column id="tuetext2" type="STRING" size="256"/>
+          <Column id="wedtext2" type="STRING" size="256"/>
+          <Column id="thutext2" type="STRING" size="256"/>
+          <Column id="fritext2" type="STRING" size="256"/>
+          <Column id="sattext2" type="STRING" size="256"/>
+          <Column id="suncolor" type="STRING" size="256"/>
+          <Column id="moncolor" type="STRING" size="256"/>
+          <Column id="tuecolor" type="STRING" size="256"/>
+          <Column id="wedcolor" type="STRING" size="256"/>
+          <Column id="thucolor" type="STRING" size="256"/>
+          <Column id="fricolor" type="STRING" size="256"/>
+          <Column id="satcolor" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="입소일" type="STRING" size="256"/>
+          <Column id="퇴소일" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="이용일" type="STRING" size="256"/>
+          <Column id="월" type="STRING" size="256"/>
+          <Column id="화" type="STRING" size="256"/>
+          <Column id="수" type="STRING" size="256"/>
+          <Column id="목" type="STRING" size="256"/>
+          <Column id="금" type="STRING" size="256"/>
+          <Column id="토" type="STRING" size="256"/>
+          <Column id="일요일" type="STRING" size="256"/>
+          <Column id="이용시간" type="STRING" size="256"/>
+          <Column id="이용시작시" type="STRING" size="256"/>
+          <Column id="이용시작분" type="STRING" size="256"/>
+          <Column id="이용종료시" type="STRING" size="256"/>
+          <Column id="이용종료분" type="STRING" size="256"/>
+          <Column id="이용차량" type="STRING" size="256"/>
+          <Column id="월요시간" type="STRING" size="256"/>
+          <Column id="월요시작시" type="STRING" size="256"/>
+          <Column id="월요시작분" type="STRING" size="256"/>
+          <Column id="월요종료시" type="STRING" size="256"/>
+          <Column id="월요종료분" type="STRING" size="256"/>
+          <Column id="월요차량" type="STRING" size="256"/>
+          <Column id="화요시간" type="STRING" size="256"/>
+          <Column id="화요시작시" type="STRING" size="256"/>
+          <Column id="화요시작분" type="STRING" size="256"/>
+          <Column id="화요종료시" type="STRING" size="256"/>
+          <Column id="화요종료분" type="STRING" size="256"/>
+          <Column id="화요차량" type="STRING" size="256"/>
+          <Column id="수요시간" type="STRING" size="256"/>
+          <Column id="수요시작시" type="STRING" size="256"/>
+          <Column id="수요시작분" type="STRING" size="256"/>
+          <Column id="수요종료시" type="STRING" size="256"/>
+          <Column id="수요종료분" type="STRING" size="256"/>
+          <Column id="수요차량" type="STRING" size="256"/>
+          <Column id="목요시간" type="STRING" size="256"/>
+          <Column id="목요시작시" type="STRING" size="256"/>
+          <Column id="목요시작분" type="STRING" size="256"/>
+          <Column id="목요종료시" type="STRING" size="256"/>
+          <Column id="목요종료분" type="STRING" size="256"/>
+          <Column id="목요차량" type="STRING" size="256"/>
+          <Column id="금요시간" type="STRING" size="256"/>
+          <Column id="금요시작시" type="STRING" size="256"/>
+          <Column id="금요시작분" type="STRING" size="256"/>
+          <Column id="금요종료시" type="STRING" size="256"/>
+          <Column id="금요종료분" type="STRING" size="256"/>
+          <Column id="금요차량" type="STRING" size="256"/>
+          <Column id="토요시간" type="STRING" size="256"/>
+          <Column id="토요시작시" type="STRING" size="256"/>
+          <Column id="토요시작분" type="STRING" size="256"/>
+          <Column id="토요종료시" type="STRING" size="256"/>
+          <Column id="토요종료분" type="STRING" size="256"/>
+          <Column id="토요차량" type="STRING" size="256"/>
+          <Column id="일요시간" type="STRING" size="256"/>
+          <Column id="일요시작시" type="STRING" size="256"/>
+          <Column id="일요시작분" type="STRING" size="256"/>
+          <Column id="일요종료시" type="STRING" size="256"/>
+          <Column id="일요종료분" type="STRING" size="256"/>
+          <Column id="일요차량" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="print" type="STRING" size="256"/>
+          <Column id="totday" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_notIn">
+        <ColumnInfo>
+          <Column id="not1" type="STRING" size="256"/>
+          <Column id="not2" type="STRING" size="256"/>
+          <Column id="not3" type="STRING" size="256"/>
+          <Column id="not4" type="STRING" size="256"/>
+          <Column id="not5" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00404
+ * 화면명   	: 송영 일정표·제공계획서(매월)
+ * 화면설명 	: 급여제공 계획서와 송영일정표를 출력하기 위한 화면
+ * 작성일   	: 2022-05-10
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ * 비고 : 1. 사진 불러오는 기능 미구현
+			 파일관련 내용 구현후 이미지 세팅 부분 수정해야함
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.reSearchData = "";
+const dbclArr = [];
+const notArr = [];
+const timeArr = [];
+this.daycount = 0;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMon = year + ((month + 1) + "").padStart(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", firstString);
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMon);
+	
+	// 조회
+	this.fn_search("search");
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	
+	// 퇴소여부에 따라 수급상태 배경색 변경
+	const nowIdx = grid.getBindCellIndex("body", "거주현황");
+	const nowCss = "expr:dataset.getColumn(currow, '거주현황') == '퇴소자' ? 'cellBRetire' : ''";
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+};
+
+this.initCalGrid = function(grid)
+{
+	// 날짜 컬러 값이 1이면 배경색 변경
+	const dayArr = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+	for (let i = 0; i <= dayArr.length; i++)
+	{
+		let cssStr = "";
+		switch(i) 
+		{
+			case 0 :
+				cssStr = "expr:dataset.getColumn(currow, '" + dayArr[i] + "color') == 1 ? 'CellBffdbca' : ''";
+				break;
+			case 6 :
+				cssStr = "expr:dataset.getColumn(currow, '" + dayArr[i] + "color') == 1 ? 'CellBf7fcff' : ''";
+				break;
+			default:
+				cssStr = "expr:dataset.getColumn(currow, '" + dayArr[i] + "color') == 1 ? 'CellBfbfeff' : ''";
+		}
+		grid.setCellProperty("body", i, "cssclass", cssStr);
+	}
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	if (this.ds_data.rowcount > 0)
+		this.reSearchData = this.ds_data.getColumn(0, "m_code");
+
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	const dayArr = ["이용", "월요", "화요", "수요", "금요", "토요", "일요"];
+	
+	for (let i = 0; i < dayArr.length; i++)
+	{
+		const fullTime = this.ds_data.getColumn(0, dayArr[i] + "시작시")
+					   + ":"
+					   + this.ds_data.getColumn(0, dayArr[i] + "시작분")
+					   + "-"
+					   + this.ds_data.getColumn(0, dayArr[i] + "종료시")
+					   + ":"
+					   + this.ds_data.getColumn(0, dayArr[i] + "종료분");
+		
+		if (fullTime == "00:00-00:00")
+			this.ds_data.setColumn(0, dayArr[i] + "시간", "");
+		else
+			this.ds_data.setColumn(0, dayArr[i] + "시간", fullTime);
+	}
+	
+	const fullDay = this.ds_data.getColumn(0, "월")
+				  + this.ds_data.getColumn(0, "화")
+				  + this.ds_data.getColumn(0, "수")
+				  + this.ds_data.getColumn(0, "목")
+				  + this.ds_data.getColumn(0, "금")
+				  + this.ds_data.getColumn(0, "토");
+	
+	this.ds_data.setColumn(0, "이용일", fullDay);
+	
+	this.reSearchData = this.ds_data.getColumn(0, "m_code");
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function(flag) 
+{
+	if (!this.fn_search_pre()) return;
+	
+	if (Sct.Util.isEmpty(flag))
+		flag = "search";
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search input3=ds_search";
+	const outDatasets = "ds_list=output1 ds_cal=output2 ds_report=output3";
+	const argument = "method=getList"
+				   + " sqlId='DAY00404.DAY00404_DS_LIST_S DAY00404.DAY00404_DS_CAL_S DAY00404.DAY00404_DS_REPORT_S'";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const inDs = "ds_data";
+	
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0)
+	{
+		if(strSvcID == "search")
+		{
+			const firstDay = this.ds_search.getColumn(0, "DATE_FROM");
+			const fYear = firstDay.getFullYear();
+			const mon = firstDay.getMonth() + 1;
+			const yearMonStr = fYear + "년 " + mon + "월";
+			this.div_cont.form.div_right.form.div_mon.form.sta_yearMon.set_text(yearMonStr);
+			this.initGrid(this.div_cont.form.div_left.form.grd_list);
+			this.div_cont.form.div_right.form.div_mon.form.div_cal.form.grd_cal.selectCell(0, 0, false);	// 달력그리드 셀 선택 해제
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* 날짜 스트링 만들기
+ *
+ * @param date DATE
+ * @return String yyyyMMdd
+ */
+this.fn_getDateString = function(date)
+{
+	const year = date.getFullYear() + "";
+	const month = ((date.getMonth() + 1) + "").padStart(2, '0');
+	const day = (date.getDate() + "").padStart(2, '0');
+	
+	return year + month + day;
+};
+
+// /* 배열에서 중복제거
+//  * 
+//  * @param inArray ARRAY
+//  * @return ARRAY
+//  */
+// this.fn_removeDuplicatesArray = function(inArray)
+// {
+// 	const arr = inArray.concat();	// create a clone from inArray so not to change input array
+// 	// create the first cycle of the loop starting from element 0 or n
+// 	for (let i = 0; i < arr.length; ++i)
+// 	{
+// 		// create the second cycle of the loop from element n + 1
+// 		for (let j = i + 1; j < arr.length; ++j)
+// 		{
+// 			// if the two elements are equal, then they are duplicate
+// 			if (arr[i] == arr[j])
+// 			{
+// 				arr.splice(j, 1);	// remove the duplicated element
+// 			}
+// 		}
+// 	}
+// 	return arr;
+// };
+
+/* 배열 차집합 구하기
+ *
+ * @param arr1 ARRAY
+ * @param arr2 ARRAY
+ * @return ARRAY (arr1 - arr2)
+ */
+this.fn_defferenceArray = function(arr1, arr2)
+{
+	let tmp={}, res=[];
+	for (let i = 0; i < arr1.length; i++) 
+		tmp[arr1[i]] = 1;
+	
+	for (let i = 0; i < arr2.length; i++)
+	{
+		if (tmp[arr2[i]])
+			delete tmp[arr2[i]];
+	}
+	
+	for (let i in tmp)
+		res.push(i);
+		
+	return res;
+};
+
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	// 시간 배열 비우기
+	timeArr.splice(0);
+	
+	// 더블클릭 배열 비우기
+	dbclArr.splice(0, dbclArr.length);
+	
+	// 미이용일 배열로 만들기
+	notArr.splice(0, notArr.length);
+	for (let i = 1; i <= 5; i++)
+	{
+		const notIn = this.ds_notIn.getColumn(0, "not" + i);
+		if (notIn != undefined && notIn != null && notIn.trim() != "")
+			notArr.push(this.ds_notIn.getColumn(0, "not" + i));
+	}
+	trace(notArr);
+	
+	// 리스트에서 데이터 복사
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	// 이미지 세팅
+	this.fn_getImage();
+	
+	// 수급자 주간송영 운행일자 시간 값이 없는경우 초기화
+	const dayArr = ["이용", "월요", "화요", "수요", "목요", "금요", "토요", "일요"];		
+	for (let i = 0; i < dayArr.length; i++)
+	{
+		if (Sct.Util.isEmpty(nexacro.trim(this.ds_data.getColumn(0, dayArr[i] + "시간"))))
+		{
+			this.ds_data.setColumn(0, dayArr[i] + "시작시", "00");
+			this.ds_data.setColumn(0, dayArr[i] + "시작분", "00");
+			this.ds_data.setColumn(0, dayArr[i] + "종료시", "00");
+			this.ds_data.setColumn(0, dayArr[i] + "종료분", "00");
+		}
+	}
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+	
+	let count = 0;	// 제공일수를 구하기 위한 변수
+	this.daycount = 0;
+	
+	// 달력에 시간 세팅
+	for (let i = 0; i < this.ds_cal.rowcount; i++)
+	{
+		const calArr = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+		const dddArr = ["일요", "월요", "화요", "수요", "목요", "금요", "토요"];
+		
+		for (let j = 0; j < calArr.length; j++)
+		{
+			const day = this.ds_cal.getColumn(i, calArr[j]);
+			const car = this.ds_list.getColumn(row, dddArr[j] + "차량");
+			const time = this.ds_list.getColumn(row, dddArr[j] + "시간");
+			// 날짜가 있는 셀에만 데이터 세팅
+			if (day != undefined && day != null && day.trim() != "")
+			{
+				this.daycount++;
+				const spl = day.split("일");
+				const dayInt = parseInt(spl[0]);
+				// 미이용인 날짜가 아닌경우 세팅
+				if (!notArr.includes(dayInt + ""))
+				{
+					this.ds_cal.setColumn(i, calArr[j] + "text1", this.ds_list.getColumn(row, dddArr[j] + "시작"));
+					this.ds_cal.setColumn(i, calArr[j] + "text2", this.ds_list.getColumn(row, dddArr[j] + "종료"));
+					// 차량정보가 있는경우 제공일수에 포함하고 배경색 변경
+					if (car != undefined && car != null && car.trim() != "")
+					{
+						count++;
+						this.ds_cal.setColumn(i, calArr[j] + "color", 1);
+					}
+					else
+					{
+						this.ds_cal.setColumn(i, calArr[j] + "color", 0);
+					}
+					
+					if (time != undefined && time != null && time.trim() != "")
+					{
+						timeArr.push(dayInt);
+					}
+				}
+				else
+				{
+					this.ds_cal.setColumn(i, calArr[j] + "text1", "");
+					this.ds_cal.setColumn(i, calArr[j] + "text2", "");
+					this.ds_cal.setColumn(i, calArr[j] + "color", 0);
+				}
+			}
+		}
+	}
+	//trace("timeArr : " + timeArr);
+	//trace("this.daycount : " + this.daycount);
+	
+	this.ds_report.setColumn(0, "totday", count);
+	
+	this.initCalGrid(this.div_cont.form.div_right.form.div_mon.form.div_cal.form.grd_cal);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	const sFindRow = this.ds_list.findRow("m_code", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	else
+	{
+		this.ds_data.clearData();
+	}
+	
+	return sFindRow;
+};
+
+// 이미지 세팅
+this.fn_getImage = function()
+{
+	let imgUrl = "";
+	this.div_cont.form.div_right.form.div_mate.form.imv_pic.set_image("URL('imagerc::user_name_e.png')");
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("수급자를 선택해주세요.");
+		return false;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+	switch(obj.id) 
+	{
+		case "btn_report1" :
+			jrfFile = "DAY00404_R01.jrf";
+			break;
+		case "btn_report2" :
+			jrfFile = "DAY00404_R02.jrf";
+			break;
+		case "btn_report3" :
+			jrfFile = "DAY00404_R03.jrf";
+			break;
+		default:
+	}
+	
+	// 미이용일 배열로 만들기
+	notArr.splice(0, notArr.length);
+	for (let i = 1; i <= 5; i++)
+	{
+		const notIn = this.ds_notIn.getColumn(0, "not" + i);
+		if (notIn != undefined && notIn != null && notIn.trim() != "")
+			notArr.push(this.ds_notIn.getColumn(0, "not" + i));
+	}
+	
+	let report2Arr = this.fn_defferenceArray(timeArr, dbclArr);
+	report2Arr = this.fn_defferenceArray(report2Arr, notArr);
+	//trace("dbclArr : " + dbclArr);
+	//trace("notArr : " + notArr);
+	//trace("report2Arr : " + report2Arr);
+	
+	// 아규먼트 세팅 (공통)
+	let arg = "P_SICODE#" + fv_sicode + "#"
+			+ "P_PDATE#" + this.ds_report.getColumn(0, "print") + "#"
+			+ "P_CODE#" + this.ds_data.getColumn(0, "m_code") + "#";
+	
+	// 급여제공 계획서에서 날짜 표시를 위한 아규먼트 세팅
+	for (let i = 1; i <= this.daycount; i++)
+	{
+		const count = i + "";
+		let val = 0;
+		for (let j = 0; j < report2Arr.length; j++)
+		{
+			if (i == report2Arr[j])
+			{
+				val = 1;
+				break;
+			}
+		}
+		
+		if (val == 1)
+			arg += "P_" + count.padStart(2, '0') + "#O#";
+		else
+			arg += "P_" + count.padStart(2, '0') + "#X#";
+	}
+	
+	// 송영일정표에서 값을 표시하기 위한 아규먼트 세팅
+	let notStr = "";
+	let notStr2 = "";
+	for (let i = 0; i < notArr.length; i++)
+	{
+		if (i == 0)
+			notStr += notArr[i];
+		else
+			notStr += "," + notArr[i];
+	}
+	arg += "P_NOTARR#" + notStr + "#";
+	
+	for (let i = 0; i < dbclArr.length; i++)
+	{
+		if (i == 0)
+			notStr2 += dbclArr[i];
+		else
+			notStr2 += "," + dbclArr[i];
+	}
+	arg += "P_NOTARR2#" + notStr2 + "#";
+	arg += "P_COUNT#" + this.ds_report.getColumn(0, "totday") + "#";
+	arg += "P_DATE_FROM#" + this.ds_search.getColumn(0, "DATE_FROM") + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	//trace("popid : " + popid);
+	//trace("strDs : " + strDs);
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	const code1 = objDs.getColumn(0, "gubun1");
+	const code2 = objDs.getColumn(0, "gubun2");
+	let val1 = "";
+	let val2 = "";
+	if (Sct.Util.isEmpty(code1))
+		val1 = "  ";
+	else
+		val1 = code1;
+	
+	if (Sct.Util.isEmpty(code2))
+		val2 = "  ";
+	else
+		val2 = code2;
+	switch(popid)
+	{
+		case "car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "이용차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "이용차량", "");
+			}
+			break;
+		case "mon_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "월요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "월요차량", "");
+			}
+			break;
+		case "tue_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "화요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "화요차량", "");
+			}
+			break;
+		case "wed_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "수요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "수요차량", "");
+			}
+			break;
+		case "thu_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "목요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "목요차량", "");
+			}
+			break;
+		case "fri_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "금요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "금요차량", "");
+			}
+			break;
+		case "sat_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "토요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "토요차량", "");
+			}
+			break;
+		case "sun_car" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{		
+				this.ds_data.setColumn(0, "일요차량", val1 + val2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "일요차량", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 저장 버튼
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	const year = this.ds_search.getColumn(0, "DATE").substr(0,4);
+	const month = this.ds_search.getColumn(0, "DATE").substr(4);
+	const firstDay = new Date(year, month - 1 , 1);
+	const lastDay = new Date(year, month, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMonth = year + month;
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMonth);
+	
+	this.fn_search("search");
+};
+
+// 리스트 그리드 셀 클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const nameIdx = obj.getBindCellIndex("body", "m_name");
+	// 수급자명 선택
+	if (e.col == nameIdx)
+	{
+		// 입력, 수정용 데이터셋에 데이터 복사
+		this.fn_dataCopy(e.row);
+	}
+};
+
+// 미이용 값 변경 이벤트
+this.edt_notIn_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	//trace(e.postvalue.indexOf("0"));
+	if (e.postvalue.indexOf("0") == 0)
+	{
+		obj.set_value(e.postvalue.substr(1));
+	}
+};
+
+// 달력 그리드 셀 더블클릭 이벤트
+this.div_cont_div_right_div_mon_div_cal_grd_cal_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 셀의 내용과 배경색 제거
+	let day = "";
+	switch(e.col) 
+	{
+		case 0 :
+			day = "sun";
+			break;
+		case 1 :
+			day = "mon";
+			break;
+		case 2 :
+			day = "tue";
+			break;
+		case 3 :
+			day = "wed";
+			break;
+		case 4 :
+			day = "thu";
+			break;
+		case 5 :
+			day = "fri";
+			break;
+		case 6 :
+			day = "sat";
+			break;
+		default:
+	}
+	
+	this.ds_cal.setColumn(e.row, day + "text1", "");
+	this.ds_cal.setColumn(e.row, day + "text2", "");
+	this.ds_cal.setColumn(e.row, day + "color", 0);
+	
+	const dayVal = this.ds_cal.getColumn(e.row, day);
+	if (dayVal != undefined && dayVal != null && dayVal.trim() != "")
+	{
+		const spl = dayVal.split("일");
+		const dayInt = parseInt(spl[0]);
+		dbclArr.push(dayInt);
+		//trace(dbclArr);
+	}
+	else
+	{
+		return;
+	}
+};
+
+// 달력 그리드 셀 클릭 이벤트
+this.div_cont_div_right_div_mon_div_cal_grd_cal_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 셀 선택 취소 하기
+	obj.selectCell(e.row, e.col, false);
+};
+
+// 시 변경 이벤트
+this.edt_hour_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "23" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+};
+
+// 분 변경 이벤트
+this.edt_min_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "59" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+};
+
+// 차량 에디트박스 클릭 이벤트
+this.edt_car_oneditclick = function(obj:nexacro.Edit,e:nexacro.EditClickEventInfo)
+{
+	let svcId = "";
+	switch(obj.id) 
+	{
+		case "edt_car" :	// 이용차량
+			svcId = "car";
+			break;
+		case "edt_mon_car" :	// 월요차량
+			svcId = "mon_car";
+			break;
+		case "edt_tue_car" :	// 화요차량
+			svcId = "tue_car";
+			break;
+		case "edt_wed_car" :	// 수요차량
+			svcId = "wed_car";
+			break;
+		case "edt_thu_car" :	// 목요차량
+			svcId = "thu_car";
+			break;
+		case "edt_fri_car" :	// 금요차량
+			svcId = "fri_car";
+			break;
+		case "edt_sat_car" :	// 토요차량
+			svcId = "sat_car";
+			break;
+		case "edt_sun_car" :	// 일요차량
+			svcId = "sun_car";
+			break;
+		default:
+	}
+
+	const val = obj.value;
+	let val1 = "";
+	let val2 = "";
+	
+	if (!Sct.Util.isEmpty(val))
+	{
+		val1 = val.substr(0, 2);
+		val2 = val.substr(2);
+	}
+
+	const param = {
+		SICODE : fv_sicode
+	,	VAL1 : val1
+	,	VAL2 : val2
+	};
+	
+	Sct.popup(this, svcId, 450, 400, "송영차량지정", param, "DAY_POP::DAY00402_P04.xfdl", "fn_popCallback");
+};
+
+// 수급자 주간송영 운행일정 체크박스 체인지 이벤트
+this.chk_day_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	const startHour = this.ds_data.getColumn(0, "이용시작시");
+	const startMin = this.ds_data.getColumn(0, "이용시작분");
+	const endHour = this.ds_data.getColumn(0, "이용종료시");
+	const endMin = this.ds_data.getColumn(0, "이용종료분");
+	const car = this.ds_data.getColumn(0, "이용차량");
+	
+	let ddd = "";
+	switch(obj.id) 
+	{
+		case "chk_mon" :
+			ddd = "월";
+			break;
+		case "chk_tue" :
+			ddd = "화";
+			break;
+		case "chk_wed" :
+			ddd = "수";
+			break;
+		case "chk_thu" :
+			ddd = "목";
+			break;
+		case "chk_fri" :
+			ddd = "금";
+			break;
+		case "chk_sat" :
+			ddd = "토";
+			break;
+		case "chk_sun" :
+			ddd = "일";
+			break;
+		default:
+	}
+	
+	if (e.postvalue == 0)
+	{
+		this.ds_data.setColumn(0, ddd + "요시작시", "00");
+		this.ds_data.setColumn(0, ddd + "요시작분", "00");
+		this.ds_data.setColumn(0, ddd + "요종료시", "00");
+		this.ds_data.setColumn(0, ddd + "요종료분", "00");
+		this.ds_data.setColumn(0, ddd + "요차량", "");
+	}
+	else
+	{
+		this.ds_data.setColumn(0, ddd + "요시작시", startHour);
+		this.ds_data.setColumn(0, ddd + "요시작분", startMin);
+		this.ds_data.setColumn(0, ddd + "요종료시", endHour);
+		this.ds_data.setColumn(0, ddd + "요종료분", endMin);
+		this.ds_data.setColumn(0, ddd + "요차량", car);
+	}
+};
+
+// 리포트 출력일자 설정 킬포커스 이벤트
+this.div_func_mae_print_onkillfocus = function(obj:nexacro.MaskEdit,e:nexacro.KillFocusEventInfo)
+{
+	if (obj.value.includes(" "))
+		obj.set_value("");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item3" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_mate.form.sta_roomname" propid="text" datasetid="ds_data" columnid="m_roomname"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_mate.form.sta_group" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_mate.form.sta_sex" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_mate.form.sta_birth" propid="text" datasetid="ds_data" columnid="생일"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_mate.form.sta_mname" propid="text" datasetid="ds_data" columnid="m_name"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_mate.form.sta_mcode" propid="text" datasetid="ds_data" columnid="m_code"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_mate.form.sta_addr" propid="text" datasetid="ds_data" columnid="주소"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_mate.form.sta_enday" propid="text" datasetid="ds_data" columnid="입소일"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_mate.form.sta_reday" propid="text" datasetid="ds_data" columnid="퇴소일"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_plan.form.edt_from_hour" propid="value" datasetid="ds_data" columnid="이용시작시"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_plan.form.edt_from_min" propid="value" datasetid="ds_data" columnid="이용시작분"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_plan.form.edt_to_hour" propid="value" datasetid="ds_data" columnid="이용종료시"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_plan.form.edt_to_min" propid="value" datasetid="ds_data" columnid="이용종료분"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_plan.form.edt_car" propid="value" datasetid="ds_data" columnid="이용차량"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_plan.form.edt_mon_from_hour" propid="value" datasetid="ds_data" columnid="월요시작시"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_plan.form.edt_mon_from_min" propid="value" datasetid="ds_data" columnid="월요시작분"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_plan.form.edt_mon_to_hour" propid="value" datasetid="ds_data" columnid="월요종료시"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_plan.form.edt_mon_to_min" propid="value" datasetid="ds_data" columnid="월요종료분"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_plan.form.chk_mon" propid="value" datasetid="ds_data" columnid="월"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_plan.form.chk_tue" propid="value" datasetid="ds_data" columnid="화"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_plan.form.edt_tue_from_hour" propid="value" datasetid="ds_data" columnid="화요시작시"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_plan.form.edt_tue_from_min" propid="value" datasetid="ds_data" columnid="화요시작분"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_plan.form.edt_tue_to_hour" propid="value" datasetid="ds_data" columnid="화요종료시"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_plan.form.edt_tue_to_min" propid="value" datasetid="ds_data" columnid="화요종료분"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_plan.form.chk_wed" propid="value" datasetid="ds_data" columnid="수"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_plan.form.edt_wed_from_hour" propid="value" datasetid="ds_data" columnid="수요시작시"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_plan.form.edt_wed_from_min" propid="value" datasetid="ds_data" columnid="수요시작분"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_plan.form.edt_wed_to_hour" propid="value" datasetid="ds_data" columnid="수요종료시"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_plan.form.edt_wed_to_min" propid="value" datasetid="ds_data" columnid="수요종료분"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_plan.form.chk_thu" propid="value" datasetid="ds_data" columnid="목"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_plan.form.edt_thu_from_hour" propid="value" datasetid="ds_data" columnid="목요시작시"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_plan.form.edt_thu_from_min" propid="value" datasetid="ds_data" columnid="목요시작분"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_plan.form.edt_thu_to_hour" propid="value" datasetid="ds_data" columnid="목요종료시"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_plan.form.edt_thu_to_min" propid="value" datasetid="ds_data" columnid="목요종료분"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_plan.form.chk_fri" propid="value" datasetid="ds_data" columnid="금"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_plan.form.edt_fri_from_hour" propid="value" datasetid="ds_data" columnid="금요시작시"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.div_plan.form.edt_fri_from_min" propid="value" datasetid="ds_data" columnid="금요시작분"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.div_plan.form.edt_fri_to_hour" propid="value" datasetid="ds_data" columnid="금요종료시"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_plan.form.edt_fri_to_min" propid="value" datasetid="ds_data" columnid="금요종료분"/>
+      <BindItem id="item53" compid="div_cont.form.div_right.form.div_plan.form.chk_sat" propid="value" datasetid="ds_data" columnid="토"/>
+      <BindItem id="item54" compid="div_cont.form.div_right.form.div_plan.form.edt_sat_from_hour" propid="value" datasetid="ds_data" columnid="토요시작시"/>
+      <BindItem id="item55" compid="div_cont.form.div_right.form.div_plan.form.edt_sat_from_min" propid="value" datasetid="ds_data" columnid="토요시작분"/>
+      <BindItem id="item56" compid="div_cont.form.div_right.form.div_plan.form.edt_sat_to_hour" propid="value" datasetid="ds_data" columnid="토요종료시"/>
+      <BindItem id="item57" compid="div_cont.form.div_right.form.div_plan.form.edt_sat_to_min" propid="value" datasetid="ds_data" columnid="토요종료분"/>
+      <BindItem id="item58" compid="div_cont.form.div_right.form.div_plan.form.chk_sun" propid="value" datasetid="ds_data" columnid="일요일"/>
+      <BindItem id="item59" compid="div_cont.form.div_right.form.div_plan.form.edt_sun_from_hour" propid="value" datasetid="ds_data" columnid="일요시작시"/>
+      <BindItem id="item60" compid="div_cont.form.div_right.form.div_plan.form.edt_sun_from_min" propid="value" datasetid="ds_data" columnid="일요시작분"/>
+      <BindItem id="item61" compid="div_cont.form.div_right.form.div_plan.form.edt_sun_to_hour" propid="value" datasetid="ds_data" columnid="일요종료시"/>
+      <BindItem id="item62" compid="div_cont.form.div_right.form.div_plan.form.edt_sun_to_min" propid="value" datasetid="ds_data" columnid="일요종료분"/>
+      <BindItem id="item63" compid="div_cont.form.div_right.form.div_plan.form.edt_mon_car" propid="value" datasetid="ds_data" columnid="월요차량"/>
+      <BindItem id="item64" compid="div_cont.form.div_right.form.div_plan.form.edt_tue_car" propid="value" datasetid="ds_data" columnid="화요차량"/>
+      <BindItem id="item65" compid="div_cont.form.div_right.form.div_plan.form.edt_wed_car" propid="value" datasetid="ds_data" columnid="수요차량"/>
+      <BindItem id="item66" compid="div_cont.form.div_right.form.div_plan.form.edt_thu_car" propid="value" datasetid="ds_data" columnid="목요차량"/>
+      <BindItem id="item67" compid="div_cont.form.div_right.form.div_plan.form.edt_fri_car" propid="value" datasetid="ds_data" columnid="금요차량"/>
+      <BindItem id="item68" compid="div_cont.form.div_right.form.div_plan.form.edt_sat_car" propid="value" datasetid="ds_data" columnid="토요차량"/>
+      <BindItem id="item69" compid="div_cont.form.div_right.form.div_plan.form.edt_sun_car" propid="value" datasetid="ds_data" columnid="일요차량"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_mate.form.sta_group00" propid="text" datasetid="ds_data" columnid="등급"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_mate.form.sta_enday00" propid="text" datasetid="ds_data" columnid="m_regist"/>
+      <BindItem id="item15" compid="div_func.form.mae_print" propid="value" datasetid="ds_report" columnid="print"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_mon.form.sta_day" propid="text" datasetid="ds_report" columnid="totday"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_mon.form.edt_notIn1" propid="value" datasetid="ds_notIn" columnid="not1"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_mon.form.edt_notIn2" propid="value" datasetid="ds_notIn" columnid="not2"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_mon.form.edt_notIn3" propid="value" datasetid="ds_notIn" columnid="not3"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_mon.form.edt_notIn4" propid="value" datasetid="ds_notIn" columnid="not4"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_mon.form.edt_notIn5" propid="value" datasetid="ds_notIn" columnid="not5"/>
+    </Bind>
+  </Form>
+</FDL>

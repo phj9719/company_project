@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00703                                                         
+     * 프로그램 명     	: 7-3 위생점겅일지                                                     
+     * Description 	: 위생점검일지 내역
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-08 09:30        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00703_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00703">
+	<!-- 조회 -->
+    <select id="DAY00703_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    	with recursive line as (
+		    select last_day(STR_TO_DATE(#{DATE_FROM}, '%Y-%m-%d') - interval 1 month) + interval 1 day as startDate
+		    , 1 AS row
+		    , #{SICODE} AS sicode
+		    union all
+		    select startDate + interval 1 day 
+		    , row + 1 AS row
+		    , sicode AS sicode
+			 from line 
+			 where startDate < last_day(STR_TO_DATE(#{DATE_TO}, '%Y-%m-%d'))
+		)
+		SELECT 
+		 LI.startDate
+		, LI.sicode
+		, BI.b_offname
+		, KH.sicode AS KH_sicode
+		, KH.위생번호
+		, IF(IFNULL(KH.위생번호,'') != '', 'O', '') AS 작성
+		, IFNULL(KH.점검일, LI.startDate) AS 점검일
+		, CASE DATE_FORMAT(LI.startDate, '%w') 
+			WHEN 0 THEN '(일)'
+			WHEN 1 THEN '(월)'
+			WHEN 2 THEN '(화)'
+			WHEN 3 THEN '(수)'
+			WHEN 4 THEN '(목)'
+			WHEN 5 THEN '(금)'
+			WHEN 6 THEN '(토)'
+			END 점검요일
+		, KH.위생담당 
+		, KH.위생코드 
+		, KH.위생평가 
+		, KH.항목01 
+		, KH.항목02 
+		, KH.항목03 
+		, KH.항목04 
+		, KH.항목05 
+		, KH.항목06 
+		, KH.항목07 
+		, KH.항목08 
+		, KH.항목09 
+		, KH.항목10 
+		, KH.항목11 
+		, KH.항목12 
+		, KH.항목13 
+		, KH.항목14 
+		, KH.항목15 
+		, KH.항목16 
+		, KH.항목17 
+		, KH.항목18 
+		, KH.항목19 
+		, KH.항목20 
+		, KH.항목21 
+		, KH.항목22 
+		, KH.소독온도조
+		, KH.소독온도중
+		, KH.소독온도석
+		, KH.냉동온도 
+		, KH.냉장온도 
+		, KH.냉동고  
+		, KH.냉장고  
+		, KH.소독기아 
+		, KH.소독기점 
+		, KH.소독기저 
+		, KH.소독방법 
+		, KH.org_위생번호
+		, '0' AS CHK
+		from line LI
+		LEFT OUTER JOIN km_hygiene KH
+		ON LI.sicode = KH.sicode
+		AND LI.startDate = KH.점검일
+		INNER JOIN base_info BI
+		ON LI.sicode = BI.sicode
+		WHERE LI.sicode = #{SICODE}
+		]]>
+    </select>   
+    
+    <!-- 삽입전 점검일 중복 확인 -->
+    <select id="DAY00703_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT
+    		KH.sicode
+    	,	KH.위생번호
+    	,	KH.점검일
+    	FROM km_hygiene KH
+    	WHERE KH.sicode = #{sicode}
+    	AND	KH.점검일 = #{점검일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00703_DS_DATA_I" parameterType="java.util.HashMap">
+    	INSERT INTO km_hygiene
+		(
+			  sicode
+			, 점검일
+			, 위생담당
+			, 위생코드
+			, 위생평가
+			, 항목01
+			, 항목02
+			, 항목03
+			, 항목04
+			, 항목05
+			, 항목06
+			, 항목07
+			, 항목08
+			, 항목09
+			, 항목10
+			, 항목11
+			, 항목12
+			, 항목13
+			, 항목14
+			, 항목15
+			, 항목16
+			, 항목17
+			, 항목18
+			, 항목19
+			, 항목20
+			, 항목21
+			, 항목22
+			, 소독온도조
+			, 소독온도중
+			, 소독온도석
+			, 냉동온도
+			, 냉장온도
+			, 냉동고
+			, 냉장고
+			, 소독기아
+			, 소독기점
+			, 소독기저
+			, 소독방법
+			, org_위생번호
+		)
+		VALUES
+		(
+			  #{sicode}
+			, #{점검일}
+			, #{위생담당}
+			, #{위생코드}
+			, #{위생평가}
+			, #{항목01}
+			, #{항목02}
+			, #{항목03}
+			, #{항목04}
+			, #{항목05}
+			, #{항목06}
+			, #{항목07}
+			, #{항목08}
+			, #{항목09}
+			, #{항목10}
+			, #{항목11}
+			, #{항목12}
+			, #{항목13}
+			, #{항목14}
+			, #{항목15}
+			, #{항목16}
+			, #{항목17}
+			, #{항목18}
+			, #{항목19}
+			, #{항목20}
+			, #{항목21}
+			, #{항목22}
+			, #{소독온도조}
+			, #{소독온도중}
+			, #{소독온도석}
+			, #{냉동온도}
+			, #{냉장온도}
+			, #{냉동고}
+			, #{냉장고}
+			, #{소독기아}
+			, #{소독기점}
+			, #{소독기저}
+			, #{소독방법}
+			, #{org_위생번호}
+		)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00703_DS_DATA_U" parameterType="java.util.HashMap">
+    	UPDATE km_hygiene
+    	SET	위생담당  = #{위생담당}
+		, 위생코드  = #{위생코드}
+		, 위생평가  = #{위생평가}
+		, 항목01  = #{항목01}
+		, 항목02  = #{항목02}
+		, 항목03  = #{항목03}
+		, 항목04  = #{항목04}
+		, 항목05  = #{항목05}
+		, 항목06  = #{항목06}
+		, 항목07  = #{항목07}
+		, 항목08  = #{항목08}
+		, 항목09  = #{항목09}
+		, 항목10  = #{항목10}
+		, 항목11  = #{항목11}
+		, 항목12  = #{항목12}
+		, 항목13  = #{항목13}
+		, 항목14  = #{항목14}
+		, 항목15  = #{항목15}
+		, 항목16  = #{항목16}
+		, 항목17  = #{항목17}
+		, 항목18  = #{항목18}
+		, 항목19  = #{항목19}
+		, 항목20  = #{항목20}
+		, 항목21  = #{항목21}
+		, 항목22  = #{항목22}
+		, 소독온도조 = #{소독온도조}
+		, 소독온도중 = #{소독온도중}
+		, 소독온도석 = #{소독온도석}
+		, 냉동온도  = #{냉동온도}
+		, 냉장온도  = #{냉장온도}
+		, 냉동고   = #{냉동고}
+		, 냉장고   = #{냉장고}
+		, 소독기아  = #{소독기아}
+		, 소독기점  = #{소독기점}
+		, 소독기저  = #{소독기저}
+		, 소독방법  = #{소독방법}
+		, org_위생번호 = #{org_위생번호}
+    	WHERE sicode = #{sicode}
+    	AND	위생번호 = #{위생번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00703_DS_DATA_D" parameterType="java.util.HashMap">
+    	DELETE FROM km_hygiene
+    	WHERE sicode = #{sicode}
+    	AND	위생번호 = #{위생번호}
+    </delete>
+    
+</mapper>                                                                                                                                                                                                          

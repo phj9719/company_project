@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00103                                                         
+     * 프로그램 명     	: 1-3 일별 요양서비스 제공현황                                                     
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-04-27 13:30        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00700_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00103">
+	<!-- 조회 -->
+    <select id="DAY00103_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT bma.sicode					
+			 , kr.k_number		
+		     , bma.거주현황 AS m_type
+		     , bma.m_jumin1							
+		     , bma.m_group							
+		     , bma.m_code							
+		     , bma.m_name							
+		     , bma.성별 AS SEX_GB 							
+			 , (CASE WHEN IFNULL(kr.시작시간,'') = '' THEN ''
+		             ELSE CONCAT(kr.시작시간,'-',kr.종료시간) END ) AS mr_move /* 송영시간 */							
+		     , IF(bb.목욕시간= '  :  -  :  ','', bb.목욕시간) AS ba_time	/* 목욕시간  */										
+		     , CONCAT((CASE WHEN IFNULL(ko.외출시,'') = '' AND IFNULL(ko.외출분,'') = '' THEN NULL 							
+		             		  ELSE concat(lpad(ko.외출시,2,'0'),':',lpad(ko.외출분,2,'0')) END)					
+				   	, (CASE WHEN IFNULL(ko.외출시,'') = '' AND IFNULL(ko.외출분,'') = '' AND IFNULL(ko.복귀시,'') = '' AND IFNULL(ko.복귀분,'') = '' THEN NULL				
+			                 ELSE '-' END)						
+				      , (CASE WHEN IFNULL(ko.복귀시,'') = '' AND IFNULL(ko.복귀분,'') = '' THEN NULL 					
+		             		  ELSE concat(lpad(ko.복귀시,2,'0'),':',lpad(ko.복귀분,2,'0')) END)					
+		      		) AS out_time /* 외출기록 */					
+		      , (CASE WHEN IFNULL(trim(kr.요양일지),'') = '' THEN NULL ELSE '○' END) AS kr_contents /* 요양일지 */							
+		      , CONCAT((CASE WHEN IFNULL(trim(kr.아침종류),'0') = '0' THEN '' ELSE 'B' END) 							
+				       , (CASE WHEN IFNULL(trim(kr.점심종류),'0') = '0' THEN '' ELSE 'L' END)					
+				       , (CASE WHEN IFNULL(trim(kr.저녁종류),'0') = '0' THEN '' ELSE 'D' END) ) AS food_kind /* 식사 */					
+				, CONCAT((CASE WHEN IFNULL(trim(kr.오전간식),'0') = '0' THEN '' ELSE 'A' END) 					
+				       , (CASE WHEN IFNULL(trim(kr.오후간식),'0') = '0' THEN '' ELSE 'P' END) ) AS food_sub_kind /* 간식 */					
+		  	   , (CASE WHEN IFNULL(trim(kr.구강상태),'0') = '0' THEN '' 						
+				        WHEN IFNULL(trim(kr.구강상태),'0') = '1' THEN '양치' 					
+				        WHEN IFNULL(trim(kr.구강상태),'0') = '2' THEN '행굼'					
+						  ELSE '' END) AS kr_state /* 구강 */			
+								, IF(((CASE WHEN SUBSTRING(kc.소변관찰,8,1) IN ('2','3') THEN 1 ELSE 0 END) 					
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,9,1) IN ('2','3') THEN 1 ELSE 0 END) 						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,10,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,11,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,12,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,13,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,14,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,15,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,16,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,17,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,18,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,19,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,20,1) IN ('2','3') THEN 1 ELSE 0 END)) = 0,'',
+				  ((CASE WHEN SUBSTRING(kc.소변관찰,8,1) IN ('2','3') THEN 1 ELSE 0 END) 					
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,9,1) IN ('2','3') THEN 1 ELSE 0 END) 						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,10,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,11,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,12,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,13,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,14,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,15,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,16,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,17,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,18,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,19,1) IN ('2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.소변관찰,20,1) IN ('2','3') THEN 1 ELSE 0 END))) AS cr_u_cnt /* 배뇨 합계가 0이면 빈값 표시 */						
+
+				, IF(((CASE WHEN SUBSTRING(kc.배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)					
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END) 						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END)) = 0,'',
+				  ((CASE WHEN SUBSTRING(kc.배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)					
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END) 						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)						
+		     	+ (CASE WHEN SUBSTRING(kc.배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END))) AS cr_b_cnt /* 배변 합계가 0이면 빈값 표시 */	
+		     							
+		     	, CONCAT((CASE WHEN SUBSTRING(kr.기능훈련a,1,1) = '1' THEN '신체'						
+							    	WHEN SUBSTRING(kr.기능훈련a,2,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,3,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,4,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,5,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,6,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,7,1) = '1' THEN '신체'	
+							    	WHEN SUBSTRING(kr.기능훈련a,8,1) = '1' THEN '신체'	
+							    	ELSE '' END) 	
+						 , (CASE WHEN SUBSTRING(kr.기능훈련b,1,1) = '1' THEN '기본'			
+							    	WHEN SUBSTRING(kr.기능훈련b,2,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,3,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,4,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,5,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,6,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,7,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,8,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,9,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,10,1) = '1' THEN '기본'	
+							    	WHEN SUBSTRING(kr.기능훈련b,11,1) = '1' THEN '기본'	
+							    	ELSE '' END)	
+						 , (CASE WHEN SUBSTRING(kr.기능훈련c,1,1) = '1' THEN '일상'			
+								   WHEN SUBSTRING(kr.기능훈련c,2,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,3,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,4,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,5,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,6,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,7,1) = '1' THEN '일상'	
+								   WHEN SUBSTRING(kr.기능훈련c,8,1) = '1' THEN '일상'	
+								   ELSE '' END) 	
+					  		)   AS t_abc_contents   /* 기능훈련 */		
+				, (CASE WHEN ba.ac_num IS NOT NULL THEN '○' ELSE '' END) AS ba_contents  /* 인지 */					
+				, km25.sc0100_cnt	/* 세면 */				
+		      , km25.sc0200_cnt	/* 구강 */						
+		      , km25.sc0300_cnt  /* 머리감기기 */							
+		      , km25.sc0400_cnt	/* 몸단장 */						
+		      , km25.sc0500_cnt	/* 옷갈아입히기 */						
+		      , km25.sc0700_cnt	/* 식사도움 */						
+		      , (CASE WHEN so.so_number IS NOT NULL THEN '○' ELSE '' END) AS so_contents		/* 자세변경 */					
+				, km25.sc0900_cnt	/* 이동도움 */				
+		      , km25.sc1000_cnt	/* 신체기능유지 */						
+		      , km25.sc2400_cnt	/* 산책동행 */						
+		      , km25.sc2500_cnt	/* 의사소통도움 */						
+		      , (CASE WHEN kmc.sc_number IS NOT NULL THEN '○' ELSE '' END) AS kmc_contents	/* 상태변화 */						
+		      , (CASE WHEN bi.bi_number IS NOT NULL THEN '○' ELSE '' END) AS bi_contents	/* 신체보호 */						
+		      , kr.미입소 AS move_contents /* 미입소 */		
+		      , IF(kr.미입소 > 0,'Y','N') AS move_yn /* 미입소 여부 */					
+		  FROM (SELECT * FROM base_mate WHERE #{date} BETWEEN m_enday AND m_reday) bma							
+		  LEFT JOIN (SELECT * FROM kmrecord WHERE k_nalja = #{date}) kr							
+		  ON (bma.sicode = kr.sicode AND bma.m_code = kr.k_code)							
+		  LEFT JOIN (SELECT * FROM base_bath WHERE ba_nalja = #{date}) bb							
+		  ON (bma.sicode = bb.sicode AND bma.m_code = bb.ba_code)							
+		  LEFT JOIN (SELECT ko1.*							
+						  FROM kmstayout ko1			
+						     , (SELECT MIN(외출번호) AS out_number			
+								       , sicode	
+								       , 거주코드	
+								       , 외출일	
+								    FROM kmstayout	
+								   GROUP BY sicode	
+								 	       , 거주코드
+									       , 외출일
+							   ) ko2		
+						 WHERE ko1.sicode = ko2.sicode			
+						   AND ko1.외출번호 = ko2.out_number			
+						   AND ko1.외출일 = #{date}) ko			
+		  ON (bma.sicode = ko.sicode AND bma.m_code = ko.거주코드 )							
+		  LEFT JOIN (SELECT * FROM kmcretion WHERE cr_nalja = #{date}) kc							
+		  ON (bma.sicode = kc.sicode AND bma.m_code = kc.cr_code )							
+		  LEFT JOIN (SELECT * FROM base_actday WHERE ac_day = #{date}) ba							
+		  ON (bma.sicode = ba.sicode AND bma.m_code = ba.ac_code )               							
+		  LEFT JOIN (SELECT sicode							
+						     , kmdaily			
+						     , kmcode			
+						     , SUM(CASE WHEN km바코드 = 'SC0100' THEN 1 ELSE 0 END) AS sc0100_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0200' THEN 1 ELSE 0 END) AS sc0200_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0300' THEN 1 ELSE 0 END) AS sc0300_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0400' THEN 1 ELSE 0 END) AS sc0400_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0500' THEN 1 ELSE 0 END) AS sc0500_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0700' THEN 1 ELSE 0 END) AS sc0700_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC0900' THEN 1 ELSE 0 END) AS sc0900_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC1000' THEN 1 ELSE 0 END) AS sc1000_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC2400' THEN 1 ELSE 0 END) AS sc2400_cnt			
+						     , SUM(CASE WHEN km바코드 = 'SC2500' THEN 1 ELSE 0 END) AS sc2500_cnt			
+						  FROM kmdaily25			
+						 WHERE kmdaily = #{date}			
+						GROUP BY sicode			
+						     , kmdaily			
+						     , kmcode) km25			
+		  ON (bma.sicode = km25.sicode AND bma.m_code = km25.kmcode )  							
+		  LEFT JOIN (SELECT * FROM base_sore WHERE so_nalja = #{date}) so							
+		  ON (bma.sicode = so.sicode AND bma.m_code = so.so_code )							
+		  LEFT JOIN (SELECT * FROM kmstchange WHERE sc_nalja = #{date}) kmc							
+		  ON (bma.sicode = kmc.sicode AND bma.m_code = kmc.sc_code)    							
+		  LEFT JOIN (SELECT * FROM base_bind WHERE bi_nalja = #{date}) bi 							
+		  ON (bma.sicode = bi.sicode AND bma.m_code = bi.bi_code)    							
+		 WHERE bma.sicode = #{sicode}
+		 ORDER BY bma.m_name    													
+    </select>
+	
+	<!-- 레포트 체크 -->
+	<!-- 요양일지, 요양일지(3단) -->
+	<select id="DAY00103_REPORT01_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	/*  */
+		SELECT COUNT(*) cnt
+		  FROM base_mate bm
+		     , base_info bi
+		     , kmrecord kr   
+		WHERE bm.sicode = bi.sicode
+		  AND bm.sicode = kr.sicode
+		  AND bm.m_code = kr.k_code
+		  AND IFNULL(trim(kr.요양일지),'') != ''
+		  AND bm.sicode = #{sicode}
+		  AND kr.k_nalja = #{date} 
+    </select>
+    
+    <select id="DAY00103_REPORT02_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		
+    </select>
+    
+    <!-- 식사도움기록 -->
+    <select id="DAY00103_REPORT03_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	/*  */
+		SELECT COUNT(*) cnt
+		FROM base_mate bm 
+		     , base_info bi
+		     , kmrecord kr   
+		WHERE bm.sicode = bi.sicode
+		  AND bm.sicode = kr.sicode
+		  AND bm.m_code = kr.k_code
+		  AND bm.sicode = #{sicode}
+		  AND kr.k_nalja = #{date} 
+		  AND (kr.아침종류!= '0' OR kr.점심종류!= '0' OR kr.저녁종류!= '0' OR kr.오전간식 != '0' OR kr.오후간식 != '0') 
+		  AND IFNULL(trim(kr.미입소),'') = ''
+		  AND (IF(kr.아침종류 > 0, 1, 0) + IF(kr.점심종류 > 0, 1, 0) + IF(kr.저녁종류 > 0, 1, 0)) > 0
+    </select>
+    
+    <!-- 식사.배설 관찰기록 -->
+    <select id="DAY00103_REPORT04_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	/*  */
+		SELECT COUNT(*) cnt
+		FROM (
+			SELECT bm.sicode
+			     , kr.k_nalja
+			     , kr.k_code
+			  FROM base_mate bm 
+			     , kmrecord kr   
+			WHERE bm.sicode = kr.sicode
+			  AND bm.m_code = kr.k_code
+			  AND bm.sicode = 'T22614000050'
+			  AND (kr.아침종류!= '0' OR kr.점심종류!= '0' OR kr.저녁종류!= '0' OR kr.오전간식 != '0' OR kr.오후간식 != '0') 
+			  AND IFNULL(TRIM(kr.미입소),'') = ''
+			  AND IFNULL(TRIM(kr.시작시간),'') != ''
+			) kmr
+		LEFT OUTER JOIN kmcretion kc
+		ON kmr.sicode = kc.sicode
+		AND kmr.k_code = kc.cr_code
+		AND kmr.k_nalja = kc.cr_nalja
+		WHERE kmr.sicode = #{sicode}
+		  AND kmr.k_nalja = #{date}
+    </select>
+    
+    <!-- 집중배설관찰기록 -->
+    <select id="DAY00103_REPORT05_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	/*  */
+		SELECT IFNULL(SUM((CASE WHEN SUBSTRING(kc.소변관찰,8,1) IN ('2','3') THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,9,1) IN ('2','3') THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,10,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,11,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,12,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,13,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,14,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,15,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,16,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,17,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,18,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,19,1) IN ('2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.소변관찰,20,1) IN ('2','3') THEN 1 ELSE 0 END)),0) AS cr_u_cnt /* 배뇨 */
+
+		  , IFNULL(SUM((CASE WHEN SUBSTRING(kc.배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END)),0) AS cr_b_cnt /* 배변 */
+
+		     , IFNULL(SUM((CASE WHEN SUBSTRING(kc.기저귀교환,8,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,9,1) = '1' THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,10,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,11,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,12,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,13,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,14,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,15,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,16,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,17,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,18,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,19,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,20,1) = '1' THEN 1 ELSE 0 END)),0) AS cr_c_cnt /* 기저귀 */
+		 FROM base_mate bm
+		 	, kmcretion kc
+		 WHERE bm.sicode = kc.sicode
+		 AND bm.m_code = kc.cr_code		 
+		 AND bm.sicode = #{sicode}
+		 AND kc.cr_nalja = #{date}
+    </select>
+    
+    <!-- 기저귀 교체기록 -->
+    <select id="DAY00103_REPORT06_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   		 /*  */
+		 SELECT IFNULL(SUM((CASE WHEN SUBSTRING(kc.기저귀교환,8,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,9,1) = '1' THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,10,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,11,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,12,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,13,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,14,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,15,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,16,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,17,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,18,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,19,1) = '1' THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(kc.기저귀교환,20,1) = '1' THEN 1 ELSE 0 END)),0) AS cnt /* 기저귀 */
+		 FROM base_mate bm
+		 , base_info bi
+		 , kmcretion kc
+		 WHERE bm.sicode = bi.sicode
+		 AND bm.sicode = kc.sicode
+		 AND bm.m_code = kc.cr_code
+		 AND bm.sicode = #{sicode}
+		 AND kc.cr_nalja = #{date}
+    </select>
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
+
+	<!-- MSSQL 
+	<bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+		<property name="url" value="jdbc:sqlserver://192.168.100.109:1577;DatabaseName=SANGJI_ERP_DEV" />
+		<property name="username" value="SA"/>
+		<property name="password" value="sangji@dev1!"/>
+	</bean>
+	-->
+
+	<!--
+	<bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+		<property name="url" value="jdbc:sqlserver://192.168.100.145:1433;DatabaseName=SANGJI_ERP_DEV" />
+		<property name="username" value="SA"/>
+		<property name="password" value="TEST1"/>
+	</bean>
+	-->
+	
+	<!--  
+    <bean id="dataSource-mssql" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  "/>
+            </bean>
+        </property>
+    </bean>
+	-->
+
+    <!-- hsql (테스트용 메모리 DB)
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:hsqldb:hsql://localhost/sampledb"/>
+        <property name="username" value="sa"/>
+    </bean>
+    -->  
+    
+    <!-- Mysql (POM에서 commons-dbcp, mysql-connector-java 관련 라이브러리 설정 ) 
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/example" />
+        <property name="username" value="user"/>
+        <property name="password" value="password"/>
+    </bean>
+    -->
+    
+    <!-- oracle (POM에서 commons-dbcp, ojdbc(라이센스 사항으로 별도로 배포되지 않음) 관련 라이브러리 설정)
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:example" />
+        <property name="username" value="user"/>
+        <property name="password" value="password"/>
+    </bean>
+    -->
+    
+    <bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    	<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+    	<property name="url" value="jdbc:log4jdbc:mariadb://14.42.209.174:3309/nshjugan"/>
+    	<property name="username" value="nshometest"/>
+    	<property name="password" value="argoscare91234"/>
+    	
+    	<property name="initialSize" value="5"/>	<!-- 최초 시점에 getConnection()를 통해 커넥션 풀에 채워 넣을 커넥션 수 default : 0 -->
+    	<property name="maxTotal" value="30"/>	<!-- 동시에 사용할 수 있는 최대 커넥션 개수 default : 8 -->
+    	<property name="maxIdle" value="30"/>	<!-- Connection Pool에 반납할 때 최대로 유지될 수 있는 커넥션 수 default : 8 -->
+    	<property name="minIdle" value="5"/>	<!-- 최소한으로 유지할 커넥션 개수 -->
+    	
+    	<property name="maxWaitMillis" value="3000"/>	<!-- pool이 고갈되었을 경우 최대 대기 타임 ms default : -1 무한정 -->
+    	
+    	<property name="validationQuery" value="SELECT 1"/>	<!-- connection 유효성 검사시 사용되는 쿼리 -->
+    	<property name="testOnBorrow" value="false"/>	<!-- connection을 가져올 때 해당 connection의 유효성 검사 여부 -->
+    	<property name="testOnReturn" value="false"/>	<!-- connection을 반환할 때 해당 connection의 유효성 검사 여부 -->
+    	<property name="testWhileIdle" value="true"/>	<!-- 놀고있는 connection 제거 여부를 검사시 해당 connection의 유효성 테스트 여부 -->
+    	
+    	<!-- Evictor 스레드는 Common DBCP 내부에서 커넥션 자원을 정리하는 구성 요소이며 별도의 스레드로 실행된다. -->
+    	<property name="timeBetweenEvictionRunsMillis" value="600000"/>	<!-- Evictor 가 동작하는 간격 default : -1 비활성화 -->
+        <property name="numTestsPerEvictionRun" value="6"/>	<!-- Evictor 동작 시 한 번에 검사할 커넥션의 개수 default : 3 -->
+        <property name="minEvictableIdleTimeMillis" value="-1" />	<!-- Evictor 동작 시 커넥션의 유휴 시간을 확인해 설정 값 이상일 경우 커넥션을 제거
+                                                                         (ms단위, default : 30분) -1로 설정하여 사용하지 않는것을 권장함 -->
+        
+        <!-- preparedStatement 풀링 여부 -->
+        <property name="poolPreparedStatements" value="true"/>	<!-- statement 풀링여부 설정 default : false -->
+        <property name="maxOpenPreparedStatements" value="50"/>	<!-- 커넥션 당 최대 pooling할 preparedStatement의 갯수를 설정
+                                                                     (default : 무한정, 무한정일 경우 OOM 발생할 수 있음 -->
+    </bean>
+    
+</beans>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00204_P01                                                      
+     * 프로그램 명     	: 상비약품목록조회                                              
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-17            	|  성재영		| 최초작성                         
+	   			
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00204_P01">
+	<select id="DAY00204_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-04_P01 조회 */
+	SELECT sicode
+		 , ROW_NUMBER() OVER(ORDER BY homenum) AS num
+		 , REPLACE(CURDATE(), "-", ".") AS nalja
+		 , homenum
+	     , 약품명
+	     , 효능
+	     , 규격
+	     , 수량
+	     , if(유통기한 = '2000-01-01','', DATE_FORMAT(유통기한, '%Y%m%d')) AS 유통기한
+	  FROM base_homedrug
+	 WHERE sicode = #{sicode}
+    </select>
+	
+	<!-- 수정 -->
+    <update id="DAY00204_P01_DS_LIST_U" parameterType="java.util.HashMap">
+    /* 2-04 수정 */
+    UPDATE base_homedrug
+       SET   약품명 = #{약품명}
+       	   , 효능 = #{효능}
+       	   , 규격 = #{규격}
+           , 수량 = #{수량}
+           , 유통기한 = #{유통기한}
+     WHERE sicode = #{sicode}
+       AND homenum = #{homenum}
+    </update>
+	
+</mapper>

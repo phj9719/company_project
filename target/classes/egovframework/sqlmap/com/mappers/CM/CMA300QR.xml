@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-24 15:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA300QR                                                         
+     * 프로그램 명  		: 작성문서 조회
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-02-24 15:00     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA300QR">                                                                                                                                                                              
+	<select id="CMA300QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		SELECT GAC.COMPANY_CD
+		     , GAC.PLANT_CD
+		     , GAC.PK_DOC_NO
+		     , GAC.GRP_DOC_NO
+		     , GAC.DOC_NM
+		     , GAC.DOC_DATE
+		     , GAC.DOC_WRITER
+		     , GAC.DOC_DEPT
+		     , CASE WHEN GAC.URGENT = 1
+		     		THEN 'Urgent'
+		     		ELSE 'Not Urgent' END AS URGENT
+		     , GAC.ACC_SUB_SYS
+		     , GAC.APPL_DOC_SBJT
+		     , GAC.GRP_DOC_KIND
+		     , GAC.RPT_DOC_NO
+		     , GAC.RPT_SUBJECT
+		     , GAC.RPT_CNT
+		     , GAC.UBI_VEW
+		     , GAC.UBI_VEW_PARM
+		     , GAC.MDFY_YN
+		     , CONVERT(CHAR(16), GAC.FIRST_RPT_DT, 20) AS FIRST_RPT_DT
+		     , GAC.RPT_WRITE
+		     , CONVERT(CHAR(16), GAC.APPL_RPT_DT, 20) AS APPL_RPT_DT
+		     , CONVERT(CHAR(16), GAC.APPVL_PRC_DT, 20) AS APPVL_PRC_DT
+		     , GAC.APPVL_PRC_CHARGE
+		     , CONVERT(CHAR(16), GAC.FNL_APPVL_DT, 20) AS FNL_APPVL_DT
+		     , GAC.FNL_APPVL_CHARGE
+		     , GAC.APPVL_PRC_FLAG
+		     , GAC.DOC_PRC_RVW
+		     , GAC.DOC_SND_DT
+		     , GAC.DOC_RCV_DT
+		     , CONVERT(CHAR(16), GAC.FRST_READ_DT, 20) AS FRST_READ_DT
+		     , GAC.FRST_READ_STS
+		     , GAC.ATTACH_FILE_YN
+		     , GAC.ATTACH_FILE_NM
+		     , GAC.ATTACH_GRP_ID
+		     , GAC.WK_FLAG
+		     , GAC.WK_FIELD
+		     , GAC.TRANS_JOB_ID
+		     , GAC.TRANS_ST
+		     , GAC.TRANS_RST_STS
+		     , GAC.SND_RCV_CD
+		     , GAC.REF_USER_KEY
+		     , GAC.REG_PGM_ID
+		     , GAC.REG_USER
+		     , GAC.REG_DT
+		     , GAC.REG_DT_CURR
+		     , GAC.REG_DT_LOC
+		     , GAC.REG_IP
+		     , GAC.MOD_PGM_ID
+		     , GAC.MOD_USER
+		     , GAC.MOD_DT
+		     , GAC.MOD_DT_CURR
+		     , GAC.MOD_DT_LOC
+		     , GAC.MOD_IP
+		  FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+		 WHERE GAC.GRP_DOC_NO IS NULL			-- 임시저장
+		   AND GAC.DOC_WRITER = #{DOC_WRITER}	-- 작성자
+		   AND GAC.DOC_DEPT   = #{DOC_DEPT}		-- 작성부서
+		   AND GAC.COMPANY_CD = #{COMPANY_CD}
+		<if test="PLANT_CD != '' and PLANT_CD != null">
+		   AND GAC.PLANT_CD   = #{PLANT_CD}
+		</if>
+		<if test="PK_DOC_NO != '' and PK_DOC_NO != null">
+		   AND GAC.PK_DOC_NO LIKE CONCAT ('%', #{PK_DOC_NO}, '%')
+		</if>
+		<if test="DOC_DATE != '' and DOC_DATE != null">
+		   AND GAC.DOC_DATE  >= #{DOC_DATE}
+		</if>
+		<if test="GRP_DOC_KIND != '' and GRP_DOC_KIND != null">
+		   AND GAC.GRP_DOC_KIND  = #{GRP_DOC_KIND}
+		</if>
+		 ORDER
+			BY GAC.URGENT DESC 
+			 , GAC.DOC_DATE DESC
+		
+    </select>
+    
+	<select id="CMA300QR_COMBO_DEPT_CD" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT COMPANY_CD
+			 , DEPT_CODE AS CD_VAL
+			 , DEPT_NAME AS CD_NAME
+			 , DEPT_CODE_NAME
+		  FROM T_HR_DEPARTMENT WITH(NOLOCK)
+	     WHERE USE_YN = 'Y'
+		   AND DEPT_NAME NOT IN ('', '상지해운')
+	     ORDER 
+	        BY DEPT_CODE
+    </select> 
+    
+    <delete id="CMA300QR_DELETE" parameterType="java.util.HashMap">
+    BEGIN
+    
+		DELETE FROM T_GR_APPL_CNT
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		   
+		DELETE FROM T_GR_APPL_LINE
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+
+		DELETE FROM T_GR_APPL_REF
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+
+		DELETE FROM T_GR_APPLED_RPT
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		   
+		DELETE FROM T_GR_FILE_ATT
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		   
+	END
+	</delete>
+    
+</mapper>                                                                                                                                                                                                                                        

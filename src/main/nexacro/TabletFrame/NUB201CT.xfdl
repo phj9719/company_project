@@ -1,0 +1,777 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1180" height="700" onload="form_onload" titletext="건강기록일지" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclick="formClick">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Div id="div_search" taborder="0" left="2.12%" top="14" height="40" right="3.39%" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date" taborder="0" left="0" top="0" width="160" height="40" locale="ko_KR" displaynulltext="일자" readonly="true"/>
+              <Combo id="cmb_area" taborder="1" text="" left="170" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_area_onitemchanged" displaynulltext="층(생활실)"/>
+              <Combo id="cmb_location" taborder="2" text="Combo00" left="300" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_location_onitemchanged" displaynulltext="호실"/>
+              <Button id="btn_tSearch" taborder="3" text="검색" left="560" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+              <Button id="btn_tDelete" taborder="4" text="삭제" top="0" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" width="90" right="0"/>
+              <Button id="btn_tSave" taborder="5" text="저장" top="0" width="90" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="100"/>
+              <Combo id="cmb_resident" taborder="6" text="Combo00" left="430" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명" buttonsize="0 0" oneditclick="div_search_cmb_resident_oneditclick" type="search" usesoftkeyboard="false"/>
+              <Button id="btn_tReset" taborder="7" text="초기화" top="0" width="100" height="40" cssclass="btn_tReset" right="200" onclick="fn_resetBtn"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="2.12%" top="84" bottom="4.29%" right="3.39%" text="" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_preTitle" taborder="0" text="혈압" left="0" top="55" width="320" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_preB" taborder="42" left="0" top="95" width="210" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_preH" taborder="3" text="H/L" left="0" top="95" width="210" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static00" taborder="21" text="/" left="100" top="145" width="10" height="40" textAlign="center" verticalAlign="middle"/>
+              <Static id="sta_pulseB" taborder="43" left="sta_preB:0" top="95" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_pulseH" taborder="4" text="맥박" left="sta_preH:0" top="95" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_temperature1B" taborder="44" left="sta_pulseB:0" top="95" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_temperature1H" taborder="5" text="오전①" left="sta_pulseH:0" top="95" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_temperature2B" taborder="45" left="sta_temperature1B:0" top="95" width="110" height="100" cssclass="sta_tDataBForm1" text="" onclick="formClick"/>
+              <Static id="sta_temperature2H" taborder="6" text="오후②" left="sta_temperature1H:00" top="95" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_TemperatureTitle" taborder="1" text="체온" left="sta_preTitle:0" top="55" width="330" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_sugarTtitle" taborder="2" text="혈당" left="sta_TemperatureTitle:0" top="55" width="240" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_weightB" taborder="46" left="1000" top="55" width="110" height="140" cssclass="sta_tDataBForm3" onclick="formClick"/>
+              <Static id="sta_weightH" taborder="11" text="몸무게" left="1000" top="55" width="110" height="80" cssclass="sta_tDataHForm3" onclick="formClick"/>
+              <Static id="sta_remarkB" taborder="47" left="0" top="295" cssclass="sta_tDataBForm2" onclick="formClick" right="0" bottom="0"/>
+              <TextArea id="txa_remark" taborder="38" left="20" top="345" wordWrap="char" bottom="20" right="20"/>
+              <Button id="btn_bp_measure" taborder="39" text="바로가기" top="61" width="90" height="26" cssclass="btn_tDefaultSkyblue" onclick="btn_tMeasureLink_onclick" left="190"/>
+              <Button id="btn_bt_measure" taborder="40" text="바로가기" left="514" top="61" width="90" height="26" cssclass="btn_tDefaultSkyblue" onclick="btn_tMeasureLink_onclick"/>
+              <Button id="btn_bs_measure" taborder="41" text="바로가기" left="793" top="62" width="90" height="26" cssclass="btn_tDefaultSkyblue" onclick="btn_tMeasureLink_onclick"/>
+              <Static id="sta_temperature3B" taborder="48" left="sta_temperature2B:0" top="95" width="110" height="100" cssclass="sta_tDataBForm1" text="" onclick="formClick"/>
+              <Static id="sta_temperature3H" taborder="7" text="저녁③" left="sta_temperature2H:0" top="95" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_sugar_fbsB" taborder="49" left="sta_temperature3B:0" top="95" width="120" height="100" cssclass="sta_tDataBForm1" text="" onclick="formClick"/>
+              <Static id="sta_sugar_fbsH" taborder="8" text="식전①" left="sta_temperature3H:0" top="95" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_sugar_pp2B" taborder="50" left="sta_sugar_fbsB:0" top="95" width="120" height="100" cssclass="sta_tDataBForm1" text="" onclick="formClick"/>
+              <Static id="sta_sugar_pp2H" taborder="9" text="식후2시간②" left="sta_sugar_fbsH:0" top="95" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_breathB" taborder="51" left="sta_sugarTtitle:0" top="55" width="110" height="140" cssclass="sta_tDataBForm1" text="" onclick="formClick"/>
+              <Static id="sta_breathH" taborder="10" text="호흡" left="sta_sugarTtitle:0" top="55" width="110" height="80" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_coughB" taborder="52" left="0" top="195" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_coughH" taborder="12" text="기침" left="0" top="195" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_throatB" taborder="53" left="sta_coughB:0" top="195" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_throatH" taborder="13" text="인후통" left="sta_coughH:0" top="195" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_breathing_diffB" taborder="33" left="sta_throatB:0" top="195" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick" text=""/>
+              <Static id="sta_breathing_diffH" taborder="14" text="호흡곤란" left="sta_throatH:0" top="195" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_sputumB" taborder="34" left="sta_breathing_diffB:0" top="195" width="110" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_sputumH" taborder="15" text="객담" left="sta_breathing_diffH:0" top="195" width="110" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_etcB" taborder="54" left="sta_sputumB:0" top="195" width="270" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_etcH" taborder="16" text="기타" left="sta_sputumH:0" top="195" width="270" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_injectionB" taborder="55" left="sta_etcB:0" top="195" width="200" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_injectionH" taborder="17" text="주사제투여" left="sta_etcH:0" top="195" width="200" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_drugB" taborder="56" left="910" top="195" width="200" height="100" cssclass="sta_tDataBForm3" onclick="formClick"/>
+              <Static id="sta_drugH" taborder="18" text="약물투여" left="910" top="195" width="200" height="40" cssclass="sta_tDataHForm3" onclick="formClick"/>
+              <CheckBox id="chk_cough" taborder="31" text="유" left="35" top="245" width="45" height="40" truevalue="1" falsevalue="0"/>
+              <CheckBox id="chk_throat" taborder="32" text="유" left="145" top="245" width="45" height="40" truevalue="1" falsevalue="0"/>
+              <CheckBox id="chk_breathing_diff" taborder="57" text="유" left="255" top="245" width="45" height="40" truevalue="1" falsevalue="0"/>
+              <CheckBox id="chk_sputum" taborder="58" text="유" left="365" top="245" width="45" height="40" truevalue="1" falsevalue="0"/>
+              <Edit id="edt_etc" taborder="35" left="460" top="245" width="230" height="40"/>
+              <Edit id="edt_injection" taborder="36" left="730" top="245" width="160" height="40"/>
+              <Edit id="edt_drug" taborder="37" left="930" top="245" width="160" height="40"/>
+              <MaskEdit id="mdt_pre_h" taborder="20" left="23" top="145" width="70" height="40" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_pre_l" taborder="22" left="119" top="145" width="70" height="40" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_pulse" taborder="23" left="230" top="145" width="70" height="40" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_temperature1" taborder="24" left="340" top="145" width="70" height="40" format="#0.#" type="number" limitbymask="both" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_temperature2" taborder="25" left="450" top="145" width="70" height="40" format="#0.#" type="number" limitbymask="both" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_temperature3" taborder="26" left="560" top="145" width="70" height="40" format="#0.#" type="number" limitbymask="both" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_sugar_fbs" taborder="27" left="670" top="145" width="80" height="40" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_sugar_pp2" taborder="28" left="790" top="145" width="80" height="40" onchanged="mdt_onchanged"/>
+              <MaskEdit id="mdt_breath" taborder="29" left="910" top="145" width="70" height="40"/>
+              <MaskEdit id="mdt_weight" taborder="30" left="1020" top="145" width="70" height="40"/>
+              <Static id="sta_observe_managerIdB" taborder="60" left="164" top="0" width="245" height="40" cssclass="sta_tDataBForm2" onclick="formClick"/>
+              <Combo id="cmb_manager" taborder="61" left="166" top="2" width="240" height="36" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0" type="search" usesoftkeyboard="false"/>
+              <Static id="sta_manager" taborder="62" text="처리자" left="0" top="0" width="165" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="sta_remarkH" taborder="19" text="건강일지" left="0" top="295" height="40" cssclass="sta_tDataHForm1" onclick="formClick" right="0"/>
+              <Button id="btn_previous_remarkH" taborder="63" text="전날복사" left="64.22%" top="302" width="90" height="26" cssclass="btn_tDefaultSkyblue" onclick="div_cont_btn_previous_remarkH_onclick"/>
+              <Button id="btn_tRecord" taborder="59" left="55.61%" top="302" width="60" height="24" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ENTER_DT" type="STRING" size="256"/>
+          <Column id="HEA_SEQ" type="STRING" size="256"/>
+          <Column id="HEA_DT" type="STRING" size="256"/>
+          <Column id="PRE_H" type="STRING" size="256"/>
+          <Column id="PRE_L" type="STRING" size="256"/>
+          <Column id="PULSE" type="STRING" size="256"/>
+          <Column id="BREATH" type="STRING" size="256"/>
+          <Column id="TEMPERATURE1" type="STRING" size="256"/>
+          <Column id="TEMPERATURE2" type="STRING" size="256"/>
+          <Column id="TEMPERATURE3" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="SUGAR_FBS" type="STRING" size="256"/>
+          <Column id="SUGAR_PP2" type="STRING" size="256"/>
+          <Column id="COUGH" type="STRING" size="256"/>
+          <Column id="THROAT" type="STRING" size="256"/>
+          <Column id="BREATHING_DIFF" type="STRING" size="256"/>
+          <Column id="SPUTUM" type="STRING" size="256"/>
+          <Column id="ETC" type="STRING" size="256"/>
+          <Column id="INJECTION" type="STRING" size="256"/>
+          <Column id="DRUG" type="STRING" size="256"/>
+          <Column id="PRE_TIME" type="STRING" size="256"/>
+          <Column id="SUG_FBS_TIME" type="STRING" size="256"/>
+          <Column id="SUG_PP2_TIME" type="STRING" size="256"/>
+          <Column id="TEM_TIME1" type="STRING" size="256"/>
+          <Column id="TEM_TIME2" type="STRING" size="256"/>
+          <Column id="TEM_TIME3" type="STRING" size="256"/>
+          <Column id="IR_PRE_H" type="STRING" size="256"/>
+          <Column id="IR_PRE_L" type="STRING" size="256"/>
+          <Column id="IR_PULSE" type="STRING" size="256"/>
+          <Column id="IR_PRE_TIME" type="STRING" size="256"/>
+          <Column id="IR_TEMP1" type="STRING" size="256"/>
+          <Column id="IR_TEMP_TIME1" type="STRING" size="256"/>
+          <Column id="IR_TEMP2" type="STRING" size="256"/>
+          <Column id="IR_TEM_TIME2" type="STRING" size="256"/>
+          <Column id="IR_TEMP3" type="STRING" size="256"/>
+          <Column id="IR_TEMP_TIME3" type="STRING" size="256"/>
+          <Column id="IR_SUGAR_FBS" type="STRING" size="256"/>
+          <Column id="IR_SUGAR_FBS_TIME" type="STRING" size="256"/>
+          <Column id="IR_SUGAR_PP2" type="STRING" size="256"/>
+          <Column id="IR_SUGAR_PP2_TIME" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+          <Column id="REF_SYS_RES_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resInfo" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="NAME_AGE" type="STRING" size="256"/>
+          <Column id="ENTER_DT" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_pre_remark" useclientlayout="true" oncolumnchanged="ds_list_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUB201CT
+ * 화면명   	: 건강기록일지
+ * 화면설명 	: 태블릿 입소자별 건강기록일지를 관리
+ * 작성일    	: 2021-07-30
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2021-09-15		조기종		측정 버튼을 바로가기 버튼으로 변경
+ *		2021-10-07		조기종		sct_health 테이블에도 데이터가 들어가도록 수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.tranFlag = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 메뉴명 세팅
+//	this.sta_menuTitle.set_text(this.getOwnerFrame().arguments["menuTitle"]);
+	
+	// 검색조건 세팅
+	this.taSearchDataSetting(obj);
+	
+	// 처리자 콤보
+	this.fn_setComboDs(obj);
+	
+	this.ds_location.filter("ARE_CD == '" + this.ds_search.getColumn(0, "AREA") + "'");
+	
+	// 로드 완료후 검색
+	this.fn_search();
+};
+
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+		{ outDsName : "ds_manager", sqlId : "NUB_COMMON.NUB_COMMON_DS_MANAGER_S", param : this.ds_search, bEmptyRow : true }
+	   ,{ outDsName : "ds_location", sqlId : "NUB_COMMON.NUB_COMMON_DS_LOCATION_ALL_S", param : this.ds_search, bEmptyRow : true }
+	   ,{ outDsName : "ds_resident", sqlId : "NUB_COMMON.NUB_COMMON_DS_RESIDENT_ALL_S", param : this.ds_search, bEmptyRow : true }
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 초기화 버튼
+this.fn_resetBtn = function ()
+{
+	this.ds_search.setColumn(0, "DATE", Sct.Util.getToday()); // 오늘
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	this.fn_save();
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function ()
+{
+	// 저장 내용 체크
+	if(!Sct.Grid.hasInsertAndUpdateRow(this.ds_list))
+	{
+		Sct.alert(this, "000569", "저장");	// {0}할 내용이 없습니다.
+		return false;
+	}
+	
+	// 저장하시겠습니까?
+	if(!Sct.confirm(this, "000038")) return false;
+	
+	const nRow = this.ds_list.rowposition;
+	
+	if(this.ds_list.getRowType(nRow) == 2) this.tranFlag = "I";
+	else if(this.ds_list.getRowType(nRow) == 4) this.tranFlag = "U";
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	// 데이터셋 상태가 추가상태이면 삭제 못함
+	if(this.ds_list.getRowType(this.ds_list.rowposition) == 2)
+	{
+		Sct.alert(this, "000569", "삭제");	// {0}할 내용이 없습니다.
+		return false;
+	}
+
+	// 삭제하시겠습니까?
+	if(Sct.confirm(this, "000083", "삭제"))
+	{
+		const nRow = this.ds_list.rowposition;
+		trace(nRow);
+		this.ds_list.set_updatecontrol(false);
+		this.ds_list.setRowType(nRow, Dataset.ROWTYPE_DELETE);
+		this.ds_list.set_updatecontrol(true);
+		trace(this.ds_list.getRowType(nRow));
+	}
+	else
+	{
+		return false;
+	}
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function ()
+{
+	// validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_list=output1 ds_resInfo=output2";
+	const argument = "method=getList "
+		+ "sqlId='NUB201CT.NUB201CT_DS_LIST_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S' ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function ()
+{	
+	if(!this.fn_save_pre()) return;
+
+// 	const svcId = "save";
+// 	const inDs = "ds_list";
+// 	this.fn_save_com(svcId, inDs);
+
+	const svcId = "save";
+	const params = "/NUB201CTController.do";
+	const inDatasets = "input1=ds_list:U";
+	const outDatasets = "";
+	const argument = "method=save";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	if(!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+//	const params = "/commonController.do";
+	const params = "/NUB201CTController.do";
+	const inDatasets = "input1=ds_list:U";
+	const outDatasets = "";
+// 	const argument = "method=delete "
+// 				   + "sqlId=NUB201CT.NUB201CT_DS_LIST_D ";
+	const argument = "method=delete";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		// 검색 콜백
+		if(strSvcID == "search")
+		{
+			// 검색조건 유지를 위해 글로벌 데이터셋에 조건 세팅
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "AREA", this.ds_resInfo.getColumn(0,"AREA"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "LOCATION", this.ds_resInfo.getColumn(0,"LOCATION"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "RES_ID", this.ds_resInfo.getColumn(0,"RES_ID"));
+			
+			// 검색결과가 없으면
+			if(this.ds_list.rowcount < 1)
+			{
+				// 행추가
+				const nRow = this.ds_list.addRow();
+				// 초기화
+				this.ds_list.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));	// 시설코드
+				this.ds_list.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));	// 입소자ID
+			//	this.ds_list.setColumn(nRow, "HEA_DT", this.ds_search.getColumn(0, "DATE"));	// 작성일
+				this.ds_list.setColumn(nRow, "PRE_H", 0);	// 혈압(HIGH)
+				this.ds_list.setColumn(nRow, "PRE_L", 0);	// 혈압(LOW)
+				this.ds_list.setColumn(nRow, "PULSE", 0);	// 맥박
+				this.ds_list.setColumn(nRow, "BREATH", 0);	// 호흡
+				this.ds_list.setColumn(nRow, "TEMPERATURE1", 0);	// 체온1(오전)
+				this.ds_list.setColumn(nRow, "TEMPERATURE2", 0);	// 체온2(오후)
+				this.ds_list.setColumn(nRow, "TEMPERATURE3", 0);	// 체온3(저녁)
+				this.ds_list.setColumn(nRow, "WEIGHT", 0);	// 몸무게
+				this.ds_list.setColumn(nRow, "SUGAR_FBS", 0);	// 혈당1(식전)
+				this.ds_list.setColumn(nRow, "SUGAR_PP2", 0);	// 혈당2(식후2시간)
+				this.ds_list.setColumn(nRow, "COUGH", 0);
+				this.ds_list.setColumn(nRow, "THROAT", 0);
+				this.ds_list.setColumn(nRow, "BREATHING_DIFF", 0);
+				this.ds_list.setColumn(nRow, "SPUTUM", 0);
+				
+				// 처리자에 접속자 세팅
+				this.ds_list.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+			}
+			else
+			{
+			//	this.div_cont.form.mae_dateVal.set_value(this.ds_list.getColumn(0, "HEA_DT"));
+				if(this.ds_list.getColumn(0, "PRE_H") == "" || this.ds_list.getColumn(0, "PRE_H") == null)
+				{
+					this.ds_list.setColumn(0, "PRE_H", 0);
+				}
+				if(this.ds_list.getColumn(0, "PRE_L") == "" || this.ds_list.getColumn(0, "PRE_L") == null)
+				{
+					this.ds_list.setColumn(0, "PRE_L", 0);
+				}
+				if(this.ds_list.getColumn(0, "PULSE") == "" || this.ds_list.getColumn(0, "PULSE") == null)
+				{
+					this.ds_list.setColumn(0, "PULSE", 0);
+				}
+				if(this.ds_list.getColumn(0, "BREATH") == "" || this.ds_list.getColumn(0, "BREATH") == null)
+				{
+					this.ds_list.setColumn(0, "BREATH", 0);
+				}
+				if(this.ds_list.getColumn(0, "TEMPERATURE1") == "" || this.ds_list.getColumn(0, "TEMPERATURE1") == null)
+				{
+					this.ds_list.setColumn(0, "TEMPERATURE1", 0);
+				}
+				if(this.ds_list.getColumn(0, "TEMPERATURE2") == "" || this.ds_list.getColumn(0, "TEMPERATURE2") == null)
+				{
+					this.ds_list.setColumn(0, "TEMPERATURE2", 0);
+				}
+				if(this.ds_list.getColumn(0, "TEMPERATURE3") == "" || this.ds_list.getColumn(0, "TEMPERATURE3") == null)
+				{
+					this.ds_list.setColumn(0, "TEMPERATURE3", 0);
+				}
+				if(this.ds_list.getColumn(0, "WEIGHT") == "" || this.ds_list.getColumn(0, "WEIGHT") == null)
+				{
+					this.ds_list.setColumn(0, "WEIGHT", 0);
+				}
+				if(this.ds_list.getColumn(0, "SUGAR_FBS") == "" || this.ds_list.getColumn(0, "SUGAR_FBS") == null)
+				{
+					this.ds_list.setColumn(0, "SUGAR_FBS", 0);
+				}
+				if(this.ds_list.getColumn(0, "SUGAR_PP2") == "" || this.ds_list.getColumn(0, "SUGAR_PP2") == null)
+				{
+					this.ds_list.setColumn(0, "SUGAR_PP2", 0);
+				}
+				if(this.ds_list.getColumn(0, "COUGH") == "" || this.ds_list.getColumn(0, "COUGH") == null)
+				{
+					this.ds_list.setColumn(0, "COUGH", 0);
+				}
+				if(this.ds_list.getColumn(0, "THROAT") == "" || this.ds_list.getColumn(0, "THROAT") == null)
+				{
+					this.ds_list.setColumn(0, "THROAT", 0);
+				}
+				if(this.ds_list.getColumn(0, "BREATHING_DIFF") == "" || this.ds_list.getColumn(0, "BREATHING_DIFF") == null)
+				{
+					this.ds_list.setColumn(0, "BREATHING_DIFF", 0);
+				}
+				if(this.ds_list.getColumn(0, "SPUTUM") == "" || this.ds_list.getColumn(0, "SPUTUM") == null)
+				{
+					this.ds_list.setColumn(0, "SPUTUM", 0);
+				}
+			}
+		}
+		// 저장 콜백
+		else if(strSvcID == "save")
+		{
+			if(this.tranFlag == "I")
+			{
+				Sct.alert(this, "000570", "등록");	// {0} 되었습니다.
+			}
+			else if(this.tranFlag == "U")
+			{
+				Sct.alert(this, "000570", "수정");	// {0} 되었습니다.
+			}
+			this.tranFlag = "";
+			
+			this.fn_search();
+		}
+		// 삭제 콜백
+		else if(strSvcID == "delete")
+		{
+			Sct.alert(this, "000570", "삭제");	// {0} 되었습니다.
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.tranFlag = "";
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+// 안드로이드 네이티브 통신 콜백
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	// STT
+	if(e.svcid == "VOICE1")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.ds_list.getColumn(0, "REMARK");
+			if (rmkValue == undefined)
+			{
+				this.ds_list.setColumn(0, "REMARK", e.returnvalue);
+			}
+			else
+			{
+				this.ds_list.setColumn(0, "REMARK", rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+};
+
+this.on_standardPlugin_permission_result = function(obj, e)
+{
+	trace("this.on_permission_result ::: " + e.svcid);
+	trace("this.on_permission_result ::: " + e.reason);
+	trace("this.on_permission_result ::: " + e.returnvalue);
+	
+	if (e.reason == -9)
+	{
+		this.alert("권한허용이 되지 않았습니다.");
+	}
+};
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+this.btn_tMeasureLink_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	for(let i = 0; i < nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components.length; i++)
+	{
+		if(nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].text == "혈압측정" &&
+		   obj.id == "btn_bp_measure"){	
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].setFocus();
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].click();
+		}
+		if(nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].text == "체온측정" &&
+		   obj.id == "btn_bt_measure"){	
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].setFocus();
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].click();
+		}
+		if(nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].text == "혈당측정" &&
+		   obj.id == "btn_bs_measure"){	
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].setFocus();
+			nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[i].click();
+		}
+	}
+};
+
+this.btn_tRecord_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {arg1 : "1"};
+	const stObj = this.makeStandardObject();
+	if(stObj)
+	{
+		this.standardPlugin.callMethod("VOICE", param);
+	}
+};
+
+
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "pop1" : // 처리자
+			this.ds_list.setColumn(0, "MANAGER_ID", objDs.getColumn(0,"USER_ID"));
+			break;
+		case "pop2" : // 입소자
+			this.ds_location.filter("ARE_CD == '"+objDs.getColumn(0, "AREA")+"'");
+			this.ds_resident.filter("");
+			this.div_search.form.cmb_area.set_value(objDs.getColumn(0, "AREA"));
+			this.div_search.form.cmb_location.set_value(objDs.getColumn(0, "LOCATION"));
+			this.div_search.form.cmb_resident.set_value(objDs.getColumn(0, "RES_ID"));
+			this.fn_search();
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 시간 입력
+this.mdt_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo) 
+{
+	const time = Sct.Util.getHour()+Sct.Util.getMin();
+	// 혈압 H
+	if (obj.id == "mdt_pre_h")
+	{
+		this.ds_list.setColumn(0, "PRE_TIME", time);
+	}
+	// 혈압 L
+	else if (obj.id == "mdt_pre_l")
+	{
+		this.ds_list.setColumn(0, "PRE_TIME", time);
+	}
+	// 맥박
+	else if (obj.id == "mdt_pulse")
+	{
+		this.ds_list.setColumn(0, "PRE_TIME", time);
+	}
+	// 체온1
+	else if (obj.id == "mdt_temperature1")
+	{
+		this.ds_list.setColumn(0, "TEM_TIME1", time);
+	}
+	// 체온2
+	else if (obj.id == "mdt_temperature2")
+	{
+		this.ds_list.setColumn(0, "TEM_TIME2", time);
+	}
+	// 체온3
+	else if (obj.id == "mdt_temperature3")
+	{
+		this.ds_list.setColumn(0, "TEM_TIME3", time);
+	}
+	// 혈당1
+	else if (obj.id == "mdt_sugar_fbs")
+	{
+		this.ds_list.setColumn(0, "SUG_FBS_TIME", time);
+	}
+	// 혈당2
+	else if (obj.id == "mdt_sugar_pp2")
+	{
+		this.ds_list.setColumn(0, "SUG_PP2_TIME", time);
+	}
+};
+
+this.div_search_cmb_resident_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {
+			COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")
+		,	FLAG : "NUB201CT"
+		,   AREA : this.ds_search.getColumn(0, "AREA")
+		,   LOCATION : this.ds_search.getColumn(0, "LOCATION")
+		,	DATE : this.ds_search.getColumn(0, "DATE")
+	};
+	
+	Sct.tPopup(this, "pop2", 350, 350, param, "TabletPOP::NUB_RESIDENT_POP.xfdl", "fn_popCallback");
+};
+
+this.cmb_manager_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+	
+	Sct.tPopup(this, "pop1", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+};
+
+
+
+this.div_cont_btn_previous_remarkH_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 2021-11-17 전날내용 버튼 추가
+	if(this.gfn_isNull(this.ds_list.getColumn(0, "RES_ID"))) {
+		Sct.alert(this, "000076", "입소자"+"|"); // {0} 항목은 필수 입력값입니다.
+		return;
+	}
+	if(!this.gfn_isNull(this.ds_list.getColumn(0, "REMARK"))) {
+		if(!Sct.confirm(this, "000582", "간호일지"+"|")) { // {0} 항목이 초기화됩니다. 계속하시겠습니까?
+			return;
+		} else {
+			this.ds_list.setColumn(e.row, "REMARK", "");
+		}
+	}
+	
+	// 전날 간호일지 조회
+	var svcId = "searchRemark";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_pre_remark=output1";
+	var argument = "method=getList "
+		+ "sqlId=NUB201CT.NUB201CT_DS_PRE_REMARK_S "
+		+ "COMPANY_CD=" + this.ds_list.getColumn(0, "COMPANY_CD") + " "
+		+ "RES_ID=" + this.ds_list.getColumn(0, "RES_ID") + " " 
+		;		
+	
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+	
+	// 전날 간호일지 세팅
+	this.ds_list.setColumn(0, "REMARK", this.ds_pre_remark.getColumn(0, "REMARK"));
+
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item2" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item3" compid="div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item4" compid="div_cont.form.mdt_pre_h" propid="value" datasetid="ds_list" columnid="PRE_H"/>
+      <BindItem id="item5" compid="div_cont.form.mdt_pre_l" propid="value" datasetid="ds_list" columnid="PRE_L"/>
+      <BindItem id="item6" compid="div_cont.form.mdt_pulse" propid="value" datasetid="ds_list" columnid="PULSE"/>
+      <BindItem id="item7" compid="div_cont.form.mdt_temperature1" propid="value" datasetid="ds_list" columnid="TEMPERATURE1"/>
+      <BindItem id="item8" compid="div_cont.form.mdt_temperature2" propid="value" datasetid="ds_list" columnid="TEMPERATURE2"/>
+      <BindItem id="item9" compid="div_cont.form.mdt_temperature3" propid="value" datasetid="ds_list" columnid="TEMPERATURE3"/>
+      <BindItem id="item10" compid="div_cont.form.mdt_sugar_fbs" propid="value" datasetid="ds_list" columnid="SUGAR_FBS"/>
+      <BindItem id="item11" compid="div_cont.form.mdt_sugar_pp2" propid="value" datasetid="ds_list" columnid="SUGAR_PP2"/>
+      <BindItem id="item12" compid="div_cont.form.mdt_breath" propid="value" datasetid="ds_list" columnid="BREATH"/>
+      <BindItem id="item13" compid="div_cont.form.mdt_weight" propid="value" datasetid="ds_list" columnid="WEIGHT"/>
+      <BindItem id="item14" compid="div_cont.form.chk_cough" propid="value" datasetid="ds_list" columnid="COUGH"/>
+      <BindItem id="item15" compid="div_cont.form.chk_throat" propid="value" datasetid="ds_list" columnid="THROAT"/>
+      <BindItem id="item16" compid="div_cont.form.chk_breathing_diff" propid="value" datasetid="ds_list" columnid="BREATHING_DIFF"/>
+      <BindItem id="item17" compid="div_cont.form.chk_sputum" propid="value" datasetid="ds_list" columnid="SPUTUM"/>
+      <BindItem id="item18" compid="div_cont.form.edt_etc" propid="value" datasetid="ds_list" columnid="ETC"/>
+      <BindItem id="item19" compid="div_cont.form.edt_injection" propid="value" datasetid="ds_list" columnid="INJECTION"/>
+      <BindItem id="item20" compid="div_cont.form.edt_drug" propid="value" datasetid="ds_list" columnid="DRUG"/>
+      <BindItem id="item21" compid="div_cont.form.txa_remark" propid="value" datasetid="ds_list" columnid="REMARK"/>
+      <BindItem id="item22" compid="div_cont.form.cmb_manager" propid="value" datasetid="ds_list" columnid="MANAGER_ID"/>
+    </Bind>
+  </Form>
+</FDL>

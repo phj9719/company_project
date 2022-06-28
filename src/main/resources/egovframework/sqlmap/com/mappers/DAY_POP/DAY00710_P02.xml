@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00710_P02                                                         
+     * 프로그램 명     	: 자원봉사자 정보 등록/수정                                                     
+     * Description 	: 자원봉사자를 조회, 등록, 수정
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-14 15:30        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00710_P02_DS_LIST_S		조회
+        DAY00710_P02_DS_DATA_I		삽입
+        DAY00710_P02_DS_DATA_U		수정                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00710_P02">
+	<!-- 조회 -->
+    <select id="DAY00710_P02_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-10 P02 조회 */
+    SELECT
+      bj.sicode
+    , LPAD(bj.봉사자번호, 7, '0') AS 봉사자번호
+    , bj.봉사자명
+    , bj.성별
+    , bj.생일
+    , bj.연락처1
+    , bj.연락처2
+    , bj.소속
+    , bj.주소
+    , bj.세부주소
+    , bj.우편번호
+    , bj.비고
+    FROM base_jawon bj
+    WHERE bj.sicode = #{SICODE}
+    ORDER BY bj.봉사자명
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00710_P02_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-10 P02 삽입 */
+    INSERT INTO base_jawon
+    (
+      sicode
+    , 봉사자명
+    , 성별
+    , 생일
+    , 연락처1
+    , 연락처2
+    , 소속
+    , 주소
+    , 세부주소
+    , 우편번호
+    , 비고
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{봉사자명}
+    , #{성별}
+    , #{생일}
+    , #{연락처1}
+    , #{연락처2}
+    , #{소속}
+    , #{주소}
+    , #{세부주소}
+    , #{우편번호}
+    , #{비고}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00710_P02_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-10 P02 수정 */
+    UPDATE base_jawon
+    SET
+      봉사자명 = #{봉사자명}
+    , 성별 = #{성별}
+    , 생일 = #{생일}
+    , 연락처1 = #{연락처1}
+    , 연락처2 = #{연락처2}
+    , 소속 = #{소속}
+    , 주소 = #{주소}
+    , 세부주소 = #{세부주소}
+    , 우편번호 = #{우편번호}
+    , 비고 = #{비고}
+    WHERE sicode = #{sicode}
+    AND 봉사자번호 = #{봉사자번호}
+    </update>
+</mapper>                                                                                                                                                                                                          

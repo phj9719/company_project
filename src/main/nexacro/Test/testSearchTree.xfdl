@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="testSearchTree" width="1027" height="768" titletext="메뉴 트리 검색 예제" onload="testSearchTree_onload">
+    <Layouts>
+      <Layout width="1027" height="768">
+        <Grid id="grd_menu" taborder="0" left="21" top="48" width="259" height="516" binddataset="ds_menu" treeusecheckbox="false" treeinitstatus="expand,null" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="170"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell displaytype="tree" edittype="tree" text="bind:MENU_NM" treelevel="bind:MENU_LEVEL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="edt_search" taborder="1" left="20" top="16" width="195" height="24" value="관리" onchanged="edt_search_onchanged"/>
+        <Button id="btn_search" taborder="2" text="찾기" left="220" top="16" width="59" height="25" onclick="btn_search_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_menu">
+        <ColumnInfo>
+          <Column id="MENU_ID" type="string" size="10"/>
+          <Column id="MENU_NM" type="string" size="200"/>
+          <Column id="MENU_LEVEL" type="INT" size="3"/>
+          <Column id="MENU_GRP" type="string" size="3"/>
+          <Column id="HIGH_MENU_ID" type="string" size="10"/>
+          <Column id="MENU_ORDER" type="bigdecimal" size="22"/>
+          <Column id="MENU_OPEN" type="string" size="1"/>
+          <Column id="MENU_PARAM" type="string" size="100"/>
+          <Column id="MENU_STATUS" type="string" size="10"/>
+          <Column id="SCR_ID" type="string" size="100"/>
+          <Column id="USE_YN" type="string" size="1"/>
+          <Column id="SHOW_YN" type="string" size="1"/>
+          <Column id="LANG_TYPE" type="STRING" size="5"/>
+          <Column id="SCR_NM" type="string" size="100"/>
+          <Column id="SCR_PATH" type="string" size="100"/>
+          <Column id="GRP_ID" type="string" size="10"/>
+          <Column id="AUTH_ADD" type="string" size="1"/>
+          <Column id="AUTH_MOD" type="string" size="1"/>
+          <Column id="AUTH_DEL" type="string" size="1"/>
+          <Column id="AUTH_PRT" type="string" size="1"/>
+          <Column id="AUTH_SAVE" type="STRING" size="1"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+include "lib::sct_util.xjs"
+this.testSearchTree_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.ds_menu.set_enableevent(false);
+	nexacro.getApplication().gds_menu.filter("MENU_LEVEL>0");
+	this.ds_menu.copyData(nexacro.getApplication().gds_menu, true);
+	this.ds_menu.addColumn("SEARCH_FLAG", "string", 1);
+	nexacro.getApplication().gds_menu.filter("");
+
+	for (var i = 0; i < this.ds_menu.rowcount; i++) 
+	{
+		var level = this.ds_menu.getColumn(i, "MENU_LEVEL");
+		this.ds_menu.setColumn(i, "MENU_LEVEL", level - 1);
+	}
+	this.ds_menu.set_enableevent(true);
+};
+
+this.fv_searchRow = -1;
+this.btn_search_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.grd_menu.set_treeinitstatus("expand,all");
+	this.ds_menu.set_enableevent(false);
+
+	var firstRow = -1;
+	for (var i = (this.fv_searchRow + 1); i < this.ds_menu.rowcount; i++) 
+	{
+		var name = this.ds_menu.getColumn(i, "MENU_NM");
+		if (Sct.Util.isEmpty(this.edt_search.value.toString().trim())) 
+		{
+			this.ds_menu.setColumn(i, "SEARCH_FLAG", 0);
+		}
+		else 
+		{
+			if (name.indexOf(this.edt_search.value.toString().trim()) >= 0) 
+			{
+				this.ds_menu.setColumn(i, "SEARCH_FLAG", 1);
+				if (firstRow == -1) 
+				{
+					this.fv_searchRow = i;
+					firstRow = i;
+				}
+			}
+			else 
+			{
+				this.ds_menu.setColumn(i, "SEARCH_FLAG", 0);
+			}
+		}
+	}
+	this.ds_menu.set_enableevent(true);
+	if (firstRow != -1) 
+	{
+		this.ds_menu.set_rowposition(firstRow);
+	}
+};
+
+this.edt_search_onchanged = function (obj:Edit, e:nexacro.ChangeEventInfo)
+{
+	this.fv_searchRow = -1;
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00105
+     * 프로그램 명     	: 1-5  목욕제공 일정표
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-27 16:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00105_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00105">
+	<!-- 조회 -->
+    <select id="DAY00105_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00105_DS_LIST_S */
+		SELECT bm.sicode
+		     , bm.거주현황
+		     , bm.m_group
+		  	 , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , bm.m_roomname
+		     , bm.m_code
+		     , m2.ba_cnt
+		     , m2.WORKDAY01  
+			 , m2.WORKDAY02  
+			 , m2.WORKDAY03  
+			 , m2.WORKDAY04  
+			 , m2.WORKDAY05  
+			 , m2.WORKDAY06  
+			 , m2.WORKDAY07  
+			 , m2.WORKDAY08  
+			 , m2.WORKDAY09  
+			 , m2.WORKDAY10  
+			 , m2.WORKDAY11  
+			 , m2.WORKDAY12  
+			 , m2.WORKDAY13  
+			 , m2.WORKDAY14  
+			 , m2.WORKDAY15  
+			 , m2.WORKDAY16  
+			 , m2.WORKDAY17  
+			 , m2.WORKDAY18  
+			 , m2.WORKDAY19  
+			 , m2.WORKDAY20  
+			 , m2.WORKDAY21  
+			 , m2.WORKDAY22  
+			 , m2.WORKDAY23  
+			 , m2.WORKDAY24  
+			 , m2.WORKDAY25  
+			 , m2.WORKDAY26  
+			 , m2.WORKDAY27  
+			 , m2.WORKDAY28  
+			 , m2.WORKDAY29  
+			 , m2.WORKDAY30  
+			 , m2.WORKDAY31
+		  FROM base_mate bm
+		  LEFT JOIN (
+			  SELECT bb.ba_code
+			    , MAX(bb.ba_cnt) AS ba_cnt
+				, MAX(IF(bb.row_num = '01', bb.type1,  '')) AS WORKDAY01
+				, MAX(IF(bb.row_num = '02', bb.type1, '')) AS WORKDAY02
+				, MAX(IF(bb.row_num = '03', bb.type1, '')) AS WORKDAY03
+				, MAX(IF(bb.row_num = '04', bb.type1, '')) AS WORKDAY04
+				, MAX(IF(bb.row_num = '05', bb.type1, '')) AS WORKDAY05
+				, MAX(IF(bb.row_num = '06', bb.type1, '')) AS WORKDAY06
+				, MAX(IF(bb.row_num = '07', bb.type1, '')) AS WORKDAY07
+				, MAX(IF(bb.row_num = '08', bb.type1, '')) AS WORKDAY08
+				, MAX(IF(bb.row_num = '09', bb.type1, '')) AS WORKDAY09
+				, MAX(IF(bb.row_num = '10', bb.type1, '')) AS WORKDAY10
+				, MAX(IF(bb.row_num = '11', bb.type1, '')) AS WORKDAY11
+				, MAX(IF(bb.row_num = '12', bb.type1, '')) AS WORKDAY12
+				, MAX(IF(bb.row_num = '13', bb.type1, '')) AS WORKDAY13
+				, MAX(IF(bb.row_num = '14', bb.type1, '')) AS WORKDAY14
+				, MAX(IF(bb.row_num = '15', bb.type1, '')) AS WORKDAY15
+				, MAX(IF(bb.row_num = '16', bb.type1, '')) AS WORKDAY16
+				, MAX(IF(bb.row_num = '17', bb.type1, '')) AS WORKDAY17
+				, MAX(IF(bb.row_num = '18', bb.type1, '')) AS WORKDAY18
+				, MAX(IF(bb.row_num = '19', bb.type1, '')) AS WORKDAY19
+				, MAX(IF(bb.row_num = '20', bb.type1, '')) AS WORKDAY20
+				, MAX(IF(bb.row_num = '21', bb.type1, '')) AS WORKDAY21
+				, MAX(IF(bb.row_num = '22', bb.type1, '')) AS WORKDAY22
+				, MAX(IF(bb.row_num = '23', bb.type1, '')) AS WORKDAY23
+				, MAX(IF(bb.row_num = '24', bb.type1, '')) AS WORKDAY24
+				, MAX(IF(bb.row_num = '25', bb.type1, '')) AS WORKDAY25
+				, MAX(IF(bb.row_num = '26', bb.type1, '')) AS WORKDAY26
+				, MAX(IF(bb.row_num = '27', bb.type1, '')) AS WORKDAY27
+				, MAX(IF(bb.row_num = '28', bb.type1, '')) AS WORKDAY28
+				, MAX(IF(bb.row_num = '29', bb.type1, '')) AS WORKDAY29
+				, MAX(IF(bb.row_num = '30', bb.type1, '')) AS WORKDAY30
+				, MAX(IF(bb.row_num = '31', bb.type1, '')) AS WORKDAY31
+			  FROM (
+				  SELECT COUNT(*) OVER (PARTITION BY ba_code) AS ba_cnt
+				  , date_format(ba_nalja,'%d') AS row_num
+				  , ba_nalja
+				  , ba_code
+				    , 제공방법
+				    , (CASE WHEN 제공방법 = '0' THEN '♨'
+				     WHEN 제공방법 = '1' THEN '①'
+				     WHEN 제공방법 = '2' THEN '②'
+				     WHEN 제공방법 = '3' THEN '③'
+				     WHEN 제공방법 = '4' THEN '④'
+				     WHEN 제공방법 = '5' THEN '⑤'     
+				        ELSE '' END) AS type1
+				  FROM base_bath 
+				  WHERE 1=1
+				   AND ba_nalja BETWEEN #{date_from} AND #{date_to} ) bb
+		  	  GROUP BY bb.ba_code ) m2
+		  ON (bm.m_code = m2.ba_code)
+		  WHERE bm.sicode = #{sicode}
+			AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+			AND bm.m_reday >= #{date_from}
+		<if test="m_group != '전체'">
+			AND bm.m_group = #{m_group}			/* A,B,C,D,E 중 하나인 경우 */
+		</if>
+		  ORDER BY bm.m_name
+    </select>
+
+    <select id="DAY00105_DS_LIST_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00105_DS_LIST_CNT_S */
+    	SELECT
+    		COUNT(*) AS cnt
+		FROM base_mate bm
+		WHERE bm.sicode = #{sicode}
+		 AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+		 AND bm.m_reday >= #{date_from}
+    </select>
+    
+    <select id="DAY00105_DS_REPORT_CNT" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00105_DS_REPORT_CNT */
+		SELECT COUNT(*) AS cnt
+		FROM base_bath bb
+		WHERE bb.sicode = #{sicode}
+		AND bb.ba_nalja BETWEEN #{date_from} AND #{date_to}   
+    </select>
+
+	<select id="DAY00105_DS_YEAR_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00105_DS_YEAR_S */
+		WITH recursive cte AS (	-- 과거 10년 + 현재년 + 미래 9년
+				SELECT YEAR(DATE_ADD(CURRENT_DATE, INTERVAL -10 YEAR)) AS CMCD,
+						CONCAT(YEAR(DATE_ADD(CURRENT_DATE, INTERVAL -10 YEAR)), '년') AS CMNM
+			UNION ALL
+				SELECT CMCD + 1, CONCAT((CMCD + 1), '년') FROM cte
+				WHERE CMCD <![CDATA[ < ]]> YEAR(CURRENT_DATE) + 9
+		)
+		SELECT * FROM cte
+    </select>
+</mapper>

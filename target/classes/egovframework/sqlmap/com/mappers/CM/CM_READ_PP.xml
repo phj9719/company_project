@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="CM_READ_PP">                                                                                                         
+	<select id="CM_READ_PP" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			 SELECT 
+			              GAL.COMPANY_CD
+			            , GAL.PLANT_CD
+			            , GAL.PK_DOC_NO
+			            , CONCAT((SELECT A.DEPT_NAME
+			                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+			                      WHERE A.COMPANY_CD = GAL.COMPANY_CD
+			                        AND A.DEPT_CODE  = (SELECT DEPT_CD
+			                                            FROM  T_CM_USER B WITH(NOLOCK)
+			                                            WHERE B.COMPANY_CD  = GAL.COMPANY_CD
+			                                              AND B.USER_NM_KOR = GAL.APPL_LINE_CHRG)),'/',GAL.APPL_LINE_CHRG,' (',GAL.APPL_LINE_PSTN,')') AS READ_H
+			             , GAL.FRST_READ_DT
+			             , GAL.FNL_READ_DT
+			             , ISNULL(GAL.FRST_READ_STS,'0')            AS FRST_READ_STS
+			FROM 		   T_GR_APPL_LINE GAL WITH(NOLOCK)
+			WHERE		   GAL.COMPANY_CD = #{COMPANY_CD}
+			  AND		   GAL.PK_DOC_NO  = #{PK_DOC_NO}
+     ]]>                                                                                                                                                                                                              
+    </select>                                                                                                                                                                                    
+</mapper>                                                                                                                                                                                                          

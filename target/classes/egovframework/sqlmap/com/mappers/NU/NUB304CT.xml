@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB304CT                                                         
+     * 프로그램 명     	: 식사                                                     
+     * Description 	: 태블릿 입소자별 식사 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-11-18 10:00        		|  이승규       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB304CT">
+	<!-- 검색 -->
+	<select id="NUB304CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 태블릿 식사 검색 : NUB304CT_DS_LIST_S */
+			SELECT
+					NM.COMPANY_CD
+				,	NM.MEA_DT
+				,	NM.RES_ID
+				,	NR.NAME
+				,	NR.AREA
+				,	NR.LOCATION
+				,	NM.FUND_DIS
+				,	SUBSTRING(NM.FUND_DIS, 1, 1) AS FUND1
+				,	SUBSTRING(NM.FUND_DIS, 2, 1) AS FUND2
+				,	SUBSTRING(NM.FUND_DIS, 3, 1) AS FUND3
+				,	SUBSTRING(NM.FUND_DIS, 4, 1) AS FUND4
+				,	SUBSTRING(NM.FUND_DIS, 5, 1) AS FUND5
+				,	SUBSTRING(NM.FUND_DIS, 6, 1) AS FUND6
+				,	NM.DIETARY_CURE
+				,	SUBSTRING(NM.DIETARY_CURE, 1, 1) AS DIET1
+				,	SUBSTRING(NM.DIETARY_CURE, 2, 1) AS DIET2
+				,	SUBSTRING(NM.DIETARY_CURE, 3, 1) AS DIET3
+				,	SUBSTRING(NM.DIETARY_CURE, 4, 1) AS DIET4
+				,	NM.BRE_TP
+				,	SUBSTRING(NM.BRE_TP, 1, 1) AS B_MEAL1
+				,	SUBSTRING(NM.BRE_TP, 2, 1) AS B_MEAL2
+				,	SUBSTRING(NM.BRE_TP, 3, 1) AS B_MEAL3
+				,	SUBSTRING(NM.BRE_TP, 4, 1) AS B_MEAL4
+				,	SUBSTRING(NM.BRE_TP, 5, 1) AS B_MEAL5
+				,	SUBSTRING(NM.BRE_TP, 6, 1) AS B_MEAL6
+				,	NM.BRE_QTY
+				,	NM.BRE_TIME
+				,	NM.LUN_TP
+				,	SUBSTRING(NM.LUN_TP, 1, 1) AS L_MEAL1
+				,	SUBSTRING(NM.LUN_TP, 2, 1) AS L_MEAL2
+				,	SUBSTRING(NM.LUN_TP, 3, 1) AS L_MEAL3
+				,	SUBSTRING(NM.LUN_TP, 4, 1) AS L_MEAL4
+				,	SUBSTRING(NM.LUN_TP, 5, 1) AS L_MEAL5
+				,	SUBSTRING(NM.LUN_TP, 6, 1) AS L_MEAL6
+				,	NM.LUN_QTY
+				,	NM.LUN_TIME
+				,	NM.DIN_TP
+				,	SUBSTRING(NM.DIN_TP, 1, 1) AS D_MEAL1
+				,	SUBSTRING(NM.DIN_TP, 2, 1) AS D_MEAL2
+				,	SUBSTRING(NM.DIN_TP, 3, 1) AS D_MEAL3
+				,	SUBSTRING(NM.DIN_TP, 4, 1) AS D_MEAL4
+				,	SUBSTRING(NM.DIN_TP, 5, 1) AS D_MEAL5
+				,	SUBSTRING(NM.DIN_TP, 6, 1) AS D_MEAL6
+				,	NM.DIN_QTY
+				,	NM.DIN_TIME
+				,	NM.MOR_SNACK_QTY
+				,	NM.MOR_SNACK_TIME
+				,	NM.AFT_SNACK_QTY
+				,	NM.AFT_SNACK_TIME
+				,	NM.REMARK
+				,	NM.MANAGER_ID
+				,	NM.REG_PGM_ID
+				,	NM.REG_USER
+				,	NM.REG_DT
+				,	NM.REG_DT_CURR
+				,	NM.REG_DT_LOC
+				,	NM.REG_IP
+				,	NM.MOD_PGM_ID
+				,	NM.MOD_USER
+				,	NM.MOD_DT
+				,	NM.MOD_DT_CURR
+				,	NM.MOD_DT_LOC
+				,	NM.MOD_IP
+			FROM
+					T_NU_MEAL NM
+				,	T_NU_RESIDENT NR
+			WHERE	NM.COMPANY_CD = NR.COMPANY_CD
+			AND		NM.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NM.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NM.MEA_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NM.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 식사 입소자 정보 조회 -->
+	<select id="NUB304CT_DS_MEAL_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB304CT_DS_MEAL_RESIDENT_S */
+			SELECT
+					NR.COMPANY_CD
+				,	CC.BRE_FR_TIME
+				,	CC.BRE_TO_TIME
+				,	CC.LUN_FR_TIME
+				,	CC.LUN_TO_TIME
+				,	CC.DIN_FR_TIME
+				,	CC.DIN_TO_TIME
+				,	CC.MOR_SNACK_TIME
+				,	CC.AFT_SNACK_TIME
+				,	NR.FOOD_TP
+				,	SUBSTRING(NR.FOOD_TP, 1, 1) AS FOOD1
+				,	SUBSTRING(NR.FOOD_TP, 2, 1) AS FOOD2
+				,	SUBSTRING(NR.FOOD_TP, 3, 1) AS FOOD3
+				,	SUBSTRING(NR.FOOD_TP, 4, 1) AS FOOD4
+				,	SUBSTRING(NR.FOOD_TP, 5, 1) AS FOOD5
+				,	SUBSTRING(NR.FOOD_TP, 6, 1) AS FOOD6
+				,	NR.FUNC_DIS
+				,	SUBSTRING(NR.FUNC_DIS, 1, 1) AS FUNC1
+				,	SUBSTRING(NR.FUNC_DIS, 2, 1) AS FUNC2
+				,	SUBSTRING(NR.FUNC_DIS, 3, 1) AS FUNC3
+				,	SUBSTRING(NR.FUNC_DIS, 4, 1) AS FUNC4
+				,	SUBSTRING(NR.FUNC_DIS, 5, 1) AS FUNC5
+				,	SUBSTRING(NR.FUNC_DIS, 6, 1) AS FUNC6
+				,	NR.DIETARY_CURE
+				,	SUBSTRING(NR.DIETARY_CURE, 1, 1) AS DIET1
+				,	SUBSTRING(NR.DIETARY_CURE, 2, 1) AS DIET2
+				,	SUBSTRING(NR.DIETARY_CURE, 3, 1) AS DIET3
+				,	SUBSTRING(NR.DIETARY_CURE, 4, 1) AS DIET4
+			FROM
+					T_CM_COMPANY CC
+				,	T_NU_RESIDENT NR
+			WHERE	CC.COMPANY_CD = NR.COMPANY_CD
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		CC.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NR.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 삽입 -->
+	<insert id="NUB304CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* 태블릿 식사 삽입 : NUB304CT_DS_LIST_I */
+		INSERT INTO
+			T_NU_MEAL
+		(
+				COMPANY_CD
+			,	MEA_DT
+			,	RES_ID
+			,	FUND_DIS
+			,	DIETARY_CURE
+			,	BRE_TP
+			,	BRE_QTY
+			,	BRE_TIME
+			,	LUN_TP
+			,	LUN_QTY
+			,	LUN_TIME
+			,	DIN_TP
+			,	DIN_QTY
+			,	DIN_TIME
+			,	MOR_SNACK_QTY
+			,	MOR_SNACK_TIME
+			,	AFT_SNACK_QTY
+			,	AFT_SNACK_TIME
+			,	MANAGER_ID
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{RES_ID}
+			,	CONCAT(IFNULL(#{FUND1}, 0), IFNULL(#{FUND2}, 0), IFNULL(#{FUND3}, 0), IFNULL(#{FUND4}, 0), IFNULL(#{FUND5}, 0), IFNULL(#{FUND6}, 0))
+			,	CONCAT(IFNULL(#{DIET1}, 0), IFNULL(#{DIET2}, 0), IFNULL(#{DIET3}, 0), IFNULL(#{DIET4}, 0))
+			,	CONCAT(IFNULL(#{B_MEAL1}, 0), IFNULL(#{B_MEAL2}, 0), IFNULL(#{B_MEAL3}, 0), IFNULL(#{B_MEAL4}, 0), IFNULL(#{B_MEAL5}, 0), IFNULL(#{B_MEAL6}, 0))
+			,	#{BRE_QTY}
+			,	#{BRE_TIME}
+			,	CONCAT(IFNULL(#{L_MEAL1}, 0), IFNULL(#{L_MEAL2}, 0), IFNULL(#{L_MEAL3}, 0), IFNULL(#{L_MEAL4}, 0), IFNULL(#{L_MEAL5}, 0), IFNULL(#{L_MEAL6}, 0))
+			,	#{LUN_QTY}
+			,	#{LUN_TIME}
+			,	CONCAT(IFNULL(#{D_MEAL1}, 0), IFNULL(#{D_MEAL2}, 0), IFNULL(#{D_MEAL3}, 0), IFNULL(#{D_MEAL4}, 0), IFNULL(#{D_MEAL5}, 0), IFNULL(#{D_MEAL6}, 0))
+			,	#{DIN_QTY}
+			,	#{DIN_TIME}
+			,	#{MOR_SNACK_QTY}
+			,	#{MOR_SNACK_TIME}
+			,	#{AFT_SNACK_QTY}
+			,	#{AFT_SNACK_TIME}
+			,	#{MANAGER_ID}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="NUB304CT_DS_LIST_U" parameterType="java.util.HashMap">
+		UPDATE
+			T_NU_MEAL
+		SET
+				FUND_DIS = CONCAT(IFNULL(#{FUND1}, 0), IFNULL(#{FUND2}, 0), IFNULL(#{FUND3}, 0), IFNULL(#{FUND4}, 0), IFNULL(#{FUND5}, 0), IFNULL(#{FUND6}, 0))
+			,	DIETARY_CURE = CONCAT(IFNULL(#{DIET1}, 0), IFNULL(#{DIET2}, 0), IFNULL(#{DIET3}, 0), IFNULL(#{DIET4}, 0))
+			,	BRE_TP = CONCAT(IFNULL(#{B_MEAL1}, 0), IFNULL(#{B_MEAL2}, 0), IFNULL(#{B_MEAL3}, 0), IFNULL(#{B_MEAL4}, 0), IFNULL(#{B_MEAL5}, 0), IFNULL(#{B_MEAL6}, 0))
+			,	BRE_QTY = #{BRE_QTY}
+			,	BRE_TIME = #{BRE_TIME}
+			,	LUN_TP = CONCAT(IFNULL(#{L_MEAL1}, 0), IFNULL(#{L_MEAL2}, 0), IFNULL(#{L_MEAL3}, 0), IFNULL(#{L_MEAL4}, 0), IFNULL(#{L_MEAL5}, 0), IFNULL(#{L_MEAL6}, 0))
+			,	LUN_QTY = #{LUN_QTY}
+			,	LUN_TIME = #{LUN_TIME}
+			,	DIN_TP = CONCAT(IFNULL(#{D_MEAL1}, 0), IFNULL(#{D_MEAL2}, 0), IFNULL(#{D_MEAL3}, 0), IFNULL(#{D_MEAL4}, 0), IFNULL(#{D_MEAL5}, 0), IFNULL(#{D_MEAL6}, 0))
+			,	DIN_QTY = #{DIN_QTY}
+			,	DIN_TIME = #{DIN_TIME}
+			,	MOR_SNACK_QTY = #{MOR_SNACK_QTY}
+			,	MOR_SNACK_TIME = #{MOR_SNACK_TIME}
+			,	AFT_SNACK_QTY = #{AFT_SNACK_QTY}
+			,	AFT_SNACK_TIME = #{AFT_SNACK_TIME}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		MEA_DT = #{MEA_DT}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="NUB304CT_DS_LIST_D" parameterType="java.util.HashMap">
+	/* 태블릿 식사 삭제 : NUB304CT_DS_LIST_D */
+		DELETE FROM
+			T_NU_MEAL
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		MEA_DT = #{MEA_DT}
+	</delete>
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-01 19:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA330QR                                                         
+     * 프로그램 명  		: 공람문서함 조회
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-02-25 15:00     |   고준민      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA330QR">                                                                                                                                                                              
+	<select id="CMA330QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+			SELECT
+			               GAC.COMPANY_CD
+			             , GAC.PLANT_CD
+			             , GAC.PK_DOC_NO
+			             , GAC.GRP_DOC_KIND
+			             , CASE
+			                     WHEN ISNULL(GAC.URGENT,'0') = '0' THEN 'Not Urgent'
+			                     WHEN ISNULL(GAC.URGENT,'0') = '1' THEN 'Urgent'
+			               END                                               AS URGENT
+			             , GAC.DOC_WRITER
+			             , GAC.DOC_DEPT
+			             , GAC.APPL_DOC_SBJT
+			             , CONVERT(CHAR(16),GAC.FIRST_RPT_DT,20)             AS FIRST_RPT_DT
+			             , CONVERT(CHAR(16),GAC.APPVL_PRC_DT,20)             AS APPVL_PRC_DT
+			             , GAC.APPVL_PRC_FLAG
+			             , CONVERT(CHAR(16),GAC.FRST_READ_DT,20)			 AS FRST_READ_DT
+			             , FRST_READ_STS
+				         , CONCAT((SELECT COUNT(*)
+				            FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				            WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				            AND GAC.PLANT_CD   = A.PLANT_CD
+				            AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				            AND A.FNL_READ_DT IS NOT NULL) , '/', (SELECT COUNT(*)
+				                                                   FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				                                                   WHERE GAC.COMPANY_CD = B.COMPANY_CD
+				                                                   AND   GAC.PLANT_CD   = B.PLANT_CD
+				                                                   AND   GAC.PK_DOC_NO  = B.PK_DOC_NO
+				                                                   ))			AS L_CNT					-- 열람자 수
+               			 , (SELECT COUNT(*)
+				            FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				            WHERE GAC.COMPANY_CD   = B.COMPANY_CD
+				            AND GAC.PLANT_CD     = B.PLANT_CD
+				            AND GAC.PK_DOC_NO    = B.PK_DOC_NO
+				            AND B.PK_APPL_TYPE   = '20'          -- 참조자
+				            AND B.APPL_LINE_CHRG = #{DOC_WRITER} -- 로그인사용자 이름
+				            )			             		 				 AS DOC_WRITER_CNT  -- LINE테이블에서 로그인계정의 참조자 데이터를 찾기위해
+		                 , (SELECT A.P_DEPT_CODE
+		                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    AND   GAC.DOC_DEPT   = A.DEPT_CODE)              AS P_DEPT_CODE
+						 , '0' 				AS CHK1
+			FROM         T_GR_APPL_CNT GAC WITH(NOLOCK)
+			WHERE 		 GAC.APPVL_PRC_FLAG = 'AV'
+			 AND  (SELECT A.FNL_READ_DT
+          		     FROM T_GR_APPL_LINE A WITH(NOLOCK)
+          		    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+          		      AND GAC.PLANT_CD   = A.PLANT_CD
+          		      AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				      AND A.PK_APPL_TYPE = '20' -- 참조자
+          		      AND A.APPL_LINE_CHRG = #{DOC_WRITER}) IS NULL      -- 열람하지 않은 문서 조회
+		<if test="DOC_DEPT != '1000021' and DOC_DEPT != '1000022' and DOC_DEPT != '1000020'"> 
+			 AND (SELECT COUNT(*)											-- 본인이 참조자로 있는 것만 리스트에 출력하기 위해(해무/관리부문장, 해사부문장, 사장 제외)
+				    FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				   WHERE GAC.COMPANY_CD   = B.COMPANY_CD
+				     AND GAC.PLANT_CD     = B.PLANT_CD
+				     AND GAC.PK_DOC_NO    = B.PK_DOC_NO
+				     AND B.PK_APPL_TYPE   = '20'          -- 참조자
+				     AND B.APPL_LINE_CHRG = #{DOC_WRITER} -- 로그인사용자 이름
+				     ) = 1
+		</if> 
+		<if test='DOC_DEPT.equals("1000021")'> -- 해무/관리부문장
+		    AND	(SELECT A.P_DEPT_CODE
+		                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000007'      -- 해무팀, 관리팀 2가지를 볼 수 있는 권한을 가짐
+		</if>		
+		<if test='DOC_DEPT.equals("1000022")'> -- 해사부문장
+			AND	(SELECT A.P_DEPT_CODE
+		                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000008'      -- 공무팀, 안전운항팀 2가지를 볼 수 있는 권한을 가짐
+		</if>
+		<if test="COMPANY_CD != '' and COMPANY_CD_CD != null">
+		    AND GAC.COMPANY_CD = #{COMPANY_CD}
+		</if>				
+		<if test="PLANT_CD != '' and PLANT_CD != null">
+		    AND GAC.PLANT_CD   = #{PLANT_CD}
+		</if>
+		<if test="PK_DOC_NO != '' and PK_DOC_NO != null">
+		    AND GAC.PK_DOC_NO LIKE CONCAT ('%', #{PK_DOC_NO}, '%')
+		</if>
+		<if test="DOC_DATE != '' and DOC_DATE != null">
+		    AND GAC.DOC_DATE  >= #{DOC_DATE}
+		</if>
+		<if test="APPVL_PRC_FLAG != '' and APPVL_PRC_FLAG != null">
+		    AND GAC.APPVL_PRC_FLAG  = #{APPVL_PRC_FLAG}
+		</if>
+		<if test="DOC_DEPT1 != '' and DOC_DEPT1 != null">
+		    AND GAC.DOC_DEPT  = #{DOC_DEPT1}
+		</if>
+		<if test="USER_NM != '' and USER_NM != null">
+		    AND GAC.DOC_WRITER  = #{USER_NM}
+		</if>
+		<if test="GRP_DOC_KIND != '' and GRP_DOC_KIND != null">
+		    AND GAC.GRP_DOC_KIND  = #{GRP_DOC_KIND}
+		</if>
+			ORDER BY GAC.URGENT DESC , GAC.DOC_DATE DESC
+    </select>
+    
+    <update id="CMA330QR_CLICK_U_CNT" parameterType="java.util.HashMap">
+        <![CDATA[
+            
+            UPDATE T_GR_APPL_CNT 
+               SET   FRST_READ_DT           = CONVERT(CHAR(19), SYSDATETIME(), 20)
+             WHERE COMPANY_CD     = #{COMPANY_CD}
+               AND PLANT_CD       = #{PLANT_CD}
+               AND PK_DOC_NO      = #{PK_DOC_NO}
+               AND FRST_READ_DT IS NULL			  -- 최초읽은일자만 UPDATE
+                
+             ]]>
+    </update>
+    
+    <update id="CMA330QR_CLICK_U_LINE" parameterType="java.util.HashMap">
+        <![CDATA[
+        	BEGIN
+            
+            UPDATE T_GR_APPL_LINE 
+               SET   APPVL_PRC_FLAG         = '60'
+                   , FRST_READ_DT           = CONVERT(CHAR(19), SYSDATETIME(), 20)
+             WHERE COMPANY_CD     = #{COMPANY_CD}
+               AND PLANT_CD       = #{PLANT_CD}
+               AND PK_DOC_NO      = #{PK_DOC_NO}
+               AND APPL_LINE_CHRG = #{APPL_LINE_CHRG}
+               AND FRST_READ_DT IS NULL				  -- 최초읽은일자만 UPDATE
+			   AND PK_APPL_TYPE   = '20';             -- 참조자만 변경
+			
+			 UPDATE T_GR_APPL_LINE
+			 	SET	 FNL_READ_DT			 = CONVERT(CHAR(19), SYSDATETIME(), 20)      --마지막 읽은 날짜
+			  WHERE COMPANY_CD		= #{COMPANY_CD}
+			    AND	PLANT_CD		= #{PLANT_CD}
+			    AND	PK_DOC_NO		= #{PK_DOC_NO}
+			    AND APPL_LINE_CHRG  = #{APPL_LINE_CHRG}
+			    AND PK_APPL_TYPE	= '20';
+			    
+			    END			 	
+             ]]>
+    </update>
+    
+    <update id="CMA330QR_CLICK_U_CNT1" parameterType="java.util.HashMap">
+        <![CDATA[
+            
+            UPDATE T_GR_APPL_CNT 
+               SET   FRST_READ_STS			= ISNULL(FRST_READ_STS,'0') + 1
+             WHERE COMPANY_CD     = #{COMPANY_CD}
+               AND PLANT_CD       = #{PLANT_CD}
+               AND PK_DOC_NO      = #{PK_DOC_NO}
+             ]]>
+    </update>
+    
+    <update id="CMA330QR_CLICK_U_LINE1" parameterType="java.util.HashMap">
+        <![CDATA[
+            
+            UPDATE T_GR_APPL_LINE 
+               SET   FRST_READ_STS			= ISNULL(FRST_READ_STS,'0') + 1
+             WHERE COMPANY_CD     = #{COMPANY_CD}
+               AND PLANT_CD       = #{PLANT_CD}
+               AND PK_DOC_NO      = #{PK_DOC_NO}
+               AND APPL_LINE_CHRG = #{APPL_LINE_CHRG}
+             ]]>
+    </update>        
+</mapper>                                                                                                                                                                                                                                        

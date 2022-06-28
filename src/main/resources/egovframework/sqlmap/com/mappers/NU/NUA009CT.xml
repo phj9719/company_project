@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA009CT                                                         
+     * 프로그램 명     : 입소자현황                                                     
+     * Description : 고객사별 입소자현황 리스트 조회
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA009CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA009CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.LOC_SEQ
+					,A.ARE_CD
+					,(SELECT NA.ARE_NM
+						FROM T_NU_AREA NA
+					   WHERE NA.COMPANY_CD = A.COMPANY_CD
+					   	 AND NA.ARE_CD = A.ARE_CD) AS ARE_NM
+					,A.LOC_CD
+					,A.LOC_NM
+					,A.USE_YN
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY ARE_NM, A.LOC_NM) ROWNUM
+              	FROM T_NU_LOCATION A
+               WHERE 1=1
+                 AND A.USE_YN = 'Y'
+                 AND A.ARE_CD IN (SELECT ARE_CD
+                				    FROM T_NU_AREA NA
+                				   WHERE NA.COMPANY_CD = A.COMPANY_CD
+                 				  	 AND NA.ARE_CD = A.ARE_CD
+                				  	 AND NA.USE_YN = 'Y')
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="ARE_CD != '' and ARE_CD != null">
+                    AND A.ARE_CD = #{ARE_CD} 
+              </if>
+              <if test="LOC_CD != '' and LOC_CD != null">
+                    AND A.LOC_CD = #{LOC_CD}
+              </if>
+            
+               ORDER BY ARE_NM ASC, A.LOC_NM ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>
+    <select id="NUA009CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.USE_SEQ
+					,A.USE_TP
+					,A.MAC_SEQ
+					,A.USE_ID
+					,CM.MACH_TP
+					,CM.MAC_ADD
+					,CM.MACH_NO
+					,CM.MACH_NM
+					,CM.PRODUCT_NM
+					,CM.MACH_USE_YN
+					,CM.USE_YN
+					,CM.DEST_COMP_CD
+					,CM.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_MACH_USE A
+          INNER JOIN T_CM_MACHINE CM
+          		  ON(A.COMPANY_CD = CM.COMPANY_CD
+          		 AND A.MAC_SEQ = CM.MAC_SEQ)
+          		 	,(SELECT @ROWNUM:=0) ROWNUM	   
+              WHERE 1=1
+                AND A.COMPANY_CD = #{COMPANY_CD}
+                AND A.USE_ID 	 = #{LOC_SEQ}
+            ]]>
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                                            
+       <!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA009CT_DS_DETAIL_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_MACH_USE (                                                                                                                                                                                 
+					         COMPANY_CD
+							,USE_SEQ
+							,USE_TP
+							,MAC_SEQ
+							,USE_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					         #{COMPANY_CD }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_MACH_USE ),12,0)))
+							,#{USE_TP     }
+							,#{MAC_SEQ    }
+							,#{USE_ID     }
+							,#{REG_PGM_ID }
+							,#{REG_USER   }
+							,#{REG_DT     }
+							,#{REG_DT_CURR}
+							,#{REG_DT_LOC }
+							,#{REG_IP     }
+							,#{MOD_PGM_ID }
+							,#{MOD_USER   }
+							,#{MOD_DT     }
+							,#{MOD_DT_CURR}
+							,#{MOD_DT_LOC }
+							,#{MOD_IP     }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<delete id="NUA009CT_DS_DETAIL_D" parameterType="java.util.HashMap">
+    <![CDATA[
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_MACH_USE
+                 WHERE COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                   AND USE_SEQ  = #{USE_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>   
+     <select id="NUA009CT_DS_ARE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ARE_CD AS CMCD
+				      ,ARE_NM AS CMNM
+				  FROM T_NU_AREA
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ARE_CD, ARE_NM  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA009CT_DS_LOC_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOC_CD AS CMCD
+				      ,LOC_NM AS CMNM
+				  FROM T_NU_LOCATION
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND ARE_CD = #{ARE_CD}
+			  GROUP BY LOC_CD, LOC_NM  
+     ]]>                                                                                                                                                                 
+    </select>
+     <select id="NUA009CT_DS_MAC_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT CASE WHEN COUNT(*) = 1 THEN 'Y'
+		               		WHEN COUNT(*) = 0 THEN 'N'
+		               ELSE 'ERR' END AS MAC_CHK
+		          FROM T_CM_MACHINE
+		         WHERE MAC_ADD = #{MAC_ADD}
+		        
+     ]]>                                                                                                                                                                 
+    </select>                                     
+</mapper>                                                                                                                                                                                                          

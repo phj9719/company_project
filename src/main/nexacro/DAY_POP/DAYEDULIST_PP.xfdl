@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAYEDULIST_PP" width="800" height="500" titletext="교육일지 리스트" onload="form_onload">
+    <Layouts>
+      <Layout width="800" height="500">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="2" autofittype="col" left="0" top="30" binddataset="ds_list" right="0" bottom="30" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="200"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="140"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="교육일"/>
+                      <Cell col="1" text="교육명"/>
+                      <Cell col="2" text="교육강사"/>
+                      <Cell col="3" text="교육내용"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="date" expandchar="dot" text="bind:교육일"/>
+                      <Cell col="1" text="bind:교육명" cursor="pointer"/>
+                      <Cell col="2" text="bind:교육강사"/>
+                      <Cell col="3" text="bind:교육내용" displaytype="textareacontrol" edittype="readonly" textAlign="left" wordWrap="char"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_00" taborder="1" text="직원 교육(훈련) 일지 리스트" left="297" top="6" width="170" height="20"/>
+              <Static id="sta_01" taborder="2" text="▲  불러오기 - 교육명 (더블클릭)" left="171" top="grd_list:6" width="200" height="18"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="교육일" type="DATE" size="256"/>
+          <Column id="교육명" type="STRING" size="256"/>
+          <Column id="교육강사" type="STRING" size="256"/>
+          <Column id="교육내용" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAYEMP_PP
+ * 화면명   	: 담당자 선택
+ * 화면설명 	: 각 화면에서 입력 담당자를 선택하는 팝업
+ * 작성일   	: 2022-02-28
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+const fv_date = this.parent.DATE;
+const fv_flag = this.parent.FLAG;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", fv_date);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAYEDULIST_PP.DAYEDULIST_" + fv_flag + "_PP_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+this.fn_setData = function(ds, row) 
+{
+	this.ds_return.copyData(ds);
+	this.ds_return.clearData();
+	
+	this.ds_return.addRow();
+	this.ds_return.copyRow(0, ds, row);
+
+	this.close(this.ds_return.saveXML());
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+this.div_cont_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const nameIdx = obj.getBindCellIndex("body", "교육명");
+	
+	if (e.col == nameIdx)
+	{
+		this.fn_setData(this.ds_list, e.row);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SMD060CT">
+	<select id="SMD060CT_DS_LIST_S" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+               SELECT  A.COMPANY_CD                  AS COMPANY_CD
+                     , A.USER_ID                     AS USER_ID
+                     , A.BIZ_CD                      AS BIZ_CD
+                     , A.PLANT_CD                    AS PLANT_CD
+                     , A.USER_NO                     AS USER_NO
+                     , A.USER_PASSWD                 AS USER_PASSWD
+                     , A.USER_NM_KOR                 AS USER_NM_KOR
+                     , A.USER_NM_ENG                 AS USER_NM_ENG
+                     , A.USER_NM_CHI                 AS USER_NM_CHI
+                     , A.USE_YN                      AS USE_YN
+                     , A.WORK_YN                     AS WORK_YN
+                     , A.DEPT_CD                     AS DEPT_CD          
+					 , (SELECT Z.DEPT_NAME
+					    FROM T_HR_DEPARTMENT Z
+						WHERE A.COMPANY_CD = Z.COMPANY_CD
+						AND A.DEPT_CD = Z.DEPT_CODE
+						UNION ALL
+						SELECT CC.CMNM
+						FROM T_CM_CODE CC
+						WHERE A.COMPANY_CD = CC.COMPANY_CD
+						AND A.DEPT_CD = CC.CMCD
+						AND CC.GRP_CD = 'VS_CREW_DEPT') AS DEPT_NM
+                     , A.GRADE_CD                    AS GRADE_CD
+                     , (SELECT Z.CMNM
+						FROM T_CM_CODE Z
+						WHERE Z.GRP_CD IN ('HR_CREW','HR_EMP_DUTY')
+						AND A.GRADE_CD = Z.CMCD)     AS GRADE_NM       
+                     , A.INOUT_USER_TP               AS INOUT_USER_TP
+                     , A.SRM_TP                      AS SRM_TP
+                     , A.VESSEL_CD                   AS VESSEL_CD
+                     , A.CUSTOMER_CD                 AS CUSTOMER_CD
+					 , (SELECT Z.KOR_NM
+						FROM T_CM_VND_MST Z
+						WHERE A.CUSTOMER_CD = Z.VND_CD) AS CUSTOMER_NM
+                     , A.TEL_NO                      AS TEL_NO
+                     , A.CELL_NO                     AS CELL_NO
+                     , A.FAX_NO                      AS FAX_NO
+                     , A.EMAIL                       AS EMAIL
+                     , A.DEF_LANG                    AS DEF_LANG
+                     , A.AUTH1                       AS AUTH1
+                     , A.AUTH2                       AS AUTH2
+                     , A.AUTH3                       AS AUTH3
+                     , A.AUTH4                       AS AUTH4
+                     , A.AUTH5                       AS AUTH5
+                     , A.VALID_PERIOD_FR             AS VALID_PERIOD_FR
+                     , A.VALID_PERIOD_TO             AS VALID_PERIOD_TO
+                     , A.VALID_PASSWD_DT             AS VALID_PASSWD_DT
+                     , A.FILE_GRP_ID1                AS FILE_GRP_ID1
+                     , A.REG_PGM_ID                  AS REG_PGM_ID
+                     , A.REG_USER                    AS REG_USER
+                     , A.REG_DT                      AS REG_DT
+                     , A.REG_DT_CURR                 AS REG_DT_CURR
+                     , A.REG_DT_LOC                  AS REG_DT_LOC
+                     , A.REG_IP                      AS REG_IP
+                     , A.MOD_PGM_ID                  AS MOD_PGM_ID
+                     , A.MOD_USER                    AS MOD_USER
+                     , A.MOD_DT                      AS MOD_DT
+                     , A.MOD_DT_CURR                 AS MOD_DT_CURR
+                     , A.MOD_DT_LOC                  AS MOD_DT_LOC
+                     , A.MOD_IP                      AS MOD_IP
+                     , A.WCENTER_CD
+                     , A.PROC_WORKER_YN
+                     , ( SELECT MAX(SF.FILE_REAL_NAME)
+                         FROM   T_SM_FILE SF
+                         WHERE  SF.COMPANY_CD    = A.COMPANY_CD
+                         AND    SF.FILE_GROUP_ID = A.FILE_GRP_ID1
+                         AND    SF.USE_YN        = 'Y'
+                       )                             AS FILE_REAL_NAME
+                     , CASE WHEN A.FILE_GRP_ID1 IS NOT NULL THEN 'Y'
+                            ELSE ''
+                       END                           AS IMAGE_YN
+                FROM T_CM_USER A
+               WHERE A.COMPANY_CD = #{COMPANY_CD}
+     		 ]]>
+
+		<if test="USER_ID != '' and USER_ID != null">
+			AND A.USER_ID LIKE CONCAT ('%' , #{USER_ID} , '%')
+		</if>
+		<if test="USER_NO != '' and USER_NO != null">
+			AND A.USER_NO LIKE CONCAT('%' , #{USER_NO} , '%')
+		</if>
+		<if test="USER_NM != '' and USER_NM != null">
+			AND (A.USER_NM_KOR LIKE CONCAT('%' , #{USER_NM} , '%') OR
+			A.USER_NM_ENG
+			LIKE CONCAT('%' , #{USER_NM} , '%') OR A.USER_NM_CHI
+			LIKE CONCAT ('%'
+			, #{USER_NM} , '%' ))
+		</if>
+		<if test="USE_YN != '' and USE_YN != null">
+			AND A.USE_YN = #{USE_YN}
+		</if>
+
+
+	</select>
+	<insert id="SMD060CT_DS_LIST_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+             INSERT INTO T_CM_USER ( COMPANY_CD
+                                   , USER_ID
+                                   , BIZ_CD
+                                   , PLANT_CD
+                                   , USER_NO
+                                   , USER_PASSWD
+                                   , USER_NM_KOR
+                                   , USER_NM_ENG
+                                   , USER_NM_CHI
+                                   , USE_YN
+                                   , WORK_YN
+                                   , DEPT_CD
+                                   , DEPT_NM
+                                   , GRADE_CD
+                                   , GRADE_NM
+                                   , INOUT_USER_TP
+                                   , SRM_TP
+                                   , VESSEL_CD
+                                   , CUSTOMER_CD
+                                   , TEL_NO
+                                   , CELL_NO
+                                   , FAX_NO
+                                   , EMAIL
+                                   , DEF_LANG
+                                   , AUTH1
+                                   , AUTH2
+                                   , AUTH3
+                                   , AUTH4
+                                   , AUTH5
+                                   , VALID_PERIOD_FR
+                                   , VALID_PERIOD_TO
+                                   , VALID_PASSWD_DT
+                                   , WK_FLAG
+                                   , REG_PGM_ID
+                                   , REG_USER
+                                   , REG_DT
+                                   , REG_DT_CURR
+                                   , REG_DT_LOC
+                                   , REG_IP
+                                   , MOD_PGM_ID
+                                   , MOD_USER
+                                   , MOD_DT
+                                   , MOD_DT_CURR
+                                   , MOD_DT_LOC
+                                   , MOD_IP
+                                   , FILE_GRP_ID1
+                                   , WCENTER_CD
+                                   , PROC_WORKER_YN
+                                   )
+                            VALUES ( #{COMPANY_CD}
+                                   , #{USER_ID}
+                                   , #{BIZ_CD}
+                                   , #{PLANT_CD}
+                                   , #{USER_NO}
+                                   , #{USER_PASSWD}
+                                   , #{USER_NM_KOR}
+                                   , #{USER_NM_ENG}
+                                   , #{USER_NM_CHI}
+                                   , #{USE_YN}
+                                   , #{WORK_YN}
+                                   , #{DEPT_CD}
+                                   , #{DEPT_CD}
+                                   , #{GRADE_CD}
+                                   , #{GRADE_CD}
+                                   , #{INOUT_USER_TP}
+                                   , #{SRM_TP}
+                                   , #{VESSEL_CD}
+                                   , #{CUSTOMER_CD}
+                                   , #{TEL_NO}
+                                   , #{CELL_NO}
+                                   , #{FAX_NO}
+                                   , #{EMAIL}
+                                   , #{DEF_LANG}
+                                   , #{AUTH1}
+                                   , #{AUTH2}
+                                   , #{AUTH3}
+                                   , #{AUTH4}
+                                   , #{AUTH5}
+                                   , #{VALID_PERIOD_FR}
+                                   , #{VALID_PERIOD_TO}
+                                   , #{VALID_PASSWD_DT}
+                                   , 'I'
+                                   , #{REG_PGM_ID}
+                                   , #{REG_USER}
+                                   , #{REG_DT}
+                                   , #{REG_DT_CURR}
+                                   , #{REG_DT_LOC}
+                                   , #{REG_IP}
+                                   , ''
+                                   , ''
+                                   , ''
+                                   , ''
+                                   , ''
+                                   , ''
+                                   , #{FILE_GRP_ID1}
+                                   , #{WCENTER_CD}
+                                   , #{PROC_WORKER_YN}
+                                   )                                                                                                                                                                                
+    ]]>
+	</insert>
+	<update id="SMD060CT_DS_LIST_U" parameterType="java.util.Map">
+    <![CDATA[  
+           UPDATE T_CM_USER
+              SET COMPANY_CD      = #{COMPANY_CD},
+                  USER_ID         = #{USER_ID},
+                  BIZ_CD          = #{BIZ_CD},
+                  PLANT_CD        = #{PLANT_CD},
+                  USER_NO         = #{USER_NO},
+                  USER_NM_KOR     = #{USER_NM_KOR},
+                  USER_NM_ENG     = #{USER_NM_ENG},
+                  USER_NM_CHI     = #{USER_NM_CHI},
+                  USE_YN          = #{USE_YN},
+                  WORK_YN         = #{WORK_YN},
+                  DEPT_CD         = #{DEPT_CD},
+                  DEPT_NM         = #{DEPT_CD},
+                  GRADE_CD        = #{GRADE_CD},
+                  GRADE_NM        = #{GRADE_CD},
+                  INOUT_USER_TP   = #{INOUT_USER_TP},
+                  SRM_TP          = #{SRM_TP},
+                  VESSEL_CD       = #{VESSEL_CD},
+                  CUSTOMER_CD     = #{CUSTOMER_CD},
+                  TEL_NO          = #{TEL_NO},
+                  CELL_NO         = #{CELL_NO},
+                  FAX_NO          = #{FAX_NO},
+                  EMAIL           = #{EMAIL},
+                  DEF_LANG        = #{DEF_LANG},
+                  AUTH1           = #{AUTH1},
+                  AUTH2           = #{AUTH2},
+                  AUTH3           = #{AUTH3},
+                  AUTH4           = #{AUTH4},
+                  AUTH5           = #{AUTH5},
+                  VALID_PERIOD_FR = #{VALID_PERIOD_FR},
+                  VALID_PERIOD_TO = #{VALID_PERIOD_TO},
+                  VALID_PASSWD_DT = #{VALID_PASSWD_DT},
+                  FILE_GRP_ID1    = #{FILE_GRP_ID1},
+                  WK_FLAG         = 'U',
+                  MOD_PGM_ID      = #{MOD_PGM_ID},
+                  MOD_USER        = #{MOD_USER},
+                  MOD_DT          = #{MOD_DT},
+                  MOD_DT_CURR     = #{MOD_DT_CURR},
+                  MOD_DT_LOC      = #{MOD_DT_LOC},
+                  MOD_IP          = #{MOD_IP},
+                  WCENTER_CD      = #{WCENTER_CD},
+                  PROC_WORKER_YN  = #{PROC_WORKER_YN}
+            WHERE COMPANY_CD = #{COMPANY_CD}
+              AND USER_ID = #{USER_ID} 
+           ]]>
+	</update>
+	<delete id="SMD060CT_DS_LIST_D" parameterType="java.util.Map">                                                                                         
+	    <![CDATA[                                                                                                                                                                                           
+		BEGIN
+		        DELETE FROM T_CM_USER
+		         WHERE COMPANY_CD = #{COMPANY_CD}
+		           AND USER_ID = #{USER_ID};
+		          
+		        DELETE FROM T_CM_USER
+		         WHERE COMPANY_CD = #{COMPANY_CD}
+		           AND USER_ID = #{USER_ID};
+		END ;
+	    ]]>
+	</delete>
+	<select id="SMD060CT_PP_PASS_CHK" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+	<![CDATA[
+			SELECT USER_PASSWD FROM T_CM_USER WHERE USER_ID = #{USER_ID} AND COMPANY_CD = #{COMPANY_CD}
+           ]]>
+	</select>
+	<update id="SMA060CT_PP_CHG_PASS" parameterType="java.util.HashMap">
+    <![CDATA[  
+			 UPDATE T_CM_USER  
+			    SET USER_PASSWD = #{NEW_PASS},
+                    MOD_PGM_ID  = #{MOD_PGM_ID},
+                    MOD_USER    = #{MOD_USER},
+                    MOD_DT      = #{MOD_DT},
+                    MOD_DT_CURR = #{MOD_DT_CURR},
+                    MOD_DT_LOC  = #{MOD_DT_LOC},
+                    MOD_IP      = #{MOD_IP}
+			  WHERE USER_ID = #{USER_ID}
+			  AND	COMPANY_CD = #{COMPANY_CD}
+           ]]>
+	</update>
+	<select id="SMD060CT_SIGN" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+	<![CDATA[
+			SELECT 
+				   FILE_GRP_ID
+				 , FILE_ID
+				 , FILE_NAME
+				 , FILE_SIZE
+				 , BLOB_FILE
+			  FROM T_CM_FILE
+			 WHERE FILE_GRP_ID = #{FILE_GRP_ID}
+			   AND DELETE_YN = 'N'
+           ]]>
+	</select>
+	<select id="SMD060CT_GET_WC_GROUP" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+	<![CDATA[
+          SELECT ' ' AS W_CD, ' ' AS W_NM
+          UNION ALL
+          SELECT WC_GROUP_CD AS W_CD, WC_GROUP_NM AS W_NM
+            FROM T_PP_WC_GROUP
+           WHERE USE_YN = '1'
+           ORDER BY W_CD
+
+           ]]>
+	</select>
+
+	<!-- 삭제 -->
+	<select id="SMD060CT_DS_WC_USER_LIST_S" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">                                                                                                           
+     	<![CDATA[
+	          SELECT CUW.COMPANY_CD,
+	                 CUW.BIZ_CD,
+	                 CUW.PLANT_CD,
+	                 CUW.USER_WCENTER_ID,
+	                 CUW.USER_NO,
+	                 CUW.WCENTER_CD,
+	                 CUW.WC_GROUP_CD,
+	                 CUW.USE_YN,
+	                 CUW.REG_PGM_ID,
+	                 CUW.REG_USER,
+	                 CUW.REG_DT,
+	                 CUW.REG_DT_CURR,
+	                 CUW.REG_DT_LOC,
+	                 CUW.REG_IP,
+	                 CUW.MOD_PGM_ID,
+	                 CUW.MOD_USER,
+	                 CUW.MOD_DT,
+	                 CUW.MOD_DT_CURR,
+	                 CUW.MOD_DT_LOC,
+	                 CUW.MOD_IP,
+	                 PWG.WC_GROUP_NM
+	            FROM T_CM_USER_WCENTER CUW
+	           INNER JOIN T_PP_WC_GROUP PWG
+	              ON (CUW.COMPANY_CD = PWG.COMPANY_CD AND
+	                 CUW.PLANT_CD = PWG.PLANT_CD AND
+	                 CUW.WC_GROUP_CD = PWG.WC_GROUP_CD)
+	           WHERE CUW.COMPANY_CD = #{COMPANY_CD}
+	             AND CUW.BIZ_CD = #{BIZ_CD}
+	             AND CUW.PLANT_CD = #{PLANT_CD}
+	             AND CUW.USER_NO = #{USER_NO}
+     		 ]]>
+	</select>
+	<!-- 삭제 -->
+	<insert id="SMD060CT_DS_WC_USER_LIST_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+             INSERT INTO T_CM_USER_WCENTER
+               (COMPANY_CD,
+                BIZ_CD,
+                PLANT_CD,
+                USER_WCENTER_ID,
+                USER_NO,
+                WCENTER_CD,
+                WC_GROUP_CD,
+                USE_YN,
+                REG_PGM_ID,
+                REG_USER,
+                REG_DT,
+                REG_DT_CURR,
+                REG_DT_LOC,
+                REG_IP,
+                MOD_PGM_ID,
+                MOD_USER,
+                MOD_DT,
+                MOD_DT_CURR,
+                MOD_DT_LOC,
+                MOD_IP)
+             VALUES
+               (#{COMPANY_CD},
+                #{BIZ_CD},
+                #{PLANT_CD},
+                NEXTVAL(SQ_USER_WCENTER_ID),
+                #{USER_NO},
+                #{WCENTER_CD},
+                #{WC_GROUP_CD},
+                #{USE_YN},
+                #{REG_PGM_ID},
+                #{REG_USER},
+                #{REG_DT},
+                #{REG_DT_CURR},
+                #{REG_DT_LOC},
+                #{REG_IP},
+                '',
+                '',
+                '',
+                '',
+                '',
+                '')
+
+    ]]>
+	</insert>
+		<!-- 삭제 -->
+	<update id="SMD060CT_DS_WC_USER_LIST_U" parameterType="java.util.HashMap">
+	    <![CDATA[  
+		    UPDATE T_CM_USER_WCENTER
+		       SET USER_NO     = #{USER_NO},
+		           WC_GROUP_CD = #{WC_GROUP_CD},
+		           USE_YN      = #{USE_YN}
+		     WHERE COMPANY_CD = #{COMPANY_CD}
+		       AND BIZ_CD = #{BIZ_CD}
+		       AND PLANT_CD = #{PLANT_CD}
+		       AND USER_WCENTER_ID = #{USER_WCENTER_ID}
+           ]]>
+	</update>
+		<!-- 삭제 -->
+	<delete id="SMD060CT_DS_WC_USER_LIST_D" parameterType="java.util.Map">                                                                                         
+	    <![CDATA[                                                                                                                                                                                          
+		      DELETE FROM T_CM_USER_WCENTER
+		       WHERE COMPANY_CD = #{COMPANY_CD}
+		         AND BIZ_CD = #{BIZ_CD}
+		         AND PLANT_CD = #{PLANT_CD}
+		         AND USER_WCENTER_ID = #{USER_WCENTER_ID}
+	    ]]>
+	</delete>
+	
+		
+	<select id="SMD060CT_GET_GRADE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+	--	SELECT NULL AS GRADE_CD
+	--	,      NULL AS GRADE_NM
+	--	,      0    AS A_SORT
+	--	,      0    AS B_SORT
+
+	--	UNION ALL
+		
+		SELECT A.CMCD AS GRADE_CD
+		,      A.CMNM AS GRADE_NM
+		,      A.SORT AS A_SORT
+		,      99     AS B_SORT
+		FROM T_CM_CODE A
+		WHERE A.GRP_CD = 'HR_CREW'
+		AND A.USEYN = 'Y'	
+		
+		UNION ALL
+		
+		SELECT A.CMCD AS GRADE_CD
+		,      A.CMNM AS GRADE_NM
+		,      99     AS A_SORT
+		,      A.SORT AS B_SORT
+		FROM T_CM_CODE A
+		WHERE A.GRP_CD = 'HR_EMP_DUTY'
+		AND A.USEYN = 'Y'
+		
+		ORDER BY A_SORT,B_SORT		
+    ]]>
+	</select>
+	
+	<select id="SMD060CT_GET_DEPT" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+	 WITH W_SORT_MENU AS (
+						SELECT A.COMPANY_CD
+								, A.DEPT_CODE
+								, A.DEPT_CODE_NAME
+								, A.DEPT_CODE_ENG_NAME
+								, A.P_DEPT_CODE
+								, A.DEPT_NAME
+								, A.DEPT_ENG_NAME
+								, A.DEPT_SEQ
+								, A.EMAIL
+								, A.DUZON_DEPT_CD
+								, A.USE_YN
+								, A.WK_FLAG
+								, A.TRANS_ST
+								, A.HD_OFFICE
+								, A.SHIP_ST1
+								, A.SHIP_ST2
+								, A.SHIP_ST3
+								, A.SHIP_ST4
+								, A.SHIP_ST5
+								, A.SHIP_ST6
+								, A.SHIP_ST7
+								, A.SHIP_ST8
+								, A.SHIP_ST9
+								, A.SHIP_ST10
+								,CONVERT(VARCHAR, DBO.F_LPAD(A.DEPT_SEQ, 3, '0')) AS SORT
+						FROM   T_HR_DEPARTMENT A
+			            WHERE  A.COMPANY_CD ='001'
+						 AND   A.P_DEPT_CODE IS NULL
+						UNION  ALL
+			              SELECT B.COMPANY_CD
+								, B.DEPT_CODE
+								, B.DEPT_CODE_NAME
+								, B.DEPT_CODE_ENG_NAME
+								, B.P_DEPT_CODE
+								, B.DEPT_NAME
+								, B.DEPT_ENG_NAME
+								, B.DEPT_SEQ
+								, B.EMAIL
+								, B.DUZON_DEPT_CD
+								, B.USE_YN
+								, B.WK_FLAG
+								, B.TRANS_ST
+								, B.HD_OFFICE
+								, B.SHIP_ST1
+								, B.SHIP_ST2
+								, B.SHIP_ST3
+								, B.SHIP_ST4
+								, B.SHIP_ST5
+								, B.SHIP_ST6
+								, B.SHIP_ST7
+								, B.SHIP_ST8
+								, B.SHIP_ST9
+								, B.SHIP_ST10
+								, CONVERT(VARCHAR, A.SORT + '>' + DBO.F_LPAD(B.DEPT_SEQ, 3, '0')) AS SORT
+			              FROM   W_SORT_MENU A 
+			              INNER
+			              JOIN   T_HR_DEPARTMENT B
+			              ON     B.P_DEPT_CODE = A.DEPT_CODE
+			              AND    B.COMPANY_CD   = A.COMPANY_CD
+	
+			)			
+				 				SELECT A.COMPANY_CD
+								, A.DEPT_CODE
+								, A.DEPT_CODE_NAME
+								, A.DEPT_CODE_ENG_NAME
+								, A.P_DEPT_CODE
+								, (SELECT AA.DEPT_NAME FROM T_HR_DEPARTMENT AA WHERE A.P_DEPT_CODE = AA.DEPT_CODE) AS P_DEPT_NAME
+								, A.DEPT_NAME
+								, A.DEPT_ENG_NAME
+								, A.DEPT_SEQ
+								, A.EMAIL
+								, A.DUZON_DEPT_CD
+								, A.USE_YN
+								, A.WK_FLAG
+								, A.TRANS_ST
+								, A.HD_OFFICE
+								, A.SHIP_ST1
+								, A.SHIP_ST2
+								, A.SHIP_ST3
+								, A.SHIP_ST4
+								, A.SHIP_ST5
+								, A.SHIP_ST6
+								, A.SHIP_ST7
+								, A.SHIP_ST8
+								, A.SHIP_ST9
+								, A.SHIP_ST10
+								, A.SORT
+								, (LEN(A.SORT) - LEN(REPLACE(A.SORT, '>', ''))) / LEN('>') AS DEPT_LEVEL
+			            FROM   W_SORT_MENU A
+			            LEFT
+			            JOIN   T_HR_DEPARTMENT B
+			            ON     B.DEPT_CODE = A.DEPT_CODE
+			            WHERE  A.COMPANY_CD = #{COMPANY_CD}			
+			            AND    A.DEPT_CODE_NAME <> ''			
+					    ]]>
+					 	<if test="DEPT_CODE != '' and DEPT_CODE != null">
+						AND A.DEPT_CODE LIKE CONCAT ('%' , #{DEPT_CODE} , '%')
+						</if>	
+					 	<if test="DEPT_NAME != '' and DEPT_NAME != null">
+						AND A.DEPT_NAME LIKE CONCAT ('%' , #{DEPT_NAME} , '%')
+						</if>
+						<if test="USE_YN != '' and USE_YN != null">
+						AND A.USE_YN = #{USE_YN}
+						</if>				
+	</select>
+	
+	<select id="SMD060CT_GET_VS_DEPT" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+	SELECT A.CMCD AS DEPT_CODE
+	,      A.CMNM AS DEPT_NAME
+	FROM T_CM_CODE A
+	where 1=1
+	AND COMPANY_CD = #{COMPANY_CD}
+	AND GRP_CD = 'VS_CREW_DEPT'
+	]]>
+	<if test="DEPT_CODE != '' and DEPT_CODE != null">
+	AND A.CMCD LIKE CONCAT ('%', #{DEPT_CODE}, '%' ) 
+	</if>
+	<if test="DEPT_NAME != '' and DEPT_NAME != null">
+	AND A.CMNM LIKE CONCAT ( '%', #{DEPT_NAME}, '%' )
+	</if>
+	<![CDATA[	
+	ORDER 
+	BY SORT
+	]]>
+	</select>
+	
+	<select id="SMD060CT_GET_VENDOR_KIND_SUB" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+		SELECT NULL AS CMCD
+		,      NULL AS CMNM
+	
+		UNION ALL
+		
+		SELECT A.CMCD AS CMCD
+		,      A.CMNM AS CMNM
+		FROM T_CM_CODE A
+		INNER
+		JOIN T_CM_CODE_GRP B 
+		ON A.COMPANY_CD = B.COMPANY_CD
+		AND A.GRP_CD = B.GRP_CD
+		WHERE 1 =1 
+		AND B.GRPNM = 'VND_S_KIND'
+    ]]>
+	</select>
+	
+	<select id="SMD060CT_GET_VENDOR" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+		SELECT A.COMPANY_CD
+		,      B.VND_M_KIND
+		,	   B.VND_S_KIND
+		,      A.VND_CD AS VND_CD
+		,      MAX(A.KOR_NM) AS KOR_NM
+		,      MAX(A.ENG_NM) AS ENG_NM
+		,      MAX(A.FLAG_CD) AS FLAG_CD
+		,	   (SELECT Z.CMNM
+				FROM T_CM_CODE Z
+				WHERE Z.COMPANY_CD = A.COMPANY_CD
+				AND Z.GRP_CD = 'VENDOR_KIND_MAIN'
+				AND	B.VND_M_KIND = Z.CMCD) AS MAIN_KIND
+		,	   (SELECT Z.CMNM
+				FROM T_CM_CODE Z
+				WHERE Z.COMPANY_CD = A.COMPANY_CD
+				AND Z.GRP_CD LIKE 'VENDOR_KIND_%'
+				AND	B.VND_S_KIND = Z.CMCD) AS SUB_KIND
+		,      (SELECT Z.CMNM
+				FROM T_CM_CODE Z
+				WHERE Z.GRP_CD = 'CM_COUNTRY_CD'
+			    AND MAX(A.FLAG_CD) = Z.CMCD) AS COUNTRY
+		,      MAX(A.DEL_YN) AS DEL_YN
+		,      MAX(A.CORP_NUM) AS CORP_NUM
+		,      (CASE WHEN MAX(A.DEL_YN) = 'N' THEN 'Y'
+					 WHEN MAX(A.DEL_YN) = 'Y' THEN 'N' END) AS USE_YN
+		,     MAX(A.DEPT) AS DEPT			 
+		FROM T_CM_VND_MST A
+		LEFT
+		JOIN T_CM_VND_KIND B
+		ON A.COMPANY_CD = B.COMPANY_CD
+		AND A.VND_CD = B.VND_CD
+		WHERE 1 = 1
+	]]>
+    <if test="VND_M_KIND != '' and VND_M_KIND != null">
+		AND B.VND_M_KIND = #{VND_M_KIND}
+	</if>
+	<if test="VND_S_KIND != '' and VND_S_KIND != null">
+		AND B.VND_S_KIND = #{VND_S_KIND}
+	</if>
+	<if test="VND_KIND != '' and VND_KIND != null">
+		AND A.VND_KIND = #{VND_KIND}
+	</if>
+	<if test="USE_YN != '' and USE_YN != null">
+		AND A.USE_YN = #{USE_YN}
+	</if>
+	<if test="FLAG_CD != '' and FLAG_CD != null">
+		AND A.FLAG_CD = #{FLAG_CD}
+	</if>
+	<if test="VND_CD != '' and VND_CD != null">
+		AND A.VND_CD LIKE CONCAT ('%' , #{VND_CD} , '%')
+	</if>
+	<if test="KOR_NM != '' and KOR_NM != null">
+		AND A.KOR_NM LIKE CONCAT ('%' , #{KOR_NM} , '%')
+	</if>
+	<if test="CORP_NUM != '' and CORP_NUM != null">
+		AND A.CORP_NUM LIKE CONCAT ('%' , #{CORP_NUM} , '%')
+	</if>	
+	<if test="DEPT != '' and DEPT != null">
+		AND A.DEPT = #{DEPT}
+	</if>
+	<if test="DEPT_NM != '' and DEPT_NM != null">
+		AND (SELECT Z.DEPT_NAME
+			FROM T_HR_DEPARTMENT Z
+			WHERE A.DEPT = Z.DEPT_CODE) like CONCAT ('%' , #{DEPT_NM} , '%')
+	</if>	
+		GROUP BY A.COMPANY_CD, B.VND_M_KIND, B.VND_S_KIND, A.VND_CD
+		ORDER BY VND_CD
+	</select>
+	
+	<select id="SMD060CT_GET_VENDOR_SUB_KIND" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+		SELECT A.CMCD AS CMCD
+		     , A.CMNM AS CMNM
+		  FROM T_CM_CODE A
+		 WHERE A.GRP_CD LIKE CONCAT('VENDOR_KIND_',#{MAIN_KIND})
+		 ORDER
+		 	BY A.CMNM
+    ]]>
+	</select>
+	
+	<select id="SMD060CT_VESSEL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+
+    		SELECT CODE_VALUE  AS V_CD
+			,      CODE_NM_KOR AS VSL_NM
+			FROM T_AC_COSTCENTER_CODE
+			WHERE KIND_CODE = '10'		
+			AND USE_YN = 'Y'
+			AND COMPANY_CD = #{COMPANY_CD}
+    	
+    	
+    	
+		--	SELECT V_CD,VSL_NM
+		--	FROM T_MM_VESSEL  
+		--	WHERE 1=1
+		--	AND SYS_USE_GB = 'Y'
+		--	AND COMPANY_CD = COMPANY_CD
+		--	AND SM_COM_CD = '001'
+		--	UNION
+		--	(SELECT '' V_CD, '' VSL_NM) 
+		--	UNION
+		--	SELECT CODE_VALUE  AS V_CD
+		--	,      CODE_NM_KOR AS VSL_NM
+		--	FROM T_AC_COSTCENTER_CODE
+		--	WHERE KIND_CODE = '10'
+		--	AND CODE_VALUE = 'HDO'
+		--	AND USE_YN = 'Y'
+	
+	
+	
+		--	SELECT V_CD,VSL_NM
+		--	FROM T_MM_VESSEL  
+		--	WHERE 1=1
+		--	AND SYS_USE_GB = 'Y'
+		--	AND COMPANY_CD = '001'
+		--	AND SM_COM_CD = '002'
+		--	AND OWNER_CD = '1000001'
+			
+    	]]>
+	</select>
+	
+	<!-- 전송전 체크 -->
+    <select id="SMD060CT_DS_TRANS_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	SELECT COUNT(*) AS CNT
+		FROM T_CM_USER
+		WHERE WK_FLAG IS NOT NULL
+		AND COMPANY_CD = #{COMPANY_CD}
+		AND INOUT_USER_TP IN ('HD', 'VS', 'SA')
+    ]]>
+    </select>
+    
+    <!-- 전송받을 대상 선박 조회 -->
+    <select id="SMD060CT_GET_DESTINATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	SELECT PLANT_CD AS DESTINATION_PLANT_CD
+    	FROM T_CM_PLANT
+    	WHERE COMPANY_CD = #{COMPANY_CD}
+    	AND USE_YN = 'Y'
+    	AND PLANT_MAIN_YN = 'N';
+    ]]>
+    </select>
+    
+    <!-- 전송 프로시저 -->
+    <select id="SMD060CT_SP_CM_USER_SEND" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	{
+    		CALL SP_CM_USER_SEND (
+    				#{ERR_CODE, mode=OUT, jdbcType=VARCHAR, javaType=String}
+    			,	#{ERR_MSG, mode=OUT, jdbcType=VARCHAR, javaType=String}
+    			,	#{TRANS_ID, mode=OUT, jdbcType=VARCHAR, javaType=String}
+    			,	#{COMPANY_CD}
+    			,	#{PLANT_CD}
+    			,	#{DESTINATION}
+    			,	#{DEPARTURE}
+    			,	#{TRANS_MD}
+    			,	#{TRANS_JOB}
+    			,	#{TNS_EXEC_ID}
+    			,	#{PROGRAM_ID}
+    			,	#{TRANS_DT}
+    			,	#{REG_PGM_ID}
+    			,	#{REG_USER}
+    			,	#{REG_DT}
+    			,	#{REG_DT_CURR}
+    			,	#{REG_DT_LOC}
+    			,	#{REG_IP}	
+    		)
+    	}
+    ]]>
+    </select>
+    
+    <!-- 전송후 T_CM_USER 테이블 WK_FLAG값 NULL로 처리 -->
+    <update id="SMD060CT_CM_USER_SEND_U" parameterType="java.util.HashMap">
+    <![CDATA[
+    	UPDATE	T_CM_USER
+    	SET		WK_FLAG		= NULL
+    		,	MOD_PGM_ID	= #{MOD_PGM_ID}
+    		,	MOD_USER	= #{MOD_USER}
+    		,	MOD_DT		= #{MOD_DT}
+    		,	MOD_DT_CURR	= #{MOD_DT_CURR}
+    		,	MOD_DT_LOC	= #{MOD_DT_LOC}
+    		,	MOD_IP		= #{MOD_IP}
+    	WHERE	WK_FLAG IS NOT NULL
+    	AND		COMPANY_CD	= #{COMPANY_CD}
+    	AND 	INOUT_USER_TP IN ('HD', 'VS', 'SA')
+    ]]>
+    </update>
+    
+    <select id="SMD060CT_CM_USER_NO_CHK"  parameterType="java.util.HashMap" resultType="java.lang.String">
+    	<![CDATA[
+		SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END AS USER_NO_CHK
+		FROM T_HR_CREW
+		WHERE CREWID = #{USER_NO}
+		]]>
+    </select>
+    
+</mapper>                                                                                                                                                                                                          

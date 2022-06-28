@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="768" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="회원정보수정">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Static id="Static00" taborder="0" text="회원정보수정" left="5%" top="20" height="40" verticalAlign="top" cssclass="sta_title" right="5%"/>
+        <ImageViewer id="ImageViewer00" taborder="1" left="180" top="116" width="100" height="100" borderRadius="50px" background="url('theme://images/ico_mypage_profile2.png') no-repeat center"/>
+        <ImageViewer id="ImageViewer01" taborder="2" left="247" top="175" width="46" height="44" background="url('theme://images/ico_mypage_setting2.png') no-repeat center center"/>
+        <Static id="Static01" taborder="3" text="입소자 성함" left="5%" top="260" height="36" textAlign="center" font="bold 15pt/normal &quot;Noto Sans CJK KR Regular&quot;" color="#7d7f97" right="5%"/>
+        <Edit id="Edit00" taborder="4" left="5%" top="309" height="35" right="5%" textAlign="center"/>
+        <Static id="Static01_00" taborder="5" text="보호자 성함" left="5%" top="370" height="36" textAlign="center" color="#7d7f97" font="bold 15pt/normal &quot;Noto Sans CJK KR Regular&quot;" right="5%"/>
+        <Edit id="edt_fam_name" taborder="6" left="5%" top="419" height="35" right="5%" textAlign="center"/>
+        <Static id="Static01_00_00" taborder="7" text="보호자 연락처" left="5%" top="480" height="36" textAlign="center" color="#7d7f97" font="bold 15pt/normal &quot;Noto Sans CJK KR Regular&quot;" right="5%"/>
+        <Edit id="edt_fam_cellphone" taborder="8" left="5%" top="529" height="35" right="5%" textAlign="center"/>
+        <Static id="Static02" taborder="9" text="※응급 상황 발생 시 연락받으실 전화번호를 입력해주세요" left="5.00%" top="630" height="36" cssclass="sta_txt" right="5.00%"/>
+        <Button id="btn_update" taborder="10" text="회원정보수정" left="5.00%" top="687" height="54" cssclass="btn_basic" right="5.00%" onclick="btn_update_onclick"/>
+        <CheckBox id="chk_notice" taborder="11" text="공지 수신 여부" left="23" top="579" width="434" height="41" falsevalue="0" truevalue="1"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="FAM_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="FAM_ID" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="CELLPHONE" type="STRING" size="256"/>
+          <Column id="ADDR1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileDialog id="fileDialog"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	this.chk_notice.set_value(nexacro.getApplication().gds_mUserInfo.getColumn(0, "ADDR1"));
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "FAM_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "FAM_ID"));
+	
+	this.fn_search();
+	
+	const standard = this.makeStandardObject();
+	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		+ "sqlId=MTEST10.MTEST10_DS_LIST_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//
+this.fn_save = function()
+{
+	const svcId = "save";
+	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+}
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "save")
+		{
+			this.fn_search();
+			const noticeVal = this.ds_list.getColumn(0, "ADDR1");
+			if(noticeVal == 1)
+			{
+				param = {
+					flag : true,
+					company : nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD")
+				};
+			}
+			else
+			{
+				param = {
+					flag : false,
+					company : nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD")
+				};
+			}
+			this.standardPlugin.callMethod("NOTICE", param);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+this.chk_notice_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	let param;
+	if(e.postvalue == 1)
+	{
+		param = {
+			flag : true,
+			company : nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD")
+		};
+		nexacro.getApplication().gds_mUserInfo.setColumn(0, "ADDR1", 1);
+	}
+	else
+	{
+		param = {
+			flag : false,
+			company : nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD")
+		};
+		nexacro.getApplication().gds_mUserInfo.setColumn(0, "ADDR1", 0);
+	}
+	this.standardPlugin.callMethod("NOTICE", param);
+};
+
+this.btn_update_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="edt_fam_name" propid="value" datasetid="ds_list" columnid="NAME"/>
+      <BindItem id="item2" compid="edt_fam_cellphone" propid="value" datasetid="ds_list" columnid="CELLPHONE"/>
+      <BindItem id="item0" compid="chk_notice" propid="value" datasetid="ds_list" columnid="ADDR1"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	/**
+	 * 
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * 
+	 * 
+	 **/                                                                                                      
+-->
+<mapper namespace="CM_HOME">
+	
+	<select id="CM_HOME_DS_NOTICE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT MAI.*
+              	FROM (SELECT A.COMPANY_CD
+							,A.NOT_SEQ
+							,A.NOT_DT
+							,A.TITLE
+							,A.CONTENT
+							,A.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,ROW_NUMBER() OVER(ORDER BY A.NOT_DT DESC, A.NOT_SEQ DESC) ROWNUM
+		              	FROM T_NU_NOTICE A
+		               WHERE  1=1
+		                 AND A.COMPANY_CD = #{COMPANY_CD}) MAI
+		       WHERE ROWNUM < 6
+            ]]>
+                                                                                                                                                                                                                                                                                                                                                                                                                      
+    </select>  
+	<select id="CM_HOME_DS_SERVICE_NOTICE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT MAI.*
+              	FROM (SELECT A.COMPANY_CD
+							,A.NOT_SEQ
+							,A.SERVICE_TP
+							,A.NOT_DT
+							,A.TITLE
+							,A.CONTENT
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,ROW_NUMBER() OVER(ORDER BY A.NOT_DT DESC, A.NOT_SEQ DESC) ROWNUM
+		              	FROM T_CM_SERVICE_NOTICE A
+		               WHERE A.SERVICE_TP = #{SERVICE_TP}) MAI
+		       WHERE MAI.ROWNUM < 6
+            ]]>
+                                                                                                                                                                                                                                                                                                                                                                                                                      
+    </select>         
+	
+	<!-- 월간 달력조회 -->
+    <select id="HOME_CAL" parameterType="java.lang.String" resultType="java.util.Map">
+    <![CDATA[
+		WITH TBL_DATE AS
+		(
+		    SELECT
+		        NUMBER M_NUM,
+		        DATEPART(DW, CONVERT(DATETIME, #{MAIN_CAL_DATE}) + NUMBER - 1) M_PART,
+		        DATENAME(DW, CONVERT(DATETIME, #{MAIN_CAL_DATE}) + NUMBER - 1) M_NAME,
+		        DATEDIFF(WK, #{MAIN_CAL_DATE}, DATEADD(D, NUMBER - 1, #{MAIN_CAL_DATE})) WK,
+				(SELECT COUNT(*) FROM ALT_TASK WITH(NOLOCK) WHERE STARTDATE = (CONVERT(VARCHAR(10), CONVERT(DATETIME, #{MAIN_CAL_DATE}) + NUMBER - 1, 120))) TODAY_CNT,
+				(CASE CONVERT(VARCHAR(8), CONVERT(DATETIME, #{MAIN_CAL_DATE}) + NUMBER - 1, 112)
+                      WHEN CONVERT(VARCHAR(8), GETDATE(), 112) THEN 'Y'
+                      ELSE 'N' END) TODAY_YN
+		    FROM MASTER..SPT_VALUES WITH(NOLOCK)
+		    WHERE TYPE='P'
+		    AND NUMBER BETWEEN 1 AND DATEDIFF(D, #{MAIN_CAL_DATE}, DATEADD(MM, 1, #{MAIN_CAL_DATE}))
+		)
+		SELECT
+		    T1.WK,
+		    MAX(CASE M_PART WHEN '1' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) SUN,
+		    MAX(CASE M_PART WHEN '2' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) MON,
+		    MAX(CASE M_PART WHEN '3' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) TUE,
+		    MAX(CASE M_PART WHEN '4' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) WED,
+		    MAX(CASE M_PART WHEN '5' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) THU,
+		    MAX(CASE M_PART WHEN '6' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) FRI,
+		    MAX(CASE M_PART WHEN '7' THEN CONVERT(VARCHAR,M_NUM) ELSE '' END) SAT,
+		    MAX(CASE M_PART WHEN '1' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) SUN_CNT,
+		    MAX(CASE M_PART WHEN '2' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) MON_CNT,
+		    MAX(CASE M_PART WHEN '3' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) TUE_CNT,
+		    MAX(CASE M_PART WHEN '4' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) WED_CNT,
+		    MAX(CASE M_PART WHEN '5' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) THU_CNT,
+		    MAX(CASE M_PART WHEN '6' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) FRI_CNT,
+		    MAX(CASE M_PART WHEN '7' THEN CONVERT(VARCHAR,TODAY_CNT) ELSE '' END) SAT_CNT,
+		    MAX(CASE M_PART WHEN '1' THEN TODAY_YN ELSE '' END) SUN_TODAY_YN,
+		    MAX(CASE M_PART WHEN '2' THEN TODAY_YN ELSE '' END) MON_TODAY_YN,
+		    MAX(CASE M_PART WHEN '3' THEN TODAY_YN ELSE '' END) TUE_TODAY_YN,
+		    MAX(CASE M_PART WHEN '4' THEN TODAY_YN ELSE '' END) WED_TODAY_YN,
+		    MAX(CASE M_PART WHEN '5' THEN TODAY_YN ELSE '' END) THU_TODAY_YN,
+		    MAX(CASE M_PART WHEN '6' THEN TODAY_YN ELSE '' END) FRI_TODAY_YN,
+		    MAX(CASE M_PART WHEN '7' THEN TODAY_YN ELSE '' END) SAT_TODAY_YN
+		FROM TBL_DATE T1 WITH(NOLOCK)
+		JOIN MASTER..SPT_VALUES T2 WITH(NOLOCK)
+		  ON T1.WK = T2.NUMBER
+		WHERE
+		    T2.TYPE = 'P'
+		GROUP BY T1.WK
+		ORDER BY T1.WK
+    ]]>
+    </select>
+    <!-- ALERT DATA 조회. 추후 ALERT에 대한 구현이 완료되는대로 수정되어야함. -->
+    <select id="GET_ALERT_CONTENT" parameterType="java.lang.String" resultType="java.util.Map">
+    <![CDATA[
+		SELECT TASKBR_ID 
+		     , TASK_ID_SET 
+		     , STARTDATE 
+		     , DUEDATE 
+		     , CONTENTS 
+		     , CREATEDATE 
+		     , ITEM_IDENTITY 
+		     , MNG_V_CODE 
+		FROM   ALT_TASK WITH(NOLOCK)
+		WHERE  STARTDATE = #{TODAY}
+    ]]>
+    </select>
+</mapper>

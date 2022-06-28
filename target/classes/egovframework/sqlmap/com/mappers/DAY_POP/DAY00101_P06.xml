@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P06                                                        
+     * 프로그램 명     	: 일 목욕제공 기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-25 15:40        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                             
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P06">
+	<!-- 조회 -->
+    <select id="DAY00101_P06_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT ba.sicode
+			, ba.ba_nalja
+			, DATE_FORMAT(ba.ba_nalja, '%Y.%m.%d') AS nalja
+			, ba.ba_number
+			, ba.ba_code
+			, ba.ba_name
+			, bm.성별 AS sex_gb
+			, bm.m_group
+			, bm.m_roomname
+			, ba.목욕시간
+			, SUBSTRING(ba.목욕시간,1,2) AS sh
+			, SUBSTRING(ba.목욕시간,4,2) AS sm
+			, SUBSTRING(ba.목욕시간,7,2) AS eh
+			, SUBSTRING(ba.목욕시간,10,2) AS em
+			, ba.제공방법
+			, ba.ba_memo
+			, ba.담당자01
+			, ba.담당코드01
+			, ba.담당직종01
+			, ba.담당자02
+			, ba.담당코드02
+			, ba.담당직종02
+			, ba.org_ba_number
+			, ba.등록일시
+			, ba.등록자
+			, ba.수정일시
+			, ba.수정자
+			, '' AS VIEW_MANAGER1
+			, '' AS VIEW_MANAGER2
+			, IFNULL(TRIM(kr.미입소),'') AS move_cont
+		FROM base_bath ba
+		  LEFT JOIN base_mate bm
+		  ON ba.sicode = bm.sicode
+		  AND ba.ba_code = bm.m_code
+		LEFT JOIN kmrecord kr
+		  ON ba.sicode = kr.sicode
+		  AND ba.ba_code = kr.k_code
+		  AND ba.ba_nalja = kr.k_nalja
+		WHERE ba.sicode = #{sicode}
+			AND ba.ba_nalja = #{date}
+		ORDER BY ba.ba_name ASC
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P06_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+		UPDATE base_bath
+		SET 목욕시간 = #{목욕시간}
+			, 제공방법 = #{제공방법}
+			, ba_memo = #{ba_memo}
+			, 담당자01  =  #{담당자01}
+			, 담당코드01 =  #{담당코드01}
+			, 담당직종01 =  #{담당직종01}
+			, 담당자02  =  #{담당자02}
+			, 담당코드02 =  #{담당코드02}
+			, 담당직종02 =  #{담당직종02}
+		WHERE sicode = #{sicode}
+		AND ba_number = #{ba_number}
+    </update>
+    
+    <!-- 특이사항 내용 조회 -->
+    <select id="DAY00101_P06_DS_CONTENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+         WITH RECURSIVE line
+		   AS
+		   (
+		      SELECT 1 AS ROW_NUM
+		      UNION ALL
+		      SELECT ROW_NUM + 1 AS ROW_NUM
+		      FROM line
+		      WHERE ROW_NUM < 5
+		   )
+		   SELECT 
+		      SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.ROW_NUM), '#@$@#', -1) AS VALUE1
+		   ,   lin.ROW_NUM
+		   FROM line lin
+		   LEFT JOIN 
+		   (
+		      SELECT
+		         REPLACE(a.목욕메모, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+		         ,sicode
+		      FROM base_info a
+		      WHERE a.sicode = #{sicode}
+		      
+		   ) bi
+		   ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.ROW_NUM - 1
+
+	]]>
+    </select>
+    
+    
+    <!-- 전날 일지 조회 -->
+    <select id="DAY00101_P06_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00304                                                   
+     * 프로그램 명     	: 3-4 
+     * Description 		: 3-4 연간 물리치료.기능회복훈련 계획현황
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-06-20        	|  이유정	| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00304_DS_DATA_S
+     *================================================================
+-->
+<mapper namespace="DAY00304">
+	
+    <select id="DAY00304_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<!-- 조회 -->
+	/* 3-4조회 */
+	<![CDATA[
+	SELECT mai.sicode
+	, mai.거주현황
+	, mai.m_group
+	, mai.m_name
+	, mai.성별
+	, mai.m_grade
+	, mai.m_roomname
+	, mai.m_enday
+	, mai.m_code
+	, case when mai.거주현황 = '퇴소자' then mai.m_reday END AS m_reday
+	, max(case when mai.row_cnt = 1 then mai.평가일    when mai.row_num = 2 then mai.평가일 END    )  AS 평가일1
+	, max(case when mai.row_cnt = 1 then mai.계획시작  when mai.row_num = 2 then mai.계획시작 END  )  AS 계획시작1
+	, max(case when mai.row_cnt = 1 then mai.계획종료  when mai.row_num = 2 then mai.계획종료 END  )  AS 계획종료1
+	, max(case when mai.row_cnt = 1 then mai.치료시간  when mai.row_num = 2 then mai.치료시간 END  )  AS 치료시간1
+	, max(case when mai.row_cnt = 1 then mai.기능시a   when mai.row_num = 2 then mai.기능시a END   )  AS 기능시a1
+	, max(case when mai.row_cnt = 1 then mai.평가자명  when mai.row_num = 2 then mai.평가자명 END  )  AS 평가자명1
+	, max(case when mai.row_cnt = 1 then mai.ha_number when mai.row_num = 2 then mai.ha_number END)  AS ha_number1
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.평가일 END    )  AS 평가일2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.계획시작 END  )  AS 계획시작2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.계획종료 END  )  AS 계획종료2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.치료시간 END  )  AS 치료시간2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.기능시a END   )  AS 기능시2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.평가자명 END  )  AS 평가자명2
+	, max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.ha_number END)  AS ha_number2
+	, CONCAT(
+	    	    DATE_FORMAT(max(case when mai.row_cnt = 1 then mai.계획시작  when mai.row_num = 2 then mai.계획시작 END ), '%Y.%m.%d')
+		      , '-'
+		      , DATE_FORMAT(max(case when mai.row_cnt = 1 then mai.계획종료  when mai.row_num = 2 then mai.계획종료 END  ), '%Y.%m.%d')
+		       )AS 계획기간1
+	, CONCAT(
+		        DATE_FORMAT(max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.계획시작 END), '%Y.%m.%d')
+		      , '-'
+		      , DATE_FORMAT(max(case when mai.row_cnt > 1 AND  mai.row_num = 1 then mai.계획종료 END  ), '%Y.%m.%d')
+		       )AS 계획기간2
+		FROM (
+	SELECT mat.sicode
+	, mat.거주현황
+	, mat.m_group
+	, mat.m_name
+	, mat.성별
+	, FN_GRADE_NM(mat.sicode, mat.m_code, STR_TO_DATE(#{date_to},'%Y%m%d')) AS m_grade
+	, mat.m_roomname
+	, mat.m_enday
+	, mat.m_reday
+	, mat.m_code
+	, row_number() over(PARTITION BY mat.m_code ORDER BY hab.계획시작, hab.ha_number) AS row_num
+	, COUNT(1) over(PARTITION BY mat.m_code ) AS row_cnt
+	, hab.평가일
+	, hab.계획시작
+	, hab.계획종료
+	, hab.치료시간
+	, hab.기능시a
+	, hab.평가자명
+	, hab.ha_number
+	FROM base_mate mat
+	LEFT JOIN base_habilit hab
+		ON (   mat.sicode = hab.sicode
+		AND mat.m_code = hab.대상자코드
+		AND hab.계획시작<= STR_TO_DATE(#{date_to},'%Y%m%d')
+		AND hab.계획시작>= STR_TO_DATE(#{date_from},'%Y%m%d'))
+		WHERE mat.sicode = #{sicode}
+		AND mat.m_enday <= STR_TO_DATE(#{date_to},'%Y%m%d')
+		AND mat.m_reday >= STR_TO_DATE(#{date_from},'%Y%m%d')
+		) AS mai
+	GROUP BY
+	mai.sicode
+	, mai.거주현황
+	, mai.m_group
+	, mai.m_name
+	, mai.성별
+	, mai.m_grade
+	, mai.m_roomname
+	, mai.m_enday
+	, mai.m_code
+	, case when mai.거주현황 = '퇴소자' then mai.m_reday END
+	ORDER BY mai.m_name
+	 ]]>
+	</select>
+</mapper>

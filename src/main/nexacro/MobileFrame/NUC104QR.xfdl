@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC104QR" width="480" height="768" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="로봇훈련점수" ondevicebuttonup="NUC104QR_ondevicebuttonup" onload="NUC104QR_onload">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile" stepcount="0">
+        <Static id="sta_weekTitle" taborder="0" text="지난 30일간 훈련내역" left="5.00%" top="230" height="40" cssclass="sta_title" right="5.00%"/>
+        <Div id="div_lastBomi" taborder="1" left="5.00%" top="70" height="140" right="5.00%" background="#6a8ed3" borderRadius="6px" formscrolltype="both" formscrollbartype="indicator">
+          <Layouts>
+            <Layout>
+              <Static id="sta_day" taborder="0" text="DAY" left="2.78%" top="11" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" right="2.78%" textAlign="center"/>
+              <Div id="div_line" taborder="1" text="Div00" left="2.78%" top="49" height="2" right="2.78%"/>
+              <Static id="sta_contH" taborder="2" text="프로그램" left="62" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="120" textAlign="center"/>
+              <Static id="sta_ptH" taborder="3" text="점수" top="62" height="26" color="#ffffff" width="120" textAlign="center" right="62" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_contVal" taborder="4" left="62" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="120" textAlign="center" text="-"/>
+              <Static id="sta_ptVal" taborder="5" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" textAlign="center" text="-" right="62" width="120"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_todayTitle" taborder="2" text="마지막 측정정보" left="5%" top="20" height="40" cssclass="sta_title" right="5.00%"/>
+        <Grid id="grd_list" taborder="3" left="5.00%" top="510" autofittype="col" right="4.38%" binddataset="ds_list" height="200">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="130"/>
+                <Column size="130"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜"/>
+                <Cell col="1" text="프로그램" border="1px solid transparent,1px solid #ffffff,1px solid #ffffff"/>
+                <Cell col="2" text="점수"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BOM_DT" expandchar="dot" displaytype="date"/>
+                <Cell col="1" text="bind:PROGRAM_NM" displaytype="combotext" combodataset="ds_nu_bomi_cont" combodatacol="CMNM" combocodecol="CMCD"/>
+                <Cell col="2" text="bind:CONT_PT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <BasicChart id="cha_bomi" taborder="4" left="5.00%" top="275" height="220" background="#eef3fa" right="5.00%" borderRadius="6px" binddataset="ds_chart" categorycolumn="bind:CHART_DATE" boardspacing="10px 10px 0px 0px">
+          <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 12pt '맑은 고딕'",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #cccccc",
+		"tickendgap": "20px",
+		"tickstartgap": "20px",
+		"ticksize": "3",
+		"labeltextwidth": "23"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": true,
+			"itemtextcolor": "#003860",
+			"itemtextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+			"valuecolumn": "bind:CONT_PT",
+			"linevisible": "true",
+			"lineitemtextposition": "centertop"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 12pt '맑은 고딕'",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"autotickscale": "5",
+			"tickmax": "100",
+			"ticksize": "3",
+			"labelgap": "0"
+		}
+	]
+}]]></Contents>
+        </BasicChart>
+        <Div id="div_dummy" taborder="5" left="5.00%" top="743" height="5" right="5.00%" background="transparent"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="FROM" type="STRING" size="256"/>
+          <Column id="TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BOM_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="CONTENT_ID" type="STRING" size="256"/>
+          <Column id="PROGRAM_NM" type="STRING" size="256"/>
+          <Column id="CONT_LVL" type="STRING" size="256"/>
+          <Column id="CONT_PT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bomi" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BOM_DT" type="STRING" size="256"/>
+          <Column id="CONTENT_ID" type="STRING" size="256"/>
+          <Column id="CONTENT_ID_VAL" type="STRING" size="256"/>
+          <Column id="CONT_LVL" type="STRING" size="256"/>
+          <Column id="CONT_LVL_VAL" type="STRING" size="256"/>
+          <Column id="CONT_PT" type="STRING" size="256"/>
+          <Column id="SCORE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_chart" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BOM_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="CONTENT_ID" type="STRING" size="256"/>
+          <Column id="CONT_LVL" type="STRING" size="256"/>
+          <Column id="CONT_PT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_bomi_cont">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_bomi_level">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC104QR
+ * 화면명   	: 로봇훈련점수
+ * 화면설명 	: 모바일에서 입소자의 로봇훈련점수를 확인하는 화면
+ * 작성일    	: 2021-09-09
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC104QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const today = Sct.Util.getToday();					// 오늘 날짜
+	const from = Sct.Util.addDate(today, -29);			// 30일전 날짜
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "FROM", from);
+	this.ds_search.setColumn(0, "TO", today);
+	
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC104QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search input3=ds_search";
+	const outDatasets = "ds_bomi=output1 ds_list=output2 ds_chart=output3";
+	const argument = "method=getList "
+		+ "sqlId='NUC104QR.NUC104QR_DS_BOMI_S NUC104QR.NUC104QR_DS_LIST_S NUC104QR.NUC104QR_DS_CHART_S' ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if(this.ds_bomi.rowcount < 1)
+			{
+				this.div_lastBomi.form.sta_day.set_text("측정 정보 없음");
+				this.div_lastBomi.form.sta_contVal.set_text("-");
+				this.div_lastBomi.form.sta_lvlVal.set_text("-");
+				this.div_lastBomi.form.sta_ptVal.set_text("-");
+			}
+			else
+			{
+				const bomDt = this.ds_bomi.getColumn(0, "BOM_DT");
+				const day = Sct.Util.getDayH(bomDt, false);
+				const bomDate = bomDt.substr(0, 4) + "." + bomDt.substr(4, 2) + "." + bomDt.substr(6, 2) + "(" + day + ")";
+				this.div_lastBomi.form.sta_day.set_text(bomDate);
+			}
+		
+			if(this.ds_list.rowcount > 0)
+			{
+// 				this.ds_chart.set_enableevent(false);
+// 				for(let i = this.ds_list.rowcount-1; i >= 0; i--)
+// 				{
+// 					const nRow = this.ds_chart.addRow();
+// 					this.ds_chart.copyRow(nRow, this.ds_list, i);
+// 				}
+// 				this.ds_chart.set_enableevent(true);
+// 				this.cha_bomi.set_binddataset("ds_chart");
+// 				this.cha_bomi.set_categorycolumn("BIND:CHART_DATE");
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_lastBomi.form.sta_contVal" propid="text" datasetid="ds_bomi" columnid="CONTENT_ID_VAL"/>
+      <BindItem id="item2" compid="div_lastBomi.form.sta_ptVal" propid="text" datasetid="ds_bomi" columnid="SCORE"/>
+    </Bind>
+  </Form>
+</FDL>

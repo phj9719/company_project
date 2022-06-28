@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC103QR" width="480" height="800" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="체성분분석" onload="NUC103QR_onload" ondevicebuttonup="NUC103QR_ondevicebuttonup">
+    <Layouts>
+      <Layout width="480" height="800" screenid="Mobile">
+        <Static id="sta_lastComposition" taborder="0" text="마지막 체성분 측정 정보" left="5.00%" top="10" height="40" right="5.00%" cssclass="sta_title"/>
+        <Static id="sta_lastComDt" taborder="1" text="측정일 : " left="5.00%" top="51" height="30" textAlign="left" right="5.00%" cssclass="sta_txt"/>
+        <Grid id="grd_list" taborder="2" left="5.00%" top="574" autofittype="col" binddataset="ds_list" right="5.00%" height="160">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="70"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                <Cell col="1" text="골격근량" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                <Cell col="2" text="체중" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                <Cell col="3" text="신장" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                <Cell col="4" text="체지방량" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                <Cell col="5" text="체지방률" font="normal 700 13pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COM_DT" displaytype="date" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;" expandchar="dot"/>
+                <Cell col="1" text="bind:SMM" expr="dataset.getColumn(currow, 'SMM') + &quot;kg&quot;" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+                <Cell col="2" text="bind:WEIGHT" expr="dataset.getColumn(currow, 'WEIGHT') + &quot;kg&quot;" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+                <Cell col="3" text="bind:HEIGHT" expr="dataset.getColumn(currow, 'HEIGHT') + &quot;cm&quot;" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+                <Cell col="4" text="bind:BFM" expr="dataset.getColumn(currow, 'BFM') + &quot;kg&quot;" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+                <Cell col="5" text="bind:PBF" expr="dataset.getColumn(currow, 'PBF') + &quot;%&quot;" font="normal 12pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_chart" taborder="3" text="Div00" left="5.00%" top="340" height="220" right="5.00%" background="#eef3fa" borderRadius="6px">
+          <Layouts>
+            <Layout>
+              <BasicChart id="cha_composition" taborder="0" left="0" top="0" categorycolumn="bind:CHART_DATE" boardspacing="0px 5px 0px 0px" minwidth="" bottom="0" right="0" binddataset="ds_chart">
+                <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#082c71",
+		"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #afc3e8",
+		"axistype": "normal",
+		"labelgap": "0",
+		"titletextalign": "high",
+		"visible": "true",
+		"tickendgap": "20px",
+		"tickstartgap": "20px",
+		"titlegap": "0",
+		"ticksize": "3",
+		"labeltextwidth": "23"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "골격근량",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextcolor": "#f5b9d1",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"valuecolumn": "bind:SMM",
+			"linevisible": "true",
+			"pointitemtextposition": "centertop",
+			"pointitemtextgap": "10",
+			"lineitemtextposition": "righttop",
+			"lineitemtextgap": "5",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"lineareafillstyle": "#f5b9d1",
+			"linestyle": "1px solid #f5b9d1",
+			"pointlinestyle": "2px solid #f5b9d1",
+			"selectbarfillstyle": "#f5b9d1",
+			"selectlineareafillstyle": "#f5b9d1",
+			"selectpointfillstyle": "#f5b9d1",
+			"itemtextvisible": "true"
+		},
+		{
+			"id": "series1",
+			"valuecolumn": "bind:WEIGHT",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "rightmiddle",
+			"lineitemtextgap": "5",
+			"titletext": "체중",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#ffae93",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineareafillstyle": "#ffae93",
+			"linestyle": "1px solid #ffae93",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #ffae93",
+			"selectbarfillstyle": "#ffae93",
+			"selectlineareafillstyle": "#ffae93"
+		},
+		{
+			"id": "series2",
+			"valuecolumn": "bind:HEIGHT",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "centerbottom",
+			"lineitemtextgap": "5",
+			"titletext": "신장",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#ffcc41",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineareafillstyle": "#ffcc41",
+			"linestyle": "1px solid #ffcc41",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #ffcc41",
+			"selectbarfillstyle": "#ffcc41",
+			"selectlineareafillstyle": "#ffcc41",
+			"selectpointfillstyle": "#ffcc41"
+		},
+		{
+			"id": "series3",
+			"valuecolumn": "bind:BFM",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "rightbottom",
+			"lineitemtextgap": "5",
+			"titletext": "체지방량",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#86d1de",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineareafillstyle": "#86d1de",
+			"linestyle": "1px solid #86d1de",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #86d1de",
+			"selectlineareafillstyle": "#86d1de",
+			"selectlinestyle": "#86d1de"
+		},
+		{
+			"id": "series4",
+			"valuecolumn": "bind:PBF",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"lineitemtextposition": "leftbottom",
+			"lineitemtextgap": "5",
+			"titletext": "체지방률",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#a88eff",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineareafillstyle": "#a88eff",
+			"linestyle": "1px solid #a88eff",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #a88eff",
+			"selectbarfillstyle": "#a88eff",
+			"selectlineareafillstyle": "#a88eff",
+			"selectpointfillstyle": "#a88eff"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"titletextcolor": "#082c71",
+			"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"autotickscale": "5",
+			"tickinterval": "50",
+			"ticks": "4",
+			"titlegap": "0",
+			"titletextalign": "high",
+			"titlerotate": "0",
+			"ticksize": "3",
+			"gap": "0"
+		}
+	],
+	"legend": {
+		"id": "legend",
+		"padding": "3px 0px 0px",
+		"itemtextfont": "normal 500 10pt/normal \"Noto Sans KR\"",
+		"itemtextcolor": "#555555",
+		"align": "topcenter",
+		"markertextgap": "3",
+		"horizontalitemgap": "5",
+		"itemcolumncount": "5",
+		"verticalitemgap": "",
+		"top": "",
+		"visible": true
+	}
+}]]></Contents>
+              </BasicChart>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_yearComposition" taborder="4" text="연간 체성분 분석 내역" left="5%" top="260" height="40" right="5.00%" cssclass="sta_title"/>
+        <Static id="sta_yearDate" taborder="5" left="5%" top="301" height="30" textAlign="left" right="5.00%" cssclass="sta_txt" text="---------"/>
+        <Div id="div_smm" taborder="6" text="Div03" left="5.00%" top="94" width="16.25%" height="133" borderRadius="6px" edge="url('theme://images/bg_diary_bc1.png') 0px 0px">
+          <Layouts>
+            <Layout>
+              <Static id="sta_smmTitle" taborder="0" text="골격근량" left="0" top="10" width="100%" height="24" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#fcecf2" verticalAlign="middle" letterSpacing="-0.5px"/>
+              <Static id="sta_smmVal" taborder="1" text="VAL" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" font="normal 700 17pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_weight" taborder="7" text="Div03" top="94" width="16.25%" height="133" borderRadius="6px" left="23.13%" edge="url('theme://images/bg_diary_bc2.png') 0px 0px">
+          <Layouts>
+            <Layout>
+              <Static id="sta_weightTitle" taborder="0" text="체중" left="0" top="10" width="100%" height="24" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#ffe9e2" verticalAlign="middle" letterSpacing="-0.5px"/>
+              <Static id="sta_weightVal" taborder="1" text="VAL" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" font="normal 700 17pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_height" taborder="8" text="Div03" left="41.67%" top="94" width="16.25%" height="133" borderRadius="6px" edge="url('theme://images/bg_diary_bc3.png') 0px 0px">
+          <Layouts>
+            <Layout>
+              <Static id="sta_heightTitle" taborder="0" text="신장" left="0" top="10" width="100%" height="24" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#fff2d6" verticalAlign="middle" letterSpacing="-0.5px"/>
+              <Static id="sta_heightVal" taborder="1" text="VAL" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+              <Static id="sta_unit" taborder="2" text="㎝" left="0" top="80" width="100%" height="40" textAlign="center" font="normal 700 17pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_bfm" taborder="9" text="Div03" left="60.00%" top="94" width="16.25%" height="133" borderRadius="6px" edge="url('theme://images/bg_diary_bc4.png') 0px 0px">
+          <Layouts>
+            <Layout>
+              <Static id="sta_bfmTitle" taborder="0" text="체지방량" left="0" top="10" width="100%" height="24" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#dff2f5" verticalAlign="middle" letterSpacing="-0.5px"/>
+              <Static id="sta_bfmVal" taborder="1" text="VAL" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+              <Static id="sta_unit" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" font="normal 700 17pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_pbf" taborder="10" text="Div03" left="78.13%" top="94" height="133" borderRadius="6px" right="5.00%" edge="url('theme://images/bg_diary_bc5.png') 0px 0px">
+          <Layouts>
+            <Layout>
+              <Static id="sta_pbfTitle" taborder="0" text="체지방률" left="0" top="10" width="100%" height="24" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#e7e1ff" verticalAlign="middle" letterSpacing="-0.5px"/>
+              <Static id="sta_pbfVal" taborder="1" text="VAL" left="0" top="50" height="40" textAlign="center" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px" width="100%"/>
+              <Static id="sta_unit" taborder="2" text="％" left="0" top="80" width="100%" height="40" textAlign="center" font="normal 700 17pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" verticalAlign="middle"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_dummy" taborder="11" left="22" top="777" width="441" height="6" background="transparent"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="FROM" type="STRING" size="256"/>
+          <Column id="TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="COM_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="PBF" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_composition" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="COM_DT" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="PBF" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_chart">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="COM_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="PBF" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC103QR
+ * 화면명   	: 체성분분석
+ * 화면설명 	: 모바일에서 입소자의 체성분분석 내역을 확인하는 화면
+ * 작성일    	: 2021-09-08
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC103QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const to = Sct.Util.getToday();
+	const from = Sct.Util.addMonth(to, -12);
+	
+	const fromStr = from.substr(0, 4) + "." + from.substr(4, 2) + "." + from.substr(6, 2);
+	const toStr = to.substr(0, 4) + "." + to.substr(4, 2) + "." + to.substr(6, 2);
+	const yearStr = fromStr + " ~ " + toStr;
+	
+	this.sta_yearDate.set_text(yearStr);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "FROM", from);
+	this.ds_search.setColumn(0, "TO", to);
+	
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC103QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search input2=ds_search";
+	var outDatasets = "ds_composition=output1 ds_list=output2";
+	var argument = "method=getList "
+		+ "sqlId='NUC103QR.NUC103QR_DS_COMPOSITION_S NUC103QR.NUC103QR_DS_LIST_S' ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if(this.ds_composition.rowcount < 1)
+			{
+				this.sta_lastComDt.set_text("최근 측정일 : 없음");
+			}
+			else
+			{
+				const comDt = this.ds_composition.getColumn(0, "COM_DT");
+				const day = Sct.Util.getDayH(comDt, false);
+				const comDate = comDt.substr(0, 4) + "." + comDt.substr(4, 2) + "." + comDt.substr(6, 2);
+				this.sta_lastComDt.set_text("최근 측정일 : " + comDate);
+			}
+			
+			if(this.ds_list.rowcount > 0)
+			{
+				this.ds_chart.set_enableevent(false);
+				for(let i = this.ds_list.rowcount-1; i >= 0; i--)
+				{
+					const nRow = this.ds_chart.addRow();
+					this.ds_chart.copyRow(nRow, this.ds_list, i);
+				}
+				this.ds_chart.set_enableevent(true);
+				this.div_chart.form.cha_composition.set_binddataset("ds_chart");
+				this.div_chart.form.cha_composition.set_categorycolumn("BIND:CHART_DATE");
+				
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_smm.form.sta_smmVal" propid="text" datasetid="ds_composition" columnid="SMM"/>
+      <BindItem id="item1" compid="div_weight.form.sta_weightVal" propid="text" datasetid="ds_composition" columnid="WEIGHT"/>
+      <BindItem id="item2" compid="div_height.form.sta_heightVal" propid="text" datasetid="ds_composition" columnid="HEIGHT"/>
+      <BindItem id="item3" compid="div_bfm.form.sta_bfmVal" propid="text" datasetid="ds_composition" columnid="BFM"/>
+      <BindItem id="item4" compid="div_pbf.form.sta_pbfVal" propid="text" datasetid="ds_composition" columnid="PBF"/>
+    </Bind>
+  </Form>
+</FDL>

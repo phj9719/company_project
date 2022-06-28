@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CM_RES_PP                                                         
+     * 프로그램 명     : 입소자팝업                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_RES_PP"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CM_RES_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,CONCAT(RIGHT(A.BIRTHDAY,6),'-',IF(A.SEX ='M',IF(LEFT(A.BIRTHDAY,4)<2000,1,3),IF(LEFT(A.BIRTHDAY,4)<2000,2,4)),'******') AS JUMIN
+					,A.LONG_TERM_CARE_NO
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.BIRTHDAY2
+					,A.CELLPHONE
+					,A.GRADE
+					,A.DEMENTIA_YN
+					,A.FALL_YN
+					,A.BEDSORE_YN
+					,A.AREA
+					,A.LOCATION
+					,A.ENTER_DT
+					,A.RETIRE_DT
+					,A.ZIP_CODE
+					,A.ADDR1
+					,A.ADDR2
+					,A.ADDR3
+					,A.ADDR4
+					,CONCAT(A.ADDR1,' ',A.ADDR2,' ',A.ADDR3,' ',A.ADDR4) AS ADDRESS
+					,A.REF_SYS_RES_ID
+					,A.FILE_GRP_ID
+					,A.FOOD_TP
+					,SUBSTRING(A.FOOD_TP,1,1) AS MEAL1
+					,SUBSTRING(A.FOOD_TP,2,1) AS MEAL2
+					,SUBSTRING(A.FOOD_TP,3,1) AS MEAL3
+					,SUBSTRING(A.FOOD_TP,4,1) AS MEAL4
+					,SUBSTRING(A.FOOD_TP,5,1) AS MEAL5
+					,SUBSTRING(A.FOOD_TP,6,1) AS MEAL6
+					,A.FUNC_DIS
+					,SUBSTRING(A.FUNC_DIS,1,1) AS FUNC1
+					,SUBSTRING(A.FUNC_DIS,2,1) AS FUNC2
+					,SUBSTRING(A.FUNC_DIS,3,1) AS FUNC3
+					,SUBSTRING(A.FUNC_DIS,4,1) AS FUNC4
+					,SUBSTRING(A.FUNC_DIS,5,1) AS FUNC5
+					,SUBSTRING(A.FUNC_DIS,6,1) AS FUNC6
+					,A.DIETARY_CURE
+					,SUBSTRING(A.DIETARY_CURE,1,1) AS DIET1
+					,SUBSTRING(A.DIETARY_CURE,2,1) AS DIET2
+					,SUBSTRING(A.DIETARY_CURE,3,1) AS DIET3
+					,SUBSTRING(A.DIETARY_CURE,4,1) AS DIET4
+					,SUBSTRING(A.DIETARY_CURE,5,1) AS DIET5
+					,SUBSTRING(A.DIETARY_CURE,6,1) AS DIET6
+					,(SELECT CC.BRE_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS BRE_TIME
+					,(SELECT CC.LUN_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS LUN_TIME
+					,(SELECT CC.DIN_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS DIN_TIME
+					,(SELECT CC.MOR_SNACK_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS MOR_SNACK_TIME
+					,(SELECT CC.AFT_SNACK_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS AFT_SNACK_TIME
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM]]>
+					<if test="TABLE_NM != '' and TABLE_NM != null">
+						<choose>
+							<when test="TABLE_NM.equals('T_NU_HEALTH_CHECK')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_HEALTH_CHECK NC
+								   WHERE NC.COMPANY_CD = #{COMPANY_CD}
+								   	 AND NC.RES_ID = A.RES_ID
+								   	 AND NC.HEA_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_PRESSURE')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_PRESSURE B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.PRE_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_SUGAR')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_SUGAR B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.SUG_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_TEMPERATURE')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_TEMPERATURE B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.TEM_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_COMPOSITION')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_COMPOSITION B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.COM_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_EXCRETION')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_EXCRETION B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.EXC_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_POSTURE')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_POSTURE B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.POS_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_MEAL')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_MEAL B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.MEA_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_OBSERVE')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_OBSERVE B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.OBS_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_WATER')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_WATER B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.WAT_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_SLEEP')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_SLEEP B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.SLE_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_BOMI')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_BOMI B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.BOM_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_CIST')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_CIST B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.CIS_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_SGDS')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_SGDS B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.SGD_DT = #{DATE}) AS INPUT_YN
+							</when>
+							<when test="TABLE_NM.equals('T_NU_COMM_CARE_HEAD')">
+								,(SELECT IF(COUNT(*)>0,'Y','N')
+									FROM T_NU_COMM_CARE_HEAD B
+								   WHERE B.COMPANY_CD = #{COMPANY_CD}
+								   	 AND B.RES_ID = A.RES_ID
+								   	 AND B.CAR_DT = #{DATE}) AS INPUT_YN
+							</when>
+						</choose>
+					</if>	
+               FROM T_NU_RESIDENT A                                                                                                                                                                              
+              WHERE 1=1
+                AND (@ROWNUM:=0)=0
+             --   AND (A.RETIRE_DT IS NULL OR A.RETIRE_DT = '' OR A.RETIRE_DT >= DATE_FORMAT(NOW(),'%Y%m%d')) 
+     
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.NAME LIKE CONCAT('%', #{NAME},'%') 
+              </if>
+              <if test="RES_ID != '' and RES_ID != null">
+                    AND A.RES_ID LIKE CONCAT('%', #{RES_ID},'%') 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.AREA = #{AREA}
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.LOCATION = #{LOCATION}
+              </if>
+              <if test="ENTER_GB != '' and ENTER_GB != null">
+				 <choose>
+				 	<when test='ENTER_GB.equals("E")'>
+				 	<![CDATA[    
+						 AND NVL(A.RETIRE_DT,'99991231') >= DATE_FORMAT(CURDATE(),'%Y%m%d')
+					]]>
+				  	</when>
+				  	<when test='ENTER_GB.equals("R")'>
+				  	<![CDATA[    
+						 AND NVL(A.RETIRE_DT,'99991231') < DATE_FORMAT(CURDATE(),'%Y%m%d')
+					]]>
+				  	</when>
+				  	<otherwise>
+				  	     AND 1=1
+				  	</otherwise>
+				 </choose>
+              </if>
+              <if test="TABLE_NM != '' and TABLE_NM != null">
+	              <choose>
+	              	<when test="TABLE_NM.equals('T_NU_HEALTH_CHECK')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_HEALTH_CHECK B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.HEA_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_HEALTH_CHECK B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.HEA_DT = #{DATE})
+	              			</when>
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_PRESSURE')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_PRESSURE B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.PRE_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_PRESSURE B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.PRE_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_SUGAR')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_SUGAR B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.SUG_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_SUGAR B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.SUG_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_TEMPERATURE')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_TEMPERATURE B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.TEM_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_TEMPERATURE B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.TEM_DT = #{DATE})
+	              			</when>	
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_COMPOSITION')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_COMPOSITION B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.COM_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_COMPOSITION B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.COM_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_EXCRETION')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_EXCRETION B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.EXC_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_EXCRETION B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.EXC_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_POSTURE')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_POSTURE B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.POS_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_POSTURE B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.POS_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_MEAL')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_MEAL B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.MEA_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_MEAL B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.MEA_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_OBSERVE')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_OBSERVE B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.OBS_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_OBSERVE B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.OBS_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_WATER')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_WATER B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.WAT_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_WATER B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.WAT_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_SLEEP')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_SLEEP B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.SLE_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_SLEEP B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.SLE_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_BOMI')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_BOMI B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.BOM_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_BOMI B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.BOM_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_CIST')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_CIST B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.CIS_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_CIST B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.CIS_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_SGDS')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_SGDS B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.SGD_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_SGDS B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.SGD_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              	<when test="TABLE_NM.equals('T_NU_COMM_CARE_HEAD')">
+	              		<choose>
+	              			<when test='INPUT_YN.equals("Y")'>
+	              				AND A.RES_ID IN (SELECT B.RES_ID
+	              								   FROM T_NU_COMM_CARE_HEAD B
+	              								  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  	AND B.RES_ID = A.RES_ID
+	              								  	AND B.CAR_DT = #{DATE})
+	              			</when>
+	              			<when test='INPUT_YN.equals("N")'>
+	              				AND A.RES_ID NOT IN (SELECT B.RES_ID
+	              								   	   FROM T_NU_COMM_CARE_HEAD B
+	              								  	  WHERE B.COMPANY_CD = A.COMPANY_CD
+	              								  		AND B.RES_ID = A.RES_ID
+	              								  		AND B.CAR_DT = #{DATE})
+	              			</when>	              		
+						</choose>
+	              	</when>
+	              </choose>
+              </if>
+               ORDER BY A.NAME ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                              
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00407
+     * 프로그램 명     	: 4-7 연간 운전자 송영집계
+     * Description 		: 
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-13 09:40        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00407_DS_LIST_S		운전자 목록 조회
+        DAY00407_DS_DETAIL_S	연간 운전자 송영집계 조회
+     *================================================================
+-->
+<mapper namespace="DAY00407">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 운전자 목록 조회 -->
+    <select id="DAY00407_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-7 운전자 조회 */
+    SELECT
+      be.sicode
+    , be.c_staffid
+    , be.근무현황
+    , be.c_name
+    , be.성별
+    , be.c_group
+    , FN_DUTYNAME(be.sicode, be.c_staffid, #{DATE_TO}) AS 담당직종
+    , be.c_become AS 입사일
+    , CASE
+        WHEN be.c_retire != '2100-01-01' THEN be.c_retire
+        ELSE ''
+      END AS 퇴사일
+    FROM base_employee AS be
+    WHERE be.sicode = #{SICODE}
+    AND be.c_retire &gt;= #{DATE_FROM}
+    AND be.c_become &lt;= #{DATE_TO}
+    ORDER BY be.c_name
+    </select>
+    
+    <!-- 연간 운전자 송영집계 조회 -->
+    <select id="DAY00407_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-7 연간 운전자 송영집계 조회 */
+    WITH RECURSIVE line_num AS
+    (
+        SELECT 1 AS rnum
+        UNION ALL
+        SELECT lin.rnum + 1 AS rnum
+        FROM line_num AS lin
+        WHERE lin.rnum &lt; 12
+    )
+    , kmr_data AS
+    (
+        SELECT
+          kmr.k_nalja
+        , kmr.k_code
+        , kmr.k_name
+        , kmr.시작코스
+        , kmr.시작차번호
+        , kmr.시작거주지
+        , kmr.시작기사
+        , kmr.시작기코드
+        , kmr.종료코스
+        , kmr.종료차번호
+        , kmr.종료거주지
+        , kmr.종료기사
+        , kmr.종료기코드
+        , kmr.미입소
+        , kmr.시작시간
+        , kmr.종료시간
+        , SUBSTRING(kmr.시작시간, 1, 2) * 60 + SUBSTRING(kmr.시작시간, 4, 2) AS 시작분
+        , SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2) AS 종료분
+        , SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2)
+          - SUBSTRING(kmr.시작시간, 1, 2) * 60 + SUBSTRING(kmr.시작시간, 4, 2) AS 이용시간
+        FROM kmrecord AS kmr
+        WHERE kmr.sicode = #{SICODE}
+        AND kmr.k_nalja BETWEEN STR_TO_DATE(CONCAT(#{YEAR}, '0101'), '%Y%m%d') AND STR_TO_DATE(CONCAT(#{YEAR}, '1231'), '%Y%m%d')
+        AND (kmr.시작기코드 = #{CODE} OR kmr.종료기코드 = #{CODE})
+    )
+    SELECT
+      dat.mon
+    , CONCAT(dat.mon, '월') AS 송영월
+    , SUM(CASE WHEN dat.차번호1 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호2 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호3 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호4 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호5 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호6 = kmr.차번호 THEN kmr.인원 ELSE 0 END)
+      + SUM(CASE WHEN dat.차번호7 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 월인원
+    , dat.차번호1
+    , SUM(CASE WHEN dat.차번호1 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원1
+    , dat.차번호2
+    , SUM(CASE WHEN dat.차번호2 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원2
+    , dat.차번호3
+    , SUM(CASE WHEN dat.차번호3 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원3
+    , dat.차번호4
+    , SUM(CASE WHEN dat.차번호4 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원4
+    , dat.차번호5
+    , SUM(CASE WHEN dat.차번호5 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원5
+    , dat.차번호6
+    , SUM(CASE WHEN dat.차번호6 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원6
+    , dat.차번호7
+    , SUM(CASE WHEN dat.차번호7 = kmr.차번호 THEN kmr.인원 ELSE 0 END) AS 인원7
+    FROM
+    (
+        SELECT
+          LPAD(lin.rnum, 2, '0') AS mon
+          <!-- FN_INSTR(col, str, index, index2) col에서 index자리부터 index2번째 발견되는 str의 위치를 반환 -->
+        , SUBSTRING(sub.차번호, 1, CASE WHEN FN_INSTR(sub.차번호, ',', 1, 1) = 0 THEN CHAR_LENGTH(sub.차번호) ELSE FN_INSTR(sub.차번호, ',', 1, 1) - 1 END) AS 차번호1
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 1) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 1) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 2) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 2) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 1))
+          END AS 차번호2
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 2) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 2) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 3) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 3) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 2))
+          END AS 차번호3
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 3) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 3) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 4) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 4) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 3))
+          END AS 차번호4
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 4) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 4) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 5) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 5) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 4))
+          END AS 차번호5
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 5) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 5) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 6) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 6) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 5))
+          END AS 차번호6
+        , CASE
+            WHEN FN_INSTR(sub.차번호, ',', 1, 6) = 0 THEN ''
+            ELSE SUBSTRING(sub.차번호, FN_INSTR(sub.차번호, ',', 1, 6) + 1, CASE
+                                                                              WHEN FN_INSTR(sub.차번호, ',', 1, 7) = 0 THEN CHAR_LENGTH(sub.차번호)
+                                                                              ELSE FN_INSTR(sub.차번호, ',', 1, 7) - 1
+                                                                            END - FN_INSTR(sub.차번호, ',', 1, 6))
+          END AS 차번호7
+        , sub.차번호
+        FROM
+        (
+            SELECT GROUP_CONCAT(DISTINCT dat.차번호 ORDER BY dat.차번호) AS 차번호
+            FROM
+            (
+                SELECT
+                  CASE
+                    WHEN lin.rnum = 1 THEN
+                      CASE WHEN car.시작거주지 = 'Y' AND car.시작기코드 = #{CODE} THEN car.시작차번호 END
+                    ELSE
+                      CASE WHEN car.종료거주지 = 'Y' AND car.종료기코드 = #{CODE} THEN car.종료차번호 END
+                  END AS 차번호
+                FROM kmr_data AS car
+                INNER JOIN line_num AS lin
+                ON (lin.rnum &lt; 3)
+            ) AS dat
+        ) AS sub <!-- 월별로 차량번호를 이어서 1줄로 나타냄 ex:AAA,BBB,CCC,... -->
+        INNER JOIN line_num AS lin
+    ) AS dat <!-- 월별 차번호 구하기 -->
+    LEFT OUTER JOIN
+    (
+        SELECT
+          sub.mon
+        , sub.차번호
+        , SUM(sub.인원) AS 인원
+        FROM
+        (
+            SELECT
+              DATE_FORMAT(car.k_nalja, '%m') AS mon
+            , CASE
+                WHEN lin.rnum = 1 THEN
+                  CASE WHEN car.시작거주지 = 'Y' AND car.시작기코드 = #{CODE} THEN car.시작차번호 END
+                ELSE
+                  CASE WHEN car.종료거주지 = 'Y' AND car.종료기코드 = #{CODE} THEN car.종료차번호 END
+              END AS 차번호
+            , CASE
+                WHEN lin.rnum = 1 THEN
+                  CASE WHEN car.시작거주지 = 'Y' AND car.시작기코드 = #{CODE} THEN 1 ELSE 0 END
+                ELSE
+                  CASE WHEN car.종료거주지 = 'Y' AND car.종료기코드 = #{CODE} THEN 1 ELSE 0 END
+              END AS 인원
+            FROM kmr_data AS car
+            INNER JOIN line_num AS lin
+            ON (lin.rnum &lt; 3)
+        ) AS sub <!-- 시작과 종료에서 자신의 차량으로 송영을 한 여부 알아내기 -->
+        GROUP BY
+          sub.mon
+        , sub.차번호
+    ) AS kmr <!-- 월별 송영인원 구하기 -->
+    ON (dat.mon = kmr.mon)
+    GROUP BY
+      dat.mon
+    , dat.차번호1
+    , dat.차번호2
+    , dat.차번호3
+    , dat.차번호4
+    , dat.차번호5
+    , dat.차번호6
+    , dat.차번호7
+    ORDER BY dat.mon
+    </select>
+</mapper>

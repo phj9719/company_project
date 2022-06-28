@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00209                                                         
+     * 프로그램 명     	: 2-9 수급자 병의원진료기록                                                   
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자         |  비고                                    
+     *================================================================                  
+       2022-06-14 00:00     |  정준우		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00209_DS_LIST_PERSON_S			조회
+        DAY00209_DS_LIST_LOG_S              조회 - 진료기록
+        DAY00209_DS_EXCEL_S                 조회 - 엑셀 다운로드             
+     *================================================================                      
+-->
+<mapper namespace="DAY00209">
+	<!-- 조회 -->
+    <select id="DAY00209_DS_LIST_PERSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*DAY00209_DS_LIST_PERSON_S */
+	<![CDATA[
+		SELECT bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		  , bm.등급 AS bm_grade_nm
+		     , bm.m_roomname
+		     ,0 AS chk
+		  FROM base_mate bm
+		    , (SELECT distinct sicode
+		    , 거주코드 AS k_code
+		         FROM kmmedi
+		WHERE sicode = #{sicode}
+		  AND 진료일 BETWEEN #{date_from} AND #{date_to}
+		) a
+		 WHERE bm.sicode = #{sicode}      
+		   AND bm.sicode = a.sicode
+		   AND bm.m_code = a.k_code
+		 ORDER BY bm.m_name
+	]]>
+    </select>
+	<!-- 조회-진료기록 -->
+    <select id="DAY00209_DS_LIST_LOG_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*DAY00209_DS_LIST_LOG_S */
+	<![CDATA[
+		SELECT (CASE WHEN a.진료청구 = '1' THEN '본인부담'
+			 WHEN a.진료청구 = '2' THEN '월별청구'
+			 WHEN a.진료청구 = '3' THEN '시설부담'
+			 WHEN a.진료청구 = '4' THEN '기타'
+			 ELSE '' END) AS '진료청구명'
+			, (CASE WHEN a.투약청구 = '1' THEN '본인부담'
+			 WHEN a.투약청구 = '2' THEN '월별청구'
+			 WHEN a.투약청구 = '3' THEN '시설부담'
+			 WHEN a.투약청구 = '4' THEN '기타'
+			 ELSE '' END) AS '투약청구명'
+			 , a.sicode AS sicode
+		     , 진료번호
+		     , 거주자명
+		     , TRIM( 거주코드) AS 거주코드
+		     , 진료일
+		     , 진료시간
+		     , 병의원명
+		     , 병원번호
+		     , 진료내용
+		     , 진료금액
+		     , 진료청구
+		     , 투약금액
+		     , 투약청구
+		     , 담당자명
+		     , 담당코드
+		     , 첨부파일번호
+		     , filename1
+		     , org_진료번호
+			, bm.m_group
+		FROM kmmedi a
+			LEFT JOIN base_mate bm
+			ON a.sicode = bm.sicode
+			AND a.거주코드 = bm.m_code
+		WHERE a.sicode = #{sicode}
+			AND a.진료일 BETWEEN #{date_from} AND #{date_to}
+		ORDER BY 진료일,거주자명
+
+	]]>
+    </select>
+    
+    <!-- 조회-엑셀 -->
+    <select id="DAY00209_DS_EXCEL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*DAY00209_DS_EXCEL_S */
+	<![CDATA[
+		SELECT CONCAT(bm.m_jumin1,'-',bm.m_jumin2) AS '주민번호'
+		     , bm.m_name AS '수급자명'
+		     , date_format(km.km_date,'%Y.%m.%d') AS '수납일자'
+		     , km.km_amt AS '수납금액'
+		     , SUM(km.km_amt) OVER (PARTITION BY km.km_code ORDER BY km.km_code, km.km_date, km.km_number,km.order_gb) AS '수납소계'
+		  , km.km_gb_nm AS '납부구분'
+		  , km.km_gb AS '의료구분'
+		     , bm.sicode AS '기관기호'
+		     , bi.b_offname AS '기관명'
+		     , bm.m_code AS '수급코드'
+		     , bm.m_group AS '그룹'
+		     , bm.성별 AS '성별'
+		     , km.km_d_name AS '작성자명'
+		 FROM base_mate bm
+		, (SELECT sicode
+		     , 진료번호 AS km_number
+		     , '1' AS order_gb
+		     , '진료비' AS km_gb
+		     , 거주코드 AS km_code
+		     , 진료일 AS km_date
+		     , 진료금액 AS km_amt
+		  , (CASE WHEN 진료청구 = '1' THEN '본인부담'
+		 WHEN 진료청구 = '2' THEN '월별청구'
+		 WHEN 진료청구 = '3' THEN '시설부담'
+		 WHEN 진료청구 = '4' THEN '기타'
+		 ELSE '' END) AS km_gb_nm
+		  , 담당자명 AS km_d_name 
+		  FROM kmmedi a
+		WHERE a.sicode = #{sicode}
+		  AND a.진료일 BETWEEN #{date_from} AND #{date_to}
+		  AND (a.진료청구 = '2' OR a.투약청구 = '2')
+		UNION ALL
+		SELECT sicode
+		     , 진료번호 AS km_number
+		     , '2' AS order_gb
+		     , '약제비' AS km_gb
+		     , 거주코드 AS km_code
+		     , 진료일 AS km_date
+		     , 투약금액 AS km_amt
+		  , (CASE WHEN 투약청구 = '1' THEN '본인부담'
+		 WHEN 투약청구 = '2' THEN '월별청구'
+		 WHEN 투약청구 = '3' THEN '시설부담'
+		 WHEN 투약청구 = '4' THEN '기타'
+		 ELSE '' END) AS km_gb_nm
+		  , 담당자명 AS km_d_name 
+		  FROM kmmedi a
+		WHERE a.sicode = #{sicode}
+		  AND a.진료일 BETWEEN #{date_from} AND #{date_to}
+		  AND (a.진료청구 = '2' OR a.투약청구 = '2')
+		) km
+		, base_info bi
+		WHERE bm.sicode = km.sicode
+		  AND bm.m_code = km.km_code
+		  AND bm.sicode = bi.sicode
+		 ORDER BY bm.m_name, km.km_date, km.km_number,km.order_gb
+	]]>	
+    </select>
+</mapper>                                                                                                                                                                                                          

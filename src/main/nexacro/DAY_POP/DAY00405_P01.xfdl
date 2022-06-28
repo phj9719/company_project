@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00405_P01" width="700" height="600" titletext="월간 수급자 송영·식사 기록" onload="form_onload">
+    <Layouts>
+      <Layout width="700" height="600">
+        <Div id="div_main" taborder="1" left="10" top="10" text="" background="#ffffff" border="1px solid black" right="10" bottom="10">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Static id="sta_subTitle" taborder="0" text="수급자 정보" left="11" top="9" width="260" height="24" cssclass="lb01"/>
+              <Div id="div_line" taborder="1" left="10" top="40" height="2" background="#000000" right="10">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="sta_head1" taborder="2" text="수급자명" left="9" top="47" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1" taborder="3" left="91" top="47" height="34" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_head2" taborder="9" left="9" top="80" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="제공년월"/>
+              <Static id="sta_body2" taborder="10" left="91" top="80" height="34" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_head2_1" taborder="12" left="339" top="80" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="입·퇴소일"/>
+              <Static id="sta_head1_1" taborder="6" left="339" top="47" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="성별·생일"/>
+              <Static id="sta_yearMon" taborder="11" text="2022년 12월" left="99" top="88" width="79" height="19"/>
+              <Static id="sta_enday" taborder="13" text="2021.10.12" left="429" top="88" width="69" height="19"/>
+              <Static id="sta_sex" taborder="7" text="남" left="429" top="55" width="39" height="19"/>
+              <Static id="sta_birth" taborder="8" text="38-08-11" left="479" top="55" width="79" height="19"/>
+              <Static id="sta_mname" taborder="4" text="이동철" left="99" top="55" width="69" height="19"/>
+              <Static id="sta_mcode" taborder="5" text="20210004" left="179" top="55" width="79" height="19"/>
+              <Static id="sta_reday" taborder="14" text="2021.10.12" left="549" top="88" width="69" height="19" color="red"/>
+              <Grid id="grd_list" taborder="15" left="10" top="120" right="10" bottom="10" binddataset="ds_list" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="송영일"/>
+                      <Cell col="1" text="요일"/>
+                      <Cell col="2" text="시작차량"/>
+                      <Cell col="3" text="송영시간"/>
+                      <Cell col="4" text="종료차량"/>
+                      <Cell col="5" text="아침종류"/>
+                      <Cell col="6" text="점심종류"/>
+                      <Cell col="7" text="저녁종류"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:k_nalja" displaytype="date" expandchar="dot"/>
+                      <Cell col="1" text="bind:요일"/>
+                      <Cell col="2" text="bind:시작차량"/>
+                      <Cell col="3" text="bind:송영시간"/>
+                      <Cell col="4" text="bind:종료차량"/>
+                      <Cell col="5" text="bind:아침종류"/>
+                      <Cell col="6" text="bind:점심종류"/>
+                      <Cell col="7" text="bind:저녁종류"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_tot" taborder="16" text="22 일" left="219" top="88" width="39" height="19" textAlign="center" background="#f7fcff"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="K_CODE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="k_nalja" type="DATE" size="256"/>
+          <Column id="요일" type="STRING" size="256"/>
+          <Column id="시작차량" type="STRING" size="256"/>
+          <Column id="송영시간" type="STRING" size="256"/>
+          <Column id="종료차량" type="STRING" size="256"/>
+          <Column id="아침종류" type="STRING" size="256"/>
+          <Column id="점심종류" type="STRING" size="256"/>
+          <Column id="저녁종류" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="name" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="sex" type="STRING" size="256"/>
+          <Column id="birth" type="STRING" size="256"/>
+          <Column id="mon" type="STRING" size="256"/>
+          <Column id="tot" type="STRING" size="256"/>
+          <Column id="enday" type="STRING" size="256"/>
+          <Column id="reday" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00405_P01
+ * 화면명   	: 월간 수급자 송영·식사 기록
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-03
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+const fv_name = this.parent.NAME;
+const fv_code = this.parent.CODE;
+const fv_sex = this.parent.SEX;
+const fv_birth = this.parent.BIRTH;
+const fv_enday = this.parent.ENDAY;
+const fv_reday = this.parent.REDAY;
+const fv_tot = this.parent.TOT;
+const fv_from = this.parent.FROM;
+const fv_to = this.parent.TO;
+const fv_mon = this.parent.YEARMON;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 수급자 정보 세팅
+	this.ds_data.setColumn(0, "name", fv_name);
+	this.ds_data.setColumn(0, "k_code", fv_code);
+	this.ds_data.setColumn(0, "sex", fv_sex);
+	this.ds_data.setColumn(0, "birth", fv_birth);
+	
+	const year = fv_mon.substr(0, 4);
+	const mon = parseInt(fv_mon.substr(4));
+	const yearMon = year + "년 " + mon + "월"; 
+	this.ds_data.setColumn(0, "mon", yearMon);
+	
+	const tot = fv_tot.padStart(2, '0') + " 일";
+	this.ds_data.setColumn(0, "tot", tot);
+	
+	const enYear = fv_enday.substr(0, 4);
+	const enMon = fv_enday.substr(4, 2);
+	const enDay = fv_enday.substr(6, 2);
+	const fullEnday = enYear + "." + enMon + "." + enDay;
+	this.ds_data.setColumn(0, "enday", fullEnday);
+	this.ds_data.setColumn(0, "reday", fv_reday);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "K_CODE", fv_code);
+	this.ds_search.setColumn(0, "DATE_FROM", fv_from);
+	this.ds_search.setColumn(0, "DATE_TO", fv_to);
+	
+	// 오픈시 조회
+	this.fn_search();
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 요일에 따라 송영일 색 변경
+	const dayIdx = grid.getBindCellIndex("body", "k_nalja");
+	const dayCss = "expr:dataset.getColumn(currow, '요일') == '(일)' ? 'RedFontCell' : "
+				 + "dataset.getColumn(currow, '요일') == '(토)' ? 'BlueFontCell' : ''";
+	grid.setCellProperty("body", dayIdx, "cssclass", dayCss);
+	
+	// 요일에 따라 요일 색 변경
+	const dddIdx = grid.getBindCellIndex("body", "요일");
+	const dddCss = "expr:dataset.getColumn(currow, '요일') == '(일)' ? 'RedFontCell' : "
+				 + "dataset.getColumn(currow, '요일') == '(토)' ? 'BlueFontCell' : ''";
+	grid.setCellProperty("body", dddIdx, "cssclass", dddCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00405_P01.DAY00405_P01_DS_LIST_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.initGrid(this.div_main.form.grd_list);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_main.form.sta_mname" propid="text" datasetid="ds_data" columnid="name"/>
+      <BindItem id="item1" compid="div_main.form.sta_mcode" propid="text" datasetid="ds_data" columnid="k_code"/>
+      <BindItem id="item2" compid="div_main.form.sta_sex" propid="text" datasetid="ds_data" columnid="sex"/>
+      <BindItem id="item3" compid="div_main.form.sta_birth" propid="text" datasetid="ds_data" columnid="birth"/>
+      <BindItem id="item4" compid="div_main.form.sta_yearMon" propid="text" datasetid="ds_data" columnid="mon"/>
+      <BindItem id="item5" compid="div_main.form.sta_enday" propid="text" datasetid="ds_data" columnid="enday"/>
+      <BindItem id="item6" compid="div_main.form.sta_reday" propid="text" datasetid="ds_data" columnid="reday"/>
+      <BindItem id="item7" compid="div_main.form.sta_tot" propid="text" datasetid="ds_data" columnid="tot"/>
+    </Bind>
+  </Form>
+</FDL>

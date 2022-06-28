@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_RECEIVE_BATCH
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      			    |      |
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="SM_SEND_FILE_BATCH">
+	<select id="SM_SEND_FILE_BATCH_SEARCH" resultType="java.util.HashMap">
+		SELECT  A.COMPANY_CD
+		, 		A.PLANT_CD
+		,		A.TRANS_ID
+		,		A.DEPARTURE
+		,		A.DESTINATION
+		,		A.TRANS_MD
+		,		A.TRANS_JOB
+		,		A.TNS_EXEC_ID
+		,		A.TRANS_CNT
+		,		A.FILE_GROUP_ID
+		,		A.PROGRAM_ID
+		,		A.TRANS_STATUS
+		,		A.TRANS_RST_STS
+		,		A.FTP_TRANS_STATUS
+		,		A.FTP_TRANS_RST_STS
+		,		A.FIN_FLAG
+		,		A.WK_FLAG
+		,		A.REG_PGM_ID
+		,		A.REG_USER
+		,		A.REG_DT
+		,		A.REG_DT_CURR
+		,		A.REG_DT_LOC
+		,		A.REG_IP
+		,		A.MOD_PGM_ID
+		,		A.MOD_USER
+		,		A.MOD_DT
+		,		A.MOD_DT_CURR
+		,		A.MOD_DT_LOC
+		,		A.MOD_IP
+		FROM T_SM_SEND_MAIN A WITH(NOLOCK)
+		WHERE 1=1
+		AND (A.FTP_TRANS_STATUS IS NULL OR A.FTP_TRANS_STATUS = '01')
+		<![CDATA[
+		AND A.USE_YN <> 'N'
+		 ]]>
+		ORDER 
+		BY
+		A.REG_DT_LOC
+	</select>
+	
+	<select id="SM_SEND_FILE_BATCH_DESPIP_SEARCH" resultType="java.lang.String">
+		SELECT  Z.STR1
+		FROM T_CM_CODE Z WITH(NOLOCK)
+		WHERE Z.GRP_CD = 'TRANS_DEST'
+		AND Z.CMCD = #{DESTINATION}
+	</select>
+	                                                                                                                                                                                                  
+    <update id="SM_SEND_FILE_BATCH_U_FAIL" parameterType="java.util.HashMap">  
+	UPDATE T_SM_SEND_MAIN
+	SET    FTP_TRANS_STATUS   = #{FTP_TRANS_STATUS}
+	,      MOD_PGM_ID         = #{MOD_PGM_ID}
+	,      MOD_USER           = #{MOD_USER}
+	,      MOD_DT             = #{MOD_DT}
+	,      MOD_DT_CURR        = #{MOD_DT_CURR}
+	,      MOD_DT_LOC         = #{MOD_DT_LOC}
+	,      MOD_IP             = #{MOD_IP}
+	WHERE  COMPANY_CD         = #{COMPANY_CD}
+	AND    PLANT_CD           = #{PLANT_CD}
+	AND    TRANS_ID           = #{TRANS_ID}
+	AND    DEPARTURE          = #{DEPARTURE}
+	</update>
+	
+	<insert id="SM_SEND_FILE_BATCH_HISTORY_I_FAIL" parameterType="java.util.HashMap">  
+	INSERT INTO T_SM_SEND_HISTORY
+					( COMPANY_CD
+					, PLANT_CD
+					, TRANS_ID
+					, DESTINATION
+					, TRANS_SEQ
+					, TRANS_STATUS
+					, TRANS_RST_STS 
+					, REMARK
+					, FIN_FLAG
+					, WK_FLAG
+					, REG_PGM_ID
+					, REG_USER
+					, REG_DT
+					, REG_DT_CURR
+					, REG_DT_LOC
+					, REG_IP
+					, MOD_PGM_ID
+					, MOD_USER
+					, MOD_DT
+					, MOD_DT_CURR
+					, MOD_DT_LOC
+					, MOD_IP
+					) VALUES
+					( #{COMPANY_CD}
+					, #{PLANT_CD}
+					, #{TRANS_ID}
+					, #{DESTINATION}
+					, ISNULL((SELECT MAX(Z.TRANS_SEQ)
+				      FROM T_SM_SEND_HISTORY Z WITH(NOLOCK)
+				      WHERE Z.COMPANY_CD = #{COMPANY_CD}
+				      AND Z.TRANS_ID     = #{TRANS_ID}),0)+1
+					, #{TRANS_STATUS}
+					, #{TRANS_RST_STS}
+					, #{REMARK}
+					, #{FIN_FLAG}
+					, 'I'
+					, #{REG_PGM_ID}
+					, #{REG_USER}
+					, #{REG_DT}
+					, #{REG_DT_CURR}
+					, #{REG_DT_LOC}
+					, #{REG_IP}
+					, ''
+					, ''
+					, ''
+					, ''
+					, ''
+					, ''
+					)
+	</insert>
+</mapper>

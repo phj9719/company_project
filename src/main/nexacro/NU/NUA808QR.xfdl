@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUA808QR" width="1500" height="900" titletext="이상상태현황모니터링조회" background="#f4f9fc" onload="NUA808QR_onload" ontimer="NUA808QR_ontimer">
+    <Layouts>
+      <Layout width="1500" height="900">
+        <Div id="div_search" taborder="0" left="0" top="0" height="50" dragscrolltype="vert" cssclass="s01" right="0" background="#000000">
+          <Layouts>
+            <Layout>
+              <Static id="sta_area" taborder="4" text="모니터링 지역" cssclass="sta_WF_SearchLabel" left="28.67%" top="12" width="90" height="21" textAlign="right" verticalAlign="middle" color="#ffffff"/>
+              <Combo id="cmb_area" taborder="0" left="sta_area:10" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_mon_area" onitemchanged="div_search_cmb_area_onitemchanged"/>
+              <Button id="btn_close" taborder="3" text="닫기" top="10" width="80" height="24" onclick="div_search_btn_close_onclick" right="10"/>
+              <Static id="sta_location" taborder="5" text="층" cssclass="sta_WF_SearchLabel" left="cmb_area:6" top="12" width="90" height="21" color="#ffffff" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_location" taborder="1" left="sta_location:5" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_area" onitemchanged="div_search_cmb_location_onitemchanged"/>
+              <Button id="btn_search" taborder="2" text="검색" top="10" width="60" height="24" left="cmb_location:8" onclick="div_search_btn_search_onclick"/>
+              <Static id="sta_mainTitle" taborder="6" text="모니터링 시스템" left="8" top="0" width="28.17%" height="45" color="#ffffff" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0%" top="50" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <Div id="div_airCard" taborder="0" text="Div00" left="1.33%" top="12" width="26%" height="200" cssclass="div_card">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="0" left="21" top="79" width="80" height="80" image="url('imagerc::ico_sta_air.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_airCount" taborder="1" text="-" left="60.82%" top="72" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#2e86e2"/>
+                    <Static id="sta_airAllCount" taborder="2" text="/-" left="81.19%" top="110" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="3" text="공기질 확인" left="0" top="0" height="45" right="0" background="#2e86e2" color="#ffffff" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;" textAlign="center"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_diaperCard" taborder="1" text="Div00" left="28.67%" top="12" width="26%" height="200" cssclass="div_card">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="1" left="21" top="79" width="80" height="80" image="url('imagerc::ico_sta_diaper.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_batCount" taborder="2" text="-" left="63.4%" top="72" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#159258"/>
+                    <Static id="sta_diaperAllCount2" taborder="3" text="/-" left="83.51%" top="110" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_HumiCount" taborder="4" text="-" left="24.74%" top="72" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#fb8c35"/>
+                    <Static id="sta_diaperAllCount1" taborder="5" text="/-" left="44.85%" top="110" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="0" text="기저귀 확인(교환/배터리)" left="0" top="0" height="45" background="#fb8c35" color="#ffffff" right="0" textAlign="center" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_bandCard" taborder="2" text="Div00" left="56%" top="12" width="26%" height="200" cssclass="div_card" onclick="Common_onclick">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="1" left="21" top="79" width="80" height="80" image="url('imagerc::ico_sta_pulse.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_pulseAlertCount" taborder="2" text="-" left="60.82%" top="72" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#f85968"/>
+                    <Static id="sta_bandAllCount" taborder="3" text="/-" left="81.19%" top="110" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="0" text="맥박알림" left="0" top="0" height="45" color="#ffffff" right="0" textAlign="center" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;" background="#f85968"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="Static00" taborder="3" text="호실 공기질 현황" left="1.27%" top="221" width="165" height="32" cssclass="lb01" font="normal 700 15pt/normal 'Noto Sans KR"/>
+              <Grid id="grd_air_list" taborder="4" left="1.33%" top="256" width="26%" bottom="30" autofittype="col" binddataset="ds_air_list" autosizingtype="row" extendsizetype="row" useselcolor="false" cssclass="grd_DataList_h2" borderRadius="10px 10px 0px 0px">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="150"/>
+                      <Column size="110"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실"/>
+                      <Cell col="1" text="공기질 상황"/>
+                      <Cell col="2" text="상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION"/>
+                      <Cell col="1" text="bind:AIR_NOW" autosizerow="limitmin" wordWrap="char"/>
+                      <Cell col="2" displaytype="combotext" text="bind:AIR_GREATEST_STATUS" wordWrap="char" combodataset="ds_nu_air_status" combodatacol="CMNM" combocodecol="CMCD"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static00_00" taborder="5" text="기저귀 교환 현황" left="28.6%" top="221" width="165" height="32" cssclass="lb01" font="normal 700 15pt/normal 'Noto Sans KR"/>
+              <Grid id="grd_diaper_list" taborder="6" left="28.67%" top="256" width="26%" bottom="30" autofittype="col" binddataset="ds_diaper_list" useselcolor="false" cssclass="grd_DataList_h2" borderRadius="10px 10px 0px 0px">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="110"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실"/>
+                      <Cell col="1" text="입소자"/>
+                      <Cell col="2" text="기저귀(5분전)"/>
+                      <Cell col="3" text="배터리"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION"/>
+                      <Cell col="1" text="bind:RESIDENT"/>
+                      <Cell col="2" text="bind:DIAPER_NOW"/>
+                      <Cell col="3" text="bind:BATTERY"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static00_00_00" taborder="7" text="맥박 위험 알림" left="55.93%" top="221" width="165" height="32" cssclass="lb01" font="normal 700 15pt/normal 'Noto Sans KR"/>
+              <Grid id="grd_band_list" taborder="8" left="56%" top="256" width="26%" bottom="30" autofittype="col" binddataset="ds_band_list" oncellclick="div_cont_grd_band_list_oncellclick" useselcolor="false" cssclass="grd_DataList_h2" borderRadius="10px 10px 0px 0px">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="180"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실"/>
+                      <Cell col="1" text="입소자"/>
+                      <Cell col="2" text="일시"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION" background="#fee9e9"/>
+                      <Cell col="1" text="bind:RESIDENT" background="#fee9e9"/>
+                      <Cell col="2" text="bind:BAN_TIME" displaytype="date" background="#fee9e9" expandchar="fullTime" calendardateformat="yyyy-MM-dd HH:mm:ss"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_info" taborder="9" text="Div00" left="83.33%" top="12" cssclass="div_card" bottom="30" right="1.33%">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_airTitle" taborder="0" text="공기질 확인" left="20" top="11" height="41" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" right="20" color="#2e86e2"/>
+                    <Static id="sta_airText" taborder="1" text="공기질 항목별로 XXXX 이상 일때 표시됩니다. 공기질이 개선되면 현황에서 없어집니다." left="21" top="40" height="92" wordWrap="char" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="20" usedecorate="true"/>
+                    <Static id="sta_airLineTitle" taborder="2" text="공기질 적정범위 기준" left="20" top="128" height="26" font="normal 600 13pt/normal &quot;Noto Sans KR&quot;" right="21" color="#2e86e2"/>
+                    <Div id="div_temp" taborder="3" text="Div00" left="20" top="160" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_tem.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="온도(℃)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_humi" taborder="4" text="Div00" left="20" top="208" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_hum.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="습도(％)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_fd" taborder="5" text="Div00" left="20" top="257" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_fd.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="미세먼지(㎍/㎥)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_ufd" taborder="6" text="Div00" left="20" top="307" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_ufd.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="초미세먼지(㎍/㎥)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_voc" taborder="7" text="Div00" left="20" top="356" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_voc.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="VOC(ppb)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_carb" taborder="8" text="Div00" left="20" top="406" height="40" right="20">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_ico" taborder="0" left="2" top="0" width="45" height="40" image="url('imagerc::ico_info_carb.png')" stretch="fixaspectratio" border="0px none"/>
+                          <Static id="sta_unit" taborder="1" text="이산화탄소(ppm)" left="65" top="-2" height="20" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="10"/>
+                          <Static id="sta_value" taborder="2" text="-" left="65" top="18" height="20" right="20" font="normal 600 12pt/normal &quot;Noto Sans KR&quot;" color="#2e86e2"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_line1" taborder="9" left="20" top="469" height="3" background="#dddddd" right="20"/>
+                    <Static id="sta_diaTitle" taborder="10" text="기저귀 확인" left="20" top="481" height="41" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" right="20" color="#fb8c35"/>
+                    <Static id="sta_diaText" taborder="11" text="현재 기저귀 상태가 XX% 이상이거나 배터리가 XX% 이하일 때 알림이 표시되고, 기저귀를 교환하거나 배터리 교체시 현황에서 없어집니다." left="20" top="510" height="110" wordWrap="char" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="20" usedecorate="true"/>
+                    <Div id="div_line2" taborder="12" left="20" top="629" height="3" background="#dddddd" right="20"/>
+                    <Static id="sta_pulseTitle" taborder="13" text="맥박알림" left="20" top="641" height="41" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" right="20" color="#f85968"/>
+                    <Static id="sta_pulseText" taborder="14" text="스마트밴드에서 저심박(XXbpm 미만) 감지 시 알림이력이 남으며 처리현황 작성이 필요합니다. 셀을 클릭하면 처리결과를 작성할 수 있습니다." left="20" top="670" height="110" wordWrap="char" font="normal 500 11pt/normal &quot;Noto Sans KR&quot;" right="20" usedecorate="true"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="MON_AREA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mon_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_air_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="AIR_NOW" type="STRING" size="256"/>
+          <Column id="AIR_STATUS" type="STRING" size="256"/>
+          <Column id="AIR_GREATEST_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_diaper_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_band_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="SEX" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_diaper_iot">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_etc_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="BAND_ALL_COUNT" type="STRING" size="256"/>
+          <Column id="AIR_ALL_COUNT" type="STRING" size="256"/>
+          <Column id="DIAPER_ALL_COUNT" type="STRING" size="256"/>
+          <Column id="HUMI_LINE" type="STRING" size="256"/>
+          <Column id="BAT_LINE" type="STRING" size="256"/>
+          <Column id="PULSE_LINE" type="STRING" size="256"/>
+          <Column id="AIR_LINE" type="STRING" size="256"/>
+          <Column id="AIR_LINE_TEXT" type="STRING" size="256"/>
+          <Column id="TEMP_MIN" type="STRING" size="256"/>
+          <Column id="TEMP_HIGH" type="STRING" size="256"/>
+          <Column id="HUMI_MIN" type="STRING" size="256"/>
+          <Column id="HUMI_HIGH" type="STRING" size="256"/>
+          <Column id="FD_LINE" type="STRING" size="256"/>
+          <Column id="UFD_LINE" type="STRING" size="256"/>
+          <Column id="CARB_LINE" type="STRING" size="256"/>
+          <Column id="VOC_LINE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_air_status">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_mon_cycle" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="STR1" type="STRING" size="256"/>
+          <Column id="STR2" type="STRING" size="256"/>
+          <Column id="STR3" type="STRING" size="256"/>
+          <Column id="STR4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_air_list_temp">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="AIR_NOW" type="STRING" size="256"/>
+          <Column id="AIR_STATUS" type="STRING" size="256"/>
+          <Column id="AIR_GREATEST_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_diaper_list_temp">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUA808QR
+ * 화면명   	: 이상상태현황모니터링조회
+ * 화면설명 	: 이상상태가 있는 공기질, 기저귀, 맥박 모니터링
+ * 작성일   	: 2021-12-14 14:40
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *  수정일				수정자			내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_companyCd = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+this.timeCycle = 0;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUA808QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	
+	this.fn_setComboDs(obj);
+	
+	this.timeCycle = this.ds_nu_mon_cycle.getColumn(1, "STR1") * 1000;
+	
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_area.setFocus();
+};
+
+this.NUA808QR_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 1)
+	{
+		this.fn_search();
+	}
+};
+
+// 공기질 그리드 css 변경
+this.fn_airGridInit = function(grid)
+{
+	// 상태 글자색 바꾸기
+	const statusIdx = grid.getBindCellIndex("body", "AIR_GREATEST_STATUS");
+	
+	const statCss = "expr:dataset.getColumn(currow, 'AIR_GREATEST_STATUS') == 400 ? 'RedFontCell' : "
+				  + "dataset.getColumn(currow, 'AIR_GREATEST_STATUS') == 300 ? 'OrangeFontCell' : "
+				  + "dataset.getColumn(currow, 'AIR_GREATEST_STATUS') == 200 ? 'GreenFontCell' : "
+				  + "dataset.getColumn(currow, 'AIR_GREATEST_STATUS') == 100 ? 'BlueFontCell' : ''";
+				  
+	grid.setCellProperty("body", statusIdx, "cssclass", statCss);
+};
+
+// 기저귀 그리드 css 변경
+this.fn_diaperGridInit = function(grid, humiLine, batteryLine)
+{
+	// 습도, 배터리 이상상태 배경색 바꾸기
+	const diaperIdx = grid.getBindCellIndex("body", "DIAPER_NOW");
+	const batteryIdx = grid.getBindCellIndex("body", "BATTERY");
+	
+	const diaperCss = "expr:dataset.getColumn(currow, 'HUMI_RATE') >= " 
+					+ humiLine 
+					+ " && dataset.getColumn(currow, 'B_HUMI_RATE') >=" 
+					+ humiLine
+					+ " ? 'diaperHumiAlert' : ''";
+	
+	const batteryCss = "expr:dataset.getColumn(currow, 'BAT_RATE') <= " + batteryLine + " ? 'diaperBatAlert' : ''";
+	
+	grid.setCellProperty("body", diaperIdx, "cssclass", diaperCss);
+	grid.setCellProperty("body", batteryIdx, "cssclass", batteryCss);
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/NUA808QRController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_air_list=output1 ds_diaper_list=output2 ds_band_list=output3 ds_etc_list=output4";
+	const argument = "method=select ";
+				
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.killTimer(1);
+			const companyNm = this.ds_etc_list.getColumn(0, "COMPANY_NM");	// 업체명
+			const bandAllCount = this.ds_etc_list.getColumn(0, "BAND_ALL_COUNT");	// 밴드 총 개수
+			const airAllCount = this.ds_etc_list.getColumn(0, "AIR_ALL_COUNT");		// 공기질 총 개수
+			const diaperAllCount = this.ds_etc_list.getColumn(0, "DIAPER_ALL_COUNT");	// 기저귀 총 개수
+			const humiLine = this.ds_etc_list.getColumn(0, "HUMI_LINE");	// 기저귀 습도 알림 기준
+			const batteryLine = this.ds_etc_list.getColumn(0, "BAT_LINE");	// 기저귀 배터리 알림 기준
+			const pulseLine = this.ds_etc_list.getColumn(0, "PULSE_LINE");	// 맥박 알림 기준
+			const airLineCode = this.ds_etc_list.getColumn(0, "AIR_LINE");	// 공기질 알림 기준 코드
+			const airLineText = this.ds_etc_list.getColumn(0, "AIR_LINE_TEXT");	// 공기질 알림 기준 텍스트
+			const tempMin = this.ds_etc_list.getColumn(0, "TEMP_MIN");		// 온도 적정 기준 MIN
+			const tempHigh = this.ds_etc_list.getColumn(0, "TEMP_HIGH");	// 온도 적정 기준 HIGH
+			const humiMin = this.ds_etc_list.getColumn(0, "HUMI_MIN");		// 습도 적정 기준 MIN
+			const humiHigh = this.ds_etc_list.getColumn(0, "HUMI_HIGH");	// 습도 적정 기준 HIGH
+			const fdLine = this.ds_etc_list.getColumn(0, "FD_LINE");		// 미세먼지 적정 기준
+			const ufdLine = this.ds_etc_list.getColumn(0, "UFD_LINE");		// 초미세먼지 적정 기준
+			const carbLine = this.ds_etc_list.getColumn(0, "CARB_LINE");	// 이산화탄소 적정 기준
+			const vocLine = this.ds_etc_list.getColumn(0, "VOC_LINE");		// VOC 적정 기준
+			
+			// 이상상태 개수
+			const airRowCnt = this.ds_air_list.rowcount;
+			const diaperHumiRowCnt = this.ds_diaper_list.getCaseCount("HUMI_RATE >= " + humiLine +  "&& B_HUMI_RATE >= " + humiLine);
+			const diaperBatRowCnt = this.ds_diaper_list.getCaseCount("BAT_RATE < " + batteryLine);
+			const bandRowCnt = this.ds_band_list.rowcount;
+			
+			// 업체명 및 공기질, 기저귀, 밴드 총수 세팅
+			this.div_search.form.sta_mainTitle.set_text(companyNm + " 모니터링 시스템");
+			const airCountText = airAllCount == undefined ? 0 : airAllCount;
+			this.div_cont.form.div_airCard.form.sta_airAllCount.set_text("/" + airCountText);
+			const diaperCountText = diaperAllCount == undefined ? 0 : diaperAllCount;
+			this.div_cont.form.div_diaperCard.form.sta_diaperAllCount1.set_text("/" + diaperCountText);
+			this.div_cont.form.div_diaperCard.form.sta_diaperAllCount2.set_text("/" + diaperCountText);
+			const bandCountText = bandAllCount == undefined ? 0 : bandAllCount;
+			this.div_cont.form.div_bandCard.form.sta_bandAllCount.set_text("/" + bandCountText);
+			
+			// 이상상태 개수 세팅
+			this.div_cont.form.div_airCard.form.sta_airCount.set_text(airRowCnt);
+			this.div_cont.form.div_diaperCard.form.sta_HumiCount.set_text(diaperHumiRowCnt);
+			this.div_cont.form.div_diaperCard.form.sta_batCount.set_text(diaperBatRowCnt);
+			this.div_cont.form.div_bandCard.form.sta_pulseAlertCount.set_text(bandRowCnt);
+			
+			// 공기질 확인 공기질 알림 기준 텍스트 세팅
+			let airCtext;
+			switch(airLineCode) {
+			case "400":
+				airCtext = "<fc v='red'>" + airLineText + "</fc>"
+				break;
+			case "300":
+				airCtext = "<fc v='orange'>" + airLineText + "</fc>"
+				break;
+			case "200":
+				airCtext = "<fc v='green'>" + airLineText + "</fc>"
+				break;
+			case "100":
+				airCtext = "<fc v='blue'>" + airLineText + "</fc>"
+				break;
+			}
+			const airText = "공기질 항목별로 " + airCtext + " 이상 일때 표시됩니다. 공기질이 개선되면 현황에서 없어집니다.";
+			this.div_cont.form.div_info.form.sta_airText.set_text(airText);
+			
+			// 공기질 기준 세팅
+			this.div_cont.form.div_info.form.div_temp.form.sta_value.set_text(tempMin + " ~ " + tempHigh);
+			this.div_cont.form.div_info.form.div_humi.form.sta_value.set_text(humiMin + " ~ " + humiHigh);
+			this.div_cont.form.div_info.form.div_fd.form.sta_value.set_text(fdLine + " 이하");
+			this.div_cont.form.div_info.form.div_ufd.form.sta_value.set_text(ufdLine + " 이하");
+			this.div_cont.form.div_info.form.div_voc.form.sta_value.set_text(vocLine + " 이하");
+			this.div_cont.form.div_info.form.div_carb.form.sta_value.set_text(carbLine + " 이하");
+			
+			// 기저귀 확인 기준 숫자 세팅
+			const diaText = "현재 기저귀 상태와 5분전 기저귀 상태가 \n"
+						  + "<fc v='#fb8c35'>" + humiLine + "</fc>"
+						  + "% 이상 이거나 배터리가 "
+						  + "<fc v='#159258'>" + batteryLine + "</fc>"
+						  + "% 이하일 때 알림이 표시되고, "
+						  + "기저귀를 교환하거나 배터리 교체 시 현황에서 없어집니다.";
+			this.div_cont.form.div_info.form.sta_diaText.set_text(diaText);
+			
+			// 맥박알림 기준 숫자 세팅
+			const pulseText = "스마트밴드에서 저심박("
+							+ "<fc v='#f85968'>" + pulseLine + "</fc>"
+							+ "bpm 미만) 감지 시 알림이력이 남으며 처리현황 작성이 필요합니다."
+							+ " 셀을 클릭하면 처리결과를 작성할 수 있습니다.";
+			this.div_cont.form.div_info.form.sta_pulseText.set_text(pulseText);
+			
+			this.fn_airGridInit(this.div_cont.form.grd_air_list);
+			this.fn_diaperGridInit(this.div_cont.form.grd_diaper_list, humiLine, batteryLine);
+			
+			this.setTimer(1, this.timeCycle);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 콤보 세팅
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+			{ outDsName : "ds_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 층 조회
+		  , { outDsName : "ds_mon_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_MON_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 생활실 전체 조회
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 검색조건 모니터링 지역 콤보박스 변경 이벤트
+this.div_search_cmb_area_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "AREA", ""); 
+};
+
+// 검색조건 층 콤보박스 변경 이벤트
+this.div_search_cmb_location_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "MON_AREA", "");
+};
+
+// 검색 버튼
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 닫기 버튼
+this.div_search_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 맥박이상 그리드 셀 클릭 이벤트
+this.div_cont_grd_band_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 셀 클릭시 맥박이상 처리 팝업 오픈
+	const param = {
+			RES_ID : this.ds_band_list.getColumn(e.row, "RES_ID")
+		,	RES_NM : this.ds_band_list.getColumn(e.row, "NAME")
+		,	AGE : this.ds_band_list.getColumn(e.row, "AGE_SEX")
+		,	AREA : this.ds_band_list.getColumn(e.row, "AREA")
+		,	TM : this.ds_band_list.getColumn(e.row, "BAN_TIME")
+		,	DTTM : this.ds_band_list.getColumn(e.row, "BAN_DT")
+	};
+	Sct.popup(this, "BAND_PP", 326, 226, "", param, "CM_POP::CM_BAND_PP.xfdl", "fn_popCallback");
+	
+	this.killTimer(1);
+};
+
+// 팝업 콜백
+this.fn_popCallback = function()
+{
+	this.fn_search();
+};]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="MON_AREA"/>
+      <BindItem id="item3" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="AREA"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00102                                                         
+     * 프로그램 명     	: 1-2  상태변화기록(매주)                                                     
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-04-18 10:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00700_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00102">
+	<!-- 조회 -->
+    <select id="DAY00102_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00102_DS_LIST_S */
+		SELECT '0' AS p_chk
+			 , bm.m_jumin1
+			 , bm.m_jumin2
+		     , bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+             -- , bm.등급 AS grade_nm
+             , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},1,'%Y.%m.%d') AS m_liday1
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},2,'%Y.%m.%d') AS m_liday2
+		     , bm.m_regist
+		     , bm.m_juso1
+		     , bm.m_juso2
+		     , bm.m_post
+		     , CONCAT(bm.m_juso1,' ',bm.m_juso2) AS m_juso
+		     , bm.m_conname
+			 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		  FROM base_mate bm	  
+		  WHERE bm.sicode = #{sicode}
+		<if test="s_nm != '' and s_nm != null">		
+			AND bm.거주현황 = #{s_nm}
+		</if>
+			AND bm.m_reday >= #{date_from}
+			AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+		  ORDER BY bm.m_name  
+    </select>
+
+    <select id="DAY00102_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00102_DS_DETAIL_S */
+		SELECT  sicode
+			, sc_number
+			, DATE_FORMAT(sc_nalja,'%Y.%m.%d') AS sc_nalja
+			, sc_name
+			, sc_code
+			, 상태변화 AS sc_change
+			, 작성자명 AS create_nm
+			, 작성코드 AS create_code
+			, org_sc_number
+			, CASE DAYOFWEEK(sc_nalja)
+					WHEN '1' THEN '(일)'
+					WHEN '2' THEN '(월)'
+					WHEN '3' THEN '(화)'
+					WHEN '4' THEN '(수)'
+					WHEN '5' THEN '(목)'
+					WHEN '6' THEN '(금)'
+					WHEN '7' THEN '(토)'
+			  END AS week
+		FROM kmstchange
+		WHERE sicode = #{sicode}		
+			AND sc_code = #{sc_code}	
+			AND sc_nalja >= #{date_from}
+			AND sc_nalja <![CDATA[ <= ]]> #{date_to}
+		ORDER BY sc_nalja DESC
+    </select>
+    
+    <insert id="DAY00102_DS_STATE_DESC_I" parameterType="java.util.HashMap">
+    /* DAY00102_DS_STATE_DESC_I */
+    	INSERT INTO kmstchange
+    		(
+				  sicode
+				, sc_nalja
+				, sc_name
+				, sc_code
+				, 상태변화
+				, 작성자명
+				, 작성코드  			
+    		) VALUES (
+				  #{sicode}
+				, #{sc_nalja}
+				, #{sc_name}
+				, #{sc_code}
+				, #{상태변화}
+				, #{작성자명}
+				, #{작성코드}  		
+    		)
+    </insert>   
+    
+    <update id="DAY00102_DS_STATE_DESC_U" parameterType="java.util.HashMap">
+    /* DAY00102_DS_STATE_DESC_U */
+    	UPDATE kmstchange
+    	SET
+			    상태변화   =   #{상태변화}
+			, 작성자명   =   #{작성자명}
+			, 작성코드   =   #{작성코드}
+		WHERE 1 = 1
+		AND sicode = #{sicode}
+		AND sc_number = #{sc_number}
+    </update>   
+    
+    <select id="DAY00102_DS_RECORD_CNT" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00102_DS_RECORD_CNT */
+		SELECT 
+		 COUNT(*) AS CNT
+		FROM base_mate bm
+		INNER JOIN kmstchange kc
+			ON bm.sicode = kc.sicode
+			AND bm.m_code = kc.sc_code
+		WHERE bm.sicode = #{sicode}
+			AND kc.sc_nalja >= #{date_from}
+			AND kc.sc_nalja <![CDATA[ <= ]]> #{date_to}
+			AND bm.m_code IN 
+			<foreach item="code" collection="m_codes" open="(" separator="," close=")">
+				#{code}
+			</foreach>
+    </select>
+</mapper>

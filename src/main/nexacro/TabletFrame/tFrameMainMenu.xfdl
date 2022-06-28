@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="tFrameMainMenu" width="100" height="700" titletext="MainMenu" background="#4594cd" onload="tFrameMainMenu_onload" ontimer="fn_timer">
+    <Layouts>
+      <Layout width="100" height="700" screenid="Tablet">
+        <Div id="div_mainMenuControl" taborder="0" left="9%" top="1%" height="89%" right="9%" formscrollbartype="autoindicator" formscrollindicatorsize="0">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <ImageViewer id="img_fall" taborder="1" left="10%" background="transparent" right="10%" bottom="10" height="55" image="url('theme://images/btn_falling_basic.png')" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: tFrameMainMenu
+ * 화면명   	: tFrameMainMenu
+ * 화면설명 	: 태블릿 왼쪽 대메뉴
+ * 작성일   	: 2021-05-26
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Include
+ ***********************************************************************/
+include "lib::sct_util.xjs";
+include "lib::sct_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_btnArr = new Array();
+this.fv_menuIdx = 1;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+
+this.tFrameMainMenu_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//trace("MainMenu Onload");
+	this.fn_initDataset();
+	this.fn_makeMainMenuButton(this.ds_tMainMenu);
+	for(let i = 0; i < this.div_mainMenuControl.form.components.length; i++)
+	{
+		this.fv_btnArr.push(this.div_mainMenuControl.form.components[i]);
+	}
+	this.fn_setBtnImg();
+	
+	this.div_mainMenuControl.form.resetScroll();
+	
+	//this.fn_search();
+};
+
+/***********************************************************************
+ * Form Initialize Functions
+ ***********************************************************************/
+/**	
+ * 설명 	: Dataset을 초기화한다.
+ * params  	: None
+ * return Type 	: None
+ */
+this.fn_initDataset = function ()
+{
+	nexacro.getApplication().gds_menu.set_enableevent(false);
+	this.ds_tMainMenu.clearData();
+	nexacro.getApplication().gds_menu.filter("MENU_LEVEL==0");
+	this.ds_tMainMenu.copyData(nexacro.getApplication().gds_menu, true);
+	nexacro.getApplication().gds_menu.filter("");
+	nexacro.getApplication().gds_menu.set_enableevent(true);
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_list=output1";
+	let argument = "method=getList ";
+		argument += "sqlId=TEST0.TEST0_DS_LIST_S ";
+		argument += "";
+		
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{	
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.killTimer(1);
+			//trace(this.ds_list.rowcount);
+			if(this.ds_list.rowcount > 0)
+			{
+				this.img_fall.set_image('theme://images/btn_falling_alert.gif');
+				this.setTimer(1, 60000);
+			}
+			else
+			{
+				this.img_fall.set_image('theme://images/btn_falling_basic.png');
+				this.setTimer(1, 60000);
+			}
+		}
+	}
+	else
+	{
+		alert("오류발생");
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+/**	
+ * 설명 	: 0레벨 메뉴 버튼을 생성한다.
+ * params  	: 1. ds - 메뉴 Dataset
+ * return Type 	: None
+ */
+this.fn_makeMainMenuButton = function (ds:Dataset)
+{
+	const nRowCnt = ds.rowcount;
+
+	const width = null;
+	const height = 82;//70
+	const left = "0%";
+	let top = 0;
+	const right = "0%";
+	const bottom = null;
+	const gap = 12;//8
+
+	for (let i = 0; i < nRowCnt; i++) 
+	{
+		const sId = "btn_" + ds.getColumn(i, "MENU_CD");
+		const sName = ds.getColumn(i, "MENU_NM");
+		top = top + (i == 0 ? 0 : height) + gap;
+		this._makeButton(sId, sName, left, top, width, height, right, bottom);
+	}
+};
+
+/**	
+ * 설명 	: 메뉴 버튼을 그린다.
+ * params  	: 1. id - Button ID
+ 2. name - Button Text
+ 3. left
+ 4. top
+ 5. width
+ 6. height
+ 7. right
+ 8. bottom
+ * return Type 	: None
+ */
+this._makeButton = function (id, name, left, top, width, height, right, bottom)
+{
+	const objButton = new Button();
+	objButton.init(id, left, top, width, height, right, bottom);
+	objButton.set_text(name);
+	objButton.set_cssclass("tMainMenu");
+	objButton.__menuid = id.replace("btn_", "");
+	objButton.addEventHandler("onclick", this.__menu_onclick, this);
+	objButton.addEventHandler("onsetfocus", this.__menu_onsetfocus, this);
+
+	this.div_mainMenuControl.form.addChild(id, objButton);
+	objButton.show();
+};
+
+/**	
+ * 설명 	: Menu Button Click Event.
+ * params  	: 1. obj
+ 2. e
+ * return Type 	: None
+ */
+this.__menu_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	const id = obj.__menuid;
+	const grp = this.ds_tMainMenu.lookup("MENU_CD", id, "MENU_GRP");
+	
+	// 위쪽에 서브메뉴 만들기
+	nexacro.getApplication().av_subMenu.form.fn_makeSubMenu(grp);
+	
+	// 대메뉴 클릭시 첫 서브메뉴화면 바로 띄우기
+	nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[0].setFocus();
+	nexacro.getApplication().av_subMenu.form.div_subMenuControl.form.components[0].click();
+};
+
+// 메뉴 버튼 focus 이벤트
+this.__menu_onsetfocus = function(obj:nexacro.Button, e:nexacro.SetFocusEventInfo)
+{
+	this.fn_menuNonSelect();
+	
+	const anyIcon = obj.icon;
+	const arAnyIcon = anyIcon.split("_");
+	const anyIcon2 = arAnyIcon[0] + "_on.png')";
+	
+	obj.set_icon(anyIcon2);
+	obj.set_color("#ffffff");
+	obj.set_background("#47afe1");
+	obj.set_borderRadius("8px");
+};
+
+// 메뉴 전체 비활성 색으로 세팅
+this.fn_menuNonSelect = function()
+{
+	for(let i = 0; i < this.fv_btnArr.length; i++) {
+		const anyIcon = this.div_mainMenuControl.form.all[this.fv_btnArr[i].name].icon;
+		this.div_mainMenuControl.form.all[this.fv_btnArr[i].name].set_background("");
+		if(anyIcon.indexOf("_on") != -1) {
+			const arAnyIcon = anyIcon.split("_");
+			const anyIcon2 = arAnyIcon[0] + "_off.png')";
+			this.div_mainMenuControl.form.all[this.fv_btnArr[i].name].set_icon(anyIcon2);
+			this.div_mainMenuControl.form.all[this.fv_btnArr[i].name].set_color("#d3e2f1");
+		}
+	}
+};
+
+// 메뉴 아이콘 세팅
+this.fn_setBtnImg = function ()
+{
+	//trace("fn_setBtnImg");
+
+	for (let i = 0; i < this.fv_btnArr.length; i++) 
+	{
+		//trace("btn : " + this.fv_btnArr[i].name);
+		//trace("btnText : " + this.fv_btnArr[i].text);
+		let imgFileNm = "";
+		const btnText = this.fv_btnArr[i].text;
+		switch (btnText) {
+			case '호실현황' :
+				imgFileNm = "menu1_off.png";
+				break;
+			case '요양일지' :
+				imgFileNm = "menu2_off.png";
+				break;
+			case '간호일지' :
+				imgFileNm = "menu3_off.png";
+				break;
+			case '물리치료' :
+				imgFileNm = "menu4_off.png";
+				break;
+			case '인지훈련' :
+				imgFileNm = "menu5_off.png";
+				break;
+			case '모니터링' :
+				imgFileNm = "menu6_off.png";
+				break;
+			case '챗봇' :
+				imgFileNm = "menu7_off.png";
+				break;
+		}
+		const name = this.fv_btnArr[i].name;
+		this.div_mainMenuControl.form.all[name].set_icon("url('theme://images/" + imgFileNm + "')");
+	}
+};
+
+this.fn_timer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 1)
+	{
+		this.fn_search();
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_tMainMenu">
+        <ColumnInfo>
+          <Column id="LANG_CD" type="STRING" size="256"/>
+          <Column id="MENU_CD" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MENU_LEVEL" type="INT" size="256"/>
+          <Column id="MENU_GRP" type="STRING" size="256"/>
+          <Column id="HIGH_MENU_CD" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="PAGE_URL" type="STRING" size="256"/>
+          <Column id="MENU_PARAM" type="STRING" size="256"/>
+          <Column id="MENU_STATUS" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="SHOW_YN" type="STRING" size="256"/>
+          <Column id="CLS_AUTH" type="STRING" size="256"/>
+          <Column id="SEAR_AUTH" type="STRING" size="256"/>
+          <Column id="ADD_AUTH" type="STRING" size="256"/>
+          <Column id="DEL_AUTH" type="STRING" size="256"/>
+          <Column id="XLS_AUTH" type="STRING" size="256"/>
+          <Column id="SAVE_AUTH" type="STRING" size="256"/>
+          <Column id="PRN_AUTH" type="STRING" size="256"/>
+          <Column id="APPV_AUTH" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="PLANT_CD" type="STRING" size="256"/>
+          <Column id="PK1" type="STRING" size="256"/>
+          <Column id="PK2" type="STRING" size="256"/>
+          <Column id="STRING1" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID2" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

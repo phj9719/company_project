@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Sample_RDview_HTML5" width="1024" height="768" titletext="RD Html5 보기" onload="Sample_RDview_HTML5_onload">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <WebBrowser id="WebBrowser00" left="10" top="64" right="104" bottom="10" taborder="0" onloadcompleted="WebBrowser00_onloadcompleted"/>
+        <Static id="Static00" taborder="1" text="Report View Sample for HTML5" left="178" top="17" width="614" height="37" onclick="Static00_onclick" textAlign="center" font="bold 18pt &quot;arial&quot;"/>
+        <Button id="Button00" taborder="2" text="리포트 보기" left="779" top="30" width="105" height="21" onclick="Button00_onclick"/>
+      </Layout>
+    </Layouts>
+    <InitValue/>
+    <Script type="xscript5.1"><![CDATA[this.bIsLoaded = false; //페이지 오픈 여부
+
+this.Sample_RDview_HTML5_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var objWeb = this.WebBrowser00;
+
+	if (this.bIsLoaded) 
+	{
+		alert(nexacro.getApplication().gv_RdMrd);
+		objWeb.callMethod("mrdPath", nexacro.getApplication().gv_RdMrd + "/bs/cf/cm/emdv3_sample.mrd");
+		objWeb.callMethod("mrdparam", "/rfn [" + nexacro.getApplication().gv_RdSvc + "] /rsn [sis_oracle] /rp [param1][param2] /rv param1[AAA]param2[B]");
+		return;
+	}
+
+	objWeb.set_url(nexacro.getApplication().gv_RdViwer);
+};
+
+
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var objWeb = this.WebBrowser00;
+	// 샘플
+	objWeb.set_url(nexacro.getApplication().gv_RdViwer); //html 파일 내부에 하위 함수들이 정의되어 있음.
+	this.bIsLoaded = true;
+};
+
+this.WebBrowser00_onloadcompleted = function (obj:WebBrowser, e:nexacro.WebLoadCompEventInfo)
+{
+	if (!this.bIsLoaded) 
+	{
+		obj.callMethod("mrdPath", nexacro.getApplication().gv_RdMrd + "/bs/cf/cm/emdv3_sample.mrd");
+		obj.callMethod("mrdparam", "/rfn [" + nexacro.getApplication().gv_RdSvc + "] /rsn [sis_oracle] /rp [param1][param2] /rv param1[AAA]param2[B]");
+		this.bIsLoaded = true;
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1112" height="570" onload="form_onload" titletext="즐겨찾기 관리" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup">
+    <Layouts>
+      <Layout width="1112" height="570">
+        <Div id="div_search" taborder="0" left="0" top="22" right="0%" height="74" cssclass="s01">
+          <Layouts>
+            <Layout>
+              <Static id="sta_user_id" taborder="10" text="유저ID" cssclass="sta_WF_SearchLabel" left="15" top="41" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_user_id" taborder="3" left="110" top="41" width="130" height="21" maxlength="0" autoselect="true" text="ㄴㅇㄴㅇ" readonly="false"/>
+              <Static id="sta_company_cd" taborder="7" text="법인명" cssclass="sta_WF_SearchLabel" left="15" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_service_tp" taborder="8" text="서비스유형" cssclass="sta_WF_SearchLabel" left="255" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_menu_tp" taborder="9" text="응용프로그램유형" cssclass="sta_WF_SearchLabel" left="495" top="11" width="124" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_user_nm" taborder="11" text="유저명" cssclass="sta_WF_SearchLabel" left="255" top="41" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_user_nm" taborder="4" left="350" top="41" width="130" height="21" maxlength="0" autoselect="true" text="ㄴㅇㄴㅇ" readonly="false"/>
+              <Static id="sta_menu_cd" taborder="12" text="메뉴코드" cssclass="sta_WF_SearchLabel" left="529" top="41" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_menu_cd" taborder="5" left="625" top="41" width="130" height="21" maxlength="0" autoselect="true" text="ㄴㅇㄴㅇ" readonly="false"/>
+              <Static id="sta_menu_nm" taborder="13" text="메뉴코드명" cssclass="sta_WF_SearchLabel" left="769" top="41" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_menu_nm" taborder="6" left="865" top="41" width="130" height="21" maxlength="0" autoselect="true" text="ㄴㅇㄴㅇ" readonly="false"/>
+              <Combo id="cmb_company_cd" taborder="0" left="110" top="11" width="130" height="21" innerdataset="ds_company_cd_s" codecolumn="COMPANY_CD" datacolumn="COMPANY_NM" type="filterlike" autoselect="true" onitemchanged="div_search_cmb_company_onitemchanged" cssclass="essential"/>
+              <Combo id="cmb_service_tp" taborder="1" left="350" top="11" width="130" height="21" innerdataset="ds_cm_service_tp" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" cssclass="essential"/>
+              <Combo id="cmb_menu_tp" taborder="2" left="625" top="11" width="130" height="21" innerdataset="ds_cm_application_tp" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" text="" cssclass="essential"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0" top="120" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="1" binddataset="ds_list" autoenter="select" onsetfocus="grd_list_onsetfocus" left="0" top="30" right="0" bottom="0" border="3px solid rgba(119,119,119,1), 1px solid rgba(229,229,229,1), 1px solid rgba(229,229,229,1), 1px solid rgba(229,229,229,1)" autofittype="none" onexpandup="div_cont_grd_list_onexpandup">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="80"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="200"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expandchar="status"/>
+                      <Cell col="1" expandchar="delete"/>
+                      <Cell col="2" text="NO"/>
+                      <Cell col="3" text="법인코드" cssclass="CellEssential"/>
+                      <Cell col="4" text="서비스유형" cssclass="CellEssential"/>
+                      <Cell col="5" text="응용프로그램유형" cssclass="CellEssential"/>
+                      <Cell col="6" text="유저ID" cssclass="CellEssential"/>
+                      <Cell col="7" text="유저명"/>
+                      <Cell col="8" text="메뉴 코드" cssclass="CellEssential"/>
+                      <Cell col="9" text="메뉴 명"/>
+                      <Cell col="10" text="등록자ID"/>
+                      <Cell col="11" text="등록자명"/>
+                      <Cell col="12" text="등록일자"/>
+                      <Cell col="13" text="수정자명"/>
+                      <Cell col="14" text="수정일자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell/>
+                      <Cell col="1"/>
+                      <Cell col="2" text="expr:currow + 1"/>
+                      <Cell col="3" text="bind:COMPANY_CD" edittype="none"/>
+                      <Cell col="4" text="bind:SERVICE_TP" displaytype="combotext" edittype="none" combodataset="ds_cm_service_tp" combodatacol="CMNM" combocodecol="CMCD"/>
+                      <Cell col="5" text="bind:APPLICATION_TP" displaytype="combotext" edittype="none" combodataset="ds_cm_application_tp" combodatacol="CMNM" combocodecol="CMCD"/>
+                      <Cell col="6" text="bind:USER_ID" edittype="none"/>
+                      <Cell col="7" text="bind:USER_NM" edittype="none"/>
+                      <Cell col="8" displaytype="normal" edittype="none" text="bind:MENU_CD" combodisplay="display" combotype="filterlike" expandshow="hide"/>
+                      <Cell col="9" text="bind:MENU_NM" editlimit="-1" editlengthunit="utf16" textAlign="left" verticalAlign="middle" edittype="none"/>
+                      <Cell col="10" text="bind:REG_USER"/>
+                      <Cell col="11" text="bind:REG_USER_NM"/>
+                      <Cell col="12" text="bind:REG_DT" displaytype="date"/>
+                      <Cell col="13" text="bind:MOD_USER_NM"/>
+                      <Cell col="14" displaytype="date" text="bind:MOD_DT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static_mid_label_left01" taborder="0" text="메뉴 목록 조회" cssclass="lb01" left="0" top="6" width="194" height="22"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_sMove" taborder="2" onclick="search_reset" left="45%" top="96" height="16" ondrag="search_resize" right="45%" background="url('imagerc::search_open.png') no-repeat transparent" border="0px solid"/>
+        <Static id="Static60" taborder="3" text="검색조건" cssclass="lb01" left="0" top="-1" width="120" height="22"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="MENU_CD" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+          <Column id="MENU_ORDER" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="PROPERTY_NM" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="MENU_CD" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cm_service_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_application_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_company_cd_s">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    : CMA005CT
+ * 화면명   : 즐겨찾기 관리
+ * 화면설명 :
+ * 작성일    : 2021-06-09 05:22
+ * 작성자   : SOOIM
+ * 수정이력 :
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2021-06-09		SOOIM`		1차수정
+ *		
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.grd_list;
+this.nMoveY;
+this.fv_flag;
+this.fv_form;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+
+var fv_ServiceTp = nexacro.getApplication().gds_userInfo.getColumn(0,"SERVICE_TP");
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	this.fv_form = obj;
+	this.fn_setComboDs(obj);
+	//조회조건 초기화
+	//this.div_search.form.edt_user_id.set_value(nexacro.getApplication().gv_userId);
+	
+	//키값 추가행일경우만 입력가능
+	var menuCdColIdx = this.div_cont.form.grd_list.getBindCellIndex("body", "MENU_CD");
+	this.div_cont.form.grd_list.setCellProperty("body", menuCdColIdx, "edittype", "expr:dataset.getRowType(currow) == 2 ? 'normal' : 'none'");
+
+	//rowTypeValidation 설정
+	var dsArr = ["ds_list"];
+	this.gfn_rowTypeValidationDs(dsArr);
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_company_cd.setFocus();
+};
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+					    { outDsName : "ds_company_cd_s", sqlId : "CMA002CT.CMA002CT_COMPANY_CD_S",param : "", bEmptyRow : true}
+                    ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{	
+	this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+     //조회전 그리드에 변경된 데이터가 있을경우 ..
+     if(Sct.Grid.isUpdate(this.div_cont.form.grd_list)){
+         //메세지로 변경된 데이터 여부와 상관없이 조회 할지 확인
+         if(!Sct.confirm(this,"000171","")){
+			this.div_cont.form.grd_list.setFocus();
+             return false;
+         }
+     }
+
+     //조회조건 필수여부확인
+	 if(!this.gfn_findSnull(this.div_search)) return false;
+	 
+	 return true;
+};
+
+
+// 삭제 전 validation
+this.fn_delete_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasDeletedRow(this.ds_list))
+	{
+		Sct.alert(this, "000150"); //삭제할 데이터가 없습니다.
+		return false;
+	}
+	
+	//다른상태값 존재여부
+	if(!Sct.Grid.hasDifferentRowType(this.ds_list, Dataset.ROWTYPE_DELETE))
+	{
+		Sct.alert(this, "000239"); //삭제작업 외 다른 작업상태가 존재합니다.
+		return false;
+	}
+	
+	//삭제하시겠습니까?
+	if(!Sct.confirm(this, "000152", "")) return false;
+	
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA011CT.CMA011CT_DS_LIST_S "
+		+ "LANG_CD=" + nexacro.getApplication().gv_locale + " ";
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//삭제
+this.fn_delete = function ()
+{
+	//validation
+	if(!this.fn_delete_pre()) return;
+
+	var svcId = "delete";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_list:U";
+	var outDatasets = "";
+	var argument = "method=delete "
+		+ "sqlId=CMA011CT_DS_LIST_D ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			var count = this.ds_list.rowcount;
+			Sct.alert(this, "000175", count + "|");
+			//저장후 조회후 변경된 row로 rowposition 설정
+			this.gfn_saveAfterFindRow(this.ds_list);
+		}
+		else if(strSvcID == "delete")
+		{
+			this.fn_search();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * Popup Functions
+ ***********************************************************************/
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+
+this.div_search_cmb_company_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	//그리드에 변경된 데이터가 있을경우
+   if(Sct.Grid.isUpdate(this.div_cont.form.grd_list)){
+      //메세지로 변경된 데이터 여부와 상관없이 변경할지 확인
+      if(!Sct.confirm(this,"000171","")){
+         this.ds_search.setColumn(0, "COMPANY_CD", e.prevalue);
+         return;
+      }
+   }
+   
+   Sct.commCodeTran2(this.fv_form, this.ds_search.getColumn(0,"COMPANY_CD"),fv_ServiceTp, true);
+   this.ds_list.clearData();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item3" compid="div_search.form.edt_user_nm" propid="value" datasetid="ds_search" columnid="USER_NM"/>
+      <BindItem id="item4" compid="div_search.form.edt_user_id" propid="value" datasetid="ds_search" columnid="USER_ID"/>
+      <BindItem id="item5" compid="div_search.form.edt_menu_cd" propid="value" datasetid="ds_search" columnid="MENU_CD"/>
+      <BindItem id="item6" compid="div_search.form.edt_menu_nm" propid="value" datasetid="ds_search" columnid="MENU_NM"/>
+      <BindItem id="item0" compid="div_search.form.cmb_company_cd" propid="value" datasetid="ds_search" columnid="COMPANY_CD"/>
+      <BindItem id="item1" compid="div_search.form.cmb_service_tp" propid="value" datasetid="ds_search" columnid="SERVICE_TP"/>
+      <BindItem id="item2" compid="div_search.form.cmb_menu_tp" propid="value" datasetid="ds_search" columnid="APPLICATION_TP"/>
+    </Bind>
+  </Form>
+</FDL>

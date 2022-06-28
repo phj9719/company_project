@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00208                                                         
+     * 프로그램 명     	: 2-8 수급자 외출기록                                                     
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-15 09:30        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00208_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00208">
+	<!-- 조회 -->
+    <select id="DAY00208_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00208_DS_LIST_S */
+		SELECT
+			   bm.m_jumin1
+			 , bm.m_jumin2
+		     , bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+             -- , bm.등급 AS grade_nm
+             , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},1,'%Y.%m.%d') AS m_liday1
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},2,'%Y.%m.%d') AS m_liday2
+		     , bm.m_regist
+		     , bm.m_juso1
+		     , bm.m_juso2
+		     , bm.m_post
+		     , CONCAT(bm.m_juso1,' ',bm.m_juso2) AS m_juso
+		     , bm.m_conname
+		     , bm.sajin
+			 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_birth
+		  FROM base_mate bm	  
+		  WHERE bm.sicode = #{SICODE}
+		<if test="M_GROUP != '전체'">		
+			AND bm.m_group = #{M_GROUP}
+		</if>
+			AND bm.m_reday >= #{DATE}
+		  ORDER BY bm.m_name  
+    </select>
+
+    <select id="DAY00208_DS_OUT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00208_DS_OUT_S */
+		SELECT  
+			  sicode
+			, 외출번호
+			, 거주자명
+			, 거주코드
+			, 외출구분
+			, 외출일
+			, REPLACE(외출일,'-','') AS date
+			, 외출시
+			, 외출분
+			, 복귀시
+			, 복귀분
+			, CONCAT((CASE WHEN TRIM(IFNULL(외출시,'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(외출시),2,'0') END )
+				     ,':'
+				      , (CASE WHEN TRIM(IFNULL(외출분,'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(외출분),2,'0') END )
+				     ,'-'   
+				      , (CASE WHEN TRIM(IFNULL(복귀시,'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(복귀시),2,'0') END )
+				     ,':'       
+				      , (CASE WHEN TRIM(IFNULL(복귀분,'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(복귀분),2,'0') END )
+				      ) AS time
+			, 행선지
+			, 외출목적
+			, 보호자명
+			, 보호자관계
+			, 보호자전화
+			, 확인담당
+			, 담당코드
+			, CONCAT(확인담당, '/' ,담당코드) AS writer
+		FROM kmstayout
+		WHERE sicode = #{SICODE}		
+		AND 거주코드 = #{M_CODE}	
+		ORDER BY 외출일 DESC, time DESC 
+    </select>
+    
+    <insert id="DAY00208_DS_OUT_SELECT_I" parameterType="java.util.HashMap">
+    /* DAY00208_DS_OUT_SELECT_I */
+    	INSERT INTO kmstayout
+    		(
+				  sicode
+				, 거주자명
+				, 거주코드
+				, 외출구분
+				, 외출일
+				, 외출시
+				, 외출분
+				, 복귀시
+				, 복귀분
+				, 행선지
+				, 외출목적
+				, 보호자명
+				, 보호자관계
+				, 보호자전화
+				, 확인담당
+				, 담당코드 
+    		) VALUES (
+				  #{sicode}
+				, #{거주자명}
+				, #{거주코드}
+				, #{외출구분}
+				, #{date}
+				, #{외출시}
+				, #{외출분}
+				, #{복귀시}
+				, #{복귀분}
+				, #{행선지}
+				, #{외출목적}
+				, #{보호자명}
+				, #{보호자관계}
+				, #{보호자전화}
+				, #{확인담당}
+				, #{담당코드}		
+    		)
+    </insert>
+
+</mapper>

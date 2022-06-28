@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="HR_ZIPCODE_PP" width="900" height="500" titletext="우편번호 팝업" onload="HR_ZIPCODE_PP_onload">
+    <Layouts>
+      <Layout width="900" height="500">
+        <Static id="Static60" taborder="0" text="검색조건" cssclass="lb01" left="0" top="3" width="120" height="22"/>
+        <Div id="div_search" taborder="1" left="0" top="22" height="78" dragscrolltype="vert" cssclass="s01" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="2" top="11" width="80" height="24" right="103" text="조회" onclick="div_search_btn_search_onclick"/>
+              <Button id="btn_submit" taborder="3" text="확인" top="11" width="80" height="24" right="20" onclick="div_search_btn_submit_onclick"/>
+              <Static id="건물번호" taborder="4" text="건물번호" left="15" top="45" width="90" height="23" textAlign="right" cssclass="sta_WF_SearchLabel"/>
+              <Edit id="edt_build_no" taborder="1" left="110" top="45" width="180" height="21"/>
+              <Edit id="edt_load_nm" taborder="0" left="110" top="12" width="180" height="21" cssclass="essential"/>
+              <Static id="sta_load_nm" taborder="5" text="도로명" left="15" top="11" width="90" height="23" textAlign="right" cssclass="sta_WF_SearchLabel"/>
+              <Static id="sta_plant_cd00" taborder="6" text="※ 시군구, 읍/면/동/리, 도로명, 건물명  중 하나를 입력하세요.  &#13;&#10;(시/도 는 검색되지않습니다.)" left="295" top="9" width="410" height="35" textAlign="left" color="#555555" cssclass="sta_alert"/>
+              <Static id="건물번호00" taborder="7" text="※건물번호, 지번 중 하나를 입력하세요." left="295" top="44" width="305" height="23" textAlign="left" cssclass="sta_alert"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="2" left="0" top="114" right="0.00%" bottom="0.00%" text="">
+          <Layouts>
+            <Layout>
+              <Static id="Static_mid_label" taborder="3" text="우편번호" cssclass="lb01" left="0" top="10" width="149" height="22"/>
+              <Grid id="grd_list" taborder="2" autofittype="col" left="0" top="30" binddataset="ds_list" right="0" bottom="50" autosizingtype="none" onheadclick="div_cont_grd_list_onheadclick" oncelldblclick="div_cont_grd_list_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="80"/>
+                      <Column size="250"/>
+                      <Column size="180"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell edittype="checkbox" displaytype="checkboxcontrol"/>
+                      <Cell col="1" text="순번"/>
+                      <Cell col="2" text="우편번호"/>
+                      <Cell col="3" text="도로명주소"/>
+                      <Cell col="4" text="지번"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK"/>
+                      <Cell col="1" text="expr:currow + 1"/>
+                      <Cell col="2" text="bind:ZIP_CD"/>
+                      <Cell col="3" text="bind:COMB_ADDRESS" textAlign="left"/>
+                      <Cell col="4" text="bind:COMB_JB" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_paging" taborder="2" height="30" bottom="0" url="CM_POP::CM_PAGING_DIV.xfdl" maxheight="" left="0" right="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ZIP_CD" type="STRING" size="256"/>
+          <Column id="COMB_ADDRESS" type="STRING" size="256"/>
+          <Column id="COMB_JB" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOAD_NM" type="STRING" size="256"/>
+          <Column id="BUILD_NO" type="STRING" size="256"/>
+          <Column id="SEARCH_NM" type="STRING" size="256"/>
+          <Column id="END_CHAR" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+
+//Multi 선택 여부
+this.fv_multiYn = false;
+var fv_companyCd; 
+this.HR_ZIPCODE_PP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo) {
+	
+	
+	this.form_onload_com(obj, e, false);
+
+	
+	this.ds_search.setColumn(0,"COMPANY_CD",this.parent.COMPANY_CD);
+	
+	
+	
+	//페이징 처리 초기화
+	this.fn_initPageSet();
+	
+	//Multi 선택 여부 파라미터 : MULTI_YN
+	if(this.parent.MULTI_YN == "Y") this.fv_multiYn = true;
+	else							this.div_cont.form.grd_list.setFormatColProperty(0, "size", 0);	//Single 선택인경우 체크박스 숨김
+	
+	// 오픈시 검색조건 첫번째 항목에 커서 이동
+	this.div_search.form.edt_load_nm.setFocus();
+	
+};
+
+
+//페이징 처리 초기화
+this.fn_initPageSet = function()
+{
+	//페이징처리 초기화
+	this.ds_list.pageRowCount		= 10;											//조회될 row 갯수 (page Size)
+    this.ds_list.pageCount			= 10;											//최대 페이지 갯수 (page Scale)
+    this.ds_list.pageTotalVisible	= true;											//하단 page Size, pageScale 등 입력 div show YN
+	this.ds_list.pageNo				= 1;											//최초조회시 default 페이지 번호
+	this.ds_list.pageFunctionName	= "fn_search";									//페이지 버튼(1,2,3...)클릭시 조회할 function name
+	this.div_cont.form.div_paging.form.fn_init(this, this.ds_list);	//페이지 form 초기화
+}
+
+
+this.fn_search = function (obj:Button, e:nexacro.ClickEventInfo) {
+
+	//조회조건 필수여부확인
+	 if(!this.gfn_findSnull(this.div_search)) return false;
+	 
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getListPaging "
+		argument += "sqlId=HR_ZIPCODE_PP.HR_ZIPCODE_PP_GET ";
+	var callbackFunc = "fn_callback";
+	
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			//multi체크가능한경우Dataset Column이 초기화되기떄문에 CHK컬럼 추가
+			if(this.fv_multiYn)	this.ds_list.addColumn("CHK", "STRING", 1);
+			
+			//서비스 조회 시 return 받은 block count와 총 row 수 전달
+			this.div_cont.form.div_paging.form.fn_callAfter();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+this.fn_setData = function (obj:Button, e:nexacro.ClickEventInfo) {
+	this.ds_return.copyData(this.ds_list);
+	this.ds_return.clearData();
+	//Multi 선택인경우 체크한 ROW들 전체 return
+	if(this.fv_multiYn)
+	{
+		for(var i=0; i<this.ds_list.rowcount; i++)
+		{
+			if(this.ds_list.getColumn(i, "CHK") == "1")
+			{
+				var nRow = this.ds_return.addRow();
+				this.ds_return.copyRow(nRow, this.ds_list, i);
+			}
+		}
+	}
+	//Single 선택인경우 현재 rowposition인 row return
+	else
+	{
+		this.ds_return.addRow();
+		this.ds_return.copyRow(0, this.ds_list, this.ds_list.rowposition);
+	}
+
+	this.close(this.ds_return.saveXML());
+};
+
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo) {
+	this.fn_search();
+};
+
+this.div_search_btn_submit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo) {
+	this.fn_setData();
+};
+
+this.div_cont_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo){
+	//Single 선택인경우만 이벤트 on
+	if(!this.fv_multiYn)	this.fn_setData();
+};
+
+this.div_cont_grd_list_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//체크박스 헤더클릭시 이벤트
+	if(e.col == obj.getBindCellIndex("body", "CHK"))
+	{
+		var chkValue = obj.getCellProperty("head", e.col, "text");
+		var chk = "";
+		if(chkValue != "1")	chk = "1";
+		else				chk = "0";
+		
+		//체크박스 설정
+		obj.setCellProperty("head", e.col, "text", chk);
+		for(var i=0; i<this.ds_list.rowcount; i++) this.ds_list.setColumn(i, "CHK", chk);
+	}
+};
+
+//검색조건에 필요한 글자 자르기 위해서 
+this.ds_search_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "LOAD_NM"){
+		if(e.newvalue.length > 0){
+			this.ds_search.setColumn(0, "END_CHAR",e.newvalue.substr(e.newvalue.length-1, 1));
+			this.ds_search.setColumn(0, "SEARCH_NM",e.newvalue.substr(0,e.newvalue.length-1));
+		}
+	}
+	
+	
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.edt_load_nm" propid="value" datasetid="ds_search" columnid="LOAD_NM"/>
+      <BindItem id="item1" compid="div_search.form.edt_build_no" propid="value" datasetid="ds_search" columnid="BUILD_NO"/>
+    </Bind>
+  </Form>
+</FDL>

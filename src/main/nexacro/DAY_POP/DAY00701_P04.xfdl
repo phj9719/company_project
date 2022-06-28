@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00701_P04" width="1000" height="520" titletext="주야간 운영일지 출력(월)" onload="form_onload">
+    <Layouts>
+      <Layout width="1000" height="520">
+        <Div id="div_cont" taborder="1" left="10" top="40" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="1" left="0" top="30" binddataset="ds_list" right="0" bottom="0" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onexpandup="div_cont_grd_list_onexpandup" autofittype="col" cellclickbound="cell">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="20"/>
+                      <Column size="30"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox">
+                        <Cell displaytype="checkboxcontrol" edittype="checkbox" text="0" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                        <Cell col="1" text="출력" expandchar="rno"/>
+                      </Cell>
+                      <Cell col="2" text="운영일"/>
+                      <Cell col="3" text="시설장"/>
+                      <Cell col="4" text="총인원"/>
+                      <Cell col="5" text="1등급"/>
+                      <Cell col="6" text="2등급"/>
+                      <Cell col="7" text="3등급"/>
+                      <Cell col="8" text="4등급"/>
+                      <Cell col="9" text="5등급"/>
+                      <Cell col="10" text="인지"/>
+                      <Cell col="11" text="등외"/>
+                      <Cell col="12" text="일송영"/>
+                      <Cell col="13" text="조회"/>
+                      <Cell col="14" text="기록"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:CHK"/>
+                      <Cell col="2" displaytype="date" expandchar="dot" text="bind:운영일" cursor="pointer"/>
+                      <Cell col="3" text="bind:시설장"/>
+                      <Cell col="4" text="bind:거주자수"/>
+                      <Cell col="5" text="bind:일등급"/>
+                      <Cell col="6" text="bind:이등급"/>
+                      <Cell col="7" text="bind:삼등급"/>
+                      <Cell col="8" text="bind:사등급"/>
+                      <Cell col="9" text="bind:오등급"/>
+                      <Cell col="10" text="bind:인지"/>
+                      <Cell col="11" text="bind:등외"/>
+                      <Cell col="12" text="bind:일송영"/>
+                      <Cell col="13" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="90" text="bind:EX"/>
+                      <Cell col="14" text="bind:일지번호"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_subTitle" taborder="0" text="주야간운영일지 출력" left="5" top="3" width="500" height="26" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="4" text="검색" top="5" height="25" onclick="fn_searchBtn" width="70" cssclass="btn_search" left="380"/>
+              <Calendar id="cal_date_from" taborder="1" left="132" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="245" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="260" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Calendar id="cal_date" taborder="0" left="10" top="5" width="90" height="25" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Calendar id="cal_date_pic" taborder="5" left="cal_date:-1" top="5" width="25" height="25" initvalueid="iv_cal_yyyyMM" onchanged="div_search_cal_date_pic_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="470" top="0" height="36" formscrollbartype="none" width="868">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란" left="5" top="4" width="65" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_report" taborder="1" text="주야간운영일지 출력(월)" left="80" top="4" width="185" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="일지번호" type="STRING" size="256"/>
+          <Column id="운영일" type="DATE" size="256"/>
+          <Column id="시설장" type="STRING" size="256"/>
+          <Column id="거주자수" type="STRING" size="256"/>
+          <Column id="일등급" type="STRING" size="256"/>
+          <Column id="이등급" type="STRING" size="256"/>
+          <Column id="삼등급" type="STRING" size="256"/>
+          <Column id="사등급" type="STRING" size="256"/>
+          <Column id="오등급" type="STRING" size="256"/>
+          <Column id="인지" type="STRING" size="256"/>
+          <Column id="등외" type="STRING" size="256"/>
+          <Column id="일송영" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="EX" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_flag">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">OR</Col>
+            <Col id="CMNM">또는</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00701_P04
+ * 화면명   	: 주야간 운영일지 출력(월)
+ * 화면설명 	: 해당월의 주야간 운영일지를 출력하기 위한 화면
+ * 작성일   	: 2022-03-21
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+const fv_year = this.parent.YEAR;
+const fv_date_from = this.parent.DATE_FROM;
+const fv_date_to = this.parent.DATE_TO;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", firstDay);
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	// 리포트 결제란
+	this.div_func.form.chk_sign.set_value(1);
+	
+	// 조회
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00701_P04.DAY00701_P04_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 그리드 제목의 날짜 세팅
+			const dateFromCol = this.ds_search.getColumn(0, "DATE_FROM");
+			const dateToCol = this.ds_search.getColumn(0, "DATE_TO");
+			
+			// from, to YYYY.MM.DD ~ YYYY.MM.DD 문장 만들기
+			const dateStr = this.fn_from_to_text(dateFromCol, dateToCol, "-");
+			
+			const subTitleText = "주야간운영일지 출력 ( " + dateStr + " )";
+			this.div_cont.form.sta_subTitle.set_text(subTitleText);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/*
+ * from, to YYYY.MM.DD ~ YYYY.MM.DD 문장 만들기
+ *
+ * @param from DATE from 날짜
+ * @param to DATE to 날짜
+ * @param deli str 구분자 ex) "-", "~" 안넣을 경우 "~"
+ */
+this.fn_from_to_text = function(from, to, deli)
+{
+	const dateFromCol = from;
+	const yyyyFrom = dateFromCol.getFullYear();
+	const mmFrom = (dateFromCol.getMonth() + 1) + "";
+	const ddFrom = dateFromCol.getDate() + "";
+	const dateToCol = to;
+	const yyyyTo = dateToCol.getFullYear();
+	const mmTo = (dateToCol.getMonth() + 1) + "";
+	const ddTo = dateToCol.getDate() + "";
+	
+	let delimiter = "";
+	if (!Sct.Util.isEmpty(deli))
+		delimiter = " " + deli + " ";
+	else
+		delimiter = " ~ ";
+	
+	const dateFrom = yyyyFrom + "." + mmFrom.padStart(2, "0") + "." + ddFrom.padStart(2, "0");
+	const dateTo = yyyyTo + "." + mmTo.padStart(2, "0") + "." + ddTo.padStart(2, "0");
+	
+	const rtnDate = dateFrom + delimiter + dateTo;
+	return rtnDate;
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	const year = this.ds_search.getColumn(0,"DATE").substr(0,4);
+	const month = this.ds_search.getColumn(0,"DATE").substr(4);
+	const firstDay = new Date(year, month - 1 , 1);
+	const lastDay = new Date(year, month, 0);
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	this.fn_search();
+};
+
+// 그리드 더블클릭 이벤트
+this.div_cont_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const dateIdx = obj.getBindCellIndex("body", "운영일");
+	
+	if (e.cell == dateIdx)
+	{
+		const param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_list.getColumn(e.row, "운영일")
+		};
+
+		Sct.popup(this, "record", 450, 400, "7-1 주야간운영일지", param, "DAY_POP::DAY00701_P01.xfdl", "fn_popCallback");
+	}
+};
+
+// 그리드 확장 버튼 이벤트
+this.div_cont_grd_list_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	const exIdx = obj.getBindCellIndex("body", "EX");
+
+	if (e.cell == exIdx)
+	{
+		const param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_list.getColumn(e.row, "운영일")
+		};
+
+		Sct.popup(this, "record", 450, 400, "7-1 주야간운영일지", param, "DAY_POP::DAY00701_P01.xfdl", "fn_popCallback");
+	}
+};
+
+// 주야간운영일지 출력(월)
+this.fn_report = function()
+{
+	// 체크된 항목의 수와 항목의 날짜 구하기
+	let chkListArr = [];
+	let chkCount = 0;
+	for (let i = 0; i < this.ds_list.rowcount; i++)
+	{
+		if (this.ds_list.getColumn(i, "CHK") == "1")
+		{
+			chkListArr.push(this.ds_list.getColumn(i, "운영일"));
+			chkCount++;
+		}
+	}
+	
+	// 체크된 항목이 없을 경우
+	if (chkCount == 0)
+	{
+		this.alert("출력할 항목을 선택해주세요.");
+		return false;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00701_R01.jrf";
+	
+	let arg = "P_SICODE#" + fv_sicode + "#"
+			+ "P_SIGN#" + this.div_func.form.chk_sign.value + "#"
+	
+	for (let i = 0; i < chkListArr.length; i++)
+		arg += "P_DATE." + (i + 1) + "#" + chkListArr[i] + "#";
+		
+	const mul = true;
+	const mulCount = chkCount + "";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg, mul, mulCount);
+};]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item3" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+    </Bind>
+  </Form>
+</FDL>

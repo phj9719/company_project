@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00102_P02" width="710" height="360" titletext="상태변화기록 수정" onload="form_onload">
+    <Layouts>
+      <Layout width="710" height="360">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Static id="sta_body1" taborder="5" left="3" top="34" width="686" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1" taborder="0" text="수급자명" left="1" top="34" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1_00" taborder="1" left="88" top="38" width="90" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_00_00" taborder="2" left="227" top="38" width="35" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_00" taborder="3" left="267" top="38" width="100" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_01" taborder="4" left="181" top="38" width="35" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_01" taborder="6" left="3" top="67" width="686" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_00" taborder="7" text="작성일자" left="1" top="67" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1_00_00_01_00_00_01_00" taborder="8" left="66" top="5" width="224" height="25" textAlign="left"/>
+              <Static id="sta_body10" taborder="9" left="3" top="100" width="686" height="205" cssclass="sta_WF_DetailLabel02"/>
+              <TextArea id="txt_content2" taborder="10" left="88" top="104" width="597" height="196" maxlength="500" wordWrap="char" scrollbartype="fixed" scrolltype="vertical"/>
+              <Static id="sta_head10" taborder="11" left="1" top="100" width="83" height="205" cssclass="sta_WF_DetailLabel01" textAlign="center" text="상태변화"/>
+              <Static id="sta_body8" taborder="12" left="1" top="304" width="688" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_body1_00_00_01_01" taborder="13" left="88" top="308" width="224" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_head1_01_00" taborder="15" text="기록번호  :" left="1" top="5" width="63" height="25" textAlign="left"/>
+              <Button id="btn_delete" taborder="16" text="삭제" top="4" width="70" height="26" onclick="fn_delete" right="1" cssclass="btn_delete"/>
+              <Button id="btn_save" taborder="17" text="저장" top="4" width="70" height="26" onclick="fn_update" right="76" cssclass="btn_save"/>
+              <Static id="sta_head1_01" taborder="18" left="1" top="304" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Button id="btn_manager" taborder="14" text="작성자" left="5" top="308" width="75" height="26" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+              <Static id="sta_body1_00_00_01_00_00_00_00_00" taborder="19" left="88" top="71" width="100" height="25" padding="0px 0px 0px 5px"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_item">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="sc_number" type="STRING" size="256"/>
+          <Column id="date" type="STRING" size="256"/>
+          <Column id="date_original" type="STRING" size="256"/>
+          <Column id="sc_code" type="STRING" size="256"/>
+          <Column id="sc_name" type="STRING" size="256"/>
+          <Column id="sc_change" type="STRING" size="256"/>
+          <Column id="create_nm" type="STRING" size="256"/>
+          <Column id="create_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="view_manager" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00102_R01
+ * 화면명   	: 상태변화기록 수정
+ * 화면설명 	: 상태변화기록을 조회하고 수정하는 팝업
+ * 작성일   	: 2022-04-20
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+//const fv_flag = this.parent.FLAG;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_item.set_enableevent(false);
+	this.ds_item.setColumn(0, "sicode", this.parent.SICODE);
+	//this.ds_item.setColumn(0, "sc_number", nexacro.toNumber(this.parent.SC_NUMBER));
+	this.ds_item.setColumn(0, "sc_number", this.parent.SC_NUMBER);
+	this.ds_item.setColumn(0, "date", this.parent.DATE);
+	this.ds_item.setColumn(0, "date_original", this.parent.DATE);
+	// 가져온 date를 점 없는 형식으로 따로 보관 - date_original로
+	var date = this.parent.DATE + "";
+	var date_original = date.replaceAll(".","");
+	console.log("date_original: " + date_original);
+	this.ds_item.setColumn(0, "date_original", date_original);
+	this.ds_item.setColumn(0, "sc_code", this.parent.SC_CODE);
+	this.ds_item.setColumn(0, "sc_name", this.parent.SC_NAME);
+	this.ds_item.setColumn(0, "sc_change", this.parent.SC_CHANGE);
+	this.ds_item.setColumn(0, "create_nm", this.parent.CREATE_NM);
+	this.ds_item.setColumn(0, "create_code", this.parent.CREATE_CODE);
+	this.ds_item.setColumn(0, "m_group", this.parent.M_GROUP);
+	this.ds_item.setColumn(0, "sex_nm", this.parent.SEX_NM);
+	this.ds_item.setColumn(0, "view_manager", this.parent.VIEW_MANAGER);
+	this.ds_item.set_enableevent(true);
+
+	this.ds_item.applyChange();	// rowType normal로
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_update_pre = function()
+{
+	if (this.ds_item.getRowType(0)==1) {
+		alert("변경사항이 없습니다.");
+		return false;
+	}
+
+	// 작성자가 지정되지 않은 경우
+	if (Sct.Util.isEmpty(this.ds_item.getColumn(0, "view_manager")))
+	{
+		this.alert("작성직원을 지정해야합니다.");
+		return false;
+	}
+
+	// 한글기준 2글자 이상인지 체크(영문,숫자 4글자)
+	var stateText = this.ds_item.getColumn(0,"sc_change");
+	stateText = nexacro.trim(stateText);
+	this.ds_item.setColumn(0,"sc_change",stateText);
+	var txtLen = stateText.byteLength();
+	if (txtLen < 4) {
+		this.alert("상태변화 기록을 2글자 이상 입력하세요");
+		return false;
+	}
+	
+	return true;
+}
+
+this.fn_delete_pre = function()
+{
+	var resp = confirm("상태변화기록 정보를 삭제합니다. 삭제되면 복구되지 않습니다. 그래도 삭제하시겠습니까?");
+	if (resp) {
+		this.ds_item.set_updatecontrol(false);
+		this.ds_item.setRowType(0, Dataset.ROWTYPE_DELETE);
+		this.ds_item.set_updatecontrol(true);
+
+		return true;	
+	} else {
+		return false;
+	}
+}
+
+this.fn_update = function()
+{
+	// validation
+	if (!this.fn_update_pre()) return;
+
+	const svcId = "update";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_item:U";
+	const outDatasets = "";
+	const argument = "method=update "
+				+ "sqlId=DAY00102_P02.DAY00102_P02_DS_ITEM_U ";
+	console.log("fn_update: rowType: " + this.ds_item.getRowType(0));
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_item:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+					+ "sqlId=DAY00102_P02.DAY00102_P02_DS_ITEM_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		} else if(strSvcID == "update")
+		{
+			alert("상태기록 저장완료!");
+			this.ds_return.clearData();
+			this.ds_return.addColumn("REFRESH", "STRING");
+			var nRow = this.ds_return.addRow();
+			this.ds_return.setColumn(nRow, "REFRESH", "Y");
+			
+			this.close(this.ds_return.saveXML());
+			
+		} else if(strSvcID == "delete")
+		{
+			alert("상태기록 삭제완료!");
+			this.ds_return.clearData();
+			this.ds_return.addColumn("REFRESH", "STRING");
+			var nRow = this.ds_return.addRow();
+			this.ds_return.setColumn(nRow, "REFRESH", "Y");
+			
+			this.close(this.ds_return.saveXML());
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_item.getColumn(0,"sicode")
+		,	DATE : this.ds_item.getColumn(0, "date_original")
+		,	FLAG : ""
+	};
+
+	Sct.popup(this, "employee", 450, 400, "작성자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+ 
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "employee" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_item.setColumn(0, "create_nm", name);
+				this.ds_item.setColumn(0, "create_code", staffid);
+				this.ds_item.setColumn(0, "view_manager", name + "/" + staffid);
+			}
+			else
+			{
+				this.ds_item.setColumn(0, "create_nm", "");
+				this.ds_item.setColumn(0, "create_code", "");
+				this.ds_item.setColumn(0, "view_manager", "");
+			}
+			break;
+	}
+}]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.sta_body1_00" propid="text" datasetid="ds_item" columnid="sc_name"/>
+      <BindItem id="item19" compid="div_cont.form.sta_body1_00_00_00" propid="text" datasetid="ds_item" columnid="m_group"/>
+      <BindItem id="item20" compid="div_cont.form.sta_body1_00_00" propid="text" datasetid="ds_item" columnid="sc_code"/>
+      <BindItem id="item21" compid="div_cont.form.sta_body1_00_01" propid="text" datasetid="ds_item" columnid="sex_nm"/>
+      <BindItem id="item33" compid="div_cont.form.txt_content2" propid="value" datasetid="ds_item" columnid="sc_change"/>
+      <BindItem id="item34" compid="div_cont.form.sta_body1_00_00_01_01" propid="text" datasetid="ds_item" columnid="view_manager"/>
+      <BindItem id="item31" compid="div_cont.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_item" columnid="sc_number"/>
+      <BindItem id="item39" compid="div_cont.form.sta_body1_00_00_01_00_00_00_00_00" propid="text" datasetid="ds_item" columnid="date"/>
+    </Bind>
+  </Form>
+</FDL>

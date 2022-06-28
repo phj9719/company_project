@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAYEMP_PP                                                         
+     * 프로그램 명     	: 담당자 선택                                                     
+     * Description 	: 담당자를 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-02-28 14:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAYEMP_PP_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAYEMP_PP">
+	<!-- 조회 -->
+    <select id="DAYEMP_PP_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 담당자 조회 */
+    SELECT
+      be.sicode
+    , be.c_staffid
+    , be.c_group
+    , be.c_name
+    , be.성별
+    , be.근무현황
+    , be.c_become
+    , CASE
+        WHEN be.근무현황 = '근무중' THEN NULL
+        WHEN be.근무현황 = '퇴사자' THEN be.c_retire
+      END AS c_retire
+    , be.c_dutyname
+    , be.c_dutyname AS 담당직종
+    <!-- , FN_DUTYNAME(be.sicode, be.c_staffid, #{DATE}) AS 담당직종 -->
+    , be.근무종료일
+    , be.c_phone1
+    , be.c_phone2
+    FROM base_employee be
+    WHERE be.sicode = #{SICODE}
+    AND #{DATE} BETWEEN be.c_become AND be.c_retire
+    <if test="FLAG != null and FLAG != ''">
+	  <if test='FLAG.equals("71")'>
+    AND be.c_dutyno IN (1, 2, 3, 4, 7)
+	  </if>
+	  <if test='FLAG.equals("21")'>
+	AND be.c_dutyno IN (7,8)
+	  </if>
+    </if>
+    ORDER BY be.c_name
+    </select>
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-09-01 11:22                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : WMA004CT                                                         
+     * 프로그램 명  :  창고기준관리                                                    
+     * Description : 창고기준관리                                                           
+     *================================================================                  
+                작성일자         |  작성자    |  비고                                    
+     *================================================================                  
+       2017-09-01 11:22        | 배영걸          | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_MAIL"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CM_MAIL_GET_TRANS_ID" parameterType="java.util.HashMap" resultType="java.lang.String">       
+	<![CDATA[
+		SELECT CONCAT(#{DEPARTURE},#{TRANS_MD},#{TRANS_DT},ISNULL(MAX( CONVERT(INT,(SUBSTRING(TRANS_ID,14,DATALENGTH(TRANS_ID)))) ) + 1, 1))
+		FROM T_SM_SEND_MAIN WITH(NOLOCK)
+		WHERE TRANS_ID LIKE CONCAT(#{DEPARTURE},#{TRANS_MD},#{TRANS_DT},'%')
+	]]>                                                                                                    
+    </select>                                                     
+                                      
+    <insert id="CM_MAIL_SEND_MAIN_I" parameterType="java.util.HashMap">
+	<![CDATA[
+    	INSERT INTO T_SM_SEND_MAIN ( COMPANY_CD
+								, PLANT_CD
+								, TRANS_ID
+								, DESTINATION
+								, DEPARTURE
+								, TRANS_MD
+								, TRANS_JOB
+								, TRANS_STATUS
+								, TNS_EXEC_ID
+								, TRANS_CNT
+								, FILE_GROUP_ID
+								, PROGRAM_ID							
+								, FIN_FLAG
+								, WK_FLAG
+								, USE_YN
+								, DATA_COUNT
+								, FIRST_TRANS_CURR
+								, COMPLETE_TRANS_CURR
+								, REG_PGM_ID
+								, REG_USER
+								, REG_DT
+								, REG_DT_CURR
+								, REG_DT_LOC
+								, REG_IP
+								, MOD_PGM_ID
+								, MOD_USER
+								, MOD_DT
+								, MOD_DT_CURR
+								, MOD_DT_LOC
+								, MOD_IP
+								, MAIL_PK_NO
+								, MAIL_FILE_PATH
+								, MAIL_VND_CD
+								, MAIL_FILE_YN
+					) VALUES ( #{COMPANY_CD}
+							, #{PLANT_CD}
+							, #{TRANS_ID}
+							, #{DESTINATION}
+							, #{DEPARTURE}
+							, #{TRANS_MD}
+							, #{TRANS_JOB}
+							, #{TRANS_STATUS}
+							, #{TNS_EXEC_ID}						
+							, #{TRANS_CNT}
+							, #{FILE_GROUP_ID} 
+							, #{PROGRAM_ID}
+							, #{FIN_FLAG}
+							, #{WK_FLAG}
+							, #{USE_YN}
+							, #{DATA_CNT}
+							, #{REG_DT_LOC}
+							, #{COMPLETE_TRANS_CURR}
+							, #{REG_PGM_ID} 
+							, #{REG_USER}   
+							, #{REG_DT}     
+							, #{REG_DT_CURR}
+							, #{REG_DT_LOC} 
+							, #{REG_IP}
+							, #{MOD_PGM_ID}
+							, #{MOD_USER}
+							, #{MOD_DT}
+							, #{MOD_DT_CURR}
+							, #{MOD_DT_LOC}
+							, #{MOD_IP}
+							, #{MAIL_PK_NO}
+							, #{MAIL_FILE_PATH}
+							, #{MAIL_VND_CD}
+							, #{MAIL_FILE_YN}
+							) ;
+	]]>
+	</insert>
+							
+    <update id="CM_MAIL_SEND_MAIN_U" parameterType="java.util.HashMap">
+			UPDATE T_SM_SEND_MAIN
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			<if test="TRANS_STATUS == '16'">
+				 , COMPLETE_TRANS_CURR  = #{MOD_DT_LOC}
+			</if>
+			WHERE  TRANS_ID     = #{TRANS_ID}			
+	</update>
+    
+    <insert id="CM_MAIL_SEND_HISTORY_I" parameterType="java.util.HashMap">
+	<![CDATA[
+ 	INSERT INTO T_SM_SEND_HISTORY
+					( COMPANY_CD
+					, PLANT_CD
+					, TRANS_ID
+					, DESTINATION
+					, TRANS_SEQ
+					, TRANS_STATUS
+					, TRANS_RST_STS 
+					, REMARK
+					, FIN_FLAG
+					, WK_FLAG
+					, REG_PGM_ID
+					, REG_USER
+					, REG_DT
+					, REG_DT_CURR
+					, REG_DT_LOC
+					, REG_IP
+					, MOD_PGM_ID
+					, MOD_USER
+					, MOD_DT
+					, MOD_DT_CURR
+					, MOD_DT_LOC
+					, MOD_IP
+					) VALUES
+					( #{COMPANY_CD}
+					, #{PLANT_CD}
+					, #{TRANS_ID}
+					, #{DESTINATION}
+					, ISNULL((SELECT MAX(Z.TRANS_SEQ)
+				      FROM T_SM_SEND_HISTORY Z WITH(NOLOCK)
+				      WHERE Z.COMPANY_CD = #{COMPANY_CD}
+				      AND Z.TRANS_ID     = #{TRANS_ID}),0)+1
+					, #{TRANS_STATUS}
+					, #{TRANS_RST_STS}
+					, #{REMARK}
+					, #{FIN_FLAG}
+					, #{WK_FLAG}
+					, #{REG_PGM_ID}
+					, #{REG_USER}
+					, #{REG_DT}
+					, #{REG_DT_CURR}
+					, #{REG_DT_LOC}
+					, #{REG_IP}
+					, ''
+					, ''
+					, ''
+					, ''
+					, ''
+					, ''
+					)
+	]]>
+	</insert>                        
+        
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_RESIDENT_POP" width="800" height="600" titletext="입소자 조회 팝업" onclick="formClick" ondevicebuttonup="NUB_RESIDENT_POP_ondevicebuttonup" onload="NUB_RESIDENT_POP_onload" onkeyup="fn_openDebugPopup">
+    <Layouts>
+      <Layout width="800" height="600" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="800" height="600" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" text="">
+          <Layouts>
+            <Layout>
+              <Div id="Div00" taborder="0" text="Div00" left="5.00%" top="72" height="3" background="#47afe1" right="5.00%"/>
+              <Div id="div_resident" taborder="1" left="50" top="250" text="" right="5.00%" bottom="5%">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Edit id="edt_name" taborder="2" left="62" top="95" width="324" height="50" displaynulltext="이름 입력"/>
+              <Button id="btn_search" taborder="3" text="조회" top="95" width="160" height="50" cssclass="btn_tDefaultSkyblue2" onclick="div_pop_main_btn_search_onclick" right="238"/>
+              <Button id="btn_all_search" taborder="4" text="전체 조회" top="95" width="160" height="50" cssclass="btn_tDefaultSkyblue2" onclick="div_pop_main_btn_all_search_onclick" right="62"/>
+              <Combo id="cmb_area" taborder="5" left="62" top="161" width="136" height="50" displaynulltext="층" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="cmb_area_onitemchanged"/>
+              <Combo id="cmb_location" taborder="6" left="214" top="161" width="172" height="50" displaynulltext="생활실" innerdataset="ds_location" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Static id="sta_data_yn" taborder="7" text="당일입력 유무" left="410" top="169" width="114" height="34" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+              <Radio id="rdo_data_yn" taborder="8" left="534" top="167" width="205" height="38" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" color="#555555" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">A</Col>
+                      <Col id="datacolumn">ALL</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Div id="Div00_00" taborder="9" text="Div00" left="5.00%" top="231" height="3" background="#47afe1" right="5.00%"/>
+              <Button id="btn_close" taborder="10" top="4.33%" width="24" height="24" onclick="div_pop_main_btn_close_onclick" right="6.00%" edge="url('theme://images/ico_popclose.png') 0px 0px"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_popTitle" taborder="1" text="수급자 조회" left="320" top="16" width="150" height="44" textAlign="center" cssclass="sta_tPopupTitle" visible="true" onclick="formClick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="REF_SYS_RES_ID" type="STRING" size="256"/>
+          <Column id="DATA_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DATA_YN" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_Company = this.parent.COMPANY_CD;
+var fv_Flag = this.parent.FLAG;
+var fv_area = this.parent.AREA;
+var fv_location = this.parent.LOCATION;
+var	date = this.parent.DATE;
+
+// 온로드
+this.NUB_RESIDENT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_Company);
+	this.ds_search.setColumn(0, "DATE", date);
+	this.ds_search.setColumn(0, "DATA_YN", "A");
+	
+	if (fv_area != null && fv_area != "")
+		this.ds_search.setColumn(0, "AREA", fv_area);
+	if (fv_location != null && fv_location != "")
+		this.ds_search.setColumn(0, "LOCATION", fv_location);
+
+	// 검색 조건 콤보박스 쿼리로 세팅하기
+	const comboDsParamArr = [
+			{outDsName : "ds_area", sqlId : "NUB_COMMON.NUB_COMMON_DS_AREA_S", param : this.ds_search, bEmptyRow : true}
+		,	{outDsName : "ds_location", sqlId : "NUB_COMMON.NUB_COMMON_DS_LOCATION_S", param : this.ds_search, bEmptyRow : true}
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+	
+	// 층, 생활실 값 여부에 따라 검색 하기
+	if (fv_area != null && fv_area != "" && fv_location != null && fv_location != "")
+		this.fn_search();
+	else if (fv_area != null && fv_area != "")
+		this.fn_search();
+	else
+		this.fn_searchAll();
+};
+
+// 디바이스 버튼
+this.NUB_RESIDENT_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if (e.button == 2)
+	{
+		this.close();
+	}
+};
+
+// 검색 전
+this.fn_search_pre = function()
+{
+	// 입소자 선택 버튼 모두 제거
+	for (let i = this.div_pop_main.form.div_resident.form.components.length - 1; i >= 0; i--)
+	{
+		const rmBtn = this.div_pop_main.form.div_resident.removeChild(this.div_pop_main.form.div_resident.form.components[i].id);
+		rmBtn.destroy();
+	}
+};
+
+// 검색
+this.fn_search = function()
+{
+	this.fn_search_pre();
+
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_resident=output1";
+	const argument = "method=getList "
+				   + "sqlId='NUB_RESIDENT_PP." + fv_Flag + "_RESIDENT_PP_DS_RESIDENT_S' "
+				   
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 전체 검색
+this.fn_searchAll = function()
+{
+	this.fn_search_pre();
+
+	const svcId = "searchAll";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_resident=output1";
+	const argument = "method=getList "
+				   + "sqlId='NUB_RESIDENT_PP." + fv_Flag + "_RESIDENT_PP_DS_RESIDENT_S' "
+				   + "COMPANY_CD=" + fv_Company + " "
+				   + "DATE=" + date + " ";
+				   
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.fn_resident_select();
+		}
+		else if (strSvcID == "searchAll")
+		{
+			this.fn_resident_select();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+// 입소자 선택 버튼 생성
+this.fn_resident_select = function()
+{
+	let top = 20;
+	const width = 140;
+	const height = 50;
+	const hgap = 20;		// 가로간격
+	let vgap = 0;		// 세로간격
+	let left = 40;
+	
+	//trace("dataset rowcount : " + this.ds_resident.rowcount);
+	for (let j = 0; j < this.ds_resident.rowcount; j++) 
+	{
+		const staId = "sta_btnName" + j;
+		const aCode = this.ds_resident.getColumn(j, "AREA"); 		// 선택한 입소자 층코드
+		const lCode = this.ds_resident.getColumn(j, "LOCATION"); 	// 선택한 입소자 호실코드
+		const btnName = this.ds_resident.getColumn(j, "NAME");		// 버튼 성명
+		//const btnId = "btn_name" + j;
+		const btnId = this.ds_resident.getColumn(j, "RES_ID");		// 버튼 ID
+		const dataYn = this.ds_resident.getColumn(j, "DATA_YN");
+		//trace("manager left : " + left);
+		if (left > 450) // left 450 초과시 줄바꿈
+		{
+			left = 40;
+			vgap = 20;
+			top = top + height + vgap;
+		}else 
+		{
+			left = left + (j == 0 ? 0 : width) + (j == 0 ? 0 : hgap);
+		}
+		
+		//버튼 생성
+		this.fn_makeButton2(staId, btnId, btnName, left, top, width, height, dataYn, aCode, lCode);
+	}
+	vgap = 50;
+	top = top + vgap;
+
+	
+	const objDummy = new Div();
+	objDummy.init("div_dummy", 50, top + 50, "80%", 5);
+	this.div_pop_main.form.div_resident.addChild("div_dummy", objDummy);
+	objDummy.show();
+	
+	this.div_pop_main.form.div_resident.form.resetScroll();
+};
+
+// 입소자선택 - 입소자 버튼 생성
+this.fn_makeButton2 = function(btnId, id, name, left, top, width, height, data, aCode, lCode)
+{
+	const objButton = new Button();
+	objButton.init(btnId, left, top, width, height);
+	objButton.set_text(name + " (" + data + ")");
+	objButton.set_cssclass("btn_tSelectRoom");
+	/*objButton.set_background("#cccccc");
+	objButton.set_textAlign("center");
+	objButton.set_verticalAlign("middle");*/
+	objButton._aCode = aCode;
+	objButton._lCode = lCode;
+	objButton._idCode = id;
+	objButton._idName = name;
+	objButton.addEventHandler("onclick", this.btn_select_onclick, this);
+	
+	this.div_pop_main.form.div_resident.addChild(btnId, objButton);
+	
+	objButton.show();
+};
+
+// 입소자 버튼 선택 이벤트
+this.btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addRow();
+	this.ds_return.setColumn(0, "RES_ID", obj._idCode);
+	this.ds_return.setColumn(0, "AREA", obj._aCode);
+	this.ds_return.setColumn(0, "LOCATION", obj._lCode);
+	//this.ds_return.setColumn(0, "NAME", obj._idName);
+	
+	this.close(this.ds_return.saveXML());
+};
+
+// 조회 버튼
+this.div_pop_main_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 전체 조회 버튼
+this.div_pop_main_btn_all_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_searchAll();
+};
+
+// 층 선택 콤보 체인지이벤트
+this.cmb_area_onitemchanged = function(obj:nexacro.Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	const cmbDsParam = [{outDsName : "ds_location", sqlId : "NUB_COMMON.NUB_COMMON_DS_LOCATION_S", param : this.ds_search, bEmptyRow : true}];
+
+	if(Sct.Util.isEmpty(e.postvalue)) { // 빈값 선택시 데이터셋 클리어 및 LOCATION, RES_ID 빈값 처리
+		this.ds_location.clear();
+		this.ds_resident.clear();		
+		this.ds_search.setColumn(0, "LOCATION", "");
+		this.ds_search.setColumn(0, "RES_ID", "");
+	}else{ // 층에 해당하는 생활실 조회
+		this.ds_location.clear();
+		this.ds_resident.clear();
+		this.ds_search.setColumn(0, "LOCATION", "");
+		this.ds_search.setColumn(0, "RES_ID", "");
+		this.gfn_setComboDs(this, cmbDsParam);
+	}	
+};
+
+// X 버튼 (닫기)
+this.div_pop_main_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_pop_main.form.edt_name" propid="value" datasetid="ds_search" columnid="NAME"/>
+      <BindItem id="item1" compid="div_pop_main.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item2" compid="div_pop_main.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item3" compid="div_pop_main.form.rdo_data_yn" propid="value" datasetid="ds_search" columnid="DATA_YN"/>
+    </Bind>
+  </Form>
+</FDL>

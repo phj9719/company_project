@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA602QR                                                         
+     * 프로그램 명     : 건강기록일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA602QR"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA602QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.CAR_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION
+					,(SELECT CONCAT(RIGHT(NR.BIRTHDAY,6),'-',IF(NR.SEX ='M',IF(LEFT(NR.BIRTHDAY,4)<2000,1,3),IF(LEFT(NR.BIRTHDAY,4)<2000,2,4)),'******') AS JUMIN
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS JUMIN
+					,A.CAR_DT
+					,A.LONG_TERM_CARE_NO
+					,A.CARE_TP
+					,A.DOCTOR_ID
+					,A.DOCTOR_NAME
+					,A.HOSPITAL_ID
+					,A.HOSPITAL_NAME
+					,A.SYMPTOM
+					,A.PAY_TP
+					,A.QUE_ID
+					,A.CAR_FR_TIME
+					,A.CAR_TO_TIME
+					,CONCAT(LEFT(A.CAR_FR_TIME,2),':',RIGHT(A.CAR_FR_TIME,2),'~', LEFT(A.CAR_TO_TIME,2),':',RIGHT(A.CAR_TO_TIME,2)) AS CAR_TIME
+					,A.MED_EXP
+					,A.PHA_EXP
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_COMM_CARE_HEAD A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="DT_FROM != '' and DT_FROM != null">                    
+                    AND A.CAR_DT >= #{DT_FROM}								                    				    			  	
+              </if>
+              <if test="DT_TO != '' and DT_TO != null">                    
+                    AND A.CAR_DT  <![CDATA[  <= ]]> #{DT_TO}								                    				    			  	
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.AREA = #{AREA}) 
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.LOCATION = #{LOCATION}) 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.NAME LIKE CONCAT('%', #{NAME},'%') ) 
+              </if>
+              
+                                                                                                                                                                                                                                                                                                                                                                                   
+    </select>
+    
+	<select id="NUA601CT_DS_CARE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+							,A.CAR_SEQ
+							,A.QUE_NO
+							,A.QUE_DESC
+							,A.QUE_TYPE
+							,A.OBJ_TP1
+							,A.OBJ_VALUE1
+							,A.TIT_TP1
+							,A.TIT_VALUE1
+							,A.OBJ_TP2
+							,A.OBJ_VALUE2
+							,A.TIT_TP2
+							,A.TIT_VALUE2
+							,A.OBJ_TP3
+							,A.OBJ_VALUE3
+							,A.TIT_TP3
+							,A.TIT_VALUE3
+							,A.OBJ_TP4
+							,A.OBJ_VALUE4
+							,A.TIT_TP4
+							,A.TIT_VALUE4
+							,A.OBJ_TP5
+							,A.OBJ_VALUE5
+							,A.TIT_TP5
+							,A.TIT_VALUE5
+							,A.OBJ_TP6
+							,A.OBJ_VALUE6
+							,A.TIT_TP6
+							,A.TIT_VALUE6
+							,A.OBJ_TP7
+							,A.OBJ_VALUE7
+							,A.TIT_TP7
+							,A.TIT_VALUE7
+							,A.OBJ_TP8
+							,A.OBJ_VALUE8
+							,A.TIT_TP8
+							,A.TIT_VALUE8
+							,A.OBJ_TP9
+							,A.OBJ_VALUE9
+							,A.TIT_TP9
+							,A.TIT_VALUE9
+							,A.OBJ_TP10
+							,A.OBJ_VALUE10
+							,A.TIT_TP10
+							,A.TIT_VALUE10
+							,A.OBJ_TP11
+							,A.OBJ_VALUE11
+							,A.TIT_TP11
+							,A.TIT_VALUE11
+							,A.OBJ_TP12
+							,A.OBJ_VALUE12
+							,A.TIT_TP12
+							,A.TIT_VALUE12
+							,A.OBJ_TP13
+							,A.OBJ_VALUE13
+							,A.TIT_TP13
+							,A.TIT_VALUE13
+							,A.OBJ_TP14
+							,A.OBJ_VALUE14
+							,A.TIT_TP14
+							,A.TIT_VALUE14
+							,A.OBJ_TP15
+							,A.OBJ_VALUE15
+							,A.TIT_TP15
+							,A.TIT_VALUE15
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_NU_COMM_CARE_DELTAIL A                                                                                                                                                                                      
+             		 WHERE 1=1 
+               		   AND A.COMPANY_CD = #{COMPANY_CD}
+               		   AND A.CAR_SEQ	= #{CAR_SEQ}
+     ]]>                                                                                                                                                                                                              
+    </select>                                                                                                                                                                                                                                                                                                                                                                                  
+	
+	<!-- 층 조회 -->
+    <select id="NUA602QRCT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA602QRCT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if>                                                                                                                                                                 
+    </select>                                                                                                                                                                               
+</mapper>                                                                                                                                                                                                          

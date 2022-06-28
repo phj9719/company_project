@@ -1,0 +1,1215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00703" width="1920" height="800" titletext="7-3 위생점검일지" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" height="748" oncellclick="div_cont_div_left_grd_list_oncellclick" cellclickbound="cell">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="20"/>
+                            <Column size="30"/>
+                            <Column size="110"/>
+                            <Column size="60"/>
+                            <Column size="90"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="23" band="head"/>
+                            <Row size="23"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" cursor="pointer" checkboxtruevalue="1" checkboxfalsevalue="0">
+                              <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="0"/>
+                              <Cell col="1" text="출력" expandchar="rno"/>
+                            </Cell>
+                            <Cell col="2" text="위생점검일"/>
+                            <Cell col="3" text="요일"/>
+                            <Cell col="4" text="작성자"/>
+                            <Cell col="5" text="작성(O)"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                            <Cell col="2" text="bind:점검일" cursor="pointer" displaytype="date" expandchar="dot" cssclass="cellBWoman"/>
+                            <Cell col="3" text="bind:점검요일"/>
+                            <Cell col="4" text="bind:위생담당"/>
+                            <Cell col="5" text="bind:작성"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="470" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" background="#ffffff" border="1px solid #e2e2e2" height="748" text="" width="1260">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="0" text="위생점검일지" left="582" top="7" width="97" height="26" cssclass="lb01"/>
+                          <Static id="sta_no" taborder="1" text="기록번호 : " left="24" top="10" width="58" height="26"/>
+                          <Static id="sta_no_value" taborder="2" text="00000000" left="87" top="10" width="60" height="26"/>
+                          <Div id="div_line" taborder="3" left="20" top="40" height="1" background="#e2e2e2" right="20"/>
+                          <Static id="sta_head1" taborder="9" text="구분" left="20" top="89" width="70" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="10" text="세 부 점 검 사 항" left="sta_head1:-1" top="89" width="328" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head3" taborder="11" text="점검사항" left="sta_head2:-1" top="89" width="208" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_num1" taborder="12" text="식당&#13;&#10;내부&#13;&#10;청결&#13;&#10;상태" left="20" top="sta_head1:-1" width="70" height="140" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body1" taborder="13" text="바닥, 유리창" left="sta_num1:-1" top="sta_head2:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o1" taborder="14" left="sta_body1:-1" top="sta_head3:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x1" taborder="18" left="sta_o1:68" top="sta_head3:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o01" taborder="15" text="   O" left="sta_o1:-58" top="sta_o1:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x01" taborder="19" text="   X" left="sta_x1:-57" top="sta_x1:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body2" taborder="20" text="식탁" left="89" top="sta_body1:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o2" taborder="21" left="sta_body2:-1" top="sta_o1:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x2" taborder="25" left="sta_o2:68" top="sta_x1:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o02" taborder="22" text="   O" left="sta_o2:-58" top="sta_o2:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x02" taborder="26" text="   X" left="sta_x2:-57" top="sta_x2:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body3" taborder="27" left="89" top="sta_body2:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02" text="배식대"/>
+                          <Static id="sta_o3" taborder="28" left="sta_body3:-1" top="sta_o2:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x3" taborder="32" left="sta_o3:68" top="sta_x2:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o03" taborder="29" text="   O" left="sta_o3:-58" top="sta_o3:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x03" taborder="33" text="   X" left="sta_x3:-57" top="sta_x3:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body4" taborder="34" left="89" top="sta_body3:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02" text="식수대"/>
+                          <Static id="sta_o4" taborder="35" left="sta_body4:-1" top="sta_o3:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x4" taborder="39" left="sta_o4:68" top="sta_x3:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o04" taborder="36" text="   O" left="sta_o4:-58" top="sta_o4:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x04" taborder="40" text="   X" left="sta_x4:-57" top="sta_x4:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num2" taborder="41" text="조리실&#13;&#10;청결&#13;&#10;상태" left="20" top="259" width="70" height="210" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body5" taborder="42" text="바닥" left="sta_num2:-1" top="sta_body4:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o5" taborder="43" left="sta_body5:-1" top="sta_o4:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x5" taborder="47" left="sta_o5:68" top="sta_x4:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o05" taborder="44" text="   O" left="sta_o5:-58" top="sta_o5:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x05" taborder="48" text="   X" left="sta_x5:-57" top="sta_x5:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body6" taborder="49" text="조리기구, 기계의 청결 및 정돈" left="89" top="sta_body5:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o6" taborder="50" left="sta_body6:-1" top="sta_o5:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x6" taborder="54" left="sta_o6:68" top="sta_x5:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o06" taborder="51" text="   O" left="sta_o6:-58" top="sta_o6:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x06" taborder="55" text="   X" left="sta_x6:-57" top="sta_x6:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body7" taborder="56" text="식기 보관소" left="89" top="sta_body6:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o7" taborder="57" left="sta_body7:-1" top="sta_o6:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x7" taborder="61" left="sta_o7:68" top="sta_x6:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o07" taborder="58" text="   O" left="sta_o7:-58" top="sta_o7:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x07" taborder="62" text="   X" left="sta_x7:-57" top="sta_x7:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body8" taborder="63" text="도마의 세척 및 소독" left="89" top="sta_body7:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o8" taborder="64" left="sta_body8:-1" top="sta_o7:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x8" taborder="68" left="sta_o8:68" top="sta_x7:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o08" taborder="65" text="   O" left="sta_o8:-58" top="sta_o8:-30" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x08" taborder="69" text="   X" left="sta_x8:-57" top="sta_x8:-30" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body9" taborder="70" text="씽크대 (개수구)" left="89" top="sta_body8:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o" taborder="71" left="sta_body9:-1" top="sta_o8:-1" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body10" taborder="77" text="음식물 쓰레기 분리수거통" left="89" top="sta_body9:-1" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_info1" taborder="4" left="20" top="44" width="212" height="48" cssclass="sta_SearchTxt"/>
+                          <Static id="sta_date" taborder="5" text="위생점검일" left="24" top="52" width="60" height="26"/>
+                          <Calendar id="cal_date" taborder="6" left="94" top="52" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0"/>
+                          <Button id="btn_manager" taborder="7" text="점검자" left="214" top="52" width="80" height="26" onclick="div_cont_div_right_div_main_btn_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager_value" taborder="8" text="너싱홈/ 요양보호사 / 20210007" left="304" top="52" width="174" height="26" textAlign="left"/>
+                          <Static id="sta_num3" taborder="84" text="식품&#13;&#10;취급" left="20" top="463" width="70" height="140" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body11" taborder="85" text="전 처리과정의 위생 (생선, 야채 등)" left="89" top="463" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o11" taborder="86" left="416" top="463" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x11" taborder="90" left="554" top="463" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o11" taborder="87" text="   O" left="428" top="468" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x11" taborder="91" text="   X" left="567" top="468" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body12" taborder="92" text="조리 후 식품 보관" left="89" top="497" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o12" taborder="93" left="416" top="497" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x12" taborder="97" left="554" top="497" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o12" taborder="94" text="   O" left="428" top="502" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x12" taborder="98" text="   X" left="567" top="502" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body13" taborder="99" text="배식 시 식품 보관" left="89" top="531" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o13" taborder="100" left="416" top="531" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x13" taborder="104" left="554" top="531" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o13" taborder="101" text="   O" left="428" top="536" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x13" taborder="105" text="   X" left="567" top="536" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body14" taborder="106" text="식품의 유통기한 확인" left="89" top="565" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o14" taborder="107" left="416" top="565" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x14" taborder="111" left="554" top="565" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o14" taborder="108" text="   O" left="428" top="570" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x14" taborder="112" text="   X" left="567" top="570" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num4" taborder="113" text="냉  동&#13;&#10;냉장고" left="20" top="599" width="70" height="137" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body15" taborder="114" text="물품의 정리" left="89" top="599" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o15" taborder="115" left="416" top="599" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x15" taborder="119" left="554" top="599" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o15" taborder="116" text="   O" left="428" top="604" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x15" taborder="120" text="   X" left="567" top="604" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body16" taborder="121" text="바닥의 청결" left="89" top="633" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o16" taborder="122" left="416" top="633" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x16" taborder="126" left="554" top="633" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o16" taborder="123" text="   O" left="428" top="638" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x16" taborder="127" text="   X" left="567" top="638" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body18" taborder="129" text="냉동  :                    ℃" left="169" top="667" width="248" height="35" cssclass="sta_WF_DetailLabel02" onclick="div_cont_div_right_div_main_sta_body13_02_00_onclick"/>
+                          <Static id="sta_tem1" taborder="131" left="416" top="667" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body19" taborder="130" text="냉장  :                    ℃" left="169" top="701" width="248" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_tem2" taborder="134" left="416" top="701" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_v1" taborder="16" left="485" top="123" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v01" taborder="17" text="  △" left="498" top="128" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v2" taborder="23" left="485" top="157" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v02" taborder="24" text="  △" left="498" top="162" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v3" taborder="30" left="485" top="191" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v03" taborder="31" text="  △" left="498" top="196" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v4" taborder="37" left="485" top="225" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v04" taborder="38" text="  △" left="498" top="230" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v5" taborder="45" left="485" top="259" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v05" taborder="46" text="  △" left="498" top="264" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v6" taborder="52" left="485" top="293" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v06" taborder="53" text="  △" left="498" top="298" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v7" taborder="59" left="485" top="327" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v07" taborder="60" text="  △" left="498" top="332" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v8" taborder="66" left="485" top="361" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v08" taborder="67" text="  △" left="498" top="366" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v9" taborder="73" left="485" top="395" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_v10" taborder="80" left="485" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v10" taborder="81" text="  △" left="498" top="434" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v11" taborder="88" left="485" top="463" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v11" taborder="89" text="  △" left="498" top="468" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v12" taborder="95" left="485" top="497" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v12" taborder="96" text="  △" left="498" top="502" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v13" taborder="102" left="485" top="531" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v13" taborder="103" text="  △" left="498" top="536" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v14" taborder="109" left="485" top="565" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v14" taborder="110" text="  △" left="498" top="570" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v15" taborder="117" left="485" top="599" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v15" taborder="118" text="  △" left="498" top="604" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v16" taborder="124" left="485" top="633" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v16" taborder="125" text="  △" left="498" top="638" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body17" taborder="128" text="온도" left="89" top="667" width="81" height="69" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_head1_00" taborder="139" text="구분" left="633" top="89" width="70" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2_00" taborder="140" text="세 부 점 검 사 항" left="702" top="89" width="328" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head3_00" taborder="141" text="점검사항" left="1029" top="89" width="208" height="35" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_num5" taborder="142" text="세  척" left="633" top="123" width="70" height="205" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body20" taborder="143" text="식기 기구의 세척·소독" left="702" top="123" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o17" taborder="144" left="1029" top="123" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x17" taborder="148" left="1167" top="123" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o17" taborder="145" text="   O" left="1041" top="128" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x17" taborder="149" text="   X" left="1180" top="128" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body21" taborder="150" text="행주의 청결·소독" left="702" top="157" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o18" taborder="151" left="1029" top="157" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x18" taborder="155" left="1167" top="157" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o18" taborder="152" text="   O" left="1041" top="162" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x18" taborder="156" text="   X" left="1180" top="162" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_tem3" taborder="161" left="1029" top="191" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num6" taborder="173" text="창   고" left="633" top="327" width="70" height="103" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_tem5" taborder="169" left="1029" top="259" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body26" taborder="174" text="주방 세척소독 방법" left="702" top="293" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o6_00" taborder="175" left="1029" top="293" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body27" taborder="178" text="물품의 정리, 정돈" left="702" top="327" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o19" taborder="179" left="1029" top="327" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x19" taborder="183" left="1167" top="327" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o19" taborder="180" text="   O" left="1041" top="332" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x19" taborder="184" text="   X" left="1180" top="332" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body28" taborder="185" text="쥐, 곤충류의 유무" left="702" top="361" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o20" taborder="186" left="1029" top="361" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x20" taborder="190" left="1167" top="361" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o20" taborder="187" text="   O" left="1041" top="366" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x20" taborder="191" text="   X" left="1180" top="366" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body29" taborder="192" text="통풍, 습기의 상태" left="702" top="395" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o21" taborder="193" left="1029" top="395" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x21" taborder="197" left="1167" top="395" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o21" taborder="194" text="   O" left="1041" top="400" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x21" taborder="198" text="   X" left="1180" top="400" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_body30" taborder="199" text="조리사 손과 복장의 청결" left="702" top="429" width="328" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o22" taborder="200" left="1029" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x22" taborder="204" left="1167" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o22" taborder="201" text="   O" left="1041" top="434" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x22" taborder="205" text="   X" left="1180" top="434" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num7" taborder="206" text="조리사" left="633" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body31" taborder="207" text="" left="702" top="463" width="535" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_v17" taborder="146" left="1098" top="123" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v17" taborder="147" text="  △" left="1111" top="128" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v18" taborder="153" left="1098" top="157" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v18" taborder="154" text="  △" left="1111" top="162" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v19" taborder="181" left="1098" top="327" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v19" taborder="182" text="  △" left="1111" top="332" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v20" taborder="188" left="1098" top="361" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v20" taborder="189" text="  △" left="1111" top="366" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v21" taborder="195" left="1098" top="395" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v21" taborder="196" text="  △" left="1111" top="400" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_v22" taborder="202" left="1098" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v22" taborder="203" text="  △" left="1111" top="434" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Spin id="spn_tem1" taborder="133" left="526" top="671" width="20" height="27" type="spinonly" max="999" min="-99" value="" onspin="spn_onspin" increment="1" enable="false"/>
+                          <Static id="sta_body22" taborder="157" text="소독기&#13;&#10;온도" left="702" top="191" width="81" height="103" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body23" taborder="158" text="아침  :                  ℃" left="782" top="191" width="248" height="35" cssclass="sta_WF_DetailLabel02" onclick="div_cont_div_right_div_main_sta_body13_02_00_onclick"/>
+                          <Static id="sta_body24" taborder="159" text="점심  :                  ℃" left="782" top="225" width="248" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body25" taborder="160" text="저녁  :                  ℃" left="782" top="259" width="248" height="35" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_tem4" taborder="165" left="1029" top="225" width="208" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Spin id="spn_tem2" taborder="136" left="526" top="705" width="20" height="27" type="spinonly" onspin="spn_onspin" enable="false" max="999" min="-99" value=""/>
+                          <Combo id="cmb_26" taborder="177" left="1136" top="297" width="90" height="27" innerdataset="ds_disinfect" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_cont_div_right_div_main_cmb_26_onitemchanged" enable="false"/>
+                          <Static id="sta_o10" taborder="78" left="416" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o10" taborder="79" text="   O" left="428" top="434" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_o09" taborder="72" text="   O" left="428" top="400" width="45" height="25" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_x10" taborder="82" left="554" top="429" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_x10" taborder="83" text="   X" left="567" top="434" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <MaskEdit id="mae_tem4" taborder="166" left="1039" top="229" width="100" height="27" type="number" textAlign="right" onchanged="mae_tem_onchanged" value="55" padding="0px 25px 2px 0px" format="0.0" onkeydown="mae_tem_onkeydown"/>
+                          <Spin id="spn_tem4" taborder="168" left="1139" top="229" width="20" height="27" increment="1" min="0" buttonposition="right" type="spinonly" onspin="spn_onspin" max="999" value="" enable="false"/>
+                          <Spin id="spn_tem3" taborder="164" left="1139" top="195" width="20" height="27" increment="1" min="0" buttonposition="right" type="spinonly" onspin="spn_onspin" max="999" value="" enable="false"/>
+                          <MaskEdit id="mae_tem3" taborder="162" left="1039" top="195" width="100" height="27" type="number" textAlign="right" onchanged="mae_tem_onchanged" value="55" format="0.0" padding="0px 25px 2px 0px" onkeydown="mae_tem_onkeydown"/>
+                          <Spin id="spn_tem5" taborder="172" left="1139" top="263" width="20" height="27" increment="1" min="0" buttonposition="right" type="spinonly" onspin="spn_onspin" max="999" value="" enable="false"/>
+                          <MaskEdit id="mae_tem5" taborder="170" left="1039" top="263" width="100" height="27" format="0.0" type="number" textAlign="right" onchanged="mae_tem_onchanged" value="55" padding="0px 25px 2px 0px" onkeydown="mae_tem_onkeydown"/>
+                          <Static id="sta_00" taborder="163" text="℃" left="1118" top="195" width="19" height="27"/>
+                          <Static id="sta_00_00" taborder="167" text="℃" left="1118" top="230" width="19" height="27"/>
+                          <Static id="sta_00_00_00" taborder="171" text="℃" left="1118" top="263" width="19" height="27"/>
+                          <MaskEdit id="mae_tem1" taborder="132" left="426" top="671" width="100" height="27" format="0.0" type="number" textAlign="right" onchanged="mae_tem_onchanged" padding="0px 25px 2px 0px" onkeydown="mae_tem_onkeydown"/>
+                          <Static id="sta_00_00_00_00" taborder="137" text="℃" left="506" top="671" width="19" height="27"/>
+                          <MaskEdit id="mae_tem2" taborder="135" left="426" top="705" width="100" height="27" format="0.0" type="number" textAlign="right" onchanged="mae_tem_onchanged" padding="0px 25px 2px 0px" onkeydown="mae_tem_onkeydown"/>
+                          <Static id="sta_00_00_00_00_00" taborder="138" text="℃" left="507" top="705" width="19" height="27"/>
+                          <Edit id="edt_00" taborder="208" left="710" top="467" width="520" height="27" maxlength="40"/>
+                          <Edit id="edt_26" taborder="176" left="1039" top="297" width="90" height="27" maxlength="10" enable="false"/>
+                          <Static id="sta_x9" taborder="75" left="554" top="395" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_v09" taborder="74" text="  △" left="499" top="400" width="45" height="25" cssclass="chk_v" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x09" taborder="76" text="   X" left="567" top="400" width="45" height="25" cssclass="chk_x" truevalue="3" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num8" taborder="209" text="조치사항" left="633" top="463" width="70" height="35" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_yyyymm" taborder="0" left="41" top="7" width="90" height="26" readonly="true" cssclass="essential" dateformat="yyyy-MM" editformat="yyyy-MM" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_from" taborder="1" left="174" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="267" top="12" width="8" height="17" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="280" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+              <Button id="btn_search" taborder="4" text="조회" top="7" height="26" onclick="fn_searchBtn" cssclass="btn_search" width="70" right="0"/>
+              <Calendar id="cal_yyyymm_pic" taborder="5" left="cal_yyyymm:-1" top="7" width="26" height="26" onchanged="div_search_cal_yyyymm_pic_onchanged" initvalueid="iv_cal_yyyyMM"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="470" top="0" height="40" formscrollbartype="none" width="1260" text="">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란" left="0" top="7" width="55" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_delete" taborder="2" text="삭제" top="7" width="70" height="26" onclick="fn_deleteBtn" right="0" cssclass="btn_delete"/>
+              <Button id="btn_save" taborder="1" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" right="btn_delete:5" cssclass="btn_save"/>
+              <Static id="sta_report_body" taborder="3" left="76" top="2" width="310" height="40" cssclass="sta_SearchTxt"/>
+              <Static id="sta_report_body00" taborder="7" left="64" top="5" width="265" height="30" cssclass="sta_WF_DetailLabel02" text=""/>
+              <CheckBox id="chk_repo1" taborder="4" text="일지서식" left="69" top="7" width="67" height="26" truevalue="1" falsevalue="0" canchange="chk_repo_canchange"/>
+              <CheckBox id="chk_repo2" taborder="5" text="점검일지(7일)" left="146" top="7" width="105" height="26" truevalue="1" falsevalue="0" canchange="chk_repo_canchange"/>
+              <Button id="btn_report1" taborder="6" text="출력" left="253" top="7" width="70" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_emp">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="c_staffid" type="STRING" size="256"/>
+          <Column id="c_group" type="STRING" size="256"/>
+          <Column id="c_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="c_become" type="STRING" size="256"/>
+          <Column id="c_dutyname" type="STRING" size="256"/>
+          <Column id="담당직종" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="startDate" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="KH_sicode" type="STRING" size="256"/>
+          <Column id="위생번호" type="INT" size="256"/>
+          <Column id="작성" type="STRING" size="256"/>
+          <Column id="점검일" type="DATE" size="256"/>
+          <Column id="점검요일" type="STRING" size="256"/>
+          <Column id="위생담당" type="STRING" size="256"/>
+          <Column id="위생코드" type="STRING" size="256"/>
+          <Column id="위생평가" type="STRING" size="256"/>
+          <Column id="항목01" type="STRING" size="256"/>
+          <Column id="항목02" type="STRING" size="256"/>
+          <Column id="항목03" type="STRING" size="256"/>
+          <Column id="항목04" type="STRING" size="256"/>
+          <Column id="항목05" type="STRING" size="256"/>
+          <Column id="항목06" type="STRING" size="256"/>
+          <Column id="항목07" type="STRING" size="256"/>
+          <Column id="항목08" type="STRING" size="256"/>
+          <Column id="항목09" type="STRING" size="256"/>
+          <Column id="항목10" type="STRING" size="256"/>
+          <Column id="항목11" type="STRING" size="256"/>
+          <Column id="항목12" type="STRING" size="256"/>
+          <Column id="항목13" type="BIGDECIMAL" size="256"/>
+          <Column id="항목14" type="BIGDECIMAL" size="256"/>
+          <Column id="항목15" type="BIGDECIMAL" size="256"/>
+          <Column id="항목16" type="STRING" size="256"/>
+          <Column id="항목17" type="STRING" size="256"/>
+          <Column id="항목18" type="STRING" size="256"/>
+          <Column id="항목19" type="STRING" size="256"/>
+          <Column id="항목20" type="STRING" size="256"/>
+          <Column id="항목21" type="STRING" size="256"/>
+          <Column id="항목22" type="STRING" size="256"/>
+          <Column id="소독온도조" type="STRING" size="256"/>
+          <Column id="소독온도중" type="STRING" size="256"/>
+          <Column id="소독온도석" type="STRING" size="256"/>
+          <Column id="냉동온도" type="STRING" size="256"/>
+          <Column id="냉장온도" type="STRING" size="256"/>
+          <Column id="냉동고" type="STRING" size="256"/>
+          <Column id="냉장고" type="STRING" size="256"/>
+          <Column id="소독기아" type="STRING" size="256"/>
+          <Column id="소독기점" type="STRING" size="256"/>
+          <Column id="소독기저" type="STRING" size="256"/>
+          <Column id="소독방법" type="STRING" size="256"/>
+          <Column id="org_위생번호" type="STRING" size="256"/>
+          <Column id="CHK" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="startDate" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="KH_sicode" type="STRING" size="256"/>
+          <Column id="위생번호" type="INT" size="256"/>
+          <Column id="작성" type="STRING" size="256"/>
+          <Column id="점검일" type="DATE" size="256"/>
+          <Column id="점검요일" type="STRING" size="256"/>
+          <Column id="위생담당" type="STRING" size="256"/>
+          <Column id="위생코드" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+          <Column id="위생평가" type="STRING" size="256"/>
+          <Column id="항목01" type="STRING" size="256"/>
+          <Column id="항목02" type="STRING" size="256"/>
+          <Column id="항목03" type="STRING" size="256"/>
+          <Column id="항목04" type="STRING" size="256"/>
+          <Column id="항목05" type="STRING" size="256"/>
+          <Column id="항목06" type="STRING" size="256"/>
+          <Column id="항목07" type="STRING" size="256"/>
+          <Column id="항목08" type="STRING" size="256"/>
+          <Column id="항목09" type="STRING" size="256"/>
+          <Column id="항목10" type="STRING" size="256"/>
+          <Column id="항목11" type="STRING" size="256"/>
+          <Column id="항목12" type="STRING" size="256"/>
+          <Column id="항목13" type="STRING" size="256"/>
+          <Column id="항목14" type="STRING" size="256"/>
+          <Column id="항목15" type="STRING" size="256"/>
+          <Column id="항목16" type="STRING" size="256"/>
+          <Column id="항목17" type="STRING" size="256"/>
+          <Column id="항목18" type="STRING" size="256"/>
+          <Column id="항목19" type="STRING" size="256"/>
+          <Column id="항목20" type="STRING" size="256"/>
+          <Column id="항목21" type="STRING" size="256"/>
+          <Column id="항목22" type="STRING" size="256"/>
+          <Column id="소독온도조" type="STRING" size="256"/>
+          <Column id="소독온도중" type="STRING" size="256"/>
+          <Column id="소독온도석" type="STRING" size="256"/>
+          <Column id="냉동온도" type="STRING" size="256"/>
+          <Column id="냉장온도" type="STRING" size="256"/>
+          <Column id="냉동고" type="STRING" size="256"/>
+          <Column id="냉장고" type="STRING" size="256"/>
+          <Column id="소독기아" type="STRING" size="256"/>
+          <Column id="소독기점" type="STRING" size="256"/>
+          <Column id="소독기저" type="STRING" size="256"/>
+          <Column id="소독방법" type="STRING" size="256"/>
+          <Column id="org_위생번호" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_disinfect">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">살균</Col>
+            <Col id="CMNM">1-살균</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">세척제</Col>
+            <Col id="CMNM">2-세척제</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">열탕</Col>
+            <Col id="CMNM">3-열탕</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="위생번호"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.cal_date" propid="value" datasetid="ds_data" columnid="점검일"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.chk_o01" propid="value" datasetid="ds_data" columnid="항목01"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.chk_x01" propid="value" datasetid="ds_data" columnid="항목01"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.chk_o02" propid="value" datasetid="ds_data" columnid="항목02"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.chk_x02" propid="value" datasetid="ds_data" columnid="항목02"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.chk_o3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.chk_x3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.chk_o4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.chk_x4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.chk_o5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.chk_x5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.chk_o6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.chk_x6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.chk_o7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.chk_x7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.chk_o8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.chk_x8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.chk_o11" propid="value" datasetid="ds_data" columnid="항목11"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.chk_x11" propid="value" datasetid="ds_data" columnid="항목11"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.chk_o12" propid="value" datasetid="ds_data" columnid="항목12"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.chk_x12" propid="value" datasetid="ds_data" columnid="항목12"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.chk_o13" propid="value" datasetid="ds_data" columnid="항목13"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.chk_x13" propid="value" datasetid="ds_data" columnid="항목13"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.chk_o14" propid="value" datasetid="ds_data" columnid="항목14"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.chk_x14" propid="value" datasetid="ds_data" columnid="항목14"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.chk_o15" propid="value" datasetid="ds_data" columnid="항목15"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_main.form.chk_x15" propid="value" datasetid="ds_data" columnid="항목15"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_main.form.chk_o16" propid="value" datasetid="ds_data" columnid="항목16"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.chk_x16" propid="value" datasetid="ds_data" columnid="항목16"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_main.form.chk_v01" propid="value" datasetid="ds_data" columnid="항목01"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_main.form.chk_v02" propid="value" datasetid="ds_data" columnid="항목02"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.chk_v3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.chk_v4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.chk_v5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_main.form.chk_v6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.chk_v7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.chk_v8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.chk_v9" propid="value" datasetid="ds_data" columnid="항목09"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_main.form.chk_v10" propid="value" datasetid="ds_data" columnid="항목10"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_main.form.chk_v11" propid="value" datasetid="ds_data" columnid="항목11"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_main.form.chk_v12" propid="value" datasetid="ds_data" columnid="항목12"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_main.form.chk_v13" propid="value" datasetid="ds_data" columnid="항목13"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_main.form.chk_v14" propid="value" datasetid="ds_data" columnid="항목14"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_main.form.chk_v15" propid="value" datasetid="ds_data" columnid="항목15"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_main.form.chk_v16" propid="value" datasetid="ds_data" columnid="항목16"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.div_main.form.chk_o17" propid="value" datasetid="ds_data" columnid="항목17"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.div_main.form.chk_x17" propid="value" datasetid="ds_data" columnid="항목17"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_main.form.chk_o18" propid="value" datasetid="ds_data" columnid="항목18"/>
+      <BindItem id="item53" compid="div_cont.form.div_right.form.div_main.form.chk_x18" propid="value" datasetid="ds_data" columnid="항목18"/>
+      <BindItem id="item54" compid="div_cont.form.div_right.form.div_main.form.chk_o19" propid="value" datasetid="ds_data" columnid="항목19"/>
+      <BindItem id="item55" compid="div_cont.form.div_right.form.div_main.form.chk_x19" propid="value" datasetid="ds_data" columnid="항목19"/>
+      <BindItem id="item56" compid="div_cont.form.div_right.form.div_main.form.chk_o20" propid="value" datasetid="ds_data" columnid="항목20"/>
+      <BindItem id="item57" compid="div_cont.form.div_right.form.div_main.form.chk_x20" propid="value" datasetid="ds_data" columnid="항목20"/>
+      <BindItem id="item58" compid="div_cont.form.div_right.form.div_main.form.chk_o21" propid="value" datasetid="ds_data" columnid="항목21"/>
+      <BindItem id="item59" compid="div_cont.form.div_right.form.div_main.form.chk_x21" propid="value" datasetid="ds_data" columnid="항목21"/>
+      <BindItem id="item60" compid="div_cont.form.div_right.form.div_main.form.chk_o22" propid="value" datasetid="ds_data" columnid="항목22"/>
+      <BindItem id="item61" compid="div_cont.form.div_right.form.div_main.form.chk_x22" propid="value" datasetid="ds_data" columnid="항목22"/>
+      <BindItem id="item62" compid="div_cont.form.div_right.form.div_main.form.chk_v17" propid="value" datasetid="ds_data" columnid="항목17"/>
+      <BindItem id="item63" compid="div_cont.form.div_right.form.div_main.form.chk_v18" propid="value" datasetid="ds_data" columnid="항목18"/>
+      <BindItem id="item64" compid="div_cont.form.div_right.form.div_main.form.chk_v19" propid="value" datasetid="ds_data" columnid="항목19"/>
+      <BindItem id="item65" compid="div_cont.form.div_right.form.div_main.form.chk_v20" propid="value" datasetid="ds_data" columnid="항목20"/>
+      <BindItem id="item66" compid="div_cont.form.div_right.form.div_main.form.chk_v21" propid="value" datasetid="ds_data" columnid="항목21"/>
+      <BindItem id="item67" compid="div_cont.form.div_right.form.div_main.form.chk_v22" propid="value" datasetid="ds_data" columnid="항목22"/>
+      <BindItem id="item70" compid="div_cont.form.div_right.form.div_main.form.chk_o10" propid="value" datasetid="ds_data" columnid="항목10"/>
+      <BindItem id="item71" compid="div_cont.form.div_right.form.div_main.form.chk_o09" propid="value" datasetid="ds_data" columnid="항목09"/>
+      <BindItem id="item73" compid="div_cont.form.div_right.form.div_main.form.chk_x10" propid="value" datasetid="ds_data" columnid="항목10"/>
+      <BindItem id="item74" compid="div_cont.form.div_right.form.div_main.form.chk_o03" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item75" compid="div_cont.form.div_right.form.div_main.form.chk_v03" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item76" compid="div_cont.form.div_right.form.div_main.form.chk_x03" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item77" compid="div_cont.form.div_right.form.div_main.form.chk_o04" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item78" compid="div_cont.form.div_right.form.div_main.form.chk_v04" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item79" compid="div_cont.form.div_right.form.div_main.form.chk_x04" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item80" compid="div_cont.form.div_right.form.div_main.form.chk_o05" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item81" compid="div_cont.form.div_right.form.div_main.form.chk_v05" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item82" compid="div_cont.form.div_right.form.div_main.form.chk_x05" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item83" compid="div_cont.form.div_right.form.div_main.form.chk_o06" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item84" compid="div_cont.form.div_right.form.div_main.form.chk_v06" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item85" compid="div_cont.form.div_right.form.div_main.form.chk_x06" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item86" compid="div_cont.form.div_right.form.div_main.form.chk_o07" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item87" compid="div_cont.form.div_right.form.div_main.form.chk_v07" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item88" compid="div_cont.form.div_right.form.div_main.form.chk_x07" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item89" compid="div_cont.form.div_right.form.div_main.form.chk_o08" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item90" compid="div_cont.form.div_right.form.div_main.form.chk_v08" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item91" compid="div_cont.form.div_right.form.div_main.form.chk_x08" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item93" compid="div_cont.form.div_right.form.div_main.form.mae_tem4" propid="value" datasetid="ds_data" columnid="소독기점"/>
+      <BindItem id="item94" compid="div_cont.form.div_right.form.div_main.form.mae_tem3" propid="value" datasetid="ds_data" columnid="소독기아"/>
+      <BindItem id="item95" compid="div_cont.form.div_right.form.div_main.form.mae_tem5" propid="value" datasetid="ds_data" columnid="소독기저"/>
+      <BindItem id="item96" compid="div_cont.form.div_right.form.div_main.form.mae_tem1" propid="value" datasetid="ds_data" columnid="냉동고"/>
+      <BindItem id="item97" compid="div_cont.form.div_right.form.div_main.form.mae_tem2" propid="value" datasetid="ds_data" columnid="냉장고"/>
+      <BindItem id="item0" compid="div_search.form.cal_yyyymm" propid="value" datasetid="ds_search" columnid="YYYYMM"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item68" compid="div_cont.form.div_right.form.div_main.form.edt_00" propid="value" datasetid="ds_data" columnid="위생평가"/>
+      <BindItem id="item98" compid="div_cont.form.div_right.form.div_main.form.edt_26" propid="value" datasetid="ds_data" columnid="소독방법"/>
+      <BindItem id="item69" compid="div_cont.form.div_right.form.div_main.form.chk_v09" propid="value" datasetid="ds_data" columnid="항목09"/>
+      <BindItem id="item72" compid="div_cont.form.div_right.form.div_main.form.chk_x09" propid="value" datasetid="ds_data" columnid="항목09"/>
+      <BindItem id="item92" compid="div_search.form.cal_yyyymm_pic" propid="value" datasetid="ds_search" columnid="YYYYMM"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00703
+ * 화면명   	: 7-3 위생점검일지
+ * 화면설명 	: 위생점검일지를 작성하는 화면
+ * 작성일   	: 2022-03-07
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-04-04		조기종		단위테스트 오류 수정
+ *	2022-06-27		조기종		리포트 출력 pdf출력으로 수정
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재월의 1일, 마지막일 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	var firstDay = new Date(year, month, 1);
+	var lastDay = new Date(year, month + 1, 0);
+	
+	var yymm = date.getFullYear() + ((date.getMonth() + 1) + "").padLeft(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	//this.ds_search.setColumn(0, "YYYYMM", yymm);
+	this.div_search.form.cal_yyyymm.set_value(yymm);
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	// 냉장고, 소독기 온도 세팅
+	this.fn_tempset(nexacro.getApplication().gds_userInfo,0);
+
+	this.div_func.form.chk_sign.set_value(1); // 결재란 체크
+	this.div_func.form.chk_repo1.set_value(1); // 일지서식 체크
+	
+	// 오픈시 조회
+	this.fn_search("search");
+	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+// 	if (this.ds_data.rowcount > 0)
+// 		this.reSearchData = this.ds_data.getColumn(0, "점검일");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 저장 내용 체크
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.ds_data))
+	{
+		this.alert("저장할 내용이 없습니다.");
+		return false;
+	}
+	
+	// 주방 세척소독방법 null 체크
+	if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"소독방법"))){
+		this.alert("주방 세척소독 방법을 기술하세요");
+		return false;
+	}
+	
+	// 작성자가 지정되지 않은 경우
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "위생코드")))
+	{
+		this.alert("점검직원을 지정해야합니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+		
+// 	let str2String = "";
+// 	for (let i = 0; i < 13; i++)
+// 	{
+// 		str2String += this.ds_data.getColumn(0, "조치" + (i + 1)) + "\r\n";
+// 	}
+// 	this.ds_data.setColumn(0, "조치사항", str2String);
+	
+	this.reSearchData = this.ds_data.getColumn(0, "점검일");
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 데이터셋 상태가 추가상태이면 데이터셋 비우기
+	if(this.ds_data.getRowType(0) == 2)
+	{
+		this.ds_data.clearData();
+		return false;
+	}
+
+	if (!this.confirm("삭제 하시겠습니까?"))
+		return false;
+	
+	this.reSearchData = "";
+		
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_data.set_updatecontrol(true);
+		
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	var datefrom = this.ds_search.getColumn(0,"DATE_FROM");
+	var dateto = this.ds_search.getColumn(0,"DATE_TO");
+	var dfrom = new Date(+datefrom + 3240 * 10000).toISOString().split("T")[0];
+	var dto = new Date(+dateto + 3240 * 10000).toISOString().split("T")[0];
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	//const inDatasets = "input1=ds_search";
+	const inDatasets = "";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00703.DAY00703_DS_LIST_S "
+				   + "SICODE="+this.ds_search.getColumn(0,"SICODE")				   
+				   + " DATE_FROM="+dfrom
+ 				   + " DATE_TO="+dto;
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+				   + "sqlId=DAY00703.DAY00703_DS_DATA_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_data.clearData();
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+		else if (strSvcID == "delete")
+		{
+			this.alert("삭제되었습니다.");
+			//this.ds_data.clearData();
+			this.fn_search("search");
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	this.div_cont.form.div_right.form.div_main.form.edt_26.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.cmb_26.set_enable(true);
+		
+	const managerStr = this.ds_data.getColumn(nRow, "위생담당")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "위생코드");
+					 
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	this.fn_tempset(this.ds_list, row);
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	const sFindRow = this.ds_list.findRow("점검일", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+
+this.fn_tempset = function (ds, row)
+{
+	var temp1 = ds.getColumn(row,"냉동온도");
+	var temp2 = ds.getColumn(row,"냉장온도");
+	var temp3 = ds.getColumn(row,"소독온도조");
+	var temp4 = ds.getColumn(row,"소독온도중");
+	var temp5 = ds.getColumn(row,"소독온도석");
+	this.div_cont.form.div_right.form.div_main.form.sta_body18.set_text("냉동  :         "+temp1+"    ℃");
+	this.div_cont.form.div_right.form.div_main.form.sta_body19.set_text("냉장  :            "+temp2+"    ℃");
+	this.div_cont.form.div_right.form.div_main.form.sta_body23.set_text("아침  :         "+temp3+"    ℃");
+	this.div_cont.form.div_right.form.div_main.form.sta_body24.set_text("점심  :         "+temp4+"    ℃");
+	this.div_cont.form.div_right.form.div_main.form.sta_body25.set_text("저녁  :         "+temp5+"    ℃");
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 팝업
+this.fn_report = function()
+{
+	var repo1 = this.div_func.form.chk_repo1.value;
+	var repo2 = this.div_func.form.chk_repo2.value;
+	
+	var popupUrl = "";
+	var popupName = "";
+	var chk = 0; // 체크된 갯수 확인
+	var arrDate = []; // 선택된 점검일 (파라미터)
+	var minmaxDate = []; // 시작, 마지막날짜 구하는 배열
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+ 	if(repo1 == 1){
+		jrfFile = "DAY00703_R01.jrf";
+		
+ 	}else if(repo2 == 1){ // 점검일지(7일) 선택
+		jrfFile = "DAY00703_R02.jrf";
+		
+		// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+		for(var i=0; i < this.ds_list.rowcount; i++){
+			chk += parseInt(this.ds_list.getColumn(i,"CHK")); // 체크된거 + 1 더한다.
+			
+			if(this.ds_list.getColumn(i,"CHK") == 1){ // 체크된 점검일 배열에 담기
+				var sdate = this.ds_list.getColumn(i,"점검일").toString(); // 날짜를 string으로 변환
+				arrDate.push(sdate); // arrDate 배열에 담기
+				// minmaxDate에 2022-03-11 형식으로 담기
+				minmaxDate.push(new Date(sdate.substr(0,4) + "-" + sdate.substr(4,2) + "-" + sdate.substr(6,2)));
+			}
+		}
+		
+		// 체크된게 없으면 메시지 출력
+		if(chk < 1){
+			this.alert("출력할 항목을 선택해주세요");
+			return false;
+		}
+	}else{
+		this.alert("출력할 레포트를 선택해주세요.")
+		return false;
+	}
+
+	// 날짜비교
+ 	var maxDate = new Date(Math.max.apply(null, minmaxDate)); // 선택한 날짜 중 시작날짜
+ 	var minDate = new Date(Math.min.apply(null, minmaxDate)); // 선택한 날짜 중 마지막날짜
+	// 2022-03-11 포맷으로 다시 변환,
+	// 월,일은 00+숫자 뒤에서 2자리 자르기
+	maxDate = maxDate.getFullYear()+"-"+(("00"+(maxDate.getMonth()+1)).slice(-2))+"-"+(("00"+maxDate.getDate()).slice(-2));
+	minDate = minDate.getFullYear()+"-"+(("00"+(minDate.getMonth()+1)).slice(-2))+"-"+(("00"+minDate.getDate()).slice(-2));
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + arrDate + "#"
+			  + "P_MINDATE#" + minDate + "#"
+			  + "P_MAXDATE#" + maxDate + "#"
+			  + "P_SIGN#" + this.div_func.form.chk_sign.value + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 점검자 선택 팝업
+this.div_cont_div_right_div_main_btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "점검일")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1"){
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const dutyname = objDs.getColumn(0, "담당직종");
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "위생담당", name);
+				this.ds_data.setColumn(0, "위생코드", staffid);
+				this.ds_data.setColumn(0, "VIEW_MANAGER", name + "/" + staffid);
+			}else{
+				this.ds_data.setColumn(0, "위생담당", "");
+				this.ds_data.setColumn(0, "위생코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 리포트 버튼
+this.fn_reportBtn = function()
+{
+	this.fn_report();
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 주방 세척소독 방법 edit, combo, 온도 스핀 활성화
+	this.div_cont.form.div_right.form.div_main.form.edt_26.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.cmb_26.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.spn_tem1.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.spn_tem2.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.spn_tem3.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.spn_tem4.set_enable(true);
+	this.div_cont.form.div_right.form.div_main.form.spn_tem5.set_enable(true);
+	
+	const dateIdx = obj.getBindCellIndex("body", "점검일") + 1;
+	// 점검일 선택
+	if (e.col == dateIdx)
+	{
+		if(this.ds_list.getColumn(e.row, "작성") == "O"){ // 작성 O이면 데이터셋 복사
+			// 입력, 수정용 데이터셋에 데이터 복사
+			this.fn_dataCopy(e.row);
+		}else{ // 작성 빈값이면 새로작성
+			this.ds_data.clearData();
+			const nRow = this.ds_data.addRow();
+			this.ds_data.setColumn(nRow, "sicode", this.ds_list.getColumn(e.row, "sicode"));
+			this.ds_data.setColumn(nRow, "점검일", this.ds_list.getColumn(e.row, "점검일"));
+			this.ds_data.setColumn(nRow, "위생담당", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+			this.ds_data.setColumn(nRow, "위생코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+			const managerStr = this.ds_data.getColumn(nRow, "위생담당")
+							+ "/"
+							+ this.ds_data.getColumn(nRow, "위생코드");
+			this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+			
+			//점검사항
+			for(var i=1; i<23; i++){
+				if(i<10){
+					this.ds_data.setColumn(nRow, "항목0" + i, 1);
+				}else{
+					this.ds_data.setColumn(nRow, "항목" + i, 1);
+				}
+			}
+			
+			// 
+			var temp1 = nexacro.getApplication().gds_userInfo.getColumn(0,"냉동온도");
+			var temp2 = nexacro.getApplication().gds_userInfo.getColumn(0,"냉장온도");
+			var temp3 = nexacro.getApplication().gds_userInfo.getColumn(0,"소독온도조");
+			var temp4 = nexacro.getApplication().gds_userInfo.getColumn(0,"소독온도중");
+			var temp5 = nexacro.getApplication().gds_userInfo.getColumn(0,"소독온도석");
+			this.div_cont.form.div_right.form.div_main.form.sta_body18.set_text("냉동  :         "+temp1+"    ℃");
+			this.div_cont.form.div_right.form.div_main.form.sta_body19.set_text("냉장  :            "+temp2+"    ℃");
+			this.div_cont.form.div_right.form.div_main.form.sta_body23.set_text("아침  :         "+temp3+"    ℃");
+			this.div_cont.form.div_right.form.div_main.form.sta_body24.set_text("점심  :         "+temp4+"    ℃");
+			this.div_cont.form.div_right.form.div_main.form.sta_body25.set_text("저녁  :         "+temp5+"    ℃");
+
+			// 온도 DB 세팅
+			this.ds_data.setColumn(nRow,"냉동온도", temp1);
+			this.ds_data.setColumn(nRow,"냉장온도", temp2);
+			this.ds_data.setColumn(nRow,"소독온도조", temp3);
+			this.ds_data.setColumn(nRow,"소독온도중", temp4);
+			this.ds_data.setColumn(nRow,"소독온도석", temp5);
+			
+			// 온도 입력폼 세팅
+			this.ds_data.setColumn(nRow,"냉동고", temp1);
+			this.ds_data.setColumn(nRow,"냉장고", temp2);
+			this.ds_data.setColumn(nRow,"소독기아", temp3);
+			this.ds_data.setColumn(nRow,"소독기점", temp4);
+			this.ds_data.setColumn(nRow,"소독기저", temp5);
+			this.ds_data.setColumn(nRow,"소독방법", "");
+			this.ds_data.setColumn(nRow,"위생평가","살균(열탕소독), 바닥청소(표백제, 락스)");
+		}
+		
+	}
+	
+};
+
+// O,△,X 체크박스 값 변경 이벤트
+this.mainChk_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	const num = obj.id.substr(5);
+	
+	//const cRow = parseInt(num) - 1;
+	//const offset = 0;
+	
+	const value = e.postvalue;
+	
+	switch (obj.id)
+	{
+		case "chk_o" + num:
+			if(value == 1)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["chk_v" + num].set_value(0);
+				this.div_cont.form.div_right.form.div_main.form.components["chk_x" + num].set_value(0);
+				this.ds_data.setColumn(0,"항목"+num, 1);
+			}
+			break;
+		case "chk_v" + num:
+			if(value == 2)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["chk_o" + num].set_value(0);
+				this.div_cont.form.div_right.form.div_main.form.components["chk_x" + num].set_value(0);
+				this.ds_data.setColumn(0,"항목"+num, 2);
+			}
+			break;
+		case "chk_x" + num:
+			if(value == 3)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["chk_o" + num].set_value(0);
+				this.div_cont.form.div_right.form.div_main.form.components["chk_v" + num].set_value(0);
+				this.ds_data.setColumn(0,"항목"+num, 3);
+			}
+			break;
+	}
+};
+
+// 소독방법 변경 이벤트
+this.div_cont_div_right_div_main_cmb_26_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	const disinfect = e.posttext.substr(2); // 콤보박스 텍스트 앞 2자리 자르기
+	
+	this.div_cont.form.div_right.form.div_main.form.edt_26.set_value(disinfect); 
+	
+	this.div_cont.form.div_right.form.div_main.form.cmb_26.set_value(""); // 콤보 선택 후 빈값으로 변경
+};
+
+// 캘린더 변경 이벤트
+this.div_search_cal_yyyymm_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	var year = this.ds_search.getColumn(0,"YYYYMM").substr(0,4);
+	var month = this.ds_search.getColumn(0,"YYYYMM").substr(4);
+	var firstDay = new Date(year, month-1 , 1);
+	var lastDay = new Date(year, month, 0);
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	this.ds_data.clearData();
+	// 조회
+	this.fn_search("search");
+};
+
+// 온도 스핀이벤트
+this.spn_onspin = function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	//기본값 또는 DB값
+	const prevalue = this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].value;
+
+	let pm = 0;
+	if(e.up == true){ // 증가
+		pm = 1;
+	}else{ // 감소
+		pm = -1;
+	}
+	
+	const value = parseFloat(prevalue) + pm;
+	this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].set_value(value);
+};
+
+// 온도 maskedit 변경 이벤트
+this.mae_tem_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	
+	if(idStr == "tem1" || idStr == "tem2" ){ // 1:냉동고, 2:냉장고
+		if(e.postvalue > 999 || e.postvalue < -99){ // 입력값이 999이상 또는 -99이하이면 0으로 세팅
+			this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].set_value(0);
+		}
+	}else if(idStr == "tem3" || idStr == "tem4" || idStr == "tem5"){ // 3,4,5 소독기 아,점,저
+		if(e.postvalue > 999 || e.postvalue < 0){ // 입력값이 999이상 또는 0이하이면 0으로 세팅
+			this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].set_value(0);
+		}
+	}
+};
+
+
+// 방향키 위,아래 누를때
+this.mae_tem_onkeydown = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	const prevalue = this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].value;
+	
+	let pm = 0;
+	// 위 38, 아래 40
+	if(e.keycode == 38){
+		pm = 1;
+	}else if(e.keycode == 40){
+		pm = -1;
+	}
+	
+	const value = parseFloat(prevalue) + pm;
+
+	if(idStr == "tem1" || idStr == "tem2" ){ // 1:냉동고, 2:냉장고
+		if(value > 999 || value < -99){ // 입력값이 999이상 또는 -99이하 입력안되게 설정	
+			return false;
+		}
+	}else if(idStr == "tem3" || idStr == "tem4" || idStr == "tem5"){ // 3,4,5 소독기 아,점,저
+		if(value > 999 || value < 0){ // 입력값이 999이상 또는 0이하입력안되게 설정
+			return false;
+		}
+	}
+	
+	// 값 세팅
+	this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].set_value(value);
+	
+};
+
+// 출력 체크박스 이벤트 
+this.chk_repo_canchange = function(obj:nexacro.CheckBox,e:nexacro.ChangeEventInfo)
+{
+// 	var repo1 = this.div_func.form.chk_repo1.value;
+// 	var repo2 = this.div_func.form.chk_repo2.value;
+	if(e.postvalue == 1){ // 
+		switch (obj.id)
+		{
+			case "chk_repo1":
+				this.div_func.form.chk_repo2.set_value(0);
+				break;
+			case "chk_repo2":
+				this.div_func.form.chk_repo1.set_value(0);
+				break;
+		}
+	}
+	
+};
+]]></Script>
+  </Form>
+</FDL>

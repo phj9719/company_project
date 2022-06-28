@@ -1,0 +1,850 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB304CT" width="1180" height="700" titletext="식사" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclick="formClick" onload="NUB304CT_onload">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Div id="div_search" taborder="0" left="2.12%" top="14" height="40" right="3.39%" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date" taborder="0" left="0" top="0" width="160" height="40" locale="ko_KR" displaynulltext="일자" readonly="true"/>
+              <Combo id="cmb_area" taborder="1" text="" left="170" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" displaynulltext="층(생활실)" readonly="false" onitemchanged="cmb_area_onitemchanged2"/>
+              <Combo id="cmb_location" taborder="2" text="Combo00" left="300" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="호실" readonly="false" onitemchanged="cmb_location_onitemchanged2"/>
+              <Button id="btn_tSearch" taborder="3" text="검색" left="560" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+              <Button id="btn_tDelete" taborder="4" text="삭제" top="0" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" width="90" right="0"/>
+              <Button id="btn_tSave" taborder="5" text="저장" top="0" width="90" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="100"/>
+              <Combo id="cmb_resident" taborder="6" text="Combo00" left="430" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명" oneditclick="div_search_cmb_resident_oneditclick" buttonsize="0 0" popupsize="0 0"/>
+              <Button id="btn_tReset" taborder="7" text="초기화" top="0" width="100" height="40" cssclass="btn_tReset" right="200" onclick="fn_resetBtn"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="2.12%" top="65" bottom="4.29%" right="3.39%" text="" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_fundDisB" taborder="1" left="0" top="0" width="891" height="45" cssclass="sta_tDataBForm2" onclick="formClick"/>
+              <Static id="sta_fundDisH" taborder="0" text="기능장애" left="0" top="0" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <CheckBox id="chk_fundVal1" taborder="2" text="저작곤란" left="167" top="8" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_fundVal2" taborder="3" text="연하곤란" left="277" top="8" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_fundVal3" taborder="4" text="소화곤란" left="387" top="8" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_fundVal4" taborder="5" text="당뇨" left="497" top="8" width="70" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_fundVal5" taborder="6" text="위관영양" left="567" top="8" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_fundVal6" taborder="7" text="기타장애" left="677" top="8" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <Static id="sta_dietaryCureB" taborder="9" left="0" top="46" width="891" height="45" cssclass="sta_tDataBForm2" onclick="formClick"/>
+              <Static id="sta_dietaryCureH" taborder="8" text="치료식이" left="0" top="46" width="147" height="45" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <CheckBox id="chk_dietaryVal1" taborder="10" text="체중조절식" left="167" top="53" width="130" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dietaryVal2" taborder="11" text="당뇨식" left="302" top="53" width="90" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dietaryVal3" taborder="12" text="저염식" left="401" top="53" width="90" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dietaryVal4" taborder="13" text="고단백식" left="501" top="53" width="110" height="30" falsevalue="0" truevalue="1"/>
+              <Static id="sta_managerIdB" taborder="15" left="891" top="0" height="91" cssclass="sta_tDataBForm3" onclick="formClick" width="224"/>
+              <Static id="sta_managerIdH" taborder="14" text="처리자" left="891" top="0" height="45" cssclass="sta_tDataHForm3" onclick="formClick" width="224"/>
+              <Combo id="cmb_managerId" taborder="16" left="904" top="49" width="200" height="40" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0" readonly="false" type="search"/>
+              <Static id="sta_division" taborder="17" text="구분" left="0" top="95" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_timeH" taborder="18" text="시간" left="147" top="95" width="130" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_tpH" taborder="19" text="식사유형" left="277" top="95" width="530" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_qtyH" taborder="20" text="식사량" left="807" top="95" height="45" cssclass="sta_tDataHForm3" onclick="formClick" width="308"/>
+              <Static id="sta_breB" taborder="22" left="0" top="140" height="45" cssclass="sta_tDataBForm3" onclick="formClick" right="0"/>
+              <Static id="sta_breH" taborder="21" text="아침식사" left="0" top="140" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_lunB" taborder="24" left="0" top="186" height="45" cssclass="sta_tDataBForm3" onclick="formClick" right="0"/>
+              <Static id="sta_lunH" taborder="23" text="점심식사" left="0" top="186" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_dinB" taborder="26" left="0" top="232" height="45" cssclass="sta_tDataBForm3" onclick="formClick" right="0"/>
+              <Static id="sta_dinH" taborder="25" text="저녁식사" left="0" top="232" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_morSnackB" taborder="28" left="0" top="278" height="45" cssclass="sta_tDataBForm3" onclick="formClick" right="0"/>
+              <Static id="sta_morSnackH" taborder="27" text="오전간식" left="0" top="278" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <Static id="sta_aftSnackB" taborder="30" left="0" top="324" height="45" cssclass="sta_tDataBForm3" onclick="formClick" right="0"/>
+              <Static id="sta_aftSnackH" taborder="29" text="오후간식" left="0" top="324" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+              <MaskEdit id="mae_breTime" taborder="31" left="161" top="144" width="110" height="35" cssclass="medt_clock" format="## : ##" readonly="true" type="string" oneditclick="msk_oneditclick"/>
+              <MaskEdit id="mae_lunTime" taborder="32" left="161" top="190" width="110" height="35" cssclass="medt_clock" format="## : ##" readonly="true" type="string" oneditclick="msk_oneditclick"/>
+              <MaskEdit id="mae_dinTime" taborder="33" left="161" top="238" width="110" height="35" cssclass="medt_clock" format="## : ##" readonly="true" type="string" oneditclick="msk_oneditclick"/>
+              <MaskEdit id="mae_morSnackTime" taborder="34" left="161" top="283" width="110" height="35" cssclass="medt_clock" format="## : ##" readonly="true" type="string" oneditclick="msk_oneditclick"/>
+              <MaskEdit id="mae_aftSnackTime" taborder="35" left="161" top="328" width="110" height="35" cssclass="medt_clock" format="## : ##" readonly="true" type="string" oneditclick="msk_oneditclick"/>
+              <CheckBox id="chk_breTp1" taborder="36" text="일반식" left="286" top="148" width="90" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_breTp2" taborder="37" text="죽식" left="371" top="148" width="70" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_breTp3" taborder="38" text="유동·경관식" left="436" top="148" width="130" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_breTp4" taborder="39" text="갈은식" left="566" top="148" width="90" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_breTp5" taborder="40" text="다진식" left="651" top="148" width="90" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_breTp6" taborder="41" text="미음" left="736" top="148" width="70" height="30" falsevalue="0" truevalue="1"/>
+              <Radio id="rdo_breQty" taborder="42" left="803" top="148" width="307" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전량</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">1/2 이상</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">1/2 미만</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <CheckBox id="chk_lunTp1" taborder="43" text="일반식" left="286" top="193" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_lunTp2" taborder="44" text="죽식" left="371" top="193" width="70" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_lunTp3" taborder="45" text="유동·경관식" left="436" top="193" width="130" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_lunTp4" taborder="46" text="갈은식" left="566" top="193" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_lunTp5" taborder="47" text="다진식" left="651" top="193" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_lunTp6" taborder="48" text="미음" left="736" top="193" width="60" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp1" taborder="49" text="일반식" left="286" top="240" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp2" taborder="50" text="죽식" left="371" top="240" width="70" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp3" taborder="51" text="유동·경관식" left="436" top="240" width="130" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp4" taborder="52" text="갈은식" left="566" top="240" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp5" taborder="53" text="다진식" left="651" top="240" width="80" height="30" falsevalue="0" truevalue="1"/>
+              <CheckBox id="chk_dinTp6" taborder="54" text="미음" left="736" top="240" width="60" height="30" falsevalue="0" truevalue="1"/>
+              <Radio id="rdo_lunQty" taborder="55" left="803" top="193" width="307" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전량</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">1/2 이상</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">1/2 미만</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Radio id="rdo_dinQty" taborder="56" left="803" top="240" width="307" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전량</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">1/2 이상</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">1/2 미만</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Radio id="rdo_morSnackQty" taborder="57" left="803" top="286" width="307" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전량</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">1/2 이상</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">1/2 미만</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Radio id="rdo_aftSnackQty" taborder="58" left="803" top="333" width="307" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">전량</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">2</Col>
+                      <Col id="datacolumn">1/2 이상</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">3</Col>
+                      <Col id="datacolumn">1/2 미만</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="MEA_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="FUND_DIS" type="STRING" size="256"/>
+          <Column id="FUND1" type="STRING" size="256"/>
+          <Column id="FUND2" type="STRING" size="256"/>
+          <Column id="FUND3" type="STRING" size="256"/>
+          <Column id="FUND4" type="STRING" size="256"/>
+          <Column id="FUND5" type="STRING" size="256"/>
+          <Column id="FUND6" type="STRING" size="256"/>
+          <Column id="DIETARY_CURE" type="STRING" size="256"/>
+          <Column id="DIET1" type="STRING" size="256"/>
+          <Column id="DIET2" type="STRING" size="256"/>
+          <Column id="DIET3" type="STRING" size="256"/>
+          <Column id="DIET4" type="STRING" size="256"/>
+          <Column id="BRE_TP" type="STRING" size="256"/>
+          <Column id="B_MEAL1" type="STRING" size="256"/>
+          <Column id="B_MEAL2" type="STRING" size="256"/>
+          <Column id="B_MEAL3" type="STRING" size="256"/>
+          <Column id="B_MEAL4" type="STRING" size="256"/>
+          <Column id="B_MEAL5" type="STRING" size="256"/>
+          <Column id="B_MEAL6" type="STRING" size="256"/>
+          <Column id="BRE_QTY" type="STRING" size="256"/>
+          <Column id="BRE_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TP" type="STRING" size="256"/>
+          <Column id="L_MEAL1" type="STRING" size="256"/>
+          <Column id="L_MEAL2" type="STRING" size="256"/>
+          <Column id="L_MEAL3" type="STRING" size="256"/>
+          <Column id="L_MEAL4" type="STRING" size="256"/>
+          <Column id="L_MEAL5" type="STRING" size="256"/>
+          <Column id="L_MEAL6" type="STRING" size="256"/>
+          <Column id="LUN_QTY" type="STRING" size="256"/>
+          <Column id="LUN_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TP" type="STRING" size="256"/>
+          <Column id="D_MEAL1" type="STRING" size="256"/>
+          <Column id="D_MEAL2" type="STRING" size="256"/>
+          <Column id="D_MEAL3" type="STRING" size="256"/>
+          <Column id="D_MEAL4" type="STRING" size="256"/>
+          <Column id="D_MEAL5" type="STRING" size="256"/>
+          <Column id="D_MEAL6" type="STRING" size="256"/>
+          <Column id="DIN_QTY" type="STRING" size="256"/>
+          <Column id="DIN_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resInfo" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="NAME_AGE" type="STRING" size="256"/>
+          <Column id="ENTER_DT" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_minute">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_posture">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_meal_resident" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="BRE_FR_TIME" type="STRING" size="256"/>
+          <Column id="BRE_TO_TIME" type="STRING" size="256"/>
+          <Column id="LUN_FR_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TO_TIME" type="STRING" size="256"/>
+          <Column id="DIN_FR_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TO_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="FOOD_TP" type="STRING" size="256"/>
+          <Column id="FOOD1" type="STRING" size="256"/>
+          <Column id="FOOD2" type="STRING" size="256"/>
+          <Column id="FOOD3" type="STRING" size="256"/>
+          <Column id="FOOD4" type="STRING" size="256"/>
+          <Column id="FOOD5" type="STRING" size="256"/>
+          <Column id="FOOD6" type="STRING" size="256"/>
+          <Column id="FUNC_DIS" type="STRING" size="256"/>
+          <Column id="FUNC1" type="STRING" size="256"/>
+          <Column id="FUNC2" type="STRING" size="256"/>
+          <Column id="FUNC3" type="STRING" size="256"/>
+          <Column id="FUNC4" type="STRING" size="256"/>
+          <Column id="FUNC5" type="STRING" size="256"/>
+          <Column id="FUNC6" type="STRING" size="256"/>
+          <Column id="DIETARY_CURE" type="STRING" size="256"/>
+          <Column id="DIET1" type="STRING" size="256"/>
+          <Column id="DIET2" type="STRING" size="256"/>
+          <Column id="DIET3" type="STRING" size="256"/>
+          <Column id="DIET4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUB304CT
+ * 화면명   	: 식사
+ * 화면설명 	: 태블릿 입소자별 당일 식사 기록
+ * 작성일    	: 2021-11-18
+ * 작성자   	: 이승규
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = this.div_cont.form.grd_list;
+this.tranFlag = "";
+this.searchFlag = "";	// 검색 플래그 1 : 새벽, 2 : 주간, 3 : 야간
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUB304CT_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 검색조건 세팅
+	this.taSearchDataSetting(obj);
+	
+	// 관찰자, 층, 호실 콤보 초기화
+	this.fn_setComboDs(obj);
+	
+	this.ds_location.filter("ARE_CD == '" + this.ds_search.getColumn(0, "AREA") + "'");
+	
+	// 로드 완료후 검색
+	this.fn_search();
+};
+
+// 콤보 데이터 세팅
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+		{ outDsName : "ds_manager", sqlId : "NUB_COMMON.NUB_COMMON_DS_MANAGER_S", param : this.ds_search, bEmptyRow : true }
+		,{ outDsName : "ds_location", sqlId : "NUB_COMMON.NUB_COMMON_DS_LOCATION_ALL_S", param : this.ds_search, bEmptyRow : true }
+		,{ outDsName : "ds_resident", sqlId : "NUB_COMMON.NUB_COMMON_DS_RESIDENT_ALL_S", param : this.ds_search, bEmptyRow : true }
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 그리드 컬럼에 색입히기
+this.fn_initGrid = function(grid)
+{
+	const pMinIdx = grid.getBindCellIndex("body", "POS_MIN");
+	const pMinCss = "expr: dataset.getColumn(currow, 'POS_HOUR') < 110 ? 'blueFont' : 'orangeFont'";
+	grid.setCellProperty("body", pMinIdx, "cssclass", pMinCss);
+};
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 초기화 버튼
+this.fn_resetBtn = function ()
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	this.fn_save();
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function ()
+{
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	// 저장 내용 체크
+	if(!Sct.Grid.hasInsertAndUpdateRow(this.ds_list))
+	{
+		Sct.alert(this, "000569", "저장");	// {0}할 내용이 없습니다.
+		return false;
+	}
+	
+	// 저장하시겠습니까?
+	if(!Sct.confirm(this, "000038")) return false;
+	
+	const nRow = this.ds_list.rowposition;
+		
+	if(this.ds_list.getRowType(nRow) == 2) this.tranFlag = "I";
+	else if(this.ds_list.getRowType(nRow) == 4) this.tranFlag = "U";
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	const resident = this.ds_search.getColumn(0, "RES_ID");
+	if (resident == undefined || resident == "" || resident == null)
+	{
+		alert("입소자를 선택해 주세요");
+		return false;
+	}
+	// 데이터셋 상태가 추가상태이면 삭제 못함
+	if(this.ds_list.getRowType(this.ds_list.rowposition) == 2)
+	{
+		Sct.alert(this, "000569", "삭제");	// {0}할 내용이 없습니다.
+		return false;
+	}
+
+	// 삭제하시겠습니까?
+	if(Sct.confirm(this, "000083", "삭제"))
+	{
+		const nRow = this.ds_list.rowposition;
+		this.ds_list.set_updatecontrol(false);
+		this.ds_list.setRowType(nRow, Dataset.ROWTYPE_DELETE);
+		this.ds_list.set_updatecontrol(true);
+	}
+	else
+	{
+		return false;
+	}
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function ()
+{
+	// validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search input3=ds_search";
+	const outDatasets = "ds_list=output1 ds_meal_resident=output2 ds_resInfo=output3";
+	const argument = "method=getList "
+		+ "sqlId='NUB304CT.NUB304CT_DS_LIST_S NUB304CT.NUB304CT_DS_MEAL_RESIDENT_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S' ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function ()
+{	
+	if(!this.fn_save_pre()) return;
+
+ 	const svcId = "save";
+ 	const inDs = "ds_list";
+ 	this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	if(!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_list:U";
+	const outDatasets = "";
+ 	const argument = "method=delete "
+ 				   + "sqlId=NUB304CT.NUB304CT_DS_LIST_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		// 검색 콜백
+		if(strSvcID == "search")
+		{
+			// 검색조건 유지를 위해 글로벌 데이터셋에 조건 세팅
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "AREA", this.ds_search.getColumn(0,"AREA"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "LOCATION", this.ds_search.getColumn(0,"LOCATION"));
+			nexacro.getApplication().gds_taCurRes.setColumn(0, "RES_ID", this.ds_search.getColumn(0,"RES_ID"));
+			
+			// 검색결과가 없을경우
+			if(this.ds_list.rowcount < 1)
+			{
+				// 초기화
+				nRow = this.ds_list.addRow();
+				this.ds_list.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+				this.ds_list.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+				
+				// 식사시간
+				this.ds_list.setColumn(nRow, "BRE_TIME", this.ds_meal_resident.getColumn(0, "BRE_FR_TIME"));
+				this.ds_list.setColumn(nRow, "LUN_TIME", this.ds_meal_resident.getColumn(0, "LUN_FR_TIME"));
+				this.ds_list.setColumn(nRow, "DIN_TIME", this.ds_meal_resident.getColumn(0, "DIN_FR_TIME"));
+				this.ds_list.setColumn(nRow, "MOR_SNACK_TIME", this.ds_meal_resident.getColumn(0, "MOR_SNACK_TIME"));
+				this.ds_list.setColumn(nRow, "AFT_SNACK_TIME", this.ds_meal_resident.getColumn(0, "AFT_SNACK_TIME"));
+				
+				// 기능장애
+				this.ds_list.setColumn(nRow, "FUND1", this.ds_meal_resident.getColumn(0, "FUNC1"));
+				this.ds_list.setColumn(nRow, "FUND2", this.ds_meal_resident.getColumn(0, "FUNC2"));
+				this.ds_list.setColumn(nRow, "FUND3", this.ds_meal_resident.getColumn(0, "FUNC3"));
+				this.ds_list.setColumn(nRow, "FUND4", this.ds_meal_resident.getColumn(0, "FUNC4"));
+				this.ds_list.setColumn(nRow, "FUND5", this.ds_meal_resident.getColumn(0, "FUNC5"));
+				this.ds_list.setColumn(nRow, "FUND6", this.ds_meal_resident.getColumn(0, "FUNC6"));
+				
+				// 치료식이
+				this.ds_list.setColumn(nRow, "DIET1", this.ds_meal_resident.getColumn(0, "DIET1"));
+				this.ds_list.setColumn(nRow, "DIET2", this.ds_meal_resident.getColumn(0, "DIET2"));
+				this.ds_list.setColumn(nRow, "DIET3", this.ds_meal_resident.getColumn(0, "DIET3"));
+				this.ds_list.setColumn(nRow, "DIET4", this.ds_meal_resident.getColumn(0, "DIET4"));
+				
+				// 아침식사
+				this.ds_list.setColumn(nRow, "B_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_list.setColumn(nRow, "B_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_list.setColumn(nRow, "B_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_list.setColumn(nRow, "B_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_list.setColumn(nRow, "B_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_list.setColumn(nRow, "B_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 점심식사
+				this.ds_list.setColumn(nRow, "L_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_list.setColumn(nRow, "L_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_list.setColumn(nRow, "L_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_list.setColumn(nRow, "L_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_list.setColumn(nRow, "L_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_list.setColumn(nRow, "L_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 저녁식사
+				this.ds_list.setColumn(nRow, "D_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_list.setColumn(nRow, "D_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_list.setColumn(nRow, "D_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_list.setColumn(nRow, "D_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_list.setColumn(nRow, "D_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_list.setColumn(nRow, "D_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 처리자에 접속자 세팅
+				this.ds_list.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+			}
+		}
+		// 저장 콜백
+		else if(strSvcID == "save")
+		{
+			if(this.tranFlag == "I")
+			{
+				Sct.alert(this, "000570", "등록");	// {0} 되었습니다.
+			}
+			else if(this.tranFlag == "U")
+			{
+				Sct.alert(this, "000570", "수정");	// {0} 되었습니다.
+			}
+			this.tranFlag = "";
+			
+			this.fn_search();
+		}
+		// 삭제 콜백
+		else if(strSvcID == "delete")
+		{
+			Sct.alert(this, "000570", "삭제");	// {0} 되었습니다.
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.tranFlag = "";
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+// TIMEPICKER
+this.msk_oneditclick = function(obj:nexacro.MaskEdit,e:nexacro.EditClickEventInfo)
+{
+	let param;
+	this.makeStandardObject();
+
+	// 식사 아침식사 시간 timepicker
+	if(obj.id == "mae_breTime")
+	{
+		param = {arg1 : "3"};
+	}
+	// 식사 점심식사 시간 timepicker
+	else if(obj.id == "mae_lunTime")
+	{
+		param = {arg1 : "4"};
+	}
+	// 식사 저녁식사 시간 timepicker
+	else if(obj.id == "mae_dinTime")
+	{
+		param = {arg1 : "5"};
+	}
+	// 식사 오전간식 시간 timepicker
+	else if(obj.id == "mae_morSnackTime")
+	{
+		param = {arg1 : "6"};
+	}
+	// 식사 오후간식 시간 timepicker
+	else if(obj.id == "mae_aftSnackTime")
+	{
+		param = {arg1 : "7"};
+	}
+	this.standardPlugin.callMethod("TIMEPICKER", param);
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	const nowRow = this.ds_list.rowposition;
+	const cRow = parseInt(this.ds_list.getColumn(nowRow, "ROW"));
+	const iRow = this.ds_list.findRow("ROW", cRow);
+	switch(popid)
+	{
+		case "pop2" : // 입소자
+// 			this.ds_search.setColumn(0, "RES_ID", objDs.getColumn(0, "RES_ID"));
+// 			this.ds_search.setColumn(0, "AREA", objDs.getColumn(0, "AREA"));
+// 			this.ds_search.setColumn(0, "LOCATION", objDs.getColumn(0, "LOCATION"));
+			this.ds_location.filter("ARE_CD == '"+objDs.getColumn(0, "AREA")+"'");
+			this.ds_resident.filter("");
+			this.div_search.form.cmb_area.set_value(objDs.getColumn(0, "AREA"));
+			this.div_search.form.cmb_location.set_value(objDs.getColumn(0, "LOCATION"));
+			this.div_search.form.cmb_resident.set_value(objDs.getColumn(0, "RES_ID"));
+			this.fn_search();
+			break;
+		case "pop4" : // 처리자
+			this.ds_list.setColumn(0, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 입소자 조회 팝업
+this.div_search_cmb_resident_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {
+			COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")
+		,	FLAG : "NUB304CT"
+		,   AREA : this.ds_search.getColumn(0, "AREA")
+		,   LOCATION : this.ds_search.getColumn(0, "LOCATION")
+		,	DATE : this.ds_search.getColumn(0, "DATE")
+	};
+	
+	Sct.tPopup(this, "pop2", 350, 350, param, "TabletPOP::NUB_RESIDENT_POP.xfdl", "fn_popCallback");
+};
+
+// 처리자 선택
+this.cmb_manager_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+	
+	Sct.tPopup(this, "pop4", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+};
+
+// standardObject 안드로이드 네이티브 통신 callback
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	// 식사 오전식사 시간 timepicker
+	if(e.svcid == "TIMEPICKER3")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.mae_breTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 점심식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER4")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.mae_lunTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 저녁식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER5")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.mae_dinTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 오전간식 시간 timepicker
+	else if(e.svcid == "TIMEPICKER6")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.mae_morSnackTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 오전식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER7")
+	{
+		if(e.reason == 0)
+		{
+			this.div_cont.form.mae_aftSnackTime.set_value(e.returnvalue);
+		}
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item2" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item3" compid="div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item8" compid="div_cont.form.chk_fundVal1" propid="value" datasetid="ds_list" columnid="FUND1"/>
+      <BindItem id="item9" compid="div_cont.form.chk_fundVal2" propid="value" datasetid="ds_list" columnid="FUND2"/>
+      <BindItem id="item10" compid="div_cont.form.chk_fundVal3" propid="value" datasetid="ds_list" columnid="FUND3"/>
+      <BindItem id="item11" compid="div_cont.form.chk_fundVal4" propid="value" datasetid="ds_list" columnid="FUND4"/>
+      <BindItem id="item12" compid="div_cont.form.chk_fundVal5" propid="value" datasetid="ds_list" columnid="FUND5"/>
+      <BindItem id="item13" compid="div_cont.form.chk_fundVal6" propid="value" datasetid="ds_list" columnid="FUND6"/>
+      <BindItem id="item14" compid="div_cont.form.chk_dietaryVal1" propid="value" datasetid="ds_list" columnid="DIET1"/>
+      <BindItem id="item15" compid="div_cont.form.chk_dietaryVal2" propid="value" datasetid="ds_list" columnid="DIET2"/>
+      <BindItem id="item16" compid="div_cont.form.chk_dietaryVal3" propid="value" datasetid="ds_list" columnid="DIET3"/>
+      <BindItem id="item17" compid="div_cont.form.chk_dietaryVal4" propid="value" datasetid="ds_list" columnid="DIET4"/>
+      <BindItem id="item18" compid="div_cont.form.cmb_managerId" propid="value" datasetid="ds_list" columnid="MANAGER_ID"/>
+      <BindItem id="item19" compid="div_cont.form.mae_breTime" propid="value" datasetid="ds_list" columnid="BRE_TIME"/>
+      <BindItem id="item20" compid="div_cont.form.chk_breTp1" propid="value" datasetid="ds_list" columnid="B_MEAL1"/>
+      <BindItem id="item21" compid="div_cont.form.chk_breTp2" propid="value" datasetid="ds_list" columnid="B_MEAL2"/>
+      <BindItem id="item22" compid="div_cont.form.chk_breTp3" propid="value" datasetid="ds_list" columnid="B_MEAL3"/>
+      <BindItem id="item23" compid="div_cont.form.chk_breTp4" propid="value" datasetid="ds_list" columnid="B_MEAL4"/>
+      <BindItem id="item24" compid="div_cont.form.chk_breTp5" propid="value" datasetid="ds_list" columnid="B_MEAL5"/>
+      <BindItem id="item25" compid="div_cont.form.chk_breTp6" propid="value" datasetid="ds_list" columnid="B_MEAL6"/>
+      <BindItem id="item26" compid="div_cont.form.rdo_breQty" propid="value" datasetid="ds_list" columnid="BRE_QTY"/>
+      <BindItem id="item27" compid="div_cont.form.mae_lunTime" propid="value" datasetid="ds_list" columnid="LUN_TIME"/>
+      <BindItem id="item28" compid="div_cont.form.chk_lunTp1" propid="value" datasetid="ds_list" columnid="L_MEAL1"/>
+      <BindItem id="item29" compid="div_cont.form.chk_lunTp2" propid="value" datasetid="ds_list" columnid="L_MEAL2"/>
+      <BindItem id="item30" compid="div_cont.form.chk_lunTp3" propid="value" datasetid="ds_list" columnid="L_MEAL3"/>
+      <BindItem id="item31" compid="div_cont.form.chk_lunTp4" propid="value" datasetid="ds_list" columnid="L_MEAL4"/>
+      <BindItem id="item32" compid="div_cont.form.chk_lunTp5" propid="value" datasetid="ds_list" columnid="L_MEAL5"/>
+      <BindItem id="item33" compid="div_cont.form.chk_lunTp6" propid="value" datasetid="ds_list" columnid="L_MEAL6"/>
+      <BindItem id="item34" compid="div_cont.form.rdo_lunQty" propid="value" datasetid="ds_list" columnid="LUN_QTY"/>
+      <BindItem id="item35" compid="div_cont.form.mae_dinTime" propid="value" datasetid="ds_list" columnid="DIN_TIME"/>
+      <BindItem id="item36" compid="div_cont.form.chk_dinTp1" propid="value" datasetid="ds_list" columnid="D_MEAL1"/>
+      <BindItem id="item37" compid="div_cont.form.chk_dinTp2" propid="value" datasetid="ds_list" columnid="D_MEAL2"/>
+      <BindItem id="item38" compid="div_cont.form.chk_dinTp3" propid="value" datasetid="ds_list" columnid="D_MEAL3"/>
+      <BindItem id="item39" compid="div_cont.form.chk_dinTp4" propid="value" datasetid="ds_list" columnid="D_MEAL4"/>
+      <BindItem id="item40" compid="div_cont.form.chk_dinTp5" propid="value" datasetid="ds_list" columnid="D_MEAL5"/>
+      <BindItem id="item41" compid="div_cont.form.chk_dinTp6" propid="value" datasetid="ds_list" columnid="D_MEAL6"/>
+      <BindItem id="item42" compid="div_cont.form.rdo_dinQty" propid="value" datasetid="ds_list" columnid="DIN_QTY"/>
+      <BindItem id="item43" compid="div_cont.form.mae_morSnackTime" propid="value" datasetid="ds_list" columnid="MOR_SNACK_TIME"/>
+      <BindItem id="item44" compid="div_cont.form.rdo_morSnackQty" propid="value" datasetid="ds_list" columnid="MOR_SNACK_QTY"/>
+      <BindItem id="item45" compid="div_cont.form.mae_aftSnackTime" propid="value" datasetid="ds_list" columnid="AFT_SNACK_TIME"/>
+      <BindItem id="item46" compid="div_cont.form.rdo_aftSnackQty" propid="value" datasetid="ds_list" columnid="AFT_SNACK_QTY"/>
+    </Bind>
+  </Form>
+</FDL>

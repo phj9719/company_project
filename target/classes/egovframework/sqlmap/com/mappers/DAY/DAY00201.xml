@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201
+     * 프로그램 명     	: 2-1  간호.투약전달기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-15 09:10        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00201">
+	<!-- 조회 -->
+    <select id="DAY00201_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_LIST_S */
+		SELECT 0 AS chk
+			 , bm.sicode
+		     , bm.m_code
+		     , bm.m_group
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , bm.거주현황	AS s_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , IF(bm.m_reday = '2100-01-01', '', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		     , FN_GRADE_NM(bm.sicode, bm.m_code, #{s_date}) AS grade_nm
+			 , CASE WHEN bm.단기보호 = '1' THEN '주간'
+				WHEN bm.단기보호 = '2' THEN '주단'
+				WHEN bm.단기보호 = '3' THEN '단기'
+			   END AS pr_nm
+			 , CASE WHEN IFNULL(kr.미입소,'') != '' <![CDATA[ && ]]> bm.단기보호 = '1' THEN '1'
+				WHEN IFNULL(kr.미입소,'') != '' <![CDATA[ && ]]> bm.단기보호 IN ('2', '3') THEN '2'
+				WHEN bm.단기보호 IN ('2', '3') THEN '3'
+				ELSE '0' 
+			   END pr_css
+			 , IFNULL(TRIM(kr.미입소),'') AS move_cont	     
+		 FROM base_mate bm
+		 LEFT OUTER JOIN (
+		 	SELECT * FROM kmrecord
+				WHERE sicode = #{sicode}
+				AND k_nalja = #{s_date}) kr
+		 ON bm.sicode = kr.sicode
+		   AND bm.m_code = kr.k_code
+		 WHERE bm.sicode = #{sicode}
+		   AND #{s_date} BETWEEN bm.m_enday AND bm.m_reday
+		   AND SUBSTRING(CONCAT(bm.일요일,bm.이용일),DATE_FORMAT(STR_TO_DATE(#{s_date},'%Y%m%d'),'%w')+1,1) = 1
+		<if test="m_group != '' and m_group != null">
+			AND bm.m_group = #{m_group}			/* A,B,C,...,P 중 하나인 경우 */
+		</if>
+		  ORDER BY bm.m_name
+    </select>
+    
+    <select id="DAY00201_DS_NURSE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_NURSE_S */
+		SELECT sicode
+			 , n_code
+			 , n_name
+			 , n_number
+		     , DATE_FORMAT(n_nalja, '%Y%m%d') AS n_nalja
+		     , SUBSTRING_INDEX(혈압,'/',1) AS 혈압1
+		     , SUBSTRING_INDEX(혈압,'/',-1) AS 혈압2
+		     , IF(맥박 = 0, '', 맥박) AS 맥박
+		     , IF(혈당  = 0, '', 혈당) AS 혈당
+		     , IF(혈당2 = 0, '', 혈당2) AS 혈당2
+		     , IF(체온 = 0, '', 체온) AS 체온 
+		     , IF(체온2 = 0, '', 체온2) AS 체온2
+		     , IF(체온3 = 0, '', 체온3) AS 체온3
+		     , IF(호흡 = 0, '', 호흡) AS 호흡
+		     , IF(체중 = 0, '', 체중) AS 체중
+		     , IFNULL(기침2, '0') AS 기침
+		     , IFNULL(인후통2, '0') AS 인후통
+		     , IFNULL(호흡곤란2, '0') AS 호흡곤란
+		     , IFNULL(객담2, '0') AS 객담
+		     , IFNULL(기타2, '') AS 기타
+		     , 간호일지
+		     , 담당코드
+		     , 담당자 
+		FROM kmnurse
+		WHERE sicode = #{sicode}
+		  AND n_code = #{m_code}
+		  AND n_nalja = #{s_date}
+    </select>
+    
+	<select id="DAY00201_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_DETAIL_S */
+		SELECT A.sicode
+			, A.m_code
+			, A.nalja
+--			, kr.시작시간
+--			, kr.종료시간
+			, kr.송영
+			, kr.요양일지
+			, CONCAT(kr.l_type_nm, ' ', kr.l_type_nm2) AS l_type_nm
+			, bm.drugtime
+			, bm.cret_type1
+			, bm.cret_type2
+			, bm.cret_kit
+			, bm.eat_type_nm
+			, km.km_contents
+			, km.진료번호
+			, kso.out_type1
+			, kso.out_type2
+			, bs.sore_exist1
+			, bs2.sore_exist2
+			, kc.cret_exist
+			, kg.tooth_type
+			, ke.ke_contents
+			, hd.약품명
+		FROM (
+			SELECT #{sicode} AS sicode
+				, #{m_code} AS m_code
+				, #{s_date} AS nalja
+		) A
+		LEFT OUTER JOIN (
+			-- 요양서비스
+			SELECT sicode
+			  , k_nalja
+			  , k_number
+			  , k_code
+			  , k_name
+			  , 시작시간
+			  , 종료시간 
+			  , CONCAT('송영 : ',시작시간,'-',종료시간) AS '송영'
+			  , 요양일지 
+			  , (CASE WHEN 점심종류 = '1' THEN '일반식'
+			          WHEN 점심종류 = '2' THEN '죽'
+			          WHEN 점심종류 = '3' THEN '유동.미음'
+			     ELSE '' END) AS l_type_nm
+			  , (CASE WHEN 점심양 = '1' THEN '1'
+			          WHEN 점심양 = '2' THEN '½이상'
+			          WHEN 점심양 = '3' THEN '½미만'
+			          ELSE '' END) AS l_type_nm2 
+			FROM kmrecord
+			WHERE sicode = #{sicode}
+			  AND k_nalja = #{s_date}
+			  AND k_code = #{m_code}	
+		) kr
+		ON A.sicode = kr.sicode
+		  AND A.m_code = kr.k_code
+		  AND A.nalja = kr.k_nalja
+		INNER JOIN (
+			-- 수급자정보 + 배설기본정보
+			SELECT sicode
+			     , m_code
+			     , m_name
+			  	 , drugtime
+			     , IF(배설뇨의='1','있다','없다') AS cret_type1			  	 
+			     , IF(배설변의='1','있다','없다') AS cret_type2
+			     , (CASE WHEN 배설보조 = '1' THEN '인공장루(요루)'
+			       		WHEN 배설보조 = '2' THEN '유치도뇨관'
+			       		WHEN 배설보조 = '3' THEN '기저귀착용'
+			       		WHEN 배설보조 = '4' THEN '도뇨관+기저귀'
+			       		ELSE '' END) AS cret_kit
+				 , (CASE WHEN 식사종류 = '1' THEN '일반식'
+			           WHEN 식사종류 = '2' THEN '죽'
+			           WHEN 식사종류 = '3' THEN '유동.미음'
+			           ELSE '' END) AS eat_type_nm
+			 FROM base_mate
+			WHERE sicode = #{sicode}
+			  AND m_code = #{m_code}
+		) bm
+		ON A.sicode = bm.sicode
+		  AND A.m_code = bm.m_code
+		LEFT OUTER JOIN (
+			-- 진료,외출정보 (일자별 등록순으로 첫번째 정보 )
+			SELECT concat(a.진료시간,' ', a.병의원명) AS km_contents
+			     , a.*
+			  FROM kmmedi a
+			     , (SELECT sicode
+			  , MIN(진료번호) AS m_number
+			  , 거주코드
+			 FROM kmmedi
+			 WHERE sicode = #{sicode}
+			  AND 진료일 = #{s_date}
+			  AND 거주코드 = #{m_code}
+			GROUP BY sicode
+			  , 거주코드 ) b
+			 WHERE a.sicode = b.sicode
+			   AND a.진료번호 = b. m_number
+		) km
+		ON A.sicode = km.sicode
+		  AND A.m_code = km.거주코드
+		  AND A.nalja = km.진료일
+		LEFT OUTER JOIN (
+			SELECT CONCAT((CASE WHEN a.외출구분= '1' THEN '일반'
+			         WHEN a.외출구분= '2' THEN '공제'
+			         ELSE '' END)
+			       ,' '
+			, LPAD(a.외출시,2,'0')
+			       ,':'
+			, LPAD(a.외출분,2,'0')
+			,'-'
+			, LPAD(a.복귀시,2,'0')
+			,':'
+			, LPAD(a.복귀분,2,'0')
+			       ,' '
+			, a.행선지) AS out_type1
+			  , CONCAT( '※ 외출 : '
+			, LPAD(a.외출시,2,'0')
+			       ,':'
+			, LPAD(a.외출분,2,'0')
+			,'-'
+			, LPAD(a.복귀시,2,'0')
+			,':'
+			, LPAD(a.복귀분,2,'0')
+			       ) AS out_type2
+			     , a.*
+			  FROM kmstayout a
+			     , (SELECT sicode
+			  , MIN(외출번호) AS m_number
+			  , 거주코드
+			 FROM kmstayout
+			 WHERE sicode = #{sicode}
+			  AND 외출일 = #{s_date}
+			  AND 거주코드 = #{m_code}
+			GROUP BY sicode
+			  , 거주코드 ) b
+			 WHERE a.sicode = b.sicode
+			   AND a.외출번호 = b. m_number
+		) kso
+		ON A.sicode = kso.sicode
+		  AND A.m_code = kso.거주코드
+		  AND A.nalja = kso.외출일
+		INNER JOIN (
+			SELECT #{sicode} AS sicode
+				, IF(COUNT(*) > 0, '욕창○','') AS sore_exist1
+				, #{m_code} AS so_code
+				, #{s_date} AS so_nalja
+			  FROM base_sore
+			 WHERE sicode = #{sicode}
+			   AND so_nalja = #{s_date}
+			   AND so_code = #{m_code}
+			   AND 욕창시점 > 0
+		) bs
+		ON A.sicode = bs.sicode
+		  AND A.m_code = bs.so_code
+		  AND A.nalja = bs.so_nalja
+		INNER JOIN (
+			SELECT #{sicode} AS sicode
+				, #{m_code} AS so_code
+				, #{s_date} AS so_nalja
+				, IF(COUNT(*) > 0, '자세○','') AS sore_exist2
+			FROM base_sore
+			WHERE sicode = #{sicode}
+			   AND so_nalja = #{s_date}
+			   AND so_code = #{m_code}
+			   AND 체위시08+체위시09+체위시10+체위시11+체위시12+체위시13+체위시14+체위시15+체위시16+체위시17+체위시18 > 0
+		) bs2
+		ON A.sicode = bs2.sicode
+		  AND A.m_code = bs2.so_code
+		  AND A.nalja = bs2.so_nalja
+		INNER JOIN (
+			--  배설간호
+			SELECT #{sicode} AS sicode
+				, #{m_code} AS cr_code
+				, #{s_date} AS cr_nalja
+				, IF(COUNT(*) > 0, '기록○','') AS cret_exist
+			FROM kmcretion
+			WHERE sicode = #{sicode}
+			   AND cr_nalja = #{s_date}
+			   AND cr_code = #{m_code}
+			   AND CAST(배설처치  AS INT) > 0 
+		) kc
+		ON A.sicode = kc.sicode
+		  AND A.m_code = kc.cr_code
+		  AND A.nalja = kc.cr_nalja
+		LEFT OUTER JOIN (
+			-- 구강간호(RED 표시)
+			SELECT sicode
+				, g_code
+				, g_nalja
+				, (CASE WHEN 구강상태 = '1' THEN '정상'
+			             WHEN 구강상태 = '2' THEN '흔들림'
+			             WHEN 구강상태 = '3' THEN '통증'
+			             WHEN 구강상태 = '4' THEN '부분치아'
+			             WHEN 구강상태 = '5' THEN '치아없음'
+			ELSE '' END) AS tooth_type               
+			FROM kmganho
+			WHERE sicode = #{sicode}
+			  AND g_nalja = #{s_date}
+			  AND g_code = #{m_code}
+		) kg
+		ON A.sicode = kg.sicode
+		  AND A.m_code = kg.g_code
+		  AND A.nalja = kg.g_nalja
+		LEFT OUTER JOIN (
+			-- 응급기록  (일자별 등록순으로 첫번째 정보  RED 표시) 
+			SELECT CONCAT(DATE_FORMAT(a.발생일, '%Y.%m.%d')
+							, ' '
+			            , LPAD(a.발생시,2,'0')
+			            , ':'
+			            , LPAD(발생분,2,'0')
+			            ,' '
+			            , 발생장소) AS ke_contents
+				, a.*
+			FROM km_emergen a
+			, (SELECT sicode
+			  		, MIN(응급번호) AS m_number
+			  		, 수급코드
+			 	FROM km_emergen
+			 	WHERE sicode = #{sicode}
+			  		AND 발생일 = #{s_date}
+			  		AND 수급코드 = #{m_code}
+				GROUP BY sicode, 수급코드 ) b
+			WHERE a.sicode = b.sicode
+			  AND a.응급번호 = b. m_number
+		) ke
+		ON A.sicode = ke.sicode
+		  AND A.m_code = ke.수급코드
+		  AND A.nalja = ke.발생일
+		LEFT OUTER JOIN (
+			-- 상비약품(일자별 등록순으로 첫번째 정보 )
+			SELECT a.*
+			   FROM home_daily a
+			   , (SELECT sicode
+			  			, MIN(제공번호) AS m_number
+			  			, 수급자코드
+			 		FROM home_daily
+					WHERE sicode = #{sicode}
+					  AND 제공일 = #{s_date}
+					  AND 수급자코드 = #{m_code}
+					GROUP BY sicode, 수급자코드 ) b
+			WHERE a.sicode = b.sicode
+			   AND a.제공번호 = b. m_number
+		) hd
+		ON A.sicode = hd.sicode
+		  AND A.m_code = hd.수급자코드
+		  AND A.nalja = hd.제공일
+    </select>
+
+	<select id="DAY00201_DS_DOSAGE_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*	DAY00201_DS_DOSAGE_HEAD_S	*/
+		SELECT sicode
+			, donumber
+			, docode
+			, doname
+			, DATE_FORMAT(donalja, '%Y%m%d') as donalja
+			, 투약시간
+			, 투약종류
+			, 투약담당
+			, 담당코드
+		FROM kmdosage
+		WHERE sicode = #{sicode}
+		  AND donalja = #{s_date}
+		  AND docode = #{m_code}
+	</select>
+
+	<select id="DAY00201_DS_DOSAGE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_DOSAGE_S */
+		WITH RECURSIVE line
+		   AS
+		   (
+		      SELECT 1 AS row_num
+		      UNION ALL
+		      SELECT row_num + 1 AS row_num
+		      FROM line
+		      WHERE row_num <![CDATA[ < ]]> 50
+		   ) 
+		, b_data1 AS ( SELECT lin.row_num
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.row_num), '#@$@#', -1) AS VALUE1
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents2, '#@$@#', lin.row_num), '#@$@#', -1) AS VALUE2
+		        , bi.*
+		    FROM line lin
+		   LEFT JOIN 
+		   (  SELECT REPLACE(a.투약명, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+		   , REPLACE(a.투약방법, CONCAT(CHAR(13)), '#@$@#') AS bi_contents2
+		   , a.*
+		  FROM kmdosage a
+		  WHERE 1=1
+		     AND sicode = #{sicode}
+		     AND donalja = #{s_date}
+		     AND docode = #{m_code}
+		    ) bi
+		 ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.row_num - 1)
+		 SELECT sicode
+		 	  , donumber
+		      , docode
+		      , donalja
+		      , 투약시간
+		      , row_num
+		      , VALUE1 AS '투약명' 
+		      , VALUE2 AS '투약방법' 
+		      , 투약종류
+		      , 투약담당
+		      , 담당코드
+		      , SUBSTRING(아침전,row_num,1) AS '아침전'
+		      , SUBSTRING(아침후,row_num,1) AS '아침후'       
+		      , SUBSTRING(점심전,row_num,1) AS '점심전'
+		      , SUBSTRING(점심후,row_num,1) AS '점심후'
+		      , SUBSTRING(저녁전,row_num,1) AS '저녁전'
+		      , SUBSTRING(저녁후,row_num,1) AS '저녁후'
+		      , SUBSTRING(취침전,row_num,1) AS '취침전'
+		      , SUBSTRING(필요시,row_num,1) AS '필요시'
+		
+		      , SUBSTRING(아침전,row_num,1)
+		      + SUBSTRING(아침후,row_num,1)
+		      + SUBSTRING(점심전,row_num,1)
+		      + SUBSTRING(점심후,row_num,1)
+		      + SUBSTRING(저녁전,row_num,1)
+		      + SUBSTRING(저녁후,row_num,1)
+		      + SUBSTRING(취침전,row_num,1)
+		      + SUBSTRING(필요시,row_num,1) AS cnt
+		      , 투약량  AS 투약량_orig
+		      , (1+((row_num-1)*5))
+		      ,    row_num           
+		      ,  SUBSTRING(투약량,(1+((row_num-1)*5)),5) AS 투약량
+		      , 0 AS del
+		  FROM b_data1
+		  WHERE row_num <![CDATA[ <= ]]> 투약종류
+		  ORDER BY sicode
+		        , docode
+		        , donalja
+		        , row_num    
+    </select>
+    
+	<select id="DAY00201_DS_DOSAGE_S 이전버전" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_DOSAGE_S */
+		WITH RECURSIVE line
+		   AS
+		   (
+		      SELECT 1 AS ROW_NUM
+		      UNION ALL
+		      SELECT ROW_NUM + 1 AS ROW_NUM
+		      FROM line
+		      WHERE ROW_NUM <![CDATA[ < ]]> 50
+		   )
+		, base AS (
+		   SELECT a.sicode
+		         , a.doname
+		         , a.docode
+		         , a.donalja
+		         , lin.ROW_NUM
+		         , a.투약시간
+		         , a.투약량
+		         , (CASE WHEN lin.ROW_NUM = 1 THEN SUBSTRING(a.투약량,1,5)
+		                 WHEN lin.ROW_NUM = 2 THEN SUBSTRING(a.투약량,6,5)
+		                 WHEN lin.ROW_NUM = 3 THEN SUBSTRING(a.투약량,11,5)
+		                 WHEN lin.ROW_NUM = 4 THEN SUBSTRING(a.투약량,16,5)
+		               WHEN lin.ROW_NUM = 5 THEN SUBSTRING(a.투약량,21,5)
+							WHEN lin.ROW_NUM = 6 THEN SUBSTRING(a.투약량,26,5)
+							WHEN lin.ROW_NUM = 7 THEN SUBSTRING(a.투약량,31,5)
+							WHEN lin.ROW_NUM = 8 THEN SUBSTRING(a.투약량,36,5)
+							WHEN lin.ROW_NUM = 9 THEN SUBSTRING(a.투약량,41,5)
+							WHEN lin.ROW_NUM = 10 THEN SUBSTRING(a.투약량,46,5)
+							WHEN lin.ROW_NUM = 11 THEN SUBSTRING(a.투약량,51,5)
+							WHEN lin.ROW_NUM = 12 THEN SUBSTRING(a.투약량,56,5)
+							WHEN lin.ROW_NUM = 13 THEN SUBSTRING(a.투약량,61,5)
+							WHEN lin.ROW_NUM = 14 THEN SUBSTRING(a.투약량,66,5)
+							WHEN lin.ROW_NUM = 15 THEN SUBSTRING(a.투약량,71,5)
+							WHEN lin.ROW_NUM = 16 THEN SUBSTRING(a.투약량,76,5)
+							WHEN lin.ROW_NUM = 17 THEN SUBSTRING(a.투약량,81,5)
+							WHEN lin.ROW_NUM = 18 THEN SUBSTRING(a.투약량,86,5)
+							WHEN lin.ROW_NUM = 19 THEN SUBSTRING(a.투약량,91,5)
+							WHEN lin.ROW_NUM = 20 THEN SUBSTRING(a.투약량,96,5)
+							WHEN lin.ROW_NUM = 21 THEN SUBSTRING(a.투약량,101,5)
+							WHEN lin.ROW_NUM = 22 THEN SUBSTRING(a.투약량,106,5)
+							WHEN lin.ROW_NUM = 23 THEN SUBSTRING(a.투약량,111,5)
+							WHEN lin.ROW_NUM = 24 THEN SUBSTRING(a.투약량,116,5)
+							WHEN lin.ROW_NUM = 25 THEN SUBSTRING(a.투약량,121,5)
+							WHEN lin.ROW_NUM = 26 THEN SUBSTRING(a.투약량,126,5)
+							WHEN lin.ROW_NUM = 27 THEN SUBSTRING(a.투약량,131,5)
+							WHEN lin.ROW_NUM = 28 THEN SUBSTRING(a.투약량,136,5)
+							WHEN lin.ROW_NUM = 29 THEN SUBSTRING(a.투약량,141,5)
+							WHEN lin.ROW_NUM = 30 THEN SUBSTRING(a.투약량,146,5)
+							WHEN lin.ROW_NUM = 31 THEN SUBSTRING(a.투약량,151,5)
+							WHEN lin.ROW_NUM = 32 THEN SUBSTRING(a.투약량,156,5)
+							WHEN lin.ROW_NUM = 33 THEN SUBSTRING(a.투약량,161,5)
+							WHEN lin.ROW_NUM = 34 THEN SUBSTRING(a.투약량,166,5)
+							WHEN lin.ROW_NUM = 35 THEN SUBSTRING(a.투약량,171,5)
+							WHEN lin.ROW_NUM = 36 THEN SUBSTRING(a.투약량,176,5)
+							WHEN lin.ROW_NUM = 37 THEN SUBSTRING(a.투약량,181,5)
+							WHEN lin.ROW_NUM = 38 THEN SUBSTRING(a.투약량,186,5)
+							WHEN lin.ROW_NUM = 39 THEN SUBSTRING(a.투약량,191,5)
+							WHEN lin.ROW_NUM = 40 THEN SUBSTRING(a.투약량,196,5)
+							WHEN lin.ROW_NUM = 41 THEN SUBSTRING(a.투약량,201,5)
+							WHEN lin.ROW_NUM = 42 THEN SUBSTRING(a.투약량,206,5)
+							WHEN lin.ROW_NUM = 43 THEN SUBSTRING(a.투약량,211,5)
+							WHEN lin.ROW_NUM = 44 THEN SUBSTRING(a.투약량,216,5)
+							WHEN lin.ROW_NUM = 45 THEN SUBSTRING(a.투약량,221,5)
+							WHEN lin.ROW_NUM = 46 THEN SUBSTRING(a.투약량,226,5)
+							WHEN lin.ROW_NUM = 47 THEN SUBSTRING(a.투약량,231,5)
+							WHEN lin.ROW_NUM = 48 THEN SUBSTRING(a.투약량,236,5)
+							WHEN lin.ROW_NUM = 49 THEN SUBSTRING(a.투약량,241,5)
+							WHEN lin.ROW_NUM = 50 THEN SUBSTRING(a.투약량,246,5)
+		               ELSE '' END) AS '투약량2'
+		         
+		         , a.투약종류
+		         , a.투약담당
+		         , a.담당코드
+		         , a.아침전
+					, a.아침후
+		         , a.점심전
+		         , a.점심후
+		         , a.저녁전
+		         , a.저녁후
+		         , a.취침전
+		         , a.필요시
+		     FROM line lin
+		        , kmdosage a
+		   WHERE lin.ROW_NUM <![CDATA[ <= ]]> a.투약종류
+		     AND sicode = #{sicode}
+		     AND donalja = #{s_date}
+		     AND docode = #{m_code}
+		)
+		, b_data1 AS ( SELECT sicode
+		         , docode
+		       , donalja
+		        , lin.ROW_NUM
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.ROW_NUM), '#@$@#', -1) AS VALUE1
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents2, '#@$@#', lin.ROW_NUM), '#@$@#', -1) AS VALUE2
+		
+		    FROM line lin
+		   LEFT JOIN 
+		   (  SELECT a.sicode
+		   , a.donalja
+		   , a.docode
+		   , REPLACE(a.투약명, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+		   , REPLACE(a.투약방법, CONCAT(CHAR(13)), '#@$@#') AS bi_contents2
+		  FROM kmdosage a
+		  WHERE 1=1
+		       AND sicode = #{sicode}
+		     AND donalja = #{s_date}
+		     AND docode = #{m_code}
+		    ) bi
+		 ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.ROW_NUM - 1)
+		 
+		 SELECT aa.sicode
+		      , aa.docode
+		      , aa.doname
+		      , aa.donalja
+		      , aa.row_num
+		      , aa.투약시간
+		      , aa.투약종류
+		      , aa.투약담당
+		      , aa.담당코드
+		      , aa1.VALUE1	AS 투약명
+		      , aa1.VALUE2	AS 투약방법
+		      , aa.투약량
+		      , aa.투약량2
+		      , aa.아침전 AS 아침전2
+		      , SUBSTRING(aa.아침전, aa.row_num, 1) AS 아침전
+		      , aa.아침후 AS 아침후2
+		      , SUBSTRING(aa.아침후, aa.row_num, 1) AS 아침후
+		      , aa.점심전 AS 점심전2
+		      , SUBSTRING(aa.점심전,aa.row_num,1) AS 점심전
+		      , aa.점심후 AS 점심후2
+		      , SUBSTRING(aa.점심후,aa.row_num,1) AS 점심후
+		      , aa.저녁전 AS 저녁전2
+		      , SUBSTRING(aa.저녁전, aa.row_num, 1) AS 저녁전
+		      , aa.저녁후 AS 저녁후2
+		      , SUBSTRING(aa.저녁후, aa.row_num, 1) AS 저녁후  
+		      , aa.취침전 AS 취침전2
+		      , SUBSTRING(aa.취침전, aa.row_num, 1) AS 취침전
+		      , aa.필요시 AS 필요시2
+		      , SUBSTRING(aa.필요시, aa.row_num, 1) AS 필요시		    
+		   FROM base aa
+		     , b_data1 aa1
+		  WHERE aa.sicode = aa1.sicode
+		    AND aa.docode = aa1.docode   
+		    AND aa.ROW_NUM = aa1.ROW_NUM    
+    </select>
+
+	<select id="DAY00201_DS_NURSE_PREV_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00201_DS_NURSE_PREV_S */
+		SELECT n_nalja
+		     , n_name	AS m_name
+		     , SUBSTRING_INDEX(혈압,'/',1) AS 혈압1
+		     , SUBSTRING_INDEX(혈압,'/',-1) AS 혈압2
+		     , IF(맥박 = 0, '', 맥박) AS 맥박
+		     , IF(혈당  = 0, '', 혈당) AS 혈당
+		     , IF(혈당2 = 0, '', 혈당2) AS 혈당2
+		     , IF(체온 = 0, '', 체온) AS 체온 
+		     , IF(체온2 = 0, '', 체온2) AS 체온2
+		     , IF(체온3 = 0, '', 체온3) AS 체온3
+		     , IF(호흡 = 0, '', 호흡) AS 호흡
+		     , 체중
+		     , 간호일지
+		FROM (
+			SELECT sicode
+				, n_code
+				, n_name
+				, n_number
+				, n_nalja
+				, 혈압
+				, 맥박
+				, 혈당
+				, 혈당2
+				, 체온
+				, 체온2
+				, 체온3
+				, 호흡
+				, 체중
+				, 간호일지
+				, 담당자
+				, 담당코드
+				, ROW_NUMBER() OVER(ORDER BY n_nalja DESC) AS rn
+			FROM kmnurse
+			WHERE sicode = #{sicode}
+			  AND n_code = #{m_code}
+			  AND n_nalja BETWEEN DATE_ADD(#{s_date}, INTERVAL -5 DAY) AND DATE_ADD(#{s_date}, INTERVAL -1 DAY)
+			) k
+		WHERE rn = 1	/* 기준일로부터 5일 이내 가장 최근 데이터 가져오기 */
+	</select>
+
+	<select id="DAY00201_DS_DOSAGE_HEAD_PREV_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00201_DS_DOSAGE_HEAD_PREV_S */
+		SELECT docode
+			, donalja
+			, 투약시간
+			, 투약종류
+		FROM (
+			SELECT
+				*
+				, ROW_NUMBER() OVER(ORDER BY donalja DESC) AS rn
+			FROM kmdosage
+			WHERE sicode = #{sicode}
+			  AND docode = #{m_code}
+			  AND donalja BETWEEN DATE_ADD(#{s_date}, INTERVAL -1 DAY) AND DATE_ADD(#{s_date}, INTERVAL -1 DAY)
+		) kd
+		WHERE rn = 1	
+	</select>
+
+	<select id="DAY00201_DS_DOSAGE_PREV_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00201_DS_DOSAGE_PREV_S */
+		WITH RECURSIVE line
+		   AS
+		   (
+		      SELECT 1 AS row_num
+		      UNION ALL
+		      SELECT row_num + 1 AS row_num
+		      FROM line
+		      WHERE row_num <![CDATA[ < ]]> 50
+		   ) 
+		, b_data1 AS ( SELECT lin.row_num
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.row_num), '#@$@#', -1) AS VALUE1
+		        , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents2, '#@$@#', lin.row_num), '#@$@#', -1) AS VALUE2
+		        , bi.*
+		    FROM line lin
+		   LEFT JOIN 
+		   (  SELECT
+					kd.*
+				FROM (
+					SELECT
+							 REPLACE(a.투약명, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+						   , REPLACE(a.투약방법, CONCAT(CHAR(13)), '#@$@#') AS bi_contents2
+						, ROW_NUMBER() OVER(ORDER BY donalja DESC) AS rn
+						, a.*
+					FROM kmdosage a
+					WHERE sicode = #{sicode}
+					  AND docode = #{m_code}
+					  AND donalja BETWEEN DATE_ADD(#{s_date}, INTERVAL -1 DAY) AND DATE_ADD(#{s_date}, INTERVAL -1 DAY)
+				) kd
+				WHERE rn = 1
+		    ) bi
+		 ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.row_num - 1)
+		 SELECT sicode
+		 	  , donumber
+		      , docode
+		      , donalja
+		      , 투약시간
+		      , row_num
+		      , VALUE1 AS '투약명' 
+		      , VALUE2 AS '투약방법' 
+		      , 투약종류
+		      , 투약담당
+		      , 담당코드
+		      , SUBSTRING(아침전,row_num,1) AS '아침전'
+		      , SUBSTRING(아침후,row_num,1) AS '아침후'       
+		      , SUBSTRING(점심전,row_num,1) AS '점심전'
+		      , SUBSTRING(점심후,row_num,1) AS '점심후'
+		      , SUBSTRING(저녁전,row_num,1) AS '저녁전'
+		      , SUBSTRING(저녁후,row_num,1) AS '저녁후'
+		      , SUBSTRING(취침전,row_num,1) AS '취침전'
+		      , SUBSTRING(필요시,row_num,1) AS '필요시'
+
+		      , SUBSTRING(아침전,row_num,1)
+		      + SUBSTRING(아침후,row_num,1)
+		      + SUBSTRING(점심전,row_num,1)
+		      + SUBSTRING(점심후,row_num,1)
+		      + SUBSTRING(저녁전,row_num,1)
+		      + SUBSTRING(저녁후,row_num,1)
+		      + SUBSTRING(취침전,row_num,1)
+		      + SUBSTRING(필요시,row_num,1) AS cnt
+		      , 투약량  AS 투약량_orig
+		      , (1+((row_num-1)*5))
+		      ,    row_num           
+		      ,  SUBSTRING(투약량,(1+((row_num-1)*5)),5) AS 투약량
+		      , 0 AS del
+		  FROM b_data1
+		  WHERE row_num <![CDATA[ <= ]]> 투약종류
+		  ORDER BY sicode
+		        , docode
+		        , donalja
+		        , row_num
+	</select>
+
+	<insert id="DAY00201_DS_NURSE_I" parameterType="java.util.HashMap">
+	/* DAY00201_DS_NURSE_I */
+		INSERT INTO kmnurse
+				(sicode
+				, n_code
+				, n_name
+				, n_nalja
+				, 혈압
+				, 맥박
+				, 혈당
+				, 혈당2
+				, 체온
+				, 체온2
+				, 체온3
+				, 호흡
+				, 체중
+				, 기침2
+				, 인후통2
+				, 호흡곤란2
+				, 객담2
+				, 기타2
+				, 간호일지
+				, 담당자
+				, 담당코드	)
+		VALUES
+			(  #{sicode}
+				, #{n_code}
+				, #{n_name}
+				, #{n_nalja}
+				, CONCAT(IFNULL(#{혈압1},''), '/', IFNULL(#{혈압2},''))
+				, IF(#{맥박}='', '0', IFNULL(#{맥박}, '0'))
+				, IF(#{혈당}='', '0', IFNULL(#{혈당}, '0'))
+				, IF(#{혈당2}='', '0', IFNULL(#{혈당2}, '0'))
+				, IF(#{체온}='', '0.0', IFNULL(#{체온}, '0.0'))
+				, IF(#{체온2}='', '0.0', IFNULL(#{체온2}, '0.0'))
+				, IF(#{체온3}='', '0.0', IFNULL(#{체온3}, '0.0'))
+				, IF(#{호흡}='', '0', IFNULL(#{호흡}, '0'))
+				, IF(#{체중}='', '0.0', IFNULL(#{체중}, '0.0'))
+				, IFNULL(#{기침}, '')
+				, IFNULL(#{인후통}, '')
+				, IFNULL(#{호흡곤란}, '')
+				, IFNULL(#{객담}, '')
+				, IFNULL(#{기타}, '')		
+				, IFNULL(#{간호일지}, '')
+				, #{담당자}
+				, #{담당코드}	)
+	</insert>
+
+	<insert id="DAY00201_DS_DOSAGE_I 보류" parameterType="java.util.HashMap">
+	/*	DAY00201_DS_DOSAGE_I	*/
+		INSERT INTO kmdosage (
+			 sicode
+			, docode
+			, doname
+			, donalja
+			, 투약시간
+			, 투약명
+			, 투약량
+			, 투약방법
+			, 투약종류
+			, 투약담당
+			, 담당코드
+			, 아침전
+			, 아침후
+			, 점심전
+			, 점심후
+			, 저녁전
+			, 저녁후
+			, 취침전
+			, 필요시
+		) VALUES (
+			 #{sicode}
+			, #{docode}
+			, #{doname}
+			, #{donalja}
+			, #{투약시간}
+			, #{투약명}
+			, #{투약량}
+			, #{투약방법}
+			, #{투약종류}
+			, #{투약담당}
+			, #{담당코드}
+			, #{아침전}
+			, #{아침후}
+			, #{점심전}
+			, #{점심후}
+			, #{저녁전}
+			, #{저녁후}
+			, #{취침전}
+			, #{필요시}
+		)
+	</insert>
+
+	<insert id="DAY00201_DS_DOSAGE_I" parameterType="java.util.HashMap">
+	/*	DAY00201_DS_DOSAGE_I	*/
+		INSERT INTO kmdosage (
+			 sicode
+			, docode
+			, doname
+			, donalja
+			, 투약시간
+			, 투약명
+			, 투약량
+			, 투약방법
+			, 투약종류
+			, 투약담당
+			, 담당코드
+			, 아침전
+			, 아침후
+			, 점심전
+			, 점심후
+			, 저녁전
+			, 저녁후
+			, 취침전
+			, 필요시
+		)
+		WITH t1 (sicode, docode, doname, donalja, 투약시간, 투약명, 투약량, 투약방법, 투약종류
+			, 투약담당, 담당코드, 아침전, 아침후, 점심전, 점심후, 저녁전, 저녁후, 취침전, 필요시, row_num) AS (
+		
+			VALUES
+			<foreach collection="list" item="item" separator=",">
+		        ( #{sicode}, #{docode}, #{doname}, STR_TO_DATE(#{donalja},'%Y%m%d'), #{투약시간}, #{item.투약명}, #{item.투약량}, #{item.투약방법}, #{투약종류}
+		        , #{투약담당}, #{담당코드}, #{item.아침전}, #{item.아침후}, #{item.점심전}, #{item.점심후}, #{item.저녁전}, #{item.저녁후}, #{item.취침전}, #{item.필요시}, #{item.row_num}
+					)
+		   </foreach>
+		)
+		SELECT sicode
+			, docode
+			, doname
+			, donalja
+			, 투약시간
+			, GROUP_CONCAT(투약명 ORDER BY row_num SEPARATOR '\r')
+			, GROUP_CONCAT(LPAD(투약량,5,' ') ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(투약방법 SEPARATOR '\r')
+			, COUNT(*)	-- 투약종류
+			, 투약담당
+			, 담당코드
+			, GROUP_CONCAT(아침전 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(아침후 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(점심전 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(점심후 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(저녁전 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(저녁후 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(취침전 ORDER BY row_num SEPARATOR '')
+			, GROUP_CONCAT(필요시 ORDER BY row_num SEPARATOR '')
+		FROM t1
+		GROUP BY sicode, docode, doname, donalja, 투약시간, 투약담당, 담당코드
+--		ORDER BY row_num	
+	</insert>	        
+
+	<update id="DAY00201_DS_NURSE_U" parameterType="java.util.HashMap">
+	/* DAY00201_DS_NURSE_U */
+		UPDATE kmnurse
+			SET
+				    혈압		= CONCAT(#{혈압1}, '/', #{혈압2})
+				, 맥박		= IF(#{맥박} = '', '0', #{맥박})
+				, 혈당		= IF(#{혈당} = '', '0', #{혈당})
+				, 혈당2		= IF(#{혈당2} = '', '0', #{혈당2})
+				, 체온		= IF(#{체온} = '', '0.0', #{체온})
+				, 체온2		= IF(#{체온2} = '', '0.0', #{체온2})
+				, 체온3		= IF(#{체온3} = '', '0.0', #{체온3})
+				, 호흡		= IF(#{호흡} = '', '0', #{호흡})
+				, 체중		= IF(#{체중} = '', '0.0', #{체중})
+				, 기침2		= #{기침}
+				, 인후통2		= #{인후통}
+				, 호흡곤란2	= #{호흡곤란}
+				, 객담2		= #{객담}
+				, 기타2		= #{기타}
+				, 간호일지	= #{간호일지}
+				, 담당자	= #{담당자}
+				, 담당코드	= #{담당코드}
+		WHERE sicode = #{sicode}
+		  AND n_nalja	= #{n_nalja}
+		  AND n_code	= #{n_code}
+	</update>
+
+	<delete id="DAY00201_DS_NURSE_D" parameterType="java.util.HashMap">
+		DELETE FROM kmnurse
+		WHERE sicode = #{sicode}
+		  AND n_nalja = #{n_nalja}
+		  AND n_code = #{n_code}
+	</delete>
+	
+	<delete id="DAY00201_DS_DOSAGE_D" parameterType="java.util.HashMap">
+		DELETE FROM kmdosage
+		WHERE sicode = #{sicode}
+		  AND donumber = #{donumber}
+	</delete>
+	
+    <select id="DAY00201_DS_DELIVERY_TIME_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00201_DS_DELIVERY_TIME_S */
+    	SELECT sicode
+    		, m_code
+    		, m_name
+    		, drugtime
+    	FROM base_mate
+    	WHERE sicode = #{sicode}
+    	  AND m_code = #{m_code}
+    </select>	
+</mapper>

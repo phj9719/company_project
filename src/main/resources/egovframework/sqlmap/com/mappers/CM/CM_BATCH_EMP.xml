@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CM_BATCH_ROOM
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2021-09-30  |  SOOIM    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH_EMP">
+	
+	<select id="SCT_EMP_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SE.sicode		AS REF_SYS_COMP_CD
+			  		,(SELECT CC.COMPANY_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.REF_SYS_COMP_CD = SE.sicode) AS COMPANY_CD
+					,SE.c_staffid	AS REF_USER_ID
+					,SE.c_group		AS CARE_GRP
+					,SE.c_name		AS USER_NM_KOR
+					,CONCAT(IF(LEFT(c_jumin2,1)>=3 ,'20','19'),SE.c_jumin1) AS BIRTH_DT
+					,SE.성별
+					,SE.근무현황
+					,SE.c_become	AS HIRE_DT
+					,SE.c_retire	AS RETIRE_DT
+					,SE.c_dutyno	AS RANK_CD
+					,SE.c_dutyname
+					,SE.c_post		AS ZIP_CODE
+					,CONCAT(SE.c_juso1,' ', SE.c_juso2)		AS ADDRESS
+					,SE.c_phone1	AS TEL_NO
+					,SE.c_phone2	AS TEL_NO2
+					,SE.ir_time
+					,SE.ir_type
+					,SE.ir_comp
+					,SE.ir_status
+			  FROM sct_emp SE
+			 WHERE SE.IR_STATUS != '1'
+		]]>
+	</select>
+	<update id="SCT_EMP_U" parameterType="java.util.Map">
+    <![CDATA[  
+           UPDATE T_CM_USER CU
+       INNER JOIN T_CM_COMPANY CC
+       		   ON(CU.COMPANY_CD = CC.COMPANY_CD)    
+       INNER JOIN sct_emp SE
+       		   ON(CC.REF_SYS_COMP_CD = SE.sicode
+       		  AND CU.REF_USER_ID = SE.c_staffid)
+              SET CU.RANK_CD         = SE.c_dutyno
+				 ,CU.USER_NM_KOR     = SE.c_name
+				 ,CU.ZIP_CODE        = SE.c_post
+				 ,CU.ADDRESS         = CONCAT(SE.c_juso1,' ', SE.c_juso2)
+				 ,CU.TEL_NO          = HEX(AES_ENCRYPT(SE.c_phone1, (SELECT CC.STR1
+																	   FROM T_CM_CODE CC
+													   		 	   	  WHERE CC.COMPANY_CD = CU.COMPANY_CD
+													   		 	    	AND CC.GRP_CD = 'CM_AES_KEY')))
+				 ,CU.TEL_NO2         = HEX(AES_ENCRYPT(SE.c_phone2, (SELECT CC.STR1
+																	   FROM T_CM_CODE CC
+																	  WHERE CC.COMPANY_CD = CU.COMPANY_CD
+																	  	AND CC.GRP_CD = 'CM_AES_KEY')))
+					
+				 ,CU.BIRTH_DT        = CONCAT(IF(LEFT(SE.c_jumin2,1)>=3 ,'20','19'),SE.c_jumin1)
+				 ,CU.HIRE_DT         = REPLACE(SE.c_become,'-','')
+				 ,CU.RETIRE_DT       = REPLACE(SE.c_retire,'-','')
+				 ,CU.REF_USER_ID     = SE.c_staffid
+				 ,CU.CARE_GRP		 = SE.c_group
+            WHERE SE.ir_status != '1'
+              AND SE.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+           ]]>
+	</update>
+	<update id="NS_EMP_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_emp SE
+			  INNER JOIN T_CM_COMPANY CC
+			  		  ON(SE.sicode = CC.REF_SYS_COMP_CD)
+					 SET SE.ir_status = '1'            
+		           WHERE SE.ir_status!= '1'
+		           	 AND SE.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+    ]]>
+	</update>
+</mapper>

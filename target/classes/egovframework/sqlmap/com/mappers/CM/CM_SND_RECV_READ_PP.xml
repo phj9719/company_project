@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="CM_SND_RECV_READ_PP">
+	<!-- 발신문서함에서 넘어올 때 -->
+	<select id="CM_READ_PP" parameterType="java.util.Map" resultType="java.util.Map">
+		<![CDATA[
+		--	 SELECT 
+		--	              GAL.COMPANY_CD
+		--	            , GAL.PLANT_CD
+		--	            , GAL.PK_DOC_NO
+		--				, GAL.APPL_DEP_NM
+		--	            , GAL.FRST_READ_DT
+		--	            , GAL.FNL_READ_DT
+		--	            , ISNULL(GAL.FRST_READ_STS,'0')            AS FRST_READ_STS
+		--	FROM 		  T_GR_APPL_LINE GAL WITH(NOLOCK)
+		--	WHERE		  GAL.COMPANY_CD = {COMPANY_CD}
+		--	  AND		  GAL.PK_DOC_NO  = {PK_DOC_NO}
+		--	  AND		  GAL.PK_APPL_TYPE = '30'
+			 
+			 SELECT GAC.COMPANY_CD
+			      , GAC.PLANT_CD
+			      , GAC.PK_DOC_NO
+		]]>
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+			      , (SELECT A.DEPT_NAME
+					   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+					  WHERE A.COMPANY_CD = #{COMPANY_CD}
+					    AND A.DEPT_CODE  = #{USER_DEPT}) AS RECV
+			</if>
+			<if test="AUTH.equals('20')">
+			      , GAC.PLANT_CD AS RECV
+			</if>
+		</if>
+			      , GAC.FRST_READ_DT AS FNL_READ_DT
+			      , ISNULL(GAC.FRST_READ_STS, '0') AS FRST_READ_STS
+			   FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+			  WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+			    AND GAC.PK_DOC_NO  = #{PK_DOC_NO}
+    </select>
+    
+    <!-- 수신문서함에서 넘어올 때 -->
+    <select id="CM_READ_PP2" parameterType="java.util.Map" resultType="java.util.Map">
+		<![CDATA[
+			SELECT GAL.COMPANY_CD
+			     , GAL.PLANT_CD
+				 , GAL.PK_DOC_NO
+				 , GAL.APPL_LINE_CHRG AS RECV
+				 , GAL.FRST_READ_STS
+				 , GAL.FNL_READ_DT
+			  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+			 WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+			   AND GAL.PK_DOC_NO  = #{PK_DOC_NO}
+			   AND GAL.PK_APPL_TYPE = '30'
+		]]>
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+			   AND GAL.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+									       FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+									      WHERE A.COMPANY_CD = #{COMPANY_CD}
+									        AND A.DEPT_CODE  = #{USER_DEPT})
+			</if>
+			<if test="AUTH.equals('20')">
+			   AND GAL.APPL_LINE_CHRG = #{USER_DEPT}
+			</if>
+		</if>
+    </select>
+</mapper>                                                                                                                                                                                                          

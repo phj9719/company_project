@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00405_P01
+     * 프로그램 명     	: 월간 수급자 송영·식사 기록
+     * Description 		: 수급자별 월간 송영·식사 내역 조회
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-05-09 17:00        	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00405_P01_DS_LIST_S		조회
+     *================================================================
+-->
+<mapper namespace="DAY00405_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00405_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-5 P01 조회 */
+    SELECT
+      kmr.k_nalja
+    , CASE DATE_FORMAT(kmr.k_nalja, '%w')
+        WHEN 0 THEN '(일)'
+        WHEN 1 THEN '(월)'
+        WHEN 2 THEN '(화)'
+        WHEN 3 THEN '(수)'
+        WHEN 4 THEN '(목)'
+        WHEN 5 THEN '(금)'
+        WHEN 6 THEN '(토)'
+      END AS 요일
+    , CONCAT(TRIM(kmr.시작코스), ' ', TRIM(kmr.시작차번호)) AS 시작차량
+    , CONCAT(TRIM(kmr.시작시간), '-', TRIM(kmr.종료시간)) AS 송영시간
+    , CONCAT(TRIM(kmr.종료코스), ' ', TRIM(kmr.종료차번호)) AS 종료차량
+    , CASE kmr.아침종류
+        WHEN 1 THEN '일반식'
+        WHEN 2 THEN '죽식'
+        WHEN 3 THEN '유동·미음'
+        ELSE ''
+      END AS 아침종류
+    , CASE kmr.점심종류
+        WHEN 1 THEN '일반식'
+        WHEN 2 THEN '죽식'
+        WHEN 3 THEN '유동·미음'
+        ELSE ''
+      END AS 점심종류
+    , CASE kmr.저녁종류
+        WHEN 1 THEN '일반식'
+        WHEN 2 THEN '죽식'
+        WHEN 3 THEN '유동·미음'
+        ELSE ''
+      END AS 저녁종류
+    FROM kmrecord kmr
+    WHERE kmr.k_code = #{K_CODE}
+    AND kmr.k_nalja &gt;= #{DATE_FROM}
+    AND kmr.k_nalja &lt;= #{DATE_TO}
+    </select>
+</mapper>

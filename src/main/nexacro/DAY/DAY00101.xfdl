@@ -1,0 +1,2770 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00101" width="1920" height="800" titletext="1-1 요양급여기록(매일)" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="440" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="40" top="3" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="400" autofittype="col" bottom="10" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="60"/>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="48"/>
+                            <Column size="60"/>
+                            <Column size="84"/>
+                            <Column size="60"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                            <Cell col="6" text="구분"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:m_type"/>
+                            <Cell col="1" textAlign="center" text="bind:m_group" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="2" text="bind:m_name" textAlign="center" cssclass="cellBWoman" cursor="pointer" expandchar="dot"/>
+                            <Cell col="3" text="bind:sex_gb"/>
+                            <Cell col="4" text="bind:등급"/>
+                            <Cell col="5" text="bind:m_roomname"/>
+                            <Cell col="6" text="bind:pr_nm"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn_A" taborder="1" text="A" top="47" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_B" taborder="2" text="B" top="80" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_C" taborder="3" text="C" top="113" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_D" taborder="4" text="D" top="146" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_E" taborder="5" text="E" top="179" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_F" taborder="6" text="F" top="212" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_G" taborder="7" text="G" top="245" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_H" taborder="8" text="H" top="278" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_I" taborder="9" text="I" top="311" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_J" taborder="10" text="J" top="344" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_K" taborder="11" text="K" top="377" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_L" taborder="12" text="L" top="410" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_P" taborder="13" text="P" top="542" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_O" taborder="14" text="O" top="509" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_N" taborder="15" text="N" top="476" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_M" taborder="16" text="M" top="443" width="25" height="30" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                    <Button id="btn_ALL" taborder="17" text="전&#13;&#10;체" top="3" width="25" height="40" visible="true" left="10" onclick="btn_grade_onclick" cssclass="btn_basic_gray"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="460" top="0" bottom="0" right="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_body1" taborder="0" left="0" top="3" height="33" cssclass="sta_WF_DetailLabel02" width="1405"/>
+                    <Static id="sta_body1_00" taborder="1" left="90" top="7" width="60" height="25" padding="0px" text="강옥주"/>
+                    <Static id="sta_body1_00_00" taborder="2" left="180" top="7" width="65" height="25" padding="0px" text="A103002"/>
+                    <Static id="sta_body1_00_00_00" taborder="3" left="155" top="7" width="20" height="25" padding="0px" text="A"/>
+                    <Static id="sta_head1" taborder="4" text="수급자명" left="0" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head2" taborder="5" text="생활실" left="430" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00" taborder="6" text="성별·생일" left="250" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00_01" taborder="7" left="340" top="7" width="20" height="25" padding="0px" text="여"/>
+                    <Static id="sta_body1_00_00_00_00" taborder="8" left="365" top="7" width="60" height="25" padding="0px" text="35-08-28"/>
+                    <Static id="sta_head1_00_01" taborder="9" text="입·퇴소일" left="625" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00_01_00" taborder="10" text="인정번호" left="1045" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00_01_00_00_00" taborder="11" text="인정등급" left="890" top="3" width="80" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00_00_01_00_00_01_00" taborder="12" left="1135" top="7" height="25" padding="0px 0px 0px 5px" text="L1710093441-101" width="260"/>
+                    <Static id="sta_body1_00_02" taborder="13" left="520" top="7" width="100" height="25" padding="0px" text="생활실입니다"/>
+                    <Static id="sta_body1_00_02_00" taborder="14" left="715" top="8" width="80" height="25" padding="0px" text="2022.11.01"/>
+                    <Static id="sta_body1_00_02_00_00" taborder="15" left="805" top="8" width="80" height="25" padding="0px" text="2022.12.01" color="red"/>
+                    <Static id="sta_body1_00_02_00_00_00" taborder="16" left="980" top="8" width="60" height="25" padding="0px" text="3등급"/>
+                    <Div id="div_main" taborder="17" text="" left="0" top="41" bottom="10" right="0">
+                      <Layouts>
+                        <Layout>
+                          <Div id="div_help" taborder="0" top="0" left="633" right="0" bottom="0">
+                            <Layouts>
+                              <Layout>
+                                <Static id="sta_body1_00_01" taborder="0" left="446" top="61" width="35" height="23" padding="0px 0px 0px 5px"/>
+                                <Static id="sta_kinds" taborder="1" left="0" top="32" width="98" height="31" cssclass="sta_WF_DetailLabel02" background="#32cd32" textAlign="center" color="white"/>
+                                <Static id="sta_time" taborder="2" text="식사시간" left="0" top="62" width="98" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_b" taborder="3" left="97" top="32" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="아침" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_l" taborder="4" left="273" top="32" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="점심" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_d" taborder="5" left="449" top="32" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="저녁" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_s" taborder="6" left="625" top="32" width="147" height="31" cssclass="sta_WF_DetailLabel02" text="오전,오후간식" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_b_time" taborder="7" left="97" top="62" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_l_time" taborder="8" left="273" top="62" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_d_time" taborder="9" left="449" top="62" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_s_time1" taborder="10" left="625" top="62" width="74" height="31" textAlign="center" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_head1_00_00_00" taborder="11" text="식사종류&#13;&#10;식사량" left="0" top="92" width="98" height="118" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_body1_01_00_01_00" taborder="12" left="97" top="92" width="177" height="89" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_01_00" taborder="13" left="273" top="92" width="177" height="89" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_00_01_00" taborder="14" left="449" top="92" width="177" height="89" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_00_00_00_00" taborder="15" left="625" top="92" width="147" height="89" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Radio id="rdo_b" taborder="16" left="103" top="97" width="95" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" cssclass="radioselect" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_kinds"/>
+                                <Radio id="rdo_ba" taborder="17" left="203" top="97" width="65" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+                                <Static id="sta_body1_01_00_01_01" taborder="18" left="97" top="179" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_01_01" taborder="19" left="273" top="179" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_00_01_01" taborder="20" left="449" top="179" width="177" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Static id="sta_body1_01_00_00_00_00_00_01" taborder="21" left="625" top="179" width="147" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Button id="btn_bd" taborder="22" text="아침지움" left="178" top="182" width="90" height="24" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Radio id="rdo_l" taborder="23" left="279" top="97" width="95" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_kinds"/>
+                                <Radio id="rdo_la" taborder="24" left="379" top="97" width="65" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+                                <Radio id="rdo_d" taborder="25" left="455" top="97" width="95" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_kinds"/>
+                                <Radio id="rdo_da" taborder="26" left="555" top="97" width="65" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+                                <Radio id="rdo_sa2" taborder="27" left="701" top="97" width="65" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+                                <Button id="btn_ld" taborder="28" text="점심지움" left="355" top="182" width="90" height="24" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Button id="btn_sd" taborder="29" text="간식지움" left="676" top="182" width="90" height="24" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Button id="btn_dd" taborder="30" text="저녁지움" left="530" top="182" width="90" height="24" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_s_time2" taborder="31" left="698" top="62" width="74" height="31" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+                                <Radio id="rdo_sa1" taborder="32" left="631" top="97" width="65" height="78" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+                                <Static id="sta_body10" taborder="33" left="0" top="269" width="772" height="120" cssclass="sta_WF_DetailLabel02"/>
+                                <TextArea id="txt_content2" taborder="34" left="103" top="274" width="663" height="111" maxlength="2000" wordWrap="char" scrollbartype="none fixed"/>
+                                <Static id="sta_head10" taborder="35" left="0" top="269" width="98" height="120" cssclass="sta_WF_DetailLabel01" textAlign="center" text="요양일지"/>
+                                <Static id="sta_body8_00" taborder="36" left="0" top="209" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_state" taborder="37" text="구강상태" left="0" top="209" width="98" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_head1_00_00_01_01" taborder="38" text="처리내용" left="290" top="209" width="78" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_body8_00_00_00" taborder="39" left="0" top="239" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_head1_01_01" taborder="40" left="0" top="239" width="98" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_body8_00_00_00_00" taborder="41" left="0" top="388" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_head1_01_01_00" taborder="42" left="0" top="388" width="98" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Edit id="edt_content" taborder="43" left="373" top="213" width="393" height="23" maxlength="40"/>
+                                <Button id="btn_state_delete" taborder="44" text="구강상태지움" left="656" top="242" width="110" height="24" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Button id="btn_record" taborder="45" text="전날 요양일지 조회" left="451" top="391" width="155" height="24" cssclass="btn_search" onclick="div_cont_btn_record_onclick"/>
+                                <CheckBox id="chk_state2" taborder="46" text="입안 행굼" left="200" top="213" width="80" height="23" truevalue="2" falsevalue="0" canchange="chk_state_canchange" cssclass="chk_x"/>
+                                <CheckBox id="chk_state1" taborder="47" text="양치질도움" left="103" top="213" width="90" height="23" truevalue="1" falsevalue="0" canchange="chk_state_canchange" cssclass="chk_x"/>
+                                <Static id="sta_manager_value" taborder="48" text="요양보호사 / 20210000" left="108" top="242" width="174" height="24" textAlign="left"/>
+                                <Static id="sta_manager_value2" taborder="49" text="요양보호사 / 20210000" left="108" top="391" width="174" height="24" textAlign="left"/>
+                                <Button id="btn_manager1" taborder="50" text="구강점검" left="4" top="242" width="90" height="24" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                                <Button id="btn_manager2" taborder="51" text="작성자" left="4" top="391" width="90" height="24" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                                <Static id="sta_subTitle" taborder="52" text="식사도움 관찰기록" left="0" top="3" width="170" height="26" cssclass="lb01"/>
+                                <Button id="btn_mealtime" taborder="53" text="식사시간조회" left="652" top="0" height="26" cssclass="btn_search" width="120" onclick="div_cont_div_right_div_main_div_help_btn_mealtime_onclick"/>
+                                <Static id="sta_body8_00_00_00_01" taborder="54" left="0" top="418" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_body8_00_00_00_02" taborder="55" left="0" top="448" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_body8_00_00_00_02_00" taborder="56" left="0" top="538" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_body8_00_00_00_02_01" taborder="57" left="0" top="508" width="772" height="31" cssclass="sta_WF_DetailLabel02" onclick="div_cont_div_right_div_main_div_help_sta_body8_00_00_00_02_01_onclick"/>
+                                <Static id="sta_body8_00_00_00_02_02" taborder="58" left="0" top="568" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_body8_00_00_00_02_03" taborder="59" left="0" top="478" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_body8_00_00_00_02_02_00" taborder="60" left="0" top="598" width="772" height="31" cssclass="sta_WF_DetailLabel02"/>
+                                <Static id="sta_state00" taborder="61" text="외출기록" left="0" top="418" width="98" height="31" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Edit id="edt_content00" taborder="62" left="103" top="422" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Edit id="edt_traning1" taborder="63" left="103" top="452" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Edit id="edt_traning2" taborder="64" left="103" top="482" width="663" height="23" maxlength="40" enable="false" background="#ffffff" onchanged="div_cont_div_right_div_main_div_help_edt_content00_01_onchanged"/>
+                                <Edit id="edt_traning3" taborder="65" left="103" top="512" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Edit id="edt_act1" taborder="66" left="103" top="542" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Edit id="edt_act2" taborder="67" left="103" top="572" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Edit id="edt_act3" taborder="68" left="103" top="602" width="663" height="23" maxlength="40" enable="false" background="#ffffff"/>
+                                <Static id="sta_head1_01_01_00_00" taborder="69" left="0" top="448" width="98" height="91" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Static id="sta_head1_01_01_00_00_00" taborder="70" left="0" top="538" width="98" height="91" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                                <Button id="btn_traning" taborder="71" text="기능&#13;&#10;회복&#13;&#10;훈련" left="4" top="451" width="90" height="85" onclick="btn_popup_onclick" cssclass="btn_chart"/>
+                                <Button id="btn_act" taborder="72" text="인지활동&#13;&#10;관리지원" left="4" top="541" width="90" height="85" onclick="btn_popup_onclick" cssclass="btn_eldery"/>
+                                <Static id="sta_body10_00" taborder="74" left="0" top="628" width="772" height="79" cssclass="sta_WF_DetailLabel02"/>
+                                <TextArea id="txt_content2_00" taborder="75" left="103" top="632" width="663" height="70" maxlength="2000" wordWrap="char" background="#ffffff" color="#222222" readonly="true" scrollbartype="none fixed"/>
+                                <Static id="sta_head10_00" taborder="73" left="0" top="628" width="98" height="79" cssclass="sta_WF_DetailLabel01" textAlign="center" text="간호일지" onclick="div_cont_div_right_div_main_div_help_sta_head10_00_onclick"/>
+                                <Button id="btn_recordex" taborder="76" text="일지예문" left="4" top="359" width="90" height="26" cssclass="btn_search" onclick="btn_popup_onclick"/>
+                                <Button id="btn_recordsr" taborder="77" text="요양일지 내용검색" left="611" top="391" width="155" height="24" cssclass="btn_search" onclick="btn_popup_onclick"/>
+                                <MaskEdit id="mae_time1" taborder="78" left="160" top="65" width="50" height="24" format="##:##" type="string" textAlign="center" oneditclick="mae_time_from_oneditclick" font="10pt/normal &quot;Noto Sans KR&quot;" onchanged="mae_time_onchanged"/>
+                                <MaskEdit id="mae_time1_00" taborder="79" left="336" top="65" width="50" height="24" format="##:##" type="string" textAlign="center" oneditclick="mae_time_from_oneditclick" font="10pt/normal &quot;Noto Sans KR&quot;" onchanged="mae_time_onchanged"/>
+                                <MaskEdit id="mae_time1_01" taborder="80" left="512" top="65" width="50" height="24" format="##:##" type="string" textAlign="center" oneditclick="mae_time_from_oneditclick" font="10pt/normal &quot;Noto Sans KR&quot;" onchanged="mae_time_onchanged"/>
+                                <MaskEdit id="mae_time1_01_00" taborder="81" left="637" top="65" width="50" height="24" format="##:##" type="string" textAlign="center" oneditclick="mae_time_from_oneditclick" font="10pt/normal &quot;Noto Sans KR&quot;" onchanged="mae_time_onchanged" visible="false"/>
+                                <MaskEdit id="mae_time1_01_00_00" taborder="82" left="710" top="65" width="50" height="24" format="##:##" type="string" textAlign="center" oneditclick="mae_time_from_oneditclick" font="10pt/normal &quot;Noto Sans KR&quot;" onchanged="mae_time_onchanged" visible="false"/>
+                              </Layout>
+                            </Layouts>
+                          </Div>
+                          <Div id="div_activity" taborder="1" text="div_00" left="0" top="32" width="623" height="614">
+                            <Layouts>
+                              <Layout>
+                                <Static id="sta_activity2" taborder="1" left="0" top="32" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity3" taborder="2" left="0" top="64" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity4" taborder="3" left="0" top="96" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity5" taborder="4" left="0" top="128" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity6" taborder="5" left="0" top="160" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity7" taborder="6" left="0" top="192" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity9" taborder="7" left="0" top="255" height="43" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity8" taborder="8" left="0" top="223" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity11" taborder="9" left="0" top="329" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity10" taborder="10" left="0" top="297" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity13" taborder="14" left="0" top="449" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_bath_time1" taborder="28" left="0" top="481" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity16" taborder="29" left="0" top="545" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_activity17" taborder="30" left="0" top="577" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Button id="btn_select1" taborder="31" text="세면도움" left="10" top="36" width="145" height="26" onclick="btn_activity_onclick" cssclass="btn_basic_gray" textAlign="left" padding="0px 0px 0px 10px"/>
+                                <Button id="btn_select2" taborder="32" text="구강관리" left="10" top="67" width="145" height="26" onclick="btn_activity_onclick" cssclass="btn_basic_gray" textAlign="left" padding="0px 0px 0px 10px"/>
+                                <Button id="btn_select5" taborder="33" text="옷갈아 입히기" left="10" top="163" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select3" taborder="34" text="머리감기기" left="10" top="99" width="145" height="26" onclick="btn_activity_onclick" cssclass="btn_basic_gray" textAlign="left" padding="0px 0px 0px 10px"/>
+                                <Button id="btn_posture" taborder="35" text="자세변경" left="10" top="195" width="145" height="26" onclick="btn_popup_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select8" taborder="36" text="신체기능의 유지.증진&#13;&#10;(관절운동지원)" left="10" top="258" width="145" height="36" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_excretion" taborder="37" text="화장실이용(배설관찰)" left="10" top="332" width="145" height="26" onclick="btn_popup_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select9" taborder="38" text="식사도움" left="10" top="300" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select4" taborder="39" text="몸단장" left="10" top="131" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select7" taborder="40" text="이동도움(낙상예방)" left="10" top="226" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_bath" taborder="41" text="목욕도움" left="10" top="452" width="145" height="26" onclick="btn_popup_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select12" taborder="42" text="산책시동행" left="10" top="548" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Button id="btn_select13" taborder="43" text="의사소통도움" left="10" top="580" width="145" height="26" onclick="btn_activity_onclick" textAlign="left" padding="0px 0px 0px 10px" cssclass="btn_basic_gray"/>
+                                <Static id="sta_subTitle" taborder="0" text="신체활동지원" left="1" top="4" width="170" height="26" cssclass="lb01"/>
+                                <Static id="sta_activity12" taborder="44" left="0" top="361" height="89" cssclass="sta_WF_DetailLabel02" textAlign="center" width="206"/>
+                                <Static id="sta_kinds" taborder="11" left="30" top="365" width="65" height="25" cssclass="sta_WF_DetailLabel02" background="#32cd32" textAlign="center" color="white" text="변의장애" padding="0px"/>
+                                <Static id="sta_kinds00" taborder="12" left="30" top="393" width="65" height="25" cssclass="sta_WF_DetailLabel02" background="#32cd32" textAlign="center" color="white" text="뇨의장애" padding="0px"/>
+                                <Static id="sta_kinds01" taborder="13" left="30" top="421" width="100" height="25" cssclass="sta_WF_DetailLabel02" background="#32cd32" textAlign="center" color="white" text="도뇨관+기저귀" padding="0px"/>
+                                <Static id="sta_activity2_00" taborder="45" left="205" top="32" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity3_00" taborder="46" left="205" top="64" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity4_00" taborder="47" left="205" top="96" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity5_00" taborder="48" left="205" top="128" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity6_00" taborder="49" left="205" top="160" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity7_00" taborder="50" left="205" top="192" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity8_00" taborder="51" left="205" top="223" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity10_00" taborder="52" left="205" top="297" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity9_00" taborder="53" left="205" top="255" height="43" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity11_00" taborder="54" left="205" top="329" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity12_00" taborder="55" left="205" top="361" height="89" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity13_00" taborder="56" left="205" top="449" height="65" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity16_00" taborder="57" left="205" top="545" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_activity17_00" taborder="58" left="205" top="577" height="33" cssclass="sta_WF_DetailLabel02" textAlign="center" right="0"/>
+                                <Static id="sta_manager1_1" taborder="59" left="210" top="36" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del1_1" taborder="60" text="지움" left="305" top="36" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager1_2" taborder="61" left="385" top="36" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del1_2" taborder="62" text="지움" left="480" top="36" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager2_1" taborder="63" left="210" top="68" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del2_1" taborder="64" text="지움" left="305" top="68" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager2_2" taborder="65" left="385" top="68" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del2_2" taborder="66" text="지움" left="480" top="68" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager3_1" taborder="67" left="210" top="100" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del3_1" taborder="68" text="지움" left="305" top="100" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager3_2" taborder="69" left="385" top="100" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del3_2" taborder="70" text="지움" left="480" top="100" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager4_1" taborder="71" left="210" top="132" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del4_1" taborder="72" text="지움" left="305" top="132" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager4_2" taborder="73" left="385" top="132" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del4_2" taborder="74" text="지움" left="480" top="132" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager5_1" taborder="75" left="210" top="164" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del5_1" taborder="76" text="지움" left="305" top="164" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager5_2" taborder="77" left="385" top="164" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del5_2" taborder="78" text="지움" left="480" top="164" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager6_1" taborder="79" left="210" top="196" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Static id="sta_manager6_2" taborder="80" left="385" top="196" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Static id="sta_manager7_1" taborder="81" left="210" top="227" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del7_1" taborder="82" text="지움" left="305" top="227" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager7_2" taborder="83" left="385" top="227" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del7_2" taborder="84" text="지움" left="480" top="227" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_crt09" taborder="15" left="374" top="371" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt13" taborder="16" left="210" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt10" taborder="17" left="415" top="371" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt14" taborder="18" left="251" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt11" taborder="19" left="456" top="371" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt15" taborder="20" left="292" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt12" taborder="21" left="497" top="371" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt16" taborder="22" left="333" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt17" taborder="23" left="374" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt18" taborder="24" left="415" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt19" taborder="25" left="456" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt20" taborder="26" left="497" top="393" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_crt08" taborder="27" left="333" top="371" width="42" height="23" textAlign="center" cssclass="sta_crt" padding="0px"/>
+                                <Static id="sta_cr1" taborder="85" left="130" top="365" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="70" color="red"/>
+                                <Static id="sta_cr2" taborder="86" left="130" top="393" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="70" color="red"/>
+                                <Static id="sta_bath_min" taborder="87" left="160" top="453" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="40" text=""/>
+                                <Static id="sta_subTitle00" taborder="88" text="인지관리 및 의사소통" left="1" top="516" width="170" height="26" cssclass="lb01"/>
+                                <Static id="sta_posture_cnt" taborder="89" left="160" top="196" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="40" color="red"/>
+                                <Static id="sta_bath_time" taborder="90" left="100" top="485" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="100" text=""/>
+                                <Static id="sta_manager8_1" taborder="91" left="210" top="264" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del8_1" taborder="92" text="지움" left="305" top="264" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager8_2" taborder="93" left="385" top="264" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del8_2" taborder="94" text="지움" left="480" top="264" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager9_1" taborder="95" left="210" top="301" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del9_1" taborder="96" text="지움" left="305" top="301" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager9_2" taborder="97" left="385" top="301" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del9_2" taborder="98" text="지움" left="480" top="301" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager10_1" taborder="99" left="210" top="333" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Static id="sta_manager10_2" taborder="100" left="385" top="333" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Static id="sta_manager11_1" taborder="101" left="210" top="453" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90" text=""/>
+                                <Static id="sta_manager11_2" taborder="102" left="385" top="453" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90" text=""/>
+                                <Static id="sta_manager12_1" taborder="103" left="210" top="549" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del12_1" taborder="104" text="지움" left="305" top="549" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager12_2" taborder="105" left="385" top="549" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del12_2" taborder="106" text="지움" left="480" top="549" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager13_1" taborder="107" left="210" top="581" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del13_1" taborder="108" text="지움" left="305" top="581" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                                <Static id="sta_manager13_2" taborder="109" left="385" top="581" height="25" cssclass="sta_WF_DetailLabel02" textAlign="center" width="90"/>
+                                <Button id="btn_del13_2" taborder="110" text="지움" left="480" top="581" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+                              </Layout>
+                            </Layouts>
+                          </Div>
+                          <Div id="div_pickup" taborder="2" text="" left="0" top="0" height="33" width="623">
+                            <Layouts>
+                              <Layout>
+                                <Static id="sta_head1" taborder="0" text="송영시작" left="0" top="0" width="203" height="33" cssclass="sta_WF_DetailLabel01" padding="0px 0px 0px 10px"/>
+                                <Static id="sta_b" taborder="1" left="74" top="4" width="50" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_b00" taborder="2" left="128" top="4" width="38" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_b00_00" taborder="3" left="170" top="4" width="28" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_head1_00" taborder="4" text="송영종료" left="205" top="0" width="264" height="33" cssclass="sta_WF_DetailLabel01" padding="0px 0px 0px 10px"/>
+                                <Static id="sta_b01" taborder="5" left="279" top="4" width="50" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;" onclick="div_cont_div_right_div_main_div_pickup_sta_b01_onclick"/>
+                                <Static id="sta_b00_01" taborder="6" left="333" top="4" width="38" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Static id="sta_b00_00_00" taborder="7" left="375" top="4" width="28" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+                                <Button id="btn_pickup" taborder="8" text="송영" left="470" top="0" width="70" height="33" cssclass="btn_clock" onclick="btn_popup_onclick"/>
+                                <Static id="sta_move" taborder="9" left="541" top="0" height="33" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;" cssclass="sta_WF_DetailLabel02" right="0" color="#ffffff" text=""/>
+                                <Static id="sta_timediff" taborder="10" left="411" top="4" width="50" height="25" cssclass="sta_WF_DetailLabel02" text="" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;" onclick="div_cont_div_right_div_main_div_pickup_sta_b01_onclick"/>
+                              </Layout>
+                            </Layouts>
+                          </Div>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="1" left="0" top="0" height="40" text="" width="440">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_pic" taborder="0" left="195" top="7" width="25" height="26" onchanged="div_search_cal_date_pic_onchanged"/>
+              <Button id="btn_pre_dt" taborder="1" text="◀ 전날" top="7" width="70" height="26" visible="true" left="10" onclick="div_search_btn_pre_dt_onclick"/>
+              <Calendar id="cal_date" taborder="2" left="85" top="7" width="110" height="26" cssclass="essential" readonly="true" tabstop="false" onchanged="div_search_cal_date_onchanged" initvalueid="iv_cal_yyyyMMddddd" buttonsize="0 0"/>
+              <Button id="btn_next_dt" taborder="3" text="앞날 ▶" top="7" width="70" height="26" visible="true" left="225" onclick="div_search_btn_next_dt_onclick"/>
+              <Static id="sta_subdisc" taborder="4" text="전체:21 남:2 여:19" left="307" top="7" width="130" height="26" textAlign="right"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="460" top="0" height="40" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="0" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" cssclass="btn_save" left="1335"/>
+              <Button id="btn_report" taborder="1" text="제공기록지서식(19.12)" left="1160" top="7" width="170" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_dtrecord" taborder="2" text="전날기록조회" left="640" top="7" width="120" height="26" cssclass="btn_search" onclick="div_func_btn_dtrecord_onclick"/>
+              <Button id="btn_mate" taborder="3" text="수급자상태설정" left="765" top="7" width="130" height="26" onclick="btn_popup_onclick" cssclass="btn_eldery"/>
+              <Button id="btn_bind" taborder="4" text="신체보호기록" left="900" top="7" width="120" height="26" onclick="btn_popup_onclick" cssclass="btn_list"/>
+              <Button id="btn_bathlist" taborder="5" text="일목욕제공기록" left="1025" top="7" width="130" height="26" onclick="btn_popup_onclick" cssclass="btn_list"/>
+              <Static id="sta_no" taborder="6" text="기록번호 : " left="0" top="8" width="58" height="25"/>
+              <Static id="sta_no_value" taborder="7" text="00000000" left="64" top="8" width="80" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="kmmark" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_autoid" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_gb" type="STRING" size="256"/>
+          <Column id="나이" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="jumin" type="STRING" size="256"/>
+          <Column id="m_grade" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="식사종류명" type="STRING" size="256"/>
+          <Column id="m_level" type="STRING" size="256"/>
+          <Column id="수급" type="STRING" size="256"/>
+          <Column id="m_type" type="STRING" size="256"/>
+          <Column id="m_roomno" type="STRING" size="256"/>
+          <Column id="m_step" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="pr_cd" type="STRING" size="256"/>
+          <Column id="pr_nm" type="STRING" size="256"/>
+          <Column id="pr_css" type="STRING" size="256"/>
+          <Column id="수급생일" type="STRING" size="256"/>
+          <Column id="move_cont" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date" type="DATE" size="256"/>
+          <Column id="s_date" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_kinds">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">일반식</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">죽</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">유동.미음</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_amount">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">1</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">½상</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">½하</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="jumin" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="cr_state1" type="STRING" size="256"/>
+          <Column id="cr_state2" type="STRING" size="256"/>
+          <Column id="cr_state3" type="STRING" size="256"/>
+          <Column id="식사종류" type="STRING" size="256"/>
+          <Column id="식사종류명" type="STRING" size="256"/>
+          <Column id="아침양" type="STRING" size="256"/>
+          <Column id="아침종류" type="STRING" size="256"/>
+          <Column id="점심양" type="STRING" size="256"/>
+          <Column id="점심종류" type="STRING" size="256"/>
+          <Column id="저녁양" type="STRING" size="256"/>
+          <Column id="저녁종류" type="STRING" size="256"/>
+          <Column id="오전간식" type="STRING" size="256"/>
+          <Column id="오후간식" type="STRING" size="256"/>
+          <Column id="아침시간" type="STRING" size="256"/>
+          <Column id="점심시간" type="STRING" size="256"/>
+          <Column id="저녁시간" type="STRING" size="256"/>
+          <Column id="아침시" type="STRING" size="256"/>
+          <Column id="아침분" type="STRING" size="256"/>
+          <Column id="점심시" type="STRING" size="256"/>
+          <Column id="점심분" type="STRING" size="256"/>
+          <Column id="저녁시" type="STRING" size="256"/>
+          <Column id="저녁분" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+          <Column id="일지담당" type="STRING" size="256"/>
+          <Column id="일지코드" type="STRING" size="256"/>
+          <Column id="구강담당" type="STRING" size="256"/>
+          <Column id="구강코드" type="STRING" size="256"/>
+          <Column id="구강상태" type="STRING" size="256"/>
+          <Column id="구강내용" type="STRING" size="256"/>
+          <Column id="b_time" type="STRING" size="256"/>
+          <Column id="b_time1" type="STRING" size="256"/>
+          <Column id="b_time2" type="STRING" size="256"/>
+          <Column id="l_time" type="STRING" size="256"/>
+          <Column id="l_time1" type="STRING" size="256"/>
+          <Column id="l_time2" type="STRING" size="256"/>
+          <Column id="d_time" type="STRING" size="256"/>
+          <Column id="d_time1" type="STRING" size="256"/>
+          <Column id="d_time2" type="STRING" size="256"/>
+          <Column id="am_time" type="STRING" size="256"/>
+          <Column id="pm_time" type="STRING" size="256"/>
+          <Column id="구강메모" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER1" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER2" type="STRING" size="256"/>
+          <Column id="traning_a" type="STRING" size="256"/>
+          <Column id="traning_b" type="STRING" size="256"/>
+          <Column id="traning_c" type="STRING" size="256"/>
+          <Column id="move_cont" type="STRING" size="256"/>
+          <Column id="시작시간" type="STRING" size="256"/>
+          <Column id="시작코스" type="STRING" size="256"/>
+          <Column id="시작거주지" type="STRING" size="256"/>
+          <Column id="종료시간" type="STRING" size="256"/>
+          <Column id="종료코스" type="STRING" size="256"/>
+          <Column id="종료거주지" type="STRING" size="256"/>
+          <Column id="timediff" type="STRING" size="256"/>
+          <Column id="간호일지" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_actday" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="ac_num" type="STRING" size="256"/>
+          <Column id="ac_day" type="STRING" size="256"/>
+          <Column id="ac_name" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="ac_code" type="STRING" size="256"/>
+          <Column id="날씨" type="STRING" size="256"/>
+          <Column id="기분" type="STRING" size="256"/>
+          <Column id="오전활동1" type="STRING" size="256"/>
+          <Column id="오전활동2" type="STRING" size="256"/>
+          <Column id="오전활동3" type="STRING" size="256"/>
+          <Column id="오후활동1" type="STRING" size="256"/>
+          <Column id="오후활동2" type="STRING" size="256"/>
+          <Column id="오후활동3" type="STRING" size="256"/>
+          <Column id="오전점검" type="STRING" size="256"/>
+          <Column id="오후점검" type="STRING" size="256"/>
+          <Column id="인지관리" type="STRING" size="256"/>
+          <Column id="작성자" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="org_ac_num" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_record" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mealtime">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="아침식사" type="STRING" size="256"/>
+          <Column id="점심식사" type="STRING" size="256"/>
+          <Column id="저녁식사" type="STRING" size="256"/>
+          <Column id="오전간식" type="STRING" size="256"/>
+          <Column id="오후간식" type="STRING" size="256"/>
+          <Column id="b_time" type="STRING" size="256"/>
+          <Column id="l_time" type="STRING" size="256"/>
+          <Column id="d_time" type="STRING" size="256"/>
+          <Column id="am_time" type="STRING" size="256"/>
+          <Column id="pm_time" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Return"/>
+      <Dataset id="ds_posture">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="so_number" type="STRING" size="256"/>
+          <Column id="so_nalja" type="STRING" size="256"/>
+          <Column id="so_code" type="STRING" size="256"/>
+          <Column id="so_name" type="STRING" size="256"/>
+          <Column id="체위시08" type="STRING" size="256"/>
+          <Column id="체위시09" type="STRING" size="256"/>
+          <Column id="체위시10" type="STRING" size="256"/>
+          <Column id="체위시11" type="STRING" size="256"/>
+          <Column id="체위시12" type="STRING" size="256"/>
+          <Column id="체위시13" type="STRING" size="256"/>
+          <Column id="체위시14" type="STRING" size="256"/>
+          <Column id="체위시15" type="STRING" size="256"/>
+          <Column id="체위시16" type="STRING" size="256"/>
+          <Column id="체위시17" type="STRING" size="256"/>
+          <Column id="체위시18" type="STRING" size="256"/>
+          <Column id="담당자08" type="STRING" size="256"/>
+          <Column id="담당자09" type="STRING" size="256"/>
+          <Column id="담당자10" type="STRING" size="256"/>
+          <Column id="담당자11" type="STRING" size="256"/>
+          <Column id="담당자12" type="STRING" size="256"/>
+          <Column id="담당자13" type="STRING" size="256"/>
+          <Column id="담당자14" type="STRING" size="256"/>
+          <Column id="담당자15" type="STRING" size="256"/>
+          <Column id="담당자16" type="STRING" size="256"/>
+          <Column id="담당자17" type="STRING" size="256"/>
+          <Column id="담당자18" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_excretion">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="cr_number" type="STRING" size="256"/>
+          <Column id="cr_nalja" type="DATE" size="256"/>
+          <Column id="nalja" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="jumin1" type="STRING" size="256"/>
+          <Column id="주간담당" type="STRING" size="256"/>
+          <Column id="주간코드" type="STRING" size="256"/>
+          <Column id="야간담당" type="STRING" size="256"/>
+          <Column id="야간코드" type="STRING" size="256"/>
+          <Column id="관찰분" type="STRING" size="256"/>
+          <Column id="cr_08" type="STRING" size="256"/>
+          <Column id="cr_09" type="STRING" size="256"/>
+          <Column id="cr_10" type="STRING" size="256"/>
+          <Column id="cr_11" type="STRING" size="256"/>
+          <Column id="cr_12" type="STRING" size="256"/>
+          <Column id="cr_13" type="STRING" size="256"/>
+          <Column id="cr_14" type="STRING" size="256"/>
+          <Column id="cr_15" type="STRING" size="256"/>
+          <Column id="cr_16" type="STRING" size="256"/>
+          <Column id="cr_17" type="STRING" size="256"/>
+          <Column id="cr_18" type="STRING" size="256"/>
+          <Column id="cr_19" type="STRING" size="256"/>
+          <Column id="cr_20" type="STRING" size="256"/>
+          <Column id="소변관찰" type="STRING" size="256"/>
+          <Column id="cr_1_08" type="STRING" size="256"/>
+          <Column id="cr_1_09" type="STRING" size="256"/>
+          <Column id="cr_1_10" type="STRING" size="256"/>
+          <Column id="cr_1_11" type="STRING" size="256"/>
+          <Column id="cr_1_12" type="STRING" size="256"/>
+          <Column id="cr_1_13" type="STRING" size="256"/>
+          <Column id="cr_1_14" type="STRING" size="256"/>
+          <Column id="cr_1_15" type="STRING" size="256"/>
+          <Column id="cr_1_16" type="STRING" size="256"/>
+          <Column id="cr_1_17" type="STRING" size="256"/>
+          <Column id="cr_1_18" type="STRING" size="256"/>
+          <Column id="cr_1_19" type="STRING" size="256"/>
+          <Column id="cr_1_20" type="STRING" size="256"/>
+          <Column id="배변관찰" type="STRING" size="256"/>
+          <Column id="cr_2_08" type="STRING" size="256"/>
+          <Column id="cr_2_09" type="STRING" size="256"/>
+          <Column id="cr_2_10" type="STRING" size="256"/>
+          <Column id="cr_2_11" type="STRING" size="256"/>
+          <Column id="cr_2_12" type="STRING" size="256"/>
+          <Column id="cr_2_13" type="STRING" size="256"/>
+          <Column id="cr_2_14" type="STRING" size="256"/>
+          <Column id="cr_2_15" type="STRING" size="256"/>
+          <Column id="cr_2_16" type="STRING" size="256"/>
+          <Column id="cr_2_17" type="STRING" size="256"/>
+          <Column id="cr_2_18" type="STRING" size="256"/>
+          <Column id="cr_2_19" type="STRING" size="256"/>
+          <Column id="cr_2_20" type="STRING" size="256"/>
+          <Column id="기저귀교환" type="STRING" size="256"/>
+          <Column id="cr_3_08" type="STRING" size="256"/>
+          <Column id="cr_3_09" type="STRING" size="256"/>
+          <Column id="cr_3_10" type="STRING" size="256"/>
+          <Column id="cr_3_11" type="STRING" size="256"/>
+          <Column id="cr_3_12" type="STRING" size="256"/>
+          <Column id="cr_3_13" type="STRING" size="256"/>
+          <Column id="cr_3_14" type="STRING" size="256"/>
+          <Column id="cr_3_15" type="STRING" size="256"/>
+          <Column id="cr_3_16" type="STRING" size="256"/>
+          <Column id="cr_3_17" type="STRING" size="256"/>
+          <Column id="cr_3_18" type="STRING" size="256"/>
+          <Column id="cr_3_19" type="STRING" size="256"/>
+          <Column id="cr_3_20" type="STRING" size="256"/>
+          <Column id="옷교환" type="STRING" size="256"/>
+          <Column id="cr_4_08" type="STRING" size="256"/>
+          <Column id="cr_4_09" type="STRING" size="256"/>
+          <Column id="cr_4_10" type="STRING" size="256"/>
+          <Column id="cr_4_11" type="STRING" size="256"/>
+          <Column id="cr_4_12" type="STRING" size="256"/>
+          <Column id="cr_4_13" type="STRING" size="256"/>
+          <Column id="cr_4_14" type="STRING" size="256"/>
+          <Column id="cr_4_15" type="STRING" size="256"/>
+          <Column id="cr_4_16" type="STRING" size="256"/>
+          <Column id="cr_4_17" type="STRING" size="256"/>
+          <Column id="cr_4_18" type="STRING" size="256"/>
+          <Column id="cr_4_19" type="STRING" size="256"/>
+          <Column id="cr_4_20" type="STRING" size="256"/>
+          <Column id="cr_t_08" type="STRING" size="256"/>
+          <Column id="cr_t_09" type="STRING" size="256"/>
+          <Column id="cr_t_10" type="STRING" size="256"/>
+          <Column id="cr_t_11" type="STRING" size="256"/>
+          <Column id="cr_t_12" type="STRING" size="256"/>
+          <Column id="cr_t_13" type="STRING" size="256"/>
+          <Column id="cr_t_14" type="STRING" size="256"/>
+          <Column id="cr_t_15" type="STRING" size="256"/>
+          <Column id="cr_t_16" type="STRING" size="256"/>
+          <Column id="cr_t_17" type="STRING" size="256"/>
+          <Column id="cr_t_18" type="STRING" size="256"/>
+          <Column id="cr_t_19" type="STRING" size="256"/>
+          <Column id="cr_t_20" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER1" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bath">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="ba_nalja" type="STRING" size="256"/>
+          <Column id="ba_number" type="STRING" size="256"/>
+          <Column id="ba_code" type="STRING" size="256"/>
+          <Column id="ba_name" type="STRING" size="256"/>
+          <Column id="목욕시간" type="STRING" size="256"/>
+          <Column id="sh" type="STRING" size="256"/>
+          <Column id="sm" type="STRING" size="256"/>
+          <Column id="eh" type="STRING" size="256"/>
+          <Column id="em" type="STRING" size="256"/>
+          <Column id="minute" type="STRING" size="256"/>
+          <Column id="제공방법" type="STRING" size="256"/>
+          <Column id="ba_memo" type="STRING" size="256"/>
+          <Column id="담당자01" type="STRING" size="256"/>
+          <Column id="담당코드01" type="STRING" size="256"/>
+          <Column id="담당직종01" type="STRING" size="256"/>
+          <Column id="담당자02" type="STRING" size="256"/>
+          <Column id="담당코드02" type="STRING" size="256"/>
+          <Column id="담당직종02" type="STRING" size="256"/>
+          <Column id="org_ba_number" type="STRING" size="256"/>
+          <Column id="등록일시" type="STRING" size="256"/>
+          <Column id="등록자" type="STRING" size="256"/>
+          <Column id="수정일시" type="STRING" size="256"/>
+          <Column id="수정자" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bathlist_pre">
+        <ColumnInfo>
+          <Column id="cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_kmdaily25" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="kmnumber" type="STRING" size="256"/>
+          <Column id="kmdaily" type="STRING" size="256"/>
+          <Column id="kmcode" type="STRING" size="256"/>
+          <Column id="kmname" type="STRING" size="256"/>
+          <Column id="km바코드" type="STRING" size="256"/>
+          <Column id="km직원명" type="STRING" size="256"/>
+          <Column id="km직원코드" type="STRING" size="256"/>
+          <Column id="km제공시간" type="STRING" size="256"/>
+          <Column id="km저장일시" type="STRING" size="256"/>
+          <Column id="km평가" type="STRING" size="256"/>
+          <Column id="org_kmnumber" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_kmdaily25_record" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="kmnumber" type="STRING" size="256"/>
+          <Column id="kmdaily" type="STRING" size="256"/>
+          <Column id="kmcode" type="STRING" size="256"/>
+          <Column id="kmname" type="STRING" size="256"/>
+          <Column id="km바코드" type="STRING" size="256"/>
+          <Column id="km직원명" type="STRING" size="256"/>
+          <Column id="km직원코드" type="STRING" size="256"/>
+          <Column id="km제공시간" type="STRING" size="256"/>
+          <Column id="km저장일시" type="STRING" size="256"/>
+          <Column id="km평가" type="STRING" size="256"/>
+          <Column id="org_kmnumber" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dtrecord" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="아침양" type="STRING" size="256"/>
+          <Column id="아침종류" type="STRING" size="256"/>
+          <Column id="점심양" type="STRING" size="256"/>
+          <Column id="점심종류" type="STRING" size="256"/>
+          <Column id="저녁양" type="STRING" size="256"/>
+          <Column id="저녁종류" type="STRING" size="256"/>
+          <Column id="오전간식" type="STRING" size="256"/>
+          <Column id="오후간식" type="STRING" size="256"/>
+          <Column id="아침시간" type="STRING" size="256"/>
+          <Column id="점심시간" type="STRING" size="256"/>
+          <Column id="저녁시간" type="STRING" size="256"/>
+          <Column id="아침시" type="STRING" size="256"/>
+          <Column id="아침분" type="STRING" size="256"/>
+          <Column id="점심시" type="STRING" size="256"/>
+          <Column id="점심분" type="STRING" size="256"/>
+          <Column id="저녁시" type="STRING" size="256"/>
+          <Column id="저녁분" type="STRING" size="256"/>
+          <Column id="구강담당" type="STRING" size="256"/>
+          <Column id="구강코드" type="STRING" size="256"/>
+          <Column id="구강상태" type="STRING" size="256"/>
+          <Column id="구강내용" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00101
+ * 화면명   	: 1-1 요양급여기록(매일)
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-16
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.getApplication().gds_userInfo.getColumn(0, "c_name").trim();
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+this.reSearchCode = ""; // 선택한 수급자 로우
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+		
+	// 검색조건 세팅
+	let today = Sct.Util.getToday(); // 현재날짜
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "date", today);
+	this.ds_search.setColumn(0, "s_date", today);
+	
+	// 그룹버튼 배열로 세팅
+	this.fn_make_grp_btns_array();
+	// '전체' 버튼 선택 상태로 세팅
+	this.btn_group_init();
+	
+	// 오픈시 조회
+	//this.fn_search("search");
+	this.fn_search("search");
+};
+
+// 현황, 수급자, 미이용 백그라운드 설정
+this.initGrid = function(grid)
+{
+	const nameIdx = grid.getBindCellIndex("body", "m_name"); // 수급자명
+	const nowIdx = grid.getBindCellIndex("body", "m_type"); // 현황
+	const prnmIdx = grid.getBindCellIndex("body", "pr_nm"); // 구분
+
+	const nameCss = "expr:dataset.getColumn(currow, 'sex_gb') == '남' ? 'cellBMan' : 'cellBWoman'";
+	const nowCss = "expr:dataset.getColumn(currow, 'm_type') == '퇴소자' ? 'cellBRetire' : ''";
+	const prnmCss = "expr:dataset.getColumn(currow, 'pr_css') == '1' ? 'cellBRetire' : dataset.getColumn(currow, 'pr_css') == '2' ? 'cellBRetireFontRed' : dataset.getColumn(currow, 'pr_css') == '3' ? 'RedFontCell' : ''";	
+	
+	/* pr_css가 1 : 미이용 + 주간 -> 백그라운드
+				2 : 미미용 + 주단,단기 -> 백그라운드 + 컬러
+				3 : 단기,주단 -> 컬러
+				0 : 주간 -> X
+	*/
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+	
+ 	// 미이용 백그라운드 설정
+	const moveArr = ["m_group", "sex_gb", "등급", "m_roomname", "pr_nm"];
+	for (let i = 0; i < moveArr.length; i++)
+	{
+		const moveIdx = grid.getBindCellIndex("body", moveArr[i]);
+		const moveCss = "expr:dataset.getColumn(currow, 'move_cont') != '' ? 'cellBRetire' : ''";
+					 
+		grid.setCellProperty("body", moveIdx, "cssclass", moveCss);
+	}
+	
+	grid.setCellProperty("body", prnmIdx, "cssclass", prnmCss);
+	
+}
+
+// 그룹버튼 배열로 세팅
+this.fn_make_grp_btns_array = function()
+{
+	var button_all = this.div_cont.form.div_left.form.btn_ALL;
+	var button_a = this.div_cont.form.div_left.form.btn_A;
+	var button_b = this.div_cont.form.div_left.form.btn_B;
+	var button_c = this.div_cont.form.div_left.form.btn_C;
+	var button_d = this.div_cont.form.div_left.form.btn_D;
+	var button_e = this.div_cont.form.div_left.form.btn_E;
+	var button_f = this.div_cont.form.div_left.form.btn_F;
+	var button_g = this.div_cont.form.div_left.form.btn_G;
+	var button_h = this.div_cont.form.div_left.form.btn_H;
+	var button_i = this.div_cont.form.div_left.form.btn_I;
+	var button_j = this.div_cont.form.div_left.form.btn_J;
+	var button_k = this.div_cont.form.div_left.form.btn_K;
+	var button_l = this.div_cont.form.div_left.form.btn_L;
+	var button_m = this.div_cont.form.div_left.form.btn_M;
+	var button_n = this.div_cont.form.div_left.form.btn_N;
+	var button_o = this.div_cont.form.div_left.form.btn_O;
+	var button_p = this.div_cont.form.div_left.form.btn_P;
+	
+	this.grp_btns = [button_all,button_a,button_b,button_c,button_d,button_e,button_f,button_g,button_h,button_i,button_j,button_k,button_l,button_m,button_n,button_o,button_p];
+}
+
+// this.fn_setDetailGrid = function()
+// {
+// 	var grdDetail = this.div_cont.form.div_right.form.div_down.form.grd_detail;
+// 	var  index = -1;
+// 	
+// 	index = grdDetail.getBindCellIndex("body", "week");
+// 	grdDetail.setCellProperty("body", index, "cssclass", "expr:week=='(토)'?'BlueFontCell':week=='(일)'?'CellRed_B':" +Sct.Grid.getCellDefaultCss()); //ok
+// }
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount < 1) {
+		//alert("먼저 수급자를 선택해 주세요.");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"k_number"))){ // 기록번호 없을시 rowtype 2(추가행)
+		this.ds_data.set_updatecontrol(false);
+		this.ds_data.setRowType(0,2); 
+		this.ds_data.set_updatecontrol(true);
+	}
+
+	// 식사종류 빈값 식사량 존재일때, 식사종류 존재 식사량 빈값일때 체크	
+	var b_kind = this.ds_data.getColumn(0,"아침종류");
+	var b_amount = this.ds_data.getColumn(0,"아침양");
+	var l_kind = this.ds_data.getColumn(0,"점심종류");
+	var l_amount = this.ds_data.getColumn(0,"점심양");
+	var d_kind = this.ds_data.getColumn(0,"저녁종류");
+	var d_amount = this.ds_data.getColumn(0,"저녁양");
+	
+	if((b_kind == 0 && b_amount != 0) || (b_kind != 0 && b_amount == 0)){
+		this.alert("아침식사 기록을 정확하게 입력해야합니다.")
+		return false;
+	}else if((l_kind == 0 && l_amount != 0) || (l_kind != 0 && l_amount == 0)){
+		this.alert("점심식사 기록을 정확하게 입력해야합니다.")
+		return false;
+	}else if((d_kind == 0 && d_amount != 0) || (d_kind != 0 && d_amount == 0)){
+		this.alert("저녁식사 기록을 정확하게 입력해야합니다.")
+		return false;
+	}
+	
+	// 구강상태 값이 있거나 처리내용이 있거나 둘 다 있으면 구강점검자 체크	
+	if((this.ds_data.getColumn(0,"구강상태") != 0 || !Sct.Util.isEmpty(this.ds_data.getColumn(0,"구강내용")))){
+		if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"구강담당"))){
+			this.alert("구강점검자를 지정해야합니다.");
+			return false;
+		}
+	}
+	
+	// 요양일지가 빈값이 아닐때 작성자 빈값 체크
+	if(!Sct.Util.isEmpty(this.ds_data.getColumn(0,"요양일지"))){
+		if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"일지담당")) || nexacro.trim(this.ds_data.getColumn(0,"일지담당")) == ""){
+			this.alert("작성자를 지정해야합니다.");
+			return false;
+		}
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+	
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_list=output1 ds_mealtime=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_LIST_S DAY00101.DAY00101_DS_MEALTIME_S' ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	//validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const params = "/DAY00101Controller.do";
+	const inDatasets = "input1=ds_data:a input2=ds_kmdaily25:a";
+	const outDatasets = "";
+	const argument = "method=save";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{				
+			this.ds_list.set_rowposition(-1);
+			var people = this.ds_list.rowcount;
+			var men = 0;
+			var woman = 0;
+			for(var i=0; i<this.ds_list.rowcount; i++){
+				if(this.ds_list.getColumn(i, "sex_gb") == "남"){
+					men += 1;
+				}else if(this.ds_list.getColumn(i, "sex_gb") == "여"){
+					woman += 1;
+				}
+			}
+			//전체:21 남:2 여:19
+			this.div_search.form.sta_subdisc.set_text("전체:"+people+" 남:"+men+" 여:"+woman);
+			
+			this.initGrid(this.div_cont.form.div_left.form.grd_list);
+		}
+		else if (strSvcID == "datasearch")
+		{
+			// 날짜 빈값이면 해당날짜 세팅
+			if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"k_nalja"))){
+				this.ds_data.setColumn(0,"k_nalja",this.ds_search.getColumn(0,"date"));
+			}
+			// 데이터 세팅
+			this.fn_dataCopy(); // 식사도움
+			this.fn_kmdaily(); // 신체활동지원 요양보호사 값 세팅
+			this.fn_excretionsearch(); // 배설관찰
+			this.fn_posturesearch(); // 자세변경
+			this.fn_bathsearch(); // 목욕도움
+		}		
+		else if (strSvcID == "save")
+		{
+// 			this.alert("상태변화 기록 저장완료.");
+// 			this.ds_state_desc.setColumn(0,"상태변화","");
+// 			this.fn_searchDetail();
+			this.alert("저장되었습니다.");
+			this.fn_datasearch();
+		}
+		else if (strSvcID == "search_dt")
+		{
+			// 저장 후 선택한 수급자로 이동
+			//trace(">> " + this.reSearchCode);
+			const sRow = this.fn_findMstRow(this.reSearchCode);
+			if(sRow > -1){
+				this.fn_listclick(sRow);
+			}else{
+				this.ds_list.set_rowposition(-1);
+				this.reSearchCode = "";
+			}
+		}
+		else if (strSvcID == "mealtime") // 식사시간조회
+		{
+			var btime = this.ds_data.getColumn(0,"아침시간");
+			var ltime = this.ds_data.getColumn(0,"점심시간");
+			var dtime = this.ds_data.getColumn(0,"저녁시간");
+			//var amtime = this.ds_data.getColumn(0,"am_time");
+			//var pmtime = this.ds_data.getColumn(0,"pm_time");
+			
+			if(btime.replace(" ", "").length < 4){
+				this.ds_data.setColumn(0,"아침시간", this.ds_mealtime.getColumn(0,"b_time"));
+			}
+			if(ltime.replace(" ", "").length < 4){
+				this.ds_data.setColumn(0,"점심시간", this.ds_mealtime.getColumn(0,"l_time"));
+			}
+			if(dtime.replace(" ", "").length < 4){
+				this.ds_data.setColumn(0,"저녁시간", this.ds_mealtime.getColumn(0,"d_time"));
+			}
+// 			if(amtime.replace(" ", "").length < 4){
+// 				this.ds_data.setColumn(0,"am_time", this.ds_mealtime.getColumn(0,"am_time"));
+// 			}
+// 			if(pmtime.replace(" ", "").length < 4){
+// 				this.ds_data.setColumn(0,"pm_time", this.ds_mealtime.getColumn(0,"pm_time"));
+// 			}
+		}
+		else if(strSvcID == "record_search") // 전날 요양일지
+		{
+			if(this.ds_record.rowcount > 0) {
+				var record = this.ds_record.getColumn(0,"요양일지").trim(); // 요양일지
+				if(record != "") this.ds_data.setColumn(0,"요양일지",record + "\n" + this.ds_data.getColumn(0,"요양일지"));
+			}
+		}
+		else if(strSvcID == "excretion_search") // 배설관찰
+		{
+			this.fn_setExcretion(); // 배설관찰 횟수, 시간 세팅
+		}
+		else if(strSvcID == "posture_search") // 자세변경
+		{
+			this.fn_setPosture(); // 자세변경 횟수, 관찰자 세팅
+		}
+		else if(strSvcID == "bath_search") // 목욕도움
+		{
+			this.fn_setBath(); // 목욕도움 시간, 관찰자 세팅
+		}
+		else if(strSvcID == "dtrecord_search") // 전날기록조회
+		{
+			this.fn_setDtRecord();
+		}		
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+// 데이터조회 
+this.fn_datasearch = function ()
+{
+	//validation
+	//if (!this.fn_search_pre()) return;
+	
+	const svcId = "datasearch";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search input3=ds_search input4=ds_search";
+	const outDatasets = "ds_data=output1 ds_actday=output2 ds_excretion=output3 ds_kmdaily25=output4";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_DATA_S DAY00101.DAY00101_DS_ACTDAY_S DAY00101_P02.DAY00101_P02_DS_DATA_S DAY00101.DAY00101_DS_KMDAILY25_S'";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 식사시간조회 버튼
+this.div_cont_div_right_div_main_div_help_btn_mealtime_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.ds_data.rowcount < 1){		
+		return;
+	}
+	
+	const svcId = "mealtime";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_mealtime=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00101.DAY00101_DS_MEALTIME_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 전날 요양일지 조회
+this.div_cont_btn_record_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.ds_data.rowcount < 1){
+		return false;
+	}
+	const svcId = "record_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data";
+	const outDatasets = "ds_record=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_RECORD_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 전날기록조회
+this.div_func_btn_dtrecord_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.ds_data.rowcount < 1){
+		return false;
+	}
+ 	const svcId = "dtrecord_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data input2=ds_data";
+	const outDatasets = "ds_dtrecord=output1 ds_kmdaily25_record=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_DTRECORD_S DAY00101.DAY00101_DS_KMDAILY25_RECORD_S'";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 배설관찰 조회
+this.fn_excretionsearch = function()
+{	
+	const svcId = "excretion_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search ";
+	const outDatasets = "ds_excretion=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101_P02.DAY00101_P02_DS_DATA_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 자세변경 조회
+this.fn_posturesearch = function()
+{	
+	const svcId = "posture_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search ";
+	const outDatasets = "ds_posture=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101_P01.DAY00101_P01_DS_DATA_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 목욕도움 조회
+this.fn_bathsearch = function()
+{	
+	const svcId = "bath_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search ";
+	const outDatasets = "ds_bath=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_BATH_S '";
+	const callbackFunc = "fn_callback";
+	//비동기
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 일 목욕제공기록 조회
+this.fn_bathlistsearch = function()
+{	
+	const svcId = "bathlist_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_bathlist_pre=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101.DAY00101_DS_BATHLIST_PRE_S '";
+	const callbackFunc = "fn_callback";
+	//비동기
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+
+
+// 앞날
+this.div_search_btn_next_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "date");
+	searchDt.setDate(searchDt.getDate() + 1);
+	this.ds_search.setColumn(0, "date", searchDt);
+	this.ds_search.setColumn(0, "s_date", searchDt);
+	this.fn_clearDataset("dt"); // 데이터셋 클리어
+	this.fn_search("search_dt");
+};
+
+// 전날
+this.div_search_btn_pre_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "date");
+	searchDt.setDate(searchDt.getDate() - 1);
+	this.ds_search.setColumn(0, "date", searchDt);
+	this.ds_search.setColumn(0, "s_date", searchDt);
+	this.fn_clearDataset("dt"); // 데이터셋 클리어
+	this.fn_search("search_dt");
+};
+
+// 데이터 조회
+this.fn_searchAll = function ()
+{
+	this.fn_search("search");
+	this.fn_excretionsearch();
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	const sFindRow = this.ds_list.findRow("m_code", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_datasearch();
+	}
+	
+	return sFindRow;
+};
+
+/* 함수 명 : fn_timeDiff
+ * 시간 차이 구하기
+ * 입력 : 	time1	비교 시작일자 ex)19901010115000
+ *			time2	비교 종료일자
+			type    hhmm 시간,분, mm 분
+ * 반환 :  타입에 따라 반환
+ */
+this.fn_timeDiff = function(time1, time2, type) {
+	// 문자열 날짜를 Date타입으로 변환
+	var date1 = Sct.Util.stringToDate(time1);
+	var date2 = Sct.Util.stringToDate(time2);
+	
+	// 리턴값 변수
+	var returnValue = "";
+	// 두 날짜의 간격을 구함(초단위)
+	var diff = (date2 - date1) / 1000;
+	// 분 구하기
+	var mm = diff / 60;
+	
+	// 간격 값을 시간 추출
+	var hour = diff / 3600;
+	// 시간의 자리수가 1자리일때 앞에 0 붙이기
+	if(0 <= hour && hour < 10) hour = "0" + Math.floor(hour);
+	// 시간이 음수일때 000으로 
+	else if(hour < 0) hour = "00";
+	else hour = Math.floor(hour);
+	
+	//간격 값에서 분 추출
+	var minute = (diff % 3600) / 60;
+	if(0 <= minute && minute < 10) minute = "0" + Math.floor(minute);
+	else if(minute < 0) minute = "00";
+	else minute = Math.floor(minute);
+	
+	// 간격 값에서 초 추출
+	var second = (diff % 3600) % 60;
+	if(0 <= second && second < 10) second = "0" + Math.floor(second);
+	else if(second < 0) second = "00";
+	else second = Math.floor(second);
+	
+	// 간격 값이 음수일때
+	if(diff <= 0) diffTime = "";
+	
+	// HH:MM 형식
+	if(type == "hhmm"){
+		returnValue = hour + ":" + minute;
+	}
+	// 분 형식
+	if(type == "mm"){
+		returnValue = mm;
+	}
+
+	return returnValue;
+};
+ 
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";		
+		imgUrl = webHost + path + fileGrp;
+	}
+	
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image(imgUrl);
+};
+
+// 소,대변관찰 데이터 세팅
+this.fn_setExcretion = function ()
+{
+	var cr1 = 0; // 소변관찰
+	var cr2 = 0; // 배변관찰
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_excretion.set_cssclass("btn_basic_gray");
+	
+	// 횟수 초기화
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("");
+	// 백그라운드 초기화
+	for(var i=0; i<13; i++){
+		if(i < 2){
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt0" + (i+8)].set_cssclass("sta_crt");
+		}else{
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt" + (i+8)].set_cssclass("sta_crt");
+		}
+	}
+		
+	// 기록번호 존재시 세팅
+	if(!Sct.Util.isEmpty(this.ds_excretion.getColumn(0,"cr_number"))) {
+		for(var i=0; i<13; i++){		
+			if(i < 2){
+				// 배뇨,배설 데이터 존재시 sta_crt_yellow 세팅, 기저귀 교환시 sta_crt_lightcyan
+				if(this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt0" + (i+8)].text != ""){
+					if(this.ds_excretion.getColumn(0,"cr_3_0"+(i+8)) == "1"){ // 기저귀 교환 존재
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt0" + (i+8)].set_cssclass("sta_crt_lightcyan");
+					}else{
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt0" + (i+8)].set_cssclass("sta_crt_yellow");
+					}
+				}
+				// 소변관찰값이 1이 아니면 소변관찰 횟수 증가
+				if(this.ds_excretion.getColumn(0,"cr_1_0"+(i+8)) == "2"
+				|| this.ds_excretion.getColumn(0,"cr_1_0"+(i+8)) == "3"){
+					cr1 += 1;
+				}
+				// 배변관찰값이 빈값이 아니면 배변관찰 횟수 증가
+				//if(!Sct.Util.isEmpty(this.ds_excretion.getColumn(0,"cr_2_0"+(i+8))) || this.ds_excretion.getColumn(0,"cr_2_0"+(i+8)) != 0){
+				if(this.ds_excretion.getColumn(0,"cr_2_0"+(i+8)) == "1"
+				|| this.ds_excretion.getColumn(0,"cr_2_0"+(i+8)) == "2"
+				|| this.ds_excretion.getColumn(0,"cr_2_0"+(i+8)) == "3" ){
+					cr2 += 1;
+				}
+			}else{
+				if(this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt" + (i+8)].text != ""){
+					if(this.ds_excretion.getColumn(0,"cr_3_"+(i+8)) == "1"){
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt" + (i+8)].set_cssclass("sta_crt_lightcyan");
+					}else{
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_crt" + (i+8)].set_cssclass("sta_crt_yellow");
+					}
+				}
+				// 소변관찰값이 1이 아니면 소변관찰 횟수 증가
+				if(this.ds_excretion.getColumn(0,"cr_1_"+(i+8)) == "2"
+				|| this.ds_excretion.getColumn(0,"cr_1_"+(i+8)) == "3"){
+					cr1 += 1;
+				}
+				// 배변관찰값이 빈값이 아니면 배변관찰 횟수 증가
+				//if(!Sct.Util.isEmpty(this.ds_excretion.getColumn(0,"cr_2_"+(i+8))) && this.ds_excretion.getColumn(0,"cr_2_"+(i+8)) != 0){
+				if(this.ds_excretion.getColumn(0,"cr_2_"+(i+8)) == "1"
+				|| this.ds_excretion.getColumn(0,"cr_2_"+(i+8)) == "2"
+				|| this.ds_excretion.getColumn(0,"cr_2_"+(i+8)) == "3" ){
+					cr2 += 1;
+				}
+				
+			}
+
+		}
+		// 소변,대변 관찰횟수 세팅
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("소변:"+cr1+"회");
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("대변:"+cr2+"회");
+		if(cr1 > 0 || cr2 > 0){
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_excretion.set_cssclass("btn_orange");
+		}
+	}else{ // 기록번호 존재안하고 0이면 빈값
+		if(cr1 != 0){
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("소변:"+cr1+"회");
+		}
+		if(cr2 != 0){
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("대변:"+cr2+"회");
+		}
+	}
+	
+};
+
+// 자세변경 데이터 세팅
+this.fn_setPosture = function ()
+{
+	var cnt = 0;
+	var managerArr = [];
+	var manager1 = "";
+	var manager2 = "";
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_posture.set_cssclass("btn_basic_gray");
+	// 변경후자세 횟수 세팅
+	if(this.ds_posture.rowcount > 0){
+		for(var i=0; i<11; i++){
+			if(i < 2){
+				if(this.ds_posture.getColumn(0,"체위시0"+(i+8)) != 0){
+					// 담당자 빈값이 아니면 배열에 담기
+					if(this.ds_posture.getColumn(0,"담당자0"+(i+8))){
+						managerArr.push(this.ds_posture.getColumn(0,"담당자0"+(i+8)));
+					}
+					cnt += 1;
+				}
+			}else{
+				if(this.ds_posture.getColumn(0,"체위시"+(i+8)) != 0){
+					if(this.ds_posture.getColumn(0,"담당자"+(i+8))){
+						managerArr.push(this.ds_posture.getColumn(0,"담당자"+(i+8)));
+					}
+					cnt += 1;
+				}
+			}
+		}	
+		
+		// 배열 중복제거
+		// ele : 배열값, pos : 배열 인덱스
+		// 배열값의 인덱스 = 배열인덱스로 필터링
+		const filteredArray = managerArr.filter(function(ele , pos){		
+			return managerArr.indexOf(ele) == pos;
+		})
+		
+		manager1 = filteredArray[0];
+		manager2 = filteredArray[1];
+		if(cnt != 0){ // 횟수가 0이 아니면 백그라운드 설정
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_posture.set_cssclass("btn_orange");
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text(cnt);
+		}else{
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text("");
+		}
+		
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_1.set_text(manager1);
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_2.set_text(manager2);
+	}
+};
+
+// 목욕도움 데이터 세팅
+this.fn_setBath = function ()
+{
+	if(Sct.Util.isEmpty(this.ds_bath.getColumn(0,"ba_number"))){ // 목욕도움 기록번호가 존재하면 백그라운드 설정
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_bath.set_cssclass("btn_basic_gray");
+	}else{
+		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_bath.set_cssclass("btn_orange");
+	}
+	var manager1 = this.ds_bath.getColumn(0,"담당자01");
+	var manager2 = this.ds_bath.getColumn(0,"담당자02");
+	var time = this.ds_bath.getColumn(0,"목욕시간");
+	if(this.ds_bath.getColumn(0,"목욕시간") == "  :  -  :  "){
+		time = "";
+	}else{
+		time = this.ds_bath.getColumn(0,"목욕시간");
+	}
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_1.set_text(manager1);
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_2.set_text(manager2);
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_time.set_text(time);
+};
+
+// 전날기록조회 데이터 세팅
+this.fn_setDtRecord = function ()
+{
+	this.ds_data.setColumn(0,"아침시간",this.ds_dtrecord.getColumn(0,"아침시간"));
+	this.ds_data.setColumn(0,"점심시간",this.ds_dtrecord.getColumn(0,"점심시간"));
+	this.ds_data.setColumn(0,"저녁시간",this.ds_dtrecord.getColumn(0,"저녁시간"));
+	this.ds_data.setColumn(0,"아침시", this.ds_dtrecord.getColumn(0,"아침시"));
+	this.ds_data.setColumn(0,"아침분", this.ds_dtrecord.getColumn(0,"아침분"));
+	this.ds_data.setColumn(0,"점심시", this.ds_dtrecord.getColumn(0,"점심시"));
+	this.ds_data.setColumn(0,"점심분", this.ds_dtrecord.getColumn(0,"점심분"));
+	this.ds_data.setColumn(0,"저녁시", this.ds_dtrecord.getColumn(0,"저녁시"));
+	this.ds_data.setColumn(0,"저녁분", this.ds_dtrecord.getColumn(0,"저녁분"));
+	this.ds_data.setColumn(0,"아침종류",this.ds_dtrecord.getColumn(0,"아침종류"));
+	this.ds_data.setColumn(0,"아침양", this.ds_dtrecord.getColumn(0,"아침양") );
+	this.ds_data.setColumn(0,"점심종류",this.ds_dtrecord.getColumn(0,"점심종류"));
+	this.ds_data.setColumn(0,"점심양", this.ds_dtrecord.getColumn(0,"점심양") );
+	this.ds_data.setColumn(0,"저녁종류",this.ds_dtrecord.getColumn(0,"저녁종류"));
+	this.ds_data.setColumn(0,"저녁양", this.ds_dtrecord.getColumn(0,"저녁양") );
+	this.ds_data.setColumn(0,"오전간식",this.ds_dtrecord.getColumn(0,"오전간식"));
+	this.ds_data.setColumn(0,"오후간식",this.ds_dtrecord.getColumn(0,"오후간식"));
+	
+	if(this.ds_data.getColumn(0,"구강상태") == "0"){ // 구강상태가 빈값이면 전날기록 데이터 세팅
+		this.ds_data.setColumn(0,"구강상태",this.ds_dtrecord.getColumn(0,"구강상태"));
+		// 구강상태 체크박스, 1 : 양치질도움, 2 : 입안행굼
+		if(this.ds_dtrecord.getColumn(0,"구강상태") == "1"){
+			this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state2.set_value(0);
+			this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state1.set_value(1);
+		}else if(this.ds_dtrecord.getColumn(0,"구강상태") == "2"){
+			this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state1.set_value(0);
+			this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state2.set_value(2);
+		}
+		this.ds_data.setColumn(0,"구강내용",this.ds_dtrecord.getColumn(0,"구강내용"));
+		this.ds_data.setColumn(0,"구강코드",this.fv_staff_id);
+		this.ds_data.setColumn(0,"구강담당",this.fv_staff_name);
+		this.ds_data.setColumn(0,"VIEW_MANAGER1",this.fv_staff_name + "/" + this.fv_staff_id);
+	}
+	
+	//신체활동지원 담당자 세팅
+	for(var i=0; i<this.ds_kmdaily25_record.rowcount; i++){
+		var barcode = this.ds_kmdaily25_record.getColumn(i,"km바코드");
+		//var aRow = this.ds_kmdaily25.addRow();
+		if(barcode == "SC0100"){ // 세면도움
+			// 첫번째 담당자 값이 빈값이면 세팅
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager1_1.text)){
+				this.fn_setManager("sta_manager1","SC0100");
+			}
+		}else if(barcode == "SC0200"){ // 구강관리
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager2_1.text)){
+				this.fn_setManager("sta_manager2","SC0200");
+			}
+		}else if(barcode == "SC0300"){ // 머리감기기
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager3_1.text)){
+				this.fn_setManager("sta_manager3","SC0300");
+			}
+		}else if(barcode == "SC0400"){ // 몸단장
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager4_1.text)){
+				this.fn_setManager("sta_manager4","SC0400");
+			}
+		}else if(barcode == "SC0500"){ // 옷갈아입히기
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager5_1.text)){
+				this.fn_setManager("sta_manager5","SC0500");
+			}
+		}else if(barcode == "SC0900"){ // 이동도움
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager7_1.text)){
+				this.fn_setManager("sta_manager7","SC0900");
+			}
+		}else if(barcode == "SC1000"){ // 신체기능유지
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager8_1.text)){
+				this.fn_setManager("sta_manager8","SC1000");
+			}
+		}else if(barcode == "SC0700"){ // 식사도움
+			if(Sct.Util.isEmpty(this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager9_1.text)){
+				this.fn_setManager("sta_manager9","SC0700");
+			}
+		}
+	}
+};
+
+// 신체보호활동 요양보호사 값 세팅
+this.fn_kmdaily = function ()
+{
+	if(this.ds_kmdaily25.rowcount < 1){
+		//this.ds_kmdaily25.copyData(this.ds_kmdaily25_copy);
+		this.ds_kmdaily25.addRow();
+		this.ds_kmdaily25.clearData();
+	}else{
+		var activityForm = this.div_cont.form.div_right.form.div_main.form.div_activity.form;		
+		for(var i=1; i<=13; i++){
+			if(i != "6" || i != "10" || i != "11"){
+				activityForm.components["sta_manager"+i+"_1"].set_text("");
+				activityForm.components["sta_manager"+i+"_2"].set_text("");
+			}
+		}
+		for(var i=0; i<this.ds_kmdaily25.rowcount; i++){
+			var barcode = this.ds_kmdaily25.getColumn(i,"km바코드");
+			var manager = this.ds_kmdaily25.getColumn(i,"km직원명");
+			if(barcode == "SC0100"){ // 세면도움
+				if(Sct.Util.isEmpty(activityForm.sta_manager1_1.text)){ // 첫번째칸이 빈칸일때 세팅
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select1.set_cssclass("btn_orange");
+						activityForm.sta_manager1_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager1_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager1_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0200"){ // 구강관리
+				if(Sct.Util.isEmpty(activityForm.sta_manager2_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅						
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select2.set_cssclass("btn_orange");
+						activityForm.sta_manager2_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager2_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager2_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0300"){ // 머리감기기
+				if(Sct.Util.isEmpty(activityForm.sta_manager3_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select3.set_cssclass("btn_orange");
+						activityForm.sta_manager3_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager3_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager3_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0400"){ // 몸단장
+				if(Sct.Util.isEmpty(activityForm.sta_manager4_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select4.set_cssclass("btn_orange");
+						activityForm.sta_manager4_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager4_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager4_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0500"){ // 옷갈아입히기
+				if(Sct.Util.isEmpty(activityForm.sta_manager5_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select5.set_cssclass("btn_orange");
+						activityForm.sta_manager5_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager5_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager5_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0900"){ // 이동도움
+				if(Sct.Util.isEmpty(activityForm.sta_manager7_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select7.set_cssclass("btn_orange");
+						activityForm.sta_manager7_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager7_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager7_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC1000"){ // 신체기능유지
+				if(Sct.Util.isEmpty(activityForm.sta_manager8_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select8.set_cssclass("btn_orange");
+						activityForm.sta_manager8_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager8_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager8_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC0700"){ // 식사도움
+				if(Sct.Util.isEmpty(activityForm.sta_manager9_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select9.set_cssclass("btn_orange");
+						activityForm.sta_manager9_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager9_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager9_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC2400"){ // 산책시동행
+				if(Sct.Util.isEmpty(activityForm.sta_manager12_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select12.set_cssclass("btn_orange");
+						activityForm.sta_manager12_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager12_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager12_2.set_text(manager);
+					}
+				}
+			}else if(barcode == "SC2500"){ // 의사소통도움
+				if(Sct.Util.isEmpty(activityForm.sta_manager13_1.text)){
+					if(!Sct.Util.isEmpty(manager)){ // 직원명이 존재하면 백그라운드 및 이름 세팅
+						this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select13.set_cssclass("btn_orange");
+						activityForm.sta_manager13_1.set_text(manager);
+					}
+				}else{
+					if(activityForm.sta_manager13_1.text != manager){ // 두명인 경우 세팅
+						activityForm.sta_manager13_2.set_text(manager);
+					}
+				}
+			}
+		}
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+// 상태변화기록 서식 리포트
+this.fn_report = function()
+{
+	if (this.ds_data.rowcount < 1) {
+		alert("먼저 수급자를 선택해 주세요.");
+		return false;
+	}
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00101_R02.xfdl";
+	const popupName = "";
+	
+	params = {
+		sicode : fv_sicode,
+		mcode : this.ds_data.getColumn(0, "m_code"),
+		date : this.ds_search.getColumn(0,"date"),
+		sign : "1"
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+}
+
+// 선택된 복수의 수급자 또는 한 명의 수급자에 대해
+// 검색조건 기간에 상태변화기록이 존재하는지 여부를 반환
+// 매개값 : 수급자 코드. 두명 이상일 경우 콤마로 구분됨
+
+// 작성자 선택 팝업
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+ 	if (this.ds_data.rowcount < 1) {
+		//alert("먼저 수급자를 선택해 주세요.");
+		return;
+	}
+	
+	if(obj.id == "btn_manager1"){ // 구강점검
+		var popid = "employee1";
+	}if(obj.id == "btn_manager2"){ // 작성자
+		var popid = "employee2";
+	}
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE :	this.ds_search.getColumn(0, "date")
+	};
+
+	Sct.popup(this, popid, 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 기능회복, 인지활동 버튼 클릭
+this.btn_popup_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(obj.id != "btn_bathlist"){ // 일 목욕제공기록은 수급자 체크x
+		if (this.ds_data.rowcount < 1) {
+			alert("먼저 수급자를 선택해 주세요.");
+			return false;
+		}
+	}else{ // 일 목욕제공기록 데이터 조회
+		this.fn_bathlistsearch();
+	}
+	
+	var param;
+	var popupName;
+	var popupUrl;
+	
+	var k_number = this.ds_data.getColumn(0,"k_number");
+	var m_code = this.ds_data.getColumn(0,"m_code");
+	var m_name = this.ds_data.getColumn(0,"m_name");
+	var m_group = this.ds_data.getColumn(0,"m_group");
+	var sexgb = this.ds_data.getColumn(0, "성별");
+	var jumin = this.ds_data.getColumn(0, "jumin");
+	var m_roomname = this.ds_data.getColumn(0, "m_roomname");
+	var pdate = this.ds_search.getColumn(0,"date");
+	
+	if(obj.id == "btn_traning"){ // 기능회복훈련
+		// 급여제공기록이 존재여부 확인
+		if(Sct.Util.isEmpty(this.ds_data.getColumn(0, "k_number"))){
+			this.alert("급여제공기록이 존재하지 않습니다.");
+			return false;
+		}
+		param = {
+				SICODE : fv_sicode
+			,	DATE : pdate
+			,   MCODE : m_code
+		};
+		popupName = "traning";
+		popupUrl = "DAY_POP::DAY00101_P09.xfdl";
+	}
+	
+	if(obj.id == "btn_act"){ // 인지활동 관리지원
+		param = {
+				SICODE : fv_sicode
+			,	DATE : pdate
+			,   NAME : m_name
+			,   MGROUP : m_group
+			,   MCODE : m_code
+		};
+		popupName = "act";
+		popupUrl = "DAY_POP::DAY00101_P10.xfdl";
+	}
+	
+	if(obj.id == "btn_recordex"){ // 일지예문
+		param = {
+				sicode : fv_sicode
+				};
+		popupName = "recordex";
+		popupUrl = "DAY_POP::DAY00101_P07.xfdl";
+	}
+	
+	if(obj.id == "btn_recordsr"){ // 요양일지 내용검색
+		var date = this.ds_search.getColumn(0,"date") + "";
+		var sdate = Sct.Util.addMonth(date, -3); // 선택날짜의 3개월 전
+		var edate = Sct.Util.addMonth(date, 1); // 선택날짜의 1개월 후
+		
+		param = {
+				sicode : fv_sicode,
+				sdate : sdate,
+				edate : edate
+				};
+		popupName = "recordsr";
+		popupUrl = "DAY_POP::DAY00101_P08.xfdl";
+	}
+	
+	if(obj.id == "btn_pickup"){ // 송영
+		if(Sct.Util.isEmpty(k_number)){
+			this.alert("급여제공기록이 존재하지 않습니다.")
+			return false;
+		}
+		param = {
+				sicode : fv_sicode,
+				k_number : k_number,
+				m_code : m_code
+				};
+		popupName = "pickup";
+		popupUrl = "DAY_POP::DAY00101_P12.xfdl";
+	}
+	
+	if(obj.id == "btn_posture"){ // 자세변경
+		param = {
+				sicode : fv_sicode,
+				date : pdate,
+				mcode : m_code,
+			    mname : m_name,
+			    mgroup : m_group,
+				sexgb : sexgb,
+				jumin : jumin,
+				mroomname : m_roomname
+				};
+		popupName = "posture";
+		popupUrl = "DAY_POP::DAY00101_P01.xfdl";
+	}
+	
+	if(obj.id == "btn_excretion"){ // 화장실이용(배설관찰)
+		var param = {
+				SICODE : fv_sicode,
+				DATE : pdate,
+			    NAME : m_name,
+			    MJUMIN : jumin,
+			    SEXGB : sexgb,
+			    MCODE : m_code
+		};
+
+		popupName = "excretion";
+		popupUrl = "DAY_POP::DAY00101_P02.xfdl";
+	}
+	
+	if(obj.id == "btn_bath"){ // 목욕도움
+		this.ds_bath.clearData();
+		this.fn_bathsearch();
+		if(this.ds_bath.rowcount < 1){
+			this.alert("목욕일정표에 예약되어 있어야 기록이 가능합니다.");
+			return false;
+		}
+
+		var param = {
+				sicode : fv_sicode,
+				date : pdate,
+			    mname : m_name,
+				mcode : m_code,
+			    jumin : jumin,
+			    sexgb : sexgb,
+				mgroup : m_group
+		};
+
+		popupName = "bath";
+		popupUrl = "DAY_POP::DAY00101_P03.xfdl";
+	}
+	
+	if(obj.id == "btn_bathlist"){ // 일 목욕제공기록
+		if(this.ds_bathlist_pre.getColumn(0,"cnt") < 1){
+			this.alert("일 목욕제공기록이 존재하지 않습니다.");
+			return false;
+		}
+
+		var param = {
+				sicode : fv_sicode,
+				date : pdate,
+		};
+
+		popupName = "bathlist";
+		popupUrl = "DAY_POP::DAY00101_P06.xfdl";
+	}
+	
+	if(obj.id == "btn_mate"){ // 수급자 상태설정
+		var param = {
+				sicode : fv_sicode,
+				m_code : m_code
+		};
+
+		popupName = "mate";
+		popupUrl = "DAY_POP::DAY00101_P04.xfdl";
+	}
+	
+	if(obj.id == "btn_bind"){ // 신체보호기록
+		var param = {
+				sicode : fv_sicode,
+				date : pdate,
+				mcode : m_code,
+			    mname : m_name,
+			    mgroup : m_group,
+				sexgb : sexgb,
+				jumin : jumin,
+				mroomname : m_roomname
+		};
+
+		popupName = "bind";
+		popupUrl = "DAY_POP::DAY00101_P05.xfdl";
+	}
+	
+	
+
+	Sct.popup(this, popupName, 450, 400, "", param, popupUrl, "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	
+	switch(popid)
+	{
+		// 구강점검
+		case "employee1" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name1 = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid1 = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "구강담당", name1);
+				this.ds_data.setColumn(0, "구강코드", staffid1);
+				this.ds_data.setColumn(0, "VIEW_MANAGER1", name1 + "/" + staffid1);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "구강담당", "");
+				this.ds_data.setColumn(0, "구강코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER1", "");
+			}
+			break;
+		// 점검자
+		case "employee2" : 
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name2 = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid2 = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "일지담당", name2);
+				this.ds_data.setColumn(0, "일지코드", staffid2);
+				this.ds_data.setColumn(0, "VIEW_MANAGER2", name2 + "/" + staffid2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "일지담당", "");
+				this.ds_data.setColumn(0, "일지코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER2", "");
+			}
+			break;
+		case "traning" : // 기능회복훈련
+		    // 기능회복훈련 callback 값 세팅
+ 			var tr_a1 = objDs.getColumn(0,"sh1") + ":" + objDs.getColumn(0,"sm1") + "-" + objDs.getColumn(0,"eh1") +  ":" + objDs.getColumn(0,"em1");
+			var tr_b1 = objDs.getColumn(0,"sh2") + ":" + objDs.getColumn(0,"sm2") + "-" + objDs.getColumn(0,"eh2") +  ":" + objDs.getColumn(0,"em2");
+			var tr_c1 = objDs.getColumn(0,"sh3") + ":" + objDs.getColumn(0,"sm3") + "-" + objDs.getColumn(0,"eh3") +  ":" + objDs.getColumn(0,"em3");
+			
+			if(tr_a1 == ":-:") tr_a1 = "  :  -  :  ";
+			if(tr_b1 == ":-:") tr_b1 = "  :  -  :  ";
+			if(tr_c1 == ":-:") tr_c1 = "  :  -  :  ";
+		
+ 			var tr_a2 = objDs.getColumn(0,"기능훈련a");
+ 			var tr_b2 = objDs.getColumn(0,"기능훈련b");
+ 			var tr_c2 = objDs.getColumn(0,"기능훈련c");
+ 			var tr_manager = objDs.getColumn(0,"훈련담당");
+		
+			this.ds_data.setColumn(0,"traning_a", tr_a1 + " " + tr_manager + " " + tr_a2);
+			this.ds_data.setColumn(0,"traning_b", tr_b1 + " " + tr_manager + " " + tr_b2);
+			this.ds_data.setColumn(0,"traning_c", tr_c1 + " " + tr_manager + " " + tr_c2);
+			break;
+		case "act" : // 인지활동관리지원
+			if(this.ds_actday.rowcount < 1){
+				//this.ds_actday.copyData(this.ds_actday_copy);
+				this.ds_actday.addRow();
+			}
+			this.ds_actday.setColumn(0,"인지관리", objDs.getColumn(0,"인지관리"));
+			this.ds_actday.setColumn(0,"오전활동1", objDs.getColumn(0,"오전활동1"));
+			this.ds_actday.setColumn(0,"오후활동1", objDs.getColumn(0,"오후활동1"));
+			break;
+		case "recordex" : // 일지예문
+			var cont = this.ds_data.getColumn(0,"요양일지");
+			var record = "";
+		
+			if(Sct.Util.isEmpty(cont)){ // 
+				record = objDs.getColumn(0, "value");
+			}else{
+				record = cont + "\n" + objDs.getColumn(0, "value");
+			}
+
+			this.ds_data.setColumn(0, "요양일지", record);
+			break;
+		case "pickup" : // 송영
+			this.ds_data.setColumn(0,"시작시간",objDs.getColumn(0,"시작시간"));
+			this.ds_data.setColumn(0,"시작코스",objDs.getColumn(0,"시작코스"));
+			this.ds_data.setColumn(0,"시작거주지",objDs.getColumn(0,"시작거주지"));
+			this.ds_data.setColumn(0,"종료시간",objDs.getColumn(0,"종료시간"));
+			this.ds_data.setColumn(0,"종료코스",objDs.getColumn(0,"종료코스"));
+			this.ds_data.setColumn(0,"종료거주지",objDs.getColumn(0,"종료거주지"));
+			
+			var stime = objDs.getColumn(0,"시작시간").split(":");
+			var etime = objDs.getColumn(0,"종료시간").split(":");		
+ 			var sFullTime = Sct.Util.getToday() + stime[0] + stime[1] + "00";
+ 			//trace("sFullTime : " + sFullTime);
+ 			var eFullTime = Sct.Util.getToday() + etime[0] + etime[1] + "00";
+ 			//trace("eFullTime : " + eFullTime);
+ 			var diffTime = this.fn_timeDiff(sFullTime, eFullTime, "hhmm");
+ 			//trace("diffTime : " + diffTime);
+			if(diffTime == "00:00") diffTime = "";
+ 			this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_timediff.set_text(diffTime);
+			break;
+		case "posture" : // 자세변경
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text(objDs.getColumn(0,"cnt"));
+			if(objDs.getColumn(0,"cnt") != 0){ // 0이 아니면 백그라운드 설정
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_posture.set_cssclass("btn_orange");
+			}else{ // 0이면 다크크레이
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_posture.set_cssclass("btn_basic_gray");
+			}
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_1.set_text(objDs.getColumn(0,"manager1"));
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_2.set_text(objDs.getColumn(0,"manager2"));
+			
+			break;
+		case "excretion" : // 화장실이용(배설관찰)
+			this.fn_excretionsearch();
+			
+			break;
+		case "bath" : // 목욕도움
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text(objDs.getColumn(0,"cnt"));
+			if(objDs.getColumn(0,"목욕시간") != "  :  -  :  "){
+				this.ds_bath.setColumn(0,"목욕시간",objDs.getColumn(0,"목욕시간"));
+			}else{
+				this.ds_bath.setColumn(0,"목욕시간","");
+			}
+			this.ds_bath.setColumn(0,"담당자01",objDs.getColumn(0,"담당자01"));
+			this.ds_bath.setColumn(0,"담당자02",objDs.getColumn(0,"담당자02"));
+			
+			var manager1 = this.ds_bath.getColumn(0,"담당자01");
+			var manager2 = this.ds_bath.getColumn(0,"담당자02");
+			var time = this.ds_bath.getColumn(0,"목욕시간");
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_1.set_text(manager1);
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_2.set_text(manager2);
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_time.set_text(time);
+			
+			var stime = objDs.getColumn(0,"목욕시간").substr(0,5).split(":");
+			var etime = objDs.getColumn(0,"목욕시간").substr(6,5).split(":");						
+			var sFullTime = Sct.Util.getToday() + stime[0] + stime[1] + "00";
+			//trace("sFullTime : " + sFullTime);
+			var eFullTime = Sct.Util.getToday() + etime[0] + etime[1] + "00";
+			//trace("eFullTime : " + eFullTime);
+			var diffTime = this.fn_timeDiff(sFullTime, eFullTime, "mm");
+			//trace("diffTime : " + diffTime);
+			
+			if(!Sct.Util.isEmpty(diffTime)){ // 시간비교 빈값확인
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_min.set_text(diffTime);
+			}else{
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_min.set_text("");
+			}
+			break;
+		case "bathlist" : // 일 목욕도움 제공리스트
+			// objDs에서 선택된 수급자의 row 찾기
+			var fRow = objDs.findRow("ba_code", this.ds_data.getColumn(0,"m_code")); 
+			if(this.ds_data.rowcount > 0 && fRow > -1){ // 선택된 수급자가 있고, 변경된 데이터가 있으면 변경
+				if(objDs.getColumn(fRow,"목욕시간") != "  :  -  :  "){
+					this.ds_bath.setColumn(0,"목욕시간",objDs.getColumn(fRow,"목욕시간"));
+				}else{
+					this.ds_bath.setColumn(0,"목욕시간","");
+				}
+				this.ds_bath.setColumn(0,"담당자01",objDs.getColumn(fRow,"담당자01"));
+				this.ds_bath.setColumn(0,"담당자02",objDs.getColumn(fRow,"담당자02"));
+				
+				var stime = objDs.getColumn(fRow,"목욕시간").substr(0,5).split(":");
+				var etime = objDs.getColumn(fRow,"목욕시간").substr(6,5).split(":");		
+				var sFullTime = Sct.Util.getToday() + stime[0] + stime[1] + "00";
+				//trace("sFullTime : " + sFullTime);
+				var eFullTime = Sct.Util.getToday() + etime[0] + etime[1] + "00";
+				//trace("eFullTime : " + eFullTime);
+				var diffTime = this.fn_timeDiff(sFullTime, eFullTime, "mm");
+				//trace("diffTime : " + diffTime);
+				if(!Sct.Util.isEmpty(diffTime)){ // 시간비교 빈값확인
+					this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_min.set_text(diffTime);
+				}else{
+					this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_min.set_text("");
+				}
+				
+				var manager1 = this.ds_bath.getColumn(0,"담당자01");
+				var manager2 = this.ds_bath.getColumn(0,"담당자02");
+				var time = this.ds_bath.getColumn(0,"목욕시간");
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_1.set_text(manager1);
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager11_2.set_text(manager2);
+				this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_time.set_text(time);
+			}
+			break;
+		case "mate" : // 수급자 상태설정
+			if(objDs.getColumn(0,"배설변의") == 1){
+				this.ds_data.setColumn(0,"cr_state1","변의장애");
+			}else{
+				this.ds_data.setColumn(0,"cr_state1","");
+			}
+			
+			if(objDs.getColumn(0,"배설뇨의") == 1){
+				this.ds_data.setColumn(0,"cr_state2","뇨의장애");
+			}else{
+				this.ds_data.setColumn(0,"cr_state2","");
+			}
+			
+			var cr3 = objDs.getColumn(0,"배설보조");
+			if(cr3 == 1){
+				this.ds_data.setColumn(0,"cr_state3","인공장루(요루)");
+			}else if(cr3 == 2){
+				this.ds_data.setColumn(0,"cr_state3","유치도뇨관");
+			}else if(cr3 == 3){
+				this.ds_data.setColumn(0,"cr_state3","기저귀착용");
+			}else if(cr3 == 4){
+				this.ds_data.setColumn(0,"cr_state3","도뇨관+기저귀");
+			}
+			break;	
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	//this.ds_search.setColumn(0,"s_nm","사용중");	// 초기값은 수급자만 리스팅
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	const celIdx = obj.getBindCellIndex("body", "m_name");
+	
+	//this.reCode = e.row;
+	
+	// 수급자명 컬럼인 경우
+	if (e.col == celIdx)
+	{
+		this.fn_listclick(e.row);
+// 		this.ds_search.setColumn(0,"m_code", this.ds_list.getColumn(e.row,"m_code"));
+// 		this.ds_search.setColumn(0,"m_name", this.ds_list.getColumn(e.row,"m_name"));
+// 		this.ds_search.setColumn(0,"m_group", this.ds_list.getColumn(e.row,"m_group"));
+// 		// 데이터셋클리어
+// 		this.ds_data.clearData();
+// 		this.ds_actday.clearData();
+// 		this.ds_excretion.clearData();
+// 		// 자세변경 데이터 클리어
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text("");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_1.set_text("");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_2.set_text("");
+// 		// 배설관찰 데이터 클리어
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("");
+// 		
+// 		// 빈값 및 백그라운드 다크그레이로 변경
+// 		for(var i=1; i<=13; i++){
+// 			if(i != 6 || i !=10 || i !=11)
+// 			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_1"].set_text("");
+// 			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_2"].set_text("");
+// 			//this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["btn_select"+i].set_cssclass("btn_basic_gray");
+// 		}
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select1.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select2.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select3.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select4.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select5.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select7.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select8.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select9.set_cssclass("btn_basic_gray");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select12.set_cssclass("btn_basic_gray");
+//  		this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select13.set_cssclass("btn_basic_gray");
+// 	
+// 		this.reSearchCode = this.ds_list.getColumn(e.row,"m_code");
+// 		this.fn_datasearch();
+	}
+};
+
+this.fn_listclick = function (row)
+{
+	this.ds_search.setColumn(0,"m_code", this.ds_list.getColumn(row,"m_code"));
+	this.ds_search.setColumn(0,"m_name", this.ds_list.getColumn(row,"m_name"));
+	this.ds_search.setColumn(0,"m_group", this.ds_list.getColumn(row,"m_group"));
+	
+	this.fn_clearDataset("list");
+	// 데이터셋클리어
+// 	this.ds_data.clearData();
+// 	this.ds_actday.clearData();
+// 	this.ds_excretion.clearData();
+// 	// 자세변경 데이터 클리어
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text("");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_1.set_text("");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_2.set_text("");
+// 	// 배설관찰 데이터 클리어
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("");
+// 	
+// 	// 빈값 및 백그라운드 다크그레이로 변경
+// 	for(var i=1; i<=13; i++){
+// 		if(i != 6 || i !=10 || i !=11)
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_1"].set_text("");
+// 		this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_2"].set_text("");
+// 		//this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["btn_select"+i].set_cssclass("btn_basic_gray");
+// 	}
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select1.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select2.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select3.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select4.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select5.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select7.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select8.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select9.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select12.set_cssclass("btn_basic_gray");
+// 	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select13.set_cssclass("btn_basic_gray");
+
+	this.reSearchCode = this.ds_list.getColumn(row,"m_code");
+	this.fn_datasearch();
+};
+
+// 등급 클릭 이벤트
+this.btn_grade_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	//  선택 버튼 빨간색으로, 그 외는 기본색으로
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (obj == this.grp_btns[i]) {
+			//this.grp_btns[i].set_background("red");
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			//this.grp_btns[i].set_background("darkgray");
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+	
+	var objtext;
+	if(obj.id == "btn_ALL"){
+		objtext = "";
+	}else{
+		objtext = obj.text;
+	}
+	
+	this.ds_search.setColumn(0, "m_group", objtext);
+	
+	this.fn_search("search");
+};
+
+// 일자 변경 시 데이터셋 클리어, 조회
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{	
+	this.ds_search.setColumn(0, "date", e.postvalue);
+	this.ds_search.setColumn(0, "s_date", e.postvalue);
+	this.fn_clearDataset("dt"); // 데이터셋 클리어
+	this.fn_search("search_dt");
+	
+};
+
+// 일자변경시 데이터셋 클리어
+this.fn_clearDataset = function (flag)
+{
+	if(flag == "dt"){
+		this.ds_list.clearData();
+	}
+	this.ds_data.clearData();
+	this.ds_actday.clearData();
+	this.ds_excretion.clearData();
+	
+// 	this.ds_data.clearData();
+// 	this.ds_actday.clearData();
+// 	this.ds_excretion.clearData();
+	// 자세변경 데이터 클리어
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_posture_cnt.set_text("");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_1.set_text("");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager6_2.set_text("");
+	// 배설관찰 데이터 클리어
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr1.set_text("");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.sta_cr2.set_text("");
+	
+	// 빈값 및 백그라운드 다크그레이로 변경
+	for(var i=1; i<=13; i++){
+		if(i != 6 || i !=10 || i !=11){
+			//trace(i);
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_1"].set_text("");
+			this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["sta_manager"+i+"_2"].set_text("");
+		}
+	}
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select1.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select2.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select3.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select4.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select5.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select7.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select8.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select9.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select12.set_cssclass("btn_basic_gray");
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.btn_select13.set_cssclass("btn_basic_gray");
+};
+
+// 그룹 버튼 초기화 ('전체' 버튼이 선택된 상태)
+this.btn_group_init = function()
+{
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (this.grp_btns[i].id == "btn_ALL") {
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+	
+	this.ds_search.setColumn(0,"m_group","");
+}
+
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function()
+{	
+	// 데이터 존재
+	var knumber = this.ds_data.getColumn(0,"k_number");
+	if(!Sct.Util.isEmpty(knumber)){
+		var managerStr1 = nexacro.trim(this.ds_data.getColumn(0, "구강담당"))
+					 + "/"
+					 + this.ds_data.getColumn(0, "구강코드");
+		if(!Sct.Util.isEmpty(nexacro.trim(this.ds_data.getColumn(0, "구강담당")))){
+			this.ds_data.setColumn(0, "VIEW_MANAGER1", managerStr1);
+		}else{
+			this.ds_data.setColumn(0, "VIEW_MANAGER1", "");
+		}
+		
+		var managerStr2 = nexacro.trim(this.ds_data.getColumn(0, "일지담당"))
+					 + "/"
+					 + this.ds_data.getColumn(0, "일지코드");
+					 
+		if(!Sct.Util.isEmpty(nexacro.trim(this.ds_data.getColumn(0, "일지담당")))){
+			this.ds_data.setColumn(0, "VIEW_MANAGER2", managerStr2);
+		}else{
+			this.ds_data.setColumn(0, "VIEW_MANAGER2", "");
+		}
+		
+		var btime = this.ds_data.getColumn(0,"아침시간");
+		var ltime = this.ds_data.getColumn(0,"점심시간");
+		var dtime = this.ds_data.getColumn(0,"저녁시간");
+		
+		if(btime == "0000"){
+			this.ds_data.setColumn(0,"아침시간", this.ds_mealtime.getColumn(0,"b_time"));
+		}
+		if(ltime == "0000"){
+			this.ds_data.setColumn(0,"점심시간", this.ds_mealtime.getColumn(0,"l_time"));
+		}
+		if(dtime == "0000"){
+			this.ds_data.setColumn(0,"저녁시간", this.ds_mealtime.getColumn(0,"d_time"));
+		}
+	}else{ // 새로작성		
+		// 식사시간 세팅
+		this.ds_data.setColumn(0,"아침시간", this.ds_mealtime.getColumn(0,"b_time"));
+		this.ds_data.setColumn(0,"점심시간", this.ds_mealtime.getColumn(0,"l_time"));
+		this.ds_data.setColumn(0,"저녁시간", this.ds_mealtime.getColumn(0,"d_time"));
+		this.ds_data.setColumn(0,"am_time", this.ds_mealtime.getColumn(0,"am_time"));
+		this.ds_data.setColumn(0,"pm_time", this.ds_mealtime.getColumn(0,"pm_time"));
+		
+		this.ds_data.setColumn(0, "구강담당", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+		this.ds_data.setColumn(0, "구강코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+		
+		var managerStr1 = this.ds_data.getColumn(0, "구강담당")
+						 + "/"
+						 + this.ds_data.getColumn(0, "구강코드");
+		this.ds_data.setColumn(0, "VIEW_MANAGER1", managerStr1);
+	
+		this.ds_data.setColumn(0, "일지담당", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+		this.ds_data.setColumn(0, "일지코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+		
+		var managerStr2 = this.ds_data.getColumn(0, "일지담당")
+						 + "/"
+						 + this.ds_data.getColumn(0, "일지코드");
+		this.ds_data.setColumn(0, "VIEW_MANAGER2", managerStr2);
+	}
+ 		
+ 		
+	// 미이용 여부
+	if(!Sct.Util.isEmpty(this.ds_data.getColumn(0,"move_cont"))){
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_background("red");
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_color("#ffffff");
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_text("미입소");
+	}else{
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_background("#ffffff");
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_color("#ffffff");
+		this.div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_move.set_text("");
+	}
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 지움버튼 이벤트 
+this.btn_del = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objid = obj.id.substr(4);
+	if(this.ds_data.rowcount  < 1){
+		return false;
+	}
+	
+	if(objid == "bd"){ // 아침지움
+		this.ds_data.setColumn(0,"아침종류",0);
+		this.ds_data.setColumn(0,"아침양",0);
+	}else if(objid == "ld"){ // 점심지움
+		this.ds_data.setColumn(0,"점심종류",0);
+		this.ds_data.setColumn(0,"점심양",0);
+	}else if(objid == "dd"){ // 저녁지움
+		this.ds_data.setColumn(0,"저녁종류",0);
+		this.ds_data.setColumn(0,"저녁양",0);
+	}else if(objid == "sd"){ // 간식지움
+		this.ds_data.setColumn(0,"오전간식",0);
+		this.ds_data.setColumn(0,"오후간식",0);
+	}else if(objid == "state_delete"){ // 구강상태지움
+		this.ds_data.setColumn(0,"구강상태",0);
+		this.ds_data.setColumn(0,"구강내용","");
+		this.ds_data.setColumn(0,"구강담당","");
+		this.ds_data.setColumn(0,"구강코드","");
+		this.ds_data.setColumn(0,"VIEW_MANAGER1","");
+	}
+	
+	// 신체활동지원 담당자 지움
+	var delnum = obj.id.substr(7); // btn_del1_1 > 1_1
+	var delnum2 = "";
+	if(delnum.length == 3){
+		delnum2 = obj.id.substr(7,1); // btn_del1_1 > 1
+	}else{
+		delnum2 = obj.id.substr(7,2); // btn_del12_1 > 12
+	}
+	var activityForm = this.div_cont.form.div_right.form.div_main.form.div_activity.form;
+	switch(obj.id) {
+		case "btn_del"+delnum:
+			var barcode = "";
+			if(delnum2 == "1") barcode = "SC0100";
+			else if(delnum2 == "1") barcode = "SC0100";
+			else if(delnum2 == "2") barcode = "SC0200";
+			else if(delnum2 == "3") barcode = "SC0300";
+			else if(delnum2 == "4") barcode = "SC0400";
+			else if(delnum2 == "5") barcode = "SC0500";
+			else if(delnum2 == "7") barcode = "SC0900";
+			else if(delnum2 == "8") barcode = "SC1000";
+			else if(delnum2 == "9") barcode = "SC0700";
+			else if(delnum2 == "12") barcode = "SC2400";
+			else if(delnum2 == "13") barcode = "SC2500";
+			
+			var manager = activityForm.components["sta_manager"+delnum].text;			
+			// 바코드 + 직원명의 row
+			var searchRow = this.ds_kmdaily25.findRowExpr( "km바코드 =='" +barcode +"'" +"&& km직원명 =='" +manager +"'");
+			
+			if(searchRow > -1) {
+				if(this.ds_kmdaily25.getRowType(searchRow) == "2"){	// 추가행 상태에선 로우 삭제
+					this.ds_kmdaily25.deleteRow(searchRow);				
+				}else{ // rowType 삭제행으로 변경
+					this.ds_kmdaily25.set_updatecontrol(false);
+					this.ds_kmdaily25.setRowType(searchRow, 4);
+					this.ds_kmdaily25.set_updatecontrol(true);
+				}
+			}
+			
+			activityForm.components["sta_manager"+delnum].set_text(""); // 컴포넌트 빈값처리
+			var man1 = activityForm.components["sta_manager"+delnum2+"_1"].text;
+			var man2 = activityForm.components["sta_manager"+delnum2+"_2"].text;
+			if(Sct.Util.isEmpty(man1) && Sct.Util.isEmpty(man2)){ // 담당자 둘 다 빈값이면 버튼 회색처리
+				activityForm.components["btn_select"+delnum2].set_cssclass("btn_basic_gray");
+			}
+			break;
+	}
+};
+
+// 구강상태 체크박스 이벤트
+this.chk_state_canchange = function(obj:nexacro.CheckBox,e:nexacro.ChangeEventInfo)
+{
+	// 구강내용 빈값 시 base_info 구강메모 가져오기
+	if(e.postvalue != "0" && nexacro.trim(this.ds_data.getColumn(0,"구강내용")) == ""){	
+		this.ds_data.setColumn(0,"구강내용", this.ds_data.getColumn(0,"구강메모"));
+	}
+	// 1 : 양치질도움, 2 : 입안행굼
+	if(e.postvalue == "1"){
+		this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state2.set_value(0);
+	}else if(e.postvalue == "2"){
+		this.div_cont.form.div_right.form.div_main.form.div_help.form.chk_state1.set_value(0);
+	}
+};
+
+// 신체활동지원 버튼 클릭 이벤트
+this.btn_activity_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1) {
+		//alert("먼저 수급자를 선택해 주세요.");
+		return false;
+	}
+	switch(obj.id) {
+		case "btn_select1":
+			this.fn_setManager("sta_manager1","SC0100");
+			break;
+		case "btn_select2":
+			this.fn_setManager("sta_manager2","SC0200");
+			break;
+		case "btn_select3":
+			this.fn_setManager("sta_manager3","SC0300");
+			break;
+		case "btn_select4":
+			this.fn_setManager("sta_manager4","SC0400");
+			break;
+		case "btn_select5":
+			this.fn_setManager("sta_manager5","SC0500");
+			break;
+		case "btn_select7":
+			this.fn_setManager("sta_manager7","SC0900");
+			break;
+		case "btn_select8":
+			this.fn_setManager("sta_manager8","SC1000");
+			break;
+		case "btn_select9":
+			this.fn_setManager("sta_manager9","SC0700");
+			break;
+		case "btn_select12":
+			this.fn_setManager("sta_manager12","SC2400");
+			break;
+		case "btn_select13":
+			this.fn_setManager("sta_manager13","SC2500");
+			break;
+		default:
+	}
+};
+
+// 신체활동지원 담당자 세팅
+// comp : 해당 컴포넌트, kmcode : km바코드
+this.fn_setManager = function (comp, kmcode)
+{
+	//this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["btn_select" + comp.substr(11)].set_cssclass("btn_orange");  // #ffa07a // 
+	this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["btn_select" + comp.substr(11)].set_cssclass("btn_orange");
+	
+	//this.div_cont.form.div_right.form.div_main.form.div_activity.form.components["btn_select" + comp.substr(11)].set_cssclass("btn_basic_gray");
+	var activityForm = this.div_cont.form.div_right.form.div_main.form.div_activity.form;
+	if(Sct.Util.isEmpty(activityForm.components[comp+"_1"].text)){ // 첫번째 빈값이면 입력
+		var aRow = this.ds_kmdaily25.addRow();
+		this.ds_kmdaily25.setColumn(aRow,"sicode",fv_sicode);
+		this.ds_kmdaily25.setColumn(aRow,"kmdaily",this.ds_search.getColumn(0,"date"));
+		this.ds_kmdaily25.setColumn(aRow,"kmcode",this.ds_data.getColumn(0,"m_code"));
+		this.ds_kmdaily25.setColumn(aRow,"kmname",this.ds_data.getColumn(0,"m_name"));
+		this.ds_kmdaily25.setColumn(aRow,"km바코드", kmcode);
+		this.ds_kmdaily25.setColumn(aRow,"km직원코드",this.fv_staff_id);
+		this.ds_kmdaily25.setColumn(aRow,"km직원명",this.fv_staff_name);
+		activityForm.components[comp+"_1"].set_text(this.fv_staff_name);
+	}else if(Sct.Util.isEmpty(activityForm.components[comp+"_2"].text)){ // 두번째 빈값이면 입력
+		if(activityForm.components[comp+"_1"].text == this.fv_staff_name){ // 첫번째 담당자와 로그인한 담당자가 같으면 입력불가
+			return false;
+		}else{
+			var aRow = this.ds_kmdaily25.addRow();
+			this.ds_kmdaily25.setColumn(aRow,"sicode",fv_sicode);
+			this.ds_kmdaily25.setColumn(aRow,"kmdaily",this.ds_search.getColumn(0,"date"));
+			this.ds_kmdaily25.setColumn(aRow,"kmcode",this.ds_data.getColumn(0,"m_code"));
+			this.ds_kmdaily25.setColumn(aRow,"kmname",this.ds_data.getColumn(0,"m_name"));
+			this.ds_kmdaily25.setColumn(aRow,"km바코드", kmcode);
+			this.ds_kmdaily25.setColumn(aRow,"km직원코드",this.fv_staff_id);
+			this.ds_kmdaily25.setColumn(aRow,"km직원명",this.fv_staff_name);
+			activityForm.components[comp+"_2"].set_text(this.fv_staff_name);
+		}
+	}else{
+		return false;
+	}
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="date"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="date"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.sta_body1_00" propid="text" datasetid="ds_data" columnid="m_name"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.sta_body1_00_00_00" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.sta_body1_00_01" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_data" columnid="jumin"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_data" columnid="m_regist"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.sta_body1_00_02" propid="text" datasetid="ds_data" columnid="m_roomname"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.cal_date_to_pic" propid="value" datasetid="ds_state_desc" columnid="sc_nalja"/>
+      <BindItem id="item21" compid="div_cont.form.sta_no_value" propid="text" datasetid="ds_data" columnid="cr_number"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.sta_body1_00_02_00" propid="text" datasetid="ds_data" columnid="m_enday"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.sta_body1_00_02_00_00" propid="text" datasetid="ds_data" columnid="m_reday"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.sta_body1_00_02_00_00_00" propid="text" datasetid="ds_data" columnid="grade_nm"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_list" columnid="m_code"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_00" propid="text" datasetid="ds_list" columnid="m_group"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_list" columnid="sex_nm"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list" columnid="age"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01" propid="text" datasetid="ds_list" columnid="m_jumin1"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_enday"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00" propid="text" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00" propid="text" datasetid="ds_list" columnid="m_conname"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01" propid="text" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_regist"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_01" propid="text" datasetid="ds_list" columnid="grade_nm"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_02" propid="text" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_02_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_02_00_00" propid="text" datasetid="ds_list" columnid="m_juso1"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_02_00_01" propid="text" datasetid="ds_list" columnid="m_juso2"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_02_00_01_00" propid="text" datasetid="ds_list" columnid="m_post"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_01" propid="text" datasetid="ds_state_desc" columnid="view_manager"/>
+      <BindItem id="item53" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item54" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body16" propid="text" datasetid="ds_data" columnid="din02"/>
+      <BindItem id="item55" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body11" propid="text" datasetid="ds_data" columnid="lun04"/>
+      <BindItem id="item56" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body12" propid="text" datasetid="ds_data" columnid="lun05"/>
+      <BindItem id="item57" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body13" propid="text" datasetid="ds_data" columnid="lun06"/>
+      <BindItem id="item58" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body15" propid="text" datasetid="ds_data" columnid="din01"/>
+      <BindItem id="item59" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body17" propid="text" datasetid="ds_data" columnid="din03"/>
+      <BindItem id="item60" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body18" propid="text" datasetid="ds_data" columnid="din04"/>
+      <BindItem id="item61" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body19" propid="text" datasetid="ds_data" columnid="din05"/>
+      <BindItem id="item62" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.mae_00_00" propid="value" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item63" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.mae_00_01" propid="value" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item64" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.mae_00_01_00" propid="value" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item65" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="m_reday"/>
+      <BindItem id="item66" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01" propid="text" datasetid="ds_list_copy" columnid="m_liday1"/>
+      <BindItem id="item67" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01_00" propid="text" datasetid="ds_list_copy" columnid="m_liday2"/>
+      <BindItem id="item72" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_kinds" propid="text" datasetid="ds_data" columnid="식사종류명"/>
+      <BindItem id="item74" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_b_time" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item75" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_l_time" propid="text" datasetid="ds_data" columnid="l_time"/>
+      <BindItem id="item76" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_d_time" propid="text" datasetid="ds_data" columnid="d_time"/>
+      <BindItem id="item77" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_s_time1" propid="text" datasetid="ds_data" columnid="am_time"/>
+      <BindItem id="item78" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_s_time2" propid="text" datasetid="ds_data" columnid="pm_time"/>
+      <BindItem id="item79" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_b" propid="value" datasetid="ds_data" columnid="아침종류"/>
+      <BindItem id="item80" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_ba" propid="value" datasetid="ds_data" columnid="아침양"/>
+      <BindItem id="item81" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_l" propid="value" datasetid="ds_data" columnid="점심종류"/>
+      <BindItem id="item82" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_la" propid="value" datasetid="ds_data" columnid="점심양"/>
+      <BindItem id="item83" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_d" propid="value" datasetid="ds_data" columnid="저녁종류"/>
+      <BindItem id="item84" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_da" propid="value" datasetid="ds_data" columnid="저녁양"/>
+      <BindItem id="item85" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_sa2" propid="value" datasetid="ds_data" columnid="오후간식"/>
+      <BindItem id="item86" compid="div_cont.form.div_right.form.div_main.form.div_help.form.rdo_sa1" propid="value" datasetid="ds_data" columnid="오전간식"/>
+      <BindItem id="item87" compid="div_cont.form.div_right.form.div_main.form.div_help.form.txt_content2" propid="value" datasetid="ds_data" columnid="요양일지"/>
+      <BindItem id="item88" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content" propid="value" datasetid="ds_data" columnid="구강내용"/>
+      <BindItem id="item89" compid="div_cont.form.div_right.form.div_main.form.div_help.form.chk_state2" propid="value" datasetid="ds_data" columnid="구강상태"/>
+      <BindItem id="item90" compid="div_cont.form.div_right.form.div_main.form.div_help.form.chk_state1" propid="value" datasetid="ds_data" columnid="구강상태"/>
+      <BindItem id="item91" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER1"/>
+      <BindItem id="item92" compid="div_cont.form.div_right.form.div_main.form.div_help.form.sta_manager_value2" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER2"/>
+      <BindItem id="item93" compid="div_cont.form.div_right.form.div_main.form.div_help.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="식사번호"/>
+      <BindItem id="item2" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity2" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity3" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity4" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity5" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity6" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity7" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity9" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity8" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_kinds" propid="text" datasetid="ds_data" columnid="cr_state1"/>
+      <BindItem id="item13" compid="div_cont.form.sta_kinds00" propid="text" datasetid="ds_data" columnid="cr_state2"/>
+      <BindItem id="item14" compid="div_cont.form.sta_kinds01" propid="text" datasetid="ds_data" columnid="cr_state3"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_kinds00" propid="text" datasetid="ds_data" columnid="cr_state2"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_kinds01" propid="text" datasetid="ds_data" columnid="cr_state3"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt09" propid="text" datasetid="ds_excretion" columnid="cr_t_09"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt13" propid="text" datasetid="ds_excretion" columnid="cr_t_13"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt10" propid="text" datasetid="ds_excretion" columnid="cr_t_10"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt14" propid="text" datasetid="ds_excretion" columnid="cr_t_14"/>
+      <BindItem id="item68" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt11" propid="text" datasetid="ds_excretion" columnid="cr_t_11"/>
+      <BindItem id="item69" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt15" propid="text" datasetid="ds_excretion" columnid="cr_t_15"/>
+      <BindItem id="item70" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt12" propid="text" datasetid="ds_excretion" columnid="cr_t_12"/>
+      <BindItem id="item71" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt16" propid="text" datasetid="ds_excretion" columnid="cr_t_16"/>
+      <BindItem id="item94" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt17" propid="text" datasetid="ds_excretion" columnid="cr_t_17"/>
+      <BindItem id="item95" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt18" propid="text" datasetid="ds_excretion" columnid="cr_t_18"/>
+      <BindItem id="item96" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt19" propid="text" datasetid="ds_excretion" columnid="cr_t_19"/>
+      <BindItem id="item97" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt20" propid="text" datasetid="ds_excretion" columnid="cr_t_20"/>
+      <BindItem id="item98" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_crt08" propid="text" datasetid="ds_excretion" columnid="cr_t_08"/>
+      <BindItem id="item99" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity2_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item100" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity3_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item101" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity4_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item102" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity5_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item105" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity6_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item106" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity7_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item107" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity8_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item109" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_activity9_00" propid="text" datasetid="ds_data" columnid="b_time"/>
+      <BindItem id="item128" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_bath_min" propid="text" datasetid="ds_bath" columnid="minute"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00" propid="value" datasetid="ds_data" columnid=""/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_traning1" propid="value" datasetid="ds_data" columnid="traning_a"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_traning2" propid="value" datasetid="ds_data" columnid="traning_b"/>
+      <BindItem id="item103" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_traning3" propid="value" datasetid="ds_data" columnid="traning_c"/>
+      <BindItem id="item104" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_act1" propid="value" datasetid="ds_actday" columnid="인지관리"/>
+      <BindItem id="item108" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_act2" propid="value" datasetid="ds_actday" columnid="오전활동1"/>
+      <BindItem id="item110" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_act3" propid="value" datasetid="ds_actday" columnid="오후활동1"/>
+      <BindItem id="item134" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager10_1" propid="text" datasetid="ds_excretion" columnid="주간담당"/>
+      <BindItem id="item135" compid="div_cont.form.div_right.form.div_main.form.div_activity.form.sta_manager10_2" propid="text" datasetid="ds_excretion" columnid="야간담당"/>
+      <BindItem id="item139" compid="div_cont.form.div_right.form.sta_no_value" propid="text" datasetid="ds_data" columnid="cr_number"/>
+      <BindItem id="item43" compid="div_func.form.sta_no_value" propid="text" datasetid="ds_data" columnid="k_number"/>
+      <BindItem id="item138" compid="div_cont.form.div_right.form.div_main.form.div_help.form.txt_content2_00" propid="value" datasetid="ds_data" columnid="간호일지"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.sta_body1_00_00" propid="text" datasetid="ds_data" columnid="m_code"/>
+      <BindItem id="item73" compid="div_cont.form.div_right.form.div_main.form.div_help.form.mae_time1" propid="value" datasetid="ds_data" columnid="아침시간"/>
+      <BindItem id="item140" compid="div_cont.form.div_right.form.div_main.form.div_help.form.mae_time1_00" propid="value" datasetid="ds_data" columnid="점심시간"/>
+      <BindItem id="item141" compid="div_cont.form.div_right.form.div_main.form.div_help.form.mae_time1_01" propid="value" datasetid="ds_data" columnid="저녁시간"/>
+      <BindItem id="item142" compid="div_cont.form.div_right.form.div_main.form.div_help.form.mae_time1_01_00" propid="value" datasetid="ds_data" columnid="am_time"/>
+      <BindItem id="item143" compid="div_cont.form.div_right.form.div_main.form.div_help.form.mae_time1_01_00_00" propid="value" datasetid="ds_data" columnid="pm_time"/>
+      <BindItem id="item144" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b" propid="text" datasetid="ds_data" columnid="시작시간"/>
+      <BindItem id="item145" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b00" propid="text" datasetid="ds_data" columnid="시작코스"/>
+      <BindItem id="item146" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b00_00" propid="text" datasetid="ds_data" columnid="시작거주지"/>
+      <BindItem id="item147" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b01" propid="text" datasetid="ds_data" columnid="종료시간"/>
+      <BindItem id="item148" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b00_01" propid="text" datasetid="ds_data" columnid="종료코스"/>
+      <BindItem id="item149" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_b00_00_00" propid="text" datasetid="ds_data" columnid="종료거주지"/>
+      <BindItem id="item111" compid="div_cont.form.div_right.form.div_main.form.div_pickup.form.sta_timediff" propid="text" datasetid="ds_data" columnid="timediff"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00103_P01" width="792" height="650" titletext="식사도움 관찰기록" onload="form_onload">
+    <Layouts>
+      <Layout width="792" height="650">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Static id="sta_body1" taborder="0" left="0" top="36" width="772" height="33" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head2" taborder="1" text="수급자명" left="273" top="36" width="85" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1_00" taborder="2" left="362" top="40" width="80" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_00_00" taborder="3" left="484" top="40" width="35" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_00" taborder="4" left="522" top="40" width="80" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_body1_00_01" taborder="5" left="446" top="40" width="35" height="25" padding="0px 0px 0px 5px"/>
+              <Static id="sta_kinds" taborder="6" left="0" top="79" width="98" height="33" cssclass="sta_WF_DetailLabel02" background="#32cd32" textAlign="center" color="white"/>
+              <Static id="sta_head1" taborder="7" text="제공일" left="0" top="36" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_num1" taborder="8" left="66" top="0" width="224" height="33" textAlign="left" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_date" taborder="9" left="103" top="40" width="100" height="25" text="" padding="0px 0px 0px 5px"/>
+              <Static id="sta_time" taborder="10" text="식사시간" left="0" top="111" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_b" taborder="11" left="97" top="79" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="아침" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_l" taborder="12" left="273" top="79" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="점심" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_d" taborder="13" left="449" top="79" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="저녁" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_s" taborder="14" left="625" top="79" width="147" height="33" cssclass="sta_WF_DetailLabel02" text="오전,오후간식" textAlign="center" font="11pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_b_time" taborder="15" left="97" top="111" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_l_time" taborder="16" left="273" top="111" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_d_time" taborder="17" left="449" top="111" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_s_time1" taborder="18" left="625" top="111" width="74" height="33" textAlign="center" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_00_00_00" taborder="19" text="식사종류&#13;&#10;식사량" left="0" top="143" width="98" height="143" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1_01_00_01_00" taborder="20" left="97" top="143" width="177" height="111" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_01_00" taborder="21" left="273" top="143" width="177" height="136" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_00_01_00" taborder="22" left="449" top="143" width="177" height="136" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_00_00_00_00" taborder="23" left="625" top="143" width="147" height="136" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Radio id="rdo_b" taborder="24" left="103" top="148" width="95" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" cssclass="radioselect" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_kinds"/>
+              <Radio id="rdo_ba" taborder="25" left="203" top="148" width="65" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" cssclass="radioselect" innerdataset="ds_amount"/>
+              <Static id="sta_body1_01_00_01_01" taborder="26" left="97" top="253" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_01_01" taborder="27" left="273" top="253" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_00_01_01" taborder="28" left="449" top="253" width="177" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Static id="sta_body1_01_00_00_00_00_00_01" taborder="29" left="625" top="253" width="147" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Button id="btn_bd" taborder="30" text="아침지움" left="177" top="256" width="90" height="26" cssclass="btn_eraser" onclick="btn_del"/>
+              <Radio id="rdo_l" taborder="31" left="279" top="148" width="95" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_kinds" cssclass="radioselect"/>
+              <Radio id="rdo_la" taborder="32" left="380" top="148" width="65" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_amount" cssclass="radioselect"/>
+              <Radio id="rdo_d" taborder="33" left="455" top="148" width="95" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_kinds" cssclass="radioselect"/>
+              <Radio id="rdo_da" taborder="34" left="555" top="148" width="65" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_amount" cssclass="radioselect"/>
+              <Radio id="rdo_sa2" taborder="35" left="701" top="148" width="65" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_amount" cssclass="radioselect"/>
+              <Button id="btn_ld" taborder="36" text="점심지움" left="355" top="256" width="90" height="26" cssclass="btn_eraser" onclick="btn_del"/>
+              <Button id="btn_sd" taborder="37" text="간식지움" left="676" top="256" width="90" height="26" cssclass="btn_eraser" onclick="btn_del"/>
+              <Button id="btn_dd" taborder="38" text="저녁지움" left="530" top="256" width="90" height="26" cssclass="btn_eraser" onclick="btn_del"/>
+              <Static id="sta_s_time2" taborder="39" left="698" top="111" width="74" height="33" cssclass="sta_WF_DetailLabel02" text="" textAlign="center"/>
+              <Radio id="rdo_sa1" taborder="40" left="631" top="148" width="65" height="100" onitemchanged="div_cont_rdo_b_onitemchanged" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_amount" cssclass="radioselect"/>
+              <Button id="btn_save" taborder="41" text="저장" top="0" width="70" height="26" onclick="fn_save" right="0" cssclass="btn_save"/>
+              <Static id="sta_body10" taborder="42" left="0" top="381" width="772" height="205" cssclass="sta_WF_DetailLabel02"/>
+              <TextArea id="txt_content2" taborder="43" left="103" top="385" width="663" height="196" maxlength="2000" wordWrap="char" scrollbartype="fixed" scrolltype="vertical"/>
+              <Static id="sta_head10" taborder="44" left="0" top="381" width="98" height="205" cssclass="sta_WF_DetailLabel01" textAlign="center" text="요양일지"/>
+              <Static id="sta_body8_00" taborder="45" left="0" top="285" width="772" height="33" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_state" taborder="46" text="구강상태" left="0" top="285" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body8_00_00" taborder="47" left="0" top="317" width="772" height="33" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_00_00_01_01" taborder="48" text="처리내용" left="0" top="317" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body8_00_00_00" taborder="49" left="0" top="349" width="772" height="33" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_01_01" taborder="50" left="0" top="349" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body8_00_00_00_00" taborder="51" left="0" top="585" width="772" height="33" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_01_01_00" taborder="52" left="0" top="585" width="98" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Edit id="edt_content" taborder="53" left="103" top="321" width="663" height="25" maxlength="40"/>
+              <Button id="btn_state_delete" taborder="54" text="구강상태지움" left="656" top="352" width="110" height="26" cssclass="btn_eraser" onclick="btn_del"/>
+              <Button id="btn_record" taborder="55" text="전날 요양일지 조회" left="611" top="588" width="155" height="26" cssclass="btn_search" onclick="div_cont_btn_record_onclick"/>
+              <CheckBox id="chk_state2" taborder="56" text="입안 행굼" left="200" top="289" width="80" height="25" truevalue="2" falsevalue="0" canchange="chk_state_canchange" cssclass="chk_x"/>
+              <CheckBox id="chk_state1" taborder="57" text="양치질도움" left="103" top="289" width="90" height="25" truevalue="1" falsevalue="0" canchange="chk_state_canchange" cssclass="chk_x"/>
+              <Static id="sta_manager_value" taborder="58" text="요양보호사 / 20210000" left="108" top="352" width="174" height="26" textAlign="left"/>
+              <Static id="sta_manager_value2" taborder="59" text="요양보호사 / 20210000" left="108" top="588" width="174" height="26" textAlign="left"/>
+              <Button id="btn_manager1" taborder="60" text="구강점검" left="4" top="352" width="90" height="26" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+              <Button id="btn_manager2" taborder="61" text="작성자" left="4" top="588" width="90" height="26" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+              <Static id="sta_no" taborder="62" text="기록번호 : " left="1" top="3" width="58" height="26"/>
+              <Static id="sta_no_value" taborder="63" text="00000000" left="64" top="3" width="70" height="26"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_kinds">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">일반식</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">죽</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">유동.미음</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_amount">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">1</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">½상</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">½하</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="nalja" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="식사종류" type="STRING" size="256"/>
+          <Column id="식사종류명" type="STRING" size="256"/>
+          <Column id="아침양" type="STRING" size="256"/>
+          <Column id="아침종류" type="STRING" size="256"/>
+          <Column id="점심양" type="STRING" size="256"/>
+          <Column id="점심종류" type="STRING" size="256"/>
+          <Column id="저녁양" type="STRING" size="256"/>
+          <Column id="저녁종류" type="STRING" size="256"/>
+          <Column id="오전간식" type="STRING" size="256"/>
+          <Column id="오후간식" type="STRING" size="256"/>
+          <Column id="아침시" type="STRING" size="256"/>
+          <Column id="아침분" type="STRING" size="256"/>
+          <Column id="점심시" type="STRING" size="256"/>
+          <Column id="점심분" type="STRING" size="256"/>
+          <Column id="저녁시" type="STRING" size="256"/>
+          <Column id="저녁분" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+          <Column id="일지담당" type="STRING" size="256"/>
+          <Column id="일지코드" type="STRING" size="256"/>
+          <Column id="구강담당" type="STRING" size="256"/>
+          <Column id="구강코드" type="STRING" size="256"/>
+          <Column id="구강상태" type="STRING" size="256"/>
+          <Column id="구강내용" type="STRING" size="256"/>
+          <Column id="b_time" type="STRING" size="256"/>
+          <Column id="b_time1" type="STRING" size="256"/>
+          <Column id="b_time2" type="STRING" size="256"/>
+          <Column id="l_time" type="STRING" size="256"/>
+          <Column id="l_time1" type="STRING" size="256"/>
+          <Column id="l_time2" type="STRING" size="256"/>
+          <Column id="d_time" type="STRING" size="256"/>
+          <Column id="d_time1" type="STRING" size="256"/>
+          <Column id="d_time2" type="STRING" size="256"/>
+          <Column id="am_time" type="STRING" size="256"/>
+          <Column id="pm_time" type="STRING" size="256"/>
+          <Column id="구강메모" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER1" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_record">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="sicode">1</Col>
+            <Col id="k_nalja">일반식</Col>
+          </Row>
+          <Row>
+            <Col id="sicode">2</Col>
+            <Col id="k_nalja">죽</Col>
+          </Row>
+          <Row>
+            <Col id="sicode">3</Col>
+            <Col id="k_nalja">유동.미음</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00103_P01
+ * 화면명   	: 식사도움 관찰기록
+ * 화면설명 	: 식사도움 관찰기록 저장
+ * 작성일   	: 2022-05-02
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+//const fv_flag = this.parent.FLAG;
+const fv_sicode = this.parent.SICODE;
+const fv_date = this.parent.DATE;
+const fv_mcode = this.parent.MCODE;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00103_P01";
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "date", fv_date);
+	this.ds_search.setColumn(0, "m_code", fv_mcode);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 저장 전
+this.fn_save_pre = function()
+{	
+	// 구강상태 값이 있거나 처리내용이 있거나 둘 다 있으면 구강점검자 체크	
+	if((this.ds_data.getColumn(0,"구강상태") != 0 || !Sct.Util.isEmpty(this.ds_data.getColumn(0,"구강내용")))){
+		if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"구강담당"))){
+			this.alert("구강점검자를 지정해야합니다.");
+			return false;
+		}
+	}
+	
+	// 요양일지가 빈값이 아닐때 작성자 빈값 체크
+	if(!Sct.Util.isEmpty(this.ds_data.getColumn(0,"요양일지"))){
+		if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"일지담당")) || nexacro.trim(this.ds_data.getColumn(0,"일지담당")) == ""){
+			this.alert("작성자를 지정해야합니다.");
+			return false;
+		}
+	}	
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+		
+	return true;
+}
+
+// 조회
+this.fn_search = function()
+{	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search ";
+	const outDatasets = "ds_data=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00103_P01.DAY00103_P01_DS_DATA_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 구강점검, 작성자
+			var manager1 = "";
+			var manager2 = "";
+	
+			if(nexacro.trim(this.ds_data.getColumn(0,"구강담당")) != ""){
+				manager1 = nexacro.trim(this.ds_data.getColumn(0,"구강담당")) + "/" + this.ds_data.getColumn(0,"구강코드");
+			}
+			if(nexacro.trim(this.ds_data.getColumn(0,"일지담당")) != ""){			
+				manager2 = nexacro.trim(this.ds_data.getColumn(0,"일지담당")) + "/" + this.ds_data.getColumn(0,"일지코드");
+			}
+// 			else{
+// 				this.ds_data.setColumn(0, "일지담당", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+// 				this.ds_data.setColumn(0, "일지코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+// 				manager2 = nexacro.trim(this.ds_data.getColumn(0,"일지담당")) + "/" + this.ds_data.getColumn(0,"일지코드");
+// 			}
+
+			var btime = this.ds_data.getColumn(0,"아침시간");
+			var ltime = this.ds_data.getColumn(0,"점심시간");
+			var dtime = this.ds_data.getColumn(0,"저녁시간");
+		
+			if(btime == "00:00"){
+			this.ds_data.setColumn(0,"아침시간", this.ds_data.getColumn(0,"b_time"));
+			}
+			if(ltime == "00:00"){
+				this.ds_data.setColumn(0,"점심시간", this.ds_data.getColumn(0,"l_time"));
+			}
+			if(dtime == "00:00"){
+				this.ds_data.setColumn(0,"저녁시간", this.ds_data.getColumn(0,"d_time"));
+			}
+			
+			this.ds_data.setColumn(0,"VIEW_MANAGER1", manager1);
+			this.ds_data.setColumn(0,"VIEW_MANAGER2", manager2);
+			
+		} else if(strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+ 			this.close(this.ds_return.saveXML());
+			
+		} else if(strSvcID == "record_search") // 전날 요양일지 조회
+		{
+			if(this.ds_record.rowcount > 0) {
+				var record = this.ds_record.getColumn(0,"요양일지");
+				this.ds_data.setColumn(0,"요양일지",record);
+			}
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(obj.id == "btn_manager1"){ // 구강점검
+		var popid = "employee1";
+	}if(obj.id == "btn_manager2"){ // 작성자
+		var popid = "employee2";
+	}
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : fv_date
+	};
+
+	Sct.popup(this, popid, 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+ 
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 구강점검
+		case "employee1" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name1 = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid1 = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "구강담당", name1);
+				this.ds_data.setColumn(0, "구강코드", staffid1);
+				this.ds_data.setColumn(0, "VIEW_MANAGER1", name1 + "/" + staffid1);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "구강담당", "");
+				this.ds_data.setColumn(0, "구강코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER1", "");
+			}
+			break;
+		// 점검자
+		case "employee2" : 
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name2 = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid2 = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "일지담당", name2);
+				this.ds_data.setColumn(0, "일지코드", staffid2);
+				this.ds_data.setColumn(0, "VIEW_MANAGER2", name2 + "/" + staffid2);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "일지담당", "");
+				this.ds_data.setColumn(0, "일지코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER2", "");
+			}
+			break;
+	}
+}
+
+// 지움버튼 이벤트 
+this.btn_del = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var objid = obj.id.substr(4);
+	
+	if(objid == "bd"){ // 아침지움
+		this.ds_data.setColumn(0,"아침종류",0);
+		this.ds_data.setColumn(0,"아침양",0);
+	}else if(objid == "ld"){ // 점심지움
+		this.ds_data.setColumn(0,"점심종류",0);
+		this.ds_data.setColumn(0,"점심양",0);
+	}else if(objid == "dd"){ // 저녁지움
+		this.ds_data.setColumn(0,"저녁종류",0);
+		this.ds_data.setColumn(0,"저녁양",0);
+	}else if(objid == "sd"){ // 간식지움
+		this.ds_data.setColumn(0,"오전간식",0);
+		this.ds_data.setColumn(0,"오후간식",0);
+	}else if(objid == "state_delete"){ // 구강상태지움
+		this.ds_data.setColumn(0,"구강상태",0);
+		this.ds_data.setColumn(0,"구강내용","");
+		this.ds_data.setColumn(0,"구강담당","");
+		this.ds_data.setColumn(0,"구강코드","");
+		this.ds_data.setColumn(0,"VIEW_MANAGER1","");
+	}
+};
+
+// 구강상태 체크박스 이벤트
+this.chk_state_canchange = function(obj:nexacro.CheckBox,e:nexacro.ChangeEventInfo)
+{
+	// 구강내용 빈값 시 base_info 구강메모 가져오기
+	if(e.postvalue != "0" && nexacro.trim(this.ds_data.getColumn(0,"구강내용")) == ""){	
+		this.ds_data.setColumn(0,"구강내용", this.ds_data.getColumn(0,"구강메모"));
+	}
+	// 1 : 양치질도움, 2 : 입안행굼
+	if(e.postvalue == "1"){
+		this.div_cont.form.chk_state2.set_value(0);
+	}else if(e.postvalue == "2"){
+		this.div_cont.form.chk_state1.set_value(0);
+	}
+};
+
+
+// 전날 요양일지 조회
+this.div_cont_btn_record_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const svcId = "record_search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data ";
+	const outDatasets = "ds_record=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00103_P01.DAY00103_P01_DS_RECORD_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_list" columnid="m_code"/>
+      <BindItem id="item2" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00" propid="text" datasetid="ds_list" columnid="m_group"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_list" columnid="sex_nm"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list" columnid="age"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01" propid="text" datasetid="ds_list" columnid="m_jumin1"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_enday"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00" propid="text" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00" propid="text" datasetid="ds_list" columnid="m_conname"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01" propid="text" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_regist"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_01" propid="text" datasetid="ds_list" columnid="grade_nm"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_02" propid="text" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_00" propid="text" datasetid="ds_list" columnid="m_juso1"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_01" propid="text" datasetid="ds_list" columnid="m_juso2"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_01_00" propid="text" datasetid="ds_list" columnid="m_post"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_01" propid="text" datasetid="ds_state_desc" columnid="view_manager"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.sta_body16" propid="text" datasetid="ds_data" columnid="din02"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.sta_body11" propid="text" datasetid="ds_data" columnid="lun04"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.sta_body12" propid="text" datasetid="ds_data" columnid="lun05"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.sta_body13" propid="text" datasetid="ds_data" columnid="lun06"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.sta_body15" propid="text" datasetid="ds_data" columnid="din01"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.sta_body17" propid="text" datasetid="ds_data" columnid="din03"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.sta_body18" propid="text" datasetid="ds_data" columnid="din04"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.sta_body19" propid="text" datasetid="ds_data" columnid="din05"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.mae_00_00" propid="value" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.mae_00_01" propid="value" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.mae_00_01_00" propid="value" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="m_reday"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01" propid="text" datasetid="ds_list_copy" columnid="m_liday1"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01_00" propid="text" datasetid="ds_list_copy" columnid="m_liday2"/>
+      <BindItem id="item0" compid="div_cont.form.sta_body1_00" propid="text" datasetid="ds_data" columnid="k_name"/>
+      <BindItem id="item19" compid="div_cont.form.sta_body1_00_00_00" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item20" compid="div_cont.form.sta_body1_00_00" propid="text" datasetid="ds_data" columnid="k_code"/>
+      <BindItem id="item21" compid="div_cont.form.sta_body1_00_01" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item32" compid="div_cont.form.sta_kinds" propid="text" datasetid="ds_data" columnid="식사종류명"/>
+      <BindItem id="item33" compid="div_cont.form.sta_date" propid="text" datasetid="ds_data" columnid="nalja"/>
+      <BindItem id="item34" compid="div_cont.form.sta_b_time" propid="text" datasetid="ds_data" columnid="아침시간"/>
+      <BindItem id="item35" compid="div_cont.form.sta_l_time" propid="text" datasetid="ds_data" columnid="점심시간"/>
+      <BindItem id="item39" compid="div_cont.form.sta_d_time" propid="text" datasetid="ds_data" columnid="저녁시간"/>
+      <BindItem id="item43" compid="div_cont.form.sta_s_time1" propid="text" datasetid="ds_data" columnid="am_time"/>
+      <BindItem id="item44" compid="div_cont.form.sta_s_time2" propid="text" datasetid="ds_data" columnid="pm_time"/>
+      <BindItem id="item45" compid="div_cont.form.rdo_b" propid="value" datasetid="ds_data" columnid="아침종류"/>
+      <BindItem id="item46" compid="div_cont.form.rdo_ba" propid="value" datasetid="ds_data" columnid="아침양"/>
+      <BindItem id="item47" compid="div_cont.form.rdo_l" propid="value" datasetid="ds_data" columnid="점심종류"/>
+      <BindItem id="item48" compid="div_cont.form.rdo_la" propid="value" datasetid="ds_data" columnid="점심양"/>
+      <BindItem id="item49" compid="div_cont.form.rdo_d" propid="value" datasetid="ds_data" columnid="저녁종류"/>
+      <BindItem id="item50" compid="div_cont.form.rdo_da" propid="value" datasetid="ds_data" columnid="저녁양"/>
+      <BindItem id="item51" compid="div_cont.form.rdo_sa2" propid="value" datasetid="ds_data" columnid="오후간식"/>
+      <BindItem id="item52" compid="div_cont.form.rdo_sa1" propid="value" datasetid="ds_data" columnid="오전간식"/>
+      <BindItem id="item53" compid="div_cont.form.txt_content2" propid="value" datasetid="ds_data" columnid="요양일지"/>
+      <BindItem id="item54" compid="div_cont.form.edt_content" propid="value" datasetid="ds_data" columnid="구강내용"/>
+      <BindItem id="item55" compid="div_cont.form.chk_state2" propid="value" datasetid="ds_data" columnid="구강상태"/>
+      <BindItem id="item56" compid="div_cont.form.chk_state1" propid="value" datasetid="ds_data" columnid="구강상태"/>
+      <BindItem id="item57" compid="div_cont.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER1"/>
+      <BindItem id="item58" compid="div_cont.form.sta_manager_value2" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER2"/>
+      <BindItem id="item59" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="식사번호"/>
+      <BindItem id="item60" compid="div_cont.form.sta_no_value" propid="text" datasetid="ds_data" columnid="k_number"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00702_P03                                                      
+     * 프로그램 명     	: 주간식단 간편입력                                                     
+     * Description 	: 주간식단 간편입력
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-31 13:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00702_P03_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00702_P03">
+	<!-- 그리드 조회 -->
+    <select id="DAY00702_P03_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[    
+			with recursive sub_line
+			  AS (SELECT 1 rnum
+			      UNION all
+			      SELECT rnum+1
+			        FROM sub_line
+			       WHERE rnum < 30)
+			   , line AS (
+					    select DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-1) DAY), '%Y-%m-%d') AS startDate
+									, #{SICODE} AS sicode
+					    union all
+					    select startDate + interval 1 day 
+					        , sicode AS sicode
+						 from line 
+					    WHERE startDate < DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-7) DAY), '%Y-%m-%d')
+					)
+			SELECT lin.rnum
+					, case when lin.rnum BETWEEN 7 AND 12 then 1 
+							when lin.rnum BETWEEN 19 AND 21 then 1
+							when lin.rnum BETWEEN 25 AND 27 then 1
+						ELSE 0 
+						END AS color
+				     , MAX(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 2 then kmd.식단제공 end ) AS 식단제공
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 1 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY1 
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 2 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY2
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 3 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY3
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 4 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY4
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 5 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY5
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 6 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY6
+				     , max(case when DATE_FORMAT(LI.startDate, '%w') + 1 = 7 then
+				         case when lin.rnum = 1  then kmd.mor01
+				              when lin.rnum = 2  then kmd.mor02
+				              when lin.rnum = 3  then kmd.mor03
+				              when lin.rnum = 4  then kmd.mor04
+				              when lin.rnum = 5  then kmd.mor05
+				              when lin.rnum = 6  then kmd.mor06
+				              when lin.rnum = 7  then kmd.lun01
+				              when lin.rnum = 8  then kmd.lun02
+				              when lin.rnum = 9  then kmd.lun03
+				              when lin.rnum = 10 then kmd.lun04
+				              when lin.rnum = 11 then kmd.lun05
+				              when lin.rnum = 12 then kmd.lun06
+				              when lin.rnum = 13 then kmd.din01
+				              when lin.rnum = 14 then kmd.din02
+				              when lin.rnum = 15 then kmd.din03
+				              when lin.rnum = 16 then kmd.din04
+				              when lin.rnum = 17 then kmd.din05
+				              when lin.rnum = 18 then kmd.din06
+				              when lin.rnum = 19 then kmd.sna01
+				              when lin.rnum = 20 then kmd.sna02
+				              when lin.rnum = 21 then kmd.sna03
+				              when lin.rnum = 22 then kmd.sna04
+				              when lin.rnum = 23 then kmd.sna05
+				              when lin.rnum = 24 then kmd.sna06
+				              when lin.rnum = 25 then kmd.f_name1
+				              when lin.rnum = 26 then kmd.f_name2
+				              when lin.rnum = 27 then kmd.f_name3
+				              when lin.rnum = 28 then kmd.f_name4
+				              when lin.rnum = 29 then kmd.f_name5
+				              when lin.rnum = 30 then kmd.f_name6
+				         END
+				       END)                                                as DAY7
+			FROM sub_line lin, line LI
+			LEFT JOIN kmdiet kmd
+			ON LI.startDate = kmd.f_nalja
+			AND LI.sicode = kmd.sicode
+			WHERE LI.sicode = #{SICODE}
+			GROUP BY lin.rnum;
+		]]>
+    </select>   
+    
+    <!-- 그리드 날짜세팅 -->
+    <select id="DAY00702_P03_DS_WEEK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-1) DAY), '%Y.%m.%d'),'(일)') AS SUN
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-2) DAY), '%Y.%m.%d'),'(월)') AS MON
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-3) DAY), '%Y.%m.%d'),'(화)') AS TUE
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-4) DAY), '%Y.%m.%d'),'(수)') AS WED
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-5) DAY), '%Y.%m.%d'),'(목)') AS THU
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-6) DAY), '%Y.%m.%d'),'(금)') AS FRI
+			, CONCAT(DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-7) DAY), '%Y.%m.%d'),'(토)') AS SAT
+    </select>    
+    
+    <!-- 템플릿 조회 -->
+    <select id="DAY00702_P03_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+	    	SELECT
+	    		sicode
+	    		, t_number
+	    		, temp_id
+	    		, food01
+	    		, food02
+	    		, food03
+	    		, food04
+	    		, food05
+	    		, food06
+	    		, gubun
+	    	FROM base_foodtemp
+	    	WHERE sicode = #{SICODE}
+    	]]>
+    </select>
+    
+    <!-- 삽입 전 DB에 월요일 데이터가 있는지 확인 -->
+    <select id="DAY00702_P03_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT COUNT(*) CNT 
+    	FROM kmdiet
+		WHERE sicode = #{sicode}
+		AND f_nalja = #{nalja}
+    </select>
+    
+    
+    <!-- 삽입 -->
+    <insert id="DAY00702_P03_DS_DATA_I" parameterType="java.util.HashMap">
+    	INSERT INTO kmdiet
+		(
+			sicode
+			, f_nalja
+			, mor01
+			, mor02
+			, mor03
+			, mor04
+			, mor05
+			, mor06
+			, lun01
+			, lun02
+			, lun03
+			, lun04
+			, lun05
+			, lun06
+			, din01
+			, din02
+			, din03
+			, din04
+			, din05
+			, din06
+			, sna01
+			, sna02
+			, sna03
+			, sna04
+			, sna05
+			, sna06
+			, 구분
+			, f_name1
+			, f_name2
+			, f_name3
+			, f_name4
+			, f_name5
+			, f_name6
+			, 식단제공			
+		) VALUE (
+			  #{sicode}
+			, #{nalja}
+			, IFNULL(#{food01},'')
+			, IFNULL(#{food02},'')
+			, IFNULL(#{food03},'')
+			, IFNULL(#{food04},'')
+			, IFNULL(#{food05},'')
+			, IFNULL(#{food06},'')
+			, IFNULL(#{food07},'')
+			, IFNULL(#{food08},'')
+			, IFNULL(#{food09},'')
+			, IFNULL(#{food10},'')
+			, IFNULL(#{food11},'')
+			, IFNULL(#{food12},'')
+			, IFNULL(#{food13},'')
+			, IFNULL(#{food14},'')
+			, IFNULL(#{food15},'')
+			, IFNULL(#{food16},'')
+			, IFNULL(#{food17},'')
+			, IFNULL(#{food18},'')
+			, IFNULL(#{food19},'')
+			, IFNULL(#{food20},'')
+			, IFNULL(#{food21},'')
+			, IFNULL(#{food22},'')
+			, IFNULL(#{food23},'')
+			, IFNULL(#{food24},'')
+			, #{gubun}
+			, IFNULL(#{food25},'')
+			, IFNULL(#{food26},'')
+			, IFNULL(#{food27},'')
+			, IFNULL(#{food28},'')
+			, IFNULL(#{food29},'')
+			, IFNULL(#{food30},'')
+			, IFNULL(#{diet},'')
+		)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00702_P03_DS_DATA_U" parameterType="java.util.HashMap">
+    	UPDATE kmdiet
+			SET	  mor01   = IFNULL(#{food01},'')
+				, mor02   = IFNULL(#{food02},'')
+				, mor03   = IFNULL(#{food03},'')
+				, mor04   = IFNULL(#{food04},'')
+				, mor05   = IFNULL(#{food05},'')
+				, mor06   = IFNULL(#{food06},'')
+				, lun01   = IFNULL(#{food07},'')
+				, lun02   = IFNULL(#{food08},'')
+				, lun03   = IFNULL(#{food09},'')
+				, lun04   = IFNULL(#{food10},'')
+				, lun05   = IFNULL(#{food11},'')
+				, lun06   = IFNULL(#{food12},'')
+				, din01   = IFNULL(#{food13},'')
+				, din02   = IFNULL(#{food14},'')
+				, din03   = IFNULL(#{food15},'')
+				, din04   = IFNULL(#{food16},'')
+				, din05   = IFNULL(#{food17},'')
+				, din06   = IFNULL(#{food18},'')
+				, sna01   = IFNULL(#{food19},'')
+				, sna02   = IFNULL(#{food20},'')
+				, sna03   = IFNULL(#{food21},'')
+				, sna04   = IFNULL(#{food22},'')
+				, sna05   = IFNULL(#{food23},'')
+				, sna06   = IFNULL(#{food24},'')
+				, 구분     = #{gubun}
+				, f_name1 = IFNULL(#{food25},'')
+				, f_name2 = IFNULL(#{food26},'')
+				, f_name3 = IFNULL(#{food27},'')
+				, f_name4 = IFNULL(#{food28},'')
+				, f_name5 = IFNULL(#{food29},'')
+				, f_name6 = IFNULL(#{food30},'')
+				, 식단제공	  = IFNULL(#{diet},'')
+		WHERE sicode = #{sicode}
+    	AND	f_nalja = #{nalja}
+    </update>
+</mapper>                                                                                                                                                                                                          

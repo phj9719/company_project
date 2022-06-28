@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00111
+     * 프로그램 명     	: 1-11  주야간 급여제공기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                                           
+	   2022-06-23 17:00			|  정준우         | 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00111_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00111">
+	<!-- 조회 -->
+    <select id="DAY00111_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    /*  DAY00111_DS_LIST_S */
+	    <![CDATA[
+		    SELECT
+    	      		0 AS chk
+    	 		 , bm.sicode
+			     , bm.거주현황
+			     , bm.m_group
+			     , bm.m_name
+			     , bm.m_code
+			     , bm.성별
+			     , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+			       WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+			       WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+			            ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS m_age
+			     , ''  AS m_grade_nm1
+			     , ''  AS m_grade_date
+			     , ''  AS m_grade_nm2     
+			     , bm.m_roomname
+			  , bm.m_enday
+			  , bm.m_reday
+			  , bm.이용일
+			  , bm.이용시간
+			  , IF(bm.실거리 =0 ,'', bm.실거리) AS 실거리
+			  , bm.m_regist
+			  FROM base_mate bm
+			 WHERE bm.sicode = #{sicode}
+			   AND bm.m_reday >= STR_TO_DATE(#{date_from},'%Y%m%d')
+			   AND bm.m_enday <= STR_TO_DATE(#{date_to},'%Y%m%d')
+			ORDER BY bm.m_name
+
+	    ]]>
+    </select>
+
+    <select id="DAY00111_DS_LIST_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_LIST_CNT_S */
+    	<![CDATA[
+   			SELECT
+				COUNT(*) AS cnt
+		  	FROM base_mate bm
+		 	WHERE bm.sicode = #{sicode}
+		    AND bm.m_reday >= STR_TO_DATE(#{date_from},'%Y%m%d')
+		    AND bm.m_enday <= STR_TO_DATE(#{date_to},'%Y%m%d')
+ 
+    	]]> 
+    </select>
+   
+  
+    <select id="DAY00111_DS_REPORT_CNT4" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00111_DS_REPORT_CNT4 */
+	    <![CDATA[
+		    SELECT
+			COUNT(*) AS cnt
+			FROM kmrecord b
+			WHERE k_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			AND k_code = #{m_code}
+			AND LENGTH(TRIM(시작시간)) = 5
+			AND LENGTH(TRIM(종료시간)) = 5
+	    ]]>
+    </select>
+   
+</mapper>

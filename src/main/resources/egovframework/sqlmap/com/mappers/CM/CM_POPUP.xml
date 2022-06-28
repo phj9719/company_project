@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="CM_POPUP">
+    <!-- 공통코드팝업 -->
+	<select id="getCmcode" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+		SELECT A.CMCD                                                      AS CD_VAL
+		,      DBO.F_GET_LANG_DESCRIPTION(A.COMPANY_CD, A.CMNM, #{PARAM1}) AS CD_NAME
+		,      A.SORT
+		,      A.STR1
+		,      A.STR2
+		,      A.STR3
+		,      A.STR4
+		,      A.STR5
+		,      A.STR6
+		,      A.STR7
+		,      A.STR8
+		,      A.STR9
+		,      A.STR10
+		FROM   T_CM_CODE A WITH(NOLOCK)
+		WHERE  A.GRP_CD = #{PARAM2}
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.CMCD LIKE '%' + #{CD_VAL} + '%'
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    DBO.F_GET_LANG_DESCRIPTION(A.COMPANY_CD, A.CMNM, #{PARAM1}) LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		ORDER
+		BY     CASE WHEN A.SORT IS NULL THEN 1 ELSE 0 END
+		,      A.SORT
+		,      A.CMCD
+    </select>
+	<!-- 계정코드 팝업 -->
+	<select id="getAccount" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.SORT_CODE       AS CD_VAL
+		,      A.SORT_CODE_KOR   AS CD_NAME
+		,      A.MANAGE_ITEM_DTL1
+		,      A.MANAGE_ITEM_DTL2
+		,      A.MANAGE_ITEM_DTL3
+		,      A.MANAGE_ITEM_DTL4
+		,      A.MANAGE_ITEM_DTL5
+		,      A.MANAGE_ITEM_DTL6
+		FROM   T_AC_ACCOUNT_CODE A WITH(NOLOCK)
+		WHERE  1=1
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.USE_YN     = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.SORT_CODE = #{CD_VAL}
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.SORT_CODE_KOR LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND    A.ACC_LEVEL = #{PARAM1}
+		</if>
+		<if test="PARAM2 != '' and PARAM2 != null">
+		AND    A.SLIP_POSTING = #{PARAM2}
+		</if>
+		<if test="PARAM3 != '' and PARAM3 != null">
+		AND    EXISTS ( SELECT 'X' -- 항비여부
+		                FROM   T_CM_CODE B WITH(NOLOCK)
+		                WHERE  B.COMPANY_CD = A.COMPANY_CD
+		                AND    B.USEYN      = 'Y'
+		                AND    B.CMCD       = A.ACC_TYPE_CD
+		                AND    B.STR1       = 'Y'
+		              )
+		</if>
+		ORDER
+		BY     A.SORT_CODE                                                                                                                                                                                                                         
+    </select>
+    
+    <!-- 항구등록팝업 -->
+	<select id="getPort" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.PORT_CODE   AS CD_VAL
+		,      A.PORT_NAME   AS CD_NAME
+		,      A.COUNTRY
+		,      A.CONTINENT_CD
+		,      A.ZONETIME
+		,      A.LATITUDE
+		,      A.LATITUDE_BEARING
+		,      A.LONGITUDE
+		,      A.LONGITUDE_BEARING
+		,      A.DEPTHOFWATER
+		,      A.OUTPORT
+		,      A.OFTEN
+		,      A.USED_FROM_DATE
+		,      A.USED_TO_DATE
+		,      A.INFO_FILENAME
+		,      A.TEXT_INFO
+		,      A.USE_YN
+		FROM   T_AL_PORT_MST A WITH(NOLOCK)
+		WHERE  1=1
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.PORT_CODE LIKE '%'+#{CD_VAL}+'%'
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.PORT_NAME LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		ORDER
+		BY     A.PORT_CODE                                                                                                                                                                                                                         
+    </select>
+    
+    <!-- 메뉴 팝업 -->
+	<select id="getMenu" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		SELECT A.COMPANY_CD
+		,      A.MENU_CD    AS CD_VAL
+		,      A.MENU_NM    AS CD_NAME
+		,      A.MENU_LEVEL
+		,      A.HIGH_MENU_CD
+		,      A.MENU_ID
+		,      A.MENU_PARAM
+		,      A.MENU_STATUS
+		,      A.DESCRIPTION
+		,      A.USE_YN
+		,      A.SHOW_YN
+		,      A.REG_PGM_ID
+		,      A.REG_USER
+		,      A.REG_DT
+		,      A.REG_DT_CURR
+		,      A.REG_DT_LOC
+		,      A.REG_IP
+		,      A.MOD_PGM_ID
+		,      A.MOD_USER
+		,      A.MOD_DT
+		,      A.MOD_DT_CURR
+		,      A.MOD_DT_LOC
+		,      A.MOD_IP
+		,      C.PAGE_URL
+		,      ( SELECT CASE WHEN COUNT(1) = 0 THEN 'Y' ELSE 'N' END
+		         FROM   T_CM_MENU B WITH(NOLOCK)
+		         WHERE  B.COMPANY_CD   = A.COMPANY_CD
+		         AND    B.HIGH_MENU_CD = A.MENU_CD
+		       ) AS LEAF_YN
+		FROM   T_CM_MENU A WITH(NOLOCK)
+		LEFT
+		JOIN   T_CM_MENU_ID C WITH(NOLOCK)
+		ON     C.MENU_ID = A.MENU_ID
+		WHERE  COMPANY_CD = #{COMPANY_CD}
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.MENU_CD LIKE '%' + #{CD_VAL} + '%'
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.MENU_NM LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND    A.MENU_ID IS NULL
+		</if>
+		<if test="PARAM2 != '' and PARAM2 != null">
+		AND    A.MENU_ID IS NOT NULL
+		</if>
+		ORDER
+		BY     MENU_CD
+    </select>
+    
+    <!-- 코스트센터코드팝업 MM_VESSEL 바라보도록 변경 -->
+	<select id="getCostcenter" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.V_CD    AS CD_VAL
+		,      A.VSL_NM  AS CD_NAME
+		,      A.SYS_USE_GB AS SYS_USE_GB
+		,      A.SM_COM_CD AS SM_COM_CD 
+		,      A.NRT     AS SHIP_NETTON 
+		FROM T_MM_VESSEL A WITH(NOLOCK)
+		WHERE 1=1
+		AND A.COMPANY_CD = #{COMPANY_CD}
+		AND A.SYS_USE_GB = 'Y'
+	--	AND A.SM_COM_CD = '001'		 
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.V_CD LIKE CONCAT('%', #{CD_VAL},'%' )
+		</if>	
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.VSL_NM LIKE CONCAT('%', #{CD_NAME},'%' )
+		</if>	
+		
+		
+		<!-- 
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.KIND_CODE
+		,      A.CODE_VALUE  AS CD_VAL
+		,      A.MAP_ID
+		,      (SELECT 'NM') AS MAP_NM
+		,      A.CODE_NM_KOR AS CD_NAME
+		,      A.CODE_NM_ENG
+		,      A.INTERNER_CODE
+		,      A.START_DT
+		,      A.END_DT
+		,      A.USE_YN
+		,      A.WK_FLAG
+		FROM   T_AC_COSTCENTER_CODE A WITH(NOLOCK)
+		WHERE  1=1
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.USE_YN     = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.CODE_VALUE = #{CD_VAL}
+		</if>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND    A.KIND_CODE = #{PARAM1}
+		</if>
+		ORDER
+		BY     A.CODE_VALUE
+		 -->
+	</select>
+	
+	<!-- 코스트센터 선박코드-->	
+	<select id="getCostcenterVessel" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                         
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.KIND_CODE
+		,      A.CODE_VALUE  AS CD_VAL
+		,      A.MAP_ID
+		,      (SELECT 'NM') AS MAP_NM
+		,      A.CODE_NM_KOR AS CD_NAME
+		,      A.CODE_NM_ENG
+		,      A.INTERNER_CODE
+		,      A.START_DT
+		,      A.END_DT
+		,      A.USE_YN
+		,      A.WK_FLAG
+		FROM   T_AC_COSTCENTER_CODE A WITH(NOLOCK)
+		WHERE  1=1
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.USE_YN     = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.CODE_VALUE = #{CD_VAL}
+		</if>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND    A.KIND_CODE = #{PARAM1}
+		</if>
+		ORDER
+		BY     A.CODE_VALUE
+	
+	</select>
+	<!-- 선원팝업 -->
+	<select id="getCrew" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT COMPANY_CD
+		,	CREWID AS CD_VAL
+		,	EMP_NO
+		,	K_NAME AS CD_NAME
+		,	RANK
+		FROM T_HR_CREW WITH(NOLOCK)
+		WHERE 1=1
+		]]>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND	USERKEY_TYPE = #{PARAM1}
+		</if>
+		<if test="PARAM2 != '' and PARAM2 != null">
+		AND	COMPANY_CD = #{PARAM2}
+		</if>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND	CREWID = #{CD_VAL}
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND	K_NAME = #{CD_NAME}
+		</if>
+		ORDER
+		BY	CREWID                                                                                                                                                                                                                         
+    </select>
+    
+    <!-- 전송선박선택팝업 : 자신의 선박코드는 제외 -->
+	<select id="getTransVessel" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.CODE_VALUE  AS VS_CD
+		,      A.CODE_NM_KOR AS VS_NAME
+		,      A.CODE_NM_ENG
+		,	  '1'			 AS TRANS_CNT
+		FROM   T_AC_COSTCENTER_CODE A WITH(NOLOCK)
+		,      T_CM_CODE B WITH(NOLOCK)
+		WHERE  1=1
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.USE_YN     = 'Y'
+		AND    A.KIND_CODE  = '10'
+		AND    B.COMPANY_CD = A.COMPANY_CD 
+		AND    B.GRP_CD = 'TRANS_DEST'
+		AND    A.CODE_VALUE = B.CMCD
+		AND    B.USEYN = 'Y'
+		AND    B.STR1 IS NOT NULL
+		AND    B.STR2 IS NOT NULL
+		AND    A.CODE_VALUE <> (SELECT SET_VALUE AS MY_NAME FROM T_SM_PROFILE WITH(NOLOCK) WHERE COMPANY_CD = A.COMPANY_CD AND CODE = 'SERVER_NAME')
+		]]>
+		<if test="VS_CD != '' and VS_CD != null">
+		AND    A.CODE_VALUE = #{VS_CD}
+		</if>
+		<if test="VS_NAME != '' and VS_NAME != null">
+		AND    A.CODE_NM_KOR LIKE '%' + #{VS_NAME} + '%'
+		</if>
+		ORDER
+		BY     A.CODE_VALUE
+	</select>
+	
+	
+	<!-- 부서팝업  -->
+	<select id="getDept" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[
+	 WITH W_SORT_MENU AS (
+						SELECT A.COMPANY_CD
+								, A.DEPT_CODE
+								, A.DEPT_CODE_NAME
+								, A.DEPT_CODE_ENG_NAME
+								, A.P_DEPT_CODE
+								, A.DEPT_NAME
+								, A.DEPT_ENG_NAME
+								, A.DEPT_SEQ
+								, A.EMAIL
+								, A.DUZON_DEPT_CD
+								, A.USE_YN
+								, A.WK_FLAG
+								, A.TRANS_ST
+								, A.HD_OFFICE
+								, A.SHIP_ST1
+								, A.SHIP_ST2
+								, A.SHIP_ST3
+								, A.SHIP_ST4
+								, A.SHIP_ST5
+								, A.SHIP_ST6
+								, A.SHIP_ST7
+								, A.SHIP_ST8
+								, A.SHIP_ST9
+								, A.SHIP_ST10
+								,CONVERT(VARCHAR, DBO.F_LPAD(A.DEPT_SEQ, 3, '0')) AS SORT
+						FROM   T_HR_DEPARTMENT A WITH(NOLOCK)
+			            WHERE  A.COMPANY_CD ='001'
+						 AND   A.P_DEPT_CODE IS NULL
+						UNION  ALL
+			              SELECT B.COMPANY_CD
+								, B.DEPT_CODE
+								, B.DEPT_CODE_NAME
+								, B.DEPT_CODE_ENG_NAME
+								, B.P_DEPT_CODE
+								, B.DEPT_NAME
+								, B.DEPT_ENG_NAME
+								, B.DEPT_SEQ
+								, B.EMAIL
+								, B.DUZON_DEPT_CD
+								, B.USE_YN
+								, B.WK_FLAG
+								, B.TRANS_ST
+								, B.HD_OFFICE
+								, B.SHIP_ST1
+								, B.SHIP_ST2
+								, B.SHIP_ST3
+								, B.SHIP_ST4
+								, B.SHIP_ST5
+								, B.SHIP_ST6
+								, B.SHIP_ST7
+								, B.SHIP_ST8
+								, B.SHIP_ST9
+								, B.SHIP_ST10
+								, CONVERT(VARCHAR, A.SORT + '>' + DBO.F_LPAD(B.DEPT_SEQ, 3, '0')) AS SORT
+			              FROM   W_SORT_MENU A 
+			              INNER
+			              JOIN   T_HR_DEPARTMENT B WITH(NOLOCK)
+			              ON     B.P_DEPT_CODE = A.DEPT_CODE
+			              AND    B.COMPANY_CD   = A.COMPANY_CD
+	
+			)			
+				 				SELECT A.COMPANY_CD
+								, A.DEPT_CODE AS CD_VAL
+								, A.DEPT_CODE_NAME 
+								, A.DEPT_CODE_ENG_NAME
+								, A.P_DEPT_CODE
+								, (SELECT AA.DEPT_NAME FROM T_HR_DEPARTMENT AA WITH(NOLOCK) WHERE A.P_DEPT_CODE = AA.DEPT_CODE) AS P_DEPT_NAME
+								, A.DEPT_NAME AS CD_NAME
+								, A.DEPT_ENG_NAME
+								, A.DEPT_SEQ
+								, A.EMAIL
+								, A.DUZON_DEPT_CD
+								, A.USE_YN
+								, A.WK_FLAG
+								, A.TRANS_ST
+								, A.HD_OFFICE
+								, A.SHIP_ST1
+								, A.SHIP_ST2
+								, A.SHIP_ST3
+								, A.SHIP_ST4
+								, A.SHIP_ST5
+								, A.SHIP_ST6
+								, A.SHIP_ST7
+								, A.SHIP_ST8
+								, A.SHIP_ST9
+								, A.SHIP_ST10
+								, A.SORT
+								, (LEN(A.SORT) - LEN(REPLACE(A.SORT, '>', ''))) / LEN('>') AS DEPT_LEVEL
+			            FROM   W_SORT_MENU A WITH(NOLOCK)
+			            LEFT
+			            JOIN   T_HR_DEPARTMENT B WITH(NOLOCK)
+			            ON     B.DEPT_CODE = A.DEPT_CODE
+			            WHERE  A.COMPANY_CD = #{COMPANY_CD}			
+			            AND    A.DEPT_CODE_NAME <> ''			
+					    ]]>
+					 	<if test="CD_VAL != '' and CD_VAL != null">
+						AND A.DEPT_CODE LIKE CONCAT ('%' , #{CD_VAL} , '%')
+						</if>	
+					 	<if test="CD_NAME != '' and CD_NAME != null">
+						AND A.DEPT_NAME LIKE CONCAT ('%' , #{CD_NAME} , '%')
+						</if>
+						<if test="USE_YN != '' and USE_YN != null">
+						AND A.USE_YN = #{USE_YN}
+						</if>				
+	</select>
+	
+	<!-- 부서팝업 	
+	<select id="getDept" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT COMPANY_CD
+		,	DEPT_CODE AS CD_VAL
+		,	DEPT_NAME AS CD_NAME
+		,	DEPT_CODE_NAME
+		FROM T_HR_DEPARTMENT WITH(NOLOCK)
+		WHERE 1=1
+		AND   USE_YN = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND	DEPT_CODE = #{CD_VAL}
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND	DEPT_NAME LIKE  CONCAT('%', #{CD_NAME},'%')
+		</if>
+		ORDER
+		BY	DEPT_CODE                                                                                                                                                                                                                         
+    </select>
+	-->
+	<!-- 사용자팝업 -->
+	<select id="getUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT USER_ID AS CD_VAL
+		,	USER_NM_KOR AS CD_NAME
+		FROM T_CM_USER WITH(NOLOCK)
+		WHERE 1=1
+		AND   USE_YN = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND	USER_NO = #{CD_VAL}
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND	USER_NM_KOR = #{CD_NAME}
+		</if>
+		ORDER
+		BY	USER_NO                                                                                                                                                                                                                       
+    </select>    
+    
+	<!-- 항비코드팝업 -->
+	<select id="getPrtChrg" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.COMPANY_CD
+		,      A.PRT_CHRG_TP
+		,      A.PRT_CHRG_CD AS CD_VAL
+		,      A.PRT_CHRG_NM AS CD_NAME
+		,      A.PRT_CHRG_NM_ABBR
+		,      A.PRT_CHRG_NM_ENG
+		,      A.PRT_CHRG_NM_CLS
+		,      A.PRT_GRP1_CLS
+		,      A.PRT_GRP2_CLS
+		,      A.PRT_GRP3_CLS
+		,      A.PRT_CHRG_ACC_CD
+		,      A.PRT_CHRG_ACC_ALT
+		,      A.USED_FROM_DATE
+		,      A.USED_TO_DATE
+		,      A.USED_YN
+		FROM   T_AL_PRT_CHRG_MASTER A WITH(NOLOCK)
+		WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.PRT_CHRG_CD LIKE '%' + #{CD_VAL} + '%'
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.PRT_CHRG_NM LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		<if test="PARAM1 != '' and PARAM1 != null">
+		AND    A.PRT_CHRG_TP = #{PARAM1}
+		</if>
+		ORDER
+		BY	   A.PRT_CHRG_CD                                                                                                                                                                                                                         
+    </select>
+    
+        
+	<!-- 항차번호팝업 -->
+	<select id="getVoyage" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT A.VOYAGE_NO AS CD_VAL
+		,      A.VOYAGE_SEQ AS CD_NAME
+		FROM   T_AL_PRTCHRG_CLEANING_HSTRY A WITH(NOLOCK)
+		WHERE 1=1
+		AND A.COMPANY_CD = #{COMPANY_CD}
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND    A.VOYAGE_NO LIKE '%' + #{CD_VAL} + '%'
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND    A.VOYAGE_SEQ LIKE '%' + #{CD_NAME} + '%'
+		</if>
+		GROUP BY A.VOYAGE_NO, A.VOYAGE_SEQ                                                                                                                                                                                                                     
+    </select>
+    
+	<!-- 수신처 -->
+	<select id="getReceive" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+		SELECT 		A.CMCD AS CD_VAL
+				,	A.CMNM AS CD_NAME
+				,	A.USEYN
+		FROM 		T_CM_CODE A WITH(NOLOCK)
+		WHERE 		1=1
+		AND   		A.GRP_CD = 'TRANS_DEST'
+		AND	  		A.USEYN  = 'Y'
+		]]>
+		<if test="CD_VAL != '' and CD_VAL != null">
+		AND	A.CMCD = #{CD_VAL}
+		</if>
+		<if test="CD_NAME != '' and CD_NAME != null">
+		AND	A.CMNM = #{CD_NAME}
+		</if>
+		
+		UNION ALL
+
+		SELECT  'KVN' AS CD_VAL
+		     ,  'KVN' AS CD_NAME
+		     ,  'Y'   AS USEYN
+		ORDER
+		BY	A.CMCD                                                                                                                                                                                                                       
+    </select>     
+</mapper>                                                                                                                                                                                                          

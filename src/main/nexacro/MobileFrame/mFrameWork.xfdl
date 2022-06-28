@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="mFrameWork" width="480" height="618" titletext="Mobile Work Frame" onload="mFrameWork_onload" onsetfocus="mFrameWork_onsetfocus" ondevicebuttonup="mFrameWork_ondevicebuttonup">
+    <Layouts>
+      <Layout width="480" height="618" screenid="Mobile">
+        <Div id="div_form" taborder="0" left="0" top="0" right="0" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: mFrameWork
+ * 화면명   	: mFrameWork
+ * 화면설명 	: 모바일 업무 화면을 반영한다.
+ * 작성일   	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Include
+ ***********************************************************************/
+include "lib::sct_util.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.winKey; //Window Key - 화면 ID
+this.menuId; //메뉴 ID
+this.menuUrl; //오픈할 Form Url
+this.menuTitle; //화면 제목 ( = 메뉴명)
+this.buttonAuth; //화면의 Button 권한
+this.param;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.mFrameWork_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.resetScroll();
+	
+	this.winKey = this.getOwnerFrame().arguments["winKey"];
+	this.menuId = this.getOwnerFrame().arguments["menuId"];
+	this.menuUrl = this.getOwnerFrame().arguments["menuUrl"];
+	this.menuTitle = this.getOwnerFrame().arguments["menuTitle"];
+	this.buttonAuth = this.getOwnerFrame().arguments["buttonAuth"];
+	
+	this.div_form.set_url(this.menuUrl);
+	
+	nexacro.getApplication().gv_curId = this.winKey;
+	
+	const pgmId = this.menuUrl.substring(this.menuUrl.lastIndexOf(":") + 1, this.menuUrl.indexOf("."));
+	nexacro.getApplication().gv_curWinKey = pgmId;
+	
+	// 메뉴 open시 topFrame 변경
+	this.topFrameSetting();
+};
+
+this.mFrameWork_onsetfocus = function(obj:nexacro.Form,e:nexacro.SetFocusEventInfo)
+{
+	const pgmId = this.menuUrl.substring(this.menuUrl.lastIndexOf(":") + 1, this.menuUrl.indexOf("."));
+	nexacro.getApplication().gv_curId = this.winKey;
+	nexacro.getApplication().gv_curWinKey = pgmId;
+};
+
+this.mFrameWork_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if(e.button == 2)
+	{
+		// 어플리케이션 종료
+		//nexacro.getApplication().exit();
+		
+		this.makeStandardObject();
+		const param = {};
+		this.standardPlugin.callMethod("APPEXIT", param);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_FILE
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-10  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="SM_FILE">
+	<select id="SEND_DATA" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT ISNULL(A.COMPANY_CD         , '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_GROUP_ID)), '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_ID)), '') + ',' +
+				    ISNULL(A.FILE_NAME          , '') + ',' +
+				    ISNULL(A.FILE_REAL_NAME     , '') + ',' +
+				    ISNULL(A.FILE_SIZE          , '') + ',' +
+				    ISNULL(A.REG_PGM_ID         , '') + ',' +
+				    ISNULL(A.REG_USER           , '') + ',' +
+				    ISNULL(A.REG_DT             , '') + ',' +
+				    ISNULL(A.REG_DT_CURR        , '') + ',' +
+				    ISNULL(A.REG_DT_LOC         , '') + ',' +
+				    ISNULL(A.REG_IP             , '') + ',' +
+				    ISNULL(A.MOD_PGM_ID         , '') + ',' +
+				    ISNULL(A.MOD_USER           , '') + ',' +
+				    ISNULL(A.MOD_DT             , '') + ',' +
+				    ISNULL(A.MOD_DT_CURR        , '') + ',' +
+				    ISNULL(A.MOD_DT_LOC         , '') + ',' +
+				    ISNULL(A.MOD_IP             , '') AS TXT_DATA
+			FROM    T_SM_FILE A WITH(NOLOCK)
+			WHERE   A.USE_YN = 'Y'
+          ]]>
+          <if test="FILE_GROUP_ID != null and FILE_GROUP_ID != '' ">
+              AND   A.FILE_GROUP_ID = #{FILE_GROUP_ID}
+          </if>
+	</select>
+	<select id="SEARCH_FILE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT A.COMPANY_CD
+				  , A.FILE_GROUP_ID
+				  , A.FILE_ID
+				  , A.FILE_NAME
+				  , A.FILE_REAL_NAME
+				  , A.FILE_SIZE
+				  , A.USE_YN
+				  , A.REG_PGM_ID
+				  , A.REG_USER
+				  , A.REG_DT
+				  , A.REG_DT_CURR
+				  , A.REG_DT_LOC
+				  , A.REG_IP
+				  , A.MOD_PGM_ID
+				  , A.MOD_USER
+				  , A.MOD_DT
+				  , A.MOD_DT_CURR
+				  , A.MOD_DT_LOC
+				  , A.MOD_IP
+				  , (SELECT COUNT(*)
+					   FROM T_SM_FILE SUB WITH(NOLOCK)
+					  WHERE SUB.COMPANY_CD = A.COMPANY_CD
+					    AND SUB.FILE_GROUP_ID = A.FILE_GROUP_ID) AS FILE_GROUP_CNT
+				  , (SELECT COUNT(*)
+					   FROM T_SM_FILE SUB WITH(NOLOCK)
+					  WHERE SUB.COMPANY_CD = A.COMPANY_CD
+					    AND SUB.FILE_GROUP_ID = A.FILE_GROUP_ID
+					    AND SUB.USE_YN      = 'Y') AS FILE_GROUP_CNT2 
+			FROM    T_SM_FILE A WITH(NOLOCK)
+			WHERE   A.USE_YN      = 'Y'
+          ]]>
+          <if test="FILE_GROUP_ID != '' and FILE_GROUP_ID != null">
+			AND	    A.FILE_GROUP_ID = #{FILE_GROUP_ID}
+          </if>
+          <if test="FILE_GROUP_ID == '' or FILE_GROUP_ID == null">
+			AND	    A.FILE_GROUP_ID IS NULL
+          </if>
+          <if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND	    A.COMPANY_CD = #{COMPANY_CD}
+          </if>
+          <if test="USE_YN != '' and USE_YN != null">
+			AND	    A.USE_YN = #{USE_YN}
+          </if>
+	</select>
+	
+	<select id="SEARCH_SERVER_NAME" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT SET_VALUE AS SERVER_NAME
+	  	  	   FROM T_CM_PROFILE WITH(NOLOCK)
+		      WHERE 1=1
+		      	AND USE_YN = 'Y'
+		        AND CODE = #{CODE}
+		  ]]>
+		  <if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND	    COMPANY_CD = #{COMPANY_CD}
+          </if>
+	</select>
+	
+	<select id="SEARCH_GROUP_ID" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             /*
+             SELECT ISNULL(MAX(A.FILE_GROUP_ID) + 1, 1) AS FILE_GROUP_ID
+			 FROM   T_SM_FILE A WITH(NOLOCK)
+			 */
+			 SELECT CONCAT(#{SERVER_NAME},ISNULL(MAX( CONVERT(INT,(SUBSTRING(A.FILE_GROUP_ID,4,DATALENGTH(A.FILE_GROUP_ID)))) ) + 1, 1)) AS FILE_GROUP_ID
+			  FROM T_SM_FILE A WITH(NOLOCK)
+			WHERE A.FILE_GROUP_ID LIKE CONCAT(#{SERVER_NAME},'%')
+			 
+			 
+          ]]>
+	</select>
+	<insert id="INSERT_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+			INSERT INTO T_SM_FILE
+			(
+			  COMPANY_CD
+			, FILE_GROUP_ID
+			, FILE_NAME
+			, FILE_REAL_NAME
+			, FILE_SIZE
+			, USE_YN
+			, REG_PGM_ID
+			, REG_USER
+			, REG_DT
+			, REG_DT_CURR
+			, REG_DT_LOC
+			, REG_IP
+			, MOD_PGM_ID
+			, MOD_USER
+			, MOD_DT
+			, MOD_DT_CURR
+			, MOD_DT_LOC
+			, MOD_IP
+			)
+			VALUES
+			 (
+			  #{COMPANY_CD}
+			, #{FILE_GROUP_ID}
+			, #{FILE_NAME}
+			, #{FILE_REAL_NAME}
+			, #{FILE_SIZE}
+			, 'Y'
+			, #{REG_PGM_ID}
+			, #{REG_USER}
+			, #{REG_DT}
+			, #{REG_DT_CURR}
+			, #{REG_DT_LOC}
+			, #{REG_IP}
+			, ''
+			, ''
+			, ''
+			, ''
+			, ''
+			, ''
+			)
+          ]]>
+	</insert>
+	<update id="DELETE_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+             UPDATE T_SM_FILE
+             SET    USE_YN = 'N'
+				  , MOD_PGM_ID    = #{MOD_PGM_ID}
+				  , MOD_USER      = #{MOD_USER}
+				  , MOD_DT        = #{MOD_DT}
+				  , MOD_DT_CURR   = #{MOD_DT_CURR}
+				  , MOD_DT_LOC    = #{MOD_DT_LOC}
+				  , MOD_IP        = #{MOD_IP}
+			 WHERE  COMPANY_CD    = #{COMPANY_CD}
+			 AND    FILE_GROUP_ID = #{FILE_GROUP_ID}
+			 AND    FILE_ID       = #{FILE_ID}
+          ]]>
+	</update>
+</mapper>

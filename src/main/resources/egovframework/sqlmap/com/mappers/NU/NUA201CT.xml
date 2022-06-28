@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA201CT                                                         
+     * 프로그램 명     : 건강기록일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA201CT"> 
+	<!--SELECT  -->
+	<select id="NUA201CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.GRADE
+					,A.AREA
+					,A.LOCATION 
+					,CASE WHEN NVL(A.RETIRE_DT,'99991231') >= DATE_FORMAT(CURDATE(),'%Y%m%d')
+					      THEN 'N'
+					      ELSE 'Y' END AS ENTER_GB
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY NAME) ROWNUM
+              	FROM T_NU_RESIDENT A
+               WHERE 1=1
+		]]>
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+                 AND A.COMPANY_CD = #{COMPANY_CD}
+        </if>
+        <if test="NAME != '' and NAME != null">
+                 AND A.NAME LIKE CONCAT('%', #{NAME},'%')
+        </if>
+        <if test="AREA != '' and AREA != null">
+                 AND A.AREA = #{AREA} -- 층
+        </if>
+        <if test="LOCATION != '' and LOCATION != null">
+                 AND A.LOCATION = #{LOCATION} -- 생활실
+        </if>
+        <if test="RETIRE_YN != '' and RETIRE_YN != null">
+				 AND IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') = #{RETIRE_YN}
+		</if>
+               ORDER BY ROWNUM ASC, A.ENTER_DT DESC, A.NAME ASC
+    </select>
+	<select id="NUA201CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.HEA_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA -- 층
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION -- 생활실     
+					,(SELECT NR.REF_SYS_RES_ID
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS REF_SYS_RES_ID
+					,(SELECT CC.REF_SYS_COMP_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS REF_SYS_COMP_CD                  
+					,A.HEA_DT
+					,A.PRE_H
+					,A.PRE_L
+					,A.PULSE
+					,A.BREATH
+					,A.TEMPERATURE1
+					,A.TEMPERATURE2
+					,A.TEMPERATURE3
+					,A.WEIGHT
+					,A.SUGAR_FBS
+					,A.SUGAR_PP2
+					,A.COUGH
+					,A.THROAT
+					,A.BREATHING_DIFF
+					,A.SPUTUM
+					,A.ETC
+					,A.INJECTION
+					,A.DRUG
+					,A.PRE_TIME
+					,A.SUG_FBS_TIME
+					,A.SUG_PP2_TIME
+					,A.TEM_TIME1
+					,A.TEM_TIME2
+					,A.TEM_TIME3
+					,A.IR_PRE_H
+					,A.IR_PRE_L
+					,A.IR_PULSE
+					,A.IR_PRE_TIME
+					,A.IR_TEMP1
+					,A.IR_TEMP_TIME1
+					,A.IR_TEMP2
+					,A.IR_TEM_TIME2
+					,A.IR_TEMP3
+					,A.IR_TEMP_TIME3
+					,A.IR_SUGAR_FBS
+					,A.IR_SUGAR_FBS_TIME
+					,A.IR_SUGAR_PP2
+					,A.IR_SUGAR_PP2_TIME
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY A.HEA_DT DESC, RES_NM) ROWNUM
+              	FROM T_NU_HEALTH_CHECK A
+               WHERE 1=1
+               	 
+               	 
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.NAME LIKE CONCAT('%', #{NAME},'%') ) 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.AREA = #{AREA}) 
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.LOCATION = #{LOCATION}) 
+              </if>
+              <if test="DT_FROM != '' and DT_FROM != null">                    
+                    AND A.HEA_DT >= #{DT_FROM}								                    				    			  	
+              </if>
+              <if test="DT_TO != '' and DT_TO != null">                    
+                    AND A.HEA_DT  <![CDATA[  <= ]]> #{DT_TO}								                    				    			  	
+              </if>
+              <if test="DT != '' and DT != null">                    
+                    AND A.HEA_DT = #{DT}								                    				    			  	
+              </if>
+              <if test="RES_ID != '' and RES_ID != null">                    
+                    AND A.RES_ID = #{RES_ID}								                    				    			  	
+              </if>
+               ORDER BY ROWNUM ASC, A.HEA_DT DESC, RES_NM ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA201CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_HEALTH_CHECK (                                                                                                                                                                                 
+					         COMPANY_CD
+							,HEA_SEQ
+							,RES_ID
+							,HEA_DT
+							,PRE_H
+							,PRE_L
+							,PULSE
+							,BREATH
+							,TEMPERATURE1
+							,TEMPERATURE2
+							,TEMPERATURE3
+							,WEIGHT
+							,SUGAR_FBS
+							,SUGAR_PP2
+							,COUGH
+							,THROAT
+							,BREATHING_DIFF
+							,SPUTUM
+							,ETC
+							,INJECTION
+							,DRUG
+							,MANAGER_ID
+							,REMARK
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+							,PRE_TIME
+							,SUG_FBS_TIME
+							,SUG_PP2_TIME
+							,TEM_TIME1
+							,TEM_TIME2
+							,TEM_TIME3
+				) VALUES (                                                                                                                                                                               
+					      #{COMPANY_CD  }
+						 ,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL(SQ_NU_HEALTH_CHECK),12,0)))
+						 ,#{RES_ID      }
+						 ,#{HEA_DT      }						
+						 ,IF(IF(#{PRE_H} = '', '0', #{PRE_H}) < 20 || IF(#{PRE_L} = '', '0', #{PRE_L}) < 20, '0', #{PRE_H})
+						 ,IF(IF(#{PRE_H} = '', '0', #{PRE_H}) < 20 || IF(#{PRE_L} = '', '0', #{PRE_L}) < 20, '0', #{PRE_L})
+						 ,IF(IF(#{PULSE} = '', '0', #{PULSE}) < 20, '0', #{PULSE})
+						 ,#{BREATH      }
+						 ,IF(IF(#{TEMPERATURE1} = '', '0', #{TEMPERATURE1}) < 10, '0', #{TEMPERATURE1})
+						 ,IF(IF(#{TEMPERATURE2} = '', '0', #{TEMPERATURE2}) < 10, '0', #{TEMPERATURE2})
+						 ,IF(IF(#{TEMPERATURE3} = '', '0', #{TEMPERATURE3}) < 10, '0', #{TEMPERATURE3})
+						 ,#{WEIGHT      }
+						 ,IF(IF(#{SUGAR_FBS} = '', '0', #{SUGAR_FBS}) < 20, '0', #{SUGAR_FBS})
+						 ,IF(IF(#{SUGAR_PP2} = '', '0', #{SUGAR_PP2}) < 20, '0', #{SUGAR_PP2})
+						 ,#{COUGH         }
+						 ,#{THROAT        }
+						 ,#{BREATHING_DIFF}
+						 ,#{SPUTUM        }
+						 ,#{ETC           }
+						 ,#{INJECTION     }
+						 ,#{DRUG          }
+						 ,#{MANAGER_ID  }
+						 ,#{REMARK      }
+						 ,#{REG_PGM_ID  }
+						 ,#{REG_USER    }
+						 ,#{REG_DT      }
+						 ,#{REG_DT_CURR }
+						 ,#{REG_DT_LOC  }
+						 ,#{REG_IP      }
+						 ,#{MOD_PGM_ID  }
+						 ,#{MOD_USER    }
+						 ,#{MOD_DT      }
+						 ,#{MOD_DT_CURR }
+						 ,#{MOD_DT_LOC  }
+						 ,#{MOD_IP      }
+						 ,#{PRE_TIME}
+						 ,#{SUG_FBS_TIME}
+						 ,#{SUG_PP2_TIME}
+						 ,#{TEM_TIME1}
+						 ,#{TEM_TIME2}
+					 	 ,#{TEM_TIME3}
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA201CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_HEALTH_CHECK                                                                                                                                                                                              
+						 SET RES_ID  	   =#{RES_ID	  }
+						 	,HEA_DT         = #{HEA_DT      }
+							,PRE_H          = IF(IF(#{PRE_H} = '', '0', #{PRE_H}) < 20 || IF(#{PRE_L} = '', '0', #{PRE_L}) < 20, '0', #{PRE_H})
+							,PRE_L          = IF(IF(#{PRE_H} = '', '0', #{PRE_H}) < 20 || IF(#{PRE_L} = '', '0', #{PRE_L}) < 20, '0', #{PRE_L})
+							,PULSE          = IF(IF(#{PULSE} = '', '0', #{PULSE}) < 20, '0', #{PULSE})
+							,BREATH         = #{BREATH      }
+							,TEMPERATURE1   = IF(IF(#{TEMPERATURE1} = '', '0', #{TEMPERATURE1}) < 10, '0', #{TEMPERATURE1})
+							,TEMPERATURE2   = IF(IF(#{TEMPERATURE2} = '', '0', #{TEMPERATURE2}) < 10, '0', #{TEMPERATURE2})
+							,TEMPERATURE3   = IF(IF(#{TEMPERATURE3} = '', '0', #{TEMPERATURE3}) < 10, '0', #{TEMPERATURE3})							
+							,WEIGHT         = #{WEIGHT      }
+							,SUGAR_FBS      = IF(IF(#{SUGAR_FBS} = '', '0', #{SUGAR_FBS}) < 20, '0', #{SUGAR_FBS})
+							,SUGAR_PP2      = IF(IF(#{SUGAR_PP2} = '', '0', #{SUGAR_PP2}) < 20, '0', #{SUGAR_PP2})
+							,COUGH			= #{COUGH         }
+							,THROAT         = #{THROAT        }
+							,BREATHING_DIFF = #{BREATHING_DIFF}
+							,SPUTUM         = #{SPUTUM        }
+							,ETC            = #{ETC           }
+							,INJECTION      = #{INJECTION     }
+							,DRUG           = #{DRUG          }
+							,MANAGER_ID     = #{MANAGER_ID  }
+							,REMARK         = #{REMARK      }
+							,MOD_PGM_ID     = #{MOD_PGM_ID  }
+							,MOD_USER       = #{MOD_USER    }
+							,MOD_DT         = #{MOD_DT      }
+							,MOD_DT_CURR    = #{MOD_DT_CURR }
+							,MOD_DT_LOC     = #{MOD_DT_LOC  }
+							,MOD_IP         = #{MOD_IP      }
+							,PRE_TIME		= #{PRE_TIME}
+							,SUG_FBS_TIME   = #{SUG_FBS_TIME}
+							,SUG_PP2_TIME   = #{SUG_PP2_TIME}
+							,TEM_TIME1		= #{TEM_TIME1}
+							,TEM_TIME2		= #{TEM_TIME2}
+						 	,TEM_TIME3		= #{TEM_TIME3}
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND HEA_SEQ = #{HEA_SEQ}                       
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA201CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_HEALTH_CHECK
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND HEA_SEQ = #{HEA_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+      <select id="NUA201CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA201CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>    
+     <select id="NUA201CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7', '8')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+    
+    <!-- 층 조회 -->
+    <select id="NUA201CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA201CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if>                                                                                                                                                                 
+    </select>                                                                                                                                                                                 
+    
+    <!-- 전날 간호일지 조회 -->
+    <select id="NUA201CT_DS_PRE_REMARK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    		SELECT A.REMARK
+    		  FROM T_NU_HEALTH_CHECK A
+    		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+    		   AND A.RES_ID = #{RES_ID}
+    		   AND A.HEA_DT = DATE_FORMAT(DATE_ADD(#{HEA_DT},INTERVAL -1 DAY),'%Y%m%d')
+    		 ORDER
+    		    BY A.REG_DT_LOC DESC
+    		 LIMIT 1
+    	]]>
+ 	</select>
+</mapper>                                                                                                                                                                                                          

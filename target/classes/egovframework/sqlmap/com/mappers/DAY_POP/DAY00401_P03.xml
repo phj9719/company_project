@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00401_P03                                                    
+     * 프로그램 명     	: 차량별송영일지 팝업                                                     
+     * Description 		: 차량별송영일지 출력 대상 조회
+     *================================================================                  
+       작성일자         		|  작성자        |  비고                                    
+     *================================================================                  
+       2022-04-29 14:30        	|  조기종		 | 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00401_P03_DS_LIST_S		조회
+        DAY00401_P03_DS_CAR_S		차량 콤보박스 조회
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00401_P03">
+	<!-- 조회 -->
+    <select id="DAY00401_P03_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 4-1 P03 조회 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        , bm.단기보호
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND #{DATE} BETWEEN bm.m_enday AND bm.m_reday
+        AND SUBSTRING(CONCAT(bm.일요일, bm.이용일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1				
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      mat.ord1
+    , kmr.k_number
+    , mat.sicode
+    , mat.m_code
+    , mat.거주현황
+    , mat.m_name
+    , mat.성별
+    , kmr.시작코스
+    , dm1.차번호 AS 시작차번호
+    , kmr.시작시간
+    , kmr.시작거주지
+    , kmr.시작기사
+    , kmr.시작기코드
+    , kmr.시작동승
+    , kmr.종료코스
+    , dm2.차번호 AS 종료차번호
+    , kmr.종료시간
+    , kmr.종료거주지
+    , kmr.종료기사
+    , kmr.종료기코드
+    , kmr.종료동승
+    , (CASE WHEN kmr.시작거주지 = 'Y' THEN 1 ELSE 0 END) + (CASE WHEN kmr.종료거주지 = 'Y' THEN 1 ELSE 0 END) AS 이용구분
+    , CASE
+        WHEN kmr.종료시간 = '' THEN ''
+        WHEN kmr.시작시간 = '' THEN kmr.종료시간
+        ELSE SUBSTRING(TIMEDIFF(kmr.종료시간, kmr.시작시간), 1, 5)
+      END AS 제공시간
+    FROM mate mat
+    LEFT JOIN kmrecord kmr
+    ON (mat.sicode = kmr.sicode
+        AND mat.m_code = kmr.k_code
+        AND kmr.k_nalja = #{DATE})
+    LEFT JOIN day_motor dm1
+    ON (kmr.sicode = dm1.sicode
+        AND kmr.시작코스 = dm1.차구분)
+    LEFT JOIN day_motor dm2
+    ON (kmr.sicode = dm2.sicode
+        AND kmr.종료코스 = dm2.차구분)
+    WHERE (kmr.시작거주지 IN('Y', 'N') OR kmr.종료거주지 IN('Y', 'N'))
+    ORDER BY
+      CASE WHEN NULLIF(kmr.미입소, '') IS NULL THEN 2 ELSE 1 END
+    , CASE WHEN NULLIF(kmr.시작코스, '') IS NULL AND NULLIF(kmr.종료코스, '') IS NULL THEN 1 ELSE 2 END
+    , kmr.시작코스
+    , mat.ord1
+    , mat.m_name
+    </select>
+    
+    <!-- 차량 콤보박스 조회 -->
+    <select id="DAY00401_P03_DS_CAR_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 P03 차량 콤보박스 조회 */
+    SELECT DISTINCT
+      a.코스 AS combocode
+    , CONCAT(a.코스, '-', dm.차번호) AS comboname
+    FROM 
+    (
+        SELECT
+          kmr.sicode
+        , kmr.시작코스 AS 코스
+        FROM kmrecord kmr
+        WHERE kmr.sicode = #{SICODE}
+        AND kmr.k_nalja = #{DATE}
+        UNION
+        SELECT
+          kmr.sicode
+        , kmr.종료코스 AS 코스
+        FROM kmrecord kmr
+        WHERE kmr.sicode = #{SICODE}
+        AND kmr.k_nalja = #{DATE}
+    ) AS a
+    JOIN day_motor dm
+    ON (a.sicode = dm.sicode
+        AND a.코스 = dm.차구분)
+    WHERE a.코스 != ''
+    ORDER BY 1
+    </select>
+</mapper>

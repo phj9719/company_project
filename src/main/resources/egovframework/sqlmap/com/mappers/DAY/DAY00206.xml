@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00206                                                         
+     * 프로그램 명     	: 2-06  의료폐기물 관리대장                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-22 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00206">
+	<!-- 조회 -->
+    <select id="DAY00206_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00206_DS_LIST_S */
+	SELECT kw.sicode
+	     , kw.기록번호 AS w_number
+	     , kw.배출일 AS w_date
+	     , kw.폐기물종류
+	     , kw.성상
+	     , kw.배출중량
+	     , kw.배출수량
+	     , kw.확인자
+	     , kw.확인코드
+	     , kw.비고
+	     , kw.org_기록번호
+	  FROM km_wastes kw 
+	 WHERE 1=1
+       AND kw.sicode = #{sicode}
+       AND kw.배출일  BETWEEN #{date_from} AND #{date_to}
+     ORDER 
+        BY kw.배출일 DESC
+	</select>
+	
+	<!-- 조회 -->
+    <select id="DAY00206_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00206_DS_DATA_S */
+	SELECT kw.sicode
+	     , kw.기록번호
+	     , kw.배출일
+	     , kw.폐기물종류
+	     , kw.성상
+	     , kw.배출중량
+	     , kw.배출수량
+	     , kw.확인자
+	     , kw.확인코드
+	     , kw.비고
+	     , kw.org_기록번호
+	  FROM km_wastes kw	 
+	 WHERE kw.sicode = #{sicode}
+	   AND kw.기록번호 = #{w_number}
+	   AND kw.배출일 = #{w_date}
+	</select>
+	
+	<!-- 삽입 -->
+    <insert id="DAY00206_DS_DATA_I" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="n_number">
+    /* 2-06 삽입 */
+    INSERT INTO km_wastes
+    (
+	    sicode
+      , 배출일
+      , 폐기물종류
+      , 성상
+      , 배출중량
+      , 배출수량
+      , 확인자
+      , 확인코드
+      , 비고
+      , org_기록번호
+	)
+    VALUES
+    (
+	    #{sicode}
+      , #{배출일}
+      , #{폐기물종류}
+      , #{성상}
+      , #{배출중량}
+      , #{배출수량}
+      , #{확인자}
+      , #{확인코드}
+      , #{비고}
+      , #{org_기록번호}
+	) 
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00206_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 2-06 수정 */
+    UPDATE km_wastes
+	   SET 폐기물종류      = #{폐기물종류}
+         , 성상             = #{성상}
+         , 배출중량        = #{배출중량}
+         , 배출수량        = #{배출수량}
+         , 확인자           = #{확인자}
+         , 확인코드        = #{확인코드}
+         , 비고             = #{비고}
+         , org_기록번호 = #{org_기록번호}        
+     WHERE sicode = #{sicode}
+       AND 기록번호 = #{기록번호}
+       AND 배출일 = #{배출일}
+    </update>
+	
+    <!-- 삭제 -->
+    <delete id="DAY00206_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 2-06 삭제 */
+	DELETE FROM km_wastes
+	 WHERE sicode = #{sicode}
+       AND 기록번호  = #{기록번호}
+       AND 배출일   = #{배출일}
+    </delete>
+    
+    <select id="DAY00206_DS_DATA_CHK" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-06 CHK */
+	SELECT sicode
+	     , 점검일
+	  FROM km_wastes
+	 WHERE sicode = #{sicode}
+	   AND 점검일 = #{w_date}
+	</select>
+	
+</mapper>

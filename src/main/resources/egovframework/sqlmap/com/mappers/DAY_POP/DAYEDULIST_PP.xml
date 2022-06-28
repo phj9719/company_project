@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAYEDULIST_PP                                                         
+     * 프로그램 명     	: 교육일지 리스트                                                  
+     * Description 	: 교육일지 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-07 15:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAYEDULIST_EMP_PP_DS_LIST_S		직원교육(훈련) 일지 조회
+        DAYEDULIST_MATE_PP_DS_LIST_S	수급자교육(훈련) 일지 조회
+     *================================================================                      
+-->																											  
+<mapper namespace="DAYEDULIST_PP">
+	<!-- 직원교육(훈련) 일지 조회 -->
+    <select id="DAYEDULIST_EMP_PP_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 직원교육(훈련) 일지 조회 */
+    SELECT
+      ke.sicode
+    , ke.교육일
+    , ke.교육명
+    , ke.교육강사
+    , ke.교육내용
+    FROM km_educate ke
+    WHERE ke.sicode = #{SICODE}
+    AND ke.교육일 BETWEEN DATE_SUB(NOW(), INTERVAL 6 MONTH) AND NOW()
+    ORDER BY
+      ke.교육일 DESC
+    , ke.교육번호 ASC
+    </select>
+    
+    <!-- 수급자교육(훈련) 일지 조회 -->
+    <select id="DAYEDULIST_MATE_PP_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 수급자교육(훈련) 일지 조회 */
+    SELECT
+      be.sicode
+    , be.교육일
+    , be.교육명
+    , be.교육강사
+    , be.교육내용
+    FROM base_educate be
+    WHERE be.sicode = #{SICODE}
+    ORDER BY
+      be.교육일 DESC
+    , be.교육번호 ASC
+    </select>
+</mapper>                                                                                                                                                                                                          

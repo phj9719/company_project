@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-03-25 11:30                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CM_RECV_PP                                                         
+     * 프로그램 명  		: 수신처 리스트 팝업                                                      
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-25 11:30     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_RECV_PP">
+	<select id="CM_RECV_PP" parameterType="java.util.Map" resultType="java.util.Map">
+		<![CDATA[
+			 SELECT GAL.COMPANY_CD
+			      , GAL.PLANT_CD
+			      , GAL.PK_DOC_NO
+			      , GAL.APPL_LINE_CHRG
+			   FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+			  WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+			    AND GAL.PK_DOC_NO  = #{PK_DOC_NO}
+			    AND GAL.PK_APPL_TYPE = '30'
+		]]>
+    </select>
+</mapper>                                                                                                                                                                                                          

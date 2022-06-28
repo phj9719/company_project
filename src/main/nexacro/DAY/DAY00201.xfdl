@@ -1,0 +1,1533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00201" width="1920" height="800" titletext="2-1 간호.투약전달기록" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="0" left="0" top="40" bottom="0%" right="0.00%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_right" taborder="1" left="440" top="0" right="0" bottom="0" text="">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_head" taborder="0" left="0" top="0" width="1440" height="40" text="">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_body1" taborder="0" left="22" top="3" width="1403" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name" taborder="1" left="107" top="7" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00" taborder="2" left="234" top="7" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1" taborder="3" text="수급자명" left="20" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="4" text="생 활 실" left="586" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00" taborder="5" text="성별.생일" left="322" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_sex_nm" taborder="6" left="409" top="7" width="35" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_b_date" taborder="7" left="468" top="7" width="85" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_00_01" taborder="8" text="입.퇴소일" left="1020" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00_00_00" taborder="9" text="인정등급" left="810" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_grade_nm" taborder="10" left="897" top="7" width="84" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname" taborder="11" left="673" top="7" width="132" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_enday" taborder="12" left="1110" top="7" width="94" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_group" taborder="13" left="195" top="7" width="20" height="25" padding="0px" text="A"/>
+                          <Static id="sta_reday" taborder="14" left="1220" top="7" width="114" height="25" padding="0px 0px 0px 5px" color="red"/>
+                          <Static id="sta_slash" taborder="15" text="/" left="1206" top="7" width="20" height="25"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_down" taborder="1" left="0" top="511" width="1440" height="235">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grd_dosage" taborder="0" left="20" top="37" binddataset="ds_dosage" height="198" width="1404" onexpandup="grd_detail_onexpandup">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="350"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                  <Column size="40"/>
+                                  <Column size="55"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="25"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell text="투약명" textAlign="center" verticalAlign="middle"/>
+                                  <Cell col="1" text="투약량" textAlign="center" verticalAlign="middle"/>
+                                  <Cell col="2" text="투약방법" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="3" colspan="2" text="아침-전" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="5" colspan="2" text="아침-후" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="7" colspan="2" text="점심-전" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="9" colspan="2" text="점심-후" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="11" colspan="2" text="저녁-전" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="13" colspan="2" text="저녁-후" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="15" colspan="2" text="취침-전" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="17" colspan="2" text="필요시" verticalAlign="middle" textAlign="center"/>
+                                  <Cell col="19" colspan="2" text="지움" verticalAlign="middle" textAlign="center"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell text="bind:투약명" calendardateformat="yyyy.MM.dd" textAlign="left"/>
+                                  <Cell col="1" text="bind:투약량"/>
+                                  <Cell col="2" text="bind:투약방법"/>
+                                  <Cell col="3" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:아침전">
+                                    <Cell text="bind:아침전" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="5" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:아침후">
+                                    <Cell text="bind:아침후" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="7" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:점심전">
+                                    <Cell text="bind:점심전" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="9" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:점심후">
+                                    <Cell text="bind:점심후" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="11" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:저녁전">
+                                    <Cell text="bind:저녁전" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="13" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:저녁후">
+                                    <Cell text="bind:저녁후" color="darkgreen" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="15" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:취침전">
+                                    <Cell text="bind:취침전" color="deeppink" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="17" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:필요시">
+                                    <Cell text="bind:필요시" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" padding="0px 0px 0px 25px"/>
+                                    <Cell col="1" text="투약" textAlign="left"/>
+                                  </Cell>
+                                  <Cell col="19" colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:del">
+                                    <Cell displaytype="checkboxcontrol" edittype="checkbox" padding="0px 0px 0px 25px" text="bind:del" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                                    <Cell col="1" text="지움" textAlign="left"/>
+                                  </Cell>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="sta_body1_00" taborder="1" left="20" top="0" width="1404" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_manager00_00" taborder="2" left="201" top="3" width="113" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_manager01" taborder="3" left="114" top="3" width="80" height="25" padding="0px 0px 0px 5px"/>
+                          <Button id="btn_med_manager" taborder="4" text="투약전달" left="24" top="4" width="85" height="26" onclick="btn_med_manager_onclick" cssclass="btn_worker"/>
+                          <Button id="btn_bathlist00_00_00_00_00_00_00_00_00_00" taborder="5" text="투약명 추가등록" left="899" top="4" width="170" height="26" onclick="btn_popup_onclick" cssclass="btn_list"/>
+                          <Button id="btn_all" taborder="6" text="복용약 불러오기" left="1074" top="4" width="170" height="26" onclick="btn_nurse_onclick" cssclass="btn_search"/>
+                          <Button id="btn_dosage_prev" taborder="7" text="전날투약기록" left="1249" top="4" width="170" height="26" onclick="btn_dosage_prev_onclick" cssclass="btn_search"/>
+                          <Button id="btn_delivery" taborder="8" text="전달시간확인" left="314" top="4" width="120" height="26" cssclass="btn_search" onclick="btn_delivery_onclick"/>
+                          <Edit id="edt_delivery_original" taborder="10" left="439" top="4" width="455" height="26"/>
+                          <Edit id="edt_delivery" taborder="9" left="439" top="4" width="455" height="26"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_main" taborder="2" left="0" top="44" width="1440" height="465">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_01_00" taborder="121" left="839" top="63" width="81" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_subTitle" taborder="0" text="간호.투약전달기록" left="20" top="2" width="180" height="26" cssclass="lb01"/>
+                          <Static id="sta_body8" taborder="1" left="20" top="30" width="678" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01" taborder="2" left="139" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="맥박(분)" background="lightblue"/>
+                          <Static id="sta_date00" taborder="3" text="혈압(mm/Hg)" left="20" top="30" width="120" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" background="lightblue"/>
+                          <Static id="sta_body8_00" taborder="4" left="20" top="63" width="678" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_sugar1_la" taborder="5" left="208" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="혈당-①" background="lightblue"/>
+                          <Static id="sta_sugar2_la" taborder="6" left="277" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="혈당-②" background="lightblue"/>
+                          <Static id="sta_temp2_la" taborder="7" left="415" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="체온-②" background="lightblue"/>
+                          <Static id="sta_temp1_la" taborder="8" left="346" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="체온-①" background="lightblue"/>
+                          <Static id="sta_temp3_la" taborder="9" left="484" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="체온-③" background="lightblue"/>
+                          <Static id="sta_breath_la" taborder="10" left="553" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="호흡(분)" background="lightblue"/>
+                          <Static id="sta_weight_la" taborder="11" top="30" width="77" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="체중(kg)" left="621" background="lightblue"/>
+                          <Static id="sta_slash" taborder="12" left="69" top="68" width="20" height="25" text="/" textAlign="center" verticalAlign="middle"/>
+                          <Static id="sta_m_name_txt00_00_00_00" taborder="13" left="139" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00" taborder="14" left="208" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_00" taborder="15" left="277" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01" taborder="16" left="346" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_00" taborder="17" left="415" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_00_00" taborder="18" left="484" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_00_00_00" taborder="19" left="553" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_00_00_00_00" taborder="20" left="621" top="63" width="77" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <MaskEdit id="mae_weight" taborder="21" left="637" top="68" width="46" height="25" format="###.#" limitbymask="both"/>
+                          <MaskEdit id="mae_blood1" taborder="22" left="31" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <MaskEdit id="mae_blood2" taborder="23" left="88" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <MaskEdit id="mae_pulse" taborder="24" left="154" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <MaskEdit id="mae_sugar1" taborder="25" left="223" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <MaskEdit id="mae_sugar2" taborder="26" left="292" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <MaskEdit id="mae_temp1" taborder="27" left="361" top="68" width="40" height="25" limitbymask="both" format="##.#"/>
+                          <MaskEdit id="mae_temp2" taborder="28" left="430" top="68" width="40" height="25" limitbymask="both" format="##.#"/>
+                          <MaskEdit id="mae_temp3" taborder="29" left="499" top="68" width="40" height="25" limitbymask="both" format="##.#"/>
+                          <MaskEdit id="mae_breath" taborder="30" left="568" top="68" width="40" height="25" limitbymask="both" format="###"/>
+                          <Static id="sta_body10" taborder="31" left="20" width="678" height="177" cssclass="sta_WF_DetailLabel02" top="96"/>
+                          <TextArea id="txt_content" taborder="32" left="63" top="100" width="631" height="169" maxlength="500" wordWrap="char" scrollbartype="fixed" scrolltype="vertical" onchanged="div_cont_div_right_div_main_txt_content_onchanged"/>
+                          <Static id="sta_journal" taborder="33" left="20" width="40" height="177" cssclass="sta_WF_DetailLabel01" textAlign="center" text="간&#13;&#10;호&#13;&#10;일&#13;&#10;지" top="96"/>
+                          <Static id="sta_body10_00" taborder="34" left="20" width="678" height="160" cssclass="sta_WF_DetailLabel02" top="305"/>
+                          <TextArea id="txt_content00" taborder="35" left="63" top="309" width="631" height="152" maxlength="500" wordWrap="char" scrollbartype="fixed" scrolltype="vertical" readonly="true"/>
+                          <Static id="sta_journal00" taborder="36" left="20" width="40" height="160" cssclass="sta_WF_DetailLabel01" textAlign="center" text="요&#13;&#10;양&#13;&#10;일&#13;&#10;지" top="305"/>
+                          <Static id="sta_body1" taborder="37" left="20" top="272" width="678" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Button id="btn_nurse_manager" taborder="38" text="간호담당" left="24" top="276" width="85" height="26" onclick="btn_nurse_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager" taborder="39" left="114" top="275" width="80" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_manager00" taborder="40" left="201" top="275" width="103" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_01_00" taborder="41" left="702" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="기침" background="lightblue"/>
+                          <Static id="sta_sugar1_la00" taborder="42" left="771" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="인후통" background="lightblue"/>
+                          <Static id="sta_sugar2_la00" taborder="43" left="840" top="30" width="80" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="호흡곤란" background="lightblue"/>
+                          <Static id="sta_temp1_la00" taborder="44" left="919" top="30" width="70" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="객담" background="lightblue"/>
+                          <Static id="sta_temp2_la00" taborder="45" left="988" top="30" width="257" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="기타" background="lightblue"/>
+                          <Static id="sta_m_name_txt00_00_00_00_01" taborder="46" left="702" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_02" taborder="47" left="771" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_01" taborder="48" left="919" top="63" width="70" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_m_name_txt00_00_00_00_00_01_00_01" taborder="49" left="988" top="63" width="257" height="34" textAlign="center" verticalAlign="middle" cssclass="sta_WF_DetailLabel02"/>
+                          <CheckBox id="chk_1" taborder="50" text="유" left="717" top="68" width="38" height="25" cssclass="chk_x" falsevalue="0" truevalue="1"/>
+                          <CheckBox id="chk_1_00" taborder="51" text="유" left="787" top="68" width="38" height="25" cssclass="chk_x" truevalue="1" falsevalue="0"/>
+                          <CheckBox id="chk_1_01" taborder="52" text="유" left="862" top="68" width="38" height="25" cssclass="chk_x" truevalue="1" falsevalue="0"/>
+                          <CheckBox id="chk_1_02" taborder="53" text="유" left="935" top="68" width="38" height="25" cssclass="chk_x" truevalue="1" falsevalue="0"/>
+                          <Static id="sta_body1_01" taborder="54" left="702" top="100" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00" taborder="55" left="702" top="100" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="식사종류"/>
+                          <Static id="sta_body1_01_00" taborder="57" left="702" top="133" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00" taborder="56" left="702" top="133" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="비위관"/>
+                          <Static id="sta_body1_01_00_00" taborder="58" left="702" top="166" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_00" taborder="59" left="702" top="166" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="뇨의.변의장애"/>
+                          <Static id="sta_body1_01_00_01" taborder="60" left="702" top="199" width="543" height="34" cssclass="sta_WF_DetailLabel02" text=""/>
+                          <Static id="sta_head1_01_00_00_00_01" taborder="61" left="702" top="199" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="배설보조기구"/>
+                          <Static id="sta_body1_01_00_02" taborder="62" left="702" top="232" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02" taborder="63" left="702" top="232" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="진료기록"/>
+                          <Static id="sta_body1_01_00_02_00" taborder="64" left="702" top="265" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_00" taborder="65" left="702" top="265" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="외출기록"/>
+                          <Static id="sta_body1_01_00_02_01" taborder="66" left="702" top="298" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_01" taborder="67" left="702" top="298" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="자세.욕창"/>
+                          <Static id="sta_body1_01_00_02_02" taborder="68" left="702" top="331" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_02" taborder="69" left="702" top="331" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="배설간호"/>
+                          <Static id="sta_body1_01_00_02_03" taborder="70" left="702" top="364" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_03" taborder="71" left="702" top="364" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="상비약품"/>
+                          <Static id="sta_body1_01_00_02_03_00" taborder="72" left="702" top="397" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_03_00" taborder="73" left="702" top="397" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="구강간호"/>
+                          <Static id="sta_body1_01_00_02_03_01" taborder="74" left="702" top="430" width="543" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head1_01_00_00_00_02_03_01" taborder="75" left="702" top="430" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="응급상황"/>
+                          <Edit id="edt_00" taborder="76" left="993" top="68" width="247" height="25"/>
+                          <Static id="sta_roomname" taborder="77" left="815" top="104" width="130" height="25" padding="0px 0px 0px 5px" text="유동(미음) ½미만" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname00" taborder="78" left="948" top="104" width="168" height="25" padding="0px 0px 0px 5px" text="일반식" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname00_00" taborder="79" left="1120" top="104" width="120" height="25" padding="0px 0px 0px 5px" text="송영 : 08:20-17:30" cssclass="sta_WF_DetailLabel02" background="lightblue"/>
+                          <Static id="sta_roomname01" taborder="80" left="813" top="137" width="112" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_01_00_00_00_03" taborder="81" left="948" top="133" width="110" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="도뇨관"/>
+                          <Static id="sta_roomname01_00" taborder="82" left="1061" top="138" width="112" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname01_01" taborder="83" left="815" top="170" width="130" height="25" padding="0px 0px 0px 5px" text="있다" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname01_01_00" taborder="84" left="948" top="170" width="130" height="25" padding="0px 0px 0px 5px" text="있다" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname01_01_01" taborder="85" left="813" top="203" width="172" height="25" padding="0px 0px 0px 5px" text="도뇨관+기저귀"/>
+                          <Static id="sta_roomname01_01_01_00" taborder="86" left="813" top="236" width="322" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname01_01_01_00_00" taborder="87" left="813" top="269" width="322" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname01_01_01_00_00_00" taborder="88" left="815" top="302" width="130" height="25" padding="0px 0px 0px 5px" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname01_01_01_00_00_00_00" taborder="89" left="813" top="335" width="152" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname01_01_01_00_00_00_01" taborder="90" left="813" top="367" width="252" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_roomname01_01_01_00_00_00_01_00" taborder="91" left="813" top="401" width="252" height="25" padding="0px 0px 0px 5px" color="red"/>
+                          <Static id="sta_roomname01_01_01_00_00_00_01_00_00" taborder="92" left="813" top="435" width="322" height="25" padding="0px 0px 0px 5px" color="red"/>
+                          <Static id="sta_body1_01_00_02_03_01_00" taborder="93" left="1244" top="430" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_03_00_00" taborder="94" left="1244" top="397" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_03_02" taborder="95" left="1244" top="364" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_02_00" taborder="96" left="1244" top="331" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_01_00" taborder="97" left="1244" top="298" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_00_00" taborder="98" left="1244" top="265" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_04" taborder="99" left="1244" top="232" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_01_00" taborder="100" left="1244" top="199" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_00_00" taborder="101" left="1244" top="166" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_00_00_00" taborder="102" left="1244" top="63" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_01_00_00" taborder="103" left="1244" top="100" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_01_00_02_04_00" taborder="104" left="1244" top="133" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Button id="btn_vital" taborder="105" text="일 바이탈기록" left="1249" top="68" width="170" height="26" onclick="btn_vital_onclick" cssclass="btn_list"/>
+                          <Button id="btn_meal" taborder="106" text="식사도움기록" left="1249" top="104" width="170" height="26" onclick="btn_meal_onclick" cssclass="btn_list"/>
+                          <Button id="btn_mate_state" taborder="107" text="수급자상태설정" left="1249" top="170" width="170" height="26" onclick="btn_mate_state_onclick" cssclass="btn_list"/>
+                          <Button id="btn_medi" taborder="108" text="진료기록입력" left="1249" top="236" width="170" height="26" onclick="btn_medi_onclick" cssclass="btn_list"/>
+                          <Button id="btn_out" taborder="109" text="외출기록입력" left="1249" top="269" width="170" height="26" onclick="btn_out_onclick" cssclass="btn_list"/>
+                          <Button id="btn_sore" taborder="110" text="욕창간호기록" left="1249" top="302" width="170" height="26" onclick="btn_sore_onclick" cssclass="btn_list"/>
+                          <Button id="btn_cretion" taborder="111" text="배설간호" left="1249" top="335" width="170" height="26" onclick="btn_cretion_onclick" cssclass="btn_list"/>
+                          <Button id="btn_home_daily" taborder="112" text="상비약제공기록" left="1249" top="368" width="170" height="26" onclick="btn_home_daily_onclick" cssclass="btn_list"/>
+                          <Button id="btn_bathlist00_00_00_00_00_00_00_00_00" taborder="113" text="월별구강간호" left="1249" top="401" width="170" height="26" onclick="btn_mouth_monthly_onclick" cssclass="btn_list"/>
+                          <Button id="btn_bathlist00_00_00_00_00_00" taborder="114" text="구강간호(월1회)" left="1070" top="401" width="170" height="26" onclick="btn_mouth_yearly_onclick" cssclass="btn_list"/>
+                          <Button id="btn_emerg" taborder="115" text="응급상황기록" left="1249" top="434" width="170" height="26" onclick="btn_emerg_onclick" cssclass="btn_list"/>
+                          <Static id="sta_body1_01_00_01_00_01" taborder="116" left="1244" top="30" width="180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_roomname01_01_01_00_00_00_02" taborder="117" left="948" top="302" width="130" height="25" padding="0px 0px 0px 5px" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_manager00_00" taborder="118" left="311" top="275" width="113" height="25" padding="0px 0px 0px 5px"/>
+                          <Button id="btn_prev" taborder="119" text="전날간호기록" left="429" top="276" width="120" height="26" onclick="btn_nurse_prev_onclick" cssclass="btn_search"/>
+                          <Button id="btn_nurse_search" taborder="120" text="간호일지내용검색" left="554" top="276" width="140" height="26" cssclass="btn_search" onclick="btn_nurse_search_onclick"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_left" taborder="1" left="0" top="0" width="440" height="750">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="40" top="3" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="400" autofittype="col" bottom="0" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="60"/>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="48"/>
+                            <Column size="60"/>
+                            <Column size="84"/>
+                            <Column size="60"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                            <Cell col="6" text="구분"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:s_nm"/>
+                            <Cell col="1" textAlign="center" text="bind:m_group" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="2" text="bind:m_name" textAlign="center" cssclass="cellBWoman" cursor="pointer" expandchar="dot"/>
+                            <Cell col="3" text="bind:sex_nm"/>
+                            <Cell col="4" text="bind:grade_nm"/>
+                            <Cell col="5" text="bind:m_roomname"/>
+                            <Cell col="6" text="bind:pr_nm"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn_A" taborder="1" text="A" top="47" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_B" taborder="2" text="B" top="80" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_C" taborder="3" text="C" top="113" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_D" taborder="4" text="D" top="146" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_E" taborder="5" text="E" top="179" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_F" taborder="6" text="F" top="212" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_G" taborder="7" text="G" top="245" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_H" taborder="8" text="H" top="278" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_I" taborder="9" text="I" top="311" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_J" taborder="10" text="J" top="344" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_K" taborder="11" text="K" top="377" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_L" taborder="12" text="L" top="410" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_P" taborder="13" text="P" top="542" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_O" taborder="14" text="O" top="509" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_N" taborder="15" text="N" top="476" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_M" taborder="16" text="M" top="443" width="25" height="30" visible="true" left="10" onclick="btn_group_onclick"/>
+                    <Button id="btn_ALL" taborder="17" text="전&#13;&#10;체" top="3" width="25" height="40" visible="true" left="10" onclick="btn_group_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="520" top="0" height="40" formscrollbartype="none" width="1350">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란표시" left="350" top="7" width="85" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_report1" taborder="1" text="건강상태기록지" left="440" top="7" width="150" height="26" cssclass="btn_print" onclick="fn_report1"/>
+              <Button id="btn_report2" taborder="2" text="코로나-19 문진표" left="595" top="7" width="150" height="26" cssclass="btn_print" onclick="fn_report1"/>
+              <Button id="btn_save" taborder="3" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" cssclass="btn_save" left="1275"/>
+              <Button id="btn_corona" taborder="4" text="코로나19 임상증상기록" left="750" top="7" width="170" height="26" onclick="btn_corona_onclick" cssclass="btn_list"/>
+              <Button id="btn_bathlist00" taborder="5" text="종사자 검사관리대장" left="925" top="7" width="170" height="26" onclick="btn_popup_onclick" cssclass="btn_list"/>
+              <Button id="btn_bathlist00_00" taborder="6" text="종사자 건강모니터링" left="1100" top="7" width="170" height="26" onclick="btn_popup_onclick" cssclass="btn_list"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="2" left="0" top="0" height="40" text="" width="440">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_pic" taborder="0" left="195" top="7" width="25" height="26" onchanged="div_search_cal_date_pic_onchanged"/>
+              <Button id="btn_pre_dt" taborder="1" text="◀ 전날" top="7" width="70" height="26" visible="true" left="10" onclick="pre_next_btn_onclick"/>
+              <Calendar id="cal_date" taborder="2" left="85" top="7" width="110" height="26" cssclass="essential" readonly="true" tabstop="false" onchanged="div_search_cal_date_onchanged" initvalueid="iv_cal_yyyyMMddddd" buttonsize="0 0"/>
+              <Button id="btn_next_dt" taborder="3" text="앞날 ▶" top="7" width="70" height="26" visible="true" left="225" onclick="pre_next_btn_onclick"/>
+              <Static id="sta_subdisc" taborder="4" text="전체:21 남:2 여:19" left="307" top="7" width="130" height="26" textAlign="right"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="chk" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="pr_nm" type="STRING" size="256"/>
+          <Column id="pr_css" type="STRING" size="256"/>
+          <Column id="move_cont" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date" type="DATE" size="256"/>
+          <Column id="s_date" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="sign" type="STRING" size="256"/>
+          <Column id="date_from" type="STRING" size="256"/>
+          <Column id="date_to" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_person" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="nalja" type="STRING" size="256"/>
+          <Column id="송영" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+          <Column id="l_type_nm" type="STRING" size="256"/>
+          <Column id="drugtime" type="STRING" size="256"/>
+          <Column id="cret_type1" type="STRING" size="256"/>
+          <Column id="cret_type2" type="STRING" size="256"/>
+          <Column id="cret_kit" type="STRING" size="256"/>
+          <Column id="eat_type_nm" type="STRING" size="256"/>
+          <Column id="km_contents" type="STRING" size="256"/>
+          <Column id="진료번호" type="STRING" size="256"/>
+          <Column id="out_type1" type="STRING" size="256"/>
+          <Column id="out_type2" type="STRING" size="256"/>
+          <Column id="sore_exist1" type="STRING" size="256"/>
+          <Column id="sore_exist2" type="STRING" size="256"/>
+          <Column id="cret_exist" type="STRING" size="256"/>
+          <Column id="tooth_type" type="STRING" size="256"/>
+          <Column id="ke_contents" type="STRING" size="256"/>
+          <Column id="약품명" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_month">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list_cnt">
+        <ColumnInfo>
+          <Column id="cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report_cnt">
+        <ColumnInfo>
+          <Column id="cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_nurse" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="n_code" type="STRING" size="256"/>
+          <Column id="n_name" type="STRING" size="256"/>
+          <Column id="n_number" type="STRING" size="256"/>
+          <Column id="n_nalja" type="STRING" size="256"/>
+          <Column id="혈압1" type="STRING" size="256"/>
+          <Column id="혈압2" type="STRING" size="256"/>
+          <Column id="맥박" type="STRING" size="256"/>
+          <Column id="혈당" type="STRING" size="256"/>
+          <Column id="혈당2" type="STRING" size="256"/>
+          <Column id="체온" type="STRING" size="256"/>
+          <Column id="체온2" type="STRING" size="256"/>
+          <Column id="체온3" type="STRING" size="256"/>
+          <Column id="호흡" type="STRING" size="256"/>
+          <Column id="체중" type="STRING" size="256"/>
+          <Column id="기침" type="STRING" size="256"/>
+          <Column id="인후통" type="STRING" size="256"/>
+          <Column id="호흡곤란" type="STRING" size="256"/>
+          <Column id="객담" type="STRING" size="256"/>
+          <Column id="기타" type="STRING" size="256"/>
+          <Column id="간호일지" type="STRING" size="256"/>
+          <Column id="담당자" type="STRING" size="256"/>
+          <Column id="담당코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dosage" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="donumber" type="STRING" size="256"/>
+          <Column id="docode" type="STRING" size="256"/>
+          <Column id="row_num" type="STRING" size="256"/>
+          <Column id="투약종류" type="STRING" size="256"/>
+          <Column id="투약담당" type="STRING" size="256"/>
+          <Column id="담당코드" type="STRING" size="256"/>
+          <Column id="투약명" type="STRING" size="256"/>
+          <Column id="투약방법" type="STRING" size="256"/>
+          <Column id="투약량" type="STRING" size="256"/>
+          <Column id="투약량_orig" type="STRING" size="256"/>
+          <Column id="아침전" type="STRING" size="256"/>
+          <Column id="아침후" type="STRING" size="256"/>
+          <Column id="점심전" type="STRING" size="256"/>
+          <Column id="점심후" type="STRING" size="256"/>
+          <Column id="저녁전" type="STRING" size="256"/>
+          <Column id="저녁후" type="STRING" size="256"/>
+          <Column id="취침전" type="STRING" size="256"/>
+          <Column id="필요시" type="STRING" size="256"/>
+          <Column id="del" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nurse_prev" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="혈압1" type="STRING" size="256"/>
+          <Column id="혈압2" type="STRING" size="256"/>
+          <Column id="맥박" type="STRING" size="256"/>
+          <Column id="혈당" type="STRING" size="256"/>
+          <Column id="혈당2" type="STRING" size="256"/>
+          <Column id="체온" type="STRING" size="256"/>
+          <Column id="체온2" type="STRING" size="256"/>
+          <Column id="체온3" type="STRING" size="256"/>
+          <Column id="호흡" type="STRING" size="256"/>
+          <Column id="체중" type="STRING" size="256"/>
+          <Column id="간호일지" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dosage_head" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="donumber" type="STRING" size="256"/>
+          <Column id="docode" type="STRING" size="256"/>
+          <Column id="doname" type="STRING" size="256"/>
+          <Column id="donalja" type="STRING" size="256"/>
+          <Column id="투약시간" type="STRING" size="256"/>
+          <Column id="투약종류" type="STRING" size="256"/>
+          <Column id="투약담당" type="STRING" size="256"/>
+          <Column id="담당코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_delivery_time" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="drugtime" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dosage_head_prev" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="투약시간" type="STRING" size="256"/>
+          <Column id="투약종류" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dosage_prev" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="row_num" type="STRING" size="256"/>
+          <Column id="투약명" type="STRING" size="256"/>
+          <Column id="투약방법" type="STRING" size="256"/>
+          <Column id="투약량" type="STRING" size="256"/>
+          <Column id="아침전" type="STRING" size="256"/>
+          <Column id="아침후" type="STRING" size="256"/>
+          <Column id="점심전" type="STRING" size="256"/>
+          <Column id="점심후" type="STRING" size="256"/>
+          <Column id="저녁전" type="STRING" size="256"/>
+          <Column id="저녁후" type="STRING" size="256"/>
+          <Column id="취침전" type="STRING" size="256"/>
+          <Column id="필요시" type="STRING" size="256"/>
+          <Column id="del" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.div_head.form.sta_m_name" propid="text" datasetid="ds_person" columnid="m_name"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_head.form.sta_sex_nm" propid="text" datasetid="ds_person" columnid="sex_nm"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_head.form.sta_roomname" propid="text" datasetid="ds_person" columnid="m_roomname"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_head.form.sta_grade_nm" propid="text" datasetid="ds_person" columnid="grade_nm"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_head.form.sta_enday" propid="text" datasetid="ds_person" columnid="m_enday"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_head.form.sta_b_date" propid="text" datasetid="ds_person" columnid="b_date"/>
+      <BindItem id="item1" compid="div_func.form.chk_sign" propid="value" datasetid="ds_report" columnid="sign"/>
+      <BindItem id="item2" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="s_date"/>
+      <BindItem id="item5" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="s_date"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_head.form.sta_group" propid="text" datasetid="ds_person" columnid="m_group"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_data" columnid="jumin"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_head.form.sta_reday" propid="text" datasetid="ds_person" columnid="m_reday"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.mae_weight" propid="value" datasetid="ds_nurse" columnid="체중"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.mae_blood1" propid="value" datasetid="ds_nurse" columnid="혈압1"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.mae_blood2" propid="value" datasetid="ds_nurse" columnid="혈압2"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.mae_pulse" propid="value" datasetid="ds_nurse" columnid="맥박"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.mae_sugar1" propid="value" datasetid="ds_nurse" columnid="혈당"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.mae_sugar2" propid="value" datasetid="ds_nurse" columnid="혈당2"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.mae_temp1" propid="value" datasetid="ds_nurse" columnid="체온"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.mae_temp2" propid="value" datasetid="ds_nurse" columnid="체온2"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.mae_temp3" propid="value" datasetid="ds_nurse" columnid="체온3"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.mae_breath" propid="value" datasetid="ds_nurse" columnid="호흡"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.txt_content" propid="value" datasetid="ds_nurse" columnid="간호일지"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.txt_content00" propid="value" datasetid="ds_detail" columnid="요양일지"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_manager" propid="text" datasetid="ds_nurse" columnid="담당자"/>
+      <BindItem id="item26" compid="div_cont.form.sta_manager00" propid="text" datasetid="ds_list" columnid="담당코드"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.sta_manager00" propid="text" datasetid="ds_nurse" columnid="담당코드"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_down.form.sta_manager00_00" propid="text" datasetid="ds_dosage_head" columnid="담당코드"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_down.form.sta_manager01" propid="text" datasetid="ds_dosage_head" columnid="투약담당"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.edt_00" propid="value" datasetid="ds_nurse" columnid="기타"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.sta_roomname" propid="text" datasetid="ds_detail" columnid="l_type_nm"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_main.form.sta_roomname00" propid="text" datasetid="ds_detail" columnid="eat_type_nm"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_main.form.sta_roomname00_00" propid="text" datasetid="ds_detail" columnid="송영"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01" propid="text" datasetid="ds_detail" columnid=""/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_00" propid="text" datasetid="ds_detail" columnid=""/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01" propid="text" datasetid="ds_detail" columnid="cret_type1"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_00" propid="text" datasetid="ds_detail" columnid="cret_type2"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01" propid="text" datasetid="ds_detail" columnid=""/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00_01_00_00" propid="text" datasetid="ds_detail" columnid="ke_contents"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00_01_00" propid="text" datasetid="ds_detail" columnid="tooth_type"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00_01" propid="text" datasetid="ds_detail" columnid="약품명"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00_00" propid="text" datasetid="ds_detail" columnid="cret_exist"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00" propid="text" datasetid="ds_detail" columnid="sore_exist2"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00" propid="text" datasetid="ds_detail" columnid="out_type1"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00" propid="text" datasetid="ds_detail" columnid="km_contents"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_main.form.sta_roomname01_01_01_00_00_00_02" propid="text" datasetid="ds_detail" columnid="sore_exist1"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_head.form.sta_body1_00_00" propid="text" datasetid="ds_person" columnid="m_code"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_main.form.sta_manager00_00" propid="text" datasetid="ds_nurse" columnid="n_number"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_main.form.chk_1" propid="value" datasetid="ds_nurse" columnid="기침"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_main.form.chk_1_00" propid="value" datasetid="ds_nurse" columnid="인후통"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.div_main.form.chk_1_01" propid="value" datasetid="ds_nurse" columnid="호흡곤란"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.div_main.form.chk_1_02" propid="value" datasetid="ds_nurse" columnid="객담"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_down.form.edt_delivery_original" propid="value" datasetid="ds_dosage_head" columnid="투약시간"/>
+      <BindItem id="item53" compid="div_cont.form.div_right.form.div_down.form.edt_delivery" propid="value" datasetid="ds_dosage_head" columnid="투약시간"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00201
+ * 화면명   	: 2-1 간호.투약전달기록
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-14
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name"));
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+this.grp_btns = [];	// 그룹 버튼 A,B,C,D,E,전체 배열
+this.reSearchCode = ""; // 선택한 수급자 row
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+
+	// 그리드 설정
+	this.fn_setMainGrid();
+	//this.fn_setDetailGrid();
+	this.fn_setDosageGrid();
+	
+	// 리포트 출력 초기화
+	this.ds_report.setColumn(0, "sign", 1);
+	
+	// 검색조건 세팅
+	var today = Sct.Util.getToday();
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "s_date", today);
+	this.ds_search.setColumn(0, "date", today);
+
+	// 그룹 버튼을 배열로 세팅
+	this.fn_make_grp_btns_array();
+	// '전체' 버튼 선택 상태로 세팅
+	this.btn_group_init();
+
+	// 오픈시 조회
+	this.fn_search();	
+};
+
+this.fn_setMainGrid = function()
+{
+	var grdMain = this.div_cont.form.div_left.form.grd_list;
+	
+	var nameIdx = grdMain.getBindCellIndex("body","m_name");
+	var snmIdx = grdMain.getBindCellIndex("body","s_nm");
+	var prnmIdx = grdMain.getBindCellIndex("body", "pr_nm"); // 구분
+	
+	var nameCss = "expr:dataset.getColumn(currow,'sex_nm')=='남'?'cellBMan':'cellBWoman'";
+	var snmCss = "expr:dataset.getColumn(currow,'s_nm')=='퇴소자'?'cellBRetire':''";
+	var prnmCss = "expr:dataset.getColumn(currow, 'pr_css') == '1' ? 'cellBRetire' : dataset.getColumn(currow, 'pr_css') == '2' ? 'cellBRetireFontRed' : dataset.getColumn(currow, 'pr_css') == '3' ? 'RedFontCell' : ''";	
+	
+	grdMain.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grdMain.setCellProperty("body", snmIdx, "cssclass", snmCss);
+	
+	/* pr_css가 1 : 미이용 + 주간 -> 백그라운드
+				2 : 미미용 + 주단,단기 -> 백그라운드 + 컬러
+				3 : 단기,주단 -> 컬러
+				0 : 주간 -> X
+	*/
+ 	// 미이용 백그라운드 설정
+	const moveArr = ["m_group", "sex_nm", "grade_nm", "m_roomname", "pr_nm"];
+	for (let i = 0; i < moveArr.length; i++)
+	{
+		const moveIdx = grdMain.getBindCellIndex("body", moveArr[i]);
+		const moveCss = "expr:dataset.getColumn(currow, 'move_cont') != '' ? 'cellBRetire' : ''";
+					 
+		grdMain.setCellProperty("body", moveIdx, "cssclass", moveCss);
+	}
+	
+	grdMain.setCellProperty("body", prnmIdx, "cssclass", prnmCss);	
+}
+
+this.fn_setDetailGrid = function()
+{
+	var grdDetail = this.div_cont.form.div_right.form.div_down.form.grd_detail;
+	
+	var allDayzIdx = grdDetail.getBindCellIndex("body","all_dayz");
+	var weekCss = "expr:week=='7'?'BlueFontCell':week=='1'?'RedFontCell':''";
+	
+	grdDetail.setCellProperty("body", allDayzIdx, "cssclass", weekCss);
+}
+
+this.fn_setDosageGrid = function()
+{
+	// 지움 체크시 색깔 표시
+	var grdDosage = this.div_cont.form.div_right.form.div_down.form.grd_dosage;
+	const delArr = ["투약명", "투약량", "투약방법"];
+	
+	for (let i = 0; i < delArr.length; i++)
+	{
+		const delIdx = grdDosage.getBindCellIndex("body", delArr[i]);
+		const delCss = "expr:dataset.getColumn(currow, 'del') == '1' ? 'CellBa9a9a9' : ''";
+					 
+		grdDosage.setCellProperty("body", delIdx, "cssclass", delCss);
+	}
+	
+	// 투약 체크시 색깔 표시
+	const selArr = ["아침전", "아침후", "점심전", "점심후", "저녁전", "저녁후", "취침전", "필요시"];
+	
+	for (let i = 0; i < selArr.length; i++)
+	{
+		const selIdx = grdDosage.getBindCellIndex("body", selArr[i]);
+		const selCss = "expr:dataset.getColumn(currow, '" + selArr[i] + "') == '1' ? 'chk' : ''";
+
+		grdDosage.setCellProperty("body", selIdx, "cssclass", selCss);
+	}
+}
+
+this.fn_make_grp_btns_array = function()
+{
+	var button_all = this.div_cont.form.div_left.form.btn_ALL;
+	var button_a = this.div_cont.form.div_left.form.btn_A;
+	var button_b = this.div_cont.form.div_left.form.btn_B;
+	var button_c = this.div_cont.form.div_left.form.btn_C;
+	var button_d = this.div_cont.form.div_left.form.btn_D;
+	var button_e = this.div_cont.form.div_left.form.btn_E;
+	var button_f = this.div_cont.form.div_left.form.btn_F;
+	var button_g = this.div_cont.form.div_left.form.btn_G;
+	var button_h = this.div_cont.form.div_left.form.btn_H;
+	var button_i = this.div_cont.form.div_left.form.btn_I;
+	var button_j = this.div_cont.form.div_left.form.btn_J;
+	var button_k = this.div_cont.form.div_left.form.btn_K;
+	var button_l = this.div_cont.form.div_left.form.btn_L;
+	var button_m = this.div_cont.form.div_left.form.btn_M;
+	var button_n = this.div_cont.form.div_left.form.btn_N;
+	var button_o = this.div_cont.form.div_left.form.btn_O;
+	var button_p = this.div_cont.form.div_left.form.btn_P;
+	
+	this.grp_btns = [button_all,button_a,button_b,button_c,button_d,button_e,button_f,button_g,button_h,button_i,button_j,button_k,button_l,button_m,button_n,button_o,button_p];
+}
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+this.fn_searchDetail_pre = function()
+{
+	this.ds_delivery_time.clearData();
+	
+	return true;
+}
+
+this.fn_save_pre = function()
+{
+
+	if (!Sct.Grid.hasUpdatedRow(this.ds_nurse) && !Sct.Grid.hasInsertedRow(this.ds_nurse) &&
+		!Sct.Grid.hasUpdatedRow(this.ds_dosage_head) && !Sct.Grid.hasInsertedRow(this.ds_dosage_head) &&
+		!Sct.Grid.hasUpdatedRow(this.ds_dosage) && !Sct.Grid.hasInsertedRow(this.ds_dosage)
+	) {
+		alert("저장할 항목이 없습니다.");
+		return "STOP";
+	}
+	
+	// 투약행이 0일 경우는 ds_nurse만 기준으로 변경여부 판단
+	if (this.ds_dosage.rowcount==0) {
+		if (!Sct.Grid.hasUpdatedRow(this.ds_nurse) && !Sct.Grid.hasInsertedRow(this.ds_nurse)) {
+			alert("저장할 항목이 없습니다.");
+			return "STOP";
+		}
+	}
+
+	// 작성자가 지정되지 않은 경우
+	if (!Sct.Util.isEmpty(this.ds_nurse.getColumn(0,"간호일지")) && Sct.Util.isEmpty(this.ds_nurse.getColumn(0, "담당코드")))
+	{
+		this.alert("간호일지 작성자를 지정하세요.");
+		return "STOP";
+	}
+
+	// kmnurse
+	var nurse_flag = "";
+	if (this.ds_nurse.getColumn(0,"n_number")=="")	{	// 테이블에 해당 날짜와 수급자로 데이터 없는 경우
+		if (this.ds_nurse.getRowType(0)==Dataset.ROWTYPE_UPDATE) {	// 변경 O 
+			nurse_flag = "I";	// INSERT
+		}
+	} else {	// 테이블 해당 날짜와 수급자로 데이터가 존재해서 가져온 경우
+		if (this.ds_nurse.getRowType(0)==Dataset.ROWTYPE_UPDATE) {	// 변경 O
+			nurse_flag = "U";	// UPDATE
+		}
+	}
+	if (nurse_flag=="") nurse_flag="N";	// I나 U가 아닌 경우 N으로 NO CHANGE
+
+	// kmdosage
+	var dosage_flag = "";	
+	var chkSum = this.ds_dosage.getSum("del");	// 삭제 선택 개수
+	var donumber = this.ds_dosage_head.getColumn(0,"donumber");
+	
+	if (donumber=="") {	// kmdosage 테이블에 해당 날짜와 수급자로 데이터 없는 경우
+		if (this.ds_dosage.rowcount-chkSum>0) {
+			dosage_flag = "I";
+		} else { // 투약 그리드 행개수 0
+			dosage_flag = "N";
+		}
+	} else {	// kmdosage 테이블에 데이터가 있고 가져온 경우
+		if (this.ds_dosage.rowcount-chkSum==0) {	// 투약행이 0개가 될 예정
+			dosage_flag = "D";	// DELETE
+		} else {	// 투약행이 1개 이상
+			if (this.ds_dosage_head.getRowType(0)==Dataset.ROWTYPE_NORMAL &&
+				!Sct.Grid.hasUpdatedRow(this.ds_dosage) &&
+				!Sct.Grid.hasInsertedRow(this.ds_dosage)) {	// kmdosage 테이블에서 가져온 정보에 전혀 변경이 없는 경우
+				
+				dosage_flag = "N";	// NO CHANGE
+			} else { // 변경이 있는 경우
+				dosage_flag = "U";	// DELETE + INSERT
+			}
+		}
+	}
+	
+
+	// 지움 체크행 삭제
+	for (var i=this.ds_dosage.rowcount-1; i>=0; i--) {
+		if (this.ds_dosage.getColumn(i,"del") == 1) {
+			this.ds_dosage.deleteRow(i);
+		}
+	}
+	this.ds_dosage_head.setColumn(0,"투약종류", this.ds_dosage.rowcount);
+	
+	return nurse_flag + dosage_flag;
+}
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag:String)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201.DAY00201_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//
+this.fn_person = function ()
+{	
+	var hrow = this.ds_list.rowposition;
+	this.ds_person.clearData();
+	this.ds_person.addRow();
+	this.ds_person.copyRow(0, this.ds_list, hrow);
+};
+
+
+this.fn_searchDetail = function ()
+{	
+	if (!this.fn_searchDetail_pre()) return;
+	
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search input3=ds_search input4=ds_search";
+	const outDatasets = "ds_nurse=output1 ds_detail=output2 ds_dosage_head=output3 ds_dosage=output4";
+	const argument = "method=getList "
+				   + "sqlId='DAY00201.DAY00201_DS_NURSE_S DAY00201.DAY00201_DS_DETAIL_S DAY00201.DAY00201_DS_DOSAGE_HEAD_S DAY00201.DAY00201_DS_DOSAGE_S' "
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_searchDetailOnly = function ()
+{		
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_detail=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201.DAY00201_DS_DETAIL_S "
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_save = function()
+{
+	// validation + 플래그 반환
+	var flag = this.fn_save_pre();
+	if (flag=="STOP") { // 메세지 처리했으므로 바로 중단
+		return;
+	} else if (flag=="NN") {
+		alert("저장할 항목이 없습니다.");
+		return;
+	}
+
+	const svcId = "save";
+	const params = "/DAY00201Controller.do";
+	const inDatasets = "input1=ds_nurse input2=ds_dosage_head input3=ds_dosage";
+	const outDatasets = "";
+	const argument = "method=save "
+					+ "flag=" + flag + " ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 전날간호기록
+this.fn_nursePrev = function()
+{
+	const svcId = "nursePrev";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_nurse_prev=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201.DAY00201_DS_NURSE_PREV_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+// 전날투약기록
+this.fn_dosagePrev = function()
+{
+	const svcId = "dosagePrev";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_dosage_head_prev=output1 ds_dosage_prev=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00201.DAY00201_DS_DOSAGE_HEAD_PREV_S DAY00201.DAY00201_DS_DOSAGE_PREV_S'";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			var m_code = this.ds_search.getColumn(0,"m_code");
+			if (m_code == "" || m_code == null) {
+				this.ds_list.set_rowposition(-1);
+				trace("m_code: '' or null");
+			} else {
+				var hrow = this.ds_list.findRow("m_code", m_code);
+				trace("hrow: " + hrow);
+				if (hrow > -1) {
+					this.ds_list.set_rowposition(hrow);
+					this.fn_person();
+					this.fn_searchDetail();
+				} else {
+					this.ds_list.set_rowposition(-1);
+				}
+			}
+			
+		}
+		else if (strSvcID == "searchDetail")
+		{	// kmnurse 테이블에 해당 날짜와 수급자로 검색 정보가 없을 시
+			// 값 입력할 수 있도록 기본값 세팅 & 초기행 상태로
+			if (this.ds_nurse.rowcount==0) {
+				this.ds_nurse.addRow();
+				this.ds_nurse.setColumn(0,"sicode", fv_sicode);
+				this.ds_nurse.setColumn(0,"n_code", this.ds_search.getColumn(0,"m_code"));
+				this.ds_nurse.setColumn(0,"n_name", this.ds_person.getColumn(0,"m_name"));
+				this.ds_nurse.setColumn(0,"n_nalja", this.ds_search.getColumn(0,"s_date"));
+				this.ds_nurse.setColumn(0,"담당코드", this.fv_staff_id);
+				this.ds_nurse.setColumn(0,"담당자", this.fv_staff_name);
+				this.ds_nurse.setColumn(0,"n_number", "");
+				this.ds_nurse.set_updatecontrol(false);
+				this.ds_nurse.setRowType(0, Dataset.ROWTYPE_NORMAL);
+				this.ds_nurse.set_updatecontrol(true);
+			}
+			// kmdosage 테이블에 해당 날짜와 수급자로 검색 정보가 없을 시
+			// 값 입력할 수 있도록 기본값 세팅 & 초기행 상태로
+			if (this.ds_dosage_head.rowcount==0) {
+				this.ds_dosage_head.addRow();
+				this.ds_dosage_head.setColumn(0,"sicode", fv_sicode);
+				this.ds_dosage_head.setColumn(0,"docode", this.ds_search.getColumn(0,"m_code"));
+				this.ds_dosage_head.setColumn(0,"doname", this.ds_person.getColumn(0,"m_name"));
+				this.ds_dosage_head.setColumn(0,"donalja", this.ds_search.getColumn(0,"s_date"));
+				this.ds_dosage_head.setColumn(0,"담당코드", this.fv_staff_id);
+				this.ds_dosage_head.setColumn(0,"투약담당", this.fv_staff_name);
+				this.ds_dosage_head.setColumn(0,"donumber", "");
+				this.ds_dosage_head.set_updatecontrol(false);
+				this.ds_dosage_head.setRowType(0, Dataset.ROWTYPE_NORMAL);
+				this.ds_dosage_head.set_updatecontrol(true);				
+			}
+		}
+		else if (strSvcID == "save")
+		{
+			alert("간호기록 저장완료");
+			this.fn_searchDetail();
+		}
+		else if (strSvcID == "nursePrev")
+		{
+			if (this.ds_nurse_prev.rowcount<1) {
+				alert("전날 간호기록이 없습니다");
+				return;
+			}
+			this.ds_nurse.copyRow(0, this.ds_nurse_prev, 0);
+		}
+		else if (strSvcID == "dosagePrev")
+		{
+			if (this.ds_dosage_head_prev.rowcount<1) {
+				alert("전일 투약기록이 없습니다");
+				return;
+			}
+			this.ds_dosage_head.copyRow(0, this.ds_dosage_head_prev, 0);
+			
+			this.ds_dosage.clearData();
+			for(var i=0; i<this.ds_dosage_prev.rowcount; i++) {
+				var hrow = this.ds_dosage.addRow();
+				this.ds_dosage.copyRow(i, this.ds_dosage_prev, hrow);
+			}
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";		
+		imgUrl = webHost + path + fileGrp;
+	}
+	
+	this.div_cont.form.div_right.form.div_head.form.imv_pic.set_image(imgUrl);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	const sFindRow = this.ds_list.findRow("m_code", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_datasearch();
+	}
+	
+	return sFindRow;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+ // 일 바이탈기록 팝업
+this.btn_vital_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")	
+	};
+	Sct.popup(this, "vital", 450, 400, "", param, "DAY_POP::DAY00201_P06.xfdl", "fn_popCallback");	
+};
+
+// 식사도움기록 팝업
+this.btn_meal_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "meal", 450, 400, "", param, "DAY_POP::DAY00103_P01.xfdl", "fn_popCallback");		
+};
+
+// 수급자상태설정 팝업
+this.btn_mate_state_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_person.rowcount < 1) {
+		alert("수급자를 지정하세요.");
+		return;
+	}
+	
+	const param = {
+			sicode : this.ds_search.getColumn(0, "sicode")
+		,	m_code : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "mate_state", 450, 400, "", param, "DAY_POP::DAY00101_P04.xfdl", "fn_popCallback");		
+};
+
+// 진료기록입력 팝업
+this.btn_medi_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "medi", 450, 400, "", param, "DAY_POP::DAY00201_P07.xfdl", "fn_popCallback");		
+};
+
+// 외출기록입력
+this.btn_out_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "out", 450, 400, "", param, "DAY_POP::DAY00201_P07.xfdl", "fn_popCallback");		
+};
+
+// 욕창간호기록 팝업
+this.btn_sore_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_person.rowcount < 1) {
+		alert("수급자를 지정하세요.");
+		return;
+	}
+	
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "sore", 450, 400, "", param, "DAY_POP::DAY00201_P12.xfdl", "fn_popCallback");		
+};
+
+// 배설간호기록 팝업
+this.btn_cretion_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "cretion", 450, 400, "", param, "DAY_POP::DAY00201_P14.xfdl", "fn_popCallback");		
+};
+
+// 상비약제공기록 팝업
+this.btn_home_daily_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "home_daily", 450, 400, "", param, "DAY_POP::DAY00201_P18.xfdl", "fn_popCallback");		
+};
+
+
+// 월간구강간호
+this.btn_mouth_monthly_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "mouth_monthly", 450, 400, "", param, "DAY_POP::DAY00201_P25.xfdl", "fn_popCallback");		
+};
+
+// 구강간호(월1회)
+this.btn_mouth_yearly_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")			
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "mouth_yearly", 450, 400, "", param, "DAY_POP::DAY00201_P15.xfdl", "fn_popCallback");		
+};
+
+
+// 응급상황기록 팝업
+this.btn_emerg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_person.rowcount < 1) {
+		alert("수급자를 지정하세요.");
+		return;
+	}
+	
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")
+		,	M_CODE : this.ds_search.getColumn(0, "m_code")
+	};
+	Sct.popup(this, "emergency", 450, 400, "", param, "DAY_POP::DAY00201_P27.xfdl", "fn_popCallback");		
+};
+
+
+// 코로나19 임상증상기록 팝업
+this.btn_corona_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var m_group = this.ds_search.getColumn(0,"m_group");
+	if (m_group=="") m_group = "전체";
+	
+	const param = {
+			SICODE : this.ds_search.getColumn(0, "sicode")
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")
+		,	M_GROUP : m_group
+	};
+	Sct.popup(this, "corona", 450, 400, "", param, "DAY_POP::DAY00201_P02.xfdl", "fn_popCallback");	
+};
+
+// 간호일지내용검색
+this.btn_nurse_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : fv_sicode
+		,	S_DATE : this.ds_search.getColumn(0, "s_date")
+	};
+
+	Sct.popup(this, "nurse_search", 450, 400, "간호일지내용검색테스트", param, "DAY_POP::DAY00201_P01.xfdl", "fn_popCallback");		
+};
+
+this.btn_nurse_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_search.getColumn(0, "s_date")
+		,	FLAG : ""
+	};
+
+	Sct.popup(this, "nurse_manager", 450, 400, "작성자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+this.btn_med_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_search.getColumn(0, "s_date")
+		,	FLAG : ""
+	};
+
+	Sct.popup(this, "med_manager", 450, 400, "작성자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");	
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "nurse_manager" :
+			this.ds_nurse.setColumn(0, "담당코드", objDs.getColumn(0,"c_staffid"));
+			this.ds_nurse.setColumn(0, "담당자", objDs.getColumn(0,"c_name"));
+			break;
+		case "med_manager" :
+			this.ds_dosage_head.setColumn(0, "담당코드", objDs.getColumn(0,"c_staffid"));
+			this.ds_dosage_head.setColumn(0, "투약담당", objDs.getColumn(0,"c_name"));		
+			break;
+		case "sore" :
+			// ds_detail만 검색!
+			this.fn_searchDetailOnly();
+			break;
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+this.btn_nurse_prev_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_nursePrev();
+};
+
+this.btn_dosage_prev_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_dosagePrev();
+};
+
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const selIdx = obj.getBindCellIndex("body", "m_name");
+	
+	// 수급자명 컬럼인 경우
+	if (e.col == selIdx)
+	{
+		var selRow = this.ds_list.rowposition;
+		var m_code = this.ds_list.getColumn(selRow,"m_code");
+		this.ds_search.setColumn(0,"m_code",m_code);
+		// 우상단 수급자 조회 div 내용표시
+		this.fn_person();
+		this.fn_searchDetail();
+	}
+};
+
+
+this.cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.div_search.form.cmb_month.set_value('');
+	this.ds_list.clearData();
+	this.ds_detail.clearData();
+	this.ds_person.clearData();
+	this.ds_report.setColumn(0,"date_from","");
+	this.ds_report.setColumn(0,"date_to","");
+	// 그룹버튼 선택 초기화
+	this.btn_group_init();
+};
+
+
+this.cmb_month_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_person.clearData();
+	this.ds_detail.clearData();
+	// 그룹버튼 선택 초기화
+	this.btn_group_init();
+	
+	var year = this.div_search.form.cmb_year.value;
+	var month = this.div_search.form.cmb_month.value;
+	month = month.padStart(2,'0');
+	var date_from_str = year + month + '01';
+	var date_to_str = Sct.Util.getLastDay(year+month);
+	this.div_search.form.cal_date_from.set_value(date_from_str);
+	this.div_search.form.cal_date_to.set_value(date_to_str);
+	this.ds_report.setColumn(0,"date_from",date_from_str);
+	this.ds_report.setColumn(0,"date_to",date_to_str);
+	
+	this.fn_search();
+};
+
+// A-P 또는 전체 버튼 중 하나 클릭시
+this.btn_group_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 우측 화면의 데이터 초기화
+	this.ds_person.clearData();
+	this.ds_detail.clearData();
+
+	//  선택 버튼 다른 색으로, 그 외는 기본색으로
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (obj == this.grp_btns[i]) {
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+
+	// 선택된 버튼의 text값 ds_search에 세팅. 단, 전체 버튼은 빈문자열로
+	var m_group = obj.id=="btn_ALL"? "": obj.text; // A,B,C...P, 전체 중 하나
+	this.ds_search.setColumn(0,"m_group", m_group);
+
+	this.fn_search();
+};
+
+
+// 그룹 버튼 초기화 ('전체' 버튼이 선택된 상태)
+this.btn_group_init = function()
+{
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (this.grp_btns[i].id == "btn_ALL") {
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+	
+	this.ds_search.setColumn(0,"m_group","");
+}
+
+this.report_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var ds_search_from = this.ds_search.getColumn(0,"date_from");
+	var ds_search_to = this.ds_search.getColumn(0,"date_to");
+	var regex = /^(\d{4})(\d{2})(\d{2})$/;
+	var date_from = ds_search_from.replace(regex, "$1.$2.$3");
+	var date_to = ds_search_to.replace(regex, "$1.$2.$3");
+
+	if (e.postvalue >= ds_search_from && e.postvalue <= ds_search_to) {
+		/* 알맞은 범위 */
+		var ds_filter_from = this.ds_report.getColumn(0,"date_from");
+		var ds_filter_to = this.ds_report.getColumn(0,"date_to");
+
+		if(ds_filter_from > ds_filter_to) {
+			alert("날짜 지정이 잘못되었습니다.");
+			obj.set_value(e.prevalue);
+		}
+	} else {
+		alert(date_from + "부터 " + date_to + "까지 기간 내에서 지정할 수 있습니다.");
+		obj.set_value(e.prevalue);
+	}
+};
+
+this.pre_next_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "date");
+
+	if (obj.text == "◀ 전날") {
+		searchDt.setDate(searchDt.getDate() - 1);
+	} else if (obj.text == "앞날 ▶") {
+		searchDt.setDate(searchDt.getDate() + 1);
+	}
+	this.ds_search.setColumn(0, "date", searchDt);
+	this.ds_search.setColumn(0, "s_date", searchDt);
+	this.fn_clearDataset("main"); // 데이터셋 클리어
+	this.fn_search();
+};
+
+
+// 일자변경시 데이터셋 클리어
+this.fn_clearDataset = function (flag)
+{
+	if(flag == "main"){
+		this.ds_list.clearData();
+	}
+	
+	this.ds_person.clearData();
+	this.ds_detail.clearData();
+	this.ds_nurse.clearData();
+	this.ds_dosage.clearData();
+}
+
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "date", e.postvalue);
+	this.ds_search.setColumn(0, "s_date", e.postvalue);
+	this.fn_clearDataset("main"); // 데이터셋 클리어
+	this.fn_search();	
+};
+
+
+// 투약시간 표시
+this.btn_delivery_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_search.getColumn(0,"m_code")==null || this.ds_search.getColumn(0,"m_code") == "" ) {
+		alert("수급자를 지정하세요");
+		return;
+	}
+	
+	const svcId = "delivery_time";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_delivery_time=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201.DAY00201_DS_DELIVERY_TIME_S ";
+
+	const callbackFunc = "fn_callback";
+	var aSync = false;
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, aSync);
+
+	this.ds_dosage_head.setColumn(0,"투약시간",this.ds_delivery_time.getColumn(0,"drugtime"));
+
+};
+
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="CM_USER">                                                                                                         
+	<select id="selectCM_USERList" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+      
+			SELECT  COM_KEY        AS COM_KEY   
+			      , FAC_KEY        AS FAC_KEY   
+			      , USER_ID             AS USER_ID        
+			      , USER_NO             AS USER_NO        
+			      , USER_PASSWD         AS USER_PASSWD    
+			      , USER_AUTH           AS USER_AUTH      
+			      , USER_NM_KOR         AS USER_NM_KOR    
+			      , USER_NM_ENG         AS USER_NM_ENG    
+			      , USER_NM_CHI         AS USER_NM_CHI    
+			      , USE_YN              AS USE_YN         
+			      , WORK_YN             AS WORK_YN        
+			      , DEPT_CD             AS DEPT_CD        
+			      , DEPT_NM             AS DEPT_NM        
+			      , GRADE_CD            AS GRADE_CD       
+			      , GRADE_NM            AS GRADE_NM       
+			      , INOUT_USER_TP       AS INOUT_USER_TP  
+			      , SRM_TP              AS SRM_TP         
+			      , TEL_NO              AS TEL_NO         
+			      , CELL_NO             AS CELL_NO        
+			      , FAX_NO              AS FAX_NO         
+			      , EMAIL               AS EMAIL          
+			      , DEF_LANG            AS DEF_LANG       
+			      , AUTH1               AS AUTH1          
+			      , AUTH2               AS AUTH2          
+			      , AUTH3               AS AUTH3          
+			      , AUTH4               AS AUTH4          
+			      , AUTH5               AS AUTH5          
+			      , VALID_PERIOD_FR     AS VALID_PERIOD_FR
+			      , VALID_PERIOD_TO     AS VALID_PERIOD_TO
+			      , VALID_PASSWD_DT     AS VALID_PASSWD_DT
+			      , REG_PGM_ID          AS REG_PGM_ID     
+			      , REG_USER            AS REG_USER       
+			      , REG_DT              AS REG_DT         
+			      , REG_DT_CURR         AS REG_DT_CURR    
+			      , REG_DT_LOC          AS REG_DT_LOC     
+			      , REG_IP              AS REG_IP         
+			      , MOD_PGM_ID          AS MOD_PGM_ID     
+			      , MOD_USER            AS MOD_USER       
+			      , MOD_DT              AS MOD_DT         
+			      , MOD_DT_CURR         AS MOD_DT_CURR    
+			      , MOD_DT_LOC          AS MOD_DT_LOC     
+			  FROM CM_USER A
+			 WHERE 1=1 
+			   AND A.USER_ID LIKE ISNULL(#{USER_ID},'%')
+			   AND A.USER_NO LIKE ISNULL(#{USER_NO},'%')
+			   AND(A.USER_NM_KOR LIKE ISNULL(#{USER_NM_KOR},'%') OR A.USER_NM_ENG LIKE ISNULL(#{USER_NM_ENG},'%') OR A.USER_NM_CHI LIKE ISNULL(#{USER_NM_CHI},'%') )
+			   AND A.USE_YN LIKE ISNULL(#{USE_YN},'%') 
+                                                                                                                                                                                           
+     ]]>                                                                                                                                                                                                              
+    </select>   
+                                                                                                                                                                                               
+                                                                                                                                                                                                                   
+	<insert id="modifyCM_USER_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+		INSERT INTO CM_USER (  COM_KEY    , FAC_KEY , USER_ID     , USER_NO       , USER_PASSWD      , USER_AUTH       
+		                     , USER_NM_KOR     , USER_NM_ENG  , USER_NM_CHI , USE_YN        , WORK_YN          , DEPT_CD         
+		                     , DEPT_NM         , GRADE_CD     , GRADE_NM    , INOUT_USER_TP , SRM_TP           , TEL_NO          
+		                     , CELL_NO         , FAX_NO       , EMAIL       , DEF_LANG      , VALID_PERIOD_FR  , VALID_PERIOD_TO 
+		                     , VALID_PASSWD_DT , REG_PGM_ID   , REG_USER    , REG_DT        , REG_DT_CURR      , REG_DT_LOC      
+		                     , REG_IP          , MOD_PGM_ID   , MOD_USER    , MOD_DT        , MOD_DT_CURR      , MOD_DT_LOC      
+		                    )
+		              VALUES
+		                   (  #{COM_KEY}    , #{FAC_KEY} , #{USER_ID}      , #{USER_NO}       , #{USER_PASSWD}      , #{USER_AUTH}        
+		                    , #{USER_NM_KOR}     , #{USER_NM_ENG}  , #{USER_NM_CHI}  , #{USE_YN}        , #{WORK_YN}          , #{DEPT_CD}          
+		                    , #{DEPT_NM}         , #{GRADE_CD}     , #{GRADE_NM}     , #{INOUT_USER_TP} , #{SRM_TP}           , #{TEL_NO}           
+		                    , #{CELL_NO}         , #{FAX_NO}       , #{EMAIL}        , #{DEF_LANG}      , #{VALID_PERIOD_FR}  , #{VALID_PERIOD_TO}  
+		                    , #{VALID_PASSWD_DT} , #{REG_PGM_ID}   , #{REG_USER}     , #{REG_DT}        , #{REG_DT_CURR}      , #{REG_DT_LOC}       
+		                    , #{REG_IP}          , ''   , ''     , ''        , ''      , ''       
+		                   )                                                                                                                                                                                                          
+    ]]>                                                                                                                                                                                                            
+    </insert>                                                                                                                                                                                                   
+                                                                                                                                                                                                                   
+    <update id="modifyCM_USER_U" parameterType="java.util.Map">
+
+                                                                                              
+    <![CDATA[  
+    
+			UPDATE CM_USER
+			   SET  COM_KEY       = #{COM_KEY}
+			      , FAC_KEY       = #{FAC_KEY}
+			      , USER_ID            = #{USER_ID}
+			      , USER_NO            = #{USER_NO}
+			      , USER_PASSWD        = #{USER_PASSWD}
+			      , USER_AUTH          = #{USER_AUTH}
+			      , USER_NM_KOR        = #{USER_NM_KOR}
+			      , USER_NM_ENG        = #{USER_NM_ENG}
+			      , USER_NM_CHI        = #{USER_NM_CHI}
+			      , USE_YN             = #{USE_YN}
+			      , WORK_YN            = #{WORK_YN}
+			      , DEPT_CD            = #{DEPT_CD}
+			      , DEPT_NM            = #{DEPT_NM}
+			      , GRADE_CD           = #{GRADE_CD}
+			      , GRADE_NM           = #{GRADE_NM}
+			      , INOUT_USER_TP      = #{INOUT_USER_TP}
+			      , SRM_TP             = #{SRM_TP}
+			      , TEL_NO             = #{TEL_NO}
+			      , CELL_NO            = #{CELL_NO}
+			      , FAX_NO             = #{FAX_NO}
+			      , EMAIL              = #{EMAIL}
+			      , DEF_LANG           = #{DEF_LANG}
+			      , VALID_PERIOD_FR    = #{VALID_PERIOD_FR}
+			      , VALID_PERIOD_TO    = #{VALID_PERIOD_TO}
+			      , VALID_PASSWD_DT    = #{VALID_PASSWD_DT}
+		--	      , REG_PGM_ID         = #{REG_PGM_ID}
+		--	      , REG_USER           = #{REG_USER}
+		--	      , REG_DT             = #{REG_DT}
+		--	      , REG_DT_CURR        = #{REG_DT_CURR}
+		--	      , REG_DT_LOC         = #{REG_DT_LOC}
+		--	      , REG_IP             = #{REG_IP}
+			      , MOD_PGM_ID         = #{MOD_PGM_ID}
+			      , MOD_USER           = #{MOD_USER}
+			      , MOD_DT             = #{MOD_DT}
+			      , MOD_DT_CURR        = #{MOD_DT_CURR}
+			      , MOD_DT_LOC         = #{MOD_DT_LOC}
+			 WHERE 1=1
+			   AND COM_KEY       = #{COM_KEY}
+			   AND FAC_KEY       = #{FAC_KEY}
+			   AND USER_ID            = #{USER_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                                   
+                                                                                                                                                                                                                   
+     <delete id="modifyCM_USER_D" parameterType="java.util.Map">                                                                                         
+    <![CDATA[
+                                                                                                                                                                                                          
+			DELETE 
+			  FROM CM_USER
+			 WHERE 1=1 
+			   AND COM_KEY =#{COM_KEY}
+               AND FAC_KEY =#{FAC_KEY} 
+               AND USER_ID =#{USER_ID} 
+ 			                                                                                                                                                                                       
+    ]]>                                                                                                                                                                                                            
+    </delete>                                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

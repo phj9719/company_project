@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1370" height="734" onload="form_onload" titletext="게시판">
+    <Layouts>
+      <Layout width="1370" height="734">
+        <Div id="div_search" taborder="13" left="0" top="80" right="0" height="214" cssclass="div_WF_searchBg" background="silver">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="키코드" cssclass="sta_WF_Label2" left="9" top="13" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="Edit00" taborder="57" left="112" top="13" width="162" height="21"/>
+              <Static id="Static01" taborder="1" text="키코드 설명" cssclass="sta_WF_Label2" left="9" top="54" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="Edit01" taborder="57" left="112" top="54" width="162" height="21"/>
+              <Static id="Static02" taborder="2" text="키시작번호" cssclass="sta_WF_Label2" left="9" top="91" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="Edit02" taborder="57" left="112" top="91" width="162" height="21"/>
+              <Static id="Static03" taborder="3" text="키끝번호" cssclass="sta_WF_Label2" left="9" top="128" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="Edit03" taborder="57" left="112" top="128" width="162" height="21"/>
+              <Static id="Static04" taborder="4" text="생성코드포맷" cssclass="sta_WF_Label2" left="9" top="165" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="Edit04" taborder="57" left="112" top="165" width="162" height="21"/>
+              <Static id="Static05" taborder="5" text="사용여부" cssclass="sta_WF_Label2" left="281" top="13" width="98" height="21" textAlign="right" verticalAlign="middle"/>
+              <checkbox id="checkbox05" taborder="57" left="384" top="13" width="162" height="21"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_grid_top" taborder="8" left="0" top="312" height="23" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta_title" taborder="5" text="Records Found" cssclass="sta_WF_GridFound2" left="50" top="3" width="132" height="16"/>
+              <Static id="sta_total_cnt" taborder="7" cssclass="sta_WF_GridFound" left="0" top="3" width="46" height="16" text="0"/>
+              <Button id="btn_add" taborder="8" text="추가" cssclass="btn_WF_CRUD" top="0" right="68" width="58" height="23" onclick="fn_add"/>
+              <Button id="btn_delete" taborder="9" text="삭제" cssclass="btn_WF_CRUD" top="0" right="8" width="58" height="23" onclick="fn_delete"/>
+              <Button id="btn_create" taborder="10" text="글쓰기" cssclass="btn_WF_CRUD" top="0" right="128" height="23" onclick="div_grid_top_btn_create_onclick" width="57"/>
+              <Button id="btn_create00" taborder="11" text="조회" onclick="fn_search" cssclass="btn_WF_CRUD" top="0" right="188" width="57" height="23" background="crimson"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_grid_bottom" taborder="9" left="0" right="0" bottom="30" height="20">
+          <Layouts>
+            <Layout>
+              <Static id="sta_bg" taborder="18" cssclass="sta_WF_GridDis" left="0" top="0" right="0" bottom="0"/>
+              <Static id="sta_grid_cnt" taborder="19" top="0" right="0" width="90" height="20" text="Rows : 0"/>
+              <Static id="sta_msg" taborder="20" left="6" top="0" right="137" height="20" text="There is no data." color="rgba(68,68,68,1)"/>
+              <Button id="btn_find" taborder="21" cssclass="btn_WF_find" top="2" right="132" width="29" height="16" onclick="div_grid_bottom_btn_find_onclick"/>
+              <Button id="btn_format" taborder="22" onclick="div_grid_bottom00_btn_format_onclick" cssclass="btn_WF_format" top="2" right="164" height="16" width="29"/>
+              <Button id="btn_excel00" taborder="23" cssclass="btn_WF_xls" top="2" right="100" height="16" width="29"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_list" taborder="10" binddataset="ds_list" cellsizingtype="col" left="0" top="341" right="0" bottom="99" autofittype="col" oncelldblclick="grd_list_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="800"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="키코드"/>
+                <Cell col="1" text="키코드 설명"/>
+                <Cell col="2" text="키시작번호"/>
+                <Cell col="3" text="키끝번호"/>
+                <Cell col="4" text="생성코드포맷"/>
+                <Cell col="5" text="사용여부"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="text" edittype="text" text="bind:KEY_CD"/>
+                <Cell col="1" displaytype="text" edittype="text" text="bind:KEY_DESC"/>
+                <Cell col="2" displaytype="text" edittype="text" text="bind:START_NUM"/>
+                <Cell col="3" displaytype="text" edittype="text" text="bind:END_NUM"/>
+                <Cell col="4" displaytype="text" edittype="text" text="bind:FORMAT"/>
+                <Cell col="5" displaytype="checkbox" edittype="checkbox" text="bind:USE_YN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="div_bottom" taborder="11" left="0" text="Div00" height="24" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="0" text="저장" cssclass="btn_WF_CRUD" top="0" right="15" width="60" height="24" onclick="div_bottom_btn_save_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="12" text="CM_SEQ_ROLE" left="0" top="27" right="1178" height="42" textAlign="left" verticalAlign="middle" font="15pt &quot;Verdana&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="KEY_CD" type="STRING" size="256"/>
+          <Column id="KEY_DESC" type="STRING" size="256"/>
+          <Column id="START_NUM" type="STRING" size="256"/>
+          <Column id="END_NUM" type="STRING" size="256"/>
+          <Column id="FORMAT" type="STRING" size="256"/>
+          <Column id="USE_YN" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.Edit00" propid="value" datasetid="ds_list" columnid="KEY_CD"/>
+      <BindItem id="item1" compid="div_search.form.Edit01" propid="value" datasetid="ds_list" columnid="KEY_DESC"/>
+      <BindItem id="item2" compid="div_search.form.Edit02" propid="value" datasetid="ds_list" columnid="START_NUM"/>
+      <BindItem id="item3" compid="div_search.form.Edit03" propid="value" datasetid="ds_list" columnid="END_NUM"/>
+      <BindItem id="item4" compid="div_search.form.Edit04" propid="value" datasetid="ds_list" columnid="FORMAT"/>
+      <BindItem id="item5" compid="div_search.form.checkbox05" propid="value" datasetid="ds_list" columnid="USE_YN"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************************                                                                                                                                                                                                                                                                                                                    
+ AUTO-CREATE
+ Refactored BY R
+ DATE : 2017-00-08 12:00
+ /***********************************************************************************
+ * Common Library
+ ***********************************************************************************/
+include "lib::comLib.xjs"
+/***********************************************************************************                                                                                                                                                                                                                                                                                                                                                               
+ * Form Event
+ ***********************************************************************************/
+this.form_onload = function (obj:Form, e:LoadEventInfo)
+{
+	// 폼로드시 공통함수
+	Sct.onLoad(obj, e);
+};
+
+// 사용자 정의 폼 로드 함수(form_init 고정)
+this.form_init = function (obj)
+{
+	this.fn_search();
+};
+
+/***********************************************************************************                                                                                                                                                                                                                                                                                                                                                               
+ * Form Function
+ ***********************************************************************************/
+/* callBack함수(strSvcId - 서비스 아이디, nErrorCode - 에러코드, strErrorMsg - 에러메시지) */
+this.fn_callBack = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode < 0) 
+	{
+		// 에러메세지 출력부분
+		return alert("에러 : " + strErrorMsg);
+	}
+
+	if (strSvcId == "search") 
+	{
+		// Service ID에 따른 후처리 부분
+		this.fn_search_post();
+	}
+
+	if (strSvcId == "save") 
+	{
+		this.fn_search("noCon");
+	}
+};
+
+// 팝업 후처리 작업
+this.fn_popupAfter = function (sPopupId, val)
+{
+};
+
+// 페이징 후처리 작업
+this.fn_pageAfter = function (sObjId, nViewPage)
+{
+};
+
+/***********************************************************************************                                                                                                                                                                                                                                                                                                                                                               
+ * User Function
+ ***********************************************************************************/
+// 목록조회 Search
+this.fn_search = function ()
+{
+	var con0 = this.div_search.form.Edit00.value;
+	var con1 = this.div_search.form.Edit01.value;
+	var con2 = this.div_search.form.Edit02.value;
+	var con3 = this.div_search.form.Edit03.value;
+	var con4 = this.div_search.form.Edit04.value;
+	var con5 = this.div_search.form.checkbox05.value;
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		 + "sqlId=selectCM_SEQ_ROLEList ";
+	var callbackFunc = "fn_logincallback";
+	if (con0 != null || con1 != null || con2 != null || con3 != null || con4 != null || con5 != null) 
+	{
+		argument += "KEY_CD=con0 ";
+		argument += "KEY_DESC=con1 ";
+		argument += "START_NUM=con2 ";
+		argument += "END_NUM=con3 ";
+		argument += "FORMAT=con4 ";
+		argument += "USE_YN=con5 ";
+		this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+	}
+	else 
+	{
+		this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+	}
+};
+
+// 저장
+this.fn_save = function ()
+{
+	var svcId = "save";
+	var params = "commonController.do";
+
+	var inDatasets = "input1=ds_list:U";
+	;
+	var outDatasets = "";
+	var argument = "method=save "
+		 + "sqlId=selectCM_SEQ_ROLEList ";
+	+"forceSqlFlag=N";
+
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 조회 후처리
+this.fn_search_post = function ()
+{
+	// 페이징 없는 경우
+	var nTotalCnt = this.ds_list.rowcount;
+	var nCnt = this.ds_list.rowcount;
+
+	this.div_grid_top.form.sta_total_cnt.set_text(nTotalCnt);
+	this.div_grid_bottom.form.sta_msg.set_text("Select has been complted successfully.");
+	this.div_grid_bottom.form.sta_grid_cnt.set_text("Rows : " + nCnt);
+};
+
+this.fn_onkeyup = function (obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if (e.keycode == 13) 
+	{
+		this.fn_search();
+	}
+};
+
+/***********************************************************************************                                                                                                                                                                                                                                                                                                                                                               
+ * Component Event
+ ***********************************************************************************/
+this.div_search_btn_search_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+
+
+// 그룹 추가 버튼 클릭시 이벤트 처리
+this.fn_add = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_list.addRow();
+};
+
+
+// 게시판 글목록 삭제 버튼 클릭시 이벤트 처리
+this.fn_delete = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_list.rowposition;
+	trace(this.ds_list.rowposition);
+	trace(nRow);
+	if (nRow < 0) 
+	{
+		// alert
+		// alert("데이터를 선택해주세요");
+	}
+	if (nexacro.getApplication().confirm(nRow + "행의 데이터를 삭제하시겠습니까?")) 
+	{
+		this.ds_list.deleteRow(nRow);
+		this.fn_save();
+	}
+};
+
+this.div_bottom_btn_save_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (nexacro.getApplication().confirm("confirm", "Do you want to save?")) 
+	{
+		this.fn_save();
+	}
+};
+
+this.div_grid_bottom_btn_excel_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	// Ex.core.exportExcel(this.grd_list);
+};
+
+this.div_grid_bottom_btn_find_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	// this.gfn_findPopup(this.grd_list);
+};
+
+this.div_grid_top_btn_create_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var args = {
+		arg : "arg1"
+	};
+
+	// var rtn = Ex.core.popup(this,"게시물 작성","comm::webeditor.xfdl",args,"");
+};
+
+// 팝업 Callback
+this.fn_popupAfter = function (sPopupId, Variant)
+{
+	var rtn = this.gfn_getPopupRtn();
+
+	if (!Eco.isEmpty(this.Edit00.value)) 
+	{
+		var sRow = this.ds_list.addRow();
+
+		this.ds_list.setColumn(sRow, "TITLE", rtn[0]);
+		this.ds_list.setColumn(sRow, "CONTENTS", rtn[1]);
+	}
+};
+
+this.grd_list_oncelldblclick = function (obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var argTitle = this.ds_list.getColumn(this.ds_list.rowposition, "TITLE");
+
+	var argContents = this.ds_list.getColumn(this.ds_list.rowposition, "CONTENTS");
+
+
+
+	var args = {
+		argTitle : argTitle,
+		argContents : argContents
+	};
+
+
+
+	// var rtn = Ex.core.popup(this,"게시물 작성","comm::webeditor.xfdl",args,"");
+}
+;
+]]></Script>
+  </Form>
+</FDL>

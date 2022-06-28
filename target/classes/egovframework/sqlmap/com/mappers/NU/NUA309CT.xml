@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA309CT                                                         
+     * 프로그램 명     : 요양관찰일지                                                     
+     * Description :
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-22     10:11        |  SOOIM     | 최초작성                         
+	   2021-11-29	  14:42		   |  이승규		| 1차수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA309CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA309CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.GRADE
+					,A.AREA
+					,A.LOCATION 
+					,IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') AS RETIRE_YN
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY NAME) ROWNUM
+              	FROM T_NU_RESIDENT A
+               WHERE 1=1
+		]]>
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+                 AND A.COMPANY_CD = #{COMPANY_CD}
+        </if>
+        <if test="NAME != '' and NAME != null">
+                 AND A.NAME LIKE CONCAT('%', #{NAME},'%')
+        </if>
+        <if test="AREA != '' and AREA != null">
+                 AND A.AREA = #{AREA} -- 층
+        </if>
+        <if test="LOCATION != '' and LOCATION != null">
+                 AND A.LOCATION = #{LOCATION} -- 생활실
+        </if>
+        <if test="RETIRE_YN != '' and RETIRE_YN != null">
+				 AND IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') = #{RETIRE_YN}
+		</if>
+               ORDER BY ROWNUM ASC, A.ENTER_DT DESC, A.NAME ASC
+    </select>
+    
+    <select id="NUA309CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+        	SELECT A.COMPANY_CD
+				 , A.OBS_SEQ
+				 , A.RES_ID
+				 , A.OBS_DT
+				 , A.RECOG_01
+				 , A.RECOG_02
+				 , A.RECOG_03
+				 , A.RECOG_04
+				 , A.RECOG_05
+				 , A.RECOG_06
+				 , A.RECOG_07
+				 , A.RECOG_08
+				 , A.RECOG_09
+				 , A.RECOG_10
+				 , A.RECOG_11
+				 , A.RECOG_12
+				 , A.NOTE
+				 , A.REMARK
+				 , A.MANAGER_ID
+				 , (SELECT CU.USER_NM_KOR
+					  FROM T_CM_USER CU
+					 WHERE A.COMPANY_CD = CU.COMPANY_CD
+					   AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+				 , A.REG_PGM_ID
+				 , A.REG_USER
+				 , A.REG_DT
+				 , A.REG_DT_CURR
+				 , A.REG_DT_LOC
+				 , A.REG_IP
+				 , A.MOD_PGM_ID
+				 , A.MOD_USER
+				 , A.MOD_DT
+				 , A.MOD_DT_CURR
+				 , A.MOD_DT_LOC
+				 , A.MOD_IP
+              FROM T_NU_OBSERVE A
+             WHERE A.COMPANY_CD = #{COMPANY_CD}
+               AND A.OBS_DT = #{OBS_DT}
+               AND A.RES_ID = #{RES_ID}
+		]]>
+    </select>
+    
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA309CT_DS_DETAIL_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_OBSERVE(
+			   				COMPANY_CD
+							,OBS_SEQ
+							,RES_ID
+							,OBS_DT
+							,RECOG_01
+							,RECOG_02
+							,RECOG_03
+							,RECOG_04
+							,RECOG_05
+							,RECOG_06
+							,RECOG_07
+							,RECOG_08
+							,RECOG_09
+							,RECOG_10
+							,RECOG_11
+							,RECOG_12
+							,NOTE
+							,REMARK
+							,MANAGER_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD   }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_OBSERVE ),12,0)))
+							,#{RES_ID       }
+							,#{OBS_DT       }
+							,#{RECOG_01     }
+							,#{RECOG_02     }
+							,#{RECOG_03     }
+							,#{RECOG_04     }
+							,#{RECOG_05     }
+							,#{RECOG_06     }
+							,#{RECOG_07     }
+							,#{RECOG_08     }
+							,#{RECOG_09     }
+							,#{RECOG_10     }
+							,#{RECOG_11     }
+							,#{RECOG_12     }
+							,#{NOTE			}
+							,#{REMARK       }
+							,#{MANAGER_ID   }
+							,#{REG_PGM_ID   }
+							,#{REG_USER     }
+							,#{REG_DT       }
+							,#{REG_DT_CURR  }
+							,#{REG_DT_LOC   }
+							,#{REG_IP       }
+							,#{MOD_PGM_ID   }
+							,#{MOD_USER     }
+							,#{MOD_DT       }
+							,#{MOD_DT_CURR  }
+							,#{MOD_DT_LOC   }
+							,#{MOD_IP       }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA309CT_DS_DETAIL_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_OBSERVE                                                                                                                                                                                              
+						 SET RES_ID  	   =#{RES_ID	  }
+						 	,OBS_DT        =#{OBS_DT      }
+						 	,RECOG_01      =#{RECOG_01}
+							,RECOG_02      =#{RECOG_02}
+							,RECOG_03      =#{RECOG_03}
+							,RECOG_04      =#{RECOG_04}
+							,RECOG_05      =#{RECOG_05}
+							,RECOG_06      =#{RECOG_06}
+							,RECOG_07      =#{RECOG_07}
+							,RECOG_08      =#{RECOG_08}
+							,RECOG_09      =#{RECOG_09}
+							,RECOG_10      =#{RECOG_10}
+							,RECOG_11      =#{RECOG_11}
+							,RECOG_12      =#{RECOG_12}
+							,MANAGER_ID    =#{MANAGER_ID  }
+							,NOTE		   =#{NOTE}
+							,REMARK        =#{REMARK      }
+							,MOD_PGM_ID    =#{MOD_PGM_ID  }
+							,MOD_USER      =#{MOD_USER    }
+							,MOD_DT        =#{MOD_DT      }
+							,MOD_DT_CURR   =#{MOD_DT_CURR }
+							,MOD_DT_LOC    =#{MOD_DT_LOC  }
+							,MOD_IP        =#{MOD_IP      }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND OBS_SEQ = #{OBS_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA309CT_DS_DETAIL_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_OBSERVE
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND OBS_SEQ = #{OBS_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+      <select id="NUA309CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA309CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>
+    <!-- 요양사 조회 -->    
+     <select id="NUA309CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7','8')
+				   AND USE_YN = 'Y'
+			  ORDER BY RANK_CD ASC
+     ]]>                                                                                                                                                                 
+    </select>
+    
+    <!-- 층 조회 -->
+    <select id="NUA309CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA309CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if> 
+	</select>                                                                                                                                                                     
+</mapper>                                                                                                                                                                                                          

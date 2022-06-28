@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC_VISIT_SUCCESS_POP" width="350" height="400" titletext="예약결과 팝업" onload="NUC_VISIT_SUCCESS_POP_onload">
+    <Layouts>
+      <Layout width="350" height="400" screenid="Mobile">
+        <Div id="div_pop" taborder="1" left="0" top="0" right="0" bottom="60">
+          <Layouts>
+            <Layout>
+              <Static id="sta_text" taborder="0" text="직접방문 신청이 완료되었습니다.&#13;&#10;예약목록 메뉴에서 방문 신청 현황을&#13;&#10;확인 하실 수 있습니다." left="0" top="66.76%" height="90" cssclass="sta_pop_txt" textAlign="center" width="100.00%"/>
+              <Static id="sta_title" taborder="1" text="직접방문 신청완료" left="0" top="9.41%" height="50" cssclass="sta_pop_title" textAlign="center" right="0"/>
+              <ImageViewer id="imv_visit" taborder="2" left="30.00%" top="29.41%" width="40.00%" height="108" image="url('theme://images/ico_visit_pop1.png')"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_cancel" taborder="1" text="취소" left="0" width="175" bottom="0" height="60" cssclass="btn_pop_no" onclick="btn_cancel_onclick"/>
+        <Button id="btn_ok" taborder="2" text="신청완료" width="175" right="0" bottom="0" height="60" cssclass="btn_pop_yes" onclick="btn_ok_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUC_VISIT_SUCCESS_POP
+ * 화면명   	: 예약 성공 팝업
+ * 화면설명 	: 모바일 방문예약, 영상통화 예약 성공시 보여주는 팝업
+ * 작성일   	: 2021-09-06
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC_VISIT_SUCCESS_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	if(!Sct.Util.isEmpty(this.parent.str))
+	{
+		const str = this.parent.str;
+	
+		const title = str + " 신청완료";
+		const text = str + " 신청이 완료되었습니다.\n"
+						+ "예약목록 메뉴에서 " + str + " 신청현황을\n"
+						+ "확인 하실 수 있습니다.";
+						
+		if(str == "직접방문")
+		{
+			this.div_pop.form.imv_visit.set_image("URL('theme://images/ico_visit_pop1.png')");
+		}
+		else
+		{
+			this.div_pop.form.imv_visit.set_image("URL('theme://images/ico_visit_pop2.png')");
+		}
+		
+		this.div_pop.form.sta_title.set_text(title);
+		this.div_pop.form.sta_text.set_text(text);
+	}
+};
+
+this.NUC_LOGOUT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	/* 팝업 프레임에 배경색이 있고 borderRadius를 주는경우 
+	 * round부분에 프레임 배경색이 남기 때문에
+	 * 프레임의 배경색을 없앤 cssclass를 적용함.
+	 */
+	this.getOwnerFrame().set_cssclass("mpop");
+};
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 취소
+this.btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 신청완료
+this.btn_ok_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_return.addRow();
+	this.ds_return.setColumn(0, "FLAG", 1);
+	
+	this.close(this.ds_return.saveXML());
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_TRANS
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-16  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="SM_ALERT">
+	<select id="SEARCH_ALERT_MAIN" resultType="java.util.HashMap">
+			SELECT COMPANY_CD
+			,      TASKBR_ID
+			,      TASKBR_NAME
+			,      TASKBR_GROUP
+			,      PRIORITY
+			,      START_VALUE
+			,      DURATION_VALUE
+			,      DESCRIPTION
+			,      MESSAGE
+			,      CRON_EXPR
+			,      USE_YN
+			FROM   T_SM_TASK_SCHEDULER_MAIN WITH(NOLOCK)
+			WHERE  1=1
+			AND    USE_YN = 'Y'
+	</select>
+</mapper>

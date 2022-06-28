@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC105QR                                                         
+     * 프로그램 명     	: CIST검사                                                 
+     * Description 	: 모바일에서 입소자의 CIST검사 결과를 조회 
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-09 16:40     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================
+        NUC105QR_DS_CIST_S				마지막 검사 정보 조회
+        NUC105QR_DS_LIST_S				지난 1년간 검사 정보 조회                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC105QR">
+	<!-- 마지막 검사 정보 조회 -->
+	<select id="NUC105QR_DS_CIST_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC105QR_DS_CIST_S */
+		SELECT
+				NC.COMPANY_CD
+			,	NC.RES_ID
+			,	NC.CIS_DT
+			,	CONCAT(
+						NC.PT1
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '10'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT1_VAL
+			,	CONCAT(
+						NC.PT2
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '20'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT2_VAL
+			,	CONCAT(
+						NC.PT3
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '30'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT3_VAL
+			,	CONCAT(
+						NC.PT4
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '40'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT4_VAL
+			,	CONCAT(
+						NC.PT5
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '50'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT5_VAL
+			,	CONCAT(
+						NC.PT6
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '60'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT6_VAL
+			,	CONCAT(
+						NC.PT7
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '70'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT7_VAL
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_CIST_GRADE'
+				 AND CC.COMPANY_CD = NC.COMPANY_CD
+				 AND CC.CMCD = NC.CIS_GRADE
+				) AS CIS_GRADE_VAL
+		FROM 	T_NU_CIST NC
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY CIS_DT DESC LIMIT 1
+	</select>
+	
+	<!-- 지난 1년간 검사 정보 조회 -->
+	<select id="NUC105QR_DS_LIST_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC105QR_DS_LIST_S */
+		SELECT
+				NC.COMPANY_CD
+			,	NC.RES_ID
+			,	NC.CIS_DT
+			,	CONCAT(
+						SUBSTRING(NC.CIS_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(NC.CIS_DT, 7, 2)
+				) AS CHART_DATE
+			,	CONCAT(
+						NC.PT7
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '70'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS TOTAL_VAL
+			,	NC.CIS_GRADE
+			,	NC.PT1
+			,	NC.PT2
+			,	NC.PT3
+			,	NC.PT4
+			,	NC.PT5
+			,	NC.PT6
+			,	NC.PT7
+		FROM	T_NU_CIST NC
+		WHERE	NC.COMPANY_CD = #{COMPANY_CD}
+		AND		NC.RES_ID = #{RES_ID}
+		AND		NC.CIS_DT BETWEEN #{FROM} AND #{TO}
+		ORDER BY NC.CIS_DT DESC
+	</select>                                                                                                                                                                                 
+</mapper>                                                                                                                                                                                                          

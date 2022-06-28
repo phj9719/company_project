@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00606
+     * 프로그램 명     	: 6-06 연간 프로그램일지(삭제)
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-24 10:00        	|  이성탄		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00506_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00606">
+	<!-- 조회 -->
+    <select id="DAY00606_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    SELECT 
+    	pro.sicode
+	,	pro.prg_number
+	,	pro.prg_inji
+	,	case when pro.prg_inji = '2' then '인지' ELSE '' END AS 인지
+	,	pro.pr영역
+	,	pro.prg_name
+	,	pro.st_date
+	,	pro.en_date
+	,	pro.운영시간
+	,	pro.시행자
+	, (CONCAT( DATE_FORMAT( pro.st_date ,'%Y.%m.%d'), ' - '
+	, CONCAT( DATE_FORMAT( pro.en_date ,'%Y.%m.%d')))) AS 운영기간
+	, NULLIF((SELECT COUNT(1) FROM km_program kpr
+	WHERE kpr.sicode = pro.sicode
+	AND kpr.prg_number = pro.prg_number
+	AND kpr.운영일 BETWEEN #{date_from} AND #{date_to}), '0') AS cnt
+	,	cod.grp_color
+	FROM base_program pro
+	
+	JOIN vw_code_prog cod
+	ON (cod.code = pro.pr바코드)
+	WHERE pro.sicode = #{sicode}
+	AND pro.st_date <= #{date_to}
+	AND pro.en_date >= #{date_from}
+	ORDER BY pro.st_date
+	,	pro.en_date
+	,	pro.prg_name
+    
+	]]>
+    </select>
+    
+    <select id="DAY00606_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT kpr.sicode
+	, 0 AS print_chk
+	, kpr.prg_number	
+	, kpr.il_number
+	, kpr.운영일
+	, concat(lpad(kpr.운영시작시,2,'0'),':', lpad(kpr.운영시작분,2,'0'),'-', lpad(kpr.운영종료시,2,'0'),':', lpad(kpr.운영종료분,2,'0')) AS 운영시간
+	, pro.prg_name
+	, kpr.주제
+	, kpr.진행자
+	, (SELECT COUNT(1) FROM heal_daily hda WHERE hda.sicode = kpr.sicode AND hda.il_number = kpr.il_number AND hda.참석 = 1) AS cnt
+	FROM km_program kpr
+	JOIN base_program pro
+	ON (kpr.sicode = pro.sicode
+	AND kpr.prg_number = pro.prg_number)
+	JOIN vw_code_prog cod
+	ON (cod.code = pro.pr바코드)
+	WHERE kpr.sicode = #{sicode}
+	AND kpr.prg_number = #{prg_number}
+	AND kpr.운영일 BETWEEN #{date_from} AND #{date_to}
+	ORDER BY kpr.운영일 DESC
+    , kpr.주제
+    
+    </select>
+</mapper>

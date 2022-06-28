@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB200CT                                                         
+     * 프로그램 명     	: 건강측정 기기연결                                                     
+     * Description 	: 태블릿별 건강측정 기기연결
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-08-09 15:55        		|  박한준       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	                                                                                   
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB200CT"> 
+	<!-- 등록된 태블릿, 기기번호, 기기명 조회 -->
+	<select id="NUB200CT_DS_SEARCH_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.COMPANY_CD
+			,A.SERVICE_TP
+			,A.MACH_TP
+			,A.MAC_SEQ
+			,A.MAC_ADD
+			,A.MACH_NO
+			,A.MACH_NM
+			,A.SN_NO
+       	FROM T_CM_MACHINE A
+		WHERE 1=1
+             AND A.COMPANY_CD = #{COMPANY_CD}
+             AND A.SERVICE_TP = #{SERVICE_TP}
+             AND (A.MACH_TP = '1600' OR A.MACH_TP = '1000')
+             AND SN_NO = #{SN_NO}
+	</select>
+	
+	<!-- 이미 등록된 기기인지 조회  -->                                                                                                                                                                                                   
+	<select id="NUB200CT_DS_SEARCH_MACH_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT COUNT(*) CNT 
+		FROM T_NU_HEALTH_MACH_USE
+		WHERE COMPANY_CD = #{COMPANY_CD}
+		AND CON_MACH_ID = #{MAC_SEQ}
+	</select>
+	
+	<!-- 기기목록 조회 -->
+	<select id="NUB200CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT A.COMPANY_CD
+				, A.MAC_SEQ
+				, A.SERVICE_TP
+				, A.MACH_TP
+				, A.MAC_ADD
+				, A.MACH_NO
+				, A.MACH_NM
+				, A.PRODUCT_NM
+				, A.MACH_USE_YN
+				, A.USE_YN
+				, A.DEST_COMP_CD
+				, A.REMARK
+				, A.REG_PGM_ID
+				, A.REG_USER
+				, A.REG_DT
+				, A.REG_DT_CURR
+				, A.REG_DT_LOC
+				, A.REG_IP
+				, A.MOD_PGM_ID
+				, A.MOD_USER
+				, A.MOD_DT
+				, A.MOD_DT_CURR
+				, A.MOD_DT_LOC
+				, A.MOD_IP
+				, '0' AS CHK
+				FROM T_CM_MACHINE A
+				WHERE COMPANY_CD = #{COMPANY_CD}
+				AND MACH_TP IN ( SELECT CD.CMCD 
+						      FROM T_CM_CODE CD
+						      WHERE CD.COMPANY_CD = #{COMPANY_CD}
+						      AND CD.SERVICE_TP = #{SERVICE_TP}
+						      AND CD.GRP_CD = 'CM_MACHINE_TP'
+						      AND CD.STR3 = 'Y'
+						      )
+        		AND MAC_SEQ NOT IN ( SELECT NU.CON_MACH_ID
+			   		              FROM T_NU_HEALTH_MACH_USE NU
+                          WHERE NU.COMPANY_CD = #{COMPANY_CD})
+        		AND MACH_TP NOT IN (SELECT MA.MACH_TP
+			   					    FROM T_NU_HEALTH_MACH_USE NU
+					                	, T_CM_MACHINE MA
+					                WHERE NU.COMPANY_CD = MA.COMPANY_CD
+					                	AND NU.CON_MACH_ID = MA.MAC_SEQ
+						                AND NU.COMPANY_CD = #{COMPANY_CD}
+					                	AND NU.TAB_ID = (SELECT MAC_SEQ 
+					                    		    	FROM T_CM_MACHINE
+					                        			WHERE COMPANY_CD = #{COMPANY_CD}
+					                        				AND SN_NO = #{SN_NO}
+					                       				)
+                 					)
+				ORDER BY MACH_TP
+		]]>
+	</select>
+	
+	<!-- 연결된 기기 조회 -->
+	<select id="NUB200CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT A.COMPANY_CD
+				, A.USE_SEQ
+				, A.TAB_ID
+				, A.CON_MACH_ID
+				, B.MAC_ADD
+				, B.MACH_TP
+				, B.MACH_NO
+				, B.MACH_NM
+				, A.REG_PGM_ID
+				, A.REG_USER
+				, A.REG_DT
+				, A.REG_DT_CURR
+				, A.REG_DT_LOC
+				, A.REG_IP
+				, A.MOD_PGM_ID
+				, A.MOD_USER
+				, A.MOD_DT
+				, A.MOD_DT_CURR
+				, A.MOD_DT_LOC
+				, A.MOD_IP
+				, 'N' AS DEL
+			FROM T_NU_HEALTH_MACH_USE A
+				, T_CM_MACHINE B
+			WHERE A.COMPANY_CD = B.COMPANY_CD
+				AND A.CON_MACH_ID = B.MAC_SEQ
+				AND A.TAB_ID = (SELECT MAC_SEQ 
+                        	FROM T_CM_MACHINE
+                        	WHERE COMPANY_CD = #{COMPANY_CD}
+                        	AND SN_NO = #{SN_NO}
+                       		)
+		]]>
+	</select>
+	                                                                                                                                                                                                                                                                                                                                                                                                          
+	<!-- 기기연결  -->                                                                                                                                                                                                   
+	<insert id="NUB200CT_DS_HEAD_I" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_NU_HEALTH_MACH_USE
+				( COMPANY_CD
+				, USE_SEQ
+				, TAB_ID
+				, CON_MACH_ID
+				, REG_PGM_ID
+				, REG_USER
+				, REG_DT
+				, REG_DT_CURR
+				, REG_DT_LOC
+				, REG_IP
+				, MOD_PGM_ID
+				, MOD_USER
+				, MOD_DT
+				, MOD_DT_CURR
+				, MOD_DT_LOC
+				, MOD_IP
+			)VALUES(
+				  #{COMPANY_CD}
+				, (SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_MACH_USE ),12,0)))
+				, (SELECT MAC_SEQ 
+					FROM T_CM_MACHINE
+                    WHERE COMPANY_CD = #{COMPANY_CD}
+                    	AND SN_NO = #{SN_NO} )
+				, #{MAC_SEQ}
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, #{MOD_PGM_ID}
+				, #{MOD_USER}
+				, #{MOD_DT}
+				, #{MOD_DT_CURR}
+				, #{MOD_DT_LOC}
+				, #{MOD_IP}
+			
+			)
+		]]>                                                                                                                                                                                                      
+    </insert>
+    
+    <!-- 연결된 기기 삭제 -->                                                                                                                                                                                                   
+    <delete id="NUB200CT_DS_DETAIL_D" parameterType="java.util.HashMap">
+		<![CDATA[
+			BEGIN NOT ATOMIC
+           		DELETE FROM T_NU_HEALTH_MACH_USE
+                 WHERE COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                   AND USE_SEQ  = #{USE_SEQ};
+			END ;		
+		]]>
+    </delete>
+   
+</mapper>                                                                                                                                                                                                          

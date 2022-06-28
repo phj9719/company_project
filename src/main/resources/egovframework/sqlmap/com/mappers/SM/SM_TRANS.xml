@@ -1,0 +1,1571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_TRANS
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-16  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="SM_TRANS">
+	<!-- 송신 -->
+	
+	<select id="SEARCH_TRANS_ID" parameterType="java.lang.String" resultType="java.lang.String">
+		<![CDATA[
+			SELECT ISNULL(MAX(TRANS_ID) + 1, 1) AS TRANS_ID
+			FROM   T_SM_SEND_MAIN WITH(NOLOCK)
+			WHERE  COMPANY_CD = #{COMPANY_CD}			
+		]]>
+	</select>
+	
+	<select id="SEARCH_SEND_MAIN" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_ID 
+			     , A.DESTINATION
+			     , A.DEPARTURE
+			     , A.TRANS_JOB 
+			     , A.PROGRAM_ID 
+			     , A.TRANS_STATUS 
+			     , A.REG_PGM_ID 
+			     , A.REG_USER 
+			     , A.REG_DT 
+			     , A.REG_DT_CURR 
+			     , A.REG_DT_LOC 
+			     , A.REG_IP 
+			     , A.MOD_PGM_ID 
+			     , A.MOD_USER 
+			     , A.MOD_DT 
+			     , A.MOD_DT_CURR 
+			     , A.MOD_DT_LOC 
+			     , A.MOD_IP 
+			FROM   T_SM_SEND_MAIN A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD = ISNULL(#{COMPANY_CD}, A.COMPANY_CD)
+        ]]>
+		<if test="TRANS_JOB != '' and TRANS_JOB != null">
+			AND    A.TRANS_JOB  = #{TRANS_JOB}
+		</if>
+		<if test="TRANS_ID != '' and TRANS_ID != null">
+			AND    A.TRANS_ID   = #{TRANS_ID}
+		</if>
+		<if test="DESTINATION != '' and DESTINATION != null">
+			AND    A.DESTINATION   = #{DESTINATION}
+		</if>
+	</select>
+	<!-- 즉시 수신 요청시 readTiemout으로 인해 30개 단위로 전송 -->
+	<select id="SEARCH_RECEIVE_REQ_SEND_MAIN" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT * 
+        FROM (
+				SELECT A.COMPANY_CD 
+				     , A.TRANS_ID 
+				     , A.DESTINATION
+				     , A.DEPARTURE
+				     , A.TRANS_JOB 
+				     , A.PROGRAM_ID 
+				     , A.TRANS_STATUS
+				     , ROW_NUMBER() OVER (ORDER BY TRANS_ID, DESTINATION) AS ROWNUM
+				FROM   T_SM_SEND_MAIN A WITH(NOLOCK)
+				WHERE  A.COMPANY_CD = ISNULL(#{COMPANY_CD}, A.COMPANY_CD)
+				AND    A.DESTINATION   = #{DESTINATION}
+				AND    A.TRANS_STATUS  = #{SEARCH_TRANS_STATUS}
+	       		<if test="TRANS_JOB != '' and TRANS_JOB != null">
+			    AND	   A.TRANS_JOB   =  #{TRANS_JOB}
+				</if>
+		) T1
+		WHERE T1.ROWNUM <![CDATA[<=]]> 30
+	</select>
+	
+	<insert id="INSERT_SEND_MAIN" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_SEND_MAIN
+		    (
+		    	  COMPANY_CD
+		    	, TRANS_ID
+		        , DESTINATION
+			    , DEPARTURE
+			    , TRANS_JOB
+		        , PROGRAM_ID
+		        , TRANS_STATUS
+		        , FIRST_TRANS_CURR
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{TRANS_ID}
+				, #{DESTINATION}
+				, #{DEPARTURE}
+				, #{TRANS_JOB}
+				, #{PROGRAM_ID}
+				, #{TRANS_STATUS}
+				, #{REG_DT_LOC}
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+			)
+          ]]>
+	</insert>
+	<update id="UPDATE_SEND_MAIN" parameterType="java.util.HashMap">
+			UPDATE T_SM_SEND_MAIN
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			<if test="TRANS_STATUS == '09'">
+				 , COMPLETE_TRANS_CURR  = #{MOD_DT_LOC}
+			</if>
+			WHERE  COMPANY_CD   = #{COMPANY_CD}
+			AND    TRANS_ID     = #{TRANS_ID}
+			AND    DESTINATION     = #{DESTINATION}
+	</update>
+	
+	<update id="UPDATE_SEND_MAIN_U" parameterType="java.util.HashMap">
+			UPDATE T_SM_SEND_MAIN
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			<if test="TRANS_STATUS == '06'">
+				 , COMPLETE_TRANS_CURR  = #{MOD_DT_LOC}
+			</if>
+			WHERE  TRANS_ID     = #{TRANS_ID}			
+	</update>
+	
+	<update id="UPDATE_SEND_RECEIVE_MAIN_U" parameterType="java.util.HashMap">
+			UPDATE T_SM_SEND_MAIN
+			SET    TRANS_RST_STS = #{TRANS_RST_STS}	
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			WHERE  TRANS_ID     = #{TRANS_ID}			
+	</update>
+	
+	<update id="UPDATE_SEND_RECEIVE_MAIN_U_FTP" parameterType="java.util.HashMap">
+			UPDATE T_SM_SEND_MAIN
+			SET    FTP_TRANS_RST_STS = #{FTP_TRANS_RST_STS}		
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			WHERE  TRANS_ID     = #{TRANS_ID}			
+	</update>
+	
+	
+	<select id="SEARCH_SEND_HIST_TRANS_SEQ" parameterType="java.util.HashMap" resultType="java.lang.String">
+		<![CDATA[
+			SELECT ISNULL(MAX(TRANS_SEQ) + 1, 1) AS TRANS_SEQ
+			FROM   T_SM_SEND_HISTORY WITH(NOLOCK)
+			WHERE  COMPANY_CD = #{COMPANY_CD}
+			AND    TRANS_ID   = #{TRANS_ID}
+			AND    DESTINATION   = #{DESTINATION}
+		]]>
+	</select>
+	<select id="SEARCH_SEND_HIST" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_ID
+			     , A.DESTINATION
+			     , A.TRANS_SEQ
+			     , A.TRANS_STATUS
+			     , A.REMARK
+			     , A.REG_PGM_ID 
+			     , A.REG_USER 
+			     , A.REG_DT 
+			     , A.REG_DT_CURR 
+			     , A.REG_DT_LOC 
+			     , A.REG_IP 
+			     , A.MOD_PGM_ID 
+			     , A.MOD_USER 
+			     , A.MOD_DT 
+			     , A.MOD_DT_CURR 
+			     , A.MOD_DT_LOC 
+			     , A.MOD_IP 
+			FROM   T_SM_SEND_HISTORY A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD = #{COMPANY_CD}
+			AND    A.TRANS_ID   = #{TRANS_ID}
+			AND    A.DESTINATION   = #{DESTINATION}
+			ORDER BY A.TRANS_SEQ
+        ]]>
+	</select>
+	<insert id="INSERT_SEND_HIST" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_SEND_HISTORY
+		    (
+		    	  COMPANY_CD
+		        , TRANS_ID
+		        , DESTINATION
+		        , TRANS_SEQ
+		        , TRANS_STATUS
+		        , REMARK
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+		    	  #{COMPANY_CD}
+		        , #{TRANS_ID}
+		        , #{DESTINATION}
+		        , #{TRANS_SEQ}
+		        , #{TRANS_STATUS}
+		        , #{REMARK}
+		        , #{REG_PGM_ID}
+		        , #{REG_USER}
+		        , #{REG_DT}
+		        , #{REG_DT_CURR}
+		        , #{REG_DT_LOC}
+		        , #{REG_IP}
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+			)
+          ]]>
+	</insert>
+	
+	<insert id="INSERT_SEND_HIST_I" parameterType="java.util.HashMap">
+	<selectKey keyProperty="TRANS_SEQ" resultType="int" order="BEFORE">	
+			SELECT ISNULL(MAX(TRANS_SEQ) + 1, 1) AS TRANS_SEQ
+			FROM   T_SM_SEND_HISTORY WITH(NOLOCK)
+			WHERE  COMPANY_CD = #{COMPANY_CD}
+			AND    TRANS_ID   = #{TRANS_ID}
+	</selectKey>
+		<![CDATA[
+			INSERT INTO T_SM_SEND_HISTORY
+		    (
+		    	  COMPANY_CD
+				, PLANT_CD
+				, TRANS_ID
+				, DESTINATION
+				, TRANS_SEQ
+				, TRANS_STATUS
+				, TRANS_RST_STS
+				, REMARK
+				, FIN_FLAG
+				, WK_FLAG
+				, REG_PGM_ID
+				, REG_USER
+				, REG_DT
+				, REG_DT_CURR
+				, REG_DT_LOC
+				, REG_IP
+				, MOD_PGM_ID
+				, MOD_USER
+				, MOD_DT
+				, MOD_DT_CURR
+				, MOD_DT_LOC
+				, MOD_IP
+		    )
+			VALUES
+			(
+		    	  #{COMPANY_CD}
+		    	, #{PLANT_CD}
+		        , #{TRANS_ID}
+		        , #{DESTINATION}
+		        , #{TRANS_SEQ}
+		        , #{TRANS_STATUS}
+		        , #{TRANS_RST_STS}
+		        , #{REMARK}
+		        , #{FIN_FLAG}
+				, #{WK_FLAG}
+		        , #{REG_PGM_ID}
+		        , #{REG_USER}
+		        , #{REG_DT}
+		        , #{REG_DT_CURR}
+		        , #{REG_DT_LOC}
+		        , #{REG_IP}
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+			)
+          ]]>
+	</insert>
+	
+	<insert id="INSERT_SEND_RECEIVE_HIST_I" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_SEND_HISTORY
+		    (
+		    	  COMPANY_CD
+				, PLANT_CD
+				, TRANS_ID
+				, DESTINATION
+				, TRANS_SEQ
+				, TRANS_STATUS
+				, TRANS_RST_STS
+				, REMARK
+				, FIN_FLAG
+				, WK_FLAG
+				, REG_PGM_ID
+				, REG_USER
+				, REG_DT
+				, REG_DT_CURR
+				, REG_DT_LOC
+				, REG_IP
+				, MOD_PGM_ID
+				, MOD_USER
+				, MOD_DT
+				, MOD_DT_CURR
+				, MOD_DT_LOC
+				, MOD_IP
+		    )
+			VALUES
+			(
+		    	  #{COMPANY_CD}
+		    	, #{PLANT_CD}
+		        , #{TRANS_ID}
+		        , #{DESTINATION}
+		        , ISNULL((SELECT MAX(Z.TRANS_SEQ)
+		      			FROM T_SM_SEND_HISTORY Z WITH(NOLOCK)
+		     			 WHERE Z.COMPANY_CD = #{COMPANY_CD}
+		      			AND Z.TRANS_ID     = #{TRANS_ID} ),0)+1
+		        , #{TRANS_STATUS}
+		        , #{TRANS_RST_STS}
+		        , #{REMARK}
+		        , #{FIN_FLAG}
+				, #{WK_FLAG}
+		        , #{REG_PGM_ID}
+		        , #{REG_USER}
+		        , #{REG_DT}
+		        , #{REG_DT_CURR}
+		        , #{REG_DT_LOC}
+		        , #{REG_IP}
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+			)
+          ]]>
+	</insert>
+	
+	<update id="UPDATE_SEND_HIST" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_SM_SEND_HISTORY
+			SET    REMARK 		= #{REMARK}
+			     , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			WHERE  COMPANY_CD   = #{COMPANY_CD}
+			AND    TRANS_ID     = #{TRANS_ID}
+			AND    DESTINATION  = #{DESTINATION}
+			AND    TRANS_SEQ    = #{TRANS_SEQ}
+			AND    TRANS_STATUS = #{TRANS_STATUS}
+		]]>
+	</update>
+	
+	<select id="SEARCH_SEND_DETAIL" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_ID
+			     , A.DESTINATION
+			     , A.ROW_INDEX
+			     , A.PARAM1
+			     , A.PARAM2
+			     , A.PARAM3
+			     , A.PARAM4
+			     , A.PARAM5
+			     , A.PARAM6
+			     , A.PARAM7
+			     , A.PARAM8
+			     , A.PARAM9
+			     , A.PARAM10
+			     , A.PARAM11
+			     , A.PARAM12
+			     , A.PARAM13
+			     , A.PARAM14
+			     , A.PARAM15
+			     , A.PARAM16
+			     , A.PARAM17
+			     , A.PARAM18
+			     , A.PARAM19
+			     , A.PARAM20
+			     , A.PARAM21
+			     , A.PARAM22
+			     , A.PARAM23
+			     , A.PARAM24
+			     , A.PARAM25
+			     , A.PARAM26
+			     , A.PARAM27
+			     , A.PARAM28
+			     , A.PARAM29
+			     , A.PARAM30
+			     , A.PARAM31
+			     , A.PARAM32
+			     , A.PARAM33
+			     , A.PARAM34
+			     , A.PARAM35
+			     , A.PARAM36
+			     , A.PARAM37
+			     , A.PARAM38
+			     , A.PARAM39
+			     , A.PARAM40
+			     , A.PARAM41
+			     , A.PARAM42
+			     , A.PARAM43
+			     , A.PARAM44
+			     , A.PARAM45
+			     , A.PARAM46
+			     , A.PARAM47
+			     , A.PARAM48
+			     , A.PARAM49
+			     , A.PARAM50
+			FROM   T_SM_SEND_DETAIL A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD = #{COMPANY_CD}
+			AND    A.TRANS_ID  = #{TRANS_ID}
+			AND    A.DESTINATION   = #{DESTINATION}
+			ORDER BY A.ROW_INDEX
+        ]]>
+	</select>
+	<insert id="INSERT_SEND_DETAIL" parameterType="java.util.HashMap">
+          <![CDATA[
+			INSERT INTO T_SM_SEND_DETAIL
+		    (
+		    	  COMPANY_CD
+		        , TRANS_ID
+		        , DESTINATION
+		        , ROW_INDEX
+		        , TRANS_STATUS
+		        , PARAM1
+		        , PARAM2
+		        , PARAM3
+		        , PARAM4
+		        , PARAM5
+		        , PARAM6
+		        , PARAM7
+		        , PARAM8
+		        , PARAM9
+		        , PARAM10
+		        , PARAM11
+		        , PARAM12
+		        , PARAM13
+		        , PARAM14
+		        , PARAM15
+		        , PARAM16
+		        , PARAM17
+		        , PARAM18
+		        , PARAM19
+		        , PARAM20
+		        , PARAM21
+		        , PARAM22
+		        , PARAM23
+		        , PARAM24
+		        , PARAM25
+		        , PARAM26
+		        , PARAM27
+		        , PARAM28
+		        , PARAM29
+		        , PARAM30
+		        , PARAM31
+		        , PARAM32
+		        , PARAM33
+		        , PARAM34
+		        , PARAM35
+		        , PARAM36
+		        , PARAM37
+		        , PARAM38
+		        , PARAM39
+		        , PARAM40
+		        , PARAM41
+		        , PARAM42
+		        , PARAM43
+		        , PARAM44
+		        , PARAM45
+		        , PARAM46
+		        , PARAM47
+		        , PARAM48
+		        , PARAM49
+		        , PARAM50
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{TRANS_ID}
+				, #{DESTINATION}
+				, #{ROW_INDEX}
+				, #{TRANS_STATUS}
+				, #{PARAM1}
+				, #{PARAM2}
+				, #{PARAM3}
+				, #{PARAM4}
+				, #{PARAM5}
+				, #{PARAM6}
+				, #{PARAM7}
+				, #{PARAM8}
+				, #{PARAM9}
+				, #{PARAM10}
+				, #{PARAM11}
+				, #{PARAM12}
+				, #{PARAM13}
+				, #{PARAM14}
+				, #{PARAM15}
+				, #{PARAM16}
+				, #{PARAM17}
+				, #{PARAM18}
+				, #{PARAM19}
+				, #{PARAM20}
+				, #{PARAM21}
+				, #{PARAM22}
+				, #{PARAM23}
+				, #{PARAM24}
+				, #{PARAM25}
+				, #{PARAM26}
+				, #{PARAM27}
+				, #{PARAM28}
+				, #{PARAM29}
+				, #{PARAM30}
+				, #{PARAM31}
+				, #{PARAM32}
+				, #{PARAM33}
+				, #{PARAM34}
+				, #{PARAM35}
+				, #{PARAM36}
+				, #{PARAM37}
+				, #{PARAM38}
+				, #{PARAM39}
+				, #{PARAM40}
+				, #{PARAM41}
+				, #{PARAM42}
+				, #{PARAM43}
+				, #{PARAM44}
+				, #{PARAM45}
+				, #{PARAM46}
+				, #{PARAM47}
+				, #{PARAM48}
+				, #{PARAM49}
+				, #{PARAM50}
+				, #{REG_PGM_ID}
+		        , #{REG_USER}
+		        , #{REG_DT}
+		        , #{REG_DT_CURR}
+		        , #{REG_DT_LOC}
+		        , #{REG_IP}
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+			)
+          ]]>
+	</insert>
+	<update id="UPDATE_SEND_DETAIL" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_SM_SEND_DETAIL
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+			 	 , MOD_PGM_ID   = #{MOD_PGM_ID}
+			     , MOD_USER     = #{MOD_USER}
+			     , MOD_DT       = #{MOD_DT}
+			     , MOD_DT_CURR  = #{MOD_DT_CURR}
+			     , MOD_DT_LOC   = #{MOD_DT_LOC}
+			     , MOD_IP       = #{MOD_IP}
+			WHERE  COMPANY_CD   = #{COMPANY_CD}
+			AND    TRANS_ID     = #{TRANS_ID}
+			AND    DESTINATION  = #{DESTINATION}
+		]]>
+		<if test="ROW_INDEX != '' and ROW_INDEX != null">
+			AND    ROW_INDEX    = #{ROW_INDEX}
+		</if>
+	</update>
+	<select id="SEARCH_SEND_DETAIL_FINAL_STATUS" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT CASE WHEN B.FAIL_TRANS_STATUS_CNT = 0 THEN
+					(
+						SELECT MIN(TRANS_STATUS)
+						FROM   T_SM_SEND_DETAIL A WITH(NOLOCK)
+						WHERE  COMPANY_CD = #{COMPANY_CD}
+						AND    TRANS_ID   = #{TRANS_ID}
+						AND    DESTINATION   = #{DESTINATION}
+					)
+			ELSE
+				'08'
+			END TRANS_STATUS
+			FROM (
+			SELECT COUNT(A.TRANS_STATUS) AS FAIL_TRANS_STATUS_CNT
+						FROM   T_SM_SEND_DETAIL A WITH(NOLOCK)
+						WHERE  A.COMPANY_CD = #{COMPANY_CD}
+						AND    A.TRANS_ID   = #{TRANS_ID}
+						AND    A.DESTINATION   = #{DESTINATION}
+						AND    A.TRANS_STATUS = '08'
+			) AS B
+        ]]>
+	</select>
+	
+	
+	
+	
+	<!-- 수신 -->
+	<select id="SEARCH_RECV_MAIN" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_JOB 
+			     , A.TRANS_ID 
+			     , A.DEPARTURE
+			     , A.DESTINATION
+			     , A.PROGRAM_ID 
+			     , A.TRANS_STATUS 
+			     , A.FIRST_RECV_CURR
+			     , A.COMPLETE_RECV_CURR
+			     , A.REG_PGM_ID 
+			     , A.REG_USER 
+			     , A.REG_DT 
+			     , A.REG_DT_CURR 
+			     , A.REG_DT_LOC 
+			     , A.REG_IP 
+			     , A.MOD_PGM_ID 
+			     , A.MOD_USER 
+			     , A.MOD_DT 
+			     , A.MOD_DT_CURR 
+			     , A.MOD_DT_LOC 
+			     , A.MOD_IP 
+			FROM   T_SM_RECV_MAIN A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD  = ISNULL(#{COMPANY_CD}, A.COMPANY_CD)
+        ]]>
+		<if test="TRANS_JOB != '' and TRANS_JOB != null">
+			AND    A.TRANS_JOB   = #{TRANS_JOB}
+		</if>
+		<if test="TRANS_ID != '' and TRANS_ID != null">
+			AND    A.TRANS_ID    = #{TRANS_ID}
+		</if>
+		<if test="DEPARTURE != '' and DEPARTURE != null">
+			AND    A.DEPARTURE   = #{DEPARTURE}
+		</if>
+	</select>
+	<insert id="INSERT_RECV_MAIN" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_RECV_MAIN
+		    (
+		    	  COMPANY_CD
+		    	, TRANS_ID
+			    , DEPARTURE
+			    , DESTINATION
+		        , TRANS_JOB
+		        , PROGRAM_ID
+		        , TRANS_STATUS
+		        , FIRST_RECV_CURR
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{TRANS_ID}
+				, #{DEPARTURE}
+				, #{DESTINATION}
+				, #{TRANS_JOB}
+				, #{PROGRAM_ID}
+				, #{TRANS_STATUS}
+				, #{REG_DT_LOC}
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+			)
+          ]]>
+	</insert>
+	
+	<insert id="INSERT_RECV_MAIN_I" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_RECV_MAIN ( COMPANY_CD
+									   , PLANT_CD
+									   , TRANS_ID
+									   , DEPARTURE
+									   , DESTINATION
+									   , TRANS_MD
+									   , TRANS_JOB
+									   , TNS_EXEC_ID
+									   , TRANS_CNT
+									   , FILE_GROUP_ID
+									   , PROGRAM_ID
+									   , TRANS_STATUS
+									   , TRANS_RST_STS
+									   , FIRST_RECV_CURR
+									   , COMPLETE_RECV_CURR
+									   , FIN_FLAG
+									   , WK_FLAG
+									   , DATA_COUNT
+									   , REG_PGM_ID
+									   , REG_USER
+									   , REG_DT
+									   , REG_DT_CURR
+									   , REG_DT_LOC
+									   , REG_IP
+									   , MOD_PGM_ID
+									   , MOD_USER
+									   , MOD_DT
+									   , MOD_DT_CURR
+									   , MOD_DT_LOC
+									   , MOD_IP 
+							  ) VALUES ( #{COMPANY_CD}
+									   , #{PLANT_CD}
+									   , #{TRANS_ID}
+									   , #{DEPARTURE}
+									   , #{DESTINATION}
+									   , #{TRANS_MD}
+									   , #{TRANS_JOB}
+									   , #{TNS_EXEC_ID}
+									   , #{TRANS_CNT}
+									   , #{FILE_GROUP_ID}
+									   , #{PROGRAM_ID}
+									   , #{TRANS_STATUS}
+									   , #{TRANS_RST_STS}
+									   , #{FIRST_RECV_CURR}
+									   , #{COMPLETE_RECV_CURR}
+									   , #{FIN_FLAG}
+									   , 'I'
+									   , #{DATA_COUNT}
+									   , #{REG_PGM_ID}
+									   , #{REG_USER}
+									   , #{REG_DT}
+									   , #{REG_DT_CURR}
+									   , #{REG_DT_LOC}
+									   , #{REG_IP}
+									   , ''
+									   , ''
+									   , ''
+									   , ''
+									   , ''
+									   , ''
+									   ) 
+          ]]>
+	</insert>
+	
+	<insert id="INSERT_RECV_HIST_I" parameterType="java.util.HashMap">
+		<selectKey keyProperty="TRANS_SEQ" resultType="int" order="BEFORE">	
+			SELECT ISNULL(MAX(TRANS_SEQ) + 1, 1) AS TRANS_SEQ
+			FROM   T_SM_RECV_HISTORY WITH(NOLOCK)
+			WHERE  COMPANY_CD = #{COMPANY_CD}
+			AND    TRANS_ID   = #{TRANS_ID}
+		</selectKey>	
+		<![CDATA[
+			INSERT INTO T_SM_RECV_HISTORY
+		    (
+		    	  COMPANY_CD
+		    	, PLANT_CD
+				, TRANS_ID
+				, DEPARTURE
+				, TRANS_SEQ
+				, TRANS_STATUS
+				, TRANS_RST_STS
+				, REMARK
+				, FIN_FLAG
+				, WK_FLAG
+				, REG_PGM_ID
+				, REG_USER
+				, REG_DT
+				, REG_DT_CURR
+				, REG_DT_LOC
+				, REG_IP
+				, MOD_PGM_ID
+				, MOD_USER
+				, MOD_DT
+				, MOD_DT_CURR
+				, MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{PLANT_CD}
+				, #{TRANS_ID}
+				, #{DEPARTURE}
+				, #{TRANS_SEQ}
+				, #{TRANS_STATUS}
+				, #{TRANS_RST_STS}
+				, #{REMARK}
+				, #{FIN_FLAG}
+				, 'I'
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+			)
+          ]]>
+	</insert>
+	
+	<update id="UPDATE_RECV_MAIN" parameterType="java.util.HashMap">
+			UPDATE T_SM_RECV_MAIN
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+				 , MOD_PGM_ID    = #{MOD_PGM_ID}
+				 , MOD_USER      = #{MOD_USER}
+				 , MOD_DT        = #{MOD_DT}
+				 , MOD_DT_CURR   = #{MOD_DT_CURR}
+				 , MOD_DT_LOC    = #{MOD_DT_LOC}
+				 , MOD_IP        = #{MOD_IP}
+			<if test="TRANS_STATUS == '09'">
+				 , COMPLETE_RECV_CURR  = #{MOD_DT_LOC}
+			</if>
+			WHERE  COMPANY_CD   = #{COMPANY_CD}
+			AND    TRANS_ID     = #{TRANS_ID}
+			AND    DEPARTURE   = #{DEPARTURE}
+	</update>
+	
+	<select id="SEARCH_TRANS_SEQ" parameterType="java.util.HashMap" resultType="java.lang.String">
+		<![CDATA[
+			SELECT ISNULL(MAX(TRANS_SEQ) + 1, 1) AS TRANS_SEQ
+			FROM   T_SM_RECV_HISTORY WITH(NOLOCK)
+			WHERE  COMPANY_CD = #{COMPANY_CD}
+			AND    TRANS_ID   = #{TRANS_ID}
+			AND    DEPARTURE   = #{DEPARTURE}
+		]]>
+	</select>
+	<select id="SEARCH_RECV_HIST" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_ID 
+			     , A.DEPARTURE
+			     , A.TRANS_SEQ
+			     , A.TRANS_STATUS 
+			     , A.REMARK
+			     , A.REG_PGM_ID 
+			     , A.REG_USER 
+			     , A.REG_DT 
+			     , A.REG_DT_CURR 
+			     , A.REG_DT_LOC 
+			     , A.REG_IP 
+			     , A.MOD_PGM_ID 
+			     , A.MOD_USER 
+			     , A.MOD_DT 
+			     , A.MOD_DT_CURR 
+			     , A.MOD_DT_LOC 
+			     , A.MOD_IP 
+			FROM   T_SM_RECV_HISTORY A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD = #{COMPANY_CD}
+			AND    A.TRANS_ID   = #{TRANS_ID}
+			AND    A.DEPARTURE   = #{DEPARTURE}
+			ORDER BY A.TRANS_SEQ, REG_DT_LOC
+        ]]>
+	</select>
+	<insert id="INSERT_RECV_HIST" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_SM_RECV_HISTORY
+		    (
+		    	  COMPANY_CD
+		    	, TRANS_ID
+		    	, DEPARTURE
+			    , TRANS_SEQ
+		        , TRANS_STATUS
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{TRANS_ID}
+				, #{DEPARTURE}
+				, #{TRANS_SEQ}
+				, #{TRANS_STATUS}
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+			)
+          ]]>
+	</insert>
+	
+	<insert id="INSERT_RECV_DETAIL" parameterType="java.util.HashMap">
+      <![CDATA[
+			INSERT INTO T_SM_RECV_DETAIL
+		    (
+		    	  COMPANY_CD
+		        , TRANS_ID
+		        , DEPARTURE
+		        , ROW_INDEX
+		        , TRANS_STATUS
+		        , PARAM1
+		        , PARAM2
+		        , PARAM3
+		        , PARAM4
+		        , PARAM5
+		        , PARAM6
+		        , PARAM7
+		        , PARAM8
+		        , PARAM9
+		        , PARAM10
+		        , PARAM11
+		        , PARAM12
+		        , PARAM13
+		        , PARAM14
+		        , PARAM15
+		        , PARAM16
+		        , PARAM17
+		        , PARAM18
+		        , PARAM19
+		        , PARAM20
+		        , PARAM21
+		        , PARAM22
+		        , PARAM23
+		        , PARAM24
+		        , PARAM25
+		        , PARAM26
+		        , PARAM27
+		        , PARAM28
+		        , PARAM29
+		        , PARAM30
+		        , PARAM31
+		        , PARAM32
+		        , PARAM33
+		        , PARAM34
+		        , PARAM35
+		        , PARAM36
+		        , PARAM37
+		        , PARAM38
+		        , PARAM39
+		        , PARAM40
+		        , PARAM41
+		        , PARAM42
+		        , PARAM43
+		        , PARAM44
+		        , PARAM45
+		        , PARAM46
+		        , PARAM47
+		        , PARAM48
+		        , PARAM49
+		        , PARAM50
+		        , REG_PGM_ID
+		        , REG_USER
+		        , REG_DT
+		        , REG_DT_CURR
+		        , REG_DT_LOC
+		        , REG_IP
+		        , MOD_PGM_ID
+		        , MOD_USER
+		        , MOD_DT
+		        , MOD_DT_CURR
+		        , MOD_DT_LOC
+		        , MOD_IP
+		    )
+			VALUES
+			(
+				  #{COMPANY_CD}
+				, #{TRANS_ID}
+				, #{DEPARTURE}
+				, #{ROW_INDEX}
+				, #{TRANS_STATUS}
+				, #{PARAM1}
+				, #{PARAM2}
+				, #{PARAM3}
+				, #{PARAM4}
+				, #{PARAM5}
+				, #{PARAM6}
+				, #{PARAM7}
+				, #{PARAM8}
+				, #{PARAM9}
+				, #{PARAM10}
+				, #{PARAM11}
+				, #{PARAM12}
+				, #{PARAM13}
+				, #{PARAM14}
+				, #{PARAM15}
+				, #{PARAM16}
+				, #{PARAM17}
+				, #{PARAM18}
+				, #{PARAM19}
+				, #{PARAM20}
+				, #{PARAM21}
+				, #{PARAM22}
+				, #{PARAM23}
+				, #{PARAM24}
+				, #{PARAM25}
+				, #{PARAM26}
+				, #{PARAM27}
+				, #{PARAM28}
+				, #{PARAM29}
+				, #{PARAM30}
+				, #{PARAM31}
+				, #{PARAM32}
+				, #{PARAM33}
+				, #{PARAM34}
+				, #{PARAM35}
+				, #{PARAM36}
+				, #{PARAM37}
+				, #{PARAM38}
+				, #{PARAM39}
+				, #{PARAM40}
+				, #{PARAM41}
+				, #{PARAM42}
+				, #{PARAM43}
+				, #{PARAM44}
+				, #{PARAM45}
+				, #{PARAM46}
+				, #{PARAM47}
+				, #{PARAM48}
+				, #{PARAM49}
+				, #{PARAM50}
+				, #{REG_PGM_ID}
+		        , #{REG_USER}
+		        , #{REG_DT}
+		        , #{REG_DT_CURR}
+		        , #{REG_DT_LOC}
+		        , #{REG_IP}
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+		        , ''
+			)
+          ]]>
+	</insert>
+	<update id="UPDATE_RECV_DETAIL_TRANS_STATUS" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_SM_RECV_DETAIL
+			SET    TRANS_STATUS = #{TRANS_STATUS}
+				 , MOD_PGM_ID    = #{MOD_PGM_ID}
+				 , MOD_USER      = #{MOD_USER}
+				 , MOD_DT        = #{MOD_DT}
+				 , MOD_DT_CURR   = #{MOD_DT_CURR}
+				 , MOD_DT_LOC    = #{MOD_DT_LOC}
+				 , MOD_IP        = #{MOD_IP}
+			WHERE  COMPANY_CD    = #{COMPANY_CD}
+			AND    TRANS_ID      = #{TRANS_ID}
+			AND    DEPARTURE     = #{DEPARTURE}
+			AND    ROW_INDEX     = #{ROW_INDEX}
+		]]>
+	</update>
+	<select id="SEARCH_RECV_DETAIL_FINAL_STATUS" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT CASE WHEN B.FAIL_TRANS_STATUS_CNT = 0 THEN
+					(
+						SELECT MIN(TRANS_STATUS)
+						FROM   T_SM_RECV_DETAIL A WITH(NOLOCK)
+						WHERE  COMPANY_CD = #{COMPANY_CD}
+						AND    TRANS_ID   = #{TRANS_ID}
+						AND    DEPARTURE   = #{DEPARTURE}
+					)
+			ELSE
+				'08'
+			END TRANS_STATUS
+			FROM (
+			SELECT COUNT(A.TRANS_STATUS) AS FAIL_TRANS_STATUS_CNT
+						FROM   T_SM_RECV_DETAIL A WITH(NOLOCK)
+						WHERE  A.COMPANY_CD = #{COMPANY_CD}
+						AND    A.TRANS_ID   = #{TRANS_ID}
+						AND    A.DEPARTURE   = #{DEPARTURE}
+						AND    A.TRANS_STATUS = '08'
+			) AS B
+        ]]>
+	</select>
+	
+	
+	
+	
+	
+	<!-- 수신측 후작업 관련 -->
+	<select id="GET_RECV_AFTER_TASK_LIST" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_JOB 
+			     , A.TRANS_ID 
+			     , A.DEPARTURE
+			     , A.DESTINATION
+			     , A.PROGRAM_ID 
+			     , B.TRANS_STATUS AS TRANS_STATUS_DETAIL_CURR
+			     , (SELECT STR1
+				  				FROM T_CM_CODE WITH(NOLOCK) 
+				  				WHERE  GRP_CD = 'TRANS_JOB'
+				  				AND    USEYN = 'Y'
+				  				AND    CMCD = A.TRANS_JOB) AS SERVICE_NAME
+				 , (SELECT STR3
+				  				FROM T_CM_CODE WITH(NOLOCK) 
+				  				WHERE  GRP_CD = 'TRANS_DEST'
+				  				AND    USEYN = 'Y'
+				  				AND    CMCD = A.DEPARTURE) AS DB_NAME
+				  , B.ROW_INDEX AS ROW_INDEX
+			FROM  T_SM_RECV_MAIN A WITH(NOLOCK)
+				 , T_SM_RECV_DETAIL B WITH(NOLOCK)
+			WHERE  A.COMPANY_CD = #{COMPANY_CD}
+			AND    A.DEPARTURE   = #{DEPARTURE}
+			AND    A.TRANS_STATUS IN ('06', '08')
+			AND    B.COMPANY_CD = A.COMPANY_CD
+			AND    B.TRANS_ID = A.TRANS_ID
+			AND	   B.DEPARTURE = A.DEPARTURE
+			AND	   B.TRANS_STATUS IN ('06', '08')
+			ORDER BY A.TRANS_ID, B.ROW_INDEX
+		]]>
+	</select>
+	<select id="SEARCH_RECV_DETAIL" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+			SELECT A.COMPANY_CD 
+			     , A.TRANS_ID 
+			     , A.DEPARTURE
+			     , A.ROW_INDEX
+			     , A.TRANS_STATUS
+			     , A.PARAM1
+			     , A.PARAM2
+			     , A.PARAM3
+			     , A.PARAM4
+			     , A.PARAM5
+			     , A.PARAM6
+			     , A.PARAM7
+			     , A.PARAM8
+			     , A.PARAM9
+			     , A.PARAM10
+			     , A.PARAM11
+			     , A.PARAM12
+			     , A.PARAM13
+			     , A.PARAM14
+			     , A.PARAM15
+			     , A.PARAM16
+			     , A.PARAM17
+			     , A.PARAM18
+			     , A.PARAM19
+			     , A.PARAM20
+			     , A.PARAM21
+			     , A.PARAM22
+			     , A.PARAM23
+			     , A.PARAM24
+			     , A.PARAM25
+			     , A.PARAM26
+			     , A.PARAM27
+			     , A.PARAM28
+			     , A.PARAM29
+			     , A.PARAM30
+			     , A.PARAM31
+			     , A.PARAM32
+			     , A.PARAM33
+			     , A.PARAM34
+			     , A.PARAM35
+			     , A.PARAM36
+			     , A.PARAM37
+			     , A.PARAM38
+			     , A.PARAM39
+			     , A.PARAM40
+			     , A.PARAM41
+			     , A.PARAM42
+			     , A.PARAM43
+			     , A.PARAM44
+			     , A.PARAM45
+			     , A.PARAM46
+			     , A.PARAM47
+			     , A.PARAM48
+			     , A.PARAM49
+			     , A.PARAM50
+			FROM   T_SM_RECV_DETAIL A WITH(NOLOCK)
+			WHERE  A.COMPANY_CD  = #{COMPANY_CD}
+        ]]>
+		<if test="TRANS_ID != '' and TRANS_ID != null">
+			AND    A.TRANS_ID    = #{TRANS_ID}
+		</if>
+		<if test="DEPARTURE != '' and DEPARTURE != null">
+			AND    A.DEPARTURE   = #{DEPARTURE}
+		</if>
+		<if test="ROW_INDEX != null">
+			AND    A.ROW_INDEX   = #{ROW_INDEX}
+		</if>
+			ORDER BY A.DEPARTURE, A.TRANS_ID, A.ROW_INDEX
+	</select>
+	
+	
+	
+		
+	
+	
+	
+	
+	<select id="GET_MY_VESSEL_CD" parameterType="java.lang.String" resultType="java.lang.String">
+		<![CDATA[
+			SELECT SET_VALUE AS MY_VESSEL_CD
+			FROM   T_SM_PROFILE WITH(NOLOCK)
+			WHERE  CODE = 'SERVER_NAME'
+		]]>
+	</select>
+	<select id="GET_TRANS_JOB_SERVICE" parameterType="java.lang.String" resultType="java.lang.String">
+		<![CDATA[
+			SELECT STR1 AS SERVICE_NAME
+			FROM   T_CM_CODE A WITH(NOLOCK)
+			WHERE  A.GRP_CD = 'TRANS_JOB'
+			AND    A.USEYN = 'Y'
+			AND    A.CMCD =  #{TRANS_JOB}
+		]]>
+	</select>
+	<!-- 전송대상서버정보 -->
+    <select id="getServerUrl" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+			SELECT A.CMCD AS SERVER_CD
+			     , A.STR1 AS IP
+				 , A.STR2 AS REQ_URL
+				 , A.STR3 AS DB_NAME
+			FROM   T_CM_CODE A WITH(NOLOCK)
+			WHERE  A.GRP_CD = 'TRANS_DEST'
+			AND    A.USEYN = 'Y'
+		]]>
+	<if test="SERVER_CD != '' and SERVER_CD != null">
+			AND    A.CMCD   = #{SERVER_CD}
+	</if>
+    </select>
+	
+	
+	<select id="GET_SEND_MAIN_S" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+			SELECT COMPANY_CD
+				 , PLANT_CD
+				 , TRANS_ID
+				 , DESTINATION
+				 , DEPARTURE
+				 , TRANS_MD
+				 , TRANS_JOB
+				 , TNS_EXEC_ID
+				 , TRANS_CNT
+				 , FILE_GROUP_ID
+				 , PROGRAM_ID
+				 , TRANS_STATUS
+				 , TRANS_RST_STS
+				 , FIRST_TRANS_CURR
+				 , COMPLETE_TRANS_CURR
+				 , FIN_FLAG
+				 , WK_FLAG
+				 , REG_PGM_ID
+				 , REG_USER
+				 , REG_DT
+				 , REG_DT_CURR
+				 , REG_DT_LOC
+				 , REG_IP
+				 , MOD_PGM_ID
+				 , MOD_USER
+				 , MOD_DT
+				 , MOD_DT_CURR
+				 , MOD_DT_LOC
+				 , MOD_IP 
+		      FROM T_SM_SEND_MAIN WITH(NOLOCK)
+			 WHERE TRANS_ID = #{TRANS_ID}
+		]]>
+    </select>
+    
+    <select id="GET_PRE_SEND_MAIN_S" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+		   SELECT COMPANY_CD
+				, PLANT_CD
+				, TRANS_ID
+				, DESTINATION
+				, DEPARTURE
+				, TRANS_MD
+				, TRANS_JOB
+				, TNS_EXEC_ID
+				, TRANS_CNT
+				, FILE_GROUP_ID
+				, PROGRAM_ID
+				, TRANS_STATUS
+				, TRANS_RST_STS
+				, FIRST_TRANS_CURR
+				, COMPLETE_TRANS_CURR
+				, FIN_FLAG
+				, WK_FLAG
+				, DATA_COUNT
+				, REG_PGM_ID
+				, REG_USER
+				, REG_DT
+				, REG_DT_CURR
+				, REG_DT_LOC
+				, REG_IP
+				, MOD_PGM_ID
+				, MOD_USER
+				, MOD_DT
+				, MOD_DT_CURR
+				, MOD_DT_LOC
+				, MOD_IP 
+			FROM ( SELECT COMPANY_CD
+						, PLANT_CD
+						, TRANS_ID
+						, DESTINATION
+						, DEPARTURE
+						, TRANS_MD
+						, TRANS_JOB
+						, TNS_EXEC_ID
+						, TRANS_CNT
+						, FILE_GROUP_ID
+						, PROGRAM_ID
+						, TRANS_STATUS
+						, TRANS_RST_STS
+						, FIRST_TRANS_CURR
+						, COMPLETE_TRANS_CURR
+						, FIN_FLAG
+						, WK_FLAG
+						, DATA_COUNT
+						, REG_PGM_ID
+						, REG_USER
+						, REG_DT
+						, REG_DT_CURR
+						, REG_DT_LOC
+						, REG_IP
+						, MOD_PGM_ID
+						, MOD_USER
+						, MOD_DT
+						, MOD_DT_CURR
+						, MOD_DT_LOC
+						, MOD_IP 
+					FROM T_SM_SEND_MAIN WITH(NOLOCK)
+					WHERE TRANS_ID = #{TRANS_ID}
+					
+				UNION ALL
+				   SELECT COMPANY_CD
+						, PLANT_CD
+						, TRANS_ID
+						, DESTINATION
+						, DEPARTURE
+						, TRANS_MD
+						, TRANS_JOB
+						, TNS_EXEC_ID
+						, TRANS_CNT
+						, FILE_GROUP_ID
+						, PROGRAM_ID
+						, TRANS_STATUS
+						, TRANS_RST_STS
+						, FIRST_TRANS_CURR
+						, COMPLETE_TRANS_CURR
+						, FIN_FLAG
+						, WK_FLAG
+						, DATA_COUNT
+						, REG_PGM_ID
+						, REG_USER
+						, REG_DT
+						, REG_DT_CURR
+						, REG_DT_LOC
+						, REG_IP
+						, MOD_PGM_ID
+						, MOD_USER
+						, MOD_DT
+						, MOD_DT_CURR
+						, MOD_DT_LOC
+						, MOD_IP 
+					FROM T_SM_SEND_MAIN WITH(NOLOCK)
+					WHERE TRANS_ID != #{TRANS_ID}
+					 AND PLANT_CD = #{PLANT_CD}
+					 AND DESTINATION = #{DESTINATION}
+					 AND DEPARTURE = #{DEPARTURE}
+					 AND TNS_EXEC_ID = #{TNS_EXEC_ID}
+					 AND ISNULL(USE_YN,'Y') = 'Y'
+					 AND TRANS_STATUS IN ('01','03') 
+					) SM
+			 ORDER BY REG_DT_LOC ASC
+		]]>
+    </select>
+    
+    <select id="SM_TRANS_SEND_MAIN_SEARCH" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+		SELECT  A.COMPANY_CD
+			, 		A.PLANT_CD
+			,		A.TRANS_ID
+			,		A.DEPARTURE
+			,		A.DESTINATION
+			,		A.TRANS_MD
+			,		A.TRANS_JOB
+			,		A.TNS_EXEC_ID
+			,		A.TRANS_CNT
+			,		A.FILE_GROUP_ID
+			,		A.PROGRAM_ID
+			,		A.TRANS_STATUS
+			,		A.TRANS_RST_STS
+		
+			,		A.FIN_FLAG
+			,		A.WK_FLAG
+			,		A.REG_PGM_ID
+			,		A.REG_USER
+			,		A.REG_DT
+			,		A.REG_DT_CURR
+			,		A.REG_DT_LOC
+			,		A.REG_IP
+			,		A.MOD_PGM_ID
+			,		A.MOD_USER
+			,		A.MOD_DT
+			,		A.MOD_DT_CURR
+			,		A.MOD_DT_LOC
+			,		A.MOD_IP
+			FROM T_SM_SEND_MAIN A WITH(NOLOCK)
+			WHERE 1=1
+			AND (A.FTP_TRANS_STATUS IS NULL OR A.FTP_TRANS_STATUS = '01')
+			AND A.TRANS_ID = #{TRANS_ID} 	
+			ORDER
+			BY
+			A.REG_DT_LOC
+        ]]>
+	</select>
+	
+   	<select id="SM_SEND_DESTIP" resultType="java.lang.String">
+		SELECT  Z.STR1
+		FROM T_CM_CODE Z WITH(NOLOCK)
+		WHERE Z.GRP_CD = 'TRANS_DEST'
+		AND Z.CMCD = #{DESTINATION}
+	</select>
+	
+    <update id="SM_SEND_FILE_U_FAIL" parameterType="java.util.HashMap">  
+	UPDATE T_SM_SEND_MAIN
+	SET    FTP_TRANS_STATUS   = #{FTP_TRANS_STATUS}      
+	,      MOD_PGM_ID         = #{MOD_PGM_ID}
+	,      MOD_USER           = #{MOD_USER}
+	,      MOD_DT             = #{MOD_DT}
+	,      MOD_DT_CURR        = #{MOD_DT_CURR}
+	,      MOD_DT_LOC         = #{MOD_DT_LOC}
+	,      MOD_IP             = #{MOD_IP}
+	WHERE  COMPANY_CD         = #{COMPANY_CD}
+	AND    PLANT_CD           = #{PLANT_CD}
+	AND    TRANS_ID           = #{TRANS_ID}
+	AND    DEPARTURE          = #{DEPARTURE}
+	</update>
+	
+	<insert id="SM_SEND_FILE_HISTORY_I_FAIL" parameterType="java.util.HashMap">  
+	INSERT INTO T_SM_SEND_HISTORY
+					( COMPANY_CD
+					, PLANT_CD
+					, TRANS_ID
+					, DESTINATION
+					, TRANS_SEQ
+					, TRANS_STATUS
+					, TRANS_RST_STS 
+					, REMARK
+					, FIN_FLAG
+					, WK_FLAG
+					, REG_PGM_ID
+					, REG_USER
+					, REG_DT
+					, REG_DT_CURR
+					, REG_DT_LOC
+					, REG_IP
+					, MOD_PGM_ID
+					, MOD_USER
+					, MOD_DT
+					, MOD_DT_CURR
+					, MOD_DT_LOC
+					, MOD_IP
+					) VALUES
+					( #{COMPANY_CD}
+					, #{PLANT_CD}
+					, #{TRANS_ID}
+					, #{DESTINATION}
+					, ISNULL((SELECT MAX(Z.TRANS_SEQ)
+				      FROM T_SM_SEND_HISTORY Z WITH(NOLOCK)
+				      WHERE Z.COMPANY_CD = #{COMPANY_CD}
+				      AND Z.TRANS_ID     = #{TRANS_ID}
+				      AND Z.PLANT_CD     = #{PLANT_CD}
+				      AND Z.DESTINATION  = #{DESTINATION}
+				      AND Z.TRANS_STATUS =#{TRANS_STATUS}),0)+1
+					, #{TRANS_STATUS}
+					, #{TRANS_RST_STS}
+					, #{REMARK}
+					, #{FIN_FLAG}
+					, 'I'
+					, #{REG_PGM_ID}
+					, #{REG_USER}
+					, #{REG_DT}
+					, #{REG_DT_CURR}
+					, #{REG_DT_LOC}
+					, #{REG_IP}
+					, #{MOD_PGM_ID}
+					, #{MOD_USER}
+					, #{MOD_DT}
+					, #{MOD_DT_CURR}
+					, #{MOD_DT_LOC}
+					, #{MOD_IP}
+					)
+	</insert>
+	
+</mapper>

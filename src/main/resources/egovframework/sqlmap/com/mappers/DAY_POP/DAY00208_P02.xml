@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00208_P02                                                         
+     * 프로그램 명     	: 수급자 외출기록                                                    
+     * Description 	: 수급자 외출기록 조회, 저장, 삭제
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-16 10:50        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00208_P02_DS_OUT_SELECT_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00208_P02">
+	<!-- 조회 -->
+    <select id="DAY00208_P02_DS_OUT_SELECT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00208_DS_OUT_SELECT_S */
+		SELECT  
+			  sicode
+			, 외출번호
+			, 거주자명
+			, 거주코드
+			, 외출구분
+			, 외출일
+			, REPLACE(외출일,'-','') AS date
+			, 외출시
+			, 외출분
+			, 복귀시
+			, 복귀분
+			, 행선지
+			, 외출목적
+			, 보호자명
+			, 보호자관계
+			, 보호자전화
+			, 확인담당
+			, 담당코드
+			, CONCAT(확인담당, '/' ,담당코드) AS writer
+		FROM kmstayout
+		WHERE sicode = #{SICODE}		
+		AND 거주코드 = #{M_CODE}
+		AND 외출번호 = #{M_NUM}
+    </select>
+    
+    <update id="DAY00208_P02_DS_OUT_SELECT_U" parameterType="java.util.HashMap">
+    /* 2-8 P02 수정 */
+    UPDATE kmstayout
+    SET
+           외출구분 = #{외출구분}
+    , 외출시  = #{외출시} 
+    , 외출분 = #{외출분}
+    , 복귀시 = #{복귀시}
+    , 복귀분 = #{복귀분}
+    , 행선지 = #{행선지}
+    , 외출목적 = #{외출목적}
+    , 보호자명 = #{보호자명}
+    , 보호자관계 = #{보호자관계}
+    , 보호자전화 = #{보호자전화}
+    , 확인담당 = #{확인담당}
+    , 담당코드 = #{담당코드}
+    WHERE sicode = #{sicode}
+    AND 외출번호 = #{외출번호}
+    </update> 
+    
+    <delete id="DAY00208_P02_DS_OUT_SELECT_D" parameterType="java.util.HashMap">
+    /* 2-8 P02 삭제 */
+    DELETE FROM kmstayout
+    WHERE sicode = #{sicode}
+    AND  외출번호 = #{외출번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

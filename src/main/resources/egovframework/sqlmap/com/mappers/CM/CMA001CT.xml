@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- /** * * WARNING: Auto create * Template File Version : 1.0 * Create 
+	:2020-07-08 13:22 * **/ *================================================================ 
+	* 프로그램 ID : CMA001CT * 프로그램 명 : 전자게시판 * Description :
+	*================================================================ 
+	작성일자 | 작성자 | 비고
+	
+	 *================================================================ 
+	2020-07-08 13:22 | | 최초작성 *================================================================ 
+	* Statement List *================================================================ 
+	*================================================================ -->
+<mapper namespace="CMA001CT">
+	<select id="CMA001CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		 SELECT "0" AS CHK
+				,A.COMPANY_CD
+				,A.COMPANY_CD AS ORI_COMPANY_CD
+				,A.COMPANY_NM
+				,A.SERVICE_TP
+				,A.SUB_SERVICE1
+				,A.SUB_SERVICE2
+				,A.USE_YN
+				,A.REG_NO
+				,A.CORP_NO
+				,A.ZIP_CODE
+				,A.ADDRESS
+				,A.BIZ_ITM
+				,A.PRESIDENT_NM
+				,A.TEL_NO
+				,A.TEL_NO2
+				,A.FAX_NO
+				,A.START_DT
+				,A.END_DT
+				,A.HOMEPAGE_URL
+				,A.BUSINESS_CATEGORY
+				,A.BUSINESS_CONDITION
+				,A.BUSINESS_TP
+				,A.REF_SYS_TP
+				,A.REF_SYS_COMP_CD
+				,CONCAT(LEFT(A.BRE_FR_TIME,2),":",RIGHT(A.BRE_FR_TIME,2),"~",LEFT(A.BRE_TO_TIME,2),":",RIGHT(A.BRE_TO_TIME,2)) AS BRE_TIME
+				,LEFT(A.BRE_FR_TIME,2) AS BRE_FR_HOUR
+				,RIGHT(A.BRE_FR_TIME,2) AS BRE_FR_MINUTE
+				,LEFT(A.BRE_TO_TIME,2) AS BRE_TO_HOUR
+				,RIGHT(A.BRE_TO_TIME,2) AS BRE_TO_MINUTE
+				,CONCAT(LEFT(A.LUN_FR_TIME,2),":",RIGHT(A.LUN_FR_TIME,2),"~",LEFT(A.LUN_TO_TIME,2),":",RIGHT(A.LUN_TO_TIME,2)) AS LUN_TIME
+				,LEFT(A.LUN_FR_TIME,2) AS LUN_FR_HOUR
+				,RIGHT(A.LUN_FR_TIME,2) AS LUN_FR_MINUTE
+				,LEFT(A.LUN_TO_TIME,2) AS LUN_TO_HOUR
+				,RIGHT(A.LUN_TO_TIME,2) AS LUN_TO_MINUTE
+				,CONCAT(LEFT(A.DIN_FR_TIME,2),":",RIGHT(A.DIN_FR_TIME,2),"~",LEFT(A.DIN_TO_TIME,2),":",RIGHT(A.DIN_TO_TIME,2)) AS DIN_TIME
+				,LEFT(A.DIN_FR_TIME,2) AS DIN_FR_HOUR
+				,RIGHT(A.DIN_FR_TIME,2) AS DIN_FR_MINUTE
+				,LEFT(A.DIN_TO_TIME,2) AS DIN_TO_HOUR
+				,RIGHT(A.DIN_TO_TIME,2) AS DIN_TO_MINUTE
+				,CONCAT(LEFT(A.MOR_SNACK_TIME,2),":",RIGHT(A.MOR_SNACK_TIME,2)) AS MOR_TIME
+				,LEFT(A.MOR_SNACK_TIME,2) AS MOR_SNACK_HOUR
+				,RIGHT(A.MOR_SNACK_TIME,2) AS MOR_SNACK_MINUTE
+				,CONCAT(LEFT(A.AFT_SNACK_TIME,2),":",RIGHT(A.AFT_SNACK_TIME,2)) AS AFT_TIME
+				,LEFT(A.AFT_SNACK_TIME,2) AS AFT_SNACK_HOUR
+				,RIGHT(A.AFT_SNACK_TIME,2) AS AFT_SNACK_MINUTE
+				,A.REG_PGM_ID
+				,A.REG_USER
+				,(SELECT CU.USER_NM_KOR
+					FROM T_CM_USER CU
+				   WHERE A.COMPANY_CD = CU.COMPANY_CD
+				     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+				,A.REG_DT
+				,A.REG_DT_CURR
+				,A.REG_DT_LOC
+				,A.REG_IP
+				,A.MOD_PGM_ID
+				,A.MOD_USER
+				,(SELECT CU.USER_NM_KOR
+					FROM T_CM_USER CU
+				   WHERE A.COMPANY_CD = CU.COMPANY_CD
+				     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+				,A.MOD_DT
+				,A.MOD_DT_CURR
+				,A.MOD_DT_LOC
+				,A.MOD_IP
+				,A.CAMERA_YN
+				,A.CAMERA_ID
+				,A.CAMERA_PW
+			FROM T_CM_COMPANY A
+		   WHERE 1 = 1
+		<if test="COMPANY_CD != '' and COMPANY_CD != null"> 
+		    AND A.COMPANY_CD = #{COMPANY_CD}
+		</if>    
+		<if test="SERVICE_TP != '' and SERVICE_TP != null">
+			AND A.SERVICE_TP = #{SERVICE_TP}
+		</if>
+		<if test="USE_YN != '' and USE_YN != null">
+			AND A.USE_YN = #{USE_YN}
+		</if>
+		<if test="PRESIDENT_NM != '' and PRESIDENT_NM != null">
+			AND A.PRESIDENT_NM LIKE CONCAT('%' , #{PRESIDENT_NM} , '%')
+		</if>
+		<if test="START_DT != '' and START_DT != null">
+		 <![CDATA[
+			AND A.BIZ_START_DT >= #{START_DT}
+		 ]]>
+		</if>
+		<if test="END_DT != '' and END_DT != null">
+		 <![CDATA[
+			AND A.BIZ_LAST_DT <= #{END_DT}
+		]]>
+		</if>
+	</select>
+	<!--INSERT -->
+	<insert id="CMA001CT_DS_HEAD_I" parameterType="java.util.HashMap">                                                                                            
+	    <![CDATA[                                                                                                                                                                                                      
+			INSERT INTO T_CM_COMPANY
+			(
+			COMPANY_CD
+			,SERVICE_TP
+			,COMPANY_NM
+			,SUB_SERVICE1
+			,SUB_SERVICE2
+			,USE_YN
+			,REG_NO
+			,CORP_NO
+			,COUNTRY_CD
+			,BIZ_ITM
+			,PRESIDENT_NM
+			,PRESIDENT_NM_ENG
+			,TEL_NO
+			,TEL_NO2
+			,FAX_NO
+			,BIZ_START_DT
+			,BIZ_LAST_DT
+			,HOMEPAGE_URL
+			,FISCAL_PERIOD
+			,START_DT
+			,END_DT
+			,PURCHASE_TAX_CALC_TP
+			,SALES_TAX_CALC_TP
+			,TAX_CALC_TP
+			,PURCHASE_KEY_TP
+			,BUSINESS_CATEGORY
+			,BUSINESS_CONDITION
+			,E_MAIL
+			,TAX_OFFICE_CD
+			,COMPANY_AREA
+			,BUSINESS_TP
+			,TAX_REPORT_TP
+			,TOT_PAY_APPROVAL_NO
+			,BIZ_UNIT_TAX_APPROVAL_NO
+			,CALENDAR_CD
+			,GROUP_TP
+			,IMG_SRC
+			,ADDRESS
+			,ADDRESS_ENG
+			,ZIP_CODE
+			,REF_SYS_TP
+			,REF_SYS_COMP_CD
+			,BRE_FR_TIME
+			,BRE_TO_TIME
+			,LUN_FR_TIME
+			,LUN_TO_TIME
+			,DIN_FR_TIME
+			,DIN_TO_TIME
+			,MOR_SNACK_TIME
+			,AFT_SNACK_TIME
+			,REG_PGM_ID
+			,REG_USER
+			,REG_DT
+			,REG_DT_CURR
+			,REG_DT_LOC
+			,REG_IP
+			,CAMERA_YN
+			,CAMERA_ID
+			,CAMERA_PW
+			)
+			VALUES (
+			 #{COMPANY_CD              }
+			,#{SERVICE_TP              }
+			,#{COMPANY_NM              }
+			,#{SUB_SERVICE1            }
+			,#{SUB_SERVICE2            }
+			,#{USE_YN                  }
+			,#{REG_NO                  }
+			,#{CORP_NO                 }
+			,#{COUNTRY_CD              }
+			,#{BIZ_ITM                 }
+			,#{PRESIDENT_NM            }
+			,#{PRESIDENT_NM_ENG        }
+			,#{TEL_NO                  }
+			,#{TEL_NO2                 }
+			,#{FAX_NO                  }
+			,#{BIZ_START_DT            }
+			,#{BIZ_LAST_DT             }
+			,#{HOMEPAGE_URL            }
+			,#{FISCAL_PERIOD           }
+			,#{START_DT                }
+			,#{END_DT                  }
+			,#{PURCHASE_TAX_CALC_TP    }
+			,#{SALES_TAX_CALC_TP       }
+			,#{TAX_CALC_TP             }
+			,#{PURCHASE_KEY_TP         }
+			,#{BUSINESS_CATEGORY       }
+			,#{BUSINESS_CONDITION      }
+			,#{E_MAIL                  }
+			,#{TAX_OFFICE_CD           }
+			,#{COMPANY_AREA            }
+			,#{BUSINESS_TP             }
+			,#{TAX_REPORT_TP           }
+			,#{TOT_PAY_APPROVAL_NO     }
+			,#{BIZ_UNIT_TAX_APPROVAL_NO}
+			,#{CALENDAR_CD             }
+			,#{GROUP_TP                }
+			,#{IMG_SRC                 }
+			,#{ADDRESS                 }
+			,#{ADDRESS_ENG             }
+			,#{ZIP_CODE                }
+			,#{REF_SYS_TP              }
+			,#{REF_SYS_COMP_CD         }
+			,CONCAT(IFNULL(#{BRE_FR_HOUR},'00'),IFNULL(#{BRE_FR_MINUTE},'00'))
+			,CONCAT(IFNULL(#{BRE_TO_HOUR},'00'),IFNULL(#{BRE_TO_MINUTE},'00'))
+			,CONCAT(IFNULL(#{LUN_FR_HOUR},'00'),IFNULL(#{LUN_FR_MINUTE},'00'))
+			,CONCAT(IFNULL(#{LUN_TO_HOUR},'00'),IFNULL(#{LUN_TO_MINUTE},'00'))
+			,CONCAT(IFNULL(#{DIN_FR_HOUR},'00'),IFNULL(#{DIN_FR_MINUTE},'00'))
+			,CONCAT(IFNULL(#{DIN_TO_HOUR},'00'),IFNULL(#{DIN_TO_MINUTE},'00'))
+			,CONCAT(IFNULL(#{MOR_SNACK_HOUR},'00'),IFNULL(#{MOR_SNACK_MINUTE},'00'))
+			,CONCAT(IFNULL(#{AFT_SNACK_HOUR},'00'),IFNULL(#{AFT_SNACK_MINUTE},'00'))
+			,#{REG_PGM_ID              }
+			,#{REG_USER                }
+			,#{REG_DT                  }
+			,#{REG_DT_CURR             }
+			,#{REG_DT_LOC              }
+			,#{REG_IP                  }
+			,#{CAMERA_YN}
+			,#{CAMERA_ID}
+			,#{CAMERA_PW}
+			)
+	    ]]>
+	</insert>
+
+
+
+	<!--UPDATE -->
+	<update id="CMA001CT_DS_HEAD_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+				  UPDATE T_CM_COMPANY  
+					 SET COMPANY_CD          = #{COMPANY_CD}
+						,COMPANY_NM          = #{COMPANY_NM}
+						,PRESIDENT_NM        = #{PRESIDENT_NM}
+						,TEL_NO              = #{TEL_NO}
+						,TEL_NO2             = #{TEL_NO2}
+						,FAX_NO              = #{FAX_NO}
+						,REG_NO              = #{REG_NO}
+						,CORP_NO             = #{CORP_NO}
+						,BUSINESS_CONDITION  = #{BUSINESS_CONDITION}
+						,BIZ_ITM             = #{BIZ_ITM}
+						,ZIP_CODE            = #{ZIP_CODE}
+						,ADDRESS             = #{ADDRESS}
+						,SERVICE_TP          = #{SERVICE_TP}
+						,USE_YN              = #{USE_YN}
+						,SUB_SERVICE1        = #{SUB_SERVICE1}
+						,SUB_SERVICE2        = #{SUB_SERVICE2}
+						,REF_SYS_TP          = #{REF_SYS_TP}
+						,REF_SYS_COMP_CD     = #{REF_SYS_COMP_CD}    
+						,START_DT            = #{START_DT}    
+						,END_DT              = #{END_DT}          
+						,HOMEPAGE_URL        = #{HOMEPAGE_URL}
+						,BRE_FR_TIME         = CONCAT(IFNULL(#{BRE_FR_HOUR},'00'),IFNULL(#{BRE_FR_MINUTE},'00'))
+						,BRE_TO_TIME         = CONCAT(IFNULL(#{BRE_TO_HOUR},'00'),IFNULL(#{BRE_TO_MINUTE},'00'))
+						,LUN_FR_TIME         = CONCAT(IFNULL(#{LUN_FR_HOUR},'00'),IFNULL(#{LUN_FR_MINUTE},'00'))
+						,LUN_TO_TIME         = CONCAT(IFNULL(#{LUN_TO_HOUR},'00'),IFNULL(#{LUN_TO_MINUTE},'00'))
+						,DIN_FR_TIME         = CONCAT(IFNULL(#{DIN_FR_HOUR},'00'),IFNULL(#{DIN_FR_MINUTE},'00'))
+						,DIN_TO_TIME         = CONCAT(IFNULL(#{DIN_TO_HOUR},'00'),IFNULL(#{DIN_TO_MINUTE},'00'))
+						,MOR_SNACK_TIME      = CONCAT(IFNULL(#{MOR_SNACK_HOUR},'00'),IFNULL(#{MOR_SNACK_MINUTE},'00'))
+						,AFT_SNACK_TIME      = CONCAT(IFNULL(#{AFT_SNACK_HOUR},'00'),IFNULL(#{AFT_SNACK_MINUTE},'00'))
+						,MOD_PGM_ID          = #{MOD_PGM_ID}  
+						,MOD_USER            = #{MOD_USER}  
+						,MOD_DT              = #{MOD_DT}  
+						,MOD_DT_CURR         = #{MOD_DT_CURR}  
+						,MOD_DT_LOC          = #{MOD_DT_LOC}  
+						,MOD_IP              = #{MOD_IP}
+						,CAMERA_YN			 = #{CAMERA_YN}
+						,CAMERA_ID           = #{CAMERA_ID}
+						,CAMERA_PW           = #{CAMERA_PW}
+		           WHERE COMPANY_CD    = #{ORI_COMPANY_CD}
+    ]]>
+	</update>
+	
+</mapper>                                                                                                                                                                                                          

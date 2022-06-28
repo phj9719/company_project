@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00306_P01
+     * 프로그램 명     	: 연간 물리치료 제공집계
+     * Description 		: 연도별 물리치료 제공집계 조회
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-06-02 09:30        	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00306_P01_DS_LIST_S		조회
+     *================================================================
+-->
+<mapper namespace="DAY00306_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00306_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-6 P01 조회 */
+    WITH RECURSIVE line AS
+    (
+      SELECT 1 AS row_num
+      UNION ALL
+      SELECT row_num + 1 AS row_num
+      FROM line
+      WHERE row_num &lt; 12
+    )
+    SELECT
+      sub.code
+    , sub.value
+    , SUM(dat.d_참여) AS tot
+    , SUM(CASE WHEN sub.row_num = 1 THEN dat.d_참여 END) AS mon01
+    , SUM(CASE WHEN sub.row_num = 2 THEN dat.d_참여 END) AS mon02
+    , SUM(CASE WHEN sub.row_num = 3 THEN dat.d_참여 END) AS mon03
+    , SUM(CASE WHEN sub.row_num = 4 THEN dat.d_참여 END) AS mon04
+    , SUM(CASE WHEN sub.row_num = 5 THEN dat.d_참여 END) AS mon05
+    , SUM(CASE WHEN sub.row_num = 6 THEN dat.d_참여 END) AS mon06
+    , SUM(CASE WHEN sub.row_num = 7 THEN dat.d_참여 END) AS mon07
+    , SUM(CASE WHEN sub.row_num = 8 THEN dat.d_참여 END) AS mon08
+    , SUM(CASE WHEN sub.row_num = 9 THEN dat.d_참여 END) AS mon09
+    , SUM(CASE WHEN sub.row_num = 10 THEN dat.d_참여 END) AS mon10
+    , SUM(CASE WHEN sub.row_num = 11 THEN dat.d_참여 END) AS mon11
+    , SUM(CASE WHEN sub.row_num = 12 THEN dat.d_참여 END) AS mon12
+    FROM
+    (
+      SELECT
+        CONCAT(#{YEAR}, LPAD(lin.row_num, 2, '0')) AS mon
+      , lin.row_num
+      , cod.code
+      , cod.value
+      FROM line AS lin
+      JOIN vw_code_habilit AS cod
+    ) AS sub
+    LEFT JOIN
+    (
+      SELECT
+        DATE_FORMAT(hab.mulday, '%Y%m') AS mon
+      , CASE
+          WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN hab.치료01
+          WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN hab.치료02
+          WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN hab.치료03
+          WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN hab.치료04
+          WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN hab.치료05
+          WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN hab.치료06
+          WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN hab.치료07
+          WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN hab.치료08
+        END AS d_치료
+      , SUM(
+          CASE
+            WHEN lin.row_num = 1 AND hab.참여01 = 1 THEN 1
+            WHEN lin.row_num = 2 AND hab.참여02 = 1 THEN 1
+            WHEN lin.row_num = 3 AND hab.참여03 = 1 THEN 1
+            WHEN lin.row_num = 4 AND hab.참여04 = 1 THEN 1
+            WHEN lin.row_num = 5 AND hab.참여05 = 1 THEN 1
+            WHEN lin.row_num = 6 AND hab.참여06 = 1 THEN 1
+            WHEN lin.row_num = 7 AND hab.참여07 = 1 THEN 1
+            WHEN lin.row_num = 8 AND hab.참여08 = 1 THEN 1
+          END
+        ) AS d_참여
+      FROM
+      (
+          SELECT hea.*
+          FROM heal_habilit AS hea
+          WHERE hea.sicode = #{SICODE}
+          AND hea.mulday BETWEEN STR_TO_DATE(CONCAT(#{YEAR}, '0101'), '%Y%m%d') AND STR_TO_DATE(CONCAT(#{YEAR}, '1231'), '%Y%m%d')
+      ) AS hab
+      JOIN line AS lin
+      ON (lin.row_num &lt;= 8)
+      GROUP BY
+        d_치료
+      , mon
+      HAVING d_치료 IS NOT NULL
+    ) AS dat
+    ON (sub.mon = dat.mon
+        AND sub.code = dat.d_치료)
+    GROUP BY
+      sub.code
+    , sub.value
+    ORDER BY sub.code
+    </select>
+</mapper>

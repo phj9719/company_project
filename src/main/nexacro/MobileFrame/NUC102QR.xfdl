@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC102QR" width="480" height="768" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="식사" onload="NUC102QR_onload" ondevicebuttonup="NUC102QR_ondevicebuttonup">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile" stepcount="0">
+        <Static id="sta_weekTitle" taborder="0" text="지난 주간 식사정보" left="5.00%" top="230" height="40" cssclass="sta_title" right="5.00%"/>
+        <Static id="sta_weekRemark" taborder="1" text="지난 일주일간의 식사정보 입니다." left="5.00%" top="271" height="30" cssclass="sta_txt" right="5.00%"/>
+        <Div id="div_mealToday" taborder="2" left="5.00%" top="70" height="140" right="5.00%" background="#8cdd75" borderRadius="6px" formscrolltype="both" formscrollbartype="indicator">
+          <Layouts>
+            <Layout>
+              <Static id="sta_mealToday" taborder="0" text="금일식사현황" left="2.78%" top="11" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" right="2.78%" textAlign="center"/>
+              <Div id="div_mealLine" taborder="1" text="Div00" left="2.78%" top="49" height="2" right="2.78%"/>
+              <Static id="sta_breH" taborder="2" text="아침식사" left="2.78%" top="63" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="70" textAlign="center"/>
+              <Static id="sta_lunH" taborder="3" text="점심식사" left="21.53%" top="63" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="70" textAlign="center"/>
+              <Static id="sta_dinH" taborder="4" text="저녁식사" left="41.44%" top="63" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="70" textAlign="center"/>
+              <Static id="sta_morSnackH" taborder="5" text="오전간식" left="61.81%" top="63" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="70" textAlign="center"/>
+              <Static id="sta_aftSnackH" taborder="6" text="오후간식" top="63" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="70" textAlign="center" right="2.78%"/>
+              <Static id="sta_breVal" taborder="7" left="2.78%" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="70" textAlign="center" text="-"/>
+              <Static id="sta_lunVal" taborder="8" left="21.30%" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="70" textAlign="center" text="-"/>
+              <Static id="sta_dinVal" taborder="9" left="40.97%" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="70" textAlign="center" text="-"/>
+              <Static id="sta_morSnackVal" taborder="10" left="61.11%" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="70" textAlign="center" text="-"/>
+              <Static id="sta_aftSnackVal" taborder="11" top="97" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#3e8f2b" width="70" textAlign="center" right="2.78%" text="-"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_week" taborder="3" text="2021.06.28(월)" left="5.00%" top="310" height="46" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#ffffff" right="4.38%" verticalAlign="middle" background="#8cdd75" borderRadius="23px"/>
+        <Static id="sta_todayTitle" taborder="4" text="오늘 식사 현황" left="5%" top="20" height="40" cssclass="sta_title" right="5.00%"/>
+        <Grid id="grd_list" taborder="5" left="5.00%" top="365" autofittype="col" cssclass="grd_grin" right="4.38%" binddataset="ds_list" bottom="4%">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="60"/>
+                <Column size="60"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="일자&#13;&#10;(요일)" background="#8cdd75"/>
+                <Cell col="1" colspan="3" text="식사" background="#8cdd75" border="1px solid transparent,1px solid #ffffff,1px solid #ffffff"/>
+                <Cell col="4" colspan="2" text="간식" background="#8cdd75" border="1px solid transparent,1px solid #ffffff,1px solid #ffffff"/>
+                <Cell row="1" col="1" text="아침" background="#8cdd75"/>
+                <Cell row="1" col="2" text="점심" background="#8cdd75"/>
+                <Cell row="1" col="3" text="저녁" background="#8cdd75"/>
+                <Cell row="1" col="4" text="오전" background="#8cdd75"/>
+                <Cell row="1" col="5" text="오후" background="#8cdd75"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DATE"/>
+                <Cell col="1" combodisplaynulltext="X" text="bind:BRE_QTY" displaytype="combotext" combodataset="ds_nu_meal_amt" combodatacol="CMNM" combocodecol="CMCD" combodisplaynulltype="nulltext"/>
+                <Cell col="2" text="bind:LUN_QTY" displaytype="combotext" combodisplaynulltext="X" combodataset="ds_nu_meal_amt" combodatacol="CMNM" combocodecol="CMCD" combodisplaynulltype="nulltext"/>
+                <Cell col="3" text="bind:DIN_QTY" displaytype="combotext" combodisplaynulltext="X" combodataset="ds_nu_meal_amt" combodatacol="CMNM" combocodecol="CMCD" combodisplaynulltype="nulltext"/>
+                <Cell col="4" text="bind:MOR_SNACK_QTY" displaytype="combotext" combodisplaynulltext="X" combodataset="ds_nu_meal_amt" combodatacol="CMNM" combocodecol="CMCD" combodisplaynulltype="nulltext"/>
+                <Cell col="5" text="bind:AFT_SNACK_QTY" displaytype="combotext" combodisplaynulltext="X" combodataset="ds_nu_meal_amt" combodatacol="CMNM" combocodecol="CMCD" combodisplaynulltype="nulltext"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="FROM" type="STRING" size="256"/>
+          <Column id="TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="MEA_DT" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="BRE_QTY" type="STRING" size="256"/>
+          <Column id="LUN_QTY" type="STRING" size="256"/>
+          <Column id="DIN_QTY" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_QTY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_meal_amt">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_meal" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="MEA_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="BRE_QTY" type="STRING" size="256"/>
+          <Column id="LUN_QTY" type="STRING" size="256"/>
+          <Column id="DIN_QTY" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_QTY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC102QR
+ * 화면명   	: 식사
+ * 화면설명 	: 모바일에서 입소자의 오늘 식사와 지난 주간 식사정보
+				  (식사량)를 조회하는 화면
+ * 작성일    	: 2021-09-08
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC102QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const today = Sct.Util.getToday();
+	const to = Sct.Util.addDate(today, -1);
+	const from = Sct.Util.addDate(to, -6);
+	const todayDdd = Sct.Util.getDayH(today, false);
+	const fromDay = Sct.Util.getDayH(from, false);
+	const toDay = Sct.Util.getDayH(to, false);
+	
+	const todayStr = today.substr(0, 4) + "." + today.substr(4, 2) + "." + today.substr(6, 2) + "(" + todayDdd + ")";
+	const fromStr = from.substr(0, 4) + "." + from.substr(4, 2) + "." + from.substr(6, 2) + "(" + fromDay + ")";
+	const toStr = to.substr(0, 4) + "." + to.substr(4, 2) + "." + to.substr(6, 2) + "(" + toDay + ")";
+	const weekStr = fromStr + " ~ " + toStr;
+	
+	this.div_mealToday.form.sta_mealToday.set_text(todayStr);
+	this.sta_week.set_text(weekStr);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "DATE", today);
+	this.ds_search.setColumn(0, "FROM", from);
+	this.ds_search.setColumn(0, "TO", to);
+	
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC102QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search input2=ds_search";
+	var outDatasets = "ds_meal=output1 ds_list=output2";
+	var argument = "method=getList "
+		+ "sqlId='NUC102QR.NUC102QR_DS_MEAL_S NUC102QR.NUC102QR_DS_LIST_S '";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if(this.ds_meal.rowcount < 1)
+			{
+				this.div_mealToday.form.sta_breVal.set_text('X');
+				this.div_mealToday.form.sta_lunVal.set_text('X');
+				this.div_mealToday.form.sta_dinVal.set_text('X');
+				this.div_mealToday.form.sta_morSnackVal.set_text('X');
+				this.div_mealToday.form.sta_aftSnackVal.set_text('X');
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+ ]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_mealToday.form.sta_breVal" propid="text" datasetid="ds_meal" columnid="BRE_QTY"/>
+      <BindItem id="item1" compid="div_mealToday.form.sta_lunVal" propid="text" datasetid="ds_meal" columnid="LUN_QTY"/>
+      <BindItem id="item2" compid="div_mealToday.form.sta_dinVal" propid="text" datasetid="ds_meal" columnid="DIN_QTY"/>
+      <BindItem id="item3" compid="div_mealToday.form.sta_morSnackVal" propid="text" datasetid="ds_meal" columnid="MOR_SNACK_QTY"/>
+      <BindItem id="item4" compid="div_mealToday.form.sta_aftSnackVal" propid="text" datasetid="ds_meal" columnid="AFT_SNACK_QTY"/>
+    </Bind>
+  </Form>
+</FDL>

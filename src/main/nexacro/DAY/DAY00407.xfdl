@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00407" width="1920" height="800" titletext="4-7 연간 운전자 송영집계표" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" right="0" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" left="0" top="0" width="510" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_subTitle1" taborder="0" text="운전자 목록" left="0" top="0" width="220" height="25" cssclass="lb01"/>
+                    <Grid id="grd_list" taborder="1" left="0" top="30" right="0" bottom="0" binddataset="ds_list" autofittype="col" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="직원성명"/>
+                            <Cell col="2" text="성별"/>
+                            <Cell col="3" text="그룹"/>
+                            <Cell col="4" text="담당직종"/>
+                            <Cell col="5" text="입사일"/>
+                            <Cell col="6" text="퇴사일"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:근무현황"/>
+                            <Cell col="1" text="bind:c_name" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                            <Cell col="2" text="bind:성별"/>
+                            <Cell col="3" text="bind:c_group"/>
+                            <Cell col="4" text="bind:담당직종" textAlign="left"/>
+                            <Cell col="5" text="bind:입사일" displaytype="date" expandchar="dot"/>
+                            <Cell col="6" text="bind:퇴사일" expandchar="dot" color="red" displaytype="date"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" text="div_00" left="div_left:10" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_subTitle2" taborder="0" text="연간 운전자 송영집계" left="0" top="0" width="190" height="25" cssclass="lb01"/>
+                    <Grid id="grd_detail" taborder="1" left="0" top="30" right="0" bottom="0" binddataset="ds_detail" autofittype="col">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="60"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="송영월"/>
+                            <Cell col="1" text="월인원"/>
+                            <Cell col="2" text="송영차량_1"/>
+                            <Cell col="3" text="인원"/>
+                            <Cell col="4" text="송영차량_2"/>
+                            <Cell col="5" text="인원"/>
+                            <Cell col="6" text="송영차량_3"/>
+                            <Cell col="7" text="인원"/>
+                            <Cell col="8" text="송영차량_4"/>
+                            <Cell col="9" text="인원"/>
+                            <Cell col="10" text="송영차량_5"/>
+                            <Cell col="11" text="인원"/>
+                            <Cell col="12" text="송영차량_6"/>
+                            <Cell col="13" text="인원"/>
+                            <Cell col="14" text="송영차량_7"/>
+                            <Cell col="15" text="인원"/>
+                            <Cell col="16" text="기타"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:송영월" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                            <Cell col="1" text="bind:월인원" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="right"/>
+                            <Cell col="2" text="bind:차번호1" textAlign="left"/>
+                            <Cell col="3" text="bind:인원1" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '인원1') == 0 ? '' : dataset.getColumn(currow, '인원1')" textAlign="right"/>
+                            <Cell col="4" text="bind:차번호2" textAlign="left"/>
+                            <Cell col="5" text="bind:인원2" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '인원2') == 0 ? '' : dataset.getColumn(currow, '인원2')" textAlign="right"/>
+                            <Cell col="6" text="bind:차번호3" textAlign="left"/>
+                            <Cell col="7" text="bind:인원3" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '인원3') == 0 ? '' : dataset.getColumn(currow, '인원3')" textAlign="right"/>
+                            <Cell col="8" text="bind:차번호4" textAlign="left"/>
+                            <Cell col="9" text="bind:인원4" expr="dataset.getColumn(currow, '인원4') == 0 ? '' : dataset.getColumn(currow, '인원4')" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                            <Cell col="10" text="bind:차번호5" textAlign="left"/>
+                            <Cell col="11" text="bind:인원5" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '인원5') == 0 ? '' : dataset.getColumn(currow, '인원5')" textAlign="right"/>
+                            <Cell col="12" text="bind:차번호6" textAlign="left"/>
+                            <Cell col="13" text="bind:인원6" expr="dataset.getColumn(currow, '인원6') == 0 ? '' : dataset.getColumn(currow, '인원6')" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                            <Cell col="14" text="bind:차번호7" textAlign="left"/>
+                            <Cell col="15" text="bind:인원7" expr="dataset.getColumn(currow, '인원7') == 0 ? '' : dataset.getColumn(currow, '인원7')" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                            <Cell col="16" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="right"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="345">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_from" taborder="0" left="102" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="1" text="~" left="215" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="2" left="230" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Combo id="cmb_year" taborder="3" left="0" top="4" width="90" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_search_cmb_year_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="div_search:10" top="0" height="36" formscrollbartype="none" width="868">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="0" text="연간 운전자 송영집계" left="0" top="4" width="175" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="c_staffid" type="STRING" size="256"/>
+          <Column id="근무현황" type="STRING" size="256"/>
+          <Column id="c_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="c_group" type="STRING" size="256"/>
+          <Column id="담당직종" type="STRING" size="256"/>
+          <Column id="입사일" type="STRING" size="256"/>
+          <Column id="퇴사일" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="mon" type="STRING" size="256"/>
+          <Column id="송영월" type="STRING" size="256"/>
+          <Column id="월인원" type="INT" size="256"/>
+          <Column id="차번호1" type="STRING" size="256"/>
+          <Column id="인원1" type="INT" size="256"/>
+          <Column id="차번호2" type="STRING" size="256"/>
+          <Column id="인원2" type="INT" size="256"/>
+          <Column id="차번호3" type="STRING" size="256"/>
+          <Column id="인원3" type="INT" size="256"/>
+          <Column id="차번호4" type="STRING" size="256"/>
+          <Column id="인원4" type="INT" size="256"/>
+          <Column id="차번호5" type="STRING" size="256"/>
+          <Column id="인원5" type="INT" size="256"/>
+          <Column id="차번호6" type="STRING" size="256"/>
+          <Column id="인원6" type="INT" size="256"/>
+          <Column id="차번호7" type="STRING" size="256"/>
+          <Column id="인원7" type="INT" size="256"/>
+          <Column id="기타인원" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="e_code" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00407
+ * 화면명   	: 연간 운전자 송영집계표
+ * 화면설명 	: 연간 운전자별 송영내역을 집계하는 화면
+ * 작성일   	: 2022-05-13
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ * 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	
+	// 년도 콤보박스 세팅
+	this.ds_year.clearData();
+	let nRow;
+	for (let i = 10; i > 0; i--)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year - i);
+		this.ds_year.setColumn(nRow, "CMNM", (year - i) + "년");
+	}
+	for (let i = 0; i < 11; i++)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year + i);
+		this.ds_year.setColumn(nRow, "CMNM", (year + i) + "년");
+	}
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE_FROM", year + "0101");
+	this.ds_search.setColumn(0, "DATE_TO", year + "1231");
+	this.ds_search.setColumn(0, "YEAR", year);
+	
+	// 조회
+	this.fn_search();
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "c_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	
+	// 퇴사여부에 따라 근무상태 배경색 변경
+	const nowIdx = grid.getBindCellIndex("body", "근무현황");
+	const nowCss = "expr:dataset.getColumn(currow, '근무현황') == '퇴사자' ? 'cellBRetire' : ''";
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00407.DAY00407_DS_LIST_S";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_searchDetail = function(code)
+{
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00407.DAY00407_DS_DETAIL_S"
+				   + " SICODE=" + fv_sicode
+				   + " YEAR=" + this.ds_search.getColumn(0, "YEAR")
+				   + " CODE=" + code;
+	
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.initGrid(this.div_cont.form.div_left.form.grd_list);
+		}
+		else if (strSvcID == "searchDetail")
+		{
+			//trace(this.ds_detail.getSum("월인원"));
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const driver = this.ds_report.getColumn(0, "e_code");
+	if (Sct.Util.isEmpty(driver))
+	{
+		this.alert("운전자를 선택해주세요");
+		return;
+	}
+	
+	const sum = this.ds_detail.getSum("월인원");
+	if (sum < 1)
+	{
+		this.alert("송영정보가 없는 운전자 입니다.");
+		return;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00407_R01.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_ECODE#" + this.ds_report.getColumn(0, "e_code") + "#"
+			  + "P_YEAR#" + this.ds_search.getColumn(0, "YEAR") + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 조회조건 년도 값 변경 이벤트
+this.div_search_cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "DATE_FROM", e.postvalue + '0101');
+	this.ds_search.setColumn(0, "DATE_TO", e.postvalue + '1231');
+	
+	// 값 변경시 조회
+	this.fn_search();
+};
+
+// 운전자 목록 그리드 셀 클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const nameIdx = obj.getBindCellIndex("body", "c_name");
+	//trace("nameIdx : " + nameIdx);
+	//trace("e.col : " + e.col);
+	//trace("e.cell : " + e.cell);
+	if (e.cell == nameIdx)
+	{
+		const code = this.ds_list.getColumn(e.row, "c_staffid");
+		this.ds_report.setColumn(0, "e_code", code);
+		this.fn_searchDetail(code);
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_year" propid="value" datasetid="ds_search" columnid="YEAR"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+    </Bind>
+  </Form>
+</FDL>

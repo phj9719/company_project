@@ -1,0 +1,706 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1300" height="730" onload="form_onload" titletext="법인등록" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup">
+    <Layouts>
+      <Layout width="1300" height="730">
+        <Div id="div_search" taborder="0" left="0" top="22" right="0.00%" height="74" cssclass="s01">
+          <Layouts>
+            <Layout>
+              <Static id="sta_company_nm" taborder="6" text="법인명" cssclass="sta_WF_SearchLabel" left="15" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle" onclick="div_search_sta_doc_no_onclick"/>
+              <Static id="sta_prd_nm" taborder="7" text="대표자명" cssclass="sta_WF_SearchLabel" left="265" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_serv_tp" taborder="8" text="서비스유형" cssclass="sta_WF_SearchLabel" left="515" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_prd_nm" taborder="1" left="360" top="11" width="130" height="21" autoselect="true"/>
+              <Static id="sta_cal" taborder="9" text="유효기간" cssclass="sta_WF_SearchLabel" left="765" top="11" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_use_yn" taborder="11" text="사용유무" cssclass="sta_WF_SearchLabel" left="15" top="42" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_serv_tp" taborder="2" left="610" top="11" width="130" height="21" innerdataset="ds_cm_service_tp" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+              <Combo id="cmb_use_yn" taborder="5" left="110" top="42" width="50" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_use_yn" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+              <Calendar id="cal_start_date" taborder="3" left="870" top="11" width="110" height="21" calendarfunc="calendar" headformat="yyyy.MM-dd"/>
+              <Static id="Static26_01" taborder="10" text="~" left="984" top="11" width="16" height="20" font="8pt &quot;Malgun Gothic&quot;"/>
+              <Calendar id="cal_end_date" taborder="4" left="995" top="11" width="110" height="21" calendarfunc="calendar" headformat="yyyy.MM-dd"/>
+              <Combo id="cmb_company" taborder="0" left="110" top="11" width="130" height="21" innerdataset="ds_company_cd_s" codecolumn="COMPANY_CD" datacolumn="COMPANY_NM" type="filterlike" autoselect="true" onitemchanged="div_search_cmb_company_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0" top="113" right="10" bottom="0">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" top="7" width="535" bottom="0" left="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_head" taborder="0" top="30" binddataset="ds_head" autoenter="select" onsetfocus="grd_list_onsetfocus" readonly="false" treeinitstatus="expand,all" treeusecheckbox="false" left="0" right="0" bottom="0">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="40"/>
+                            <Column size="40"/>
+                            <Column size="40"/>
+                            <Column size="90"/>
+                            <Column size="111"/>
+                            <Column size="98"/>
+                            <Column size="93"/>
+                            <Column size="100"/>
+                            <Column size="105"/>
+                            <Column size="109"/>
+                            <Column size="114"/>
+                            <Column size="96"/>
+                            <Column size="92"/>
+                            <Column size="96"/>
+                            <Column size="102"/>
+                            <Column size="113"/>
+                            <Column size="122"/>
+                            <Column size="125"/>
+                            <Column size="89"/>
+                            <Column size="96"/>
+                            <Column size="102"/>
+                            <Column size="104"/>
+                            <Column size="213"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                            <Column size="73"/>
+                            <Column size="92"/>
+                            <Column size="88"/>
+                            <Column size="84"/>
+                            <Column size="89"/>
+                            <Column size="88"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell expandchar="status"/>
+                            <Cell col="1" expandchar="delete"/>
+                            <Cell col="2" text="순번"/>
+                            <Cell col="3" text="법인코드" cssclass="CellEssential"/>
+                            <Cell col="4" text="법인명"/>
+                            <Cell col="5" text="대표자명"/>
+                            <Cell col="6" text="서비스유형" cssclass="CellEssential"/>
+                            <Cell col="7" text="유효기간 From" cssclass="CellEssential"/>
+                            <Cell col="8" text="유효기간 To" cssclass="CellEssential"/>
+                            <Cell col="9" text="부가서비스1"/>
+                            <Cell col="10" text="부가서비스2"/>
+                            <Cell col="11" text="전화번호1" cssclass="CellEssential"/>
+                            <Cell col="12" text="전화번호2"/>
+                            <Cell col="13" text="팩스번호"/>
+                            <Cell col="14" text="우편번호"/>
+                            <Cell col="15" text="주소"/>
+                            <Cell col="16" text="사업자등록번호"/>
+                            <Cell col="17" text="장기요양기관번호"/>
+                            <Cell col="18" text="업태"/>
+                            <Cell col="19" text="종목"/>
+                            <Cell col="20" text="연결시스템"/>
+                            <Cell col="21" text="연결시스템ID"/>
+                            <Cell col="22" text="홈페이지"/>
+                            <Cell col="23" text="아침식사시간"/>
+                            <Cell col="24" text="점심식사시간"/>
+                            <Cell col="25" text="저녁식사시간"/>
+                            <Cell col="26" text="오전간식시간"/>
+                            <Cell col="27" text="오후간식시간"/>
+                            <Cell col="28" text="사용유무" cssclass="CellEssential"/>
+                            <Cell col="29" text="등록자ID"/>
+                            <Cell col="30" text="등록자명"/>
+                            <Cell col="31" text="등록일자"/>
+                            <Cell col="32" text="수정자명"/>
+                            <Cell col="33" text="수정일자"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell/>
+                            <Cell col="1" displaytype="normal"/>
+                            <Cell col="2" expr="currow + 1"/>
+                            <Cell col="3" text="bind:COMPANY_CD"/>
+                            <Cell col="4" text="bind:COMPANY_NM" displaytype="normal" combodataset="expr:dataset.getColumn(currow,'USERKEY_TYPE')=='10'?'ds_hr_emp_rank':'ds_hr_crew'" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="5" text="bind:PRESIDENT_NM"/>
+                            <Cell col="6" text="bind:SERVICE_TP" combodataset="ds_cm_service_tp" combocodecol="CMCD" combodatacol="CMNM" edittype="combo" displaytype="combotext"/>
+                            <Cell col="7" text="bind:START_DT" displaytype="date" combodataset="ds_hr_work_state" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="8" text="bind:END_DT" displaytype="date"/>
+                            <Cell col="9" text="bind:SUB_SERVICE1" edittype="combo" displaytype="combotext" combodataset="ds_cm_sub_service1" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="10" text="bind:SUB_SERVICE2" edittype="combo" displaytype="combotext" combodataset="ds_cm_sub_service2" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="11" text="bind:TEL_NO"/>
+                            <Cell col="12" text="bind:TEL_NO2"/>
+                            <Cell col="13" text="bind:FAX_NO" displaytype="normal"/>
+                            <Cell col="14" text="bind:ZIP_CODE"/>
+                            <Cell col="15" text="bind:ADDRESS" displaytype="normal"/>
+                            <Cell col="16" text="bind:REG_NO"/>
+                            <Cell col="17" text="bind:CORP_NO"/>
+                            <Cell col="18" text="bind:BUSINESS_CONDITION"/>
+                            <Cell col="19" text="bind:BIZ_ITM"/>
+                            <Cell col="20" text="bind:REF_SYS_TP" edittype="combo" displaytype="combotext" combodataset="ds_cm_sys_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="21" text="bind:REF_SYS_COMP_CD"/>
+                            <Cell col="22" text="bind:HOMEPAGE_URL"/>
+                            <Cell col="23" text="bind:BRE_TIME"/>
+                            <Cell col="24" text="bind:LUN_TIME"/>
+                            <Cell col="25" text="bind:DIN_TIME"/>
+                            <Cell col="26" text="bind:MOR_TIME"/>
+                            <Cell col="27" text="bind:AFT_TIME"/>
+                            <Cell col="28" text="bind:USE_YN" edittype="combo" displaytype="combotext" combodataset="ds_cm_use_yn" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="29" text="bind:REG_USER"/>
+                            <Cell col="30" text="bind:REG_USER_NM"/>
+                            <Cell col="31" text="bind:REG_DT" displaytype="date"/>
+                            <Cell col="32" text="bind:MOD_USER_NM"/>
+                            <Cell col="33" text="bind:MOD_DT" displaytype="date"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="statc_divcont_title" taborder="1" text="법인조회" cssclass="lb01" left="0" top="7" height="22" onclick="div_cont_statc_divcont_title_onclick" width="200"/>
+                    <Button id="btn_addrow" taborder="2" text="행추가" top="0" width="80" height="29" visible="true" cssclass="btn_com_add" onclick="fn_head_addrow" right="0"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="550" top="7" width="740" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static04_00_01_00_01_00_00" taborder="55" cssclass="sta_WF_DetailLabel02" left="10" top="366" height="29" width="729"/>
+                    <Static id="Static04_00" taborder="21" cssclass="sta_WF_DetailLabel02" left="10" top="30" height="29" width="729"/>
+                    <Static id="Static04_00_00" taborder="22" cssclass="sta_WF_DetailLabel02" left="10" top="58" height="29" width="729"/>
+                    <Static id="Static04_00_01" taborder="23" cssclass="sta_WF_DetailLabel02" left="10" top="86" height="29" width="729"/>
+                    <Static id="Static04_00_01_00" taborder="24" cssclass="sta_WF_DetailLabel02" left="10" top="114" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_00" taborder="25" cssclass="sta_WF_DetailLabel02" left="10" top="142" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_00_00" taborder="26" cssclass="sta_WF_DetailLabel02" left="10" top="282" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_01" taborder="27" cssclass="sta_WF_DetailLabel02" left="10" top="254" height="29" width="729"/>
+                    <Static id="Static04_00_01_01" taborder="28" cssclass="sta_WF_DetailLabel02" left="10" top="226" height="29" width="729"/>
+                    <Static id="Static04_00_00_00" taborder="29" cssclass="sta_WF_DetailLabel02" left="10" top="198" height="29" width="729"/>
+                    <Static id="Static04_00_02" taborder="30" cssclass="sta_WF_DetailLabel02" left="10" top="170" height="29" width="729"/>
+                    <Static id="sta_comp_nm" taborder="31" text="법인코드" cssclass="sta_WF_DetailLabel01" left="10" top="30" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00" taborder="32" text="대표자명" cssclass="sta_WF_DetailLabel01" left="10" top="58" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00" taborder="33" text="전화번호2" cssclass="sta_WF_DetailLabel01" left="10" top="86" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00" taborder="34" text="사업자등록번호" cssclass="sta_WF_DetailLabel01" left="10" top="114" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00" taborder="35" text="업태" cssclass="sta_WF_DetailLabel01" left="10" top="142" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00" taborder="36" text="우편번호" cssclass="sta_WF_DetailLabel01" left="10" top="170" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00" taborder="37" text="주소" cssclass="sta_WF_DetailLabel01" left="10" top="198" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="Static04_00_01_01_00" taborder="38" cssclass="sta_WF_DetailLabel02" left="10" top="310" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_01_00" taborder="39" cssclass="sta_WF_DetailLabel02" left="10" top="338" height="29" width="729"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00" taborder="40" text="서비스유형" cssclass="sta_WF_DetailLabel01" left="10" top="226" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00" taborder="41" text="부가서비스1" cssclass="sta_WF_DetailLabel01" left="10" top="254" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00" taborder="42" text="연결시스템" cssclass="sta_WF_DetailLabel01" left="10" top="282" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00" taborder="43" text="유효기간 from" cssclass="sta_WF_DetailLabel01" left="10" top="310" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00" taborder="44" text="홈페이지" cssclass="sta_WF_DetailLabel01" left="10" top="338" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_01" taborder="45" text="유효기간 to" cssclass="sta_WF_DetailLabel01" left="375" top="310" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_01" taborder="46" text="연결시스템CD" cssclass="sta_WF_DetailLabel01" left="375" top="282" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_01" taborder="47" text="부가서비스2" cssclass="sta_WF_DetailLabel01" left="375" top="254" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_01" taborder="48" text="사용유무" cssclass="sta_WF_DetailLabel01" left="375" top="226" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_01" taborder="49" text="종목" cssclass="sta_WF_DetailLabel01" left="375" top="142" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_01" taborder="50" text="장기요양기관번호" cssclass="sta_WF_DetailLabel01" left="375" top="114" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_01" taborder="51" text="팩스번호" cssclass="sta_WF_DetailLabel01" left="375" top="86" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_01" taborder="52" text="전화번호1" cssclass="sta_WF_DetailLabel01" left="375" top="58" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm01" taborder="53" text="법인명" cssclass="sta_WF_DetailLabel01" left="375" top="30" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Edit id="edt_com_cd" taborder="0" left="143" top="34" width="229" height="21" cssclass="essential" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_cmp_nm" taborder="1" left="506" top="34" width="229" height="21" cssclass="essential" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_prd_nm" taborder="2" left="143" top="62" width="229" height="21" cssclass="essential" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_phone1" taborder="3" left="506" top="62" width="229" height="21" cssclass="essential" imemode="alpha" maxlength="200"/>
+                    <Combo id="cmb_serv_tp" taborder="12" left="143" top="230" width="229" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_service_tp" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true" cssclass="essential"/>
+                    <Combo id="cmb_use_yn" taborder="13" left="506" top="230" width="229" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_use_yn" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true" cssclass="essential"/>
+                    <Calendar id="cal_start_date" taborder="18" left="143" top="314" width="229" height="21" calendarfunc="calendar" headformat="yyyy.MM-dd" cssclass="essential"/>
+                    <Calendar id="cal_end_date" taborder="19" left="506" top="314" width="229" height="21" calendarfunc="calendar" headformat="yyyy.MM-dd" cssclass="essential"/>
+                    <Edit id="edt_phone2" taborder="4" left="143" top="90" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_fax" taborder="5" left="506" top="90" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_number" taborder="6" left="143" top="118" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_nu_num" taborder="7" left="506" top="118" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_post" taborder="10" left="143" top="174" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_address" taborder="11" left="143" top="202" width="592" height="21" imemode="alpha" maxlength="200"/>
+                    <Combo id="cmb_sub_serv1" taborder="14" left="143" top="258" width="229" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_sub_service_tp1" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_sub_serv2" taborder="15" left="506" top="258" width="229" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_sub_service_tp2" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Edit id="edt_home" taborder="20" left="143" top="342" width="592" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_ut" taborder="8" left="143" top="145" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_event_tp" taborder="9" left="506" top="145" width="229" height="21" imemode="alpha" maxlength="200"/>
+                    <Combo id="cmb_sys_tp" taborder="16" left="143" top="288" width="229" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_sys_tp" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Edit id="cmb_sys_tp_cd" taborder="17" left="506" top="286" width="229" height="21" imemode="alpha" maxlength="200" inputtype="alpha,space,number,sign,dot,digit,comma"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00_00" taborder="54" text="아침식사시간" cssclass="sta_WF_DetailLabel01" left="10" top="366" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="Static04_00_01_00_01_00_00_00" taborder="57" cssclass="sta_WF_DetailLabel02" left="10" top="394" height="29" width="729"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00_00_00" taborder="56" text="점심식사시간" cssclass="sta_WF_DetailLabel01" left="10" top="394" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="Static04_00_01_00_01_00_00_00_00" taborder="58" cssclass="sta_WF_DetailLabel02" left="10" top="422" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_01_00_00_00_00_00" taborder="59" cssclass="sta_WF_DetailLabel02" left="10" top="450" height="29" width="729"/>
+                    <Static id="Static04_00_01_00_01_00_00_00_00_00_00" taborder="60" cssclass="sta_WF_DetailLabel02" left="10" top="478" height="29" width="729"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00_00_00_00" taborder="61" text="저녁식사시간" cssclass="sta_WF_DetailLabel01" left="10" top="422" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" taborder="62" text="오전간식시간" cssclass="sta_WF_DetailLabel01" left="10" top="450" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_comp_nm00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" taborder="63" text="오후간식시간" cssclass="sta_WF_DetailLabel01" left="10" top="478" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Combo id="cmb_bre_start_hour" taborder="64" left="143" top="370" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_bre_start_minute" taborder="65" left="211" top="370" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Static id="Static26_01" taborder="66" text="~" left="277" top="370" width="16" height="20" font="8pt &quot;Malgun Gothic&quot;"/>
+                    <Combo id="cmb_bre_end_minute" taborder="68" left="355" top="370" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_bre_end_hour" taborder="67" left="287" top="370" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_lun_start_hour" taborder="69" left="143" top="398" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_lun_start_minute" taborder="70" left="211" top="398" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Static id="Static26_01_00" taborder="71" text="~" left="277" top="398" width="16" height="20" font="8pt &quot;Malgun Gothic&quot;"/>
+                    <Combo id="cmb_lun_end_hour" taborder="72" left="287" top="398" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_lun_end_minute" taborder="73" left="355" top="398" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_din_start_hour" taborder="74" left="143" top="426" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_din_start_minute" taborder="75" left="211" top="426" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Static id="Static26_01_00_00" taborder="76" text="~" left="277" top="426" width="16" height="20" font="8pt &quot;Malgun Gothic&quot;"/>
+                    <Combo id="cmb_din_end_hour" taborder="77" left="287" top="426" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_din_end_minute" taborder="78" left="355" top="426" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_mor_start_hour" taborder="79" left="143" top="454" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_mor_start_minute" taborder="80" left="211" top="454" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_aft_start_hour" taborder="81" left="143" top="482" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_hour" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Combo id="cmb_aft_start_minute" taborder="82" left="211" top="482" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_nu_minute" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Static id="Static04_00_01_00_01_00_00_00_00_00_00_00" taborder="83" cssclass="sta_WF_DetailLabel02" left="10" top="506" height="29" width="729"/>
+                    <Static id="sta_camera_yn" taborder="84" text="낙상카메라 Y/N" cssclass="sta_WF_DetailLabel01" left="10" top="506" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_camera00" taborder="85" text="낙상카메라 ID" cssclass="sta_WF_DetailLabel01" left="210" top="506" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Static id="sta_camera00_00" taborder="86" text="낙상카메라 P/W" cssclass="sta_WF_DetailLabel01" left="480" top="506" width="130" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+                    <Combo id="cmb_camera_yn" taborder="87" left="143" top="510" width="65" height="21" onitemchanged="div_search_cmb_carkind_onitemchanged" innerdataset="ds_cm_use_yn" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" autoselect="true"/>
+                    <Edit id="edt_camera_id" taborder="88" left="342" top="510" width="136" height="21" imemode="alpha" maxlength="200"/>
+                    <Edit id="edt_camera_pw" taborder="89" left="612" top="510" width="124" height="21" imemode="alpha" maxlength="200"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Button id="btn_gHMove" taborder="2" left="535" top="37.58%" width="25" height="50" icon="URL('imagerc::grid_horizontal.png')" background="transparent" borderRadius="10px"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_sMove" taborder="2" onclick="search_reset" left="44.54%" top="96" height="16" ondrag="search_resize" right="44.54%" background="url('imagerc::search_open.png') no-repeat transparent" border="0px solid"/>
+        <Static id="Static60" taborder="3" text="검색조건" cssclass="lb01" top="-1" width="108" height="22" left="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="PRESIDENT_NM" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="START_DT" type="STRING" size="256"/>
+          <Column id="END_DT" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cm_service_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_sub_service_tp1">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_sub_service_tp2">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_head" onrowposchanged="ds_head_onrowposchanged" useclientlayout="true" oncolumnchanged="ds_head_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ORI_COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="SUB_SERVICE1" type="STRING" size="256"/>
+          <Column id="SUB_SERVICE2" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="REG_NO" type="STRING" size="256"/>
+          <Column id="CORP_NO" type="STRING" size="256"/>
+          <Column id="ZIP_CODE" type="STRING" size="256"/>
+          <Column id="BIZ_ITM" type="STRING" size="256"/>
+          <Column id="PRESIDENT_NM" type="STRING" size="256"/>
+          <Column id="TEL_NO" type="STRING" size="256"/>
+          <Column id="TEL_NO2" type="STRING" size="256"/>
+          <Column id="FAX_NO" type="STRING" size="256"/>
+          <Column id="START_DT" type="STRING" size="256"/>
+          <Column id="END_DT" type="STRING" size="256"/>
+          <Column id="HOMEPAGE_URL" type="STRING" size="256"/>
+          <Column id="BUSINESS_CATEGORY" type="STRING" size="256"/>
+          <Column id="BUSINESS_CONDITION" type="STRING" size="256"/>
+          <Column id="BUSINESS_TP" type="STRING" size="256"/>
+          <Column id="REF_SYS_TP" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+          <Column id="BRE_FR_TIME" type="STRING" size="256"/>
+          <Column id="BRE_FR_HOUR" type="STRING" size="256"/>
+          <Column id="BRE_FR_MINUTE" type="STRING" size="256"/>
+          <Column id="BRE_TO_TIME" type="STRING" size="256"/>
+          <Column id="BRE_TO_HOUR" type="STRING" size="256"/>
+          <Column id="BRE_TO_MINUTE" type="STRING" size="256"/>
+          <Column id="LUN_FR_TIME" type="STRING" size="256"/>
+          <Column id="LUN_FR_HOUR" type="STRING" size="256"/>
+          <Column id="LUN_FR_MINUTE" type="STRING" size="256"/>
+          <Column id="LUN_TO_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TO_HOUR" type="STRING" size="256"/>
+          <Column id="LUN_TO_MINUTE" type="STRING" size="256"/>
+          <Column id="DIN_FR_TIME" type="STRING" size="256"/>
+          <Column id="DIN_FR_HOUR" type="STRING" size="256"/>
+          <Column id="DIN_FR_MINUTE" type="STRING" size="256"/>
+          <Column id="DIN_TO_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TO_HOUR" type="STRING" size="256"/>
+          <Column id="DIN_TO_MINUTE" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_HOUR" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_MINUTE" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_HOUR" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_MINUTE" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="ADDRESS" type="STRING" size="256"/>
+          <Column id="BRE_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TIME" type="STRING" size="256"/>
+          <Column id="MOR_TIME" type="STRING" size="256"/>
+          <Column id="AFT_TIME" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="CAMERA_YN" type="STRING" size="256"/>
+          <Column id="CAMERA_ID" type="STRING" size="256"/>
+          <Column id="CAMERA_PW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_use_yn">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_sys_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_hour">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_minute">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_company_cd_s">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    : CMA001CT
+ * 화면명   :
+ * 화면설명 :
+ * 작성일    : 2020-07-08
+ * 작성자   :  배영걸
+ * 수정이력 :
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ *		2021-11-02		SOOIM		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_head;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_head;
+this.nMoveX;
+this.nMoveY;
+this.fv_form;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	//조회조건
+	this.div_search.form.cmb_use_yn.set_value("Y");
+	this.fv_form = obj;
+	this.fn_setComboDs(obj);
+	
+	//조회
+	this.fn_search();
+	
+	//drag 버튼 활성화
+	this.gfn_setDivDrag(this.div_cont.form.btn_gHMove, this.div_cont.form.div_left, this.div_cont.form.div_right);
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_company.setFocus();
+};
+
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	this.fn_save();
+};
+
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+					    { outDsName : "ds_company_cd_s", sqlId : "CMA002CT.CMA002CT_COMPANY_CD_S",param : "", bEmptyRow : true}
+                    ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	//조회전 그리드에 변경된 데이터가 있을경우 ..
+	if(Sct.Grid.isUpdate(this.ds_notice) || Sct.Grid.isUpdate(this.ds_read_user)){
+		if(!Sct.confirm(this,"000171","")){ //변경된 데이터가 있습니다. 무시하겠습니까?
+			return;
+		}
+	}
+	
+	//조회조건 필수여부확인
+	if(!this.gfn_findSnull(this.div_search)) return false;
+
+	return true;
+};
+
+//저장 전 validation
+this.fn_save_pre = function ()
+{
+	//저장여부
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.ds_head))
+	{
+		Sct.alert(this, "000240"); //추가나 수정한 데이터가 없습니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_head=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_HEAD_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//저장
+this.fn_save = function ()
+{
+	if(!this.fn_save_pre()) return;
+	
+	let svcId = "save";
+	let inDs = "ds_head";
+	this.fn_save_com(svcId, inDs);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			var count = this.ds_head.rowcount;
+			Sct.alert(this, "000175", count + "|");
+		}
+		else if(strSvcID == "save" || strSvcID == "delete")
+		{
+			this.fn_search();
+		}
+		else if(strSvcID == "readUserInfoUpdate")
+		{
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+// 행추가
+this.fn_head_addrow = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var cnt = this.ds_head.getCaseCount("dataset.getRowType(currow)==Dataset.ROWTYPE_INSERT");
+	if(cnt > 0)
+	{
+		Sct.alert(this, "000179"); //저장 후 행추가 해주시기 바랍니다.
+		return ;
+	}
+	
+	var nRow = this.ds_head.addRow();
+	//초기화
+	this.ds_head.setColumn(nRow, "CHK", "0");
+	//아침
+	this.ds_head.setColumn(nRow, "BRE_FR_HOUR","08");
+	this.ds_head.setColumn(nRow, "BRE_FR_MINUTE","00");
+	this.ds_head.setColumn(nRow, "BRE_TO_HOUR","08");
+	this.ds_head.setColumn(nRow, "BRE_TO_MINUTE","30");
+	//점심
+	this.ds_head.setColumn(nRow, "LUN_FR_HOUR","11");
+	this.ds_head.setColumn(nRow, "LUN_FR_MINUTE","30");
+	this.ds_head.setColumn(nRow, "LUN_TO_HOUR","12");
+	this.ds_head.setColumn(nRow, "LUN_TO_MINUTE","00");
+	//저녁
+	this.ds_head.setColumn(nRow, "DIN_FR_HOUR","17");
+	this.ds_head.setColumn(nRow, "DIN_FR_MINUTE","00");
+	this.ds_head.setColumn(nRow, "DIN_TO_HOUR","17");
+	this.ds_head.setColumn(nRow, "DIN_TO_MINUTE","30");
+	//오전간식
+	this.ds_head.setColumn(nRow, "MOR_SNACK_HOUR","07");
+	this.ds_head.setColumn(nRow, "MOR_SNACK_MINUTE","00");
+	//오후간식
+	this.ds_head.setColumn(nRow, "AFT_SNACK_HOUR","14");
+	this.ds_head.setColumn(nRow, "AFT_SNACK_MINUTE","00");
+};
+
+
+this.div_search_cmb_company_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	 //그리드에 변경된 데이터가 있을경우
+//    if(Sct.Grid.isUpdate(this.div_cont.form.div_left.form.grd_head)){
+//       //메세지로 변경된 데이터 여부와 상관없이 변경할지 확인
+//       if(!Sct.confirm(this,"000171","")){
+//          this.ds_search.setColumn(0, "COMPANY_CD", e.prevalue);
+//          return;
+//       }
+//    }
+   
+//    Sct.commCodeTran2(this.fv_form, this.ds_search.getColumn(0,"COMPANY_CD"), true);
+//    this.ds_head.clearData();
+};
+
+this.ds_head_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CAMERA_YN"){
+		if(e.newvalue != "Y"){
+			this.div_cont.form.div_right.form.edt_camera_id.set_enable(false);
+			this.div_cont.form.div_right.form.edt_camera_pw.set_enable(false);
+			obj.setColumn(e.row,"CAMERA_ID",null);
+			obj.setColumn(e.row,"CAMERA_PW",null);
+		}else{
+			this.div_cont.form.div_right.form.edt_camera_id.set_enable(true);
+			this.div_cont.form.div_right.form.edt_camera_pw.set_enable(true);
+		}
+	}
+};
+
+this.ds_head_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(obj.getColumn(e.newrow,"CAMERA_YN")!="Y"){
+		this.div_cont.form.div_right.form.edt_camera_id.set_enable(false);
+		this.div_cont.form.div_right.form.edt_camera_pw.set_enable(false);
+	}else{
+		this.div_cont.form.div_right.form.edt_camera_id.set_enable(true);
+		this.div_cont.form.div_right.form.edt_camera_pw.set_enable(true);
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_cont.form.div_head.form.edt_userid00" propid="value" datasetid="ds_list" columnid="USER_ID"/>
+      <BindItem id="item3" compid="div_cont.form.div_head.form.edt_userid00_00" propid="value" datasetid="ds_list" columnid="USER_ID"/>
+      <BindItem id="item4" compid="div_cont.form.div_head.form.edt_userid00_00_00" propid="value" datasetid="ds_list" columnid="USER_ID"/>
+      <BindItem id="item5" compid="div_cont.form.div_head.form.edt_userid00_00_00_00" propid="value" datasetid="ds_list" columnid="USER_ID"/>
+      <BindItem id="item7" compid="div_cont.form.div_head.form.cmb_company_cd00" propid="value" datasetid="ds_list" columnid="COMPANY_CD"/>
+      <BindItem id="item8" compid="div_cont.form.div_head.form.cmb_company_cd00_00" propid="value" datasetid="ds_list" columnid="COMPANY_CD"/>
+      <BindItem id="item9" compid="div_cont.form.div_head.form.cmb_company_cd00_00_00" propid="value" datasetid="ds_list" columnid="COMPANY_CD"/>
+      <BindItem id="item1" compid="div_search.form.edt_prd_nm" propid="value" datasetid="ds_search" columnid="PRESIDENT_NM"/>
+      <BindItem id="item6" compid="div_search.form.cmb_serv_tp" propid="value" datasetid="ds_search" columnid="SERVICE_TP"/>
+      <BindItem id="item10" compid="div_search.form.cal_start_date" propid="value" datasetid="ds_search" columnid="START_DT"/>
+      <BindItem id="item11" compid="div_search.form.cal_end_date" propid="value" datasetid="ds_search" columnid="END_DT"/>
+      <BindItem id="item12" compid="div_search.form.cmb_use_yn" propid="value" datasetid="ds_search" columnid="USE_YN"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.edt_com_cd" propid="value" datasetid="ds_head" columnid="COMPANY_CD"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.edt_cmp_nm" propid="value" datasetid="ds_head" columnid="COMPANY_NM"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.edt_prd_nm" propid="value" datasetid="ds_head" columnid="PRESIDENT_NM"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.edt_phone1" propid="value" datasetid="ds_head" columnid="TEL_NO"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.edt_phone2" propid="value" datasetid="ds_head" columnid="TEL_NO2"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.edt_fax" propid="value" datasetid="ds_head" columnid="FAX_NO"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.edt_number" propid="value" datasetid="ds_head" columnid="REG_NO"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.edt_nu_num" propid="value" datasetid="ds_head" columnid="CORP_NO"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.edt_ut" propid="value" datasetid="ds_head" columnid="BUSINESS_CONDITION"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.edt_event_tp" propid="value" datasetid="ds_head" columnid="BIZ_ITM"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.edt_post" propid="value" datasetid="ds_head" columnid="ZIP_CODE"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.edt_address" propid="value" datasetid="ds_head" columnid="ADDRESS"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.cmb_serv_tp" propid="value" datasetid="ds_head" columnid="SERVICE_TP"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.cmb_use_yn" propid="value" datasetid="ds_head" columnid="USE_YN"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.cmb_sub_serv1" propid="value" datasetid="ds_head" columnid="SUB_SERVICE1"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.cmb_sub_serv2" propid="value" datasetid="ds_head" columnid="SUB_SERVICE2"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.cmb_sys_tp" propid="value" datasetid="ds_head" columnid="REF_SYS_TP"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.cmb_sys_tp_cd" propid="value" datasetid="ds_head" columnid="REF_SYS_COMP_CD"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.cal_start_date" propid="value" datasetid="ds_head" columnid="START_DT"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.cal_end_date" propid="value" datasetid="ds_head" columnid="END_DT"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.edt_home" propid="value" datasetid="ds_head" columnid="HOMEPAGE_URL"/>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.cmb_bre_start_hour" propid="value" datasetid="ds_head" columnid="BRE_FR_HOUR"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.cmb_bre_start_minute" propid="value" datasetid="ds_head" columnid="BRE_FR_MINUTE"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.cmb_bre_end_minute" propid="value" datasetid="ds_head" columnid="BRE_TO_MINUTE"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.cmb_bre_end_hour" propid="value" datasetid="ds_head" columnid="BRE_TO_HOUR"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.cmb_lun_start_hour" propid="value" datasetid="ds_head" columnid="LUN_FR_HOUR"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.cmb_lun_start_minute" propid="value" datasetid="ds_head" columnid="LUN_FR_MINUTE"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.cmb_lun_end_hour" propid="value" datasetid="ds_head" columnid="LUN_TO_HOUR"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.cmb_lun_end_minute" propid="value" datasetid="ds_head" columnid="LUN_TO_MINUTE"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.cmb_din_start_hour" propid="value" datasetid="ds_head" columnid="DIN_FR_HOUR"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.cmb_din_start_minute" propid="value" datasetid="ds_head" columnid="DIN_FR_MINUTE"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.cmb_din_end_hour" propid="value" datasetid="ds_head" columnid="DIN_TO_HOUR"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.cmb_din_end_minute" propid="value" datasetid="ds_head" columnid="DIN_TO_MINUTE"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.cmb_mor_start_hour" propid="value" datasetid="ds_head" columnid="MOR_SNACK_HOUR"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.cmb_mor_start_minute" propid="value" datasetid="ds_head" columnid="MOR_SNACK_MINUTE"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.cmb_aft_start_hour" propid="value" datasetid="ds_head" columnid="AFT_SNACK_HOUR"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.cmb_aft_start_minute" propid="value" datasetid="ds_head" columnid="AFT_SNACK_MINUTE"/>
+      <BindItem id="item34" compid="div_search.form.cmb_company" propid="value" datasetid="ds_search" columnid="COMPANY_CD"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.cmb_camera_yn" propid="value" datasetid="ds_head" columnid="CAMERA_YN"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.edt_camera_id" propid="value" datasetid="ds_head" columnid="CAMERA_ID"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.edt_camera_pw" propid="value" datasetid="ds_head" columnid="CAMERA_PW"/>
+    </Bind>
+  </Form>
+</FDL>

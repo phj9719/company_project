@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00409_P01" width="1800" height="800" titletext="차량별 운행일지" onload="form_onload">
+    <Layouts>
+      <Layout width="1800" height="800">
+        <Div id="div_func" taborder="0" left="10" top="0" height="35" formscrollbartype="none" right="10" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_head1" taborder="0" text="운행기간" left="0" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1" taborder="2" left="89" top="3" width="190" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_date_from" taborder="1" left="98" top="6" width="67" height="25" text="from"/>
+              <Static id="sta_date_con" taborder="3" left="168" top="6" width="17" height="25" text="-" textAlign="center"/>
+              <Static id="sta_date_to" taborder="4" left="188" top="6" width="67" height="25" text="to"/>
+              <Static id="sta_head2" taborder="5" text="차량번호" left="278" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body2" taborder="6" left="367" top="3" width="220" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Combo id="cmb_gubun" taborder="7" left="380" top="6" width="190" height="25" innerdataset="ds_car" codecolumn="combocode" datacolumn="comboname" onitemchanged="div_func_cmb_gubun_onitemchanged"/>
+              <Static id="sta_head3" taborder="8" text="운행거리" left="586" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body3" taborder="9" left="675" top="3" width="110" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_dist" taborder="10" left="688" top="6" width="87" height="25" text=" Km"/>
+              <Static id="sta_head4" taborder="11" text="지출합계" left="784" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body4" taborder="13" left="873" top="3" width="140" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_totWon" taborder="12" left="886" top="6" width="87" height="25" text=" 원"/>
+              <Button id="btn_report1" taborder="14" text="차량별 운행일지" top="6" width="140" height="25" onclick="fn_report" cssclass="btn_print" right="620"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_main" taborder="1" left="10" top="40" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="0" left="0" top="30" right="0" bottom="0" binddataset="ds_list" oncelldblclick="div_main_grd_list_oncelldblclick" onexpandup="div_main_grd_list_onexpandup" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="200"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="운행일"/>
+                      <Cell col="1" text="코드"/>
+                      <Cell col="2" text="차량번호"/>
+                      <Cell col="3" text="시작거리"/>
+                      <Cell col="4" text="종료거리"/>
+                      <Cell col="5" text="운행거리"/>
+                      <Cell col="6" text="구분1"/>
+                      <Cell col="7" text="내역1"/>
+                      <Cell col="8" text="금액1"/>
+                      <Cell col="9" text="구분2"/>
+                      <Cell col="10" text="내역2"/>
+                      <Cell col="11" text="금액2"/>
+                      <Cell col="12" text="구분3"/>
+                      <Cell col="13" text="내역3"/>
+                      <Cell col="14" text="금액3"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="date" text="bind:monalja" expandchar="dot"/>
+                      <Cell col="1" text="bind:mocode"/>
+                      <Cell col="2" text="bind:차번호" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                      <Cell col="3" text="bind:mostart" textAlign="right"/>
+                      <Cell col="4" text="bind:molast" textAlign="right"/>
+                      <Cell col="5" text="bind:distant" textAlign="right" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, 'distant') == 0 ? '' : dataset.getColumn(currow, 'distant')"/>
+                      <Cell col="6" text="bind:코드1"/>
+                      <Cell col="7" text="bind:내역1" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                      <Cell col="8" text="bind:비용1" displaytype="number" textAlign="right" expr="dataset.getColumn(currow, '비용1') == 0 ? '' : dataset.getColumn(currow, '비용1')"/>
+                      <Cell col="9" text="bind:코드2"/>
+                      <Cell col="10" text="bind:내역2" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                      <Cell col="11" text="bind:비용2" displaytype="number" textAlign="right" expr="dataset.getColumn(currow, '비용2') == 0 ? '' : dataset.getColumn(currow, '비용2')"/>
+                      <Cell col="12" text="bind:코드3"/>
+                      <Cell col="13" text="bind:내역3" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                      <Cell col="14" text="bind:비용3" displaytype="number" textAlign="right" expr="dataset.getColumn(currow, '비용3') == 0 ? '' : dataset.getColumn(currow, '비용3')"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_subTitle" taborder="1" text="차량별 운행일지" left="0" top="0" width="230" height="25" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="monalja" type="DATE" size="256"/>
+          <Column id="mocode" type="STRING" size="256"/>
+          <Column id="차번호" type="STRING" size="256"/>
+          <Column id="mostart" type="INT" size="256"/>
+          <Column id="molast" type="INT" size="256"/>
+          <Column id="distant" type="INT" size="256"/>
+          <Column id="코드1" type="STRING" size="256"/>
+          <Column id="내역1" type="STRING" size="256"/>
+          <Column id="비용1" type="INT" size="256"/>
+          <Column id="코드2" type="STRING" size="256"/>
+          <Column id="내역2" type="STRING" size="256"/>
+          <Column id="비용2" type="INT" size="256"/>
+          <Column id="코드3" type="STRING" size="256"/>
+          <Column id="내역3" type="STRING" size="256"/>
+          <Column id="비용3" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="MONTH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_car">
+        <ColumnInfo>
+          <Column id="combocode" type="STRING" size="256"/>
+          <Column id="comboname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00409_P01
+ * 화면명   	: 차량별 운행일지
+ * 화면설명 	: 차량별 월간운행일지를 출력하기 위한 팝업
+ * 작성일   	: 2022-05-17
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ * 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+const fv_from = this.parent.DATE_FROM;
+const fv_to = this.parent.DATE_TO;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 운행기간 세팅
+	const from = this.fn_dateString(fv_from);
+	const to = this.fn_dateString(fv_to);
+	this.div_func.form.sta_date_from.set_text(from);
+	this.div_func.form.sta_date_to.set_text(to);
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE_FROM", fv_from);
+	this.ds_search.setColumn(0, "DATE_TO", fv_to);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00409_P01.DAY00409_P01_DS_LIST_S";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.ds_temp.copyData(this.ds_list);
+			this.gf_distincDsFilter(this.ds_temp, "mocode,차번호");
+			for (let i = 0; i < this.ds_temp.rowcount; i++)
+			{
+				const code = this.ds_temp.getColumn(i, "mocode");
+				const no = this.ds_temp.getColumn(i, "차번호");
+				const name = code + " - " + no;
+				const nRow = this.ds_car.addRow();
+				this.ds_car.setColumn(nRow, "combocode", code);
+				this.ds_car.setColumn(nRow, "comboname", name);
+			}
+			const firstRowValue = this.ds_car.getColumn(0, "combocode");
+			this.div_func.form.cmb_gubun.set_value(firstRowValue);
+			
+			const distSum = this.ds_list.getCaseSum("mocode == " + firstRowValue, "distant");
+			const p1Sum = this.ds_list.getCaseSum("mocode == " + firstRowValue, "비용1");
+			const p2Sum = this.ds_list.getCaseSum("mocode == " + firstRowValue, "비용2");
+			const p3Sum = this.ds_list.getCaseSum("mocode == " + firstRowValue, "비용3");
+		// 	trace("distSum : " + distSum);
+		// 	trace("p1Sum : " + p1Sum);
+		// 	trace("p2Sum : " + p2Sum);
+		// 	trace("p3Sum : " + p3Sum);
+			const totSum = p1Sum + p2Sum + p3Sum;
+			//trace("totSum : " + totSum);
+			const totStr = totSum.toLocaleString("ko-KR");
+			//trace("totStr : " + totStr);
+			
+			this.div_func.form.sta_dist.set_text(distSum + " Km");
+			this.div_func.form.sta_totWon.set_text(totStr + " 원");
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* dot 날짜 스트링 만들기
+ *  
+ * @param date DATE
+ * @return String yyyy.MM.dd
+ */
+this.fn_dateString = function(date)
+{
+	const year = date.getFullYear();
+	const mon = date.getMonth() + 1;
+	const day = date.getDate();
+	const fullStr = year + "." + (mon + "").padStart(2, '0') + "." + (day + "").padStart(2, '0');
+	
+	return fullStr;
+};
+
+/*****************************************************************************************
+ * 함  수  명	:   gf_distincDsFilter 
+ * 입      력	:   1. objDs	Dataset Object
+                    2. sColID	Column List (여러 항목일 경우 ',' 로 구분)
+ * 반      환	: 	없음
+ * 기      능	: 	Dataset의 특정 컬럼의 중복을 제거하여 Filter 한다.
+ *****************************************************************************************/
+this.gf_distincDsFilter = function(objDs, sColID)
+{
+	var arrArgs	= this.gf_Trim(sColID).split(",");
+	var sFilterExpr		= "";
+	var sFindRowExpr	= "";
+
+	for (var i=0; i<arrArgs.length; i++)
+	{
+		if (objDs.getColumnInfo(arrArgs[i]) == null) continue;
+		
+		sFindRowExpr	+= (this.gf_IsNull(sFindRowExpr) == false) ? " && " : "";
+		sFindRowExpr	+= "" + arrArgs[i] + "=='\" + " + arrArgs[i] + " + \"'";
+	}
+	
+	if (this.gf_IsNull(sFindRowExpr) == false) {
+		sFilterExpr	= "rowidx==dataset.findRowExpr(\"" + sFindRowExpr + "\")";
+	}
+
+	objDs.filter(sFilterExpr);
+};
+
+this.gf_Trim = function(sValue)
+{
+    if (sValue == null) return "";
+    if (new String(sValue).valueOf() == "undefined") return "";
+    if (new String(sValue) == null) return "";
+
+    var retVal = (new String(sValue)).replace(/^\s+|\s+$/g, '');
+
+    return retVal;
+};    
+
+this.gf_IsNull = function(sValue)
+{
+    if (new String(sValue).valueOf() == "undefined") return true;
+    if (sValue == null) return true;
+    
+    var v_ChkStr = new String(sValue);
+
+    if (v_ChkStr == null) return true;
+    if (v_ChkStr.toString().length == 0 ) return true;
+    return false;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00409_R02.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE_FROM#" + fv_from + "#"
+			  + "P_DATE_TO#" + fv_to + "#"
+			  + "P_GUBUN#" + this.div_func.form.cmb_gubun.value + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 콤보 아이템 변경 이벤트
+this.div_func_cmb_gubun_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	let fRow = this.ds_list.findRowExpr("mocode == " + e.postvalue);
+	this.ds_list.set_rowposition(fRow);
+// 	trace("fRow : " + fRow);
+// 	trace("mocode : " + e.postvalue);
+	
+	const distSum = this.ds_list.getCaseSum("mocode == " + e.postvalue, "distant");
+	const p1Sum = this.ds_list.getCaseSum("mocode == " + e.postvalue, "비용1");
+	const p2Sum = this.ds_list.getCaseSum("mocode == " + e.postvalue, "비용2");
+	const p3Sum = this.ds_list.getCaseSum("mocode == " + e.postvalue, "비용3");
+// 	trace("distSum : " + distSum);
+// 	trace("p1Sum : " + p1Sum);
+// 	trace("p2Sum : " + p2Sum);
+// 	trace("p3Sum : " + p3Sum);
+ 	const totSum = p1Sum + p2Sum + p3Sum;
+ 	//trace("totSum : " + totSum);
+ 	const totStr = totSum.toLocaleString("ko-KR");
+ 	//trace("totStr : " + totStr);
+ 	
+ 	this.div_func.form.sta_dist.set_text(distSum + " Km");
+ 	this.div_func.form.sta_totWon.set_text(totStr + " 원");
+};
+]]></Script>
+  </Form>
+</FDL>

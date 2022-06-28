@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUA808QR_D" width="1500" height="830" titletext="기저귀 이상상태현황모니터링조회" background="#f4f9fc" ontimer="NUA808QR_D_ontimer" onload="NUA808QR_D_onload">
+    <Layouts>
+      <Layout width="1500" height="830">
+        <Div id="div_search" taborder="0" left="0" top="0" height="50" dragscrolltype="vert" cssclass="s01" right="0" background="#000000">
+          <Layouts>
+            <Layout>
+              <Static id="sta_area" taborder="4" text="모니터링 지역" cssclass="sta_WF_SearchLabel" left="28.67%" top="12" width="90" height="21" textAlign="right" verticalAlign="middle" color="#ffffff"/>
+              <Combo id="cmb_area" taborder="0" left="sta_area:10" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_mon_area" onitemchanged="div_search_cmb_area_onitemchanged"/>
+              <Button id="btn_close" taborder="3" text="닫기" top="10" width="80" height="24" onclick="div_search_btn_close_onclick" right="10"/>
+              <Static id="sta_location" taborder="5" text="층" cssclass="sta_WF_SearchLabel" left="cmb_area:6" top="12" width="90" height="21" color="#ffffff" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_location" taborder="1" left="sta_location:5" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_area" onitemchanged="div_search_cmb_location_onitemchanged"/>
+              <Button id="btn_search" taborder="2" text="검색" top="10" width="60" height="24" left="cmb_location:8" onclick="div_search_btn_search_onclick"/>
+              <Static id="sta_mainTitle" taborder="6" text="모니터링 시스템" left="8" top="0" width="28.17%" height="45" color="#ffffff" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0%" top="50" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <Div id="div_humiCard" taborder="0" text="Div00" left="1.27%" top="9.23%" width="26%" height="27.44%" cssclass="div_card">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="0" left="5.41%" top="7.11%" width="18.04%" height="35.53%" image="url('imagerc::ico_sta_diaper2.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_count" taborder="1" text="-" left="60.57%" top="12" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#fb8c35"/>
+                    <Static id="sta_diaperAllCount" taborder="2" text="/-" left="81.19%" top="50" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="3" text="기저귀 확인" left="5.41%" top="51.78%" width="43.81%" height="18.87%" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#fb8c35"/>
+                    <Static id="sta_text" taborder="4" text="기저귀를 교환하면 현황에서 없어집니다." left="5.67%" top="70.05%" width="87.37%" height="22.84%" wordWrap="char" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_batCard" taborder="3" text="Div00" left="1.27%" top="37.56%" width="26%" height="27.44%" cssclass="div_card">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="0" left="5.41%" top="7.11%" width="18.04%" height="35.53%" image="url('imagerc::ico_sta_battery2.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_count" taborder="1" text="-" left="60.57%" top="12" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#159258"/>
+                    <Static id="sta_diaperAllCount" taborder="2" text="/-" left="81.19%" top="50" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="3" text="배터리 확인" left="5.41%" top="51.78%" width="43.81%" height="18.87%" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#159258"/>
+                    <Static id="sta_text" taborder="4" text="기저귀 배터리가 교환되면 현황에서 없어집니다. " left="5.67%" top="70.05%" width="87.37%" height="22.84%" wordWrap="char" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_connCard" taborder="4" text="Div00" left="1.27%" top="66.15%" width="26.00%" cssclass="div_card" onclick="Common_onclick" height="27.56%">
+                <Layouts>
+                  <Layout>
+                    <ImageViewer id="imv_ico" taborder="0" left="5.41%" top="7.11%" width="18.04%" height="35.53%" image="url('imagerc::ico_sta_diapercon2.png')" border="0px none" borderRadius="10px" stretch="fixaspectratio"/>
+                    <Static id="sta_count" taborder="1" text="-" left="60.57%" top="12" width="20.62%" height="80" font="normal 700 50pt/normal &quot;Noto Sans KR&quot;" textAlign="right" color="#666666"/>
+                    <Static id="sta_diaperAllCount" taborder="2" text="/-" left="81.19%" top="50" width="63" height="40" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;" color="#cacaca"/>
+                    <Static id="sta_title" taborder="3" text="미체결 확인" left="5.41%" top="51.78%" width="43.81%" height="18.87%" font="normal 700 23pt/normal &quot;Noto Sans KR&quot;" color="#666666"/>
+                    <Static id="sta_text" taborder="4" text="기저귀센서를 체결하면 현황에서 없어집니다. " left="5.67%" top="70.05%" width="87.37%" height="22.84%" wordWrap="char" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="sta_exchangeTitle" taborder="5" text="기저귀 교환 현황" left="1.27%" top="15" width="26%" height="6.41%" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;" textAlign="center" color="#ffffff" background="#47afe1" borderRadius="10px"/>
+              <Grid id="grd_left" taborder="1" left="28.93%" top="15" width="34%" cssclass="grd_DataList_h2" bottom="6.28%" autofittype="col" binddataset="ds_left_list" useselcolor="false" autosizingtype="none" enable="true">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="110"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="38" band="head"/>
+                      <Row size="41"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실"/>
+                      <Cell col="1" text="입소자"/>
+                      <Cell col="2" text="기저귀(5분전)"/>
+                      <Cell col="3" text="배터리"/>
+                      <Cell col="4" text="체결상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION"/>
+                      <Cell col="1" text="bind:RESIDENT"/>
+                      <Cell col="2" text="bind:DIAPER_NOW"/>
+                      <Cell col="3" text="bind:BATTERY"/>
+                      <Cell col="4" text="bind:CONNECT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_right" taborder="2" left="64.27%" top="15" width="34%" cssclass="grd_DataList_h2" bottom="6.28%" binddataset="ds_right_list" autofittype="col" useselcolor="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="110"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="38" band="head"/>
+                      <Row size="41"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실"/>
+                      <Cell col="1" text="입소자"/>
+                      <Cell col="2" text="기저귀(5분전)"/>
+                      <Cell col="3" text="배터리"/>
+                      <Cell col="4" text="체결상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION"/>
+                      <Cell col="1" text="bind:RESIDENT"/>
+                      <Cell col="2" text="bind:DIAPER_NOW"/>
+                      <Cell col="3" text="bind:BATTERY"/>
+                      <Cell col="4" text="bind:CONNECT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_paging" taborder="6" height="30" bottom="7" url="CM_POP::CM_PAGING_DIV.xfdl" maxheight="" left="25" right="682" text="" onclick="div_cont_div_paging_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="MON_AREA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mon_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="CONN_ST" type="INT" size="256"/>
+          <Column id="CONNECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_left_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONNECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_right_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONNECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_diaper_iot">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_etc_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="DIAPER_ALL_COUNT" type="STRING" size="256"/>
+          <Column id="HUMI_LINE" type="STRING" size="256"/>
+          <Column id="BAT_LINE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_mon_cycle" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="STR1" type="STRING" size="256"/>
+          <Column id="STR2" type="STRING" size="256"/>
+          <Column id="STR3" type="STRING" size="256"/>
+          <Column id="STR4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list_temp" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="DIAPER_NOW" type="STRING" size="256"/>
+          <Column id="BATTERY" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="CONN_ST" type="INT" size="256"/>
+          <Column id="CONNECT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUA808QR_D
+ * 화면명   	: 기저귀 이상상태현황모니터링조회
+ * 화면설명 	: 기저귀의 이상상태를 나타내는 모니터링 화면
+ * 작성일   	: 2021-12-21 09:20
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *  수정일				수정자			내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_companyCd = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+this.timeCycle = 0;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.NUA808QR_D_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	
+	this.fn_initPageSet();
+	
+	this.fn_setComboDs(obj);
+	
+	this.timeCycle = this.ds_nu_mon_cycle.getColumn(1, "STR1") * 1000;
+ 
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_area.setFocus();
+};
+
+// 타이머
+this.NUA808QR_D_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 1)
+	{
+		// 페이징 순차적으로 검색되게 하기
+		this.div_cont.form.div_paging.form.fn_autoSearch("Y");
+	}
+};
+
+// 페이징 처리 초기화
+this.fn_initPageSet = function()
+{
+	// 페이징처리 초기화
+	this.ds_list.pageRowCount		= 38;								//조회될 row 갯수 (page Size)
+    this.ds_list.pageCount			= 10;								//최대 페이지 갯수 (page Scale)
+    this.ds_list.pageTotalVisible	= false;							//하단 page Size, pageScale 등 입력 div show YN
+	this.ds_list.pageNo				= 1;								//최초조회시 default 페이지 번호
+	this.ds_list.pageFunctionName	= "fn_search";						//페이지 버튼(1,2,3...)클릭시 조회할 function name
+	this.div_cont.form.div_paging.form.fn_init(this, this.ds_list);		//페이지 form 초기화
+	
+};
+
+// 기저귀 그리드 css 변경
+this.fn_initGrid = function(grid, humiLine, batteryLine)
+{
+	const diaperIdx = grid.getBindCellIndex("body", "DIAPER_NOW");
+	const batteryIdx = grid.getBindCellIndex("body", "BATTERY");
+	const connIdx = grid.getBindCellIndex("body", "CONNECT");
+	
+	const diaperCss = "expr:dataset.getColumn(currow, 'HUMI_RATE') >= " 
+					+ humiLine 
+					+ " && dataset.getColumn(currow, 'B_HUMI_RATE') >=" 
+					+ humiLine
+					+ " ? 'diaperHumiAlert' : ''";
+	
+	const batteryCss = "expr:dataset.getColumn(currow, 'BAT_RATE') < " + batteryLine + " ? 'diaperBatAlert' : ''";
+	
+	const connCss = "expr:dataset.getColumn(currow, 'CONN_ST') != 1 ? 'dipaerConnAlert' : ''";
+	
+	grid.setCellProperty("body", diaperIdx, "cssclass", diaperCss);		// 기저귀 습도 이상
+	grid.setCellProperty("body", batteryIdx, "cssclass", batteryCss);	// 기저귀 배터리 이상
+	grid.setCellProperty("body", connIdx, "cssclass", connCss);			// 기저귀 연결 이상
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/NUA808QR_DController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1 ds_etc_list=output2 ds_list_temp=output3";
+	const argument = "method=select ";
+				
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.killTimer(1);
+			const companyNm = this.ds_etc_list.getColumn(0, "COMPANY_NM");	// 업체명
+			const diaperAllCount = this.ds_etc_list.getColumn(0, "DIAPER_ALL_COUNT");	// 기저귀 총 개수
+			const humiLine = this.ds_etc_list.getColumn(0, "HUMI_LINE");	// 기저귀 습도 알림 기준
+			const batteryLine = this.ds_etc_list.getColumn(0, "BAT_LINE");	// 기저귀 배터리 알림 기준
+			const diaperHumiRowCnt = this.ds_list_temp.getCaseCount("HUMI_RATE >= " + humiLine +  "&& B_HUMI_RATE >= " + humiLine);	// 기저귀 습도 이상 개수
+			const diaperBatRowCnt = this.ds_list_temp.getCaseCount("BAT_RATE < " + batteryLine);	// 기저귀 배터리 이상 개수
+			const diaperConnCnt = this.ds_list_temp.getCaseCount("CONN_ST != 1");	// 기저귀 미체결 개수
+			
+			// 업체명 기저귀 총 개수 세팅
+			this.div_search.form.sta_mainTitle.set_text(companyNm + " 모니터링 시스템");
+			const diaperCountText = diaperAllCount == undefined ? 0 : diaperAllCount;
+			this.div_cont.form.div_humiCard.form.sta_diaperAllCount.set_text("/" + diaperCountText);
+			this.div_cont.form.div_batCard.form.sta_diaperAllCount.set_text("/" + diaperCountText);
+			this.div_cont.form.div_connCard.form.sta_diaperAllCount.set_text("/" + diaperCountText);
+			
+			// 이상상태 개수 세팅
+			this.div_cont.form.div_humiCard.form.sta_count.set_text(diaperHumiRowCnt);
+			this.div_cont.form.div_batCard.form.sta_count.set_text(diaperBatRowCnt);
+			this.div_cont.form.div_connCard.form.sta_count.set_text(diaperConnCnt);
+			
+			// 페이징 및 그리드 나누기
+			this.ds_left_list.clearData();
+			this.ds_right_list.clearData();
+			
+			this.div_cont.form.div_paging.form.fn_callAfter();
+			// 데이터셋 내용 2개의 그리드에 나눠서 표시
+			for (let i = 0; i < this.ds_list.rowcount; i++)
+			{
+				if (i % 2 == 0)
+				{
+					const lRow = this.ds_left_list.addRow();
+					this.ds_left_list.copyRow(lRow, this.ds_list, i);
+				}
+				else
+				{					
+					const rRow = this.ds_right_list.addRow();
+					this.ds_right_list.copyRow(rRow, this.ds_list, i);
+				}
+			}
+			this.ds_left_list.applyChange();
+			this.ds_right_list.applyChange();
+			
+			// 그리드 초기화
+			this.fn_initGrid(this.div_cont.form.grd_left, humiLine, batteryLine);
+			this.fn_initGrid(this.div_cont.form.grd_right, humiLine, batteryLine);
+			
+			this.setTimer(1, this.timeCycle);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 콤보 세팅
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+			{ outDsName : "ds_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 층 조회
+		, 	{ outDsName : "ds_mon_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_MON_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 생활실 전체 조회
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 검색조건 모니터링 지역 콤보박스 변경 이벤트
+this.div_search_cmb_area_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "AREA", ""); 
+};
+
+// 검색조건 층 콤보박스 변경 이벤트
+this.div_search_cmb_location_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "MON_AREA", "");
+};
+
+// 검색 버튼
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 닫기 버튼
+this.div_search_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="MON_AREA"/>
+      <BindItem id="item3" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="AREA"/>
+    </Bind>
+  </Form>
+</FDL>

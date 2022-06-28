@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00701_P03                                                        
+     * 프로그램 명     	: 주야간운영일지 업무내용 검색 팝업                                                     
+     * Description 	: 주야간운영일지 업무내용 검색
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-21 13:30        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00701_P02_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00701_P03">
+	<!-- 조회 -->
+    <select id="DAY00701_P03_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P03 조회 */
+    SELECT
+      bd.sicode
+    , bd.일지번호
+    , bd.운영일
+    , bd.업무제목01
+    , bd.업무제목02
+    , bd.업무제목03
+    , bd.업무제목04
+    , bd.프로그램01
+    , bd.프로그램02
+    , bd.프로그램03
+    , bd.업무내용01
+    , bd.업무내용02
+    , bd.업무내용03
+    , bd.업무내용04
+    , bd.프로내용01
+    , bd.프로내용02
+    , bd.프로내용03
+    FROM base_daily bd
+    WHERE bd.sicode = #{SICODE}
+    AND bd.운영일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    <if test="FLAG != null and FLAG != ''">
+      <choose>
+        <when test='FLAG.equals("OR")'>
+          <if test="SEARCH1 != null and SEARCH1 != ''">
+            <if test="SEARCH1.length gte 2">	<!-- gte >= -->
+    AND (bd.업무내용01 LIKE CONCAT('%', #{SEARCH1}, '%') 
+         OR bd.업무내용02 LIKE CONCAT('%', #{SEARCH1}, '%') 
+         OR bd.업무내용03 LIKE CONCAT('%', #{SEARCH1}, '%') 
+         OR bd.업무내용04 LIKE CONCAT('%', #{SEARCH1}, '%')
+         OR bd.프로내용01 LIKE CONCAT('%', #{SEARCH1}, '%')
+         OR bd.프로내용02 LIKE CONCAT('%', #{SEARCH1}, '%')
+         OR bd.프로내용03 LIKE CONCAT('%', #{SEARCH1}, '%'))
+            </if>
+          </if>
+          <if test="SEARCH2 != null and SEARCH2 != ''">
+            <if test="SEARCH2.length gte 2">
+    AND (bd.업무내용01 LIKE CONCAT('%', #{SEARCH2}, '%') 
+         OR bd.업무내용02 LIKE CONCAT('%', #{SEARCH2}, '%') 
+         OR bd.업무내용03 LIKE CONCAT('%', #{SEARCH2}, '%')
+         OR bd.업무내용04 LIKE CONCAT('%', #{SEARCH2}, '%')
+         OR bd.프로내용01 LIKE CONCAT('%', #{SEARCH2}, '%')
+         OR bd.프로내용02 LIKE CONCAT('%', #{SEARCH2}, '%')
+         OR bd.프로내용03 LIKE CONCAT('%', #{SEARCH2}, '%'))
+            </if>
+          </if>
+          <if test="SEARCH1.length lt 2 and SEARCH2.length lt 2">		<!-- lt < -->
+    AND 1=2
+          </if>
+        </when>
+      </choose>
+    </if>
+    ORDER BY bd.운영일 DESC
+    </select>
+</mapper>

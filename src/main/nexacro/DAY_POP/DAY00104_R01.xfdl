@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00104_R01" width="1000" height="900" onload="form_onload" titletext="요양일지(3단)">
+    <Layouts>
+      <Layout height="900" mobileorientation="landscape" width="1000">
+        <UbiReport id="UbiViewer" taborder="1" left="0" top="0" text="UbiViewer" right="0" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/************************************************************************************
+* 뷰어 초기 설정
+************************************************************************************/
+//const svcurl = reportUrl;
+const svcurl = "http://14.42.209.174:70/ubireport";
+
+// result디렉토리에 생성될 exportseq값
+this.UbiViewer.key = getRandomKey();
+// 리포트 통신을 담당할 URL
+this.UbiViewer.ubiserverurl = svcurl + "/UbiServer";
+// 리소스를 가져올 URL
+this.UbiViewer.resource = svcurl + "/ubi4/js";
+// 리포트 파일을 가져올 URL : 리포트 파일명을 제외한 디렉토리까지 정의
+this.UbiViewer.reporturl = svcurl + "/ubi4/work/nshjugan";
+// ubiservice.xml에 등록되어 있는 리소스 ID
+this.UbiViewer.resid = "nshjugan";
+// 뷰어 스케일(?)
+this.UbiViewer.scale = "140";
+//toolbar 안보이게
+//this.UbiViewer.toolbar = false;
+ 
+
+/************************************************************************************
+* DB
+************************************************************************************/
+
+/************************************************************************************
+* 저장 완료 후 콜백
+************************************************************************************/
+this.UbiExportEnd = function(flag,fileName)
+{
+
+};
+
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	let jrfFile = "DAY00104_R01.jrf";
+
+	// UbiReport Argument 세팅
+	const sicode = this.parent.pParam.sicode;
+	const m_code = this.parent.pParam.m_code;
+	const sign = this.parent.pParam.sign;
+	const date_from = this.parent.pParam.date_from;
+	const date_to = this.parent.pParam.date_to;
+
+	
+	this.UbiViewer.ismultireport = "false";
+	
+	this.UbiViewer.setArgument("P_SICODE", sicode);
+	this.UbiViewer.setArgument("P_M_CODE", m_code);
+	this.UbiViewer.setArgument("P_SIGN", sign);
+	this.UbiViewer.setArgument("P_DATE_FROM", date_from);
+	this.UbiViewer.setArgument("P_DATE_TO", date_to);
+	
+	// 리포트 파일명
+    this.UbiViewer.jrffile = jrfFile;
+	// 설정된 값을 이용하여 UbiReport 출력
+	this.UbiViewer.retrieve(this, "UbiPreviewEnd");
+};
+
+/************************************************************************************
+* 랜덤 Key 생성 함수(유틸)
+************************************************************************************/
+function getRandomKey()
+{
+	var key = "";
+	var nowdate = new Date();
+	var year  = nowdate.getFullYear();
+	var month = nowdate.getMonth() + 1;
+	var day   = nowdate.getDate();
+	var hour  = nowdate.getHours();
+	var min   = nowdate.getMinutes();
+	var sec   = nowdate.getSeconds();
+	var milsec = nowdate.getMilliseconds();
+
+	if (("" + month).length == 1) { month = "0" + month; }
+	if (("" + day).length   == 1) { day   = "0" + day;   }
+	if (("" + hour).length  == 1) { hour  = "0" + hour;  }
+	if (("" + min).length   == 1) { min   = "0" + min;   }
+	if (("" + sec).length   == 1) { sec   = "0" + sec;   }
+	
+	key = ('' + year + month + day + hour + min + sec + milsec) + '_' + ((Math.random() * (1 << 30)).toString(16).replace('.', ''));
+	
+	return key;
+};
+
+this.isEmpty = function(value)
+{
+	if (new String(value).valueOf() == "undefined") return true;
+	if (new String(value).valueOf() == "NaN") return true;
+	if (value == null) return true;
+	if (value == "null") return true;
+	
+	var v_ChkStr = new String(value);
+
+	if (v_ChkStr == null) return true;
+	if (v_ChkStr.toString().length == 0 ) return true;
+	return false;
+};
+]]></Script>
+    <Objects/>
+  </Form>
+</FDL>

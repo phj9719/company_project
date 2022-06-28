@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00302_P01
+     * 프로그램 명     	: 물리(작업)치료 제공기록(삭제)
+     * Description 		: 수급자 물리(작업)치료 제공기록 조회, 삭제
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-05-30 13:00        	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00302_P01_DS_DATA_S		조회
+        DAY00302_P01_DS_DATA_D		삭제
+     *================================================================
+-->
+<mapper namespace="DAY00302_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00302_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-2 P01 조회 */
+    SELECT
+      hea.sicode
+    , hea.mulnumber
+    , hea.mulday
+    , DATE_FORMAT(hea.mulday, '%Y.%m.%d') AS 제공일
+    , hea.mulgroup
+    , hea.mulname
+    , hea.mulcode
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료08) AS 치료명08
+    , hea.참여01
+    , hea.참여02
+    , hea.참여03
+    , hea.참여04
+    , hea.참여05
+    , hea.참여06
+    , hea.참여07
+    , hea.참여08
+    FROM heal_habilit AS hea
+    WHERE hea.sicode = #{SICODE}
+    AND hea.mulnumber = #{MULNUMBER}
+    </select>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00302_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 3-2 P01 삭제 */
+    DELETE FROM heal_habilit
+    WHERE sicode = #{sicode}
+    AND mulnumber = #{mulnumber}
+    </delete>
+</mapper>

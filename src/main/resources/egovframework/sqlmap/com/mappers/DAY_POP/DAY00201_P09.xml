@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201_P09                                                         
+     * 프로그램 명     	: 병·의원명 지정                                                     
+     * Description 	: 병·의원명 조회, 저장, 삭제
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-13 9:30        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_P09_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00201_P09">
+	<!-- 조회 -->
+    <select id="DAY00201_P09_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-1 P09 조회 */
+	SELECT
+		  sicode
+		, 병원번호
+		, 병의원명
+		, 주소
+		, 전화번호
+		, 비고
+	FROM base_medi
+	WHERE sicode = #{SICODE}
+	ORDER BY 병의원명
+    </select>
+        <insert id="DAY00201_P09_DS_HOSP_I" parameterType="java.util.HashMap">
+    /* 2-1 P09 저장 */
+    	INSERT INTO base_medi
+    		(
+				  sicode
+				, 병의원명
+				, 주소
+				, 전화번호
+    		) VALUES (
+				  #{SICODE}
+				, #{HOSP_NAME}
+				, #{HOSP_AR}
+				, #{HOSP_NUM}	
+    		)
+    </insert>
+    
+    <update id="DAY00201_P09_DS_HOSP_U" parameterType="java.util.HashMap">
+    /* 2-1 P09 수정 */
+    UPDATE base_medi
+    SET
+          병의원명    = #{HOSP_NAME} 
+    , 주소   = #{HOSP_AR}
+    , 전화번호 = #{HOSP_NUM}
+    WHERE sicode = #{SICODE}
+    AND  병원번호 = #{HOSP_INDEX}
+    </update> 
+    
+    <delete id="DAY00201_P09_DS_HOSP_D" parameterType="java.util.HashMap">
+    /* 2-1 P09 삭제 */
+    DELETE FROM base_medi
+    WHERE sicode = #{SICODE}
+    AND  병원번호 = #{HOSP_INDEX}
+    </delete>
+</mapper>                                                                                                                                                                                                          

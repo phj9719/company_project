@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00205_P01" width="560" height="590" titletext="의료기기목록조회" onload="form_onload">
+    <Layouts>
+      <Layout width="560" height="590">
+        <Div id="div_cont" taborder="1" left="10" top="50" right="10" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" autofittype="col" bottom="30" right="0" binddataset="ds_list" oncellclick="div_cont_grd_list_oncellclick" onkeydown="div_cont_grd_list_onkeydown">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="382"/>
+                      <Column size="60"/>
+                      <Column size="57"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="연번"/>
+                      <Cell col="1" text="의료(응급)기기명"/>
+                      <Cell col="2" text="수량"/>
+                      <Cell col="3" text="지움"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:기기번호" cssclass="cellBWoman"/>
+                      <Cell col="1" text="bind:기기명" edittype="normal" editmaxlength="15" textAlign="left"/>
+                      <Cell col="2" text="bind:수량" maskeditformat="###" displaytype="mask" edittype="mask" maskeditlimitbymask="both" textAlign="right"/>
+                      <Cell col="3" displaytype="buttoncontrol" edittype="button" text="지움"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_info" taborder="1" text="▲ 의료(응급)기기명, 보유수량 수정가능" left="113" top="516" width="238" height="19" color="purple"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="10" right="10" height="30" top="10">
+          <Layouts>
+            <Layout>
+              <Button id="btn_reset" taborder="0" text="재정렬" top="4" width="70" height="26" left="393" onclick="div_func_btn_reset_onclick"/>
+              <Button id="btn_save" taborder="1" text="저장" top="4" width="70" height="26" onclick="fn_save" cssclass="btn_save" left="468"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_list" useclientlayout="true" onvaluechanged="ds_list_onvaluechanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="기기번호" type="STRING" size="256"/>
+          <Column id="기기명" type="STRING" size="256"/>
+          <Column id="수량" type="INT" size="256"/>
+          <Column id="구입일" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list_copy" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="기기번호" type="STRING" size="256"/>
+          <Column id="기기명" type="STRING" size="256"/>
+          <Column id="수량" type="INT" size="256"/>
+          <Column id="구입일" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00205_P01
+ * 화면명   	: 의료기기 목록조회
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-21
+ * 작성자   	: 성재영
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00205_P01";
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	return true;
+};
+
+this.fn_save_pre = function()
+{
+	return true;
+}
+
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00205_P01.DAY00205_P01_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+	
+	const svcId = "save";
+ 	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+};
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search"){
+			this.ds_list.set_rowposition(-1);
+		} else if(strSvcID == "save"){
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+ // 재정렬 버튼 클릭
+this.div_func_btn_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+	
+	this.ds_list_copy.copyData(this.ds_list);
+	this.ds_list.clearData();
+	for(let i = 0; i<this.ds_list_copy.rowcount; i++){
+		if(!Sct.Util.isEmpty(this.ds_list_copy.getColumn(i, "기기명"))){
+			let aRow = this.ds_list.addRow();
+			this.ds_list.copyRow(aRow, this.ds_list_copy, i, "sicode=sicode,기기번호=기기번호,기기명=기기명,수량=수량,구입일=구입일 ");
+			this.ds_list.setColumn(aRow, "기기번호", aRow+1);
+		}
+	}
+	
+ 	for(let i = this.ds_list.rowcount; i<this.ds_list_copy.rowcount; i++){
+ 		let aRow = this.ds_list.addRow();
+		this.ds_list.setColumn(aRow, "sicode", fv_sicode);
+		this.ds_list.setColumn(aRow, "기기번호", aRow+1);
+ 		this.ds_list.setColumn(aRow, "기기명", "");
+ 		this.ds_list.setColumn(aRow, "수량", 0);
+		this.ds_list.setColumn(aRow, "구입일", "");
+ 	}
+ 	this.ds_list_copy.clearData();		
+	
+	this.ds_list.set_updatecontrol(false);
+	for(let i = 0; i<this.ds_list.rowcount; i++){
+		this.ds_list.setRowType(i, Dataset.ROWTYPE_UPDATE);
+	}
+	this.ds_list.set_updatecontrol(true);
+
+};
+// 지움 버튼 클릭
+this.div_cont_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo){
+	
+	if(e.col == 3){
+		this.ds_list.setColumn(e.row, "기기명", "");
+		this.ds_list.setColumn(e.row, "수량", 0);
+		this.ds_list.setColumn(e.row, "구입일", "");
+	}
+};
+// 의료기기명 바이트수 30제한
+this.div_cont_grd_list_onkeydown = function(obj:nexacro.Grid,e:nexacro.KeyEventInfo)
+{
+	if (obj.currentcol == 1) {
+		let edit_value = this.div_cont.form.grd_list.getEditingValue();
+		let edit_value_byte_length = edit_value.byteLength();
+		let byte_value = 0;
+		console.log(edit_value_byte_length);
+
+		if (obj.currentcol == 1) byte_value = 30;
+	
+		this.div_cont.form.grd_list.setEditValue(edit_value);
+		
+		if(edit_value_byte_length > byte_value){
+			while(edit_value_byte_length > byte_value){
+				edit_value = edit_value.slice(0, -1);
+				edit_value_byte_length = edit_value.byteLength();
+			}
+		}	
+	}
+};]]></Script>
+  </Form>
+</FDL>

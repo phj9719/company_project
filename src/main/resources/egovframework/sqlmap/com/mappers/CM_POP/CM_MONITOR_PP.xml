@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CM_RES_PP                                                         
+     * 프로그램 명     : 입소자팝업                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_MONITOR_PP"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CM_MONITOR_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              	SELECT NR.NAME 
+              		  ,NR.RES_ID
+                      ,CONCAT(NR.AREA,'/',NR.LOCATION) AS AREA
+                      ,NR.LOCATION
+                      ,NR.SEX
+                      ,NR.AGE
+                      ,CONCAT(NR.AGE,'세/',IF(NR.SEX='M','남','여')) AS AGE_SEX
+                      ,DIAPER.CONN_ST
+                      ,TRUNCATE(DIAPER.HUMI_RATE,0) AS HUMI_RATE
+                      ,CEIL(DIAPER.HUMI_RATE * 0.1) AS HUMI_IMG
+                      ,CONCAT(DIAPER.BAT_RATE,'%') AS BAT_RATE
+                      ,CEIL(DIAPER.BAT_RATE * 0.1) AS BAT_IMG
+                      ,TRUNCATE(HEART.HEART_RATE,0) AS HEART_RATE
+                      ,FALL.CLEAR_YN AS FALL_CLEAR_YN
+                      ,BAND.CLEAR_YN AS BAND_CLEAR_YN
+                      ,FALL.DIA_TIME
+                      ,BAND.BAN_TIME
+                      ,'맥박' AS BAN_NM
+                      ,'낙상' AS FAL_NM
+                      ,DATE_FORMAT(BAND.BAN_TIME, '%Y-%m-%d %H:%i:%s') AS BAN_DT
+                      ,DATE_FORMAT(FALL.DIA_TIME, '%Y-%m-%d %H:%i:%s') AS FALL_DT
+                      ,(SELECT CC.STR1
+                          FROM T_CM_CODE CC
+                         WHERE CC.COMPANY_CD = NR.COMPANY_CD
+                           AND CC.GRP_CD = 'NU_BAND_IOT') AS LOW_HEART_RATE
+                  FROM T_NU_RESIDENT NR
+       LEFT OUTER JOIN (SELECT ND.COMPANY_CD
+                              ,ND.RES_ID
+                              ,ND.MAC_ADD
+                              ,ND.MAC_SEQ
+                              ,ND.DIA_TIME
+                              ,MAX(ND.CONN_ST) AS CONN_ST -- 연결상태
+                              ,MAX(ND.HUMI_RATE) AS HUMI_RATE -- 기저귀 퍼센트
+                              ,MAX(ND.BAT_RATE) AS BAT_RATE
+                          FROM T_NU_DIAPER ND
+                    INNER JOIN T_NU_MACH_USE MU
+                            ON(ND.COMPANY_CD = MU.COMPANY_CD
+                           AND ND.RES_ID = MU.USE_ID
+                           AND MU.USE_TP = '10')
+                    INNER JOIN T_CM_MACHINE CM
+                            ON(MU.COMPANY_CD = CM.COMPANY_CD
+                           AND MU.MAC_SEQ = CM.MAC_SEQ
+                           AND CM.MACH_TP IN ('0100','0200'))
+						 WHERE DATE_FORMAT(ND.DIA_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -30 MINUTE),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+                      GROUP BY ND.COMPANY_CD, ND.RES_ID, ND.MAC_ADD, ND.MAC_SEQ) DIAPER
+                   	ON(NR.COMPANY_CD = DIAPER.COMPANY_CD
+                   AND NR.RES_ID = DIAPER.RES_ID)
+       LEFT OUTER JOIN (SELECT SB.COMPANY_CD
+                              ,SB.RES_ID
+                              ,SB.MAC_ADD
+                              ,SB.MAC_SEQ
+                              ,SB.BAN_TIME
+                              ,MAX(SB.HEART_RATE) AS HEART_RATE
+                          FROM T_NU_SMART_BAND SB
+                    INNER JOIN T_NU_MACH_USE MU
+                            ON(SB.COMPANY_CD = MU.COMPANY_CD
+                           AND SB.RES_ID = MU.USE_ID
+                           AND MU.USE_TP = '10')
+                    INNER JOIN T_CM_MACHINE CM
+                            ON(MU.COMPANY_CD = CM.COMPANY_CD
+                           AND MU.MAC_SEQ = CM.MAC_SEQ
+                           AND CM.MACH_TP IN ('0100','0200'))
+                         WHERE DATE_FORMAT(SB.BAN_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -30 MINUTE),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')   
+                      GROUP BY SB.COMPANY_CD, SB.RES_ID, SB.MAC_ADD, SB.MAC_SEQ) HEART
+                    ON(NR.COMPANY_CD = HEART.COMPANY_CD
+                   AND NR.RES_ID = HEART.RES_ID)
+       LEFT OUTER JOIN (SELECT FE.COMPANY_CD
+                              ,FE.RES_ID
+                              ,FE.DIA_TIME
+                              ,FE.CLEAR_YN
+                          FROM T_NU_FALL_EVENT FE
+                         WHERE FE.CLEAR_YN = 'N'
+                           AND DATE_FORMAT(FE.DIA_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+                      GROUP BY FE.COMPANY_CD, FE.RES_ID) FALL
+                    ON(NR.COMPANY_CD = FALL.COMPANY_CD
+                   AND NR.RES_ID = FALL.RES_ID)
+       LEFT OUTER JOIN (SELECT BE.COMPANY_CD
+                              ,BE.RES_ID
+                              ,BE.BAN_TIME
+                              ,BE.CLEAR_YN
+                          FROM T_NU_BAND_EVENT BE
+                         WHERE BE.CLEAR_YN = 'N'
+                           AND DATE_FORMAT(BE.BAN_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+                      GROUP BY BE.COMPANY_CD, BE.RES_ID) BAND
+                    ON(NR.COMPANY_CD = BAND.COMPANY_CD
+                   AND NR.RES_ID = BAND.RES_ID)
+                 WHERE 1=1   
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND NR.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND NR.AREA IN (SELECT NA.ARE_CD
+                    				 FROM T_NU_MON_LOCATION NML
+										 ,T_NU_MON_AREA NMA
+										 ,T_NU_LOCATION NL
+										 ,T_NU_AREA NA
+									WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+									  AND NML.ARE_CD = NMA.ARE_CD
+									  AND NML.COMPANY_CD = NL.COMPANY_CD
+									  AND NML.LOC_SEQ = NL.LOC_SEQ
+									  AND NL.COMPANY_CD = NA.COMPANY_CD
+									  AND NL.ARE_CD = NA.ARE_CD
+									  AND NA.COMPANY_CD = #{COMPANY_CD}
+									  AND NA.ARE_CD = #{AREA})
+              </if>
+              <if test="MON_AREA != '' and MON_AREA != null">
+                    AND NR.LOCATION IN (SELECT NL.LOC_CD
+                    				 	  FROM T_NU_MON_LOCATION NML
+										 	  ,T_NU_MON_AREA NMA
+										 	  ,T_NU_LOCATION NL
+										 	  ,T_NU_AREA NA
+										 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+										   AND NML.ARE_CD = NMA.ARE_CD
+										   AND NML.COMPANY_CD = NL.COMPANY_CD
+									  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+										   AND NL.COMPANY_CD = NA.COMPANY_CD
+										   AND NL.ARE_CD = NA.ARE_CD
+										   AND NML.USE_YN = 'Y'
+										   AND NML.COMPANY_CD = #{COMPANY_CD}
+										   AND NML.ARE_CD = #{MON_AREA})
+              </if>
+        
+               ORDER BY BAND.CLEAR_YN DESC, FALL.CLEAR_YN DESC, NR.AREA ASC, NR.LOCATION ASC, NR.NAME ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>
+    <select id="CM_MONITOR_PP_JSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              	SELECT NR.NAME 
+              		      ,NR.RES_ID
+	                      ,CONCAT(NR.AREA,'/',NR.LOCATION) AS AREA
+	                      ,NR.AREA AS AREA2
+	                      ,NR.LOCATION
+	                      ,NR.SEX
+	                      ,NR.AGE
+	                      ,CONCAT(NR.AGE,'세/',IF(NR.SEX='M','남','여')) AS AGE_SEX
+	                      ,DIAPER.CONN_ST
+	                      ,TRUNCATE(DIAPER.HUMI,0) AS HUMI
+	                      ,TRUNCATE(ROUND(((DIAPER.HUMI -(SELECT CC.STR2
+							                      	  		FROM T_CM_CODE CC
+							                      	 	   WHERE CC.COMPANY_CD = #{COMPANY_CD}
+							                      	   		 AND CC.GRP_CD = 'NU_DIAPER_IOT'))/(SELECT (CC.STR2-CC.STR1)
+																	                      	  	  FROM T_CM_CODE CC
+																	                      	 	 WHERE CC.COMPANY_CD = #{COMPANY_CD}
+																	                      	   	   AND CC.GRP_CD = 'NU_DIAPER_IOT')) * -100),0) AS HUMI_RATE
+						  ,TRUNCATE(DIAPER.HUMI2,0) AS HUMI2
+						  ,TRUNCATE(ROUND(((DIAPER.HUMI2 -(SELECT CC.STR2
+							                      	  		 FROM T_CM_CODE CC
+							                      	 	    WHERE CC.COMPANY_CD = #{COMPANY_CD}
+							                      	   		  AND CC.GRP_CD = 'NU_DIAPER_IOT'))/(SELECT (CC.STR2-CC.STR1)
+																	                      	  	   FROM T_CM_CODE CC
+																	                      	 	  WHERE CC.COMPANY_CD = #{COMPANY_CD}
+ 																	                      	   	    AND CC.GRP_CD = 'NU_DIAPER_IOT')) * -100),0) AS HUMI_RATE2
+	                      ,CEIL(TRUNCATE(ROUND(((DIAPER.HUMI -(SELECT CC.STR2
+							                      	  		FROM T_CM_CODE CC
+							                      	 	   WHERE CC.COMPANY_CD = #{COMPANY_CD}
+							                      	   		 AND CC.GRP_CD = 'NU_DIAPER_IOT'))/(SELECT (CC.STR2-CC.STR1)
+																	                      	  	  FROM T_CM_CODE CC
+																	                      	 	 WHERE CC.COMPANY_CD = #{COMPANY_CD}
+																	                      	   	   AND CC.GRP_CD = 'NU_DIAPER_IOT')) * -100),0)  * 0.1) AS HUMI_IMG
+	                      ,CONCAT(DIAPER.BAT_QTY,'%') AS BAT_QTY
+	                      ,TRUNCATE(ROUND(((DIAPER.BAT_QTY -(SELECT CC.STR4
+							                      	  		   FROM T_CM_CODE CC
+							                      	 		  WHERE CC.COMPANY_CD = #{COMPANY_CD}
+							                      	   			AND CC.GRP_CD = 'NU_DIAPER_IOT'))/(SELECT (CC.STR3-CC.STR4)
+															                      	  				 FROM T_CM_CODE CC
+															                      	 			    WHERE CC.COMPANY_CD = #{COMPANY_CD}
+															                      	   				  AND CC.GRP_CD = 'NU_DIAPER_IOT')) * 100),0) AS BAT_RATE
+	                      ,CEIL(ROUND(((DIAPER.BAT_QTY -(SELECT CC.STR4
+				                      	  				   FROM T_CM_CODE CC
+				                      	 				  WHERE CC.COMPANY_CD = #{COMPANY_CD}
+				                      	   				    AND CC.GRP_CD = 'NU_DIAPER_IOT'))/(SELECT (CC.STR3-CC.STR4)
+														                      	  				 FROM T_CM_CODE CC
+														                      	 			    WHERE CC.COMPANY_CD = #{COMPANY_CD}
+														                      	   				  AND CC.GRP_CD = 'NU_DIAPER_IOT')) * 100) * 0.1) AS BAT_IMG
+	                      ,IF(TRUNCATE(HEART.HEART_RATE,0)>=0,TRUNCATE(HEART.HEART_RATE,0),NULL) AS HEART_RATE
+	                      ,FALL.CLEAR_YN AS FALL_CLEAR_YN
+	                      ,BAND.CLEAR_YN AS BAND_CLEAR_YN
+	                      ,FALL.DIA_TIME
+	                      ,BAND.BAN_TIME
+	                      ,'맥박' AS BAN_NM
+	                      ,'낙상' AS FAL_NM
+	                      ,DATE_FORMAT(BAND.BAN_TIME, '%Y-%m-%d %H:%i:%s') AS BAN_DT
+	                      ,DATE_FORMAT(FALL.DIA_TIME, '%Y-%m-%d %H:%i:%s') AS FALL_DT
+	                      ,(SELECT CC.STR1
+	                          FROM T_CM_CODE CC
+	                         WHERE CC.COMPANY_CD = NR.COMPANY_CD
+	                           AND CC.GRP_CD = 'NU_HEART_RATE') AS LOW_HEART_RATE
+						  ,(SELECT CC.STR2
+	                          FROM T_CM_CODE CC
+	                         WHERE CC.COMPANY_CD = NR.COMPANY_CD
+	                           AND CC.GRP_CD = 'NU_HEART_RATE') AS HIGH_HEART_RATE   
+					  FROM T_NU_RESIDENT NR
+		   LEFT OUTER JOIN (SELECT A.*
+				   			  	  ,CASE WHEN (CASE WHEN A.RANK_1 = 1 THEN SUBSTRING(A.TIME,1,12) END)- SUBSTRING(LEAD(A.TIME) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1) ,1,12) >= 4 THEN LEAD(A.HUMI) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1)
+								   ELSE NULL END AS HUMI2
+		  						  ,MU.USE_ID AS RES_ID 
+							  FROM (SELECT JT.COMPANY_CD
+										  ,SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS TIME
+										  ,JT.MAC_ADD
+										  ,JT.HUMI
+										  ,JT.BAT_QTY
+										  ,JT.CONN_ST
+										  ,RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE DESC) AS RANK_1
+		  								  ,RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE ASC) AS RANK_5
+									  FROM json_table(#{JSON}, '$.datas[*]'
+								   COLUMNS(	DATE VARCHAR(1000) path '$.time',
+											fall INT path '$.values.fall',								/* 낙상 0 이면 N 1 이면 Y */
+											HUMI DOUBLE path '$.values.wetness',
+											COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+											MAC_ADD VARCHAR(20) path '$.values.device_identifier',
+											BAT_QTY DOUBLE path '$.values.battery',
+											CONN_ST DOUBLE path '$.values.connecting_status')
+											)JT)A
+					  	INNER JOIN T_CM_MACHINE CM
+								ON(A.COMPANY_CD = CM.COMPANY_CD
+								AND A.MAC_ADD = CM.MAC_ADD
+								AND CM.MACH_TP IN ('0100','0200'))
+					  	INNER JOIN T_NU_MACH_USE MU
+								ON(MU.COMPANY_CD = CM.COMPANY_CD
+								AND MU.MAC_SEQ = CM.MAC_SEQ
+								AND MU.USE_TP = '10')
+							 WHERE (A.RANK_1 = 1 OR A.RANK_5 = 1)   
+							   AND A.COMPANY_CD = #{COMPANY_CD}) DIAPER
+								ON(NR.COMPANY_CD = DIAPER.COMPANY_CD
+					   		   AND NR.RES_ID = DIAPER.RES_ID
+					   		   AND DIAPER.RANK_1 = 1)
+		   LEFT OUTER JOIN (SELECT HEA.COMPANY_CD
+								  ,SUBSTRING(FROM_UNIXTIME(HEA.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS BAN_TIME
+								  ,HEA.MAC_ADD
+								  ,HEA.HEART_RATE
+								  ,MU.USE_ID AS RES_ID
+								  ,RANK() OVER(PARTITION BY HEA.MAC_ADD ORDER BY HEA.DATE DESC) AS RK
+							  FROM json_table(#{JSON2}, '$.datas[*]'
+						   COLUMNS(	DATE VARCHAR(1000) path '$.time',
+									HEART_RATE DOUBLE path '$.values.last_heart_rate',
+									COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+									MAC_ADD VARCHAR(20) path '$.values.device_identifier')) HEA
+						INNER JOIN T_CM_MACHINE CM
+								ON(HEA.COMPANY_CD = CM.COMPANY_CD
+							   AND HEA.MAC_ADD = CM.MAC_ADD
+							   AND CM.MACH_TP IN ('0100','0200'))
+						INNER JOIN T_NU_MACH_USE MU
+								ON(MU.COMPANY_CD = CM.COMPANY_CD
+							   AND MU.MAC_SEQ = CM.MAC_SEQ
+							   AND MU.USE_TP = '10')
+							   WHERE HEA.COMPANY_CD = #{COMPANY_CD} ) HEART
+						ON(NR.COMPANY_CD = HEART.COMPANY_CD
+					   AND NR.RES_ID = HEART.RES_ID
+					   AND HEART.RK = 1)
+		LEFT OUTER JOIN (SELECT FE.COMPANY_CD
+                              ,FE.RES_ID
+                              ,FE.DIA_TIME
+                              ,FE.CLEAR_YN
+                          FROM T_NU_FALL_EVENT FE
+                         WHERE FE.CLEAR_YN = 'N'
+                           AND FE.COMPANY_CD = #{COMPANY_CD}
+                           AND DATE_FORMAT(FE.DIA_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+                      GROUP BY FE.COMPANY_CD, FE.RES_ID) FALL
+                    ON(NR.COMPANY_CD = FALL.COMPANY_CD
+                   AND NR.RES_ID = FALL.RES_ID)
+       LEFT OUTER JOIN (SELECT BE.COMPANY_CD
+                              ,BE.RES_ID
+                              ,BE.BAN_TIME
+                              ,BE.CLEAR_YN
+                          FROM T_NU_BAND_EVENT BE
+                         WHERE BE.COMPANY_CD = #{COMPANY_CD}
+                           AND BE.CLEAR_YN = 'N'
+                           AND DATE_FORMAT(BE.BAN_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+                      GROUP BY BE.COMPANY_CD, BE.RES_ID) BAND
+                    ON(NR.COMPANY_CD = BAND.COMPANY_CD
+                   AND NR.RES_ID = BAND.RES_ID)
+                 WHERE NR.COMPANY_CD = #{COMPANY_CD}
+                   AND NR.RES_ID IN (SELECT MU.USE_ID
+									   FROM T_NU_MACH_USE MU
+				  				 INNER JOIN T_CM_MACHINE CM
+						 				 ON(MU.COMPANY_CD = CM.COMPANY_CD
+										 AND MU.MAC_SEQ = CM.MAC_SEQ
+										 AND CM.MACH_TP IN ('0100','0200'))
+									   WHERE NR.COMPANY_CD = MU.COMPANY_CD
+										 AND NR.RES_ID = MU.USE_ID
+										 AND MU.USE_TP = '10'
+									GROUP BY MU.USE_ID)		   
+              
+            ]]>
+              <if test="AREA != '' and AREA != null">
+                    AND NR.AREA = #{AREA}
+              </if>
+              <if test="MON_AREA != '' and MON_AREA != null">
+                    AND NR.LOCATION IN (SELECT NL.LOC_CD
+                    				 	  FROM T_NU_MON_LOCATION NML
+										 	  ,T_NU_MON_AREA NMA
+										 	  ,T_NU_LOCATION NL
+										 	  ,T_NU_AREA NA
+										 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+										   AND NML.ARE_CD = NMA.ARE_CD
+										   AND NML.COMPANY_CD = NL.COMPANY_CD
+									  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+										   AND NL.COMPANY_CD = NA.COMPANY_CD
+										   AND NL.ARE_CD = NA.ARE_CD
+										   AND NML.USE_YN = 'Y'
+										   AND NML.COMPANY_CD = #{COMPANY_CD}
+										   AND NML.ARE_CD = #{MON_AREA})
+              </if>
+        
+               ORDER BY BAND.CLEAR_YN DESC, FALL.CLEAR_YN DESC, NR.AREA ASC, NR.LOCATION ASC, NR.NAME ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	  <!-- 층 조회 -->
+    <select id="CM_MOTITOR_PP_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>  
+	 
+	  <!-- 층 조회 -->
+    <select id="CM_MOTITOR_PP_DS_MON_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,USE_YN
+			FROM T_NU_MON_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND USE_YN = 'Y'
+    	]]>                
+    </select> 
+     <select id="CM_MONITOR_PP_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('8')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>                                                                                                                                                                     
+</mapper>                                                                                                                                                                                                          

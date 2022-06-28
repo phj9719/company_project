@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA403CT                                                         
+     * 프로그램 명     : 작업치료관리                                                     
+     * Description : 작업치료관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA403CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA403CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.PLA_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION          
+					,A.PLA_DT
+					,LEFT(A.FROM_TM,2) AS START_HOUR
+					,RIGHT(A.FROM_TM,2) AS START_MINUTE
+					,LEFT(A.TO_TM,2) AS END_HOUR
+					,RIGHT(A.TO_TM,2) AS END_MINUTE
+					,A.PLA_TYPE
+					,A.CNT
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_PLAY_THERAPY A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.NAME LIKE CONCAT('%', #{NAME},'%') ) 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.AREA = #{AREA}) 
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.LOCATION = #{LOCATION}) 
+              </if>
+              <if test="DT_FROM != '' and DT_FROM != null">                    
+                    AND A.PLA_DT >= #{DT_FROM}								                    				    			  	
+              </if>
+              <if test="DT_TO != '' and DT_TO != null">                    
+                    AND A.PLA_DT  <![CDATA[  <= ]]> #{DT_TO}								                    				    			  	
+              </if>
+               ORDER BY ROWNUM ASC, A.PLA_DT DESC, RES_NM ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA403CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_PLAY_THERAPY (                                                                                                                                                                                 
+					         COMPANY_CD
+							,PLA_SEQ
+							,RES_ID
+							,PLA_DT
+							,FROM_TM
+							,TO_TM
+							,PLA_TYPE
+							,REMARK
+							,CNT
+							,MANAGER_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_PLAY_THERAPY ),12,0)))
+							,#{RES_ID     }
+							,#{PLA_DT     }
+							,CONCAT(#{START_HOUR},#{START_MINUTE})
+							,CONCAT(#{END_HOUR},#{END_MINUTE})
+							,#{PLA_TYPE   }
+							,#{REMARK     }
+							,#{CNT        }
+							,#{MANAGER_ID }
+							,#{REG_PGM_ID }
+							,#{REG_USER   }
+							,#{REG_DT     }
+							,#{REG_DT_CURR}
+							,#{REG_DT_LOC }
+							,#{REG_IP     }
+							,#{MOD_PGM_ID }
+							,#{MOD_USER   }
+							,#{MOD_DT     }
+							,#{MOD_DT_CURR}
+							,#{MOD_DT_LOC }
+							,#{MOD_IP     }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA403CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_PLAY_THERAPY                                                                                                                                                                                              
+						 SET RES_ID      = #{RES_ID   	}
+							,PLA_DT      = #{PLA_DT		}
+							,PLA_TYPE    = #{PLA_TYPE	}
+							,FROM_TM     = CONCAT(#{START_HOUR},#{START_MINUTE})
+							,TO_TM       = CONCAT(#{END_HOUR},#{END_MINUTE})
+							,CNT		 = #{CNT		}
+							,REMARK      = #{REMARK     }
+							,MANAGER_ID  = #{MANAGER_ID }
+							,MOD_PGM_ID  = #{MOD_PGM_ID }
+							,MOD_USER    = #{MOD_USER   }
+							,MOD_DT      = #{MOD_DT     }
+							,MOD_DT_CURR = #{MOD_DT_CURR}
+							,MOD_DT_LOC  = #{MOD_DT_LOC }
+							,MOD_IP      = #{MOD_IP     }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND PLA_SEQ = #{PLA_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA403CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_PLAY_THERAPY
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND PLA_SEQ = #{PLA_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+
+      <select id="NUA403CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA403CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>    
+     <select id="NUA403CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD = '50'
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+    
+    <!-- 층 조회 -->
+    <select id="NUA403CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA403CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if> 
+	</select>
+                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

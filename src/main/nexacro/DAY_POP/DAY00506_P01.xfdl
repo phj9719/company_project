@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00506_P01" width="1000" height="700" titletext="월간 직원근무일지" onload="form_onload">
+    <Layouts>
+      <Layout width="1000" height="700">
+        <Div id="div_00" taborder="0" text="div_00" left="0" top="0" width="1000" height="35">
+          <Layouts>
+            <Layout>
+              <Static id="sta_00" taborder="0" text="월간 직원근무일지" left="20" top="5" width="150" height="25" cssclass="lb01"/>
+              <Calendar id="cal_00" taborder="1" left="260" top="5" width="110" height="25" buttonsize="0" readonly="true"/>
+              <Calendar id="cal_01" taborder="2" left="390" top="5" width="110" height="25" buttonsize="0" readonly="true"/>
+              <Static id="sta_01" taborder="3" text="~" left="375" top="5" width="10" height="25"/>
+              <Button id="btn_00" taborder="4" text="근무일지(선택)" left="690" top="5" width="130" height="25" cssclass="btn_print" onclick="fn_report_chk"/>
+              <Button id="btn_01" taborder="5" text="발열측정 원간기록" left="830" top="5" width="150" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Static id="sta_02" taborder="6" text="□ 근무기간 :" left="175" top="5" width="80" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_01" taborder="1" text="div_01" left="0" top="35" width="1000" height="665">
+          <Layouts>
+            <Layout>
+              <Grid id="grd" taborder="0" left="20" top="0" width="960" height="645" binddataset="ds_list" autoenter="select" autofittype="col" oncellclick="div_01.form.grd_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="60"/>
+                      <Column size="100"/>
+                      <Column size="70"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="60"/>
+                      <Column size="70"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1">
+                        <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                        <Cell col="1" text="근무일지" expandchar="rno"/>
+                      </Cell>
+                      <Cell col="2" text="근무일"/>
+                      <Cell col="3" text="작성자"/>
+                      <Cell col="4" text="총인원"/>
+                      <Cell col="5" text="근무자"/>
+                      <Cell col="6" text="휴가자"/>
+                      <Cell col="7" text="주간근무"/>
+                      <Cell col="8" text="야간근무"/>
+                      <Cell col="9" text="부서A"/>
+                      <Cell col="10" text="부서B"/>
+                      <Cell col="11" text="부서C"/>
+                      <Cell col="12" text="부서D"/>
+                      <Cell col="13" text="조회"/>
+                      <Cell col="14" text="기록"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:print_chk"/>
+                      <Cell col="1" text="출력"/>
+                      <Cell col="2" text="bind:근무일" displaytype="date"/>
+                      <Cell col="3" text="bind:작성자"/>
+                      <Cell col="4" text="bind:총인원"/>
+                      <Cell col="5" text="bind:근무자"/>
+                      <Cell col="6" text="bind:휴가자"/>
+                      <Cell col="7" text="bind:주간근무"/>
+                      <Cell col="8" text="bind:야간근무"/>
+                      <Cell col="9" text="bind:근무자a"/>
+                      <Cell col="10" text="bind:근무자b"/>
+                      <Cell col="11" text="bind:근무자c"/>
+                      <Cell col="12" text="bind:근무자d"/>
+                      <Cell col="13" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="70" text="bind:조회"/>
+                      <Cell col="14" text="bind:일지번호"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="print_chk" type="STRING" size="256"/>
+          <Column id="근무일" type="DATE" size="256"/>
+          <Column id="작성자" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="총인원" type="STRING" size="256"/>
+          <Column id="근무자" type="STRING" size="256"/>
+          <Column id="휴가자" type="STRING" size="256"/>
+          <Column id="주간근무" type="STRING" size="256"/>
+          <Column id="야간근무" type="STRING" size="256"/>
+          <Column id="근무자a" type="STRING" size="256"/>
+          <Column id="근무자b" type="STRING" size="256"/>
+          <Column id="근무자c" type="STRING" size="256"/>
+          <Column id="근무자d" type="STRING" size="256"/>
+          <Column id="조회" type="STRING" size="256"/>
+          <Column id="일지번호" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date_from" type="STRING" size="256"/>
+          <Column id="date_to" type="STRING" size="256"/>
+          <Column id="근무일" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="sign" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00506_P01
+ * 화면명   	: 월간 직원근무일지
+ * 화면설명 	: 
+ * 작성일   	: 
+ * 작성자   	: 이성탄
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_01.form.grd;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	nexacro.getApplication().gv_curWinKey = "DAY00506_P01";
+	
+	this.fv_sicode = this.parent.SICODE;
+	this.fv_date_from = this.parent.DATE_FROM;
+	this.fv_date_to = this.parent.DATE_TO;
+	
+	this.ds_search.setColumn(0, "sicode", this.parent.SICODE);
+	this.ds_search.setColumn(0, "date_from", this.parent.DATE_FROM);
+	this.ds_search.setColumn(0, "date_to", this.parent.DATE_TO);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00506_P01.DAY00506_P01_DS_LIST_S ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+		return false;
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+
+//그리드 셀 팝업
+this.div_01.form.grd_oncellclick = function (obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//this.ds_search.setColumn(0, "row", e.row);
+	//const dayRecord = obj.getCellText(-1,e.col);
+	if (e.col == "13")
+	{
+	const param = {
+					SICODE : this.fv_sicode
+				,	DATE : this.ds_list.getColumn(e.row, "근무일")
+	}
+	
+	Sct.popup(this, "dayRecord", 450, 400, "", param, "DAY_POP::DAY00506_P02.xfdl", "fn_popCallback")
+	}
+};
+
+//팝업 콜백
+this.fn_popCallback = function (popid, strDs)
+{
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_return", strDs);
+	switch(popid) 
+	{
+		case "dayRecord" : 
+		if (objDs.getColumn(0, "REFRESH") == "Y"){
+				this.fn_search();
+			}	
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_return", strDs);
+	}
+};
+
+// 근무일지(선택) 리포트
+this.fn_report_chk = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_list.rowcount < 1) {
+		alert("출력할 근무자를 선택하세요!");
+		return;
+	}
+	var chk = 0;
+	
+	// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+	for(var i=0; i < this.ds_list.rowcount; i++){
+		chk = (parseInt(this.ds_list.getColumn(i,"print_chk"))==1)? chk+1 : chk; // 체크된 경우 1 더한다.
+	}
+	
+	// 체크박스 체크된 수급자가 없는 경우
+	if (chk == 0) {
+		alert("출력할 수급자를 선택하세요!");
+		return;	
+	}
+	
+	this.fn_call_report("print_chk");
+};
+
+//근무일지 리포트
+this.fn_call_report = function(arg)
+{
+	let pam = arg;
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00506_R01.xfdl";
+	const popupName = "";
+
+	var mCodeStr = "";
+	
+	// 출근자 한명 출력시
+	// 체크박스로 선택된 출근자 여러명 출력시
+	if (pam=="print_chk") {
+		//let _code = this.ds_list.getColumn(0, "근무일");
+		// mCodeStr += _code;
+		// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+		for(var i=0; i < this.ds_list.rowcount; i++){
+			let _code = this.ds_list.getColumn(i, "근무일");
+			if(this.ds_list.getColumn(i,"print_chk") == 1){ // 체크된 출근자 코드 문자열로 이어붙이기
+				mCodeStr += (_code + ",");
+			}
+		}
+		// 마지막 콤마 제거
+		mCodeStr = mCodeStr.substring(0,mCodeStr.length-1);
+	}
+
+	params = {
+		SICODE : this.ds_search.getColumn(0, "sicode")
+	,	DATE : mCodeStr
+//	,	MCODESTR : mCodeStr
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+}
+
+//발열측정 월간기록 리포트
+this.fn_report = function()
+{	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00506_R02.xfdl";
+	const popupName = "발열측정 월간기록";
+	
+	params = {
+		SICODE : this.ds_search.getColumn(0, "sicode")
+	,	DATE_FROM : this.ds_search.getColumn(0, "date_from")
+	,	DATE_TO : this.ds_search.getColumn(0, "date_to")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_00.form.cal_00" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item1" compid="div_00.form.cal_01" propid="value" datasetid="ds_search" columnid="date_to"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00702_P02                                                   
+     * 프로그램 명     	: 식단메뉴 추가                                
+     * Description 	: 식단메뉴 추가
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-30 15:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                             
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00702_P02">
+	<!-- 조회 -->
+    <select id="DAY00702_P02_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    	SELECT sicode
+			, 식단번호
+			, 식단구분
+			, 식단구분명
+			, 식단이름
+			, 일회제공
+			, 칼로리
+			, 재료구성
+			, org_식단번호
+			, CONCAT(식단구분, 식단이름) AS findname
+		FROM base_food
+		WHERE sicode = #{SICODE}
+    	]]>
+			<if test="GUBUN != '' and GUBUN != null">
+	            AND 식단구분 = #{GUBUN}
+		    </if>
+		    <if test="NAME != '' and NAME != null">
+	            AND 식단이름 LIKE CONCAT('%',#{NAME},'%')
+		    </if>
+		ORDER BY 식단이름 ASC
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00702_P02_DS_DATA_I" parameterType="java.util.HashMap">
+    	INSERT INTO base_food
+		( 
+			sicode
+			, 식단구분
+			, 식단구분명
+			, 식단이름
+			, 일회제공
+			, 칼로리
+			, 재료구성
+			, org_식단번호
+		)
+		VALUES (
+		      #{sicode}
+			, #{식단구분}
+			, #{식단구분명}
+			, #{식단이름}
+			, #{일회제공}
+			, #{칼로리}
+			, #{재료구성}
+			, #{org_식단번호}
+		)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00702_P02_DS_DATA_U" parameterType="java.util.HashMap">
+    	UPDATE base_food
+			SET 식단구분       = #{식단구분}
+			  , 식단구분명     = #{식단구분명}
+			  , 식단이름       = #{식단이름}
+			  , 일회제공       = #{일회제공}
+			  , 칼로리          = #{칼로리} 
+		  	  , 재료구성        = #{재료구성}
+			  , org_식단번호 = #{org_식단번호}
+			WHERE sicode = #{sicode}
+			AND 식단번호 = #{식단번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00702_P02_DS_DATA_D" parameterType="java.util.HashMap">
+    	DELETE FROM base_food
+    	WHERE sicode = #{sicode}
+    	AND	식단번호 = #{식단번호}
+    </delete>
+    
+    
+    
+</mapper>

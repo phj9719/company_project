@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00212                                                         
+     * 프로그램 명     	: 2-12  간호.건강수준평가                                                     
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-30 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00212">
+	<!-- 조회 -->
+    <select id="DAY00212_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00212_DS_LIST_S */
+		SELECT bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+             , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+		     , bm.m_regist
+		     , bm.m_conname
+			 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		     , (SELECT MAX(사정시작)
+		          FROM base_nurse bn
+		         WHERE bn.수급코드 = bm.m_code) AS 사정시작
+		     , (SELECT MAX(사정종료)
+		          FROM base_nurse bn
+		         WHERE bn.수급코드 = bm.m_code) AS 사정종료
+		     , CONCAT((SELECT MAX(사정시작)
+		               FROM base_nurse bn
+		              WHERE bn.수급코드 = bm.m_code), "-", (SELECT MAX(사정종료)
+		                                                   FROM base_nurse bn
+		                                                  WHERE bn.수급코드 = bm.m_code)) AS 최근적용기간
+		     , DATE_FORMAT((SELECT MAX(사정종료)
+		                      FROM base_nurse bn
+		                     WHERE bn.수급코드 = bm.m_code
+		                       AND bn.사정일   = (SELECT MAX(사정일)
+		                                         FROM base_nurse bn
+		                                        WHERE bn.수급코드 = bm.m_code)), "%Y.%m.%d") AS 만료일
+		    , CONCAT(CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                          WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                          WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                          ELSE '19' END, insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-')) AS real_b_date
+            , 신장 AS height
+            , 체중 AS weight                                                       
+		 FROM base_mate bm	  
+		WHERE bm.sicode = #{sicode}
+	<if test="s_nm != '' and s_nm != null">		
+		 AND bm.거주현황 = #{s_nm}
+	</if>
+		 AND bm.m_reday >= #{date_from}
+		 AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+	   ORDER
+	      BY  s_nm
+	        , bm.m_name  
+    </select>
+    
+    <select id="DAY00212_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00212_DS_DETAIL_S */
+	SELECT sicode
+	     , 수급코드
+	     , 수급자명
+	     , n_number
+	     , 사정일
+	     , DATE_FORMAT(사정일,'%Y.%m.%d') AS 사정일dot
+	     , 사정시작 
+	     , 사정종료
+	     , CONCAT(DATE_FORMAT(사정시작,'%Y.%m.%d'),'-', DATE_FORMAT(사정종료,'%Y.%m.%d')) AS GIGAN
+	     , 작성자
+	  FROM base_nurse 
+	 WHERE sicode = #{sicode}
+	   AND 수급코드 = #{m_code}
+	 ORDER
+	    BY 사정일 DESC
+	</select>
+    
+    <select id="DAY00212_DS_DETAIL_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00212_DS_DETAIL_LIST_S */
+    SELECT sicode
+         , 수급코드
+         , 수급자명
+		 , n_number
+		 , 사정일
+         , DATE_FORMAT(사정일,'%Y.%m.%d') AS 사정일dot
+         , 사정시작 
+         , 사정종료
+         , CONCAT(DATE_FORMAT(사정시작,'%Y.%m.%d'),'-', DATE_FORMAT(사정종료,'%Y.%m.%d')) AS GIGAN
+         , 작성자
+      FROM base_nurse 
+     WHERE sicode = #{sicode}
+     ORDER
+        BY 사정일 DESC
+	</select>
+</mapper>

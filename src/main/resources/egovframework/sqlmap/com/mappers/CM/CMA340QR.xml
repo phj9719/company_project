@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-01 19:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA340QR                                                         
+     * 프로그램 명  		: 수신문서 조회
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-18 02:00     |   고준민      	| 최초작성                                                 
+       2021-03-26 10:00		|	이승규	| 1차 수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA340QR">                                                                                                                                                                              
+	<select id="CMA340QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[                                                                                                      
+				SELECT 
+				              GAC.COMPANY_CD
+				            , GAC.PLANT_CD
+				            , GAC.PK_DOC_NO
+				            , GAC.GRP_DOC_KIND
+				            , CASE
+				                     WHEN GAC.URGENT = '1' THEN 'Urgent'
+				                     WHEN GAC.URGENT = '0' THEN 'Not Urgent'
+				              END           AS URGENT
+				            , GAC.APPL_DOC_SBJT
+				            , GAC.DOC_WRITER
+				            , GAC.DOC_DEPT
+				            , GAC.APPVL_PRC_FLAG
+				            , CONVERT(DATE,GAC.DOC_DATE)                AS DOC_DATE
+				            , CONVERT(CHAR(16),GAC.APPVL_PRC_DT,20)     AS APPVL_PRC_DT
+				            , CASE WHEN (SELECT MAX(GAL.DOC_RCV_DT)
+				                           FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+				                          WHERE GAL.COMPANY_CD = GAC.COMPANY_CD
+				                            AND GAL.PLANT_CD   = GAC.PLANT_CD
+				                            AND GAL.PK_DOC_NO  = GAC.PK_DOC_NO
+				                            AND GAL.PK_APPL_TYPE = '30'
+		]]>					
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+						          			AND GAL.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+									                                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+									                                     WHERE GAL.COMPANY_CD = A.COMPANY_CD
+									                                       AND A.DEPT_CODE    = #{USERINFO})
+			</if> 
+			<if test="AUTH.equals('20')">
+						          			AND GAL.APPL_LINE_CHRG = #{USERINFO}
+			</if>
+		</if>
+		<![CDATA[
+				                            ) IS NOT NULL 
+				                   THEN 'Y'
+				                   ELSE 'N' 						END AS RECV
+			              --, CONCAT((SELECT COUNT(*)
+				          --   FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				          --   WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				          --   AND GAC.PLANT_CD   = A.PLANT_CD
+				          --   AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				          --   AND A.FNL_READ_DT IS NOT NULL
+				          --   AND A.PK_APPL_TYPE = '30') , '/', (SELECT COUNT(*)
+				          --                                          FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				          --                                          WHERE GAC.COMPANY_CD = B.COMPANY_CD
+				          --                                          AND   GAC.PLANT_CD   = B.PLANT_CD
+				          --                                          AND   GAC.PK_DOC_NO  = B.PK_DOC_NO
+				          --                                          AND   B.PK_APPL_TYPE = '30'))			AS R_CNT				-- 열람자 수				              
+				            , (SELECT MAX(ISNULL(GAL.FRST_READ_STS, 0))
+				                 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+				                WHERE GAL.COMPANY_CD   = GAC.COMPANY_CD
+				                  AND GAL.PLANT_CD     = GAC.PLANT_CD
+				                  AND GAL.PK_DOC_NO    = GAC.PK_DOC_NO
+				                  AND GAL.PK_APPL_TYPE = '30'
+		]]>					
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+						          AND GAL.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+						                                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+						                                     WHERE GAL.COMPANY_CD = A.COMPANY_CD
+						                                       AND A.DEPT_CODE    = #{USERINFO})
+			</if> 
+			<if test="AUTH.equals('20')">
+						          AND GAL.APPL_LINE_CHRG = #{USERINFO}
+			</if>
+		</if>
+		<![CDATA[					) AS R_CNT
+				            , CONVERT(CHAR(16),GAC.DOC_SND_DT,20)       AS DOC_SND_DT
+				            --, CONVERT(CHAR(16),GAC.DOC_RCV_DT,20)       AS DOC_RCV_DT
+							, (SELECT CONVERT(CHAR(16),MAX(GAL.DOC_RCV_DT),20)
+	                             FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	                            WHERE GAL.COMPANY_CD = GAC.COMPANY_CD
+	                              AND GAL.PLANT_CD   = GAC.PLANT_CD
+	                              AND GAL.PK_DOC_NO  = GAC.PK_DOC_NO
+	                              AND GAL.PK_APPL_TYPE = '30'
+		]]>					
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+				          	 	  AND GAL.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+						                                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+						                                     WHERE GAL.COMPANY_CD = A.COMPANY_CD
+						                                       AND A.DEPT_CODE    = #{USERINFO})
+			</if> 
+			<if test="AUTH.equals('20')">
+				          		  AND GAL.APPL_LINE_CHRG = #{USERINFO}
+			</if>
+		</if>
+		<![CDATA[
+				              ) AS DOC_RCV_DT 
+				            , GAC.TRANS_ST
+		                    --, (SELECT COUNT(*)
+				            --   FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				            --   WHERE GAC.COMPANY_CD   = B.COMPANY_CD
+				            --   AND GAC.PLANT_CD     = B.PLANT_CD
+				            --   AND GAC.PK_DOC_NO    = B.PK_DOC_NO
+				            --   AND B.PK_APPL_TYPE   = '30'			-- 수신처
+				            --   AND B.APPL_LINE_CHRG = {USERINFO}   -- 로그인사용자 이름
+				            --   )			             		 		AS APPL_TYPE_CNT  -- 참조자인지 아닌지 여부판단을 위해  	
+				            
+				FROM 		T_GR_APPL_CNT GAC WITH(NOLOCK)
+				WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+				AND GAC.APPVL_PRC_FLAG = 'AV'                     -- 결재승인된 문서만 조회
+			  	AND		 (SELECT COUNT(*)
+				            FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				           WHERE GAC.COMPANY_CD = B.COMPANY_CD
+				             AND GAC.PLANT_CD   = B.PLANT_CD
+				             AND GAC.PK_DOC_NO  = B.PK_DOC_NO
+				             AND B.PK_APPL_TYPE = '30'        -- 수신처
+				             AND B.DOC_TRNF_SVDT IS NULL		 -- 보관되지 않은 문서
+		]]>					
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+			          	 	 AND B.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+					                                   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+					                                  WHERE B.COMPANY_CD = A.COMPANY_CD
+					                                    AND A.DEPT_CODE  = #{USERINFO})
+			</if> 
+			<if test="AUTH.equals('20')">
+				             AND B.APPL_LINE_CHRG = #{USERINFO}
+			</if>
+		</if>
+		<![CDATA[
+				            ) = 1												-- 수신처로 등록된 문서 & 보관되지 않은 문서
+		]]>					
+		<if test="APPL_DEP_NM != '' and APPL_DEP_NM != null">
+		    AND GAL.APPL_DEP_NM   = #{APPL_DEP_NM}
+		</if>
+		<if test="PK_DOC_NO != '' and PK_DOC_NO != null">
+		    AND GAC.PK_DOC_NO LIKE CONCAT ('%', #{PK_DOC_NO}, '%')
+		</if>
+		<if test="DOC_DATE != '' and DOC_DATE != null">
+		    AND GAC.DOC_DATE = #{DOC_DATE}
+		</if>
+		<if test="DOC_SUBJECT != '' and DOC_SUBJECT != null">
+		    AND GAC.APPL_DOC_SBJT LIKE CONCAT ('%', #{DOC_SUBJECT}, '%')
+		</if>
+		<if test="USER_NM != '' and USER_NM != null">
+		    AND GAC.DOC_WRITER  = #{USER_NM}
+		</if>
+		<if test='RECV_ST == "Y"'>
+			AND GAC.DOC_RCV_DT IS NOT NULL
+		</if>
+		<if test='RECV_ST == "N"'>
+			AND GAC.DOC_RCV_DT IS NULL
+		</if>		
+			ORDER BY GAC.URGENT DESC , GAC.DOC_DATE DESC
+    </select>
+    
+    <update id="CMA340QR_RECV_U" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_GR_APPL_LINE
+			   SET DOC_RCV_DT  = CONVERT(CHAR(19), SYSDATETIME(), 20)
+				 , MOD_PGM_ID  = #{MOD_PGM_ID}
+				 , MOD_USER    = #{MOD_USER}
+				 , MOD_DT 	   = #{MOD_DT}
+				 , MOD_DT_CURR = #{MOD_DT_CURR}
+				 , MOD_DT_LOC  = #{MOD_DT_LOC}
+				 , MOD_IP	   = #{MOD_IP}
+			 WHERE COMPANY_CD  = #{COMPANY_CD}
+			   AND PLANT_CD    = #{PLANT_CD}
+			   AND PK_DOC_NO   = #{PK_DOC_NO}
+		]]>
+		<if test="AUTH.equals('10')">
+	           AND APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+	                                   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+	                                  WHERE A.COMPANY_CD = #{COMPANY_CD}
+	                                    AND A.DEPT_CODE  = #{USER_DEPT})
+		</if> 
+		<if test="AUTH.equals('20')">
+			   AND APPL_LINE_CHRG = #{USER_DEPT}
+		</if>
+	</update>
+	
+	<update id="CMA340QR_SAVE_U" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_GR_APPL_LINE
+			   SET DOC_TRNF_SVDT = CONVERT(CHAR(19), SYSDATETIME(), 20)
+				 , MOD_PGM_ID    = #{MOD_PGM_ID}
+				 , MOD_USER      = #{MOD_USER}
+				 , MOD_DT 	     = #{MOD_DT}
+				 , MOD_DT_CURR   = #{MOD_DT_CURR}
+				 , MOD_DT_LOC    = #{MOD_DT_LOC}
+				 , MOD_IP	     = #{MOD_IP}
+			 WHERE COMPANY_CD    = #{COMPANY_CD}
+			   AND PLANT_CD      = #{PLANT_CD}
+			   AND PK_DOC_NO     = #{PK_DOC_NO}
+		]]>
+		<if test="AUTH.equals('10')">
+	           AND APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+	                                   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+	                                  WHERE A.COMPANY_CD = #{COMPANY_CD}
+	                                    AND A.DEPT_CODE  = #{USER_DEPT})
+		</if> 
+		<if test="AUTH.equals('20')">
+			   AND APPL_LINE_CHRG = #{USER_DEPT}
+		</if>
+	</update>
+    
+</mapper>                                                                                                                                                                                                                                        

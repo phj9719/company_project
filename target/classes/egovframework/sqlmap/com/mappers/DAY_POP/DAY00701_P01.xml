@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00701_P01                                                    
+     * 프로그램 명     	: 주야간운영일지 작성 팝업                                                     
+     * Description 	: 주야간운영일지 조회 삽입 수정
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-17 09:30        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00701_P01_DS_LIST_S		조회
+        DAY00701_P01_DS_TEMP1_S		refesh 조회1
+        DAY00701_P01_DS_TEMP2_S		refesh 조회2
+        DAY00701_P01_DS_TEMP3_S		refesh 조회3
+        DAY00701_P01_DS_TEMP4_S		refesh 조회4
+        DAY00701_P01_DS_TEMP5_S		refesh 조회5
+        DAY00701_P01_DS_TEMP6_S		refesh 조회6
+        DAY00701_P01_DS_TEMP7_S		refesh 조회7
+        DAY00701_P01_DS_TEMP8_S		refesh 조회8
+        DAY00701_P01_DS_LIST_I		삽입
+        DAY00701_P01_DS_LIST_U		수정                                                                             
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00701_P01">
+	<!-- 조회 -->
+    <select id="DAY00701_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 조회 */
+    SELECT
+      bd.sicode
+    , bd.일지번호
+    , bd.운영일
+    , bd.시설장
+    , bd.일송영
+    , CASE 
+        WHEN bd.일송영 <![CDATA[>]]> 999 THEN '***'
+        WHEN bd.일송영 = 0 THEN NULL 
+        ELSE bd.일송영 
+      END AS 일송영V
+    , bd.일남자
+    , bd.일여자
+    , bd.일등급
+    , bd.이등급
+    , bd.삼등급
+    , bd.사등급
+    , bd.오등급
+    , bd.인지
+    , bd.등외
+    , bd.외출인원
+    , bd.외박인원
+    , bd.진료인원
+    , bd.목욕인원
+    , bd.입소인원
+    , bd.퇴소인원
+    , bd.연령통계
+    , TRIM(SUBSTRING(bd.연령통계, 1, 3)) AS 연령60
+    , TRIM(SUBSTRING(bd.연령통계, 4, 3)) AS 연령70
+    , TRIM(SUBSTRING(bd.연령통계, 7, 3)) AS 연령80
+    , TRIM(SUBSTRING(bd.연령통계, 10, 3)) AS 연령90
+    , bd.거주남자
+    , bd.거주여자
+    , bd.거주자수
+    , CASE 
+        WHEN bd.거주자수 <![CDATA[>]]> 999 THEN '***'
+        WHEN bd.거주자수 = 0 THEN NULL 
+        ELSE bd.거주자수 
+      END AS 거주자수V
+    , bd.직원현황
+    , TRIM(SUBSTRING(bd.직원현황, 34, 3)) AS 대표
+    , TRIM(SUBSTRING(bd.직원현황, 1, 3)) AS 센터장
+    , TRIM(SUBSTRING(bd.직원현황, 4, 3)) AS 사무국장
+    , TRIM(SUBSTRING(bd.직원현황, 7, 3)) AS 사회복지사
+    , TRIM(SUBSTRING(bd.직원현황, 10, 3)) AS 간호사조무사
+    , TRIM(SUBSTRING(bd.직원현황, 13, 3)) AS 물리치료사
+    , TRIM(SUBSTRING(bd.직원현황, 16, 3)) AS 요양보호사
+    , TRIM(SUBSTRING(bd.직원현황, 19, 3)) AS 사무원
+    , TRIM(SUBSTRING(bd.직원현황, 22, 3)) AS 영양사조리원
+    , TRIM(SUBSTRING(bd.직원현황, 25, 3)) AS 관리원
+    , TRIM(SUBSTRING(bd.직원현황, 28, 3)) AS 위생원
+    , TRIM(SUBSTRING(bd.직원현황, 37, 3)) AS 대체복무
+    , TRIM(SUBSTRING(bd.직원현황, 40, 3)) AS 환경원
+    , bd.근무자
+    , bd.휴가자
+    , bd.봉사자
+    , bd.직원남자
+    , bd.직원여자
+    , bd.직원수
+    , CASE 
+        WHEN bd.직원수 <![CDATA[>]]> 999 THEN '***'
+        WHEN bd.직원수 = 0 THEN NULL 
+        ELSE bd.직원수 
+      END AS 직원수V
+    , bd.입퇴소내용
+    , bd.목욕자내용
+    , bd.외박내용
+    , bd.업무제목01
+    , bd.업무제목02
+    , bd.업무제목03
+    , bd.업무제목04
+    , bd.프로그램01
+    , bd.프로그램02
+    , bd.프로그램03
+    , bd.아침식단
+    , bd.점심식단
+    , bd.저녁식단
+    , bd.오전간식
+    , bd.오후간식
+    , bd.업무내용01
+    , bd.업무내용02
+    , bd.업무내용03
+    , bd.업무내용04
+    , bd.프로내용01
+    , bd.프로내용02
+    , bd.프로내용03
+    , bd.운전원
+    , bd.인지
+    , bd.일일알람
+    FROM base_daily bd
+    WHERE bd.sicode = #{SICODE}
+    AND bd.운영일 = #{DATE}
+    </select>
+    
+    <!-- refresh 조회1 -->
+    <select id="DAY00701_P01_DS_TEMP1_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 1 */
+    SELECT 
+      COUNT(*) AS tot
+    , CASE
+        WHEN COUNT(*) <![CDATA[>]]> 999 THEN '***'
+        WHEN COUNT(*) = 0 THEN NULL
+        ELSE CONVERT(COUNT(*), INT)	<!-- 이유는 모르겠는데 이부분이 BLOB으로 리턴되어서 CONVERT함-->
+      END AS totV
+    , SUM(CASE WHEN mat.성별 = '남' THEN 1 END) AS m
+    , SUM(CASE WHEN mat.성별 = '여' THEN 1 END) AS f
+    FROM kmrecord rec
+    INNER JOIN base_mate mat
+    ON rec.sicode = mat.sicode
+    AND rec.k_code = mat.m_code
+    WHERE rec.sicode = #{SICODE}
+    AND k_nalja = #{DATE}
+    AND CHAR_LENGTH(TRIM(시작시간)) <![CDATA[>]]> 0
+    </select>
+    
+    <!-- refresh 조회2 -->
+    <select id="DAY00701_P01_DS_TEMP2_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 2 */
+    <![CDATA[
+    WITH mate AS
+    (
+        SELECT *
+        FROM base_mate a
+        WHERE a.sicode = #{SICODE}
+    )
+    SELECT 
+      SUM(CASE WHEN mai.m_reday > #{DATE} THEN 1 ELSE 0 END) AS "현재원"
+    , CASE
+        WHEN SUM(CASE WHEN mai.m_reday > #{DATE} THEN 1 ELSE 0 END) > 999 THEN '***'
+        WHEN SUM(CASE WHEN mai.m_reday > #{DATE} THEN 1 ELSE 0 END) = 0 THEN NULL
+        ELSE CONVERT(SUM(CASE WHEN mai.m_reday > #{DATE} THEN 1 ELSE 0 END), INT)
+      END AS "현재원V"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 1 THEN 1 END ELSE 0 END) AS "일등급"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 2 THEN 1 END ELSE 0 END) AS "이등급"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 3 THEN 1 END ELSE 0 END) AS "삼등급"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 4 THEN 1 END ELSE 0 END) AS "사등급"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 5 THEN 1 END ELSE 0 END) AS "오등급"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 6 THEN 1 END ELSE 0 END) AS "인지"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.m_grade = 7 THEN 1 END ELSE 0 END) AS "등외"
+    , SUM(CASE WHEN mai.m_conday1 = #{DATE} THEN 1 ELSE 0 END) AS "입소자"
+    , SUM(CASE WHEN mai.m_reday = #{DATE} THEN 1 ELSE 0 END) AS "퇴소자"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN
+            CASE WHEN TIMESTAMPDIFF(YEAR, STR_TO_DATE(CONCAT(CASE 
+                                                               WHEN SUBSTRING(mai.m_jumin2,1,1) IN (1,2,5,6) THEN '19'
+                                                               WHEN SUBSTRING(mai.m_jumin2,1,1) IN (3,4,7,8) THEN '20'
+                                                               WHEN SUBSTRING(mai.m_jumin2,1,1) IN (9,0) THEN '18'
+                                                             END,mai.m_jumin1),'%Y%m%d')
+                                                      , DATE_ADD(#{DATE}, INTERVAL 1 DAY)) < 70 THEN 1 END ELSE 0 END) AS "연령60대이하"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN
+            CASE WHEN TIMESTAMPDIFF( YEAR, STR_TO_DATE(CONCAT(CASE 
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (1,2,5,6) THEN '19'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (3,4,7,8) THEN '20'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (9,0) THEN '18'
+                                                              END,mai.m_jumin1),'%Y%m%d')
+                                                       , DATE_ADD(#{DATE}, INTERVAL 1 DAY)) BETWEEN 70 AND 79 THEN 1 END ELSE 0 END) AS "연령70대"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN
+            CASE WHEN TIMESTAMPDIFF( YEAR, STR_TO_DATE(CONCAT(CASE 
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (1,2,5,6) THEN '19'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (3,4,7,8) THEN '20'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (9,0) THEN '18'
+                                                              END,mai.m_jumin1),'%Y%m%d')
+                                                       , DATE_ADD(#{DATE}, INTERVAL 1 DAY)) BETWEEN 80 AND 89  THEN 1 END ELSE 0 END) AS "연령80대"
+    , SUM(CASE WHEN mai.m_reday > STR_TO_DATE('20220302','%Y%m%d') THEN
+            CASE WHEN TIMESTAMPDIFF( YEAR, STR_TO_DATE(CONCAT(CASE
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (1,2,5,6) THEN '19'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (3,4,7,8) THEN '20'
+                                                                WHEN SUBSTRING(mai.m_jumin2,1,1) IN (9,0) THEN '18'
+                                                              END,mai.m_jumin1),'%Y%m%d')
+                                                       , DATE_ADD(#{DATE}, INTERVAL 1 DAY)) >= 90 THEN 1 END ELSE 0 END) AS "연령90이상"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.성별 = '남' THEN 1 END ELSE 0 END) AS "남"
+    , SUM(CASE WHEN mai.m_reday > #{DATE} THEN CASE WHEN mai.성별 = '여' THEN 1 END ELSE 0 END) AS "여"
+    FROM mate mai
+    ]]>
+    <where>
+    <!-- EXISTS (SELECT 1
+            FROM mate m
+            WHERE m.m_code = mai.m_code
+            AND #{DATE} BETWEEN m.m_conday1 AND m.m_conday2
+            UNION ALL
+            SELECT 1
+            FROM kmhistory h
+            WHERE h.sicode   = mai.sicode
+            AND h.수급코드 = mai.m_code
+            AND #{DATE} BETWEEN h.계약시작 AND h.계약종료) -->
+    </where>
+    </select>
+    
+    <!-- refresh 조회3 -->
+    <select id="DAY00701_P01_DS_TEMP3_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 3 */
+    SELECT 
+      COUNT(*)                                                                    AS "현인원"
+    , CASE
+        WHEN COUNT(*) <![CDATA[>]]> 999 THEN '***'
+        WHEN COUNT(*) = 0 THEN NULL
+        ELSE CONVERT(COUNT(*), INT)	<!-- 이유는 모르겠는데 이부분이 BLOB으로 리턴되어서 CONVERT함-->
+      END AS "현인원V"
+    , SUM(CASE WHEN mai.dutycode IN ('1') THEN 1 ELSE 0 END                     ) AS "대표"
+    , SUM(CASE WHEN mai.dutycode IN ('2') THEN 1 ELSE 0 END                     ) AS "시설장"
+    , SUM(CASE WHEN mai.dutycode IN ('3') THEN 1 ELSE 0 END                     ) AS "사무국장"
+    , SUM(CASE WHEN mai.dutycode IN ('4') THEN 1 ELSE 0 END                     ) AS "복지사"
+    , SUM(CASE WHEN mai.dutycode IN ('7') THEN 1 ELSE 0 END                     ) AS "간호사"
+    , SUM(CASE WHEN mai.dutycode IN ('5','6') THEN 1 ELSE 0 END                 ) AS "치료사"
+    , SUM(CASE WHEN mai.dutycode IN ('8') THEN 1 ELSE 0 END                     ) AS "요양사"
+    , SUM(CASE WHEN mai.dutycode IN ('15') THEN 1 ELSE 0 END                    ) AS "사무원"
+    , SUM(CASE WHEN mai.dutycode IN ('9','10') THEN 1 ELSE 0 END                ) AS "영양조리"
+    , SUM(CASE WHEN mai.dutycode IN ('12','13','14','16','19') THEN 1 ELSE 0 END) AS "관리원"
+    , SUM(CASE WHEN mai.dutycode IN ('17','18') THEN 1 ELSE 0 END               ) AS "위생원"
+    , SUM(CASE WHEN mai.dutycode IN ('11') THEN 1 ELSE 0 END                    ) AS "보조원"
+    , SUM(CASE WHEN mai.dutycode IN ('20') THEN 1 ELSE 0 END                    ) AS "대체복무"
+    , SUM(CASE WHEN mai.성별 = '남' THEN 1 ELSE 0 END                           ) AS "남"
+    , SUM(CASE WHEN mai.성별 = '여' THEN 1 ELSE 0 END                           ) AS "여"
+    FROM 
+    (
+        SELECT 
+          fn_dutycode(emp.sicode,emp.c_staffid,#{DATE}) AS dutycode
+        , emp.성별
+        FROM base_employee emp
+        WHERE emp.sicode = #{SICODE}
+        AND #{DATE} BETWEEN emp.c_become AND emp.c_retire
+    ) mai
+    </select>
+    
+    <!-- refresh 조회4 -->
+    <select id="DAY00701_P01_DS_TEMP4_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 4 */
+    SELECT 
+      SUM(CASE 
+            WHEN wor.구분01 = '00' THEN
+              CASE 
+                WHEN wor.구분02 = '00' THEN 1
+                WHEN wor.구분02 = '' THEN 1
+                ELSE 0 end
+            WHEN wor.구분01 = '' THEN
+              CASE 
+                WHEN wor.구분02 = '00' THEN 1
+                ELSE 0 end
+            ELSE 0 
+          END)                                            AS "근무"
+    , SUM(CASE 
+            WHEN wor.구분01 IN ('93','33','44','55','66','77','88','89','99') THEN 1
+            WHEN wor.구분02 IN ('93','33','44','55','66','77','88','89','99') THEN 1
+            ELSE 0 
+          END)                                                                  AS "휴가"
+    FROM base_work wor
+    WHERE wor.sicode = #{SICODE}
+    AND wor.출근일 = #{DATE}
+    </select>
+    
+    <!-- refresh 조회5 -->
+    <select id="DAY00701_P01_DS_TEMP5_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 5 */
+    SELECT GROUP_CONCAT(mai.m_name SEPARATOR '\r\n') AS p_name
+    FROM 
+    (
+        SELECT 
+          1 AS ord_no
+        , CONCAT('진료 : ', trim(med.거주자명))  AS m_name
+        FROM kmmedi med
+        WHERE med.sicode = #{SICODE}
+        AND 진료일 = #{DATE}
+        UNION ALL
+        SELECT 
+          2 AS ord_no
+        , CONCAT('외출 : ', trim(sta.거주자명),', ',lpad(sta.외출시,2,'0'), ':', lpad(sta.외출분,2,'0'), '-', lpad(sta.복귀시,2,'0'), ':', lpad(sta.복귀분,2,'0'))  AS m_name
+        FROM kmstayout sta
+        WHERE sta.sicode = #{SICODE}
+        AND 외출일 = #{DATE}
+    ) mai
+    </select>
+    
+    <!-- refresh 조회6 -->
+    <select id="DAY00701_P01_DS_TEMP6_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 6 */
+    SELECT GROUP_CONCAT(mai.p_name SEPARATOR '\r\n') AS p_name
+    FROM
+    (
+        SELECT 
+          1 AS ord_no
+        , CONCAT('입소 : ',mat.m_name,' (',mat.성별,') 님')  AS p_name
+        FROM base_mate mat
+        WHERE mat.sicode = #{SICODE}
+        AND mat.m_conday1 = #{DATE}
+        UNION all
+        SELECT 
+          2 AS ord_no
+        , CONCAT('퇴소 : ',mat.m_name,' (',mat.성별,') 님')  AS p_name
+        FROM base_mate mat
+        WHERE mat.sicode = #{SICODE}
+        AND mat.m_reday = #{DATE}
+        UNION all
+        SELECT 
+          3 AS ord_no
+        , CONCAT('입사 : ',emp.c_name, ' ',fn_dutyname(emp.sicode,emp.c_staffid,#{DATE}))  AS p_name
+        FROM base_employee emp
+        WHERE emp.sicode = #{SICODE}
+        AND emp.c_become = #{DATE}
+        UNION all
+        SELECT 
+          4 AS ord_no
+        , CONCAT('퇴사 : ',emp.c_name, ' ',fn_dutyname(emp.sicode,emp.c_staffid,#{DATE}))  AS p_name
+        FROM base_employee emp
+        WHERE emp.sicode = #{SICODE}
+        AND emp.c_retire = #{DATE}
+    ) mai
+    </select>
+    
+    <!-- refresh 조회7 -->
+    <select id="DAY00701_P01_DS_TEMP7_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P01 재집계 조회 7 */
+    SELECT concat(GROUP_CONCAT(ba_name SEPARATOR '  '),'  ') AS b_name
+    FROM base_bath
+    WHERE sicode = #{SICODE}
+    AND ba_nalja = #{DATE}
+    </select>
+    
+    <!-- refresh 조회8 -->
+    <select id="DAY00701_P01_DS_TEMP8_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 O01 재집계 조회 8 */
+    SELECT 
+      trim(CONCAT('아침 : ',mor01,' ',mor02,' ',mor03,' ',mor04,' ',mor05,' ',mor06,' ')) AS mor
+    , trim(CONCAT('점심 : ',lun01,' ',lun02,' ',lun03,' ',lun04,' ',lun05,' ',lun06,' ')) AS lun
+    , trim(CONCAT('저녁 : ',din01,' ',din02,' ',din03,' ',din04,' ',din05,' ',din06,' ')) AS din
+    , trim(CONCAT('오전 : ',sna01,' ',sna02,' ',sna03                                  )) AS sam
+    , trim(CONCAT('오후 : ',sna04,' ',sna05,' ',sna06                                  )) AS spm
+    FROM kmdiet die
+    WHERE die.sicode  = #{SICODE}
+    AND die.f_nalja = #{DATE}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00701_P01_DS_LIST_I" parameterType="java.util.HashMap">
+    /* 7-1 P01 삽입 */
+    INSERT INTO base_daily
+    (
+      sicode
+    , 운영일
+    , 시설장
+    , 일송영
+    , 일남자
+    , 일여자
+    , 일등급
+    , 이등급
+    , 삼등급
+    , 사등급
+    , 오등급
+    , 등외
+    , 목욕인원
+    , 입소인원
+    , 퇴소인원
+    , 연령통계
+    , 거주남자
+    , 거주여자
+    , 거주자수
+    , 직원현황
+    , 근무자
+    , 휴가자
+    , 봉사자
+    , 직원남자
+    , 직원여자
+    , 직원수
+    , 입퇴소내용
+    , 목욕자내용
+    , 외박내용
+    , 업무제목01
+    , 업무제목02
+    , 업무제목03
+    , 업무제목04
+    , 프로그램01
+    , 프로그램02
+    , 프로그램03
+    , 아침식단
+    , 점심식단
+    , 저녁식단
+    , 오전간식
+    , 오후간식
+    , 업무내용01
+    , 업무내용02
+    , 업무내용03
+    , 업무내용04
+    , 프로내용01
+    , 프로내용02
+    , 프로내용03	
+    , 운전원
+    , 인지
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{운영일}
+    , #{시설장}
+    , #{일송영}
+    , #{일남자}
+    , #{일여자}
+    , #{일등급}
+    , #{이등급}
+    , #{삼등급}
+    , #{사등급}
+    , #{오등급}
+    , #{등외}
+    , #{목욕인원}
+    , #{입소인원}
+    , #{퇴소인원}
+    , #{연령통계}
+    , #{거주남자}
+    , #{거주여자}
+    , #{거주자수}
+    , #{직원현황}
+    , #{근무자}
+    , #{휴가자}
+    , #{봉사자}
+    , #{직원남자}
+    , #{직원여자}
+    , #{직원수}
+    , #{입퇴소내용}
+    , #{목욕자내용}
+    , #{외박내용}
+    , #{업무제목01}
+    , #{업무제목02}
+    , #{업무제목03}
+    , #{업무제목04}
+    , #{프로그램01}
+    , #{프로그램02}
+    , #{프로그램03}
+    , #{아침식단}
+    , #{점심식단}
+    , #{저녁식단}
+    , #{오전간식}
+    , #{오후간식}
+    , #{업무내용01}
+    , #{업무내용02}
+    , #{업무내용03}
+    , #{업무내용04}
+    , #{프로내용01}
+    , #{프로내용02}
+    , #{프로내용03}
+    , #{운전원}
+    , #{인지}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00701_P01_DS_LIST_U" parameterType="java.util.HashMap">
+    /* 7-1 P01 수정 */
+    UPDATE base_daily
+    SET
+      시설장 = #{시설장}
+    , 일송영 = #{일송영}
+    , 일남자 = #{일남자}
+    , 일여자 = #{일여자}
+    , 일등급 = #{일등급}
+    , 이등급 = #{이등급}
+    , 삼등급 = #{삼등급}
+    , 사등급 = #{사등급}
+    , 오등급 = #{오등급}
+    , 등외 = #{등외}
+    , 목욕인원 = #{목욕인원}
+    , 입소인원 = #{입소인원}
+    , 퇴소인원 = #{퇴소인원}
+    , 연령통계 = #{연령통계}
+    , 거주남자 = #{거주남자}
+    , 거주여자 = #{거주여자}
+    , 거주자수 = #{거주자수}
+    , 직원현황 = #{직원현황}
+    , 근무자 = #{근무자}
+    , 휴가자 = #{휴가자}
+    , 봉사자 = #{봉사자}
+    , 직원남자 = #{직원남자}
+    , 직원여자 = #{직원여자}
+    , 직원수 = #{직원수}
+    , 입퇴소내용 = #{입퇴소내용}
+    , 목욕자내용 = #{목욕자내용}
+    , 외박내용 = #{외박내용}
+    , 업무제목01 = #{업무제목01}
+    , 업무제목02 = #{업무제목02}
+    , 업무제목03 = #{업무제목03}
+    , 업무제목04 = #{업무제목04}
+    , 프로그램01 = #{프로그램01}
+    , 프로그램02 = #{프로그램02}
+    , 프로그램03 = #{프로그램03}
+    , 아침식단 = #{아침식단}
+    , 점심식단 = #{점심식단}
+    , 저녁식단 = #{저녁식단}
+    , 오전간식 = #{오전간식}
+    , 오후간식 = #{오후간식}
+    , 업무내용01 = #{업무내용01}
+    , 업무내용02 = #{업무내용02}
+    , 업무내용03 = #{업무내용03}
+    , 업무내용04 = #{업무내용04}
+    , 프로내용01 = #{프로내용01}
+    , 프로내용02 = #{프로내용02}
+    , 프로내용03 = #{프로내용03}
+    , 운전원 = #{운전원}
+    , 인지 = #{인지}
+    WHERE sicode = #{sicode}
+    AND 운영일 = #{운영일}
+    </update>
+</mapper>

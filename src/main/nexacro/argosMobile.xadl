@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="argosMobile" screenid="Mobile" onload="Application_onload" licenseurl="http://14.42.209.174:2004/Mobile/nexacro17_client_license.xml">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="false" showstatusbar="false" width="480" height="768">
+        <VFrameSet id="FrameSet" separatesize="60,*,100,0">
+          <Frames>
+            <ChildFrame id="TopFrame" title="" showtitlebar="false" showstatusbar="false" showcascadetitletext="false" showtitleicon="false" formurl="MobileFrame::mFrameTop.xfdl"/>
+            <FrameSet id="WorkFrameSet"/>
+            <ChildFrame id="BottomFrame" title="" showtitlebar="false" showstatusbar="false" showcascadetitletext="false" showtitleicon="false"/>
+            <ChildFrame id="LoginFrame" formurl="MobileFrame::mFrameLogin.xfdl" showcascadetitletext="false" showtitlebar="false" showtitleicon="false"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[// Frame 변수 정의
+// ==> Form을 Quick View로 볼 경우에는 아래 -시작- 부터 -끝- 까지 Comment 해야 함.
+// -시작-
+this.av_mainFrame = nexacro.getApplication().mainframe;
+
+this.av_frameSet = nexacro.getApplication().mainframe.FrameSet;
+this.av_workFrameSet = this.av_frameSet.WorkFrameSet;
+
+this.av_topFrame = this.av_frameSet.TopFrame;
+this.av_bottomFrame = this.av_frameSet.BottomFrame;
+this.av_loginFrame = this.av_frameSet.LoginFrame;
+// -끝-
+
+// Frame Size Mode 정의
+this.av_loginModeSize = "60,0,0,*";
+this.av_mainModeSize = "60,*,100,0";
+
+this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+{
+	// 개발서버에서 svcurl 맵핑 시키기
+	trace("클라이언트 url : " + e.url);
+	const objSrv = nexacro.getEnvironment().services["svcurl"];
+	const sIp = "http://14.42.209.174:2004";
+	const lIp = "http://192.168.100.21:8080";
+	if(e.url == sIp + "/Argos/argosMobile.xadl.js")
+	{
+		objSrv.url = sIp;
+	}
+	
+	if(system.navigatorname == "nexacro" && system.osversion.toUpperCase().indexOf("WINDOWS") == -1)
+	{
+		objSrv.url = sIp;
+	}
+	
+	this.av_frameSet.set_separatesize(this.av_loginModeSize);
+	
+};]]></Script>
+</ADL>

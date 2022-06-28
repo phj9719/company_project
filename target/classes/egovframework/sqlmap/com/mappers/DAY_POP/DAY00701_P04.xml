@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00701_P04                                                        
+     * 프로그램 명     	: 주야간 운영일지 출력(월)                                                    
+     * Description 	: 월별 주야간 운영일지 검색
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-21 16:30        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00701_P02_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00701_P04">
+	<!-- 조회 -->
+    <select id="DAY00701_P04_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 P04 조회 */
+    SELECT
+      bd.sicode
+    , LPAD(bd.일지번호, 7, '0') AS 일지번호
+    , bd.운영일
+    , TRIM(bd.시설장) AS 시설장
+    , bd.거주자수
+    , bd.일등급
+    , bd.이등급
+    , bd.삼등급
+    , bd.사등급
+    , bd.오등급
+    , bd.인지
+    , bd.등외
+    , bd.일송영
+    FROM base_daily bd
+    WHERE bd.sicode = #{SICODE}
+    AND bd.운영일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY bd.운영일 ASC
+    </select>
+</mapper>

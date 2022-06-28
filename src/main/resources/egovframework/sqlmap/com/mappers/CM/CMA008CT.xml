@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    /**
+     *
+     * WARNING: Auto create
+     * Template File Version : 1.0
+     * Create :2017-10-12 08:31
+     *
+     **/
+     *================================================================
+     * 프로그램 ID  : CMA008CT
+     * 프로그램 명  : 시스템 설정 값 관리
+     * Description :
+     *================================================================
+                작성일자         |  작성자    |  비고
+     *================================================================
+       2017-10-12 08:31        |           | 최초작성
+       2018-01-08			   | 김정민    | 1차 수정
+     *================================================================
+     *  Statement List 
+     *================================================================
+
+     *================================================================
+-->
+<!-- 삭제 -->
+<mapper namespace="CMA008CT">
+    <!--SELECT  -->
+    <select id="CMA008CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+            <![CDATA[
+                      SELECT COMPANY_CD
+							,CP.SERVICE_TP
+							,CP.CODE
+							,CP.CODE_NAME
+							,CP.SET_VALUE
+							,CP.USE_YN
+							,CP.DATE_FR
+							,CP.DATE_TO
+							,CP.DESCRIPTION
+							,CP.STR1
+							,CP.STR2
+							,CP.STR3
+							,CP.STR4
+							,CP.STR5
+							,CP.STR6
+							,CP.STR7
+							,CP.STR8
+							,CP.STR9
+							,CP.STR10
+							,CP.REG_PGM_ID
+							,CP.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE CP.COMPANY_CD = CU.COMPANY_CD
+							     AND CP.SERVICE_TP = CU.SERVICE_TP
+							     AND CP.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,CP.REG_DT
+							,CP.REG_DT_CURR
+							,CP.REG_DT_LOC
+							,CP.REG_IP
+							,CP.MOD_PGM_ID
+							,CP.MOD_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE CP.COMPANY_CD = CU.COMPANY_CD
+							     AND CP.SERVICE_TP = CU.SERVICE_TP
+							     AND CP.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+							,CP.MOD_DT
+							,CP.MOD_DT_CURR
+							,CP.MOD_DT_LOC
+							,CP.MOD_IP
+                        FROM T_CM_PROFILE CP
+                       WHERE 1=1 
+             ]]>
+             <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                 AND CP.COMPANY_CD = #{COMPANY_CD}
+             </if>
+             <if test="CODE != '' and CODE != null">
+                 AND CP.CODE LIKE CONCAT ('%' , #{CODE} , '%')
+             </if>
+             <if test="SERVICE_TP != '' and SERVICE_TP != null">
+                 AND CP.SERVICE_TP = #{SERVICE_TP}
+             </if>
+             <if test="SET_VALUE != '' and SET_VALUE != null">
+                 AND CP.SET_VALUE LIKE CONCAT ('%' , #{SET_VALUE} , '%')
+             </if>
+             <if test="USE_YN != '' and USE_YN != null">
+                 AND CP.USE_YN = #{USE_YN}
+             </if>
+    </select>
+
+    <!--INSERT  -->
+    <insert id="CMA008CT_DS_LIST_I" parameterType="java.util.HashMap">
+    <![CDATA[
+            INSERT INTO T_CM_PROFILE ( COMPANY_CD
+										,SERVICE_TP
+										,CODE
+										,CODE_NAME
+										,SET_VALUE
+										,USE_YN
+										,DATE_FR
+										,DATE_TO
+										,DESCRIPTION
+										,STR1
+										,STR2
+										,STR3
+										,STR4
+										,STR5
+										,STR6
+										,STR7
+										,STR8
+										,STR9
+										,STR10
+										,REG_PGM_ID
+										,REG_USER
+										,REG_DT
+										,REG_DT_CURR
+										,REG_DT_LOC
+										,REG_IP
+										,MOD_PGM_ID
+										,MOD_USER
+										,MOD_DT
+										,MOD_DT_CURR
+										,MOD_DT_LOC
+										,MOD_IP
+                                     )VALUES(
+                                      	 #{COMPANY_CD    }
+										,#{SERVICE_TP    }
+										,#{CODE          }
+										,#{CODE_NAME     }
+										,#{SET_VALUE     }
+										,#{USE_YN        }
+										,#{DATE_FR       }
+										,#{DATE_TO       }
+										,#{DESCRIPTION   }
+										,#{STR1          }
+										,#{STR2          }
+										,#{STR3          }
+										,#{STR4          }
+										,#{STR5          }
+										,#{STR6          }
+										,#{STR7          }
+										,#{STR8          }
+										,#{STR9          }
+										,#{STR10         }
+										,#{REG_PGM_ID    }
+										,#{REG_USER      }
+										,#{REG_DT        }
+										,#{REG_DT_CURR   }
+										,#{REG_DT_LOC    }
+										,#{REG_IP        }
+										,#{MOD_PGM_ID    }
+										,#{MOD_USER      }
+										,#{MOD_DT        }
+										,#{MOD_DT_CURR   }
+										,#{MOD_DT_LOC    }
+										,#{MOD_IP        }
+                                     )
+     ]]>
+    </insert>
+    <!--UPDATE  -->
+    <update id="CMA008CT_DS_LIST_U" parameterType="java.util.HashMap">
+    <![CDATA[
+                      UPDATE T_CM_PROFILE
+                       	 SET CODE_NAME      =#{CODE_NAME      }
+							,SET_VALUE      =#{SET_VALUE      }
+							,USE_YN         =#{USE_YN         }
+							,DATE_FR        =#{DATE_FR        }
+							,DATE_TO        =#{DATE_TO        }
+							,DESCRIPTION    =#{DESCRIPTION    }
+							,STR1           =#{STR1           }
+							,STR2           =#{STR2           }
+							,STR3           =#{STR3           }
+							,STR4           =#{STR4           }
+							,STR5           =#{STR5           }
+							,STR6           =#{STR6           }
+							,STR7           =#{STR7           }
+							,STR8           =#{STR8           }
+							,STR9           =#{STR9           }
+							,STR10          =#{STR10          }
+							,REG_PGM_ID     =#{REG_PGM_ID     }
+							,REG_USER       =#{REG_USER       }
+							,REG_DT         =#{REG_DT         }
+							,REG_DT_CURR    =#{REG_DT_CURR    }
+							,REG_DT_LOC     =#{REG_DT_LOC     }
+							,REG_IP         =#{REG_IP         }
+							,MOD_PGM_ID     =#{MOD_PGM_ID     }
+							,MOD_USER       =#{MOD_USER       }
+							,MOD_DT         =#{MOD_DT         }
+							,MOD_DT_CURR    =#{MOD_DT_CURR    }
+							,MOD_DT_LOC     =#{MOD_DT_LOC     }
+							,MOD_IP         =#{MOD_IP         }
+                       WHERE COMPANY_CD  = #{COMPANY_CD}
+                         AND CODE  = #{CODE}
+                         AND SERVICE_TP = #{SERVICE_TP}
+    ]]>
+    </update>
+    <!--DELETE  -->
+     <delete id="CMA008CT_DS_LIST_D" parameterType="java.util.HashMap">
+    <![CDATA[
+                      DELETE FROM T_CM_PROFILE
+                       WHERE COMPANY_CD  = #{COMPANY_CD}
+                         AND CODE  = #{CODE}
+                         AND SERVICE_TP = #{SERVICE_TP}
+    ]]>
+    </delete>
+</mapper>

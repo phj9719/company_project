@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                 
+	  역할관리 mapper                                                                                   
+-->																											  
+<mapper namespace="CM_FVR_MENU">
+	<!--                                                                                                                                                                                      
+    <select id="CM_FVR_MENU" parameterType="java.lang.String" resultType="java.util.Map">                                                                                                           
+            <![CDATA[
+           	SELECT 
+           	       A.USER_ID
+           	     , A.MENU_CD
+           	     , DBO.F_GET_LANG_DESCRIPTION(A.COMPANY_CD, B.MENU_NM, #{LANG_CD}) AS MENU_NM
+           	  FROM T_CM_FVR_MENU A
+           	 INNER
+           	  JOIN T_CM_MENU B
+           	    ON B.COMPANY_CD = A.COMPANY_CD
+           	   AND B.MENU_CD    = A.MENU_CD
+           	 WHERE A.COMPANY_CD = #{COMPANY_CD} 
+           	   AND A.USER_ID    = #{USER_ID}
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </select>
+    -->
+    
+    <select id="CM_FVR_MENU" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+           	SELECT
+           		   COMPANY_CD
+           		 , SERVICE_TP
+           		 , APPLICATION_TP 
+           	     , USER_ID
+           	     , MENU_CD
+           	     , MENU_NM	
+           	  FROM T_CM_FVR_MENU 
+           	 WHERE USER_ID = #{USER_ID}
+           	 AND COMPANY_CD = #{COMPANY_CD}
+           	 AND SERVICE_TP = #{SERVICE_TP}
+           	 AND APPLICATION_TP = #{APPLICATION_TP} 
+           	 ORDER BY MENU_ORDER  
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </select>
+    
+    <insert id="CM_FVR_MENU_S_I" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+           INSERT INTO T_CM_FVR_MENU( 
+              		   COMPANY_CD
+              		 , SERVICE_TP
+              		 , APPLICATION_TP
+              		 , USER_ID
+              		 , MENU_CD
+              		 , MENU_NM
+              		 , MENU_ORDER
+              		 , REG_PGM_ID
+              		 , REG_USER
+              		 , REG_DT
+              		 , REG_DT_CURR
+              		 , REG_DT_LOC
+              		 , REG_IP
+              		 , MOD_PGM_ID
+              		 , MOD_USER
+              		 , MOD_DT
+              		 , MOD_DT_CURR
+              		 , MOD_DT_LOC
+              		 , MOD_IP
+		  	) VALUES (
+			  		   #{COMPANY_CD}
+			  		 , #{SERVICE_TP}
+			  		 , #{APPLICATION_TP}
+              		 , #{USER_ID}
+              		 , #{MENU_CD}
+              		 , #{MENU_NM}
+              		 , (SELECT IFNULL(MAX(MENU_ORDER), 0) + 1
+              		    FROM T_CM_FVR_MENU ALIAS_FOR_SUBQUERY
+              		    WHERE COMPANY_CD = #{COMPANY_CD}
+              		    AND SERVICE_TP = #{SERVICE_TP}
+              		    AND APPLICATION_TP = #{APPLICATION_TP})
+              		 , #{REG_PGM_ID}
+              		 , #{REG_USER}
+              		 , #{REG_DT}
+              		 , #{REG_DT_CURR}
+              		 , #{REG_DT_LOC}
+              		 , #{REG_IP}
+              		 , ''
+              		 , ''
+              		 , ''
+              		 , ''
+              		 , ''
+              		 , ''
+		  	)          
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </insert>
+    <delete id="CM_FVR_MENU_S_D" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+            
+           	DELETE FROM T_CM_FVR_MENU
+		 	 WHERE MENU_CD = #{MENU_CD}
+		 	   AND COMPANY_CD = #{COMPANY_CD}
+		 	   AND USER_ID = #{USER_ID}
+		 	   AND SERVICE_TP = #{SERVICE_TP}
+		 	   AND COMPANY_CD = #{COMPANY_CD}
+                                                                                                                                                                             
+     ]]>                                                                                                                                                                                                              
+    </delete>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+</mapper>                                                                                                                                                                                                          

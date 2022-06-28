@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00302" width="1920" height="800" titletext="3-2 월간 물리(작업)치료 제공기록(삭제)" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="70" right="0" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" left="0" top="0" width="410" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_head" taborder="1" left="0" top="0" right="0" bottom="0" binddataset="ds_head" autofittype="col" oncellclick="div_cont_div_left_grd_head_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="60"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                            <Column size="50"/>
+                            <Column size="60"/>
+                            <Column size="100"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:거주현황"/>
+                            <Cell col="1" text="bind:m_group"/>
+                            <Cell col="2" text="bind:m_name" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left" cursor="pointer"/>
+                            <Cell col="3" text="bind:성별"/>
+                            <Cell col="4" text="bind:등급"/>
+                            <Cell col="5" text="bind:m_roomname" textAlign="left"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" text="div_00" left="div_left:10" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" text="div_00" left="0" top="0" right="0" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_head1" taborder="1" text="수급자명" left="0" top="1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="2" left="82" top="1" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_head1_1" taborder="3" text="성별·나이" left="400" top="1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="4" left="0" top="34" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="생 활 실"/>
+                          <Static id="sta_body2" taborder="5" left="82" top="34" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Static id="sta_mate_code" taborder="6" text="수급코드" left="171" top="9" width="79" height="19"/>
+                          <Static id="sta_mate_name" taborder="7" text="수급자" left="92" top="9" width="69" height="19"/>
+                          <Static id="sta_head3" taborder="8" left="0" top="67" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="주요질환"/>
+                          <Static id="sta_body3" taborder="9" left="82" top="67" height="34" cssclass="sta_WF_DetailLabel02" right="0"/>
+                          <Grid id="grd_detail" taborder="0" left="0" top="105" right="0" bottom="0" autofittype="col" binddataset="ds_detail" selecttype="cell" onexpandup="div_cont_div_right_div_main_grd_detail_onexpandup">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="80"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="90"/>
+                                  <Column size="160"/>
+                                  <Column size="80"/>
+                                  <Column size="60"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="24"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell text="제공일"/>
+                                  <Cell col="1" text="시간"/>
+                                  <Cell col="2" text="치료①"/>
+                                  <Cell col="3" text="치료②"/>
+                                  <Cell col="4" text="치료③"/>
+                                  <Cell col="5" text="치료④"/>
+                                  <Cell col="6" text="치료⑤"/>
+                                  <Cell col="7" text="치료⑥"/>
+                                  <Cell col="8" text="치료⑦"/>
+                                  <Cell col="9" text="치료⑧"/>
+                                  <Cell col="10" text="비 고"/>
+                                  <Cell col="11" text="제공자"/>
+                                  <Cell col="12" text="조회"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell displaytype="date" expandchar="dot" text="bind:nalja" cssclass="CellBf7fcff"/>
+                                  <Cell col="1" text="bind:치료시간"/>
+                                  <Cell col="2" textAlign="left" text="bind:치료01" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="3" textAlign="left" text="bind:치료02" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="4" textAlign="left" text="bind:치료03" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="5" textAlign="left" text="bind:치료04" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="6" textAlign="left" text="bind:치료05" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="7" textAlign="left" text="bind:치료06" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="8" textAlign="left" text="bind:치료07" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="9" textAlign="left" text="bind:치료08" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                                  <Cell col="10" textAlign="left" editmaxlength="40" text="bind:비고"/>
+                                  <Cell col="11" text="bind:작성자" textAlign="left"/>
+                                  <Cell col="12" text="bind:조회" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="70"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="sta_sex" taborder="10" text="성" left="501" top="9" width="39" height="19"/>
+                          <Static id="sta_age" taborder="11" text="나이" left="551" top="9" width="39" height="19"/>
+                          <Static id="sta_head1_2" taborder="12" text="입 소 일" left="740" top="1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_enday" taborder="13" text="yyyy.mm.dd" left="841" top="9" width="69" height="19"/>
+                          <Static id="sta_head1_3" taborder="14" text="인정번호" left="1110" top="1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_regist" taborder="15" text="인정번호" left="1211" top="9" width="129" height="19"/>
+                          <Static id="sta_head2_1" taborder="16" left="400" top="34" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="케어그룹"/>
+                          <Static id="sta_head2_2" taborder="17" left="740" top="34" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="퇴 소 일"/>
+                          <Static id="sta_head2_3" taborder="18" left="1110" top="34" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="인정기간"/>
+                          <Static id="sta_head3_1" taborder="19" left="1110" top="67" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="인정등급"/>
+                          <Static id="sta_room_name" taborder="20" text="생활실" left="92" top="42" width="249" height="19"/>
+                          <Static id="sta_group" taborder="21" text="A" left="501" top="42" width="39" height="19"/>
+                          <Static id="sta_reday" taborder="22" text="yyyy.mm.dd" left="841" top="42" width="69" height="19" color="red"/>
+                          <Static id="sta_liday1" taborder="23" text="yyyy.mm.dd" left="1211" top="42" width="69" height="19"/>
+                          <Static id="sta_li_con" taborder="24" text="-" left="1291" top="42" width="9" height="19"/>
+                          <Static id="sta_liday2" taborder="25" text="yyyy.mm.dd" left="1311" top="42" width="69" height="19"/>
+                          <Static id="sta_regist00" taborder="26" text="등급" left="1211" top="75" width="129" height="19"/>
+                          <Static id="sta_m_history" taborder="27" text="주요질환" left="92" top="75" width="949" height="19"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="435">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_from" taborder="1" left="122" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="235" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="250" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Calendar id="cal_date" taborder="0" left="0" top="5" width="90" height="25" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Calendar id="cal_date_pic" taborder="4" left="cal_date:-1" top="5" width="25" height="25" initvalueid="iv_cal_yyyyMM" onchanged="div_search_cal_date_pic_onchanged" tabstop="false"/>
+              <Button id="btn_search" taborder="5" text="조회" top="4" height="26" onclick="fn_searchBtn" right="0" width="70" cssclass="btn_search"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="div_search:10" top="0" height="35" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="1" text="물리치료제공기록" left="0" top="4" width="145" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func2" taborder="3" left="0" top="35" height="35" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_all_filter" taborder="0" text="전체" left="0" top="4" width="55" height="26" onclick="btn_filter_onclick"/>
+              <Static id="sta_subTitle2" taborder="6" text="월간 물리(작업)치료 제공기록작성" left="830" top="5" width="260" height="25" cssclass="lb01"/>
+              <Button id="btn_a_filter" taborder="1" text="A" left="60" top="4" width="25" height="26" font="normal 15pt/normal &quot;Noto Sans KR&quot;" onclick="btn_filter_onclick"/>
+              <Button id="btn_b_filter" taborder="2" text="B" left="90" top="4" width="25" height="26" font="normal 15pt/normal &quot;Noto Sans KR&quot;" onclick="btn_filter_onclick"/>
+              <Button id="btn_c_filter" taborder="3" text="C" left="120" top="4" width="25" height="26" font="normal 15pt/normal &quot;Noto Sans KR&quot;" onclick="btn_filter_onclick"/>
+              <Button id="btn_d_filter" taborder="4" text="D" left="150" top="4" width="25" height="26" font="normal 15pt/normal &quot;Noto Sans KR&quot;" onclick="btn_filter_onclick"/>
+              <Button id="btn_e_filter" taborder="5" text="E" left="180" top="4" width="25" height="26" font="normal 15pt/normal &quot;Noto Sans KR&quot;" onclick="btn_filter_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_head" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_grade" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="나이" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="입소일" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="퇴소일" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="인정시작" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="인정종료" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="MON" type="STRING" size="256"/>
+          <Column id="group" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_grade" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="나이" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="입소일" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="퇴소일" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="인정시작" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="인정종료" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="nalja" type="STRING" size="256"/>
+          <Column id="mulday" type="STRING" size="256"/>
+          <Column id="multime" type="STRING" size="256"/>
+          <Column id="endtime" type="STRING" size="256"/>
+          <Column id="치료시간" type="STRING" size="256"/>
+          <Column id="치료01" type="STRING" size="256"/>
+          <Column id="치료02" type="STRING" size="256"/>
+          <Column id="치료03" type="STRING" size="256"/>
+          <Column id="치료04" type="STRING" size="256"/>
+          <Column id="치료05" type="STRING" size="256"/>
+          <Column id="치료06" type="STRING" size="256"/>
+          <Column id="치료07" type="STRING" size="256"/>
+          <Column id="치료08" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+          <Column id="작성자" type="STRING" size="256"/>
+          <Column id="조회" type="STRING" size="256"/>
+          <Column id="mulnumber" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_count" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="count" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00302
+ * 화면명   	: 3-2 월간 물리(작업)치료 제공기록(삭제)
+ * 화면설명 	: 물리(작업)치료 제공기록을 월별 수급자별로 조회하는 화면
+ * 작성일   	: 2022-05-27
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ * 비고 :
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 날짜 세팅
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMon = year + ((month + 1) + "").padStart(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", firstDay);
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMon);
+	this.ds_search.setColumn(0, "group", "");
+	
+	// 리포트 결재란 체크박스 기본값 세팅
+	this.ds_report.setColumn(0, "SIGN", 1);
+	
+	// 조회
+	this.fn_search();
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	
+	// 퇴사여부에 따라 근무상태 배경색 변경
+	const nowIdx = grid.getBindCellIndex("body", "거주현황");
+	const nowCss = "expr:dataset.getColumn(currow, '거주현황') == '퇴소자' ? 'cellBRetire' : ''";
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_head=output1";
+	const argument = "method=getList"
+				   + " sqlId='DAY00302.DAY00302_DS_HEAD_S'";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 상세 조회
+this.fn_searchDetail = function(from, to, mon, code)
+{
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail=output1";
+	const argument = "method=getList"
+				   + " sqlId='DAY00302.DAY00302_DS_DETAIL_S'"
+				   + " SICODE=" + fv_sicode
+				   + " DATE_FROM=" + from
+				   + " DATE_TO=" + to
+				   + " MON=" + mon
+				   + " CODE=" + code;
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.ds_data.clearData();
+			this.ds_detail.clearData();
+			this.initGrid(this.div_cont.form.div_left.form.grd_head);
+		}
+		else if (strSvcID == "searchDetail")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* 날짜 스트링 만들기
+ *
+ * @param date DATE
+ * @return String yyyyMMdd
+ */
+this.fn_getDateString = function(date)
+{
+	const year = date.getFullYear() + "";
+	const month = ((date.getMonth() + 1) + "").padStart(2, '0');
+	const day = (date.getDate() + "").padStart(2, '0');
+	
+	return year + month + day;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if (popid != "del")
+	{
+		if(Sct.Util.isEmpty(strDs)) return;
+	}
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "del" :
+			const from = this.ds_search.getColumn(0, "DATE_FROM");
+			const to = this.ds_search.getColumn(0, "DATE_TO");
+			const mon = this.ds_search.getColumn(0, "MON");
+			const code = this.ds_data.getColumn(0, "m_code");
+			this.fn_searchDetail(from, to, mon, code);
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+// 	if (this.ds_detail.rowcount == 0)
+// 	{
+// 		this.alert("해당되는 정보를 조회하지 못하였습니다.");
+// 		return;
+// 	}
+	
+	let count = 0;
+	for (let i = 0; i < this.ds_detail.rowcount; i++)
+	{
+		if (!Sct.Util.isEmpty(this.ds_detail.getColumn(i, "mulnumber")))
+			count++;
+	}
+	//trace("count : " + count);
+	if (count == 0)
+	{
+		this.alert("해당되는 정보를 조회하지 못하였습니다.");
+		return;
+	}
+
+	const webHost = nexacro.getEnvironment().services["svcurl"].url;
+	const path = "/FILES/SIGN/";
+	const fullPath = webHost + path;
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_MON#" + this.ds_search.getColumn(0, "MON") + "#"
+			  + "P_CODE#" + this.ds_data.getColumn(0, "m_code") + "#"
+			  + "P_PATH#" + fullPath + "#";
+	const jrfFile = "DAY00302_R01.jrf";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+
+	// 모달로 열 경우
+	/*
+	 * 모달용 param 키
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * ubiReportFile : 리포트 파일명 (필수)
+	 * ubiArg : 리포트 아규먼트 (세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * ubiIsMul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * ubiMulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * ubiIsPdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false로 설정할 것 (필수)
+	 * ubiDataType : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *				  	  정의하지 않을경우 0으로 자동 세팅
+	 * ubiLocalDs : Nexacro 데이터셋 정보 ( 데이터셋을 사용한 리포트 호출시 필요 )
+	 * ubiGridObj : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 * ubiIsModal : 모달로 띄우기 위한 변수 true로 설정 (필수)
+	 */
+// 	const popupName = "물리치료 제공기록";
+// 	
+// 	// 팝업에 보낼 리포트 변수 세팅
+// 	const param = {
+// 		ubiReportFile : jrfFile
+// 	,	ubiArg : this.ubiArg
+// 	,	ubiIsPdf : false
+// 	, 	ubiIsModal : true
+// 	}
+// 	
+//	// 리포트 모달로 띄우기
+// 	Sct.report(this, param, 815, 700, popupName);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	const year = this.ds_search.getColumn(0, "DATE").substr(0,4);
+	const month = this.ds_search.getColumn(0, "DATE").substr(4);
+	const firstDay = new Date(year, month - 1 , 1);
+	const lastDay = new Date(year, month, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMonth = year + month;
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMonth);
+	
+	this.fn_search();
+};
+
+// 헤더 그리드 셀 클릭 이벤트
+this.div_cont_div_left_grd_head_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 수급자명
+	const nameIdx = obj.getBindCellIndex("body", "m_name");
+	if (e.col == nameIdx)
+	{
+		this.ds_data.clearData();
+		const nRow = this.ds_data.addRow();
+		this.ds_data.copyRow(nRow, this.ds_head, e.row);
+	
+		const from = this.ds_search.getColumn(0, "DATE_FROM");
+		const to = this.ds_search.getColumn(0, "DATE_TO");
+		const mon = this.ds_search.getColumn(0, "MON");
+		const code = this.ds_head.getColumn(e.row, "m_code");
+		
+		this.fn_searchDetail(from, to, mon, code);
+	}
+};
+
+// 그룹 선택 버튼
+this.btn_filter_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	switch(obj.id) 
+	{
+		case "btn_all_filter" :
+			this.ds_search.setColumn(0, "group", "");
+			//this.ds_head.filter("");
+			break;
+		case "btn_a_filter" :
+			this.ds_search.setColumn(0, "group", "A");
+			//this.ds_head.filter("m_group == 'A'");
+			break;
+		case "btn_b_filter" :
+			this.ds_search.setColumn(0, "group", "B");
+			//this.ds_head.filter("m_group == 'B'");
+			break;
+		case "btn_c_filter" :
+			this.ds_search.setColumn(0, "group", "C");
+			//this.ds_head.filter("m_group == 'C'");
+			break;
+		case "btn_d_filter" :
+			this.ds_search.setColumn(0, "group", "D");
+			//this.ds_head.filter("m_group == 'D'");
+			break;
+		case "btn_e_filter" :
+			this.ds_search.setColumn(0, "group", "E");
+			//this.ds_head.filter("m_group == 'E'");
+			break;
+	}
+	this.fn_search();
+};
+
+// 상세그리드 확장버튼 클릭 이벤트
+this.div_cont_div_right_div_main_grd_detail_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	const idx = obj.getBindCellIndex("body", "조회");
+	if (e.col == idx)
+	{
+		const mulnumber = this.ds_detail.getColumn(e.row, "mulnumber");
+		if (Sct.Util.isEmpty(mulnumber))
+		{
+			return;
+		}
+		
+		const param = {
+			SICODE : fv_sicode
+		,	MULNUMBER : mulnumber
+		};
+
+		Sct.popup(this, "del", 450, 400, "", param, "DAY_POP::DAY00302_P01.xfdl", "fn_popCallback");
+	}
+};
+
+// 검색조건 데이터셋 컬럼 값 변경 이벤트
+this.ds_search_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid == "group")
+	{
+		//const now = obj.getColumn(0, "NOW");
+		const btnArr = ["all", "a", "b", "c", "d", "e"];
+		let sBtn = "";
+		switch(e.newvalue)
+		{
+			case "" :
+				sBtn = "all";
+				break;
+			case "A" :
+				sBtn = "a";
+				break;
+			case "B" :
+				sBtn = "b";
+				break;
+			case "C" :
+				sBtn = "c";
+				break;
+			case "D" :
+				sBtn = "d";
+				break;
+			case "E" :
+				sBtn = "e";
+				break;
+			default:
+		}
+		
+		for (let i = 0; i < btnArr.length; i++)
+		{
+			if (btnArr[i] == sBtn)
+				this.div_func2.form.components["btn_" + btnArr[i] + "_filter"].set_cssclass("btn_orange");
+			else
+				this.div_func2.form.components["btn_" + btnArr[i] + "_filter"].set_cssclass("btn_basic_gray");
+		}
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item3" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_mate_name" propid="text" datasetid="ds_data" columnid="m_name"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_mate_code" propid="text" datasetid="ds_data" columnid="m_code"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_sex" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_age" propid="text" datasetid="ds_data" columnid="나이"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_enday" propid="text" datasetid="ds_data" columnid="입소일"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_regist" propid="text" datasetid="ds_data" columnid="m_regist"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.sta_room_name" propid="text" datasetid="ds_data" columnid="m_roomname"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_group" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.sta_reday" propid="text" datasetid="ds_data" columnid="퇴소일"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_liday1" propid="text" datasetid="ds_data" columnid="인정시작"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.sta_liday2" propid="text" datasetid="ds_data" columnid="인정종료"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_m_history" propid="text" datasetid="ds_data" columnid="m_history"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.sta_regist00" propid="text" datasetid="ds_data" columnid="등급"/>
+    </Bind>
+  </Form>
+</FDL>

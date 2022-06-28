@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAYEMPCHK_PP                                                         
+     * 프로그램 명     	: 직원 선택(체크박스)                                                     
+     * Description 	: 직원을 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-07 10:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAYEMPCHK_PP_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAYEMPCHK_PP">
+	<!-- 조회 -->
+    <select id="DAYEMPCHK_PP_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 직원 선택(체크) 조회 */
+    SELECT
+      be.sicode
+    , be.c_staffid
+    , be.c_group
+    , be.c_name
+    , be.성별
+    , be.근무현황
+    , be.c_become
+    , be.c_dutyname
+    , FN_DUTYNAME(be.sicode, be.c_staffid, #{DATE}) AS 담당직종
+    FROM base_employee be
+    WHERE be.sicode = #{SICODE}
+    AND #{DATE} BETWEEN be.c_become AND be.c_retire
+    ORDER BY be.c_name
+    </select>
+</mapper>                                                                                                                                                                                                          

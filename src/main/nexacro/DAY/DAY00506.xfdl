@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00506" width="1920" height="800" titletext="5-6 직원근무일지" onload="form_onload">
+    <Layouts>
+      <Layout height="1920" width="800">
+        <Div id="div_date" taborder="0" left="0" top="0" width="1850" height="40" text="">
+          <Layouts>
+            <Layout>
+              <Combo id="year" taborder="0" text="0" left="0" top="10" width="100" height="25" value="" index="-1" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_date_year_onitemchanged"/>
+              <Calendar id="cal_00" taborder="1" left="105" top="10" width="110" height="25" buttonsize="0" dateformat="yyyy-MM-dd ddd" editformat="yyyy-MM-dd" readonly="true"/>
+              <Calendar id="cal_01" taborder="2" left="235" top="10" width="110" height="25" buttonsize="0" readonly="true" dateformat="yyyy-MM-dd ddd" editformat="yyyy-MM-dd"/>
+              <Static id="sta_00" taborder="3" text="~" left="220" top="10" width="10" height="25"/>
+              <Button id="btn_search" taborder="4" text="조회" left="350" top="10" width="70" height="25" cssclass="btn_search" onclick="div_date_btn_search_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_grid" taborder="1" text="div_01" left="0" top="40" width="1850" height="760">
+          <Layouts>
+            <Layout>
+              <Grid id="grd" taborder="0" left="0" top="25" width="1850" height="735" binddataset="ds_list" autofittype="col" autoenter="select" selecttype="cell" onexpandup="div_grid.form.grd_onexpandup" oncelldblclick="div_grid.form.grd_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                      <Column size="110"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="2" colspan="2" expandimage="url('theme://images/ico_search.png')" expandsize="150" expandshow="show"/>
+                      <Cell col="4" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="6" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="8" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="10" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="12" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="14" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="16" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="18" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="20" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell col="22" colspan="2" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="150"/>
+                      <Cell row="1" text="1월"/>
+                      <Cell row="1" col="1" text="+"/>
+                      <Cell row="1" col="2" text="2월"/>
+                      <Cell row="1" col="3" text="+"/>
+                      <Cell row="1" col="4" text="3월"/>
+                      <Cell row="1" col="5" text="+"/>
+                      <Cell row="1" col="6" text="4월"/>
+                      <Cell row="1" col="7" text="+"/>
+                      <Cell row="1" col="8" text="5월"/>
+                      <Cell row="1" col="9" text="+"/>
+                      <Cell row="1" col="10" text="6월"/>
+                      <Cell row="1" col="11" text="+"/>
+                      <Cell row="1" col="12" text="7월"/>
+                      <Cell row="1" col="13" text="+"/>
+                      <Cell row="1" col="14" text="8월"/>
+                      <Cell row="1" col="15" text="+"/>
+                      <Cell row="1" col="16" text="9월"/>
+                      <Cell row="1" col="17" text="+"/>
+                      <Cell row="1" col="18" text="10월"/>
+                      <Cell row="1" col="19" text="+"/>
+                      <Cell row="1" col="20" text="11월"/>
+                      <Cell row="1" col="21" text="+"/>
+                      <Cell row="1" col="22" text="12월"/>
+                      <Cell row="1" col="23" text="+"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:jan" expandchar="dotd" displaytype="date" cursor="pointer"/>
+                      <Cell col="1" text="bind:jan_c"/>
+                      <Cell col="2" text="bind:feb" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="3" text="bind:feb_c" cursor="pointer"/>
+                      <Cell col="4" text="bind:mar" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="5" text="bind:mar_c" cursor="pointer"/>
+                      <Cell col="6" text="bind:apr" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="7" text="bind:apr_c" cursor="pointer"/>
+                      <Cell col="8" text="bind:may" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="9" text="bind:may_c" cursor="pointer"/>
+                      <Cell col="10" text="bind:jun" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="11" text="bind:jun_c" cursor="pointer"/>
+                      <Cell col="12" text="bind:jul" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="13" text="bind:jul_c" cursor="pointer"/>
+                      <Cell col="14" text="bind:aug" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="15" text="bind:aug_c" cursor="pointer"/>
+                      <Cell col="16" text="bind:sep" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="17" text="bind:sep_c" cursor="pointer"/>
+                      <Cell col="18" text="bind:oct" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="19" text="bind:oct_c" cursor="pointer"/>
+                      <Cell col="20" text="bind:nov" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="21" text="bind:nov_c" cursor="pointer"/>
+                      <Cell col="22" text="bind:dec" cursor="pointer" expandchar="dotd" displaytype="date"/>
+                      <Cell col="23" text="bind:dec_c" cursor="pointer"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_00" taborder="1" text="직원근무일지" left="0" top="0" width="150" height="25" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00506
+ * 화면명   	: 5-06 직원근무일지
+ * 화면설명 	: 
+ * 작성일   	: 
+ * 작성자   	: 이성탄
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_grid.form.grd;
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.getApplication().gds_userInfo.getColumn(0, "c_name").trim();
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+//const MCODESTR = nexacro.getApplication().gds_userInfo.getColumn(0, "mCodeStr");
+const monArr = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+//온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const date = new Date();
+	const year = date.getFullYear();
+	
+	this.ds_year.clearData();
+	let nRow;
+	for (let i = 0; i < 11; i++)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year + i);
+		this.ds_year.setColumn(nRow, "CMNM", (year + i), "년");
+	}
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode)
+	this.ds_search.setColumn(0, "year", year);
+	this.ds_search.setColumn(0, "date_from", year + '0101');
+	this.ds_search.setColumn(0, "date_to", year + '1231');
+
+	this.fn_setgrid(this.div_grid.form.grd);
+
+	this.fn_search();
+};
+
+
+//그리드 헤드
+this.fn_headgrid = function(grid)
+{
+	for(let i = 0; i< 12; i++){
+		grid.setCellProperty("head", i, "expandchar", String(i+1)+"월 일지");
+	}
+	this.fn_search();
+};
+
+//그리드 요일별 색상
+this.fn_setgrid = function(grid)
+{
+	for (let i = 0; i < monArr.length; i++){
+		const monIdx = grid.getBindCellIndex("body", monArr[i]);
+		const monIdx2 = grid.getBindCellIndex("body", 'jan');
+		const monCss = "expr:dataset.getColumn(currow, '" + monArr[i] + "_wd') == '6' ? 'BlueFontCell' : "
+					 + "dataset.getColumn(currow, '" + monArr[i] + "_wd') == '0' ? 'RedFontCell' : ''";
+		
+		grid.setCellProperty("body", monIdx, "cssclass", monCss);
+		}
+};
+
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+//this.fn_search_pre = function ()
+//{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+//	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+//	return true;
+//};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function()
+{
+	//validation
+	//if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00506.DAY00506_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			for(let i = 0; i< monArr.length; i++){
+				this.div_grid.form.grd.setCellProperty("head", i, "expandchar", (String(i+1)+"월 - "+ this.ds_list.getColumn(0, monArr[i]+"_cnt")));
+			}
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+//조회버튼
+this.div_date_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+//콤보박스
+this.div_date_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
+	this.ds_search.setColumn(0, "date_from", e.postvalue + '0101');
+	this.ds_search.setColumn(0, "date_to", e.postvalue + '1231');
+	
+	this.ds_search("search");
+};
+
+//월간 근무일지
+this.div_grid.form.grd_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	if(e.col == 0
+	   || e.col == 2
+	   || e.col == 4
+	   || e.col == 6
+	   || e.col == 8
+	   || e.col == 10
+	   || e.col == 12
+	   || e.col == 14
+	   || e.col == 16
+	   || e.col == 18
+	   || e.col == 20
+	   || e.col == 22){
+		
+		if(this.ds_list.rowcount < 1){
+			return;
+		}
+		
+		const year = this.ds_year.getColumn(this.ds_year, "CMCD");
+		let month;
+		
+		if(e.col == 0){
+			month = "01"
+		}else if (e.col == 2){
+			month = "02"
+		}else if (e.col == 4){
+			month = "03"
+		}else if (e.col == 6){
+			month = "04"
+		}else if (e.col == 8){
+			month = "05"
+		}else if (e.col == 10){
+			month = "06"
+		}else if (e.col == 12){
+			month = "07"
+		}else if (e.col == 14){
+			month = "08"
+		}else if (e.col == 16){
+			month = "09"
+		}else if (e.col == 18){
+			month = "10"
+		}else if (e.col == 20){
+			month = "11"
+		}else if (e.col == 22){
+			month = "12"
+		}
+		
+		
+		const dateFrom = year + month + "01"
+		const dateTo = Sct.Util.getLastDay(year+month)
+		const param = {
+				SICODE : fv_sicode
+			,	DATE_FROM : dateFrom
+			,   DATE_TO : dateTo
+//			,   MCODESTR : mCodeStr
+		};
+		Sct.popup(this, "monthRecord", 450, 400, "", param, "DAY_POP::DAY00506_P01.xfdl", "fn_popCallback");
+	}
+};
+
+//근무일지
+this.div_grid.form.grd_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const janIdx = obj.getBindCellIndex("body", "jan");
+	const febIdx = obj.getBindCellIndex("body", "feb");
+	const marIdx = obj.getBindCellIndex("body", "mar");
+	const aprIdx = obj.getBindCellIndex("body", "apr");
+	const mayIdx = obj.getBindCellIndex("body", "may");
+	const junIdx = obj.getBindCellIndex("body", "jun");
+	const julIdx = obj.getBindCellIndex("body", "jul");
+	const augIdx = obj.getBindCellIndex("body", "aug");
+	const sepIdx = obj.getBindCellIndex("body", "sep");
+	const octIdx = obj.getBindCellIndex("body", "oct");
+	const novIdx = obj.getBindCellIndex("body", "nov");
+	const decIdx = obj.getBindCellIndex("body", "dec");
+	
+	if (e.col == janIdx
+		|| e.col == febIdx
+		|| e.col == marIdx
+		|| e.col == aprIdx
+		|| e.col == mayIdx
+		|| e.col == junIdx
+		|| e.col == julIdx
+		|| e.col == augIdx
+		|| e.col == sepIdx
+		|| e.col == octIdx
+		|| e.col == novIdx
+		|| e.col == decIdx)
+	{
+		if (Sct.Util.isEmpty(obj.getCellPropertyValue(e.row, e.col, "text")))
+			return false;
+		const date = new Date(obj.getCellPropertyValue(e.row, e.col, "text"));
+		const param = {
+				SICODE : fv_sicode
+			,	DATE : date
+			,	staffid : this.fv_staff_id
+			,	name : this.fv_staff_name
+		};
+
+		Sct.popup(this, "dayRecord", 450, 400, "", param, "DAY_POP::DAY00506_P02.xfdl", "fn_popCallback");
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+//팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "dayRecord" :
+			if (objDs.getColumn(0, "REFRESH") == "Y"){
+				this.fn_search();
+			}	
+			break;
+		case "monthRecord" :
+			{
+				this.fn_search();
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date_from" type="STRING" size="256"/>
+          <Column id="date_to" type="STRING" size="256"/>
+          <Column id="year" type="STRING" size="256"/>
+          <Column id="date" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="jan" type="STRING" size="256"/>
+          <Column id="jan_wd" type="STRING" size="256"/>
+          <Column id="jan_c" type="STRING" size="256"/>
+          <Column id="jan_cnt" type="STRING" size="256"/>
+          <Column id="jan_day" type="STRING" size="256"/>
+          <Column id="feb" type="STRING" size="256"/>
+          <Column id="feb_wd" type="STRING" size="256"/>
+          <Column id="feb_c" type="STRING" size="256"/>
+          <Column id="feb_cnt" type="STRING" size="256"/>
+          <Column id="feb_day" type="STRING" size="256"/>
+          <Column id="mar" type="STRING" size="256"/>
+          <Column id="mar_wd" type="STRING" size="256"/>
+          <Column id="mar_c" type="STRING" size="256"/>
+          <Column id="mar_cnt" type="STRING" size="256"/>
+          <Column id="mar_day" type="STRING" size="256"/>
+          <Column id="apr" type="STRING" size="256"/>
+          <Column id="apr_wd" type="STRING" size="256"/>
+          <Column id="apr_c" type="STRING" size="256"/>
+          <Column id="apr_cnt" type="STRING" size="256"/>
+          <Column id="apr_day" type="STRING" size="256"/>
+          <Column id="may" type="STRING" size="256"/>
+          <Column id="may_wd" type="STRING" size="256"/>
+          <Column id="may_c" type="STRING" size="256"/>
+          <Column id="may_cnt" type="STRING" size="256"/>
+          <Column id="may_day" type="STRING" size="256"/>
+          <Column id="jun" type="STRING" size="256"/>
+          <Column id="jun_wd" type="STRING" size="256"/>
+          <Column id="jun_c" type="STRING" size="256"/>
+          <Column id="jun_cnt" type="STRING" size="256"/>
+          <Column id="jun_day" type="STRING" size="256"/>
+          <Column id="jul" type="STRING" size="256"/>
+          <Column id="jul_wd" type="STRING" size="256"/>
+          <Column id="jul_c" type="STRING" size="256"/>
+          <Column id="jul_cnt" type="STRING" size="256"/>
+          <Column id="jul_day" type="STRING" size="256"/>
+          <Column id="aug" type="STRING" size="256"/>
+          <Column id="aug_wd" type="STRING" size="256"/>
+          <Column id="aug_c" type="STRING" size="256"/>
+          <Column id="aug_cnt" type="STRING" size="256"/>
+          <Column id="aug_day" type="STRING" size="256"/>
+          <Column id="sep" type="STRING" size="256"/>
+          <Column id="sep_wd" type="STRING" size="256"/>
+          <Column id="sep_c" type="STRING" size="256"/>
+          <Column id="sep_cnt" type="STRING" size="256"/>
+          <Column id="sep_day" type="STRING" size="256"/>
+          <Column id="oct" type="STRING" size="256"/>
+          <Column id="oct_wd" type="STRING" size="256"/>
+          <Column id="oct_c" type="STRING" size="256"/>
+          <Column id="oct_cnt" type="STRING" size="256"/>
+          <Column id="oct_day" type="STRING" size="256"/>
+          <Column id="nov" type="STRING" size="256"/>
+          <Column id="nov_wd" type="STRING" size="256"/>
+          <Column id="nov_c" type="STRING" size="256"/>
+          <Column id="nov_cnt" type="STRING" size="256"/>
+          <Column id="nov_day" type="STRING" size="256"/>
+          <Column id="dec" type="STRING" size="256"/>
+          <Column id="dec_wd" type="STRING" size="256"/>
+          <Column id="dec_c" type="STRING" size="256"/>
+          <Column id="dec_cnt" type="STRING" size="256"/>
+          <Column id="dec_day" type="STRING" size="256"/>
+          <Column id="근무일" type="DATE" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_return"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_date.form.cal_00" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item1" compid="div_date.form.cal_01" propid="value" datasetid="ds_search" columnid="date_to"/>
+      <BindItem id="item2" compid="div_date.form.year" propid="value" datasetid="ds_search" columnid="year"/>
+    </Bind>
+  </Form>
+</FDL>

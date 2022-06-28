@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_BOMI_CONT_POP" width="800" height="600" titletext="프로그램 선택 팝업" onclick="formClick" onkeyup="fn_openDebugPopup" ondevicebuttonup="NUB_BOMI_CONT_POP_ondevicebuttonup" onload="NUB_BOMI_CONT_POP_onload">
+    <Layouts>
+      <Layout width="800" height="600" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="800" height="600" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" text="">
+          <Layouts>
+            <Layout>
+              <Div id="Div00" taborder="0" text="Div00" left="5%" top="75" height="3" background="#47afe1" right="5%"/>
+              <Div id="div_bomi_cont" taborder="1" left="5.00%" top="100" text="" right="5.00%" bottom="5%">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Button id="btn_close" taborder="2" top="4.67%" height="24" onclick="div_pop_main_btn_close_onclick" edge="url('theme://images/ico_popclose.png') 0px 0px" width="24" right="6.50%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_popTitle" taborder="1" text="프로그램 선택" left="300" top="26" width="180" height="44" textAlign="center" cssclass="sta_tPopupTitle" visible="true" onclick="formClick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM_KOR" type="STRING" size="256"/>
+          <Column id="RANK_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="RANK_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_bomi_cont">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_Company = this.parent.COMPANY_CD;
+var fv_Data = this.parent.DATASET;
+
+// 온로드
+this.NUB_BOMI_CONT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	if (fv_Data != undefined && !Sct.Util.isEmpty(fv_Data))
+	{
+		this.ds_bomi_cont.copyData(fv_Data);
+		this.ds_bomi_cont.filter("CMCD != null");
+		this.fn_bomi_cont_select();
+	}
+	else
+	{
+		alert("프로그램 목록을 불러올수 없습니다.");
+		this.close();
+	}
+};
+
+// 디바이스 버튼
+this.NUB_BOMI_CONT_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if (e.button == 2)
+	{
+		this.close();
+	}
+};
+
+// 프로그램 선택 버튼 생성
+this.fn_bomi_cont_select = function()
+{
+	let top = 20;
+	const width = 160;
+	const height = 50;
+	const hgap = 20;		// 가로간격
+	let vgap = 0;		// 세로간격
+	let left = 10;
+	
+	for(let j = 0; j < this.ds_bomi_cont.rowcount; j++) 
+	{
+		const staId = "sta_btnName" + j;
+		const btnName = this.ds_bomi_cont.getColumn(j, "CMNM");		// 버튼 성명
+		const btnId = this.ds_bomi_cont.getColumn(j, "CMCD");		// 버튼 ID
+		
+		//trace("manager left : " + left);
+		if(left > 450) // left 450 초과시 줄바꿈
+		{
+			left = 10;
+			vgap = 20;
+			top = top + height + vgap;
+		}else 
+		{
+			left = left + (j == 0 ? 0 : width) + (j == 0 ? 0 : hgap);
+		}
+		
+		//버튼 생성
+		this.fn_makeButton2(staId, btnId, btnName, left, top, width, height);
+	}
+	vgap = 50;
+	top = top + vgap;
+
+	
+	const objDummy = new Div();
+	objDummy.init("div_dummy", 50, top + 50, "80%", 5);
+	this.div_pop_main.form.div_bomi_cont.addChild("div_dummy", objDummy);
+	objDummy.show();
+	
+	this.div_pop_main.form.div_bomi_cont.form.resetScroll();
+};
+
+// 프로그램 버튼 생성
+this.fn_makeButton2 = function(btnId, id, name, left, top, width, height)
+{
+	const objButton = new Button();
+	objButton.init(btnId, left, top, width, height);
+	objButton.set_text(name);
+	objButton.set_cssclass("btn_tSelectRoom");
+	objButton._idCode = id;
+	objButton._idName = name;
+	objButton.addEventHandler("onclick", this.btn_select_onclick, this);
+	
+	this.div_pop_main.form.div_bomi_cont.addChild(btnId, objButton);
+	
+	objButton.show();
+};
+
+// 프로그램 버튼 선택 이벤트
+this.btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addRow();
+	this.ds_return.setColumn(0, "CMCD", obj._idCode);
+	this.ds_return.setColumn(0, "CMNM", obj._idName);
+	
+	this.close(this.ds_return.saveXML());
+};
+
+// X 버튼 (닫기)
+this.div_pop_main_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+  </Form>
+</FDL>

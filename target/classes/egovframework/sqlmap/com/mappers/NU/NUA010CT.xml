@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 09:54                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA010CT                                                         
+     * 프로그램 명     : 언어관리                                                      
+     * Description : 화면에서 사용되는 text의 값을 관리하는 화면                                                           
+     *================================================================                  
+                작성일자                                  |  작성자    |  비고                                    
+     *================================================================                  
+       2017-07-27 09:54        |  김정록    | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+      NUA010CT_DS_LIST_S	T_NU_COMM_CARE_QUE_HEAD SELECT
+      NUA010CT_DS_LIST_I	T_NU_COMM_CARE_QUE_HEAD INSERT
+      NUA010CT_DS_LIST_U	T_NU_COMM_CARE_QUE_HEAD UPDATE
+      NUA010CT_DS_LIST_D	T_NU_COMM_CARE_QUE_HEAD DELETE                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA010CT"> 
+	<select id="NUA010CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+            		  		,(SELECT CC.COMPANY_NM
+            		  			FROM T_CM_COMPANY CC
+            		  		   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS COMPANY_NM
+							,A.QUE_ID
+							,A.QUE_TITLE
+							,A.USE_YN
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_NU_COMM_CARE_QUE_HEAD A
+             		 WHERE 1=1 
+             ]]>
+               <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD}
+               </if>
+               <if test="QUE_TITLE != '' and QUE_TITLE != null">
+                     AND   A.QUE_TITLE LIKE CONCAT('%', #{QUE_TITLE},'%') 
+               </if>
+               <if test="USE_YN != '' and USE_YN != null">
+                     AND   A.USE_YN = #{USE_YN}
+               </if>
+                	ORDER BY QUE_ID ASC
+    </select>
+	<insert id="NUA010CT_DS_HEAD_I" parameterType="java.util.HashMap">
+    <![CDATA[
+			   INSERT INTO T_NU_COMM_CARE_QUE_HEAD (
+			               	 COMPANY_CD
+							,QUE_ID
+							,QUE_TITLE
+							,USE_YN
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+				) VALUES ( 
+				           	 #{COMPANY_CD  }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_COMM_CARE_QUE_HEAD ),12,0)))
+							,#{QUE_TITLE   }
+							,#{USE_YN      }
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+				)
+    ]]>
+    </insert>
+    <update id="NUA010CT_DS_HEAD_U" parameterType="java.util.HashMap">
+    <![CDATA[
+			          UPDATE T_NU_COMM_CARE_QUE_HEAD
+					   	 SET QUE_TITLE     =#{QUE_TITLE    }
+							,USE_YN        =#{USE_YN       }
+							,MOD_PGM_ID    =#{MOD_PGM_ID   }
+							,MOD_USER      =#{MOD_USER     }
+							,MOD_DT        =#{MOD_DT       }
+							,MOD_DT_CURR   =#{MOD_DT_CURR  }
+							,MOD_DT_LOC    =#{MOD_DT_LOC   }
+							,MOD_IP        =#{MOD_IP       }
+			         WHERE COMPANY_CD  = #{COMPANY_CD}
+                   	   AND QUE_ID = #{QUE_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <delete id="NUA010CT_DS_HEAD_D" parameterType="java.util.HashMap">
+    	<![CDATA[
+    	BEGIN NOT ATOMIC
+			DELETE FROM T_NU_COMM_CARE_QUE_HEAD
+			WHERE  COMPANY_CD  = #{COMPANY_CD}
+			AND    QUE_ID = #{QUE_ID};
+			
+			DELETE FROM T_NU_COMM_CARE_QUE_DETAIL
+			WHERE  COMPANY_CD  = #{COMPANY_CD}
+			AND    QUE_ID = #{QUE_ID};
+		END;
+    	]]>
+    </delete>
+    
+    
+    
+    
+    
+	<select id="NUA010CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+							,A.QUE_ID
+							,A.QUE_NO
+							,A.QUE_NO AS ORI_QUE_NO
+							,A.QUE_DESC
+							,A.USE_YN
+							,A.QUE_TYPE
+							,A.OBJ_TP1
+							,A.TIT_TP1
+							,A.TIT_VALUE1
+							,A.OBJ_TP2
+							,A.TIT_TP2
+							,A.TIT_VALUE2
+							,A.OBJ_TP3
+							,A.TIT_TP3
+							,A.TIT_VALUE3
+							,A.OBJ_TP4
+							,A.TIT_TP4
+							,A.TIT_VALUE4
+							,A.OBJ_TP5
+							,A.TIT_TP5
+							,A.TIT_VALUE5
+							,A.OBJ_TP6
+							,A.TIT_TP6
+							,A.TIT_VALUE6
+							,A.OBJ_TP7
+							,A.TIT_TP7
+							,A.TIT_VALUE7
+							,A.OBJ_TP8
+							,A.TIT_TP8
+							,A.TIT_VALUE8
+							,A.OBJ_TP9
+							,A.TIT_TP9
+							,A.TIT_VALUE9
+							,A.OBJ_TP10
+							,A.TIT_TP10
+							,A.TIT_VALUE10
+							,A.OBJ_TP11
+							,A.TIT_TP11
+							,A.TIT_VALUE11
+							,A.OBJ_TP12
+							,A.TIT_TP12
+							,A.TIT_VALUE12
+							,A.OBJ_TP13
+							,A.TIT_TP13
+							,A.TIT_VALUE13
+							,A.OBJ_TP14
+							,A.TIT_TP14
+							,A.TIT_VALUE14
+							,A.OBJ_TP15
+							,A.TIT_TP15
+							,A.TIT_VALUE15
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							  WHERE A.COMPANY_CD = CU.COMPANY_CD
+							    AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_NU_COMM_CARE_QUE_DETAIL A                                                                                                                                                                                        
+             		 WHERE A.COMPANY_CD  = #{COMPANY_CD}
+             		   AND A.QUE_ID = #{QUE_ID}
+                	 ORDER BY A.QUE_NO ASC
+          ]]>
+    </select>
+	<insert id="NUA010CT_DS_DETAIL_I" parameterType="java.util.HashMap">
+    <![CDATA[
+			   INSERT INTO T_NU_COMM_CARE_QUE_DETAIL (
+			                 COMPANY_CD
+							,QUE_ID
+							,QUE_NO
+							,QUE_DESC
+							,USE_YN
+							,QUE_TYPE
+							,OBJ_TP1
+							,TIT_TP1
+							,TIT_VALUE1
+							,OBJ_TP2
+							,TIT_TP2
+							,TIT_VALUE2
+							,OBJ_TP3
+							,TIT_TP3
+							,TIT_VALUE3
+							,OBJ_TP4
+							,TIT_TP4
+							,TIT_VALUE4
+							,OBJ_TP5
+							,TIT_TP5
+							,TIT_VALUE5
+							,OBJ_TP6
+							,TIT_TP6
+							,TIT_VALUE6
+							,OBJ_TP7
+							,TIT_TP7
+							,TIT_VALUE7
+							,OBJ_TP8
+							,TIT_TP8
+							,TIT_VALUE8
+							,OBJ_TP9
+							,TIT_TP9
+							,TIT_VALUE9
+							,OBJ_TP10
+							,TIT_TP10
+							,TIT_VALUE10
+							,OBJ_TP11
+							,TIT_TP11
+							,TIT_VALUE11
+							,OBJ_TP12
+							,TIT_TP12
+							,TIT_VALUE12
+							,OBJ_TP13
+							,TIT_TP13
+							,TIT_VALUE13
+							,OBJ_TP14
+							,TIT_TP14
+							,TIT_VALUE14
+							,OBJ_TP15
+							,TIT_TP15
+							,TIT_VALUE15
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+				) VALUES ( 
+				            #{COMPANY_CD }
+							,#{QUE_ID     }
+							,#{QUE_NO     }
+							,#{QUE_DESC   }
+							,#{USE_YN     }
+							,#{QUE_TYPE   }
+							,#{OBJ_TP1    }
+							,#{TIT_TP1    }
+							,#{TIT_VALUE1 }
+							,#{OBJ_TP2    }
+							,#{TIT_TP2    }
+							,#{TIT_VALUE2 }
+							,#{OBJ_TP3    }
+							,#{TIT_TP3    }
+							,#{TIT_VALUE3 }
+							,#{OBJ_TP4    }
+							,#{TIT_TP4    }
+							,#{TIT_VALUE4 }
+							,#{OBJ_TP5    }
+							,#{TIT_TP5    }
+							,#{TIT_VALUE5 }
+							,#{OBJ_TP6    }
+							,#{TIT_TP6    }
+							,#{TIT_VALUE6 }
+							,#{OBJ_TP7    }
+							,#{TIT_TP7    }
+							,#{TIT_VALUE7 }
+							,#{OBJ_TP8    }
+							,#{TIT_TP8    }
+							,#{TIT_VALUE8 }
+							,#{OBJ_TP9    }
+							,#{TIT_TP9    }
+							,#{TIT_VALUE9 }
+							,#{OBJ_TP10   }
+							,#{TIT_TP10   }
+							,#{TIT_VALUE10}
+							,#{OBJ_TP11   }
+							,#{TIT_TP11   }
+							,#{TIT_VALUE11}
+							,#{OBJ_TP12   }
+							,#{TIT_TP12   }
+							,#{TIT_VALUE12}
+							,#{OBJ_TP13   }
+							,#{TIT_TP13   }
+							,#{TIT_VALUE13}
+							,#{OBJ_TP14   }
+							,#{TIT_TP14   }
+							,#{TIT_VALUE14}
+							,#{OBJ_TP15   }
+							,#{TIT_TP15   }
+							,#{TIT_VALUE15}
+							,#{REG_PGM_ID }
+							,#{REG_USER   }
+							,#{REG_DT     }
+							,#{REG_DT_CURR}
+							,#{REG_DT_LOC }
+							,#{REG_IP     }
+				)
+    ]]>
+    </insert>
+    <update id="NUA010CT_DS_DETAIL_U" parameterType="java.util.HashMap">
+    <![CDATA[
+			        UPDATE T_NU_COMM_CARE_QUE_DETAIL
+					   	 SET QUE_NO       = #{QUE_NO      }
+							,QUE_DESC     = NULLIF(#{QUE_DESC    } ,'')
+							,USE_YN       = NULLIF(#{USE_YN      } ,'')
+							,QUE_TYPE     = NULLIF(#{QUE_TYPE    } ,'')
+							,OBJ_TP1      = NULLIF(#{OBJ_TP1     } ,'')
+							,TIT_TP1      = NULLIF(#{TIT_TP1     } ,'')
+							,TIT_VALUE1   = NULLIF(#{TIT_VALUE1  } ,'')
+							,OBJ_TP2      = NULLIF(#{OBJ_TP2     } ,'')
+							,TIT_TP2      = NULLIF(#{TIT_TP2     } ,'')
+							,TIT_VALUE2   = NULLIF(#{TIT_VALUE2  } ,'')
+							,OBJ_TP3      = NULLIF(#{OBJ_TP3     } ,'')
+							,TIT_TP3      = NULLIF(#{TIT_TP3     } ,'')
+							,TIT_VALUE3   = NULLIF(#{TIT_VALUE3  } ,'')
+							,OBJ_TP4      = NULLIF(#{OBJ_TP4     } ,'')
+							,TIT_TP4      = NULLIF(#{TIT_TP4     } ,'')
+							,TIT_VALUE4   = NULLIF(#{TIT_VALUE4  } ,'')
+							,OBJ_TP5      = NULLIF(#{OBJ_TP5     } ,'')
+							,TIT_TP5      = NULLIF(#{TIT_TP5     } ,'')
+							,TIT_VALUE5   = NULLIF(#{TIT_VALUE5  } ,'')
+							,OBJ_TP6      = NULLIF(#{OBJ_TP6     } ,'')
+							,TIT_TP6      = NULLIF(#{TIT_TP6     } ,'')
+							,TIT_VALUE6   = NULLIF(#{TIT_VALUE6  } ,'')
+							,OBJ_TP7      = NULLIF(#{OBJ_TP7     } ,'')
+							,TIT_TP7      = NULLIF(#{TIT_TP7     } ,'')
+							,TIT_VALUE7   = NULLIF(#{TIT_VALUE7  } ,'')
+							,OBJ_TP8      = NULLIF(#{OBJ_TP8     } ,'')
+							,TIT_TP8      = NULLIF(#{TIT_TP8     } ,'')
+							,TIT_VALUE8   = NULLIF(#{TIT_VALUE8  } ,'')
+							,OBJ_TP9      = NULLIF(#{OBJ_TP9     } ,'')
+							,TIT_TP9      = NULLIF(#{TIT_TP9     } ,'')
+							,TIT_VALUE9   = NULLIF(#{TIT_VALUE9  } ,'')
+							,OBJ_TP10     = NULLIF(#{OBJ_TP10    } ,'')
+							,TIT_TP10     = NULLIF(#{TIT_TP10    } ,'')
+							,TIT_VALUE10  = NULLIF(#{TIT_VALUE10 } ,'')
+							,OBJ_TP11     = NULLIF(#{OBJ_TP11    } ,'')
+							,TIT_TP11     = NULLIF(#{TIT_TP11    } ,'')
+							,TIT_VALUE11  = NULLIF(#{TIT_VALUE11 } ,'')
+							,OBJ_TP12     = NULLIF(#{OBJ_TP12    } ,'')
+							,TIT_TP12     = NULLIF(#{TIT_TP12    } ,'')
+							,TIT_VALUE12  = NULLIF(#{TIT_VALUE12 } ,'')
+							,OBJ_TP13     = NULLIF(#{OBJ_TP13    } ,'')
+							,TIT_TP13     = NULLIF(#{TIT_TP13    } ,'')
+							,TIT_VALUE13  = NULLIF(#{TIT_VALUE13 } ,'')
+							,OBJ_TP14     = NULLIF(#{OBJ_TP14    } ,'')
+							,TIT_TP14     = NULLIF(#{TIT_TP14    } ,'')
+							,TIT_VALUE14  = NULLIF(#{TIT_VALUE14 } ,'')
+							,OBJ_TP15     = NULLIF(#{OBJ_TP15    } ,'')
+							,TIT_TP15     = NULLIF(#{TIT_TP15    } ,'')
+							,TIT_VALUE15  = NULLIF(#{TIT_VALUE15 } ,'')
+							,MOD_PGM_ID   = NULLIF(#{MOD_PGM_ID  } ,'')
+							,MOD_USER     = NULLIF(#{MOD_USER    } ,'')
+							,MOD_DT       = NULLIF(#{MOD_DT      } ,'')
+							,MOD_DT_CURR  = NULLIF(#{MOD_DT_CURR } ,'')
+							,MOD_DT_LOC   = NULLIF(#{MOD_DT_LOC  } ,'')
+							,MOD_IP       = NULLIF(#{MOD_IP      } ,'')
+					 WHERE COMPANY_CD  = #{COMPANY_CD}		                                                                                                                                                                
+                   	   AND QUE_ID = #{QUE_ID}
+                   	   AND QUE_NO  = #{ORI_QUE_NO}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <delete id="NUA010CT_DS_DETAIL_D" parameterType="java.util.HashMap">
+    	<![CDATA[
+			DELETE FROM T_NU_COMM_CARE_QUE_DETAIL
+			WHERE  COMPANY_CD  = #{COMPANY_CD}
+			AND    QUE_ID     = #{QUE_ID}
+			AND    QUE_NO = #{ORI_QUE_NO}
+    	]]>
+    </delete>
+    
+    
+</mapper>

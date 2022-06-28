@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00301                                                         
+     * 프로그램 명     	: 3-1 물리(작업)치료일지·제공기록 작성
+     * Description 		: 물리(작업)치료일지·제공기록 조회, 삽입, 수정, 삭제
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-05-23 11:00        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00301_DS_HEAD_S		헤더 조회
+        DAY00301_DS_DATA_S		디테일 조회 1
+        DAY00301_DS_DETAIL_S	디테일 조회 2
+        DAY00301_DS_COUNT_S		일지 생성 전 데이터 유무 확인
+        DAY00301_DS_NEW_S		일지 새로 생성 조회
+        DAY00301_DS_DATA_I		헤더 삽입
+        DAY00301_DS_DETAIL_I	디테일 삽입
+        DAY00301_DS_DATA_U		헤더 수정
+        DAY00301_DS_DETAIL_U	디테일 수정
+     *================================================================
+-->
+<mapper namespace="DAY00301">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00301_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 헤더 조회 */
+    SELECT
+      kh.sicode
+    , kh.제공일
+    , kh.제공그룹
+    , kh.담당자01
+    , kh.담당코드01
+    , kh.km_number
+    , LPAD(kh.km_number, 7, '0') AS 일지번호
+    FROM km_habilit AS kh
+    WHERE kh.sicode = #{SICODE}
+    AND kh.제공일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    </select>
+    
+    <!-- 디테일 조회 1 -->
+    <select id="DAY00301_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 디테일 조회 1 */
+    SELECT
+      kh.sicode
+    , kh.km_number
+    , LPAD(kh.km_number, 8, '0') AS 기록번호
+    , kh.제공일
+    , kh.제공그룹
+    , CASE WHEN kh.제공그룹 = 'A' THEN 1 ELSE 0 END AS group_a
+    , CASE WHEN kh.제공그룹 = 'B' THEN 2 ELSE 0 END AS group_b
+    , kh.담당자01
+    , kh.담당코드01
+    , kh.근무내용
+    , kh.특이사항
+    , (SELECT COUNT(1)
+       FROM heal_habilit AS hea
+       WHERE hea.sicode = kh.sicode
+       AND kh.제공일 = hea.mulday
+       AND kh.제공그룹 = hea.mulgroup) AS count_all
+    , (SELECT COUNT(1)
+       FROM heal_habilit AS hea
+       WHERE hea.sicode = kh.sicode
+       AND kh.제공일 = hea.mulday
+       AND kh.제공그룹 = hea.mulgroup
+       AND 0 &lt; hea.참여01 + hea.참여02 + hea.참여03 + hea.참여04 + hea.참여05 + hea.참여06 + hea.참여07 + hea.참여08) AS count
+    FROM km_habilit AS kh
+    WHERE kh.sicode = #{SICODE}
+    AND kh.제공일 = #{DATE}
+    AND kh.제공그룹 = #{GROUP}
+    </select>
+    
+    <!-- 디테일 조회 2 -->
+    <select id="DAY00301_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 디테일 조회 2 */
+    SELECT
+      hea.sicode
+    , hea.mulnumber
+    , hea.mulday
+    , bha.대상자명 AS 수급자명
+    , bha.대상자코드 AS 수급코드
+    , bha.성별
+    , CASE WHEN hea.multime IS NULL THEN SUBSTRING(bha.치료시간, 1, 5) ELSE hea.multime END AS 시작시간
+    , CASE WHEN hea.endtime IS NULL THEN SUBSTRING(bha.치료시간, 7, 5) ELSE hea.endtime END AS 종료시간
+    , IFNULL(NULLIF(hea.치료01, ''), bha.치료01) AS 치료01
+    , IFNULL(NULLIF(hea.치료02, ''), bha.치료02) AS 치료02
+    , IFNULL(NULLIF(hea.치료03, ''), bha.치료03) AS 치료03
+    , IFNULL(NULLIF(hea.치료04, ''), bha.치료04) AS 치료04
+    , IFNULL(NULLIF(hea.치료05, ''), bha.치료05) AS 치료05
+    , IFNULL(NULLIF(hea.치료06, ''), bha.치료06) AS 치료06
+    , IFNULL(NULLIF(hea.치료07, ''), bha.치료07) AS 치료07
+    , IFNULL(NULLIF(hea.치료08, ''), bha.치료08) AS 치료08
+    , IFNULL(NULLIF(hea.참여01, ''), 0) AS 참여01
+    , IFNULL(NULLIF(hea.참여02, ''), 0) AS 참여02
+    , IFNULL(NULLIF(hea.참여03, ''), 0) AS 참여03
+    , IFNULL(NULLIF(hea.참여04, ''), 0) AS 참여04
+    , IFNULL(NULLIF(hea.참여05, ''), 0) AS 참여05
+    , IFNULL(NULLIF(hea.참여06, ''), 0) AS 참여06
+    , IFNULL(NULLIF(hea.참여07, ''), 0) AS 참여07
+    , IFNULL(NULLIF(hea.참여08, ''), 0) AS 참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료01, ''), bha.치료01)) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료02, ''), bha.치료02)) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료03, ''), bha.치료03)) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료04, ''), bha.치료04)) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료05, ''), bha.치료05)) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료06, ''), bha.치료06)) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료07, ''), bha.치료07)) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료08, ''), bha.치료08)) AS 치료명08
+    , CASE WHEN hea.제공비고 IS NULL THEN '' ELSE hea.제공비고 END AS 제공비고
+    , bha.치료그룹 AS 그룹
+    , bha.ha_number
+    FROM base_mate AS mat
+    JOIN base_habilit AS bha
+    ON (mat.sicode = bha.sicode
+        AND mat.m_code = bha.대상자코드)
+    LEFT JOIN heal_habilit hea
+    ON (bha.sicode = hea.sicode
+        AND bha.대상자코드 = hea.mulcode
+        AND hea.mulday = #{DATE})
+    WHERE mat.sicode = #{SICODE}
+    AND #{DATE} BETWEEN mat.m_enday AND mat.m_reday
+    AND #{DATE} BETWEEN bha.계획시작 AND bha.계획종료
+    AND SUBSTRING(CONCAT(bha.일요일, bha.월요일, bha.화요일, bha.수요일, bha.목요일, bha.금요일, bha.토요일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1
+    AND bha.치료그룹 = #{GROUP}
+    AND #{DATE} NOT BETWEEN bha.중단시작 AND bha.중단종료
+    ORDER BY bha.대상자명
+    </select>
+    
+    <!-- 일지 생성 전 데이터 유무 확인 -->
+    <select id="DAY00301_DS_COUNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 일지 생성 전 데이터 유무 확인 */
+    SELECT COUNT(*) AS count
+    FROM heal_habilit AS hea
+    WHERE hea.sicode = #{SICODE}
+    AND hea.mulday = #{DATE}
+    AND hea.mulgroup = #{GROUP}
+    </select>
+    
+    <!-- 일지 새로 생성 조회 -->
+    <select id="DAY00301_DS_NEW_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 일지 새로 생성 조회 */
+    SELECT
+      bha.sicode
+    , bha.대상자명 AS 수급자명
+    , bha.대상자코드 AS 수급코드
+    , bha.성별
+    , SUBSTRING(bha.치료시간, 1, 5) AS 시작시간
+    , SUBSTRING(bha.치료시간, 7, 5) AS 종료시간
+    , bha.치료01
+    , bha.치료02
+    , bha.치료03
+    , bha.치료04
+    , bha.치료05
+    , bha.치료06
+    , bha.치료07
+    , bha.치료08
+    , 0 AS 참여01
+    , 0 AS 참여02
+    , 0 AS 참여03
+    , 0 AS 참여04
+    , 0 AS 참여05
+    , 0 AS 참여06
+    , 0 AS 참여07
+    , 0 AS 참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = bha.치료08) AS 치료명08
+    , '' AS 제공비고
+    , bha.치료그룹 AS 그룹
+    , bha.ha_number
+    FROM base_mate AS mat
+    JOIN base_habilit AS bha
+    ON (mat.sicode = bha.sicode
+        AND mat.m_code = bha.대상자코드)
+    WHERE mat.sicode = #{SICODE}
+    AND #{DATE} BETWEEN mat.m_enday AND mat.m_reday
+    AND #{DATE} BETWEEN bha.계획시작 AND bha.계획종료
+    AND SUBSTRING(CONCAT(bha.일요일, bha.월요일, bha.화요일, bha.수요일, bha.목요일, bha.금요일, bha.토요일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1
+    AND bha.치료그룹 = #{GROUP}
+    AND #{DATE} NOT BETWEEN bha.중단시작 AND bha.중단종료
+    ORDER BY bha.대상자명
+    </select>
+    
+    <!-- 저장전 데이터 유무 확인 -->
+    <select id="DAY00301_DS_DETAIL_YN_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-1 저장전 데이터 유무 확인 */
+    
+    </select>
+    
+    <!-- 헤더 삽입 -->
+    <insert id="DAY00301_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 3-1 헤더 삽입 */
+    INSERT INTO km_habilit
+    (
+      sicode
+    , 제공일
+    , 제공그룹
+    , 담당자01
+    , 담당코드01
+    , 근무내용
+    , 특이사항
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{제공일}
+    , #{제공그룹}
+    , #{담당자01}
+    , #{담당코드01}
+    , #{근무내용}
+    , #{특이사항}
+    )
+    </insert>
+    
+    <!-- 디테일 삽입 -->
+    <insert id="DAY00301_DS_DETAIL_I" parameterType="java.util.HashMap">
+    /* 3-1 디테일 삽입 */
+    INSERT INTO heal_habilit
+    (
+      sicode
+    , mulday
+    , multime
+    , endtime
+    , mulgroup
+    , mulname
+    , mulcode
+    , pr바코드
+    , 성별
+    , 평가번호
+    , 치료01
+    , 참여01
+    , 치료02
+    , 참여02
+    , 치료03
+    , 참여03
+    , 치료04
+    , 참여04
+    , 치료05
+    , 참여05
+    , 치료06
+    , 참여06
+    , 치료07
+    , 참여07
+    , 치료08
+    , 참여08
+    , 제공비고
+    , 작성자
+    , 작성코드
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{mulday}
+    , #{시작시간}
+    , #{종료시간}
+    , #{그룹}
+    , #{수급자명}
+    , #{수급코드}
+    , 'SC1900'
+    , #{성별}
+    , #{ha_number}
+    , #{치료01}
+    , #{참여01}
+    , #{치료02}
+    , #{참여02}
+    , #{치료03}
+    , #{참여03}
+    , #{치료04}
+    , #{참여04}
+    , #{치료05}
+    , #{참여05}
+    , #{치료06}
+    , #{참여06}
+    , #{치료07}
+    , #{참여07}
+    , #{치료08}
+    , #{참여08}
+    , #{제공비고}
+    , #{작성자}
+    , #{작성코드}
+    )    
+    </insert>
+    
+    <!-- 헤더 수정 -->
+    <update id="DAY00301_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 3-1 헤더 수정 */
+    UPDATE km_habilit
+    SET
+      담당자01 = #{담당자01}
+    , 담당코드01 = #{담당코드01}
+    , 근무내용 = #{근무내용}
+    , 특이사항 = #{특이사항}
+    WHERE sicode = #{sicode}
+    AND km_number = #{km_number}
+    AND 제공일 = #{제공일}
+    AND 제공그룹 = #{제공그룹}
+    </update>
+    
+    <!-- 디테일 수정 -->
+    <update id="DAY00301_DS_DETAIL_U" parameterType="java.util.HashMap">
+    /* 3-1 디테일 수정 */
+    UPDATE heal_habilit
+    SET
+      multime = #{시작시간}
+    , endtime = #{종료시간}
+    , 참여01 = #{참여01}
+    , 참여02 = #{참여02}
+    , 참여03 = #{참여03}
+    , 참여04 = #{참여04}
+    , 참여05 = #{참여05}
+    , 참여06 = #{참여06}
+    , 참여07 = #{참여07}
+    , 참여08 = #{참여08}
+    , 제공비고 = #{제공비고}
+    , 작성자 = #{작성자}
+    , 작성코드 = #{작성코드}
+    WHERE sicode = #{sicode}
+    AND mulday = #{mulday}
+    AND mulgroup = #{그룹}
+    AND mulcode = #{수급코드}
+    </update>
+</mapper>

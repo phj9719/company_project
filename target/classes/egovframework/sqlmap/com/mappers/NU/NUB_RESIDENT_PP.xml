@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB_RESIDENT_PP                                                         
+     * 프로그램 명     	:                                                      
+     * Description 	: 태블릿 앱 수급자 조회
+     *================================================================                  
+                작성일자         		|  작성자         |  비고                                    
+     *================================================================                  
+       2021-07-22 13:13     |  박한준         | 최초작성 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB_RESIDENT_PP">
+	<!-- 공통 -->
+	<sql id="NUB_RESIDENT_PP_S_WHERE">
+		WHERE NR.COMPANY_CD = #{COMPANY_CD}
+		AND 	(NR.RETIRE_DT IS NULL OR NR.RETIRE_DT <![CDATA[>]]> DATE_FORMAT(NOW(), '%Y%m%d'))
+		<if test="NAME != null and NAME != ''">
+		AND		NR.NAME LIKE CONCAT('%', #{NAME}, '%')
+		</if>
+		<if test="AREA != null and AREA != ''">
+		AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != null and LOCATION != ''">
+		AND		NR.LOCATION = #{LOCATION}
+		</if>
+		GROUP BY NR.RES_ID
+		<if test="DATA_YN != null and DATA_YN !=''">
+		<if test='DATA_YN.equals("Y")'>
+		HAVING DATA_YN = 'Y'
+		</if>
+		<if test='DATA_YN.equals("N")'>
+		HAVING DATA_YN = 'N'
+		</if>
+		</if>
+		ORDER BY NR.NAME ASC
+	</sql>
+
+    <!-- 건강기록일지 -->
+	<select id="NUB201CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 건강기록일지 입소자 조회 : NUB201CT_RESIDENT_PP_DS_RESIDENT_S */
+		SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NHC.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+		LEFT JOIN
+				(SELECT
+						COMPANY_CD
+					,	RES_ID
+					,	COUNT(*) AS COUNT
+				 FROM	T_NU_HEALTH_CHECK
+				 WHERE	HEA_DT = #{DATE}
+				 GROUP BY RES_ID) AS NHC
+		ON		NR.COMPANY_CD = NHC.COMPANY_CD
+		AND		NR.RES_ID = NHC.RES_ID
+		<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+	</select>
+    
+    <!-- 혈압 -->
+    <select id="NUB203CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 혈압 입소자 조회 : NUB203CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NP.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_PRESSURE
+    			 WHERE	PRE_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NP
+    	ON		NR.COMPANY_CD = NP.COMPANY_CD
+    	AND		NR.RES_ID = NP.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 혈당 -->
+    <select id="NUB204CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 혈당 입소자 조회 : NUB204CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NS.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_SUGAR
+    			 WHERE	SUG_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NS
+    	ON		NR.COMPANY_CD = NS.COMPANY_CD
+    	AND		NR.RES_ID = NS.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 체온 -->
+    <select id="NUB205CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 체온 입소자 조회 : NUB205CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NT.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_TEMPERATURE
+    			 WHERE	TEM_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NT
+    	ON		NR.COMPANY_CD = NT.COMPANY_CD
+    	AND		NR.RES_ID = NT.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 체성분 -->
+    <select id="NUB206CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 체성분 입소자 조회 : NUB206CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NC.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_COMPOSITION
+    			 WHERE	COM_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NC
+    	ON		NR.COMPANY_CD = NC.COMPANY_CD
+    	AND		NR.RES_ID = NC.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 집중배설관찰일지 -->
+    <select id="NUB302CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 집중배설관찰일지 입소자 조회 : NUB301CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NE.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT 
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_EXCRETION
+    			 WHERE	EXC_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NE
+    	ON		NR.COMPANY_CD = NE.COMPANY_CD
+    	AND		NR.RES_ID = NE.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 자세변경 -->
+    <select id="NUB303CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 자세변경 입소자 조회 : NUB302CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NP.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_POSTURE
+    			 WHERE	SEARCH_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NP
+    	ON		NR.COMPANY_CD = NP.COMPANY_CD
+    	AND		NR.RES_ID = NP.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 식사 -->
+    <select id="NUB304CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 식사 입소자 조회 : NUB303CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NM.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_MEAL
+    			 WHERE	MEA_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NM
+    	ON		NR.COMPANY_CD = NM.COMPANY_CD
+    	AND		NR.RES_ID = NM.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 요양/관찰일지 -->
+    <select id="NUB305CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 요양/관찰일지 입소자 조회 : NUB304CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NO.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_OBSERVE
+    			 WHERE	OBS_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NO
+    	ON		NR.COMPANY_CD = NO.COMPANY_CD
+    	AND		NR.RES_ID = NO.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 수분섭취 -->
+    <select id="NUB306CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 수분섭취 입소자 조회 : NUB306CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NW.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_WATER
+    			 WHERE	WAT_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NW
+    	ON		NR.COMPANY_CD = NW.COMPANY_CD
+    	AND		NR.RES_ID = NW.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 수면상태 -->
+    <select id="NUB307CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 수면상태 입소자 조회 : NUB307CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+				NR.COMPANY_CD 
+			,	NR.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NR.REF_SYS_RES_ID
+			,	IF(NS.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+		FROM 
+				T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_SLEEP
+    			 WHERE	SLE_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NS
+    	ON		NR.COMPANY_CD = NS.COMPANY_CD
+    	AND		NR.RES_ID = NS.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 로봇인지훈련 -->
+    <select id="NUB501CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 로봇인지훈련 입소자 조회 : NUB501CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+    			NR.COMPANY_CD
+    		,	NR.RES_ID
+    		,	NR.NAME
+    		,	NR.AREA
+    		,	NR.LOCATION
+    		,	NR.REF_SYS_RES_ID
+    		,	IF(NB.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+    	FROM
+    			T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_BOMI
+    			 WHERE	BOM_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NB
+    	ON		NR.COMPANY_CD = NB.COMPANY_CD
+    	AND		NR.RES_ID = NB.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- CIST 검사 -->
+    <select id="NUB502CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* CIST 검사 입소자 조회 : NUB502CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+    			NR.COMPANY_CD
+    		,	NR.RES_ID
+    		,	NR.NAME
+    		,	NR.AREA
+    		,	NR.LOCATION
+    		,	NR.REF_SYS_RES_ID
+    		,	IF(NC.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+    	FROM
+    			T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_CIST
+    			 WHERE	CIS_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NC
+    	ON		NR.COMPANY_CD = NC.COMPANY_CD
+    	AND		NR.RES_ID = NC.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+    
+    <!-- 우울검사 -->
+    <select id="NUB503CT_RESIDENT_PP_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 우울검사 입소자 조회 : NUB503CT_RESIDENT_PP_DS_RESIDENT_S */
+    	SELECT
+    			NR.COMPANY_CD
+    		,	NR.RES_ID
+    		,	NR.NAME
+    		,	NR.AREA
+    		,	NR.LOCATION
+    		,	NR.REF_SYS_RES_ID
+    		,	IF(NS.COUNT <![CDATA[>]]> 0, 'Y', 'N') AS DATA_YN
+    	FROM
+    			T_NU_RESIDENT NR
+    	LEFT JOIN
+    			(SELECT
+    					COMPANY_CD
+    				,	RES_ID
+    				,	COUNT(*) AS COUNT
+    			 FROM	T_NU_SGDS
+    			 WHERE	SGD_DT = #{DATE}
+    			 GROUP BY RES_ID) AS NS
+    	ON		NR.COMPANY_CD = NS.COMPANY_CD
+    	AND		NR.RES_ID = NS.RES_ID
+    	<include refid="NUB_RESIDENT_PP_S_WHERE"></include>
+    </select>
+</mapper>                                                                                                                                                                                                          

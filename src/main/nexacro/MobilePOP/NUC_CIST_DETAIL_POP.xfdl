@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC_CIST_DETAIL_POP" width="460" height="400" titletext="CIST 상세 확인 팝업" onload="NUC_CIST_DETAIL_POP_onload">
+    <Layouts>
+      <Layout width="460" height="400" screenid="Mobile">
+        <Div id="div_lastCist" taborder="1" left="2.83%" top="90" height="240" right="2.83%" background="#6a8ed3" borderRadius="6px" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_day" taborder="0" text="DAY" left="2.78%" top="11" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" right="2.78%" textAlign="center"/>
+              <Div id="div_line" taborder="1" text="Div00" left="2.78%" top="49" height="2" right="2.78%" background="#bfd5ff"/>
+              <Static id="sta_cistPtH1" taborder="2" text="지남력" left="15%" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtH2" taborder="3" text="주의력" left="45%" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="20%"/>
+              <Static id="sta_cistPtH3" taborder="4" text="시공간기능" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="20%" left="70%"/>
+              <Static id="sta_cistPtVal1" taborder="5" left="14.81%" top="87" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtVal2" taborder="6" left="44.91%" top="87" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtVal3" taborder="7" top="87" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" text="-" width="19.91%" left="69.91%"/>
+              <Static id="sta_cistPtH4" taborder="8" text="집행기능" left="14.81%" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtVal4" taborder="9" left="14.58%" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtH5" taborder="10" text="기억력" left="44.91%" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtVal5" taborder="11" left="44.91%" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtH6" taborder="12" text="언어기능" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%" left="69.91%"/>
+              <Static id="sta_cistPtVal6" taborder="13" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" text="-" width="19.91%" left="69.91%"/>
+              <Div id="div_line00" taborder="14" text="Div00" left="2.78%" top="189" height="2" right="2.78%" background="#bfd5ff"/>
+              <Static id="sta_cistPtH7" taborder="15" text="총점 : " left="14.58%" top="202" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="12.73%"/>
+              <Static id="sta_cistPtVal7" taborder="16" text="-" left="27.55%" top="202" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="17.59%"/>
+              <Static id="sta_cistGradeH" taborder="17" text="판정 : " left="47.92%" top="202" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="12.50%"/>
+              <Static id="sta_cistGradeVal" taborder="18" text="-" left="59.72%" top="202" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="32.64%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ImageViewer id="imv_close" taborder="1" left="7" top="25" width="68" height="58" image="url('theme://images/btn_close.png')" background="transparent" onclick="imv_close_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cist" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+          <Column id="PT1_VAL" type="STRING" size="256"/>
+          <Column id="PT2_VAL" type="STRING" size="256"/>
+          <Column id="PT3_VAL" type="STRING" size="256"/>
+          <Column id="PT4_VAL" type="STRING" size="256"/>
+          <Column id="PT5_VAL" type="STRING" size="256"/>
+          <Column id="PT6_VAL" type="STRING" size="256"/>
+          <Column id="PT7_VAL" type="STRING" size="256"/>
+          <Column id="CIS_GRADE_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUC_CIST_DETAIL_POP
+ * 화면명   	: CIST 상세 확인 팝업
+ * 화면설명 	: 모바일 CIST검사에서 그리드 상세 확인 누를시 보이는 팝업
+ * 작성일   	: 2021-09-10
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC_CIST_DETAIL_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// CIST 검사에서 받는 파라미터
+	const companyCd = this.parent.companyCd;
+	const resId = this.parent.resId;
+	const cisDt = this.parent.cisDt;
+	
+	if(Sct.Util.isEmpty(companyCd) || Sct.Util.isEmpty(resId) || Sct.Util.isEmpty(cisDt))
+	{
+		alert("필요 정보가 없습니다.");
+		this.close();
+	}
+	else
+	{
+		// 검색조건 초기화
+		this.ds_search.setColumn(0, "COMPANY_CD", companyCd);
+		this.ds_search.setColumn(0, "RES_ID", resId);
+		this.ds_search.setColumn(0, "CIS_DT", cisDt);
+		
+		this.fn_search();
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_cist=output1";
+	const argument = "method=getList "
+		+ "sqlId=NUC_CIST_DETAIL_POP.NUC_CIST_DETAIL_POP_DS_CIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 상세 확인하는 날짜 세팅
+			const cisDt = this.ds_cist.getColumn(0, "CIS_DT");
+			const day = Sct.Util.getDayH(cisDt, false);
+			const cisDate = cisDt.substr(0, 4) + "." + cisDt.substr(4, 2) + "." + cisDt.substr(6, 2) + "(" + day + ")";
+			this.div_lastCist.form.sta_day.set_text(cisDate);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 닫기
+this.imv_close_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_lastCist.form.sta_cistPtVal1" propid="text" datasetid="ds_cist" columnid="PT1_VAL"/>
+      <BindItem id="item1" compid="div_lastCist.form.sta_cistPtVal2" propid="text" datasetid="ds_cist" columnid="PT2_VAL"/>
+      <BindItem id="item2" compid="div_lastCist.form.sta_cistPtVal3" propid="text" datasetid="ds_cist" columnid="PT3_VAL"/>
+      <BindItem id="item3" compid="div_lastCist.form.sta_cistPtVal4" propid="text" datasetid="ds_cist" columnid="PT4_VAL"/>
+      <BindItem id="item4" compid="div_lastCist.form.sta_cistPtVal5" propid="text" datasetid="ds_cist" columnid="PT5_VAL"/>
+      <BindItem id="item5" compid="div_lastCist.form.sta_cistPtVal6" propid="text" datasetid="ds_cist" columnid="PT6_VAL"/>
+      <BindItem id="item6" compid="div_lastCist.form.sta_cistPtVal7" propid="text" datasetid="ds_cist" columnid="PT7_VAL"/>
+      <BindItem id="item7" compid="div_lastCist.form.sta_cistGradeVal" propid="text" datasetid="ds_cist" columnid="CIS_GRADE_VAL"/>
+    </Bind>
+  </Form>
+</FDL>

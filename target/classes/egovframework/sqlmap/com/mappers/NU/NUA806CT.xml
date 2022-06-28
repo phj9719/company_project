@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA806CT                                                         
+     * 프로그램 명     	: 낙상이력관리                                                    
+     * Description 	: 낙상발생후 처리를 위한 화면
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-08-27 14:38     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA806CT">
+	<!-- 낙상이력 조회 -->
+	<select id="NUA806CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA806CT_DS_LIST_S */
+		SELECT
+				NFE.COMPANY_CD
+			, 	NFE.DIA_TIME
+  			, 	NR.NAME
+		  	, 	NR.AREA
+		  	, 	NR.LOCATION
+		  	, 	NFE.MAC_ADD
+		  	, 	NFE.MAC_SEQ
+		  	, 	NFE.RES_ID
+		  	, 	NFE.X_COOR
+		  	, 	NFE.Y_COOR
+		  	, 	NFE.Z_COOR
+		  	, 	NFE.CONN_ST
+		  	,	NFE.HUMI
+		  	, 	NFE.BAT_QTY
+		  	, 	NFE.TEMP_C
+		  	, 	NFE.POSTURE
+		  	, 	NFE.FALL_YN
+		  	, 	NFE.ACT_YN
+		  	, 	NFE.BLE_RSSI
+		  	, 	NFE.IOT_NAME
+		  	, 	NFE.FALL_TP
+		  	,	NFE.FALL_DESC
+		  	, 	NFE.CLEAR_YN
+		  	, 	NFE.CLEAR_TIME
+		  	,	LEFT(NFE.CLEAR_TIME,8) AS CLEAR_DATE
+		  	,	LEFT(RIGHT(NFE.CLEAR_TIME,4),2) AS HOUR
+		  	,	RIGHT(NFE.CLEAR_TIME,2) AS MINUTE
+		  	, 	NFE.MANAGER_ID
+		  	,	(SELECT CU.USER_NM_KOR
+				   FROM T_CM_USER CU
+				  WHERE NFE.COMPANY_CD = CU.COMPANY_CD
+				    AND NFE.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+		  	, 	NFE.REG_PGM_ID
+		  	, 	NFE.REG_USER
+		  	,	(SELECT 
+		  			CU.USER_NM_KOR
+				 FROM 
+				 	T_CM_USER CU
+				 WHERE 
+				 	 NFE.COMPANY_CD = CU.COMPANY_CD
+				 AND NFE.REG_USER = CU.USER_ID
+				 ) AS REG_USER_NM
+		  	, 	NFE.REG_DT
+		  	, 	NFE.REG_DT_CURR
+		  	, 	NFE.REG_DT_LOC
+		  	, 	NFE.REG_IP
+		  	, 	NFE.MOD_PGM_ID
+		  	, 	NFE.MOD_USER
+		  	,	(SELECT 
+		  			CU.USER_NM_KOR
+				 FROM T_CM_USER CU
+				 WHERE 
+				 	 NFE.COMPANY_CD = CU.COMPANY_CD
+				 AND NFE.MOD_USER = CU.USER_ID
+				 ) AS MOD_USER_NM
+		  	, 	NFE.MOD_DT
+		  	, 	NFE.MOD_DT_CURR
+		  	, 	NFE.MOD_DT_LOC
+		  	, 	NFE.MOD_IP
+		FROM
+    			T_NU_FALL_EVENT NFE
+  			, 	T_NU_RESIDENT NR
+		WHERE	NFE.COMPANY_CD = NR.COMPANY_CD
+		AND 	NFE.RES_ID = NR.RES_ID
+		AND		NFE.COMPANY_CD = #{COMPANY_CD}
+		AND		SUBSTRING(NFE.DIA_TIME, 1, 8) <![CDATA[>=]]> #{DT_FROM}
+		AND		SUBSTRING(NFE.DIA_TIME, 1, 8) <![CDATA[<=]]> #{DT_TO}
+		<if test="AREA != '' and AREA != null">
+		AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+		AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="NAME != '' and NAME != null">
+		AND		NR.NAME LIKE CONCAT ('%', #{NAME}, '%')
+		</if>
+		<if test="CLEAR_YN != '' and CLEAR_YN != null">
+		 <choose>
+		  <when test='CLEAR_YN.equals("N")'>
+		AND		(NFE.CLEAR_YN = #{CLEAR_YN} OR NFE.CLEAR_YN IS NULL)
+		  </when>
+		  <otherwise>
+		AND		NFE.CLEAR_YN = #{CLEAR_YN}		
+		  </otherwise>
+		 </choose>
+		</if>
+		ORDER BY
+				NFE.DIA_TIME DESC
+	</select>
+	
+	<!-- 낙상이력조회 수정 -->
+	<update id="NUA806CT_DS_LIST_U" parameterType="java.util.HashMap">
+	/* NUA806CT_DS_LIST_U */
+		UPDATE
+			T_NU_FALL_EVENT
+		SET
+				FALL_TP = #{FALL_TP}
+			,	FALL_DESC = #{FALL_DESC}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	CLEAR_YN = 'Y'
+			,	CLEAR_TIME = CONCAT(#{CLEAR_DATE},#{HOUR},#{MINUTE})
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		DIA_TIME = #{DIA_TIME}
+		AND		MAC_ADD = #{MAC_ADD}
+	</update>
+	
+	<!-- 층 조회 -->
+	<select id="NUA806CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA806CT_DS_AREA_S */
+		SELECT 
+				COMPANY_CD
+			,	ARE_CD
+			,	ARE_NM
+			,	ARE_TP
+			,	USE_YN
+		FROM	T_NU_AREA
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		ARE_TP = '10'
+	</select>
+	
+	<!-- 생활실 전체조회 -->
+	<select id="NUA806CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA806CT_DS_LOCATION_S */
+		SELECT 
+				COMPANY_CD
+			,	LOC_SEQ
+			,	ARE_CD
+			,	LOC_CD
+			,	LOC_NM
+			,	LOC_TP
+			,	USE_YN
+		FROM 	T_NU_LOCATION
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		LOC_TP = '10'
+		<if test="AREA != '' and AREA != null">
+		AND		ARE_CD = #{AREA}
+		</if>
+	</select>
+	
+	<!-- 처리자 조회 -->
+	<select id="NUA806CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA806CT_DS_MANAGER_S */
+		SELECT 
+				USER_ID AS CMCD
+			,	USER_NM_KOR AS CMNM
+		FROM 	T_CM_USER
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND 	USE_YN = 'Y'
+	</select>	                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

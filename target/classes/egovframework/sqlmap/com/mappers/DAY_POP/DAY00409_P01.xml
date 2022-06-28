@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00409_P01
+     * 프로그램 명     	: 송영차량일지 수정
+     * Description 		: 송영차량일지 조회, 수정, 삭제
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-16 13:00        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00408_P02_DS_LIST_S		조회
+     *================================================================
+-->
+<mapper namespace="DAY00409_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00409_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-9 P01 조회 */
+    SELECT
+      moc.sicode
+    , moc.monalja
+    , moc.mocode
+    , mot.차번호
+    , moc.mostart
+    , moc.molast
+    , moc.molast - moc.mostart AS distant
+    , moc.코드1
+    , moc.내역1
+    , moc.비용1
+    , moc.코드2
+    , moc.내역2
+    , moc.비용2
+    , moc.코드3
+    , moc.내역3
+    , moc.비용3
+    FROM day_mocount AS moc
+    JOIN day_motor AS mot
+    ON (moc.sicode = mot.sicode
+        AND moc.mocode = mot.차구분)
+    WHERE moc.sicode = #{SICODE}
+    AND moc.monalja BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY
+      moc.mocode
+    , moc.monalja
+    </select>
+</mapper>

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="QueryMaker" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <Grid id="Grid00" taborder="0" left="6" top="38" width="1011" height="532" binddataset="ds_list" oncellclick="Grid00_oncellclick" autofittype="col" selecttype="cell" onkeydown="Grid00_onkeydown" oncloseup="Grid00_oncloseup" onchar="Grid00_onchar">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="92"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="104"/>
+                <Column size="90"/>
+                <Column size="120"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="번호"/>
+                <Cell col="1" text="물리테이블이름"/>
+                <Cell col="2" text="화면이름"/>
+                <Cell col="3" text="컬럼이름"/>
+                <Cell col="4" text="컬럼설명"/>
+                <Cell col="5" text="PK여부"/>
+                <Cell col="6" text="NULL여부"/>
+                <Cell col="7" text="데이터타입"/>
+                <Cell col="8" text="데이터길이"/>
+                <Cell col="9" text="소수"/>
+                <Cell col="10" text="비고"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:NO"/>
+                <Cell col="1" edittype="normal" text="bind:TNMP"/>
+                <Cell col="2" edittype="normal" text="bind:TNML"/>
+                <Cell col="3" edittype="normal" text="bind:CNMP"/>
+                <Cell col="4" edittype="normal" text="bind:CNML"/>
+                <Cell col="5" displaytype="combo" edittype="combo" text="bind:KEYTYPE" combodataset="ds_keytype" combocodecol="TYPE" combodatacol="TYPE" combodisplayrowcount="0" combodisplay="display"/>
+                <Cell col="6" displaytype="combo" edittype="combo" text="bind:NOT" combodataset="ds_notyn" combocodecol="NOT" combodatacol="NOT" combodisplayrowcount="0" combodisplay="display"/>
+                <Cell col="7" displaytype="combo" edittype="combo" text="bind:DTYPE" combodataset="ds_datatype" combocodecol="TYPE" combodatacol="TYPE" combodisplayrowcount="-1" combodisplay="display" combotype="search"/>
+                <Cell col="8" edittype="normal" text="bind:DATALEN"/>
+                <Cell col="9" edittype="normal" text="bind:SOSU"/>
+                <Cell col="10" edittype="normal" text="bind:REMARK"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="Edit00" taborder="1" left="768" top="6" width="118" height="25"/>
+        <Button id="Button00" taborder="2" text="추가" left="901" top="6" width="39" height="25" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="3" text="생성" left="960" top="6" width="39" height="25" onclick="Button01_onclick"/>
+        <TextArea id="TextArea00" taborder="4" left="6" top="580" width="1570" height="172" wordWrap="char"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="NO" type="STRING" size="256"/>
+          <Column id="TNMP" type="STRING" size="256"/>
+          <Column id="TNML" type="STRING" size="256"/>
+          <Column id="CNMP" type="STRING" size="256"/>
+          <Column id="CNML" type="STRING" size="256"/>
+          <Column id="KEYTYPE" type="STRING" size="256"/>
+          <Column id="NOT" type="STRING" size="256"/>
+          <Column id="DTYPE" type="STRING" size="256"/>
+          <Column id="DATALEN" type="STRING" size="256"/>
+          <Column id="SOSU" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_keytype">
+        <ColumnInfo>
+          <Column id="TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="TYPE">PK</Col>
+          </Row>
+          <Row>
+            <Col id="TYPE"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_notyn">
+        <ColumnInfo>
+          <Column id="NOT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NOT">NOT</Col>
+          </Row>
+          <Row>
+            <Col id="NOT"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_datatype">
+        <ColumnInfo>
+          <Column id="TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="TYPE">VARCHAR2</Col>
+          </Row>
+          <Row>
+            <Col id="TYPE">NUMBER</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var cnt = this.Edit00.value;
+	trace(cnt);
+	for (var i = 0; i < cnt; i++) 
+	{
+		trace(i);
+		var idx = this.ds_list.addRow();
+		this.ds_list.setColumn(idx, "NO", i + 1);
+		this.ds_list.setColumn(idx, "DTYPE", "VARCHAR2");
+	}
+};
+
+this.Button01_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.TextArea00.set_value("");
+	var list = new Array();
+	for (var i = 0; i < this.ds_list.rowcount; i++) 
+	{
+		trace("for " + i);
+		var no = this.ds_list.getColumn(i, "NO");
+		var tnmp = this.ds_list.getColumn(i, "TNMP");
+		var tnml = this.ds_list.getColumn(i, "TNML");
+		var cnmp = this.ds_list.getColumn(i, "CNMP");
+		var cnml = this.ds_list.getColumn(i, "CNML");
+		var keytype = this.ds_list.getColumn(i, "KEYTYPE");
+		var not = this.ds_list.getColumn(i, "NOT");
+		var dtype = this.ds_list.getColumn(i, "DTYPE");
+		var dlen = this.ds_list.getColumn(i, "DATALEN");
+		var sosu = this.ds_list.getColumn(i, "SOSU");
+		var remark = this.ds_list.getColumn(i, "REMARK");
+		if (keytype == null) 
+		{
+			keytype = "";
+		}
+		if (not == null) 
+		{
+			not = "";
+		}
+		if (sosu == null) 
+		{
+			sosu = "";
+		}
+		if (remark == null) 
+		{
+			remark = "";
+		}
+
+
+
+		var s = "INSERT INTO CM_MAKE_TABLE (NO,TABLE_NM_P,TABLE_NM_L,COLUMN_NM_P,COLUMN_NM_L,KEY_TYPE,NOT_YN,DATA_TYPE,DATA_LEN,DATA_SOSU,REMARK1) VALUES("
+			 + "'" + no + "','" + tnmp + "','" + tnml + "','" + cnmp + "','" + cnml + "','" + keytype + "','" + not + "','" + dtype + "','" + dlen + "','" + sosu + "','" + remark + "'); \n";
+		list.push(s);
+	}
+	for (var i = 0; i < list.length + 1; i++) 
+	{
+		trace(list[i]);
+	}
+	trace("len " + list.length);
+	for (var i = 0; i < list.length + 1; i++) 
+	{
+		trace(i);
+		this.TextArea00.insertText(list[i]);
+	}
+};
+
+this.Grid00_oncellclick = function (obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	this.Grid00.showEditor(true);
+};
+
+this.Grid00_onkeydown = function (obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if (e.col != 5 && e.col != 6 && e.col != 7) 
+	{
+		this.Grid00.showEditor(true);
+	}
+};
+
+this.Grid00_oncloseup = function (obj:Grid, e:nexacro.GridEditEventInfo)
+{
+};
+
+this.Grid00_onchar = function (obj:Grid, e:nexacro.GridEditCharEventInfo)
+{
+	if (e.col == 1 || e.col == 2) 
+	{
+		var text = e.posttext;
+		for (var i = 0; i < this.ds_list.rowcount; i++) 
+		{
+			if (e.col == 1) 
+			{
+				this.ds_list.setColumn(i, "TNMP", text);
+			}
+			else 
+			{
+				this.ds_list.setColumn(i, "TNML", text);
+			}
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00506_P01                                                        
+     * 프로그램 명     	: 월간근무일지
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-15 11:30        	|  이성탄		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                             
+     *================================================================                      
+-->
+<mapper namespace="DAY00506_P01">
+	<!-- 조회 -->
+    <select id="DAY00506_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT sicode
+			, 0 AS print_chk
+			, 근무일
+			, 작성자
+			, 작성코드
+			, 총인원
+			, 근무자
+			, 휴가자
+			, 주간인원 AS 주간근무
+			, 야간인원 AS 야간근무
+			, 근무자a
+			, 근무자b
+			, 근무자c
+			, 근무자d
+			, 일지번호
+			, 업무내용
+			, 기타내용
+			, 부서명a
+			, 부서명b
+			, 부서명c
+			, 부서명d
+			FROM base_jikwon
+			WHERE sicode = #{sicode}
+			AND 근무일 BETWEEN #{date_from} AND #{date_to}
+			ORDER BY 근무일
+			;
+    </select>
+</mapper>                                                                                                                                                                                                          

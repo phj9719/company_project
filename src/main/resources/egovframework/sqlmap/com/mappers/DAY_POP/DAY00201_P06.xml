@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201_P06                                                         
+     * 프로그램 명     	: 일 바이탈기록                                                      
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자         |  비고                                    
+     *================================================================                  
+       2022-06-20 00:00     |  김언정		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_P06_DS_LIST_S			조회 
+        DAY00201_P06_DS_RECORD_LIST_S   조회(중복확인) 
+        DAY00201_P06_DS_SAVE_U			수정    
+		DAY00201_P06_DS_SAVE_I			삽입                                                                 
+     *================================================================                      
+-->
+<mapper namespace="DAY00201_P06">
+	<!-- 조회 -->
+	<select id="DAY00201_P06_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT bm.sicode
+		  , bm.거주현황 AS s_nm
+		  , bm.m_group
+		  , bm.m_code
+		  , bm.m_name
+		  , bm.성별 AS sex_nm
+		  , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+		          - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+		                              WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+		                              WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+		                              ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		  , bm.m_roomname
+		  , bm.m_enday 
+		  , bm.m_reday
+		  , CONCAT(kr.시작시간,'-', kr.종료시간) AS '송영시간'
+		  , SUBSTRING_INDEX(kn.혈압,'/',1) AS '혈압1'
+		  , SUBSTRING_INDEX(kn.혈압,'/',-1) AS '혈압2'
+		  , kn.혈압
+		  , IF(kn.맥박 = 0, '', kn.맥박) AS 맥박
+		  , IF(kn.혈당 = 0, '', kn.혈당) AS 혈당
+		  , IF(kn.혈당2 = 0, '', kn.혈당2) AS 혈당2
+		  , IF(kn.체온 = 0, '', kn.체온) AS 체온
+		  , IF(kn.체온2 = 0, '', kn.체온2) AS 체온2
+		  , IF(kn.체온3 = 0, '', kn.체온3) AS 체온3
+		  , IF(kn.호흡 = 0, '', kn.호흡) AS 호흡
+		  , IF(kn.체중 = 0.0, '', kn.체중) AS 체중
+		  , kn.기침2
+		  , kn.인후통2
+		  , kn.호흡곤란2
+		  , kn.객담2
+		  , kn.기타2
+		  , kn.담당자
+		  , kn.담당코드
+		  , kn.n_number
+		  ,'/' AS seperator
+		FROM base_mate bm
+		   LEFT JOIN (SELECT * FROM kmrecord
+		               WHERE sicode = #{sicode}
+		               AND k_nalja = STR_TO_DATE(#{s_date},'%Y%m%d')) kr
+		        ON (bm.sicode = kr.sicode AND bm.m_code = kr.k_code)
+		   LEFT JOIN (SELECT * FROM kmnurse
+		               WHERE sicode = #{sicode}
+		               AND n_nalja = STR_TO_DATE(#{s_date},'%Y%m%d')) kn
+		        ON (bm.sicode = kn.sicode AND bm.m_code = kn.n_code)  
+		WHERE bm.sicode = #{sicode}
+			AND STR_TO_DATE(#{s_date},'%Y%m%d') between bm.m_enday AND bm.m_reday
+			AND SUBSTRING(CONCAT(bm.일요일,bm.이용일),DATE_FORMAT(STR_TO_DATE(#{s_date},'%Y%m%d'),'%w')+1,1) = 1         
+		ORDER BY bm.m_name
+	</select>
+	
+	<!-- record 중복 조회 -->
+   <select id="DAY00201_P06_DS_RECORD_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*DAY00201_P06_DS_RECORD_LIST_S */
+		SELECT 
+			sicode,
+			n_number,
+			n_nalja,
+			n_code,
+			n_name,
+			혈압
+		FROM kmnurse
+		WHERE
+			sicode = #{sicode}
+		AND n_nalja = #{n_nalja}
+		AND n_code =#{n_code}
+    </select>
+	
+	<!-- 수정 -->
+    <update id="DAY00201_P06_DS_SAVE_U"  parameterType="java.util.HashMap">
+   	/*DAY00201_P06_DS_SAVE_U */
+		UPDATE 
+			kmnurse kn
+		SET
+			혈압 = IF(#{혈압} = '','', #{혈압})
+			, 맥박 = IF(#{맥박} = '', '0', #{맥박})
+			, 혈당 = IF(#{혈당} = '', '0', #{혈당})
+			, 혈당2 = IF(#{혈당2} = '', '0', #{혈당2})
+			, 체온 = IF(#{체온} = '', '0.0', #{체온})
+			, 체온2 = IF(#{체온2} = '', '0.0', #{체온2})
+			, 체온3 = IF(#{체온3} = '', '0.0', #{체온3})
+			, 호흡 = IF(#{호흡} = '', '0', #{호흡})
+			, 체중 = IF(#{체중} = '', '0.0', #{체중})
+			,담당자= #{담당자}
+			,담당코드= #{담당코드}
+		WHERE 
+			kn.sicode = #{sicode}
+		AND kn.n_nalja = #{n_nalja}
+		AND kn.n_code = #{m_code}
+		AND kn.n_number = #{n_number}
+    
+    </update>
+ 
+    <!-- 삽입 -->
+   	<insert id="DAY00201_P06_DS_SAVE_I" parameterType="java.util.HashMap">
+  	/*DAY00201_P06_DS_SAVE_I */
+		INSERT INTO	kmnurse 
+			(
+			sicode
+			,n_nalja
+			,n_code
+			,n_name
+			,혈압
+			,맥박
+			,혈당
+			,혈당2
+			,체온
+			,체온2
+			,체온3
+			,호흡
+			,체중
+			,담당자
+			,담당코드
+			)
+		VALUES
+		(
+		#{sicode}
+		,#{n_nalja}
+		,#{m_code}
+		,#{m_name}
+		,IFNULL(#{혈압},'')
+		,IFNULL(#{맥박},0)
+		,IFNULL(#{혈당},0)
+		,IFNULL(#{혈당2},0)
+		,IFNULL(#{체온},0.0)
+		,IFNULL(#{체온2},0.0)
+		,IFNULL(#{체온3},0.0)
+		,IFNULL(#{호흡},0)
+		,IFNULL(#{체중},0.0)
+		,#{담당자}
+		,#{담당코드}
+		)
+   	</insert>
+
+</mapper>

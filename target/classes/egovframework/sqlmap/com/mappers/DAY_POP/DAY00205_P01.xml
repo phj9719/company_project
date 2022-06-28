@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00205_P01                                                      
+     * 프로그램 명     	: 의료기기 목록조회                                              
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-20            	|  성재영		| 최초작성                         
+	   			
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00205_P01">
+	<select id="DAY00205_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-05_P01 조회 */
+	SELECT sicode
+	     , 기기번호
+	     , 기기명
+	     , 수량
+	     , 구입일
+	  FROM base_equipcode
+	 WHERE sicode = #{sicode}
+	 AND 기기번호 <![CDATA[<]]> 21 
+	 ORDER
+	    BY 기기번호
+    </select>
+	
+	<!-- 수정 -->
+    <update id="DAY00205_P01_DS_LIST_U" parameterType="java.util.HashMap">
+    /* 2-05_P01 수정 */
+    UPDATE base_equipcode
+       SET   기기명 = #{기기명}
+           , 수량 = #{수량}
+     WHERE sicode = #{sicode}
+       AND 기기번호 = #{기기번호}
+    </update>
+</mapper>

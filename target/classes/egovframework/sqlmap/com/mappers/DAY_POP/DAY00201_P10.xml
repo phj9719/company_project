@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201_P10                                                         
+     * 프로그램 명     	: 병의원 진료기록                                                     
+     * Description 	: 병의원 진료기록 조회, 저장, 삭제
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-10 10:00        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_P10_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00201_P10">
+	<!-- 조회 -->
+    <select id="DAY00201_P10_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-1 P10 조회 */
+		SELECT  
+			  sicode
+			, 진료번호
+			, 거주자명
+			, 거주코드
+			, 진료일
+			, REPLACE(진료일,'-','') AS m_date
+			, DATE_FORMAT(진료일,'%Y.%m.%d') AS date
+			, 진료시간
+			, SUBSTRING(진료시간,1,2) AS from_time_h
+			, SUBSTRING(진료시간,4,2) AS from_time_m
+			, SUBSTRING(진료시간,7,2) AS to_time_h
+			, SUBSTRING(진료시간,10,2) AS to_time_m
+			, 병의원명
+			, 병원번호
+			, 진료내용
+			, 진료금액
+			, 진료청구
+			, 투약금액
+			, 투약청구
+			, 담당자명
+			, 담당코드
+			, 첨부파일번호
+			, filename1
+			, SUBSTRING(진료시간,1,5) AS from_time
+			, SUBSTRING(진료시간,7,11) AS to_time
+		FROM kmmedi
+		WHERE sicode = #{SICODE}		
+		AND 거주코드 = #{M_CODE}
+		AND 진료번호 = #{M_NUM}
+    </select>
+    
+    <update id="DAY00201_P10_DS_MEDI_SELECT_U" parameterType="java.util.HashMap">
+    /* 2-1 P10 수정 */
+    UPDATE kmmedi
+    SET
+          거주자명    = #{거주자명} 
+    , 진료일  = #{m_date}
+    , 진료시간 = CONCAT((CASE WHEN TRIM(IFNULL(#{from_time_h},'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(#{from_time_h}),2,'0') END )
+				     ,':'
+				      , (CASE WHEN TRIM(IFNULL(#{from_time_m},'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(#{from_time_m}),2,'0') END )
+				     ,'-'   
+				      , (CASE WHEN TRIM(IFNULL(#{to_time_h},'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(#{to_time_h}),2,'0') END )
+				     ,':'       
+				      , (CASE WHEN TRIM(IFNULL(#{to_time_m},'')) = '' THEN '  ' 
+				        ELSE LPAD(TRIM(#{to_time_m}),2,'0') END )
+				      )
+    , 병의원명 = #{병의원명}
+    , 병원번호 = #{병원번호}
+    , 진료내용 = #{진료내용}
+    , 진료금액 = #{진료금액}
+    , 진료청구 = #{진료청구}
+    , 투약금액 = #{투약금액}
+    , 투약청구 = #{투약청구}
+    , 담당자명 = #{담당자명}
+    , 담당코드 = #{담당코드}
+    , 첨부파일번호  = #{첨부파일번호}
+    WHERE sicode = #{sicode}
+    AND 진료번호 = #{진료번호}
+    </update> 
+    
+    <delete id="DAY00201_P10_DS_MEDI_SELECT_D" parameterType="java.util.HashMap">
+    /* 2-1 P10 삭제 */
+    DELETE FROM kmmedi
+    WHERE sicode = #{sicode}
+    AND  진료번호 = #{진료번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P07                                                        
+     * 프로그램 명     	: 1-1 요양일지 예시문                                       
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-18 14:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P07_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P07">
+	<!-- 조회 -->
+    <select id="DAY00101_P07_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+		WITH RECURSIVE line
+		   AS
+		   (
+		      SELECT 1 AS row_num
+		      UNION ALL
+		      SELECT ROW_NUM + 1 AS row_num
+		      FROM line
+		      WHERE ROW_NUM < 10
+		   )
+		   SELECT 
+		      SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.ROW_NUM), '#@$@#', -1) AS value
+		   ,   lin.row_num
+		   , '' AS chk
+		   FROM line lin
+		   LEFT JOIN 
+		   (
+		      SELECT
+		--       REPLACE(a.일지내용, CONCAT(CHAR(10)),CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+		         REPLACE(a.일지내용, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+		      FROM base_info a
+		   WHERE sicode = #{sicode}
+		   ) bi
+		
+		   ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.row_num - 1
+		
+		]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA007CT                                                         
+     * 프로그램 명     : 건강기록일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA007CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA007CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.ARE_CD
+					,A.ARE_NM
+					,A.ARE_TP
+					,A.USE_YN
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              FROM   T_NU_AREA A
+              		,(SELECT @ROWNUM:=0) ROWNUM
+              WHERE  1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="ARE_NM != '' and ARE_NM != null">
+                    AND A.ARE_NM LIKE CONCAT('%', #{ARE_NM},'%') 
+              </if>
+              <if test="LOC_NM != '' and LOC_NM != null">
+                    AND A.ARE_CD IN (SELECT NL.ARE_CD
+                    				   FROM T_NU_LOCATION NL
+                    				  WHERE NL.COMPANY_CD = A.COMPANY_CD
+                    				  	AND NL.ARE_CD	  = A.ARE_CD
+                    				  	AND NL.LOC_NM LIKE CONCAT('%',#{LOC_NM},'%'))
+              </if>
+              <if test="USE_YN != '' and USE_YN != null">
+                    AND A.USE_YN = #{USE_YN} 
+              </if>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                          
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA007CT_DS_HEAD_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_AREA (                                                                                                                                                                                 
+					         COMPANY_CD
+							,ARE_CD
+							,ARE_NM
+							,ARE_TP
+							,USE_YN
+							,REMARK
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					         #{COMPANY_CD}
+							,#{ARE_CD}
+							,#{ARE_NM}
+							,#{ARE_TP}
+							,#{USE_YN}
+							,#{REMARK}
+							,#{REG_PGM_ID    }
+							,#{REG_USER      }
+							,#{REG_DT        }
+							,#{REG_DT_CURR   }
+							,#{REG_DT_LOC    }
+							,#{REG_IP        }
+							,#{MOD_PGM_ID    }
+							,#{MOD_USER      }
+							,#{MOD_DT        }
+							,#{MOD_DT_CURR   }
+							,#{MOD_DT_LOC    }
+							,#{MOD_IP        }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA007CT_DS_HEAD_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_AREA                                                                                                                                                                                              
+						 SET ARE_NM =#{ARE_NM}
+							,ARE_TP =#{ARE_TP}
+							,USE_YN =#{USE_YN}
+							,REMARK =#{REMARK}
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       AND ARE_CD  = #{ARE_CD}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA007CT_DS_HEAD_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_AREA
+                 WHERE COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                   AND ARE_CD  = #{ARE_CD};
+                
+           DELETE FROM T_NU_LOCATION
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND ARE_CD = #{ARE_CD};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    <!-- DETAIL SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA007CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+							,A.LOC_SEQ
+							,A.ARE_CD
+							,A.LOC_CD
+							,A.LOC_NM
+							,A.LOC_TP
+							,A.USE_YN
+							,A.REMARK
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_NU_LOCATION A                                                                                                                                                                                      
+             		 WHERE 1=1 
+               		   AND A.COMPANY_CD = #{COMPANY_CD}
+               		   AND A.ARE_CD		= #{ARE_CD}
+			]]>
+    </select>
+    <!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA007CT_DS_DETAIL_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_LOCATION (                                                                                                                                                                                 
+					         COMPANY_CD
+							,LOC_SEQ
+							,ARE_CD
+							,LOC_CD
+							,LOC_NM
+							,LOC_TP
+							,USE_YN
+							,REMARK
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					    	 #{COMPANY_CD  }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_LOCATION ),12,0)))
+							,#{ARE_CD      }
+							,#{LOC_CD      }
+							,#{LOC_NM      }
+							,#{LOC_TP	   }
+							,#{USE_YN      }
+							,#{REMARK      }
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+							,#{MOD_PGM_ID  }
+							,#{MOD_USER    }
+							,#{MOD_DT      }
+							,#{MOD_DT_CURR }
+							,#{MOD_DT_LOC  }
+							,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA007CT_DS_DETAIL_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			          UPDATE T_NU_LOCATION                                                                                                                                                                                              
+					     SET LOC_NM		 = #{LOC_NM}
+					     	,LOC_TP		 = #{LOC_TP}
+							,USE_YN      = #{USE_YN}
+							,REMARK      = #{REMARK}
+							,MOD_PGM_ID  = #{MOD_PGM_ID   }
+							,MOD_USER    = #{MOD_USER     }
+							,MOD_DT      = #{MOD_DT       }
+							,MOD_DT_CURR = #{MOD_DT_CURR  }
+							,MOD_DT_LOC  = #{MOD_DT_LOC   }
+							,MOD_IP      = #{MOD_IP       }
+			         WHERE 1=1                                                                                                                                                                                      
+                       AND COMPANY_CD = #{COMPANY_CD}
+                       AND LOC_SEQ  = #{LOC_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA007CT_DS_DETAIL_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+
+                DELETE FROM T_NU_LOCATION
+                WHERE COMPANY_CD = #{COMPANY_CD}
+                  AND LOC_SEQ  = #{LOC_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </delete>
+                                                                                                                                            
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00303                                                    
+     * 프로그램 명     	: 3-3 물리치료·기능회복훈련 급여계획
+     * Description 		: 수급자별 물리치료·기능회복훈련 급여계획 조회
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-06-07 14:00        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00303_DS_HEAD_S		헤더 조회
+        DAY00303_DS_DETAIL_S	디테일 조회
+     *================================================================
+-->
+<mapper namespace="DAY00303">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00303_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-3 헤더 조회 */
+    SELECT
+      mat.sicode
+    , mat.거주현황
+    , mat.m_name
+    , mat.m_code
+    , mat.m_group
+    , mat.성별
+    , mat.m_grade
+    , FN_GRADE_NM(mat.sicode, mat.m_code, DATE_FORMAT(#{DATE_TO}, '%Y%m%d')) AS 등급
+    , mat.m_roomname
+    , (
+        SELECT
+          CONCAT(
+            DATE_FORMAT(sub.계획시작, '%Y.%m.%d')
+          , '-'
+          , DATE_FORMAT(sub.계획종료, '%Y.%m.%d')
+          )
+        FROM base_habilit AS sub
+        WHERE sub.sicode = mat.sicode
+        AND sub.대상자코드 = mat.m_code
+        AND sub.계획종료 = (
+                             SELECT MAX(bha.계획종료)
+                             FROM base_habilit AS bha
+                             WHERE bha.sicode = sub.sicode
+                             AND bha.대상자코드 = sub.대상자코드
+                           )
+        LIMIT 1
+      ) AS plan_day
+    , TIMESTAMPDIFF(
+        YEAR
+      , STR_TO_DATE(
+          SUBSTRING(
+            CONCAT(
+              CASE
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN(1, 2, 5, 6) THEN 19
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN(3, 4, 7, 8) THEN 20
+              END
+            , mat.m_jumin1
+            )
+          , 1
+          , 8
+          )
+        , '%Y%m%d'
+        )
+      , NOW()
+      ) AS 나이
+    , mat.m_jumin1
+    , CONCAT(
+        SUBSTRING(mat.m_jumin1, 1, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 3, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 5, 2)
+      ) AS 생일
+    , mat.m_enday
+    , DATE_FORMAT(mat.m_enday, '%Y.%m.%d') AS 입소일
+    , mat.m_reday
+    , CASE WHEN mat.m_reday != '2100-01-01' THEN DATE_FORMAT(mat.m_reday, '%Y.%m.%d') ELSE NULL END AS 퇴소일
+    , mat.m_regist
+    , mat.m_history
+    FROM base_mate AS mat
+    WHERE mat.sicode = #{SICODE}
+    AND mat.m_reday &gt;= #{DATE_FROM}
+    AND mat.m_enday &lt;= #{DATE_TO}
+   <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(NOW)">AND mat.거주현황 = #{NOW}</if>
+    ORDER BY
+      mat.거주현황
+    , mat.m_group
+    , mat.m_name
+    </select>
+    
+    <!-- 디테일 조회 -->
+    <select id="DAY00303_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-3 디테일 조회 */
+    SELECT
+      hab.sicode
+    , hab.대상자코드
+    , hab.평가일
+    , hab.평가자명
+    , hab.치료그룹
+    , hab.계획시작
+    , hab.계획종료
+    , CONCAT(
+        DATE_FORMAT(hab.계획시작, '%Y.%m.%d')
+      , '-'
+      , DATE_FORMAT(hab.계획종료, '%Y.%m.%d')
+      ) AS 계획기간
+    , hab.치료시간
+    , hab.월요일
+    , hab.화요일
+    , hab.수요일
+    , hab.목요일
+    , hab.금요일
+    , hab.토요일
+    , hab.일요일
+    , CASE WHEN hab.기능시a = '  :  -  :  ' THEN '' ELSE hab.기능시a END AS 신체기능
+    , CASE WHEN hab.기능시b = '  :  -  :  ' THEN '' ELSE hab.기능시b END AS 기본동작
+    , CASE WHEN hab.기능시c = '  :  -  :  ' THEN '' ELSE hab.기능시c END AS 일상생활
+    , hab.ha_number
+    , LPAD(hab.ha_number, 6, '0') AS 작성번호
+    FROM base_habilit AS hab
+    WHERE hab.sicode = #{SICODE}
+    AND hab.대상자코드 = #{CODE}
+    ORDER BY
+      hab.평가일 DESC
+    , hab.ha_number DESC
+    </select>
+</mapper>

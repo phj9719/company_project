@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- /** * * WARNING: Auto create * Template File Version : 1.0 * Create 
+	:2020-07-08 13:22 * **/ *================================================================ 
+	* 프로그램 ID : CMA001CT * 프로그램 명 : 전자게시판 * Description :
+	*================================================================ 
+	작성일자 | 작성자 | 비고
+	
+	 *================================================================ 
+	2020-07-08 13:22 | | 최초작성 *================================================================ 
+	* Statement List *================================================================ 
+	*================================================================ -->
+<mapper namespace="JSONTEST">
+	<select id="JSONTEST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				jt.COMPANY_CD
+			,	SUBSTRING(FROM_UNIXTIME(jt.date/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS AIR_TIME
+			,	jt.MAC_ADD
+			,	CM.MAC_SEQ
+			,	NL.LOC_SEQ
+			,	NL.ARE_CD
+			,	NL.LOC_CD
+			,	jt.PM_1_0
+			,	jt.PM_2_5
+			,	jt.PM_10_0
+			,	jt.TEMP_C
+			,	jt.TEMP_F
+			,	jt.HUMI
+			,	jt.TVOC
+			,	jt.CO_2
+			,	jt.SCORE
+			,	jt.BLE_RSSI
+		FROM json_table(#{JSON}, '$.datas[*]'
+		  columns(
+		    date varchar(1000) path '$.time',
+		    tvoc DOUBLE path '$.values.tvoc',
+		    ble_rssi DOUBLE path '$.values.rssi',
+		    pm_1_0 DOUBLE path '$.values.pm_1_0',
+		    pm_2_5 DOUBLE path '$.values.pm_2_5',
+		    pm_10_0 DOUBLE path '$.values.pm_10_0',
+		    COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+		    temp_c DOUBLE path '$.values.temp_c',
+		    temp_f DOUBLE path '$.values.temp_f',
+		    co_2 DOUBLE path '$.values.co_2',
+		    score DOUBLE path '$.values.score',
+		    humi DOUBLE path '$.values.humi',
+		    MAC_ADD VARCHAR(1000) path '$.values.device_identifier'
+		  )
+		) as jt
+		INNER JOIN T_CM_MACHINE CM
+		ON jt.COMPANY_CD = CM.COMPANY_CD
+		AND jt.MAC_ADD = CM.MAC_ADD
+		INNER JOIN T_NU_MACH_USE NMU
+		ON CM.COMPANY_CD = NMU.COMPANY_CD
+		AND CM.MAC_SEQ = NMU.MAC_SEQ
+		INNER JOIN T_NU_LOCATION NL
+		ON NMU.COMPANY_CD = NL.COMPANY_CD
+		AND NMU.USE_ID = NL.LOC_SEQ
+		ORDER BY AIR_TIME DESC;
+	</select>
+	
+	<select id="SMART_BAND_JSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+				jt.COMPANY_CD
+			,	SUBSTRING(FROM_UNIXTIME(jt.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS BAN_TIME
+			,	jt.MAC_ADD
+			,	jt.HEART_RATE
+			,	jt.BLE_RSSI
+			,	jt.ACT_TM_CNT
+			,	jt.KCAL
+			,	jt.SLEEP
+			,	jt.NAME
+			,	jt.WALK_CNT
+			,	jt.MOVE_DIS 
+		FROM json_talbe(#{JSON}, '$.datas[*]'
+			COLUMNS(
+				DATE VARCHAR(1000) path '$.time',
+				HEART_RATE DOUBLE path '$.values.last_heart_rate',
+				BLE_RSSI DOUBLE path '$.values.rssi',
+				ACT_TM_CNT DOUBLE path '$.values.activity_dur',
+				KCAL DOUBLE path '$.values.calories',
+				SLEEP DOUBLE path '$.values.sleep',
+				NAME VARCHAR(1000) path '$.values.name',
+				WALK_CNT DOUBLE path '$.values.step',
+				COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+				MAC_ADD VARCHAR(20) path '$.values.device_identifier',
+				MOVE_DIS DOUBLE path '$.values.dist'
+			)
+		) AS jt
+	</select>
+	
+	<select id="DIAPER_JSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 배터리 비율, 기저귀 습도에 관해서는 인터페이스 설계서의 기저귀 부분을 참고 */
+		SELECT 
+				jt.COMPANY_CD
+			,	SUBSTRING(FROM_UNIXTIME(jt.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS DIA_TIME
+			,	jt.MAC_ADD
+			,	jt.BLE_RSSI
+			,	jt.HUMI
+			,	jt.TEMP_C
+			,	jt.BAT_QTY
+			,	jt.CONN_ST
+			,	jt.X_COOR
+			,	jt.Y_COOR
+			,	jt.Z_COOR
+		FROM json_table(#{JSON}, '$.datas[*]'
+			COLUMNS(
+				DATE VARCHAR(1000) path '$.time',
+				BLE_RSSI DOUBLE path '$.values.rssi',
+				fall INT path '$.values.fall',								/* 낙상 0 이면 N 1 이면 Y */
+				HUMI DOUBLE path '$.values.wetness',
+				sleep_posture VARCHAR(10) path '$.values.sleep_posture',	/* 자세 현재 00000000 이런 형식으로 들어옴 이명광이사님이 토피도에 변경 요청중인걸로 알고있습니다.(현재 사용안함) */
+				sleep_left_side INT path '$.values.sleep_left_side',		/* 좌측으로 눕기 POSTURE 3 */
+				sleep_up_side INT path '$.values.sleep_right_side',			/* 우측으로 눕기 POSTURE 4 */
+				sleep_upside_down INT path '$.values.sleep_upside_down',	/* 엎드려 눕기 POSTURE 5 */
+				inverted INT path '$.values.inverted',						/* 물구나무 POSTURE 6 */
+				upright INT path '$.values.upright',						/* 서있기 POSTURE 1 */
+				sleep_up_side INT path '$.values.sleep_up_side'				/* 똑바로 눕기 POSTURE 2 */
+				TEMP_C DOUBLE path '$.values.temp',
+				COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+				MAC_ADD VARCHAR(20) path '$.values.device_identifier',
+				BAT_QTY DOUBLE path '$.values.battery',
+				inactivity_momitor DOUBLE path '$.values.inactivity_monitor',	/* 활동여부 값이 255면 N 그보다 작으면 Y */
+				CONN_ST DOUBLE path '$.values.connecting_status',
+				X_COOR DOUBLE path '$.values.acc_x',
+				Y_COOR DOUBLE path '$.values.acc_y',
+				Z_COOR DOUBLE path '$.values.acc_z'
+			)
+		) AS jt
+	</select>
+	
+	<select id="DIAPER_JSON_S2" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+			DIA.TIME
+		,	DIA.FALL
+		,	DIA.HUMI
+		,	DIA.COMPANY_CD
+		,	DIA.MAC_ADD
+		,	DIA.BAT_QTY
+		,	DIA.CONN_ST
+		,	DIA.HUMI2
+		FROM
+		(
+			SELECT 
+				A.*
+			,	CASE 
+					WHEN (CASE WHEN A.RANK_1 = 1 THEN SUBSTRING(A.TIME,1,12) END)
+			   			- SUBSTRING(LEAD(A.TIME) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1) ,1,12) >= 4 THEN 
+			   		LEAD(A.HUMI) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1)
+					ELSE
+			      	NULL
+			   END AS HUMI2
+			   FROM (
+				SELECT
+				   SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS TIME
+				,  JT.FALL
+				,  JT.HUMI
+				,  JT.COMPANY_CD
+				,  JT.MAC_ADD
+				,  JT.BAT_QTY
+				,  JT.CONN_ST
+				, 	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE DESC) AS RANK_1
+				,	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE ASC) AS RANK_5
+				FROM json_table(#{JSON}, '$.datas[*]'
+				   COLUMNS(
+				      DATE VARCHAR(1000) path '$.time',
+				      fall INT path '$.values.fall',
+				      HUMI DOUBLE path '$.values.wetness',
+				      COMPANY_CD VARCHAR(50) path '$.values.service_identifier',
+				      MAC_ADD VARCHAR(20) path '$.values.device_identifier',
+				      BAT_QTY DOUBLE path '$.values.battery',
+				      CONN_ST DOUBLE path '$.values.connecting_status'
+				   )
+				) AS JT
+			) AS A
+			WHERE ( A.RANK_1 = 1 OR A.RANK_5 = 1)
+		) AS DIA
+		WHERE DIA.RANK_1 = 1
+	</select>
+</mapper>                                                                                                                                                                                                          

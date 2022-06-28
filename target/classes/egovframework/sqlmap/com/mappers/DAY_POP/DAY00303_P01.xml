@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00303_P01
+     * 프로그램 명     	: 물리(작업)치료·기능회복훈련 계획
+     * Description 		: 물리(작업)치료·기능회복훈련 계획 조회, 삽입, 수정
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-06-09 16:30      	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00303_P01_DS_DATA_S		조회
+        DAY00303_P01_DS_FUNC_S		욕구사정 기록조회
+        DAY00303_P01_DS_DUPL_S		삽입전 데이터 존재 유무 확인
+        DAY00303_P01_DS_DATA_I		삽입
+        DAY00303_P01_DS_DATA_U		수정
+     *================================================================
+-->
+<mapper namespace="DAY00303_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00303_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-3 P01 조회 */
+    SELECT
+      mat.sicode
+    , mat.m_name
+    , mat.m_group
+    , mat.m_code
+    , mat.성별
+    , mat.m_jumin1
+    , CONCAT(
+        SUBSTRING(mat.m_jumin1, 1, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 3, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 5, 2)
+      ) AS 생년월일
+    , TIMESTAMPDIFF(
+        YEAR
+      , STR_TO_DATE(
+          SUBSTRING(
+            CONCAT(
+              CASE
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN(1, 2, 5, 6) THEN 19
+                WHEN SUBSTRING(mat.m_jumin2, 1, 1) IN(3, 4, 7, 8) THEN 20
+              END
+            , mat.m_jumin1
+            )
+          , 1
+          , 8
+          )
+        , '%Y%m%d'
+        )
+      , NOW()
+      ) AS 나이
+    , mat.m_roomname
+    , mat.m_enday
+    , DATE_FORMAT(mat.m_enday, '%Y.%m.%d') AS 입소일
+    , mat.m_reday
+    , CASE WHEN mat.m_reday != '2100-01-01' THEN DATE_FORMAT(mat.m_reday, '%Y.%m.%d') ELSE NULL END AS 퇴소일
+    , hab.평가일
+    , IFNULL(NULLIF(hab.치료그룹, ''), 'A') AS 치료그룹
+    , mat.m_history
+    , mat.거주현황
+    , hab.계획시작
+    , hab.계획종료
+    , hab.평가자명
+    <!-- , hab.담당직종 AS 평가자직종 -->
+    , FN_DUTYNAME(hab.sicode, hab.평가자코드, hab.평가일) AS 평가자직종
+    , hab.평가자코드
+    , hab.ha_number
+    , LPAD(hab.ha_number, 7, '0') AS 작성번호
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 1, 1) AS 운동관절1
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 2, 1) AS 운동관절2
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 3, 1) AS 운동관절3
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 4, 1) AS 운동관절4
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 5, 1) AS 운동관절5
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 6, 1) AS 운동관절6
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 7, 1) AS 운동관절7
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 8, 1) AS 운동관절8
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 9, 1) AS 운동관절9
+    , SUBSTRING(IFNULL(NULLIF(hab.운동관절, ''), '1111111111'), 10, 1) AS 운동관절10
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 1, 1) AS 운동점수1
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 2, 1) AS 운동점수2
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 3, 1) AS 운동점수3
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 4, 1) AS 운동점수4
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 5, 1) AS 운동점수5
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 6, 1) AS 운동점수6
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 7, 1) AS 운동점수7
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 8, 1) AS 운동점수8
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 9, 1) AS 운동점수9
+    , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 10, 1) AS 운동점수10
+    , IFNULL(hab.신체통증, 1) AS 신체통증
+    , IFNULL(
+        NULLIF(hab.운동합계, 0)
+      , SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 1, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 2, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 3, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 4, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 5, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 6, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 7, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 8, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 9, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.운동점수, '0000000000'), '1111111111'), 10, 1)
+      ) AS 운동점수
+    , IFNULL(hab.운동비고, '') AS 운동비고
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 1, 1) AS 근력우상1
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 2, 1) AS 근력우상2
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 3, 1) AS 근력우상3
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 4, 1) AS 근력우상4
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 5, 1) AS 근력우상5
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우상, ''), '000000'), 6, 1) AS 근력우상6
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 1, 1) AS 근력좌상1
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 2, 1) AS 근력좌상2
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 3, 1) AS 근력좌상3
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 4, 1) AS 근력좌상4
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 5, 1) AS 근력좌상5
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌상, ''), '000000'), 6, 1) AS 근력좌상6
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 1, 1) AS 근력우하1
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 2, 1) AS 근력우하2
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 3, 1) AS 근력우하3
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 4, 1) AS 근력우하4
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 5, 1) AS 근력우하5
+    , SUBSTRING(IFNULL(NULLIF(hab.근력우하, ''), '000000'), 6, 1) AS 근력우하6
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 1, 1) AS 근력좌하1
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 2, 1) AS 근력좌하2
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 3, 1) AS 근력좌하3
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 4, 1) AS 근력좌하4
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 5, 1) AS 근력좌하5
+    , SUBSTRING(IFNULL(NULLIF(hab.근력좌하, ''), '000000'), 6, 1) AS 근력좌하6
+    , IFNULL(hab.근력비고, '') AS 근력비고
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 1, 1) AS 기본동작1
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 2, 1) AS 기본동작2
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 3, 1) AS 기본동작3
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 4, 1) AS 기본동작4
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 5, 1) AS 기본동작5
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 6, 1) AS 기본동작6
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 7, 1) AS 기본동작7
+    , SUBSTRING(IFNULL(NULLIF(hab.기본동작, ''), '00000000'), 8, 1) AS 기본동작8
+    , IFNULL(hab.동작비고, '') AS 동작비고
+    , IFNULL(hab.평정척도, 0) AS 평정척도
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 1, 1) AS 통증형RT1
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 2, 1) AS 통증형RT2
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 3, 1) AS 통증형RT3
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 4, 1) AS 통증형RT4
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 5, 1) AS 통증형RT5
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 6, 1) AS 통증형RT6
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 7, 1) AS 통증형RT7
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 8, 1) AS 통증형RT8
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 9, 1) AS 통증형RT9
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 10, 1) AS 통증형RT10
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 11, 1) AS 통증형RT11
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 12, 1) AS 통증형RT12
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 13, 1) AS 통증형RT13
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 14, 1) AS 통증형RT14
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 15, 1) AS 통증형RT15
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 16, 1) AS 통증형RT16
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 17, 1) AS 통증형RT17
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 18, 1) AS 통증형RT18
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 19, 1) AS 통증형RT19
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형RT, ''), '00000000000000000000'), 20, 1) AS 통증형RT20
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 1, 2) AS 통증정RT1
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 3, 2) AS 통증정RT2
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 5, 2) AS 통증정RT3
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 7, 2) AS 통증정RT4
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 9, 2) AS 통증정RT5
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 11, 2) AS 통증정RT6
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 13, 2) AS 통증정RT7
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 15, 2) AS 통증정RT8
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 17, 2) AS 통증정RT9
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 19, 2) AS 통증정RT10
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 21, 2) AS 통증정RT11
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 23, 2) AS 통증정RT12
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 25, 2) AS 통증정RT13
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 27, 2) AS 통증정RT14
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 29, 2) AS 통증정RT15
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 31, 2) AS 통증정RT16
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 33, 2) AS 통증정RT17
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 35, 2) AS 통증정RT18
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 37, 2) AS 통증정RT19
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정RT, ''), '0000000000000000000000000000000000000000'), 39, 2) AS 통증정RT20
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 1, 1) AS 통증형LT1
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 2, 1) AS 통증형LT2
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 3, 1) AS 통증형LT3
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 4, 1) AS 통증형LT4
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 5, 1) AS 통증형LT5
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 6, 1) AS 통증형LT6
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 7, 1) AS 통증형LT7
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 8, 1) AS 통증형LT8
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 9, 1) AS 통증형LT9
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 10, 1) AS 통증형LT10
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 11, 1) AS 통증형LT11
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 12, 1) AS 통증형LT12
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 13, 1) AS 통증형LT13
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 14, 1) AS 통증형LT14
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 15, 1) AS 통증형LT15
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 16, 1) AS 통증형LT16
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 17, 1) AS 통증형LT17
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 18, 1) AS 통증형LT18
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 19, 1) AS 통증형LT19
+    , SUBSTRING(IFNULL(NULLIF(hab.통증형LT, ''), '00000000000000000000'), 20, 1) AS 통증형LT20
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 1, 2) AS 통증정LT1
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 3, 2) AS 통증정LT2
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 5, 2) AS 통증정LT3
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 7, 2) AS 통증정LT4
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 9, 2) AS 통증정LT5
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 11, 2) AS 통증정LT6
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 13, 2) AS 통증정LT7
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 15, 2) AS 통증정LT8
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 17, 2) AS 통증정LT9
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 19, 2) AS 통증정LT10
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 21, 2) AS 통증정LT11
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 23, 2) AS 통증정LT12
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 25, 2) AS 통증정LT13
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 27, 2) AS 통증정LT14
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 29, 2) AS 통증정LT15
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 31, 2) AS 통증정LT16
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 33, 2) AS 통증정LT17
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 35, 2) AS 통증정LT18
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 37, 2) AS 통증정LT19
+    , SUBSTRING(IFNULL(NULLIF(hab.통증정LT, ''), '0000000000000000000000000000000000000000'), 39, 2) AS 통증정LT20
+    , IFNULL(hab.통증비고, '') AS 통증비고
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 1, 1) AS 균형감1
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 2, 1) AS 균형감2
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 3, 1) AS 균형감3
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 4, 1) AS 균형감4
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 5, 1) AS 균형감5
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 6, 1) AS 균형감6
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 7, 1) AS 균형감7
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 8, 1) AS 균형감8
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 9, 1) AS 균형감9
+    , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 10, 1) AS 균형감10
+    , IFNULL(
+        NULLIF(hab.균형감합계, 0)
+      , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 1, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 2, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 3, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 4, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 5, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 6, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 7, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 8, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 9, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 10, 1)
+      ) AS 균형감합계
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 1, 1) AS 걸음걸이1
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 2, 1) AS 걸음걸이2
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 3, 1) AS 걸음걸이3
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 4, 1) AS 걸음걸이4
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 5, 1) AS 걸음걸이5
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 6, 1) AS 걸음걸이6
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 7, 1) AS 걸음걸이7
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 8, 1) AS 걸음걸이8
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 9, 1) AS 걸음걸이9
+    , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 10, 1) AS 걸음걸이10
+    , IFNULL(
+        NULLIF(hab.걸음합계, 0)
+      , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 1, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 2, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 3, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 4, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 5, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 6, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 7, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 8, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 9, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 10, 1)
+      ) AS 걸음합계
+    , IFNULL(
+        NULLIF(hab.균형감합계, 0)
+      , SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 1, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 2, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 3, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 4, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 5, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 6, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 7, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 8, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 9, 1)
+        + SUBSTRING(IFNULL(NULLIF(hab.균형감, ''), '1222121112'), 10, 1)
+      )
+      + IFNULL(
+          NULLIF(hab.걸음합계, 0)
+        , SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 1, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 2, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 3, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 4, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 5, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 6, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 7, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 8, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 9, 1)
+          + SUBSTRING(IFNULL(NULLIF(hab.걸음걸이, ''), '1111111211'), 10, 1)
+        ) AS 총점
+    , IFNULL(hab.균형비고, '') AS 균형비고
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 1, 4)), '') AS romrt1
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 5, 4)), '') AS romrt2
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 9, 4)), '') AS romrt3
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 13, 4)), '') AS romrt4
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 17, 4)), '') AS romrt5
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 21, 4)), '') AS romrt6
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 25, 4)), '') AS romrt7
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 29, 4)), '') AS romrt8
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 33, 4)), '') AS romrt9
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 37, 4)), '') AS romrt10
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 41, 4)), '') AS romrt11
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 45, 4)), '') AS romrt12
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 49, 4)), '') AS romrt13
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 53, 4)), '') AS romrt14
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 57, 4)), '') AS romrt15
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 61, 4)), '') AS romrt16
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 65, 4)), '') AS romrt17
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 69, 4)), '') AS romrt18
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 73, 4)), '') AS romrt19
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 77, 4)), '') AS romrt20
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 81, 4)), '') AS romrt21
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 85, 4)), '') AS romrt22
+    , IFNULL(TRIM(SUBSTRING(hab.romrt, 89, 4)), '') AS romrt23
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 1, 4)), '') AS romlt1
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 5, 4)), '') AS romlt2
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 9, 4)), '') AS romlt3
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 13, 4)), '') AS romlt4
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 17, 4)), '') AS romlt5
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 21, 4)), '') AS romlt6
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 25, 4)), '') AS romlt7
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 29, 4)), '') AS romlt8
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 33, 4)), '') AS romlt9
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 37, 4)), '') AS romlt10
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 41, 4)), '') AS romlt11
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 45, 4)), '') AS romlt12
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 49, 4)), '') AS romlt13
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 53, 4)), '') AS romlt14
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 57, 4)), '') AS romlt15
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 61, 4)), '') AS romlt16
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 65, 4)), '') AS romlt17
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 69, 4)), '') AS romlt18
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 73, 4)), '') AS romlt19
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 77, 4)), '') AS romlt20
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 81, 4)), '') AS romlt21
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 85, 4)), '') AS romlt22
+    , IFNULL(TRIM(SUBSTRING(hab.romlt, 89, 4)), '') AS romlt23
+    , IFNULL(hab.rom비고, '') AS rom비고
+    , IFNULL(hab.adl점수1, 0) AS adl점수1
+    , IFNULL(hab.adl점수2, 0) AS adl점수2
+    , IFNULL(hab.adl점수3, 0) AS adl점수3
+    , IFNULL(hab.adl점수4, 0) AS adl점수4
+    , IFNULL(hab.adl점수5, 0) AS adl점수5
+    , IFNULL(hab.adl점수6, 0) AS adl점수6
+    , IFNULL(hab.adl점수1, 0) + IFNULL(hab.adl점수2, 0) + IFNULL(hab.adl점수3, 0) + IFNULL(hab.adl점수4, 0) + IFNULL(hab.adl점수5, 0) + IFNULL(hab.adl점수6, 0) AS adl총점
+    , IFNULL(hab.진단, '') AS 진단
+    , IFNULL(hab.문제점, '') AS 문제점
+    , IFNULL(hab.장기계획, '') AS 장기계획
+    , IFNULL(hab.단기계획, '') AS 단기계획
+    , hab.치료01
+    , hab.치료02
+    , hab.치료03
+    , hab.치료04
+    , hab.치료05
+    , hab.치료06
+    , hab.치료07
+    , hab.치료08
+    , IFNULL(NULLIF(hab.치료시간, ''), '00:00-00:00') AS 치료시간
+    , SUBSTRING(IFNULL(NULLIF(hab.치료시간, ''), '00:00-00:00'), 1, 2) AS 치료시작시
+    , SUBSTRING(IFNULL(NULLIF(hab.치료시간, ''), '00:00-00:00'), 4, 2) AS 치료시작분
+    , SUBSTRING(IFNULL(NULLIF(hab.치료시간, ''), '00:00-00:00'), 7, 2) AS 치료종료시
+    , SUBSTRING(IFNULL(NULLIF(hab.치료시간, ''), '00:00-00:00'), 10, 2) AS 치료종료분
+    , IFNULL(hab.월요일, 0) AS 월요일
+    , IFNULL(hab.화요일, 0) AS 화요일
+    , IFNULL(hab.수요일, 0) AS 수요일
+    , IFNULL(hab.목요일, 0) AS 목요일
+    , IFNULL(hab.금요일, 0) AS 금요일
+    , IFNULL(hab.토요일, 0) AS 토요일
+    , IFNULL(hab.일요일, 0) AS 일요일
+    , CASE WHEN hab.중단시작 IS NULL THEN '20000101' ELSE DATE_FORMAT(hab.중단시작, '%Y%m%d') END AS 중단시작
+    , CASE WHEN hab.중단종료 IS NULL THEN '20000101' ELSE DATE_FORMAT(hab.중단종료, '%Y%m%d') END AS 중단종료
+    , IFNULL(hab.변경내역, '') AS 변경내역
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 1, 1) AS 치부위1
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 2, 1) AS 치부위2
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 3, 1) AS 치부위3
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 4, 1) AS 치부위4
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 5, 1) AS 치부위5
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 6, 1) AS 치부위6
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 7, 1) AS 치부위7
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 8, 1) AS 치부위8
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 9, 1) AS 치부위9
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 10, 1) AS 치부위10
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 11, 1) AS 치부위11
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 12, 1) AS 치부위12
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 13, 1) AS 치부위13
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 14, 1) AS 치부위14
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 15, 1) AS 치부위15
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 16, 1) AS 치부위16
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 17, 1) AS 치부위17
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 18, 1) AS 치부위18
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 19, 1) AS 치부위19
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 20, 1) AS 치부위20
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 21, 1) AS 치부위21
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 22, 1) AS 치부위22
+    , SUBSTRING(IFNULL(NULLIF(hab.치부위, ''), '00000000000000000000000'), 23, 1) AS 치부위23
+    , IFNULL(hab.추가부위, '') AS 추가부위
+    , hab.기능시a
+    , SUBSTRING(IFNULL(hab.기능시a, ''), 1, 2) AS 시작시a
+    , SUBSTRING(IFNULL(hab.기능시a, ''), 4, 2) AS 시작분a
+    , SUBSTRING(IFNULL(hab.기능시a, ''), 7, 2) AS 종료시a
+    , SUBSTRING(IFNULL(hab.기능시a, ''), 10, 2) AS 종료분a
+    , hab.기능시b
+    , SUBSTRING(IFNULL(hab.기능시b, ''), 1, 2) AS 시작시b
+    , SUBSTRING(IFNULL(hab.기능시b, ''), 4, 2) AS 시작분b
+    , SUBSTRING(IFNULL(hab.기능시b, ''), 7, 2) AS 종료시b
+    , SUBSTRING(IFNULL(hab.기능시b, ''), 10, 2) AS 종료분b
+    , hab.기능시c
+    , SUBSTRING(IFNULL(hab.기능시c, ''), 1, 2) AS 시작시c
+    , SUBSTRING(IFNULL(hab.기능시c, ''), 4, 2) AS 시작분c
+    , SUBSTRING(IFNULL(hab.기능시c, ''), 7, 2) AS 종료시c
+    , SUBSTRING(IFNULL(hab.기능시c, ''), 10, 2) AS 종료분c
+    , hab.기능훈련a
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 1, 1) AS 기능훈련a1
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 8, 1) AS 기능훈련a2
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 2, 1) AS 기능훈련a3
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 3, 1) AS 기능훈련a4
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 4, 1) AS 기능훈련a5
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 5, 1) AS 기능훈련a6
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 6, 1) AS 기능훈련a7
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련a, ''), '00000000'), 7, 1) AS 기능훈련a8
+    , hab.기능훈련b
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 1, 1) AS 기능훈련b1
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 2, 1) AS 기능훈련b2
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 3, 1) AS 기능훈련b3
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 4, 1) AS 기능훈련b4
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 5, 1) AS 기능훈련b5
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 6, 1) AS 기능훈련b6
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 7, 1) AS 기능훈련b7
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 8, 1) AS 기능훈련b8
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 9, 1) AS 기능훈련b9
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 10, 1) AS 기능훈련b10
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련b, ''), '00000000000'), 11, 1) AS 기능훈련b11
+    , hab.기능훈련c
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 1, 1) AS 기능훈련c1
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 2, 1) AS 기능훈련c2
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 3, 1) AS 기능훈련c3
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 4, 1) AS 기능훈련c4
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 5, 1) AS 기능훈련c5
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 6, 1) AS 기능훈련c6
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 7, 1) AS 기능훈련c7
+    , SUBSTRING(IFNULL(NULLIF(hab.기능훈련c, ''), '00000000'), 8, 1) AS 기능훈련c8
+    , IFNULL(hab.훈련비고, '') AS 훈련비고
+    FROM base_mate AS mat
+    LEFT JOIN base_habilit AS hab
+    ON (hab.sicode = mat.sicode
+        AND hab.대상자코드 = mat.m_code
+       <choose><when test="@org.apache.commons.lang3.StringUtils@isNotEmpty(DATE)">AND hab.평가일 = STR_TO_DATE(#{DATE}, '%Y%m%d')</when><otherwise>AND hab.ha_number = #{NUMBER}</otherwise></choose>)
+    WHERE mat.sicode = #{SICODE}
+    AND mat.m_code = #{CODE}
+    ORDER BY mat.m_name
+    </select>
+    
+    <!-- 욕구사정 기록조회 -->
+    <select id="DAY00303_P01_DS_FUNC_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-3 P01 욕구사정 기록조회 */
+    SELECT
+      wan.욕구기간1
+    , wan.욕구기간2
+    , CASE SUBSTRING(wan.기능자립, 1, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립1
+    , CASE SUBSTRING(wan.기능자립, 2, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립2
+    , CASE SUBSTRING(wan.기능자립, 3, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립3
+    , CASE SUBSTRING(wan.기능자립, 4, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립4
+    , CASE SUBSTRING(wan.기능자립, 5, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립5
+    , CASE SUBSTRING(wan.기능자립, 6, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립6
+    , CASE SUBSTRING(wan.기능자립, 7, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립7
+    , CASE SUBSTRING(wan.기능자립, 8, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립8
+    , CASE SUBSTRING(wan.기능자립, 9, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립9
+    , CASE SUBSTRING(wan.기능자립, 10, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립10
+    , CASE SUBSTRING(wan.기능자립, 11, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립11
+    , CASE SUBSTRING(wan.기능자립, 12, 1)
+        WHEN 1 THEN '완전자립'
+        WHEN 2 THEN '부분도움'
+        WHEN 3 THEN '완전도움'
+      END AS 기능자립12
+    FROM base_want AS wan
+    WHERE wan.sicode = #{SICODE}
+    AND wan.wantcode = #{CODE}
+    AND #{HEAL_DATE_FROM} BETWEEN wan.욕구기간1 AND wan.욕구기간2	<!-- /* 파라미터 : 치료기간 FROM */ -->
+    ORDER BY wan.wa_number
+    LIMIT 1
+    </select>
+    
+    <!-- 삽입전 데이터 존재 여부 확인 -->
+    <select id="DAY00303_P01_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-3 P01 삽입전 중복 여부 확인 */
+    SELECT 1 AS sf
+    FROM base_habilit AS bha
+    WHERE bha.sicode = #{sicode}
+    AND bha.대상자코드 = #{m_code}
+    AND bha.평가일 = #{평가일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00303_P01_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 3-3 P01 삽입 */
+    INSERT INTO base_habilit
+    (
+      sicode
+    , 평가일
+    , 치료그룹
+    , 계획시작
+    , 계획종료
+    , 월요일
+    , 화요일
+    , 수요일
+    , 목요일
+    , 금요일
+    , 토요일
+    , 일요일
+    , 대상자코드
+    , 대상자명
+    , 성별
+    , 나이
+    , 평가자명
+    , 평가자코드
+    , 담당직종
+    , 운동관절
+    , 운동점수
+    , 운동합계
+    , 신체통증
+    , 근력우상
+    , 근력우하
+    , 근력좌상
+    , 근력좌하
+    , 기본동작
+    , 평정척도
+    , 통증형RT
+    , 통증정RT
+    , 통증형LT
+    , 통증정LT
+    , 균형감
+    , 균형감합계
+    , 걸음걸이
+    , 걸음합계
+    , romrt
+    , romlt
+    , rom비고
+    , adl점수1
+    , adl점수2
+    , adl점수3
+    , adl점수4
+    , adl점수5
+    , adl점수6
+    , 진단
+    , 문제점
+    , 장기계획
+    , 단기계획
+    , 치료01
+    , 치료02
+    , 치료03
+    , 치료04
+    , 치료05
+    , 치료06
+    , 치료07
+    , 치료08
+    , 치부위
+    , 추가부위
+    , 기능훈련a
+    , 기능훈련b
+    , 기능훈련c
+    , 기능시a
+    , 기능시b
+    , 기능시c
+    , 변경내역
+    , 운동비고
+    , 근력비고
+    , 동작비고
+    , 통증비고
+    , 균형비고
+    , 훈련비고
+    , 치료시간
+    , 중단시작
+    , 중단종료
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{평가일}
+    , #{치료그룹}
+    , #{계획시작}
+    , #{계획종료}
+    , #{월요일}
+    , #{화요일}
+    , #{수요일}
+    , #{목요일}
+    , #{금요일}
+    , #{토요일}
+    , #{일요일}
+    , #{m_code}			<!-- /* 대상자코드 */ -->
+    , #{m_name}			<!-- /* 대상자명 */ -->
+    , #{성별}
+    , #{나이}
+    , #{평가자명}
+    , #{평가자코드}
+    , #{평가자직종}		<!-- /* 담당직종 */ -->
+    , #{exer}			<!-- /* 운동관절 */ -->
+    , #{exes}			<!-- /* 운동점수 */ -->
+    , #{운동점수}		<!-- /* 운동합계 */ -->
+    , #{신체통증}
+    , #{rightup}		<!-- /* 근력우상 */ -->
+    , #{rightdown}		<!-- /* 근력우하 */ -->
+    , #{leftup}			<!-- /* 근력좌상 */ -->
+    , #{leftdown}		<!-- /* 근력좌하 */ -->
+    , #{bm}				<!-- /* 기본동작 */ -->
+    , #{평정척도}
+    , #{rps}			<!-- /* 통증형RT */ -->
+    , #{rpl}			<!-- /* 통증정RT */ -->
+    , #{lps}			<!-- /* 통증형LT */ -->
+    , #{lpl}			<!-- /* 통증정LT */ -->
+    , #{perspective}	<!-- /* 균형감 */ -->
+    , #{균형감합계}
+    , #{walk}			<!-- /* 걸음걸이 */ -->
+    , #{걸음합계}
+    , #{romrt}
+    , #{romlt}
+    , #{rom비고}
+    , #{adl점수1}
+    , #{adl점수2}
+    , #{adl점수3}
+    , #{adl점수4}
+    , #{adl점수5}
+    , #{adl점수6}
+    , #{진단}
+    , #{문제점}
+    , #{장기계획}
+    , #{단기계획}
+    , #{치료01}
+    , #{치료02}
+    , #{치료03}
+    , #{치료04}
+    , #{치료05}
+    , #{치료06}
+    , #{치료07}
+    , #{치료08}
+    , #{hp}				<!-- /* 치부위 */ -->
+    , #{추가부위}
+    , #{기능훈련a}
+    , #{기능훈련b}
+    , #{기능훈련c}
+    , #{기능시a}
+    , #{기능시b}
+    , #{기능시c}
+    , #{변경내역}
+    , #{운동비고}
+    , #{근력비고}
+    , #{동작비고}
+    , #{통증비고}
+    , #{균형비고}
+    , #{훈련비고}
+    , #{치료시간}
+    , CASE WHEN #{중단시작} = '' OR #{중단시작} IS NULL THEN STR_TO_DATE('20000101', '%Y%m%d') ELSE STR_TO_DATE(#{중단시작}, '%Y%m%d') END
+    , CASE WHEN #{중단종료} = '' OR #{중단종료} IS NULL THEN STR_TO_DATE('20000101', '%Y%m%d') ELSE STR_TO_DATE(#{중단종료}, '%Y%m%d') END
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00303_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 3-3 P01 수정 */
+    UPDATE base_habilit
+    SET
+      치료그룹 = #{치료그룹}
+    , 평가일 = #{평가일}
+    , 계획시작 = #{계획시작}
+    , 계획종료 = #{계획종료}
+    , 월요일 = #{월요일}
+    , 화요일 = #{화요일}
+    , 수요일 = #{수요일}
+    , 목요일 = #{목요일}
+    , 금요일 = #{금요일}
+    , 토요일 = #{토요일}
+    , 일요일 = #{일요일}
+    , 평가자명 = #{평가자명}
+    , 평가자코드 = #{평가자코드}
+    , 담당직종 = #{평가자직종}
+    , 운동관절 = #{exer}
+    , 운동점수 = #{exes}
+    , 운동합계 = #{운동점수}
+    , 신체통증 = #{신체통증}
+    , 근력우상 = #{rightup}
+    , 근력우하 = #{rightdown}
+    , 근력좌상 = #{leftup}
+    , 근력좌하 = #{leftdown}
+    , 기본동작 = #{bm}
+    , 평정척도 = #{평정척도}
+    , 통증형RT = #{rps}
+    , 통증정RT = #{rpl}
+    , 통증형LT = #{lps}
+    , 통증정LT = #{lpl}
+    , 균형감 = #{perspective}
+    , 균형감합계 = #{균형감합계}
+    , 걸음걸이 = #{walk}
+    , 걸음합계 = #{걸음합계}
+    , romrt = #{romrt}
+    , romlt = #{romlt}
+    , rom비고 = #{rom비고}
+    , adl점수1 = #{adl점수1}
+    , adl점수2 = #{adl점수2}
+    , adl점수3 = #{adl점수3}
+    , adl점수4 = #{adl점수4}
+    , adl점수5 = #{adl점수5}
+    , adl점수6 = #{adl점수6}
+    , 진단 = #{진단}
+    , 문제점 = #{문제점}
+    , 장기계획 = #{장기계획}
+    , 단기계획 = #{단기계획}
+    , 치료01 = #{치료01}
+    , 치료02 = #{치료02}
+    , 치료03 = #{치료03}
+    , 치료04 = #{치료04}
+    , 치료05 = #{치료05}
+    , 치료06 = #{치료06}
+    , 치료07 = #{치료07}
+    , 치료08 = #{치료08}
+    , 치부위 = #{hp}
+    , 추가부위 = #{추가부위}
+    , 기능훈련a = #{기능훈련a}
+    , 기능훈련b = #{기능훈련b}
+    , 기능훈련c = #{기능훈련c}
+    , 기능시a = #{기능시a}
+    , 기능시b = #{기능시b}
+    , 기능시c = #{기능시c}
+    , 변경내역 = #{변경내역}
+    , 운동비고 = #{운동비고}
+    , 근력비고 = #{근력비고}
+    , 동작비고 = #{동작비고}
+    , 통증비고 = #{통증비고}
+    , 균형비고 = #{균형비고}
+    , 훈련비고 = #{훈련비고}
+    , 치료시간 = #{치료시간}
+    , 중단시작 = CASE WHEN #{중단시작} = '' OR #{중단시작} IS NULL THEN STR_TO_DATE('20000101', '%Y%m%d') ELSE STR_TO_DATE(#{중단시작}, '%Y%m%d') END
+    , 중단종료 = CASE WHEN #{중단종료} = '' OR #{중단종료} IS NULL THEN STR_TO_DATE('20000101', '%Y%m%d') ELSE STR_TO_DATE(#{중단종료}, '%Y%m%d') END
+    WHERE sicode = #{sicode}
+    AND ha_number = #{ha_number}
+    </update>
+</mapper>

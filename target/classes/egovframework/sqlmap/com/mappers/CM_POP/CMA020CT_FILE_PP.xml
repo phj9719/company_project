@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     	: CMA020CT_FILE_PP
+    * 프로그램 명        	: 내부결재 첨부파일 팝업
+    * Description 	: 
+    *================================================================
+                    작성일자    	|  작성자    |  비고
+    *================================================================
+        2021-02-08 	|  이승규    | SM_FILE.xml 수정
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CMA020CT_FILE_PP">
+	<select id="CMA_SEND_DATA" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT ISNULL(A.COMPANY_CD         , '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_GROUP_ID)), '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_ID)), '') + ',' +
+				    ISNULL(A.ATT_FILE_NM        , '') + ',' +
+				    ISNULL(A.FILE_SIZE          , '') + ',' +
+				    ISNULL(A.REG_PGM_ID         , '') + ',' +
+				    ISNULL(A.REG_USER           , '') + ',' +
+				    ISNULL(A.REG_DT             , '') + ',' +
+				    ISNULL(A.REG_DT_CURR        , '') + ',' +
+				    ISNULL(A.REG_DT_LOC         , '') + ',' +
+				    ISNULL(A.REG_IP             , '') + ',' +
+				    ISNULL(A.MOD_PGM_ID         , '') + ',' +
+				    ISNULL(A.MOD_USER           , '') + ',' +
+				    ISNULL(A.MOD_DT             , '') + ',' +
+				    ISNULL(A.MOD_DT_CURR        , '') + ',' +
+				    ISNULL(A.MOD_DT_LOC         , '') + ',' +
+				    ISNULL(A.MOD_IP             , '') AS TXT_DATA
+			FROM    T_GR_FILE_ATT A WITH(NOLOCK)
+			WHERE   A.USE_YN = 'Y'
+          ]]>
+          <if test="FILE_GROUP_ID != null and FILE_GROUP_ID != '' ">
+              AND   A.FILE_GROUP_ID = #{FILE_GROUP_ID}
+          </if>
+	</select>
+	<select id="CMA_SEARCH_FILE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT A.COMPANY_CD
+             	  , A.PLANT_CD
+             	  , A.PK_DOC_NO
+				  , A.FILE_GROUP_ID
+				  , A.FILE_ID
+				  , A.ATT_FILE_YN
+				  , A.ATT_FILE_NM 	AS FILE_NAME
+				  , A.ATT_FILE_PATH AS FILE_REAL_NAME
+				  , A.FILE_SIZE
+				  , A.USE_YN
+				  , A.WK_FLAG
+				  , A.WK_FIELD
+				  , A.TRANS_JOB_ID
+				  , A.TRANS_ST
+				  , A.TRANS_RST_STS
+				  , A.SND_RCV_CD
+				  , A.REF_USER_KEY
+				  , A.REG_PGM_ID
+				  , A.REG_USER
+				  , A.REG_DT
+				  , A.REG_DT_CURR
+				  , A.REG_DT_LOC
+				  , A.REG_IP
+				  , A.MOD_PGM_ID
+				  , A.MOD_USER
+				  , A.MOD_DT
+				  , A.MOD_DT_CURR
+				  , A.MOD_DT_LOC
+				  , A.MOD_IP
+				  , (SELECT COUNT(*)
+					   FROM T_GR_FILE_ATT SUB WITH(NOLOCK)
+					  WHERE SUB.COMPANY_CD = A.COMPANY_CD
+					    AND SUB.FILE_GROUP_ID = A.FILE_GROUP_ID) AS FILE_GROUP_CNT
+			  FROM  T_GR_FILE_ATT A WITH(NOLOCK)
+			 WHERE  A.USE_YN      = 'Y'
+          ]]>
+          <if test="FILE_GROUP_ID != '' and FILE_GROUP_ID != null">
+			AND	    A.FILE_GROUP_ID = #{FILE_GROUP_ID}
+          </if>
+          <if test="FILE_GROUP_ID == '' or FILE_GROUP_ID == null">
+			AND	    A.FILE_GROUP_ID IS NULL
+          </if>
+          <if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND	    A.COMPANY_CD = #{COMPANY_CD}
+          </if>
+	</select>
+	<!-- 삭제 -->
+	<select id="CMA_SEARCH_SERVER_NAME" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT SET_VALUE AS SERVER_NAME
+	  	  	   FROM T_CM_PROFILE WITH(NOLOCK)
+		      WHERE 1=1
+		      	AND USE_YN = 'Y'
+		        AND CODE = #{CODE}
+		  ]]>
+		  <if test="COMPANY_CD != '' and COMPANY_CD != null">
+			    AND	COMPANY_CD = #{COMPANY_CD}
+          </if>
+	</select>
+	
+	<select id="CMA_SEARCH_GROUP_ID" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             /*
+             SELECT ISNULL(MAX(A.FILE_GROUP_ID) + 1, 1) AS FILE_GROUP_ID
+			   FROM T_GR_FILE_ATT A WITH(NOLOCK)
+			 */
+			 SELECT CONCAT(#{SERVER_NAME},ISNULL(MAX( CONVERT(INT,(SUBSTRING(A.FILE_GROUP_ID,4,DATALENGTH(A.FILE_GROUP_ID)))) ) + 1, 1)) AS FILE_GROUP_ID
+			   FROM T_GR_FILE_ATT A WITH(NOLOCK)
+			  WHERE A.FILE_GROUP_ID LIKE CONCAT(#{SERVER_NAME},'%')
+			 
+			 
+          ]]>
+	</select>
+	<insert id="CMA_INSERT_FILE" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO T_GR_FILE_ATT
+			( COMPANY_CD
+			, PLANT_CD
+			, PK_DOC_NO
+			, FILE_GROUP_ID
+			, FILE_ID
+			, ATT_FILE_YN
+			, ATT_FILE_NM
+			, ATT_FILE_PATH
+			, FILE_SIZE
+			, USE_YN
+			, WK_FLAG
+			, WK_FIELD
+			, TRANS_JOB_ID
+			, TRANS_ST
+			, TRANS_RST_STS
+			, SND_RCV_CD
+			, REF_USER_KEY
+			, REG_PGM_ID
+			, REG_USER
+			, REG_DT
+			, REG_DT_CURR
+			, REG_DT_LOC
+			, REG_IP
+			, MOD_PGM_ID
+			, MOD_USER
+			, MOD_DT
+			, MOD_DT_CURR
+			, MOD_DT_LOC
+			, MOD_IP
+			) VALUES
+			( #{COMPANY_CD}
+			, #{PLANT_CD}
+			, #{PK_DOC_NO}
+			, #{FILE_GROUP_ID}
+			, (SELECT ISNULL(MAX(A.FILE_ID)+1, 1)
+			     FROM T_GR_FILE_ATT A WITH(NOLOCK))
+			, 'Y' 		-- ATT_FILE_YN
+			, #{FILE_NAME}
+			, #{FILE_REAL_NAME}
+			, #{FILE_SIZE}
+			, 'Y' 		-- USE_YN
+			, 'I' 		-- WK_FLAG
+			, #{WK_FIELD}
+			, #{TRANS_JOB_ID}
+			, #{TRANS_ST}
+			, #{TRANS_RST_STS}
+			, #{SND_RCV_CD}
+			, #{REF_USER_KEY}
+			, #{REG_PGM_ID}
+			, #{REG_USER}
+			, #{REG_DT}
+			, #{REG_DT_CURR}
+			, #{REG_DT_LOC}
+			, #{REG_IP}
+			, null -- MOD_PGM_ID
+			, null -- MOD_USER
+			, null -- MOD_DT
+			, null -- MOD_DT_CURR
+			, null -- MOD_DT_LOC
+			, null -- MOD_IP
+			)
+		]]>
+	</insert>
+	<update id="CMA_DELETE_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+             UPDATE T_GR_FILE_ATT
+                SET USE_YN = 'N'
+				  , MOD_PGM_ID    = #{MOD_PGM_ID}
+				  , MOD_USER      = #{MOD_USER}
+				  , MOD_DT        = #{MOD_DT}
+				  , MOD_DT_CURR   = #{MOD_DT_CURR}
+				  , MOD_DT_LOC    = #{MOD_DT_LOC}
+				  , MOD_IP        = #{MOD_IP}
+			  WHERE COMPANY_CD    = #{COMPANY_CD}
+			    AND	PLANT_CD      = #{PLANT_CD}
+			    AND	PK_DOC_NO     = #{PK_DOC_NO}
+			    AND FILE_GROUP_ID = #{FILE_GROUP_ID}
+			    AND FILE_ID       = #{FILE_ID}
+          ]]>
+	</update>
+</mapper>

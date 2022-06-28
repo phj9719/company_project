@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COMMON_CODE" width="637" height="240" titletext="맥박조치 팝업" onload="COMMON_CODE_onload">
+    <Layouts>
+      <Layout width="637" height="240">
+        <Static id="Static60" taborder="1" text="맥박이상처리팝업" cssclass="lb01" left="3" top="2" width="150" height="22"/>
+        <Div id="div_cont" taborder="0" left="0" top="25" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <Static id="Static02" taborder="12" cssclass="sta_WF_DetailLabel02" left="0" top="30" height="29" right="0"/>
+              <Static id="sta_name" taborder="13" text="맥박이상일시" cssclass="sta_WF_DetailLabel01" left="0" top="2" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle" font="normal 7pt/normal &quot;Arial&quot;"/>
+              <Static id="sta_dementia" taborder="14" text="이상유형" cssclass="sta_WF_DetailLabel01" left="252" top="30" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+              <Combo id="cmb_dementia" taborder="2" left="323" top="34" width="120" height="21" codecolumn="CMCD" datacolumn="CMNM" type="filterlike" index="-1" innerdataset="ds_nu_band_event_tp" cssclass="essential"/>
+              <Static id="sta_manager_nm" taborder="15" text="처리자" cssclass="sta_WF_DetailLabel01" left="444" top="30" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+              <Static id="Static02_00" taborder="16" cssclass="sta_WF_DetailLabel02" left="0" top="58" height="29" right="0"/>
+              <Static id="sta_name01" taborder="17" text="입소자" cssclass="sta_WF_DetailLabel01" left="0" top="58" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+              <Edit id="edt_name00" taborder="9" left="71" top="62" width="179" height="21" readonly="true"/>
+              <Static id="sta_name00_01" taborder="18" text="나이/성별" cssclass="sta_WF_DetailLabel01" left="252" top="58" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+              <Static id="sta_name00_00_00" taborder="19" text="층/생활실" cssclass="sta_WF_DetailLabel01" left="444" top="58" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle"/>
+              <Edit id="edt_name00_00" taborder="10" left="323" top="62" width="120" height="21" readonly="true"/>
+              <Edit id="edt_name00_00_00" taborder="11" left="515" top="62" width="120" height="21" readonly="true"/>
+              <Static id="Static02_00_00" taborder="20" cssclass="sta_WF_DetailLabel02" left="0" top="86" height="79" right="0" text=""/>
+              <Static id="sta_name01_00" taborder="21" text="맥박이상&#13;&#10;사유 및 조치" cssclass="sta_WF_DetailLabel01" left="0" top="86" width="70" height="79" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle" font="normal 8pt/normal &quot;Arial&quot;"/>
+              <TextArea id="TextArea00" taborder="5" left="71" top="89" width="564" height="73"/>
+              <Button id="btn_save" taborder="6" text="저장" top="170" width="80" height="24" right="6" onclick="div_cont_btn_save_onclick"/>
+              <Button id="btn_close" taborder="7" text="취소" top="170" width="80" height="24" right="87" background="darkgray" onclick="div_cont_btn_close_onclick"/>
+              <Static id="sta_name02" taborder="22" text="처리일시" cssclass="sta_WF_DetailLabel01" left="0" top="30" width="70" height="29" background="rgba(225,225,225,1)" textAlign="left" verticalAlign="middle" font="normal 10pt/normal &quot;Arial&quot;"/>
+              <Edit id="edt_name" taborder="8" left="71" top="2" width="132" height="29" readonly="true"/>
+              <Calendar id="cal_sdate00" taborder="0" left="71" top="34" width="110" height="21"/>
+              <Calendar id="cal_sdate" taborder="1" left="180" top="34" width="71" height="21" type="spin" dateformat="HH:mm" editformat="HH:mm"/>
+              <Edit id="edt_manager_nm" taborder="3" left="515" top="35" width="90" height="21" readonly="true" onkeyup="div_cont_edt_manager_nm_onkeyup"/>
+              <Button id="btn_addr" taborder="4" width="21" height="21" top="35" background="url('imagerc::btn_WF_SearchSmall_P.png') no-repeat rgba(255,255,255,1)" left="606" onclick="fn_addressPop"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="AREA_LOC" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="FALL_TM" type="STRING" size="256"/>
+          <Column id="MAC_ADD" type="STRING" size="256"/>
+          <Column id="MAC_SEQ" type="STRING" size="256"/>
+          <Column id="RES_NM" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="X_COOR" type="STRING" size="256"/>
+          <Column id="Y_COOR" type="INT" size="256"/>
+          <Column id="Z_COOR" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="HUMI" type="STRING" size="256"/>
+          <Column id="BAT_QTY" type="STRING" size="256"/>
+          <Column id="TEMP_C" type="STRING" size="256"/>
+          <Column id="POSTURE" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="ACT_YN" type="STRING" size="256"/>
+          <Column id="BLE_RSSI" type="STRING" size="256"/>
+          <Column id="IOT_NAME" type="STRING" size="256"/>
+          <Column id="BAND_TP" type="STRING" size="256"/>
+          <Column id="BAND_DESC" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="YYYYMMDD" type="STRING" size="256"/>
+          <Column id="HHMM" type="STRING" size="256"/>
+          <Column id="MANAGER_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_sex">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_temp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_room">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_all">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_band_event_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+
+//Multi 선택 여부
+this.fv_multiYn = false;
+const fv_companyCd = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+const fv_location = this.parent.LOCATION;
+const fv_area = this.parent.AREA;
+	
+this.COMMON_CODE_onload = function (obj:Form, e:nexacro.LoadEventInfo) {
+	
+	this.form_onload_com(obj, e, false);
+	
+	nexacro.getApplication().gv_curWinKey = "CM_BAND_PP";
+	
+	const fRow = this.ds_nu_band_event_tp.findRowExpr("CMNM.indexOf('저심박') >= 0");
+	const tpCd = this.ds_nu_band_event_tp.getColumn(fRow, "CMCD");
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	this.ds_list.setColumn(0,"COMPANY_CD", fv_companyCd);
+	this.ds_list.setColumn(0,"RES_ID", this.parent.RES_ID);
+	this.ds_list.setColumn(0,"RES_NM", this.parent.RES_NM);
+	this.ds_list.setColumn(0,"AGE_SEX", this.parent.AGE);
+	this.ds_list.setColumn(0,"AREA_LOC", this.parent.AREA);	
+	this.ds_list.setColumn(0,"FALL_TM",this.parent.DTTM);
+	this.ds_list.setColumn(0,"BAN_TIME",this.parent.TM);
+	this.ds_list.setColumn(0,"YYYYMMDD",Sct.Util.getToday());
+	this.ds_list.setColumn(0,"HHMM",Sct.Util.getHour()+Sct.Util.getMin());
+	this.ds_list.setColumn(0, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+	this.ds_list.setColumn(0, "MANAGER_NM", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_NM_KOR"));
+	this.ds_list.setColumn(0, "BAND_TP", tpCd);
+	this.div_cont.form.cal_sdate.set_dateformat("HH:mm");
+	this.div_cont.form.cal_sdate.set_editformat("HH:mm");
+	
+	// 오픈시 처리일시 날짜 선택에 커서 이동
+	this.div_cont.form.cal_sdate00.setFocus();
+	
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "save")
+		{				
+			alert("저장하였습니다.");
+			this.close();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+// 취소 버튼
+this.div_cont_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	// 필수체크
+	if (!this.gfn_findSnull(this.div_cont)) 
+		return false;
+	
+	return true;
+};
+
+// 저장 버튼
+this.div_cont_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.fn_save_pre()) 
+		return;
+
+	const svcId = "save";
+	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+};
+
+// 처리자 팝업 호출
+this.fn_addressPop = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+		MULTI_YN : "N",
+		COMPANY_CD : fv_companyCd
+	};
+	Sct.popup(this, "MANAGER_ID", 326, 226, "", param, "CM_POP::CM_MANAGER_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) 
+{
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid){
+		case "MANAGER_ID" : 
+			this.ds_list.setColumn(this.ds_list.rowposition,"MANAGER_ID",objDs.getColumn(0,"USER_ID"));
+			this.ds_list.setColumn(this.ds_list.rowposition,"MANAGER_NM",objDs.getColumn(0,"USER_NM_KOR"));
+		break;
+	}
+};
+
+this.div_cont_edt_manager_nm_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if (e.keycode == "13")
+	{
+		this.div_cont.form.btn_addr.click();
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.edt_name" propid="value" datasetid="ds_list" columnid="FALL_TM"/>
+      <BindItem id="item1" compid="div_cont.form.cmb_dementia" propid="value" datasetid="ds_list" columnid="BAND_TP"/>
+      <BindItem id="item3" compid="div_cont.form.edt_name00" propid="value" datasetid="ds_list" columnid="RES_NM"/>
+      <BindItem id="item4" compid="div_cont.form.edt_name00_00" propid="value" datasetid="ds_list" columnid="AGE_SEX"/>
+      <BindItem id="item5" compid="div_cont.form.edt_name00_00_00" propid="value" datasetid="ds_list" columnid="AREA_LOC"/>
+      <BindItem id="item6" compid="div_cont.form.TextArea00" propid="value" datasetid="ds_list" columnid="BAND_DESC"/>
+      <BindItem id="item8" compid="div_cont.form.cal_sdate" propid="value" datasetid="ds_list" columnid="HHMM"/>
+      <BindItem id="item7" compid="div_cont.form.cal_sdate00" propid="value" datasetid="ds_list" columnid="YYYYMMDD"/>
+      <BindItem id="item2" compid="div_cont.form.edt_manager_nm" propid="value" datasetid="ds_list" columnid="MANAGER_NM"/>
+    </Bind>
+  </Form>
+</FDL>

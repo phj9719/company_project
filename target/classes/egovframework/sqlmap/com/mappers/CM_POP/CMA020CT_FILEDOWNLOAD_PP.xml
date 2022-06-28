@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-03-18 19:40                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	:	CMA020CT_FILEDOWNLOAD_PP                                                        
+     * 프로그램 명  		:	file 정보 검색 팝업                                              
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자         	 |  작성자    |  비고                                    
+     *================================================================                  
+       2021-03-18 19:40  |  이승규    | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CMA020CT_FILEDOWNLOAD_PP"> 
+   	<!--SELECT  --> 
+	<select id="CMA020CT_FILEDOWNLOAD_REF_GET" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT SF.COMPANY_CD
+			     , SF.FILE_GROUP_ID
+			     , SF.FILE_ID
+			     , SF.FILE_NAME
+			     , SF.FILE_REAL_NAME
+			     , SF.FILE_SIZE
+			     , SF.USE_YN
+			     , SF.WK_FLAG
+			     , SF.TRANS_ST
+			     , SF.TRANS_RST_STS
+			     , SF.HD_OFFICE
+			     , SF.SHIP_ST1
+			     , SF.SHIP_ST2
+			     , SF.SHIP_ST3
+			     , SF.SHIP_ST4
+			     , SF.SHIP_ST5
+			     , SF.SHIP_ST6
+			     , SF.SHIP_ST7
+			     , SF.SHIP_ST8
+			     , SF.SHIP_ST9
+			     , SF.SHIP_ST10
+			     , SF.REG_PGM_ID
+			     , SF.REG_USER
+			     , SF.REG_DT
+			     , SF.REG_DT_CURR
+			     , SF.REG_DT_LOC
+			     , SF.REG_IP
+			     , SF.MOD_PGM_ID
+			     , SF.MOD_USER
+			     , SF.MOD_DT
+			     , SF.MOD_DT_CURR
+			     , SF.MOD_DT_LOC
+			     , SF.MOD_IP
+			  FROM T_SM_FILE SF WITH(NOLOCK)
+			 WHERE SF.COMPANY_CD    = #{COMPANY_CD}
+			   AND SF.FILE_GROUP_ID = #{ATTACH_GRP_ID}
+			   AND SF.USE_YN        = 'Y'
+		]]>
+    </select>
+    
+	<select id="CMA020CT_FILEDOWNLOAD_RPT_GET" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT GFA.COMPANY_CD
+			     , GFA.PLANT_CD
+			     , GFA.PK_DOC_NO
+			     , GFA.FILE_GROUP_ID
+			     , GFA.FILE_ID
+			     , GFA.ATT_FILE_YN
+			     , GFA.ATT_FILE_NM AS FILE_NAME
+			     , GFA.ATT_FILE_PATH
+			     , GFA.FILE_SIZE
+			     , GFA.USE_YN
+			     , GFA.WK_FLAG
+			     , GFA.WK_FIELD
+			     , GFA.TRANS_JOB_ID
+			     , GFA.TRANS_ST
+			     , GFA.TRANS_RST_STS
+			     , GFA.SND_RCV_CD
+			     , GFA.REF_USER_KEY
+			     , GFA.REG_PGM_ID
+			     , GFA.REG_USER
+			     , GFA.REG_DT
+			     , GFA.REG_DT_CURR
+			     , GFA.REG_DT_LOC
+			     , GFA.REG_IP
+			     , GFA.MOD_PGM_ID
+			     , GFA.MOD_USER
+			     , GFA.MOD_DT
+			     , GFA.MOD_DT_CURR
+			     , GFA.MOD_DT_LOC
+			     , GFA.MOD_IP
+			  FROM T_GR_FILE_ATT GFA WITH(NOLOCK)
+			 WHERE GFA.COMPANY_CD    = #{COMPANY_CD}
+			   AND GFA.FILE_GROUP_ID = #{ATTACH_GRP_ID}
+			   AND GFA.USE_YN        = 'Y'
+		]]>
+    </select>
+    
+</mapper> 

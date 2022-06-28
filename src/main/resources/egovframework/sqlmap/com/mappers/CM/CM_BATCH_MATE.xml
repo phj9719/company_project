@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CM_BATCH_ROOM
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2021-09-30  |  SOOIM    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH_MATE">
+	<select id="SCT_MATE_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SM.sicode		AS REF_SYS_COMP_CD
+					,(SELECT CC.COMPANY_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.REF_SYS_COMP_CD = SM.sicode) AS COMPANY_CD
+					,SM.m_code		AS REF_SYS_RES_ID
+					,SM.m_name		AS NAME
+					,REPLACE(SM.m_enday,'-','')	AS ENTER_DT
+					,SM.m_ensigan	
+					,SM.m_enbun		
+					,REPLACE(SM.m_reday,'-','')	AS RETIRE_DT
+					,SM.m_resigan
+					,SM.m_rebun
+					,SM.거주현황
+					,IF(SM.성별='남','M','F')	AS SEX
+					,SM.m_group		AS CARE_GRP
+					,SM.m_grade		AS GRADE
+					,SM.등급
+					,SM.m_level
+					,SM.수급
+					,TRIM(SM.m_regist)	AS LONG_TERM_CARE_NO
+					,SM.m_roomno
+					,TRIM(SM.m_step)		AS AREA
+					,TRIM(SM.m_roomname) AS LOCATION
+					,SM.m_history	AS DISEASE
+					,TRIM(IFNULL(NULLIF(SM.식사종류,''),'000000')) AS FOOD_TP
+					,TRIM(IFNULL(NULLIF(SM.기능장애,''),'000000')) AS FUNC_DIS
+					,TRIM(IFNULL(NULLIF(SM.치료식이,''),'0000'))	AS DIETARY_CURE
+					,TRIM(SM.m_jumin1)	AS JU1
+					,TRIM(SM.m_jumin2)	AS JU2
+					,CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1) AS BIRTH_DT
+					,SM.m_post		AS ZIP_CODE
+					,SM.m_juso1		AS ADDR1
+					,SM.m_juso2		AS ADDR4
+					,TRIM(SM.m_conname)	AS FAM_NM
+					,TRIM(SM.m_conrele)	AS FAM_CON
+					,NULLIF(TRIM(REPLACE(SM.m_contel11,'-','')),'')	AS FAM_TEL1
+					,NULLIF(TRIM(REPLACE(SM.m_contel12,'-','')),'')	AS FAM_TEL2
+					,TRIM(SM.m_name1)		AS FAM_NM1
+					,TRIM(SM.m_connect1)	AS FAM_CON1
+					,NULLIF(TRIM(REPLACE(SM.m_phone11,'-','')),'')	AS FAM_TEL11
+					,NULLIF(TRIM(REPLACE(SM.m_phone12,'-','')),'')	AS FAM_TEL12
+					,TRIM(SM.m_name2)		AS FAM_NM2
+					,TRIM(SM.m_connect2)	AS FAM_CON2
+					,NULLIF(TRIM(REPLACE(SM.m_phone21,'-','')),'')	AS FAM_TEL21
+					,NULLIF(TRIM(REPLACE(SM.m_phone22,'-','')),'')	AS FAM_TEL22
+					,TRIM(SM.m_name3)		AS FAM_NM3
+					,TRIM(SM.m_connect3)	AS FAM_CON3
+					,NULLIF(TRIM(REPLACE(SM.m_phone31,'-','')),'')	AS FAM_TEL31
+					,NULLIF(TRIM(REPLACE(SM.m_phone32,'-','')),'')	AS FAM_TEL32
+					,SM.ir_time
+					,SM.ir_type
+					,SM.ir_comp
+					,SM.ir_status
+			  FROM sct_mate SM
+			 WHERE SM.IR_STATUS != '1'
+		]]>
+	</select>
+	<insert id="SCT_MATE_I" parameterType="java.util.HashMap">
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_RESIDENT (                                                                                                                                                                                 
+					         COMPANY_CD
+							,RES_ID
+							,NAME
+							,SEX
+							,BIRTHDAY
+							,BIRTHDAY2
+							,GRADE
+							,AREA
+							,LOCATION
+							,ENTER_DT
+							,RETIRE_DT
+							,ZIP_CODE
+							,ADDR1
+							,ADDR4
+							,REF_SYS_RES_ID
+							,LONG_TERM_CARE_NO
+							,CARE_GRP
+							,FOOD_TP
+							,FUNC_DIS
+							,DIETARY_CURE
+							,JU1
+							,JU2
+							,FAM_NM
+							,FAM_CON
+							,FAM_TEL1
+							,FAM_TEL2
+							,FAM_NM1
+							,FAM_CON1
+							,FAM_TEL11
+							,FAM_TEL12
+							,FAM_NM2
+							,FAM_CON2
+							,FAM_TEL21
+							,FAM_TEL22
+							,FAM_NM3
+							,FAM_CON3
+							,FAM_TEL31
+							,FAM_TEL32
+							,DISEASE) 	
+					 SELECT A.COMPANY_CD
+							,(SELECT CONCAT('R',( SELECT IFNULL(MAX(CAST(REPLACE(NR.RES_ID,'R','0') AS INTEGER)),0)+@ROWNUM:=@ROWNUM+1  AS RES_ID
+										   			FROM T_NU_RESIDENT NR
+										  		   WHERE NR.COMPANY_CD = A.COMPANY_CD)) AS RES_ID)
+							,SM.m_name
+							,IF(SM.성별='남','M','F')
+							,CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1)
+							,CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1)
+
+							,SM.m_grade
+							,TRIM(SM.m_step)
+							,TRIM(SM.m_roomname)
+							,REPLACE(SM.m_enday,'-','')
+							,REPLACE(SM.m_reday,'-','')
+							,SM.m_post
+							,SM.m_juso1	
+							,SM.m_juso2
+							,SM.m_code	
+							,TRIM(SM.m_regist)
+							,SM.m_group
+							,TRIM(IFNULL(NULLIF(SM.식사종류,''),'000000'))
+							,TRIM(IFNULL(NULLIF(SM.기능장애,''),'000000'))
+							,TRIM(IFNULL(NULLIF(SM.치료식이,''),'0000'))
+							,TRIM(SM.m_jumin1)
+							,HEX(AES_ENCRYPT(TRIM(SM.m_jumin2), (SELECT CC.STR1
+																   FROM T_CM_CODE CC
+													   			  WHERE CC.COMPANY_CD = A.COMPANY_CD
+													   	 			AND CC.GRP_CD = 'CM_AES_KEY')))
+							,TRIM(SM.m_conname)
+							,TRIM(SM.m_conrele)
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_contel11,'-','')),''), (SELECT CC.STR1
+															 									FROM T_CM_CODE CC
+													   										   WHERE CC.COMPANY_CD = A.COMPANY_CD
+													   		  									 AND CC.GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_contel12,'-','')),''), (SELECT CC.STR1
+															 									FROM T_CM_CODE CC
+																						   	   WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   		 AND CC.GRP_CD = 'CM_AES_KEY')))
+							,TRIM(SM.m_name1)
+							,TRIM(SM.m_connect1)
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone11,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone12,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,TRIM(SM.m_name2)
+							,TRIM(SM.m_connect2)
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone21,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone22,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,TRIM(SM.m_name3)
+							,TRIM(SM.m_connect3)
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone31,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone32,'-','')),''), (SELECT CC.STR1
+																							   FROM T_CM_CODE CC
+																					   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																					   		    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,SM.m_history
+						FROM sct_mate SM
+				  INNER JOIN T_CM_COMPANY A
+				  		  ON(SM.sicode = A.REF_SYS_COMP_CD)
+				  		  ,(SELECT @rownum:=0)	RN
+					   WHERE SM.ir_status != '1'
+					   	 AND UPPER(SM.ir_type) != 'D'
+					   	 AND UPPER(SM.ir_comp) = 'G'
+					   	 AND SM.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+					   	 AND SM.m_code NOT IN (SELECT NR.REF_SYS_RES_ID
+					   	 						 FROM T_NU_RESIDENT NR
+					   	 						WHERE NR.COMPANY_CD = A.COMPANY_CD
+					   	 						  AND NR.REF_SYS_RES_ID = SM.m_code)
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="SCT_MATE_U" parameterType="java.util.HashMap">
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_RESIDENT NR
+				  INNER JOIN T_CM_COMPANY A
+				  		  ON(NR.COMPANY_CD = A.COMPANY_CD)
+				  INNER JOIN sct_mate SM
+				  		  ON(A.REF_SYS_COMP_CD = SM.sicode
+				  		 AND NR.REF_SYS_RES_ID = SM.m_code)                                                                                                                                                                                              
+						 SET NR.NAME           = SM.m_name
+							,NR.SEX            = IF(SM.성별='남','M','F')
+							,NR.BIRTHDAY       = CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1)							
+							,NR.BIRTHDAY2      = CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1)
+							,NR.GRADE          = SM.m_grade
+							,NR.AREA           = TRIM(SM.m_step)
+							,NR.LOCATION       = TRIM(SM.m_roomname)
+							,NR.ENTER_DT       = REPLACE(SM.m_enday,'-','')
+							,NR.RETIRE_DT      = REPLACE(SM.m_reday,'-','')
+							,NR.ZIP_CODE       = SM.m_post
+							,NR.ADDR1          = SM.m_juso1
+							,NR.ADDR4          = SM.m_juso2
+							,NR.LONG_TERM_CARE_NO= TRIM(SM.m_regist)
+							,NR.CARE_GRP		= SM.m_group
+							,NR.FOOD_TP			= TRIM(IFNULL(NULLIF(SM.식사종류,''),'000000'))
+							,NR.FUNC_DIS		= TRIM(IFNULL(NULLIF(SM.기능장애,''),'000000'))
+							,NR.DIETARY_CURE	= TRIM(IFNULL(NULLIF(SM.치료식이,''),'0000'))
+							,NR.JU1            = TRIM(SM.m_jumin1)
+							,NR.JU2            =HEX(AES_ENCRYPT(TRIM(SM.m_jumin2), (SELECT CC.STR1
+																					  FROM T_CM_CODE CC
+																   				     WHERE CC.COMPANY_CD = A.COMPANY_CD
+ 																   				   	   AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_NM         = TRIM(SM.m_conname)
+							,NR.FAM_CON        = TRIM(SM.m_conrele)
+							,NR.FAM_TEL1       = HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_contel11,'-','')),''), (SELECT CC.STR1
+																													FROM T_CM_CODE CC
+																							   				   	   WHERE CC.COMPANY_CD = A.COMPANY_CD
+																							   				   	 	 AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_TEL2       = HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_contel12,'-','')),''), (SELECT CC.STR1
+																													FROM T_CM_CODE CC
+																							   				   	   WHERE CC.COMPANY_CD = A.COMPANY_CD
+																							   				   	 	 AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_NM1        = TRIM(SM.m_name1)
+							,NR.FAM_CON1       = TRIM(SM.m_connect1)
+							,NR.FAM_TEL11      = HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone11,'-','')),''), (SELECT CC.STR1
+																												   FROM T_CM_CODE CC
+																						   				   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_TEL12      = HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone12,'-','')),''), (SELECT CC.STR1
+																												   FROM T_CM_CODE CC
+																						   				   		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	    AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_NM2        = TRIM(SM.m_name2)
+							,NR.FAM_CON2       = TRIM(SM.m_connect2)
+							,NR.FAM_TEL21      =HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone21,'-','')),''), (SELECT CC.STR1
+																												  FROM T_CM_CODE CC
+																						   				   		 WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	   AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_TEL22      =HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone22,'-','')),''), (SELECT CC.STR1
+																												  FROM T_CM_CODE CC
+																						   				   		 WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	   AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_NM3        = TRIM(SM.m_name3)	
+							,NR.FAM_CON3       = TRIM(SM.m_connect3)
+							,NR.FAM_TEL31      =HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone31,'-','')),''), (SELECT CC.STR1
+																												  FROM T_CM_CODE CC
+																						   				   		 WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	   AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.FAM_TEL32      =HEX(AES_ENCRYPT(NULLIF(TRIM(REPLACE(SM.m_phone32,'-','')),''), (SELECT CC.STR1
+																												  FROM T_CM_CODE CC
+																						   				   		 WHERE CC.COMPANY_CD = A.COMPANY_CD
+																						   				   	 	   AND CC.GRP_CD = 'CM_AES_KEY')))
+							,NR.DISEASE        =SM.m_history
+			         WHERE 1=1
+			           AND SM.ir_status != '1'
+			           AND UPPER(SM.ir_type) != 'D'
+					   AND UPPER(SM.ir_comp) = 'G'
+			           AND SM.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+			           AND NR.REF_SYS_RES_ID IN (SELECT SM.m_code
+					   	 						   FROM sct_mate SM
+					   	 						  WHERE A.REF_SYS_COMP_CD = SM.sicode
+					   	 						  	AND NR.REF_SYS_RES_ID = SM.m_code)
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="SCT_MATE_D" parameterType="java.util.HashMap">
+    <![CDATA[
+           DELETE FROM NR USING T_NU_RESIDENT NR
+           	INNER JOIN T_CM_COMPANY CC
+           			ON(NR.COMPANY_CD = CC.COMPANY_CD)
+           	INNER JOIN sct_mate SM
+           			ON(CC.REF_SYS_COMP_CD = SM.sicode
+           		   AND NR.REF_SYS_RES_ID = SM.m_code)
+				 WHERE UPPER(SM.ir_type) = 'D'
+				   AND SM.ir_status != '1'
+				   AND UPPER(SM.ir_comp) ='G'
+				   AND SM.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    <select id="SCT_RES_DATA_YN_S" resultType="java.lang.String">
+		<![CDATA[	
+			SELECT IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+        	  FROM T_NU_RESIDENT NR
+       		 WHERE NR.COMPANY_CD = #{COMPANY_CD}
+       		   AND NR.REF_SYS_RES_ID = #{REF_SYS_RES_ID}
+		]]>
+	</select>
+    	<update id="NS_MATE_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_mate SM
+			  INNER JOIN T_CM_COMPANY CC
+			  		  ON(SM.sicode = CC.REF_SYS_COMP_CD)
+					 SET SM.ir_status = '1'
+		           WHERE SM.ir_status!= '1'
+		           	 AND UPPER(SM.ir_type) !='D'
+		           	 AND UPPER(SM.ir_comp)  ='G' 
+		           	 AND SM.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+		           	 AND SM.m_code IN (SELECT NR.REF_SYS_RES_ID
+		           	 					 FROM T_NU_RESIDENT NR
+		           	 					WHERE NR.COMPANY_CD = CC.COMPANY_CD
+		           	 					  AND NR.REF_SYS_RES_ID = SM.m_code)
+    ]]>
+	</update>
+	<update id="NS_MATE_D_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_mate SM
+			  INNER JOIN T_CM_COMPANY CC
+			  		  ON(SM.sicode = CC.REF_SYS_COMP_CD)
+					 SET SM.ir_status = '1'
+		           WHERE SM.ir_status!= '1'
+		           	 AND UPPER(SM.ir_type) = 'D'
+		           	 AND UPPER(SM.ir_comp) = 'G'
+		           	 AND SM.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+		           	 AND SM.m_code NOT IN (SELECT NR.REF_SYS_RES_ID
+		           	 					 	 FROM T_NU_RESIDENT NR
+		           	 						WHERE NR.COMPANY_CD = CC.COMPANY_CD
+		           	 					  	  AND NR.REF_SYS_RES_ID = SM.m_code)
+    ]]>
+	</update>
+</mapper>

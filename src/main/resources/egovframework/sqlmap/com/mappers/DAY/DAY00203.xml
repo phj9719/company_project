@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00203                                                         
+     * 프로그램 명     	: 2-03  간호기록소독일지                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-14 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00203">
+	<!-- 조회 -->
+    <select id="DAY00203_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00203_DS_LIST_S */
+	SELECT 0 AS chk
+	     , sicode
+         , 소독번호 AS d_number
+         , 소독일 AS d_date
+         , 소독담당
+         , 담당코드
+         , 소독방법
+      FROM base_disin
+     WHERE 1=1
+       AND sicode = #{sicode}
+       AND 소독일  BETWEEN #{date_from} AND #{date_to}
+     ORDER 
+        BY 소독일 DESC
+	</select>
+	
+	<!-- 조회 -->
+    <select id="DAY00203_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00203_DS_DATA_S */
+	SELECT A.sicode
+		 , A.소독번호
+		 , A.소독일
+		 , A.소독담당
+		 , A.담당코드
+		 , A.소독방법
+		 , A.보관장소 
+		 , MAX(CASE WHEN A.ROW_NUM = 1 THEN A.disin_list ELSE '' END) AS disin_list_1
+		 , SUM(CASE WHEN A.ROW_NUM = 1 THEN A.j_qty ELSE '' END) AS j_qty_1
+		 , SUM(CASE WHEN A.ROW_NUM = 1 THEN A.s_qty ELSE '' END) AS s_qty_1
+		 , MAX(CASE WHEN A.ROW_NUM = 2 THEN A.disin_list ELSE '' END) AS disin_list_2
+		 , SUM(CASE WHEN A.ROW_NUM = 2 THEN A.j_qty ELSE '' END) AS j_qty_2
+		 , SUM(CASE WHEN A.ROW_NUM = 2 THEN A.s_qty ELSE '' END) AS s_qty_2
+		 , MAX(CASE WHEN A.ROW_NUM = 3 THEN A.disin_list ELSE '' END) AS disin_list_3
+		 , SUM(CASE WHEN A.ROW_NUM = 3 THEN A.j_qty ELSE '' END) AS j_qty_3
+		 , SUM(CASE WHEN A.ROW_NUM = 3 THEN A.s_qty ELSE '' END) AS s_qty_3
+		 , MAX(CASE WHEN A.ROW_NUM = 4 THEN A.disin_list ELSE '' END) AS disin_list_4
+		 , SUM(CASE WHEN A.ROW_NUM = 4 THEN A.j_qty ELSE '' END) AS j_qty_4
+		 , SUM(CASE WHEN A.ROW_NUM = 4 THEN A.s_qty ELSE '' END) AS s_qty_4
+		 , MAX(CASE WHEN A.ROW_NUM = 5 THEN A.disin_list ELSE '' END) AS disin_list_5
+		 , SUM(CASE WHEN A.ROW_NUM = 5 THEN A.j_qty ELSE '' END) AS j_qty_5
+		 , SUM(CASE WHEN A.ROW_NUM = 5 THEN A.s_qty ELSE '' END) AS s_qty_5
+		 , MAX(CASE WHEN A.ROW_NUM = 6 THEN A.disin_list ELSE '' END) AS disin_list_6
+		 , SUM(CASE WHEN A.ROW_NUM = 6 THEN A.j_qty ELSE '' END) AS j_qty_6
+		 , SUM(CASE WHEN A.ROW_NUM = 6 THEN A.s_qty ELSE '' END) AS s_qty_6
+		 , MAX(CASE WHEN A.ROW_NUM = 7 THEN A.disin_list ELSE '' END) AS disin_list_7
+		 , SUM(CASE WHEN A.ROW_NUM = 7 THEN A.j_qty ELSE '' END) AS j_qty_7
+		 , SUM(CASE WHEN A.ROW_NUM = 7 THEN A.s_qty ELSE '' END) AS s_qty_7
+		 , MAX(CASE WHEN A.ROW_NUM = 8 THEN A.disin_list ELSE '' END) AS disin_list_8
+		 , SUM(CASE WHEN A.ROW_NUM = 8 THEN A.j_qty ELSE '' END) AS j_qty_8
+		 , SUM(CASE WHEN A.ROW_NUM = 8 THEN A.s_qty ELSE '' END) AS s_qty_8
+		 , MAX(CASE WHEN A.ROW_NUM = 9 THEN A.disin_list ELSE '' END) AS disin_list_9
+		 , SUM(CASE WHEN A.ROW_NUM = 9 THEN A.j_qty ELSE '' END) AS j_qty_9
+		 , SUM(CASE WHEN A.ROW_NUM = 9 THEN A.s_qty ELSE '' END) AS s_qty_9
+		 , MAX(CASE WHEN A.ROW_NUM = 10 THEN A.disin_list ELSE '' END) AS disin_list_10
+		 , SUM(CASE WHEN A.ROW_NUM = 10 THEN A.j_qty ELSE '' END) AS j_qty_10
+		 , SUM(CASE WHEN A.ROW_NUM = 10 THEN A.s_qty ELSE '' END) AS s_qty_10
+		 , MAX(CASE WHEN A.ROW_NUM = 11 THEN A.disin_list ELSE '' END) AS disin_list_11
+		 , SUM(CASE WHEN A.ROW_NUM = 11 THEN A.j_qty ELSE '' END) AS j_qty_11
+		 , SUM(CASE WHEN A.ROW_NUM = 11 THEN A.s_qty ELSE '' END) AS s_qty_11
+		 , MAX(CASE WHEN A.ROW_NUM = 12 THEN A.disin_list ELSE '' END) AS disin_list_12
+		 , SUM(CASE WHEN A.ROW_NUM = 12 THEN A.j_qty ELSE '' END) AS j_qty_12
+		 , SUM(CASE WHEN A.ROW_NUM = 12 THEN A.s_qty ELSE '' END) AS s_qty_12
+		 , MAX(CASE WHEN A.ROW_NUM = 13 THEN A.disin_list ELSE '' END) AS disin_list_13
+		 , SUM(CASE WHEN A.ROW_NUM = 13 THEN A.j_qty ELSE '' END) AS j_qty_13
+		 , SUM(CASE WHEN A.ROW_NUM = 13 THEN A.s_qty ELSE '' END) AS s_qty_13
+		 , MAX(CASE WHEN A.ROW_NUM = 14 THEN A.disin_list ELSE '' END) AS disin_list_14
+		 , SUM(CASE WHEN A.ROW_NUM = 14 THEN A.j_qty ELSE '' END) AS j_qty_14
+		 , SUM(CASE WHEN A.ROW_NUM = 14 THEN A.s_qty ELSE '' END) AS s_qty_14
+		 , MAX(CASE WHEN A.ROW_NUM = 15 THEN A.disin_list ELSE '' END) AS disin_list_15
+		 , SUM(CASE WHEN A.ROW_NUM = 15 THEN A.j_qty ELSE '' END) AS j_qty_15
+		 , SUM(CASE WHEN A.ROW_NUM = 15 THEN A.s_qty ELSE '' END) AS s_qty_15
+		 , MAX(CASE WHEN A.ROW_NUM = 16 THEN A.disin_list ELSE '' END) AS disin_list_16
+		 , SUM(CASE WHEN A.ROW_NUM = 16 THEN A.j_qty ELSE '' END) AS j_qty_16
+		 , SUM(CASE WHEN A.ROW_NUM = 16 THEN A.s_qty ELSE '' END) AS s_qty_16
+		 , MAX(CASE WHEN A.ROW_NUM = 17 THEN A.disin_list ELSE '' END) AS disin_list_17
+		 , SUM(CASE WHEN A.ROW_NUM = 17 THEN A.j_qty ELSE '' END) AS j_qty_17
+		 , SUM(CASE WHEN A.ROW_NUM = 17 THEN A.s_qty ELSE '' END) AS s_qty_17
+		 , MAX(CASE WHEN A.ROW_NUM = 18 THEN A.disin_list ELSE '' END) AS disin_list_18
+		 , SUM(CASE WHEN A.ROW_NUM = 18 THEN A.j_qty ELSE '' END) AS j_qty_18
+		 , SUM(CASE WHEN A.ROW_NUM = 18 THEN A.s_qty ELSE '' END) AS s_qty_18
+		 , MAX(CASE WHEN A.ROW_NUM = 19 THEN A.disin_list ELSE '' END) AS disin_list_19
+		 , SUM(CASE WHEN A.ROW_NUM = 19 THEN A.j_qty ELSE '' END) AS j_qty_19
+		 , SUM(CASE WHEN A.ROW_NUM = 19 THEN A.s_qty ELSE '' END) AS s_qty_19
+		 , MAX(CASE WHEN A.ROW_NUM = 20 THEN A.disin_list ELSE '' END) AS disin_list_20
+		 , SUM(CASE WHEN A.ROW_NUM = 20 THEN A.j_qty ELSE '' END) AS j_qty_20
+		 , SUM(CASE WHEN A.ROW_NUM = 20 THEN A.s_qty ELSE '' END) AS s_qty_20
+		 , MAX(CASE WHEN A.ROW_NUM = 21 THEN A.disin_list ELSE '' END) AS disin_list_21
+		 , SUM(CASE WHEN A.ROW_NUM = 21 THEN A.j_qty ELSE '' END) AS j_qty_21
+		 , SUM(CASE WHEN A.ROW_NUM = 21 THEN A.s_qty ELSE '' END) AS s_qty_21
+		 , MAX(CASE WHEN A.ROW_NUM = 22 THEN A.disin_list ELSE '' END) AS disin_list_22
+		 , SUM(CASE WHEN A.ROW_NUM = 22 THEN A.j_qty ELSE '' END) AS j_qty_22
+		 , SUM(CASE WHEN A.ROW_NUM = 22 THEN A.s_qty ELSE '' END) AS s_qty_22
+		 , MAX(CASE WHEN A.ROW_NUM = 23 THEN A.disin_list ELSE '' END) AS disin_list_23
+		 , SUM(CASE WHEN A.ROW_NUM = 23 THEN A.j_qty ELSE '' END) AS j_qty_23
+		 , SUM(CASE WHEN A.ROW_NUM = 23 THEN A.s_qty ELSE '' END) AS s_qty_23
+		 , MAX(CASE WHEN A.ROW_NUM = 24 THEN A.disin_list ELSE '' END) AS disin_list_24
+		 , SUM(CASE WHEN A.ROW_NUM = 24 THEN A.j_qty ELSE '' END) AS j_qty_24
+		 , SUM(CASE WHEN A.ROW_NUM = 24 THEN A.s_qty ELSE '' END) AS s_qty_24
+		 , MAX(CASE WHEN A.ROW_NUM = 25 THEN A.disin_list ELSE '' END) AS disin_list_25
+		 , SUM(CASE WHEN A.ROW_NUM = 25 THEN A.j_qty ELSE '' END) AS j_qty_25
+		 , SUM(CASE WHEN A.ROW_NUM = 25 THEN A.s_qty ELSE '' END) AS s_qty_25
+	  FROM (WITH RECURSIVE line
+		    AS
+		    (
+		      SELECT 1 AS ROW_NUM
+		      UNION ALL
+		      SELECT ROW_NUM + 1 AS ROW_NUM
+		        FROM line
+		       WHERE ROW_NUM <![CDATA[ < ]]> 25
+		    )
+		    SELECT bi.sicode
+		         , bi.소독번호
+			     , bi.소독일
+			     , bi.소독담당
+			     , bi.담당코드
+			     , bi.소독방법
+			     , bi.보관장소
+		 	 --  , bi.소독목록
+		         , lin.ROW_NUM
+		         , SUBSTRING_INDEX(SUBSTRING_INDEX(bi.bi_contents, '#@$@#', lin.ROW_NUM), '#@$@#', -1) AS disin_list
+		         , (CASE WHEN lin.ROW_NUM = '1' THEN  SUBSTRING(bi.재고수량,1,4)
+						 WHEN lin.ROW_NUM = '2' THEN  SUBSTRING(bi.재고수량,5,4)  
+						 WHEN lin.ROW_NUM = '3' THEN  SUBSTRING(bi.재고수량,9,4)  
+						 WHEN lin.ROW_NUM = '4' THEN  SUBSTRING(bi.재고수량,13,4) 
+						 WHEN lin.ROW_NUM = '5' THEN  SUBSTRING(bi.재고수량,17,4) 
+						 WHEN lin.ROW_NUM = '6' THEN  SUBSTRING(bi.재고수량,21,4) 
+						 WHEN lin.ROW_NUM = '7' THEN  SUBSTRING(bi.재고수량,25,4) 
+						 WHEN lin.ROW_NUM = '8' THEN  SUBSTRING(bi.재고수량,29,4) 
+						 WHEN lin.ROW_NUM = '9' THEN  SUBSTRING(bi.재고수량,33,4) 
+						 WHEN lin.ROW_NUM = '10' THEN  SUBSTRING(bi.재고수량,37,4) 
+						 WHEN lin.ROW_NUM = '11' THEN  SUBSTRING(bi.재고수량,41,4) 
+						 WHEN lin.ROW_NUM = '12' THEN  SUBSTRING(bi.재고수량,45,4) 
+						 WHEN lin.ROW_NUM = '13' THEN  SUBSTRING(bi.재고수량,49,4) 
+						 WHEN lin.ROW_NUM = '14' THEN  SUBSTRING(bi.재고수량,53,4) 
+						 WHEN lin.ROW_NUM = '15' THEN  SUBSTRING(bi.재고수량,57,4) 
+						 WHEN lin.ROW_NUM = '16' THEN  SUBSTRING(bi.재고수량,61,4) 
+						 WHEN lin.ROW_NUM = '17' THEN  SUBSTRING(bi.재고수량,65,4) 
+						 WHEN lin.ROW_NUM = '18' THEN  SUBSTRING(bi.재고수량,69,4) 
+						 WHEN lin.ROW_NUM = '19' THEN  SUBSTRING(bi.재고수량,73,4) 
+						 WHEN lin.ROW_NUM = '20' THEN  SUBSTRING(bi.재고수량,77,4) 
+						 WHEN lin.ROW_NUM = '21' THEN  SUBSTRING(bi.재고수량,81,4) 
+						 WHEN lin.ROW_NUM = '22' THEN  SUBSTRING(bi.재고수량,85,4) 
+						 WHEN lin.ROW_NUM = '23' THEN  SUBSTRING(bi.재고수량,89,4) 
+						 WHEN lin.ROW_NUM = '24' THEN  SUBSTRING(bi.재고수량,93,4) 
+						 WHEN lin.ROW_NUM = '25' THEN  SUBSTRING(bi.재고수량,97,4) 
+		                 ELSE ''  END) AS j_qty
+		    --   ,bi.재고수량
+		         , (CASE WHEN lin.ROW_NUM = '1' THEN  SUBSTRING(bi.소독수량,1,4)
+						 WHEN lin.ROW_NUM = '2' THEN  SUBSTRING(bi.소독수량,5,4)  
+						 WHEN lin.ROW_NUM = '3' THEN  SUBSTRING(bi.소독수량,9,4)  
+						 WHEN lin.ROW_NUM = '4' THEN  SUBSTRING(bi.소독수량,13,4) 
+						 WHEN lin.ROW_NUM = '5' THEN  SUBSTRING(bi.소독수량,17,4) 
+						 WHEN lin.ROW_NUM = '6' THEN  SUBSTRING(bi.소독수량,21,4) 
+						 WHEN lin.ROW_NUM = '7' THEN  SUBSTRING(bi.소독수량,25,4) 
+						 WHEN lin.ROW_NUM = '8' THEN  SUBSTRING(bi.소독수량,29,4) 
+						 WHEN lin.ROW_NUM = '9' THEN  SUBSTRING(bi.소독수량,33,4) 
+						 WHEN lin.ROW_NUM = '10' THEN  SUBSTRING(bi.소독수량,37,4) 
+						 WHEN lin.ROW_NUM = '11' THEN  SUBSTRING(bi.소독수량,41,4) 
+						 WHEN lin.ROW_NUM = '12' THEN  SUBSTRING(bi.소독수량,45,4) 
+						 WHEN lin.ROW_NUM = '13' THEN  SUBSTRING(bi.소독수량,49,4) 
+						 WHEN lin.ROW_NUM = '14' THEN  SUBSTRING(bi.소독수량,53,4) 
+						 WHEN lin.ROW_NUM = '15' THEN  SUBSTRING(bi.소독수량,57,4) 
+						 WHEN lin.ROW_NUM = '16' THEN  SUBSTRING(bi.소독수량,61,4) 
+						 WHEN lin.ROW_NUM = '17' THEN  SUBSTRING(bi.소독수량,65,4) 
+						 WHEN lin.ROW_NUM = '18' THEN  SUBSTRING(bi.소독수량,69,4) 
+						 WHEN lin.ROW_NUM = '19' THEN  SUBSTRING(bi.소독수량,73,4) 
+						 WHEN lin.ROW_NUM = '20' THEN  SUBSTRING(bi.소독수량,77,4) 
+						 WHEN lin.ROW_NUM = '21' THEN  SUBSTRING(bi.소독수량,81,4) 
+						 WHEN lin.ROW_NUM = '22' THEN  SUBSTRING(bi.소독수량,85,4) 
+						 WHEN lin.ROW_NUM = '23' THEN  SUBSTRING(bi.소독수량,89,4) 
+						 WHEN lin.ROW_NUM = '24' THEN  SUBSTRING(bi.소독수량,93,4) 
+						 WHEN lin.ROW_NUM = '25' THEN  SUBSTRING(bi.소독수량,97,4) 
+						 ELSE ''  END) AS s_qty
+		      -- ,   bi.소독수량
+		      FROM line lin
+		      LEFT
+		      JOIN 
+		           ( SELECT sicode
+					      , 소독번호
+					      , 소독일
+					      , 소독담당
+					      , 담당코드
+					      , 소독방법
+					      , 보관장소
+					      , 소독목록
+					      , REPLACE(a.소독목록, CONCAT(CHAR(13)), '#@$@#') AS bi_contents
+					 --   , REPLACE(a.소독목록, CONCAT(CHAR(13), CHAR(10)), '#@$@#') AS bi_contents
+					      , a.재고수량
+					      , a.소독수량
+					  FROM base_disin a
+		           ) bi
+		        ON CHAR_LENGTH(bi.bi_contents) - CHAR_LENGTH(REPLACE(bi.bi_contents, '#@$@#', '')) >= lin.ROW_NUM - 1
+		     WHERE bi.sicode = #{sicode}
+		       AND bi.소독번호 = #{d_number}
+		       AND bi.소독일 = #{d_date}
+		     ORDER
+		        BY bi.소독일) AS A
+	 GROUP 
+	    BY A.sicode
+		 , A.소독번호
+		 , A.소독일
+		 , A.소독담당
+		 , A.담당코드
+		 , A.소독방법
+		 , A.보관장소 		        
+	</select>
+	
+	<!-- 삽입 -->
+    <insert id="DAY00203_DS_DATA_I" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="n_number">
+    /* 2-03 삽입 */
+    INSERT INTO base_disin
+    (
+		sicode
+	  , 소독일
+	  , 소독담당
+	  , 담당코드
+	  , 소독25
+	  , 소독방법
+	  , 보관장소
+	  , 소독목록
+	  , 소독수량
+	  , 재고수량
+    )
+    VALUES
+    (
+        #{sicode}
+      , #{소독일}
+      , #{소독담당}
+      , #{담당코드}
+      , "0000000000000000000000000"
+      , #{소독방법}
+      , #{보관장소}
+      , CONCAT(
+	  		    IFNULL(#{disin_list_1}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_2}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_3}, ""), CHAR(13) 
+	          , IFNULL(#{disin_list_4}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_5}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_6}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_7}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_8}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_9}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_10}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_11}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_12}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_13}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_14}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_15}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_16}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_17}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_18}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_19}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_20}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_21}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_22}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_23}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_24}, ""), CHAR(13)
+	          , IFNULL(#{disin_list_25}, ""), CHAR(13)
+	          )
+      , CONCAT(
+                LPAD(CONVERT(IFNULL(#{s_qty_1}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_2}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_3}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_4}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_5}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_6}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_7}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_8}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_9}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_10}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_11}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_12}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_13}, 0),CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_14}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_15}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_16}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_17}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_18}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_19}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_20}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_21}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_22}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_23}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_24}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{s_qty_25}, 0), CHAR(4)),4,'0')
+              ) 
+      , CONCAT(
+                LPAD(CONVERT(IFNULL(#{j_qty_1}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_2}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_3}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_4}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_5}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_6}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_7}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_8}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_9}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_10}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_11}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_12}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_13}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_14}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_15}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_16}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_17}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_18}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_19}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_20}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_21}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_22}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_23}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_24}, 0), CHAR(4)),4,'0')
+              , LPAD(CONVERT(IFNULL(#{j_qty_25}, 0), CHAR(4)),4,'0')
+              )               
+    ) 
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00203_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 2-03 수정 */
+    UPDATE base_disin
+       SET
+	            소독담당 = #{소독담당}
+	     , 담당코드 = #{담당코드}
+	     , 소독25 = "0000000000000000000000000"
+	     , 소독방법 = #{소독방법}
+	     , 보관장소 = #{보관장소}
+	     , 소독목록 = CONCAT(
+				  		    IFNULL(#{disin_list_1}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_2}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_3}, ""), CHAR(13) 
+				          , IFNULL(#{disin_list_4}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_5}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_6}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_7}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_8}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_9}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_10}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_11}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_12}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_13}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_14}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_15}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_16}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_17}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_18}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_19}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_20}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_21}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_22}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_23}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_24}, ""), CHAR(13)
+				          , IFNULL(#{disin_list_25}, ""), CHAR(13)
+				          )
+	     , 소독수량 = CONCAT(
+			                LPAD(CONVERT(IFNULL(#{s_qty_1}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_2}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_3}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_4}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_5}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_6}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_7}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_8}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_9}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_10}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_11}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_12}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_13}, 0),CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_14}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_15}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_16}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_17}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_18}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_19}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_20}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_21}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_22}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_23}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_24}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{s_qty_25}, 0), CHAR(4)),4,'0')
+			              ) 
+	     , 재고수량 = CONCAT(
+			                LPAD(CONVERT(IFNULL(#{j_qty_1}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_2}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_3}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_4}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_5}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_6}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_7}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_8}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_9}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_10}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_11}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_12}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_13}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_14}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_15}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_16}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_17}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_18}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_19}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_20}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_21}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_22}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_23}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_24}, 0), CHAR(4)),4,'0')
+			              , LPAD(CONVERT(IFNULL(#{j_qty_25}, 0), CHAR(4)),4,'0')
+			              )
+    WHERE sicode = #{sicode}
+      AND 소독번호 = #{소독번호}
+      AND 소독일 = #{소독일}
+    </update>
+	
+    <!-- 삭제 -->
+    <delete id="DAY00203_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 2-03 삭제 */
+	DELETE FROM base_disin
+	 WHERE sicode = #{sicode}
+       AND 소독번호  = #{소독번호}
+       AND 소독일   = #{소독일}
+    </delete>
+    
+    <select id="DAY00203_DS_DATA_CHK" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-03 CHK */
+	SELECT sicode
+	     , 소독일
+	  FROM base_disin
+	 WHERE sicode = #{sicode}
+	   AND 소독일 = #{disin_date}
+	</select>
+	
+	<select id="DAY00203_DS_DISINCODE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-03 DISINCODE 조회 */
+	SELECT sicode
+	     , 기구번호
+	     , 기구명
+	     , 수량
+	  FROM base_disincode 
+	 WHERE sicode = #{sicode}
+	   AND 수량 > 0
+	 ORDER
+	    BY 기구번호 
+	</select>
+	
+    
+</mapper>

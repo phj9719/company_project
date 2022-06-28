@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB_COMMON                                                         
+     * 프로그램 명     	:                                                      
+     * Description 	: 태블릿 앱에서 공통으로 사용하는 쿼리
+     *================================================================                  
+                작성일자         		|  작성자         |  비고                                    
+     *================================================================                  
+       2021-07-22 13:13     |  박한준         | 최초작성 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB_COMMON">
+
+	<!-- 층 조회 -->
+    <select id="NUB_COMMON_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT ARE_CD AS CMCD
+			      ,ARE_NM AS CMNM
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUB_COMMON_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT LOC_CD AS CMCD
+			      ,LOC_NM AS CMNM
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if>                                                                                                                                                                 
+    </select>
+    
+    <!-- 전체 생활실 조회 -->
+    <select id="NUB_COMMON_DS_LOCATION_ALL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT LOC_CD AS CMCD
+		      ,LOC_NM AS CMNM
+		      ,ARE_CD
+		FROM T_NU_LOCATION
+		WHERE COMPANY_CD = #{COMPANY_CD}
+		AND LOC_TP = '10'
+    </select>
+    
+    <!-- (호실별) 입소자 조회 -->
+    <select id="NUB_COMMON_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	SELECT RES_ID AS CMCD
+		      ,NAME AS CMNM
+		FROM T_NU_RESIDENT
+		WHERE COMPANY_CD = #{COMPANY_CD}
+			AND AREA = #{AREA}
+			AND LOCATION = #{LOCATION}
+    ]]>
+    </select>
+    
+    <!-- 전체 입소자 조회 -->
+    <select id="NUB_COMMON_DS_RESIDENT_ALL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT 	RES_ID AS CMCD
+    		,	NAME AS CMNM
+    		,	AREA
+    		,	LOCATION
+    	FROM	T_NU_RESIDENT
+    	WHERE	COMPANY_CD = #{COMPANY_CD}
+    </select>
+    
+    <!-- 검색시 입소자 정보 조회 -->
+    <select id="NUB_COMMON_DS_RESINFO_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    	SELECT 
+	    			COMPANY_CD
+				,	A.RES_ID
+			    , 	A.NAME
+			    , 	FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+			    , 	CONCAT(A.NAME,'(',FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ),')') AS NAME_AGE
+			    , 	A.ENTER_DT
+			    , 	A.AREA
+			    , 	A.LOCATION
+			    , 	CONCAT((SELECT B.ARE_NM 
+				        	FROM T_NU_AREA B
+			            	WHERE B.COMPANY_CD = A.COMPANY_CD
+			            	AND B.ARE_CD = A.AREA), '/', 
+			              (SELECT B.LOC_NM 
+			      	       FROM T_NU_LOCATION B
+			      	       WHERE B.COMPANY_CD = A.COMPANY_CD
+			      	       AND B.LOC_CD = A.LOCATION)) AS ROOM
+			    , 	#{DATE} AS DATE      	
+			FROM T_NU_RESIDENT A
+			WHERE 1=1
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND RES_ID = #{RES_ID}
+		</if>
+    </select>
+    
+    <!-- 처리자 -->
+    <select id="NUB_COMMON_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    		SELECT
+    				USER_ID AS CMCD
+    			,	USER_NM_KOR AS CMNM
+    		FROM	T_CM_USER
+    		WHERE	COMPANY_CD = #{COMPANY_CD}
+    		AND		USE_YN = 'Y'
+    		ORDER BY USER_NM_KOR ASC;
+    </select>
+    
+    <!-- 너싱홈쪽에 있는 입소자인지 확인 -->
+    <select id="NUB_COMMON_REF_YN_S" parameterType="java.util.HashMap" resultType="java.lang.String">
+    /* 너싱홈에 있는 입소자인지 확인 : NUBCOMMON_REF_YN_S */
+    	SELECT IF(COUNT(*) = 1, 'Y', 'N') AS REF_YN
+		FROM T_CM_COMPANY CC
+		INNER JOIN sct_base SB
+		ON CC.REF_SYS_COMP_CD = SB.sicode
+		INNER JOIN T_NU_RESIDENT NR
+		ON CC.COMPANY_CD = NR.COMPANY_CD
+		INNER JOIN sct_mate SM
+		ON NR.REF_SYS_RES_ID = SM.m_code
+		AND CC.REF_SYS_COMP_CD = SM.sicode
+		WHERE CC.COMPANY_CD = #{COMPANY_CD}
+		AND NR.RES_ID = #{RES_ID}
+    </select>
+    
+    <!-- 모니터링 기저귀 API 집계1 -->
+    <select id="GET_NU_MON_CYCLE_STR2" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 	STR2
+		FROM	T_CM_CODE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		GRP_CD = 'NU_MON_CYCLE'
+		AND		SERVICE_TP = '100'
+		AND		CMCD = '10'
+	</select>
+	
+	<!-- 모니터링 기저귀 API 집계2 -->
+	<select id="GET_NU_MON_CYCLE_STR3" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 	STR3
+		FROM	T_CM_CODE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		GRP_CD = 'NU_MON_CYCLE'
+		AND		SERVICE_TP = '100'
+		AND		CMCD = '10'
+	</select>
+    
+</mapper>                                                                                                                                                                                                          

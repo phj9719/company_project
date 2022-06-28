@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Calendar_Month" width="199" height="126" titletext="월력" onload="Calendar_Month_onload" background="linear-gradient(to bottom, rgba(251,251,251,1) 0%, rgba(231,231,231,1) 100%)" color="rgba(51,51,51,1)" borderRadius="0px">
+    <Layouts>
+      <Layout width="199" height="126">
+        <ImageViewer id="img_nextYear00" taborder="0" image="url('imagerc::btn_MDI_TabSpinup.png')" onclick="img_preYear_onclick" left="53" top="2" width="18" height="20" background="rgba(255,255,255,1)"/>
+        <Static id="sta_year" taborder="1" left="77" top="3" width="53" height="20" color="darkslateblue" textAlign="center" verticalAlign="middle" font="bold 13pt &quot;arial&quot;"/>
+        <ImageViewer id="img_nextYear" taborder="2" image="url('imagerc::btn_MDI_TabSpindown.png')" onclick="img_nextYear_onclick" left="132" top="2" width="18" height="20" background="rgba(255,255,255,1)"/>
+        <Button id="btn_month1" taborder="4" text="01" onclick="fn_selectMonth" left="12" top="25" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month5" taborder="5" text="05" onclick="fn_selectMonth" left="12" top="59" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month9" taborder="6" text="09" onclick="fn_selectMonth" left="12" top="93" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month10" taborder="7" text="10" onclick="fn_selectMonth" left="60" top="93" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month6" taborder="8" text="06" onclick="fn_selectMonth" left="60" top="59" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month2" taborder="9" text="02" onclick="fn_selectMonth" left="60" top="25" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month3" taborder="10" text="03" onclick="fn_selectMonth" left="108" top="25" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month7" taborder="11" text="07" onclick="fn_selectMonth" left="108" top="59" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month11" taborder="12" text="11" onclick="fn_selectMonth" left="108" top="93" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month12" taborder="13" text="12" onclick="fn_selectMonth" left="156" top="93" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month8" taborder="14" text="08" onclick="fn_selectMonth" left="156" top="59" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+        <Button id="btn_month4" taborder="15" text="04" onclick="fn_selectMonth" left="156" top="25" width="32" height="27" border="1px solid darkblue" font="bold 11pt &quot;arial&quot;"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+
+this.img_preYear_onclick = function (obj:ImageViewer, e:nexacro.ClickEventInfo)
+{
+	var sYY = (parseInt(this.sta_year.text) - 1).toString();
+	this.sta_year.set_text(sYY);
+};
+
+this.img_nextYear_onclick = function (obj:ImageViewer, e:nexacro.ClickEventInfo)
+{
+	var sYY = (parseInt(this.sta_year.text) + 1).toString();
+	this.sta_year.set_text(sYY);
+};
+
+this.fn_selectMonth = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var year = "";
+	var sYearMonth = year;
+	var sMonth = obj.text;
+
+	if (sMonth.length < 2) 
+	{
+		sYearMonth = this.sta_year.text + "0" + obj.text;
+	}
+	else 
+	{
+		sYearMonth = this.sta_year.text + obj.text;
+	}
+
+	this.parent.closePopup(sYearMonth);
+
+	// Destroy Object  
+	this.parent.destroy(); 
+};
+
+this.fn_getToday = function ()
+{
+	var objData = new Date();
+	var year = objData.getFullYear();
+	var month = objData.getMonth() + 1;
+	month = month + "";
+	if (month.length == 1) 
+	{
+		month = "0" + month;
+	}
+	var day = objData.getDate();
+	var rtnVal = year + "" + month + "";
+	rtnVal = nexacro.toNumber(rtnVal);
+};
+this.Calendar_Month_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var year = "";
+	var objData = new Date();
+	if(Sct.Util.isEmpty(this.parent.setdate))
+	{
+		year = objData.getFullYear();
+	}
+	else
+	{
+		year = this.parent.setdate.substring(0,4);
+	}
+	this.sta_year.set_text(year);
+};
+]]></Script>
+  </Form>
+</FDL>

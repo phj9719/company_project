@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="argosTablet" onload="application_onload" screenid="Tablet" licenseurl="http://192.168.100.103:8080/Tablet/nexacro17_client_license.xml">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="false" showstatusbar="false" width="1280" height="800" titletext="Tablet" showcascadetitletext="false" showcascadestatustext="false" showtitleicon="false" layered="false" openstatus="maximize">
+        <VFrameSet id="VFrameSet00" separatesize="100,*,0" showtitlebar="false" showtitleicon="false" showcascadetitletext="false">
+          <Frames>
+            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" dragmovetype="none" showtitleicon="false"/>
+            <HFrameSet id="HFrameSet00" separatesize="100,*" showtitlebar="false" showtitleicon="false" showcascadetitletext="false">
+              <Frames>
+                <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" dragmovetype="none" showtitleicon="false" showcascadetitletext="false"/>
+                <FrameSet id="WorkFrameSet" showtitleicon="false" showtitlebar="false" showcascadetitletext="false">
+                  <Frames/>
+                </FrameSet>
+              </Frames>
+            </HFrameSet>
+            <ChildFrame id="LoginFrame" formurl="TabletFrame::tFrameLogin.xfdl" showtitlebar="false" showstatusbar="false" dragmovetype="none" showcascadetitletext="false" showtitleicon="false"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+    <Style url="xcssrc::Chart.xcss"/>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[// Frame 변수 정의
+// ==> Form을 Quick View로 볼 경우에는 아래 -시작- 부터 -끝- 까지 Comment 해야 함.
+// -시작-
+this.av_mainFrame = nexacro.getApplication().mainframe;
+this.av_vFrameSet00 = nexacro.getApplication().mainframe.VFrameSet00;
+this.av_hFrameSet00 = nexacro.getApplication().mainframe.VFrameSet00.HFrameSet00;
+this.av_workFrameSet = this.av_hFrameSet00.WorkFrameSet;
+
+this.av_mainMenu = this.av_hFrameSet00.LeftFrame;
+this.av_subMenu = this.av_vFrameSet00.TopFrame;
+
+
+this.av_login = this.av_vFrameSet00.LoginFrame;
+// -끝-
+
+// Frame Size Mode 정의
+this.av_loginModeSize = "0,0,*";
+this.av_mainModeSize = "100,*,0";
+
+// Size 정의
+// this.av_fullSize = {
+// 	h : 900,
+// 	w : 1366
+// };
+// this.av_ieFrameSize = { // 전체 프레임 사이즈에서 빼주는 값 (Web Browser가 차지하는 사이즈)
+// 	h : 150,
+// 	w : 4
+// };
+// this.av_fullFrameSize = { // 전체 프레임 영역 사이즈 (FullSize - IEFrameSize)
+// 	h : this.av_fullSize.h - this.av_ieFrameSize.h,
+// 	w : this.av_fullSize.w - this.av_ieFrameSize.w
+// };
+// this.av_mainFormSize = { // 업무(메뉴)화면 전체 영역 사이즈
+// 	h : 570,
+// 	w : 1112
+// };
+
+this.application_onload = function (obj:Application, e:nexacro.LoadEventInfo)
+{
+	// 개발서버에서 svcurl 맵핑시키기
+	let objSrv = nexacro.getEnvironment().services["svcurl"];
+	trace(e.url);
+	const sIp = "http://14.42.209.174:2004";
+	const dIp = "http://192.168.100.80:8080";
+	const lIp = "http://192.168.100.103:8080";
+// 	if(e.url == sIp + "/Argos/argosTablet.xadl.js") {
+// 		objSrv.url = sIp;
+// 	}
+	
+	if(system.navigatorname == "nexacro" && system.osversion.toUpperCase().indexOf("WINDOWS") == -1)
+	{
+		objSrv.url = lIp;
+	}
+	
+	this.av_vFrameSet00.set_separatesize(this.av_loginModeSize);
+};]]></Script>
+</ADL>

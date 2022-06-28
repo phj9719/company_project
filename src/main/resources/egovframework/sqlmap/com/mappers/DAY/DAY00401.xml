@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00401                                                         
+     * 프로그램 명     	: 4-1 이동서비스 송영기록
+     * Description 		: 송영기록 조회, 삽입, 수정
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-04-26 09:40        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00401_DS_LIST_S		조회, 전일송영불러오기, 지정일불러오기
+        DAY00401_DS_HOLY_S		공휴일 조회
+        DAY00401_DS_COUNT_S		인원수 조회
+        DAY00401_DS_TEMP_S		운행일정불러오기
+        DAY00401_DS_LIST_I		삽입
+        DAY00401_DS_LIST_U		수정
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00401">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회, 전일송영불러오기, 지정일불러오기 -->
+    <select id="DAY00401_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 조회, 전일송영, 지정일 불러오기 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        , bm.단기보호
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND #{DATE} BETWEEN bm.m_enday AND bm.m_reday
+        AND SUBSTRING(CONCAT(bm.일요일, bm.이용일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1				
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      mat.ord1
+    , kmr.k_number
+    , mat.sicode
+    , mat.m_code
+    , kmr.k_nalja
+    , mat.거주현황
+    , mat.m_name
+    , mat.성별
+    , mat.m_roomname
+    , CASE
+        WHEN kmr.종료시간 = '' THEN ''
+        WHEN kmr.시작시간 = '' THEN 
+          CASE WHEN CAST(SUBSTRING(kmr.종료시간, 1, 2) AS INT) &gt; 0 THEN kmr.종료시간 ELSE '' END
+        ELSE 
+          CASE WHEN CAST(SUBSTRING(TIMEDIFF(kmr.종료시간, kmr.시작시간), 1, 2) AS INT) &gt; 0 THEN SUBSTRING(TIMEDIFF(kmr.종료시간, kmr.시작시간), 1, 5) ELSE '' END
+      END AS 총시간
+    , kmr.시작코스
+    , kmr.시작차번호
+    , kmr.시작시간
+    , kmr.시작거주지
+    , kmr.오전거리
+    , kmr.오전장소
+    , kmr.시작기사
+    , kmr.시작기코드
+    , kmr.시작동승
+    , kmr.종료코스
+    , kmr.종료차번호
+    , kmr.종료시간
+    , kmr.종료거주지
+    , kmr.오후거리
+    , kmr.오후장소
+    , kmr.종료기사
+    , kmr.종료기코드
+    , kmr.종료동승
+    , mat.단기보호
+    , CASE mat.단기보호
+        WHEN '1' THEN '주간'
+        WHEN '2' THEN '주단'
+        WHEN '3' THEN '단기'
+      END AS 구분
+    , kmr.단기시간
+    , kmr.단기사유
+    , kmr.미입소
+    , kmr.인증비고a
+    , kmr.인증비고b
+    FROM mate mat
+    LEFT JOIN kmrecord kmr
+    ON (mat.sicode = kmr.sicode
+        AND mat.m_code = kmr.k_code
+        AND kmr.k_nalja = #{DATE})
+    ORDER BY
+      CASE WHEN NULLIF(kmr.미입소, '') IS NULL THEN 2 ELSE 1 END
+    , CASE WHEN NULLIF(kmr.시작코스, '') IS NULL AND NULLIF(kmr.종료코스, '') IS NULL THEN 1 ELSE 2 END
+    , kmr.시작코스
+    , mat.ord1
+    , mat.m_name
+    </select>
+    
+    <!-- 공휴일 조회 -->
+    <select id="DAY00401_DS_HOLY_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 공휴일 조회 */
+    SELECT
+      hol.cdyon
+    , hol.cdwol
+    , CASE WHEN hol.cdday01 = 0 THEN '' ELSE hol.cdday01 END AS cdday01
+    , hol.cdcont01
+    , CASE WHEN hol.cdday02 = 0 THEN '' ELSE hol.cdday02 END AS cdday02
+    , hol.cdcont02
+    , CASE WHEN hol.cdday03 = 0 THEN '' ELSE hol.cdday03 END AS cdday03
+    , hol.cdcont03
+    , CASE WHEN hol.cdday04 = 0 THEN '' ELSE hol.cdday04 END AS cdday04
+    , hol.cdcont04
+    , CASE WHEN hol.cdday05 = 0 THEN '' ELSE hol.cdday05 END AS cdday05
+    , hol.cdcont05 
+    FROM base_holiday hol
+    WHERE hol.cdyon = #{YEAR}
+    AND hol.cdwol = #{MONTH}
+    </select>
+    
+    <!-- 인원수 조회 -->
+    <select id="DAY00401_DS_COUNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 인원수 조회 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        , bm.단기보호
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND #{DATE} BETWEEN bm.m_enday AND bm.m_reday
+        AND SUBSTRING(CONCAT(bm.일요일, bm.이용일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1				
+    )
+    SELECT
+      COUNT(*) AS 인원
+    , COUNT(CASE WHEN (kmr.시작시간 &gt;= '01:00' OR kmr.종료시간 &gt;= '01:00') AND SUBSTRING(kmr.미입소, 1, 1) &lt; 1 THEN 1 END) AS 출석
+    , COUNT(*)
+      - COUNT(CASE WHEN (kmr.시작시간 &gt;= '01:00' OR kmr.종료시간 &gt;= '01:00') AND SUBSTRING(kmr.미입소, 1, 1) &lt; 1 THEN 1 END)
+      - COUNT(CASE WHEN SUBSTRING(kmr.미입소, 1, 1) &gt; 0 THEN 1 END) AS 결석
+    , COUNT(CASE WHEN SUBSTRING(kmr.미입소, 1, 1) &gt; 0 THEN 1 END) AS 미이용
+    , COUNT(CASE WHEN mat.단기보호 != '1' AND ((kmr.시작시간 &gt;= '01:00' OR kmr.종료시간 &gt;= '01:00') AND SUBSTRING(kmr.미입소, 1, 1) &lt; 1) THEN 1 END) AS 단기
+    FROM mate mat
+    LEFT JOIN kmrecord kmr
+    ON (mat.sicode = kmr.sicode
+        AND mat.m_code = kmr.k_code
+        AND kmr.k_nalja = #{DATE})
+    </select>
+    
+    <!-- 운행일정불러오기 -->
+    <select id="DAY00401_DS_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 운행일정 불러오기 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        , bm.단기보호
+        , CASE DATE_FORMAT(#{DATE}, '%w')
+            WHEN 0 THEN SUBSTRING(bm.일요시간, 1, 5)
+            WHEN 1 THEN SUBSTRING(bm.월요시간, 1, 5)
+            WHEN 2 THEN SUBSTRING(bm.화요시간, 1, 5)
+            WHEN 3 THEN SUBSTRING(bm.수요시간, 1, 5)
+            WHEN 4 THEN SUBSTRING(bm.목요시간, 1, 5)
+            WHEN 5 THEN SUBSTRING(bm.금요시간, 1, 5)
+            WHEN 6 THEN SUBSTRING(bm.토요시간, 1, 5)
+            ELSE ''
+          END AS 요일시작시간
+        , CASE DATE_FORMAT(#{DATE}, '%w')
+            WHEN 0 THEN SUBSTRING(bm.일요시간, 7)
+            WHEN 1 THEN SUBSTRING(bm.월요시간, 7)
+            WHEN 2 THEN SUBSTRING(bm.화요시간, 7)
+            WHEN 3 THEN SUBSTRING(bm.수요시간, 7)
+            WHEN 4 THEN SUBSTRING(bm.목요시간, 7)
+            WHEN 5 THEN SUBSTRING(bm.금요시간, 7)
+            WHEN 6 THEN SUBSTRING(bm.토요시간, 7)
+            ELSE ''
+          END AS 요일종료시간
+        , CASE DATE_FORMAT(#{DATE}, '%w')
+            WHEN 0 THEN SUBSTRING(bm.일요차량, 1, 2)
+            WHEN 1 THEN SUBSTRING(bm.월요차량, 1, 2)
+            WHEN 2 THEN SUBSTRING(bm.화요차량, 1, 2)
+            WHEN 3 THEN SUBSTRING(bm.수요차량, 1, 2)
+            WHEN 4 THEN SUBSTRING(bm.목요차량, 1, 2)
+            WHEN 5 THEN SUBSTRING(bm.금요차량, 1, 2)
+            WHEN 6 THEN SUBSTRING(bm.토요차량, 1, 2)
+            ELSE ''
+          END AS 요일시작차량
+        , CASE DATE_FORMAT(#{DATE}, '%w')
+            WHEN 0 THEN SUBSTRING(bm.일요차량, 3)
+            WHEN 1 THEN SUBSTRING(bm.월요차량, 3)
+            WHEN 2 THEN SUBSTRING(bm.화요차량, 3)
+            WHEN 3 THEN SUBSTRING(bm.수요차량, 3)
+            WHEN 4 THEN SUBSTRING(bm.목요차량, 3)
+            WHEN 5 THEN SUBSTRING(bm.금요차량, 3)
+            WHEN 6 THEN SUBSTRING(bm.토요차량, 3)
+            ELSE ''
+          END AS 요일종료차량
+        , bm.실거리
+        , bm.실거리2
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND #{DATE} BETWEEN bm.m_enday AND bm.m_reday
+        AND SUBSTRING(CONCAT(bm.일요일, bm.이용일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1				
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      mat.ord1
+    , kmr.k_number
+    , mat.sicode
+    , mat.m_code
+    , mat.거주현황
+    , mat.m_name
+    , mat.성별
+    , mat.m_roomname
+    , CASE
+        WHEN mat.요일종료시간 = '' THEN ''
+        WHEN mat.요일시작시간 = '' THEN 
+          CASE WHEN CAST(SUBSTRING(mat.요일종료시간, 1, 2) AS INT) &gt; 0 THEN mat.요일종료시간 ELSE '' END
+        ELSE
+          CASE WHEN CAST(SUBSTRING(TIMEDIFF(mat.요일종료시간, mat.요일시작시간), 1, 2) AS INT) &gt; 0 THEN SUBSTRING(TIMEDIFF(mat.요일종료시간, mat.요일시작시간), 1, 5) ELSE '' END
+      END AS 요일총시간
+    , mat.요일시작차량
+    , (SELECT dm.차번호 FROM day_motor dm WHERE dm.sicode = mat.sicode AND dm.차구분 = mat.요일시작차량) AS 요일시작차량번호
+    , mat.요일시작시간
+    , CASE WHEN mat.요일시작차량 != '' THEN 'Y' ELSE '' END AS 요일시작거주
+    , mat.실거리 AS 요일오전거리
+    , (SELECT
+        CASE dm.지정
+          WHEN 1 THEN dm.운전자1
+          WHEN 2 THEN dm.운전자2
+          WHEN 3 THEN dm.운전자3
+          WHEN 4 THEN dm.운전자4
+          ELSE ''
+        END
+      FROM day_motor dm
+      WHERE dm.sicode = mat.sicode
+      AND dm.차구분 = mat.요일시작차량) AS 요일시작운전자
+    , (SELECT
+        CASE dm.지정
+          WHEN 1 THEN dm.운전코드1
+          WHEN 2 THEN dm.운전코드2
+          WHEN 3 THEN dm.운전코드3
+          WHEN 4 THEN dm.운전코드4
+          ELSE ''
+        END
+      FROM day_motor dm
+      WHERE dm.sicode = mat.sicode
+      AND dm.차구분 = mat.요일시작차량) AS 요일시작운전코드
+    , mat.요일종료차량
+    , (SELECT dm.차번호 FROM day_motor dm WHERE dm.sicode = mat.sicode AND dm.차구분 = mat.요일종료차량) AS 요일종료차량번호
+    , mat.요일종료시간
+    , CASE WHEN mat.요일종료차량 != '' THEN 'Y' ELSE '' END AS 요일종료거주
+    , mat.실거리2 AS 요일오후거리
+    , (SELECT
+        CASE dm.지정
+          WHEN 1 THEN dm.운전자1
+          WHEN 2 THEN dm.운전자2
+          WHEN 3 THEN dm.운전자3
+          WHEN 4 THEN dm.운전자4
+          ELSE ''
+        END
+      FROM day_motor dm
+      WHERE dm.sicode = mat.sicode
+      AND dm.차구분 = mat.요일종료차량) AS 요일종료운전자
+    , (SELECT
+        CASE dm.지정
+          WHEN 1 THEN dm.운전코드1
+          WHEN 2 THEN dm.운전코드2
+          WHEN 3 THEN dm.운전코드3
+          WHEN 4 THEN dm.운전코드4
+          ELSE ''
+        END
+      FROM day_motor dm
+      WHERE dm.sicode = mat.sicode
+      AND dm.차구분 = mat.요일종료차량) AS 요일종료운전코드
+    , mat.단기보호
+    , CASE mat.단기보호
+        WHEN '1' THEN '주간'
+        WHEN '2' THEN '주단'
+        WHEN '3' THEN '단기'
+      END AS 구분
+    FROM mate mat
+    LEFT JOIN kmrecord kmr
+    ON (mat.sicode = kmr.sicode
+        AND mat.m_code = kmr.k_code
+        AND kmr.k_nalja = #{DATE})
+    ORDER BY
+      CASE WHEN NULLIF(kmr.미입소, '') IS NULL THEN 2 ELSE 1 END
+    , CASE WHEN NULLIF(kmr.시작코스, '') IS NULL AND NULLIF(kmr.종료코스, '') IS NULL THEN 1 ELSE 2 END
+    , kmr.시작코스
+    , mat.ord1
+    , mat.m_name
+    </select>
+    
+    <!-- 엑셀 다운로드 내용 조회 -->
+    <select id="DAY00401_DS_EXCEL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-1 송영일지 다운로드 조회 */
+    SELECT
+      kmr.sicode
+    , ROW_NUMBER() OVER(ORDER BY
+                          (CASE WHEN kmr.시작거주지 = 'N' AND kmr.종료거주지 = 'N' THEN 2 ELSE 1 END)
+                        , (CASE WHEN kmr.시작시간 = '' THEN '99:99' ELSE kmr.시작시간 END)
+                        , kmr.k_number) AS rownum
+    , kmr.k_nalja
+    , kmr.k_code
+    , kmr.k_name
+    , bm.m_regist
+    , kmr.시작코스
+    , kmr.시작차번호
+    , kmr.시작거주지
+    , kmr.시작시간
+    , kmr.시작기사
+    , kmr.시작동승
+    , kmr.종료코스
+    , kmr.종료차번호
+    , kmr.종료거주지
+    , kmr.종료시간
+    , kmr.종료기사
+    , kmr.종료동승
+    , (CASE WHEN kmr.시작거주지 = 'Y' THEN 1 ELSE 0 END) + (CASE WHEN kmr.종료거주지 = 'Y' THEN 1 ELSE 0 END) AS 이용구분
+    , CASE
+        WHEN kmr.종료시간 = '' THEN ''
+        WHEN kmr.시작시간 = '' THEN kmr.종료시간
+        ELSE SUBSTRING(TIMEDIFF(kmr.종료시간, kmr.시작시간), 1, 5)
+      END AS 제공시간
+    , IFNULL(ROUND(TIME_TO_SEC(CONCAT(CASE
+                                        WHEN kmr.종료시간 = '' THEN ''
+                                        WHEN kmr.시작시간 = '' THEN kmr.종료시간
+                                        ELSE SUBSTRING(TIMEDIFF(kmr.종료시간, kmr.시작시간), 1, 5)
+                                      END, ':00')) / 60), 0) AS 제공분
+    , kmr.k_number
+    FROM kmrecord kmr
+    JOIN base_mate bm
+    ON (kmr.sicode = bm.sicode
+        AND kmr.k_code = bm.m_code)
+    WHERE kmr.sicode = #{SICODE}
+    AND kmr.k_nalja = #{DATE}
+    AND (kmr.시작거주지 IN('Y', 'N') OR kmr.종료거주지 IN('Y', 'N'))
+    ORDER BY
+      kmr.시작코스
+    , (CASE WHEN kmr.시작시간 = '' THEN '00:00' ELSE kmr.시작시간 END)
+    , kmr.k_code
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00401_DS_LIST_I" parameterType="java.util.HashMap">
+    /* 4-1 삽입 */
+    INSERT INTO kmrecord
+    (
+      sicode
+    , k_nalja
+    , k_code
+    , k_name
+    , 시작코스
+    , 시작차번호
+    , 시작시간
+    , 시작거주지
+    , 오전거리
+    , 오전장소
+    , 시작기사
+    , 시작기코드
+    , 시작동승
+    , 종료코스
+    , 종료차번호
+    , 종료시간
+    , 종료거주지
+    , 오후거리
+    , 오후장소
+    , 종료기사
+    , 종료기코드
+    , 종료동승
+    , 단기시간
+    , 단기사유
+    , 미입소
+    , 인증비고a
+    , 인증비고b
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{k_nalja}
+    , #{m_code}
+    , #{m_name}
+    , IFNULL(#{시작코스}, '')
+    , IFNULL(#{시작차번호}, '')
+    , IFNULL(#{시작시간}, '')
+    , IFNULL(#{시작거주지}, '')
+    , IFNULL(#{오전거리}, 0.0)
+    , IFNULL(#{오전장소}, '')
+    , IFNULL(#{시작기사}, '')
+    , IFNULL(#{시작기코드}, '')
+    , IFNULL(#{시작동승}, '')
+    , IFNULL(#{종료코스}, '')
+    , IFNULL(#{종료차번호}, '')
+    , IFNULL(#{종료시간}, '')
+    , IFNULL(#{종료거주지}, '')
+    , IFNULL(#{오후거리}, 0.0)
+    , IFNULL(#{오후장소}, '')
+    , IFNULL(#{종료기사}, '')
+    , IFNULL(#{종료기코드}, '')
+    , IFNULL(#{종료동승}, '')
+    , IFNULL(#{단기시간}, '')
+    , IFNULL(#{단기사유}, '')
+    , IFNULL(#{미입소}, '')
+    , IFNULL(#{인증비고a}, '')
+    , IFNULL(#{인증비고b}, '')
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00401_DS_LIST_U" parameterType="java.util.HashMap">
+    /* 4-1 수정 */
+    UPDATE kmrecord
+    SET	
+      시작코스 = #{시작코스}
+    , 시작차번호 = #{시작차번호}
+    , 시작시간 = #{시작시간}
+    , 시작거주지 = #{시작거주지}
+    , 오전거리 = #{오전거리}
+    , 오전장소 = #{오전장소}
+    , 시작기사 = #{시작기사}
+    , 시작기코드 = #{시작기코드}
+    , 시작동승 = #{시작동승}
+    , 종료코스 = #{종료코스}
+    , 종료차번호 = #{종료차번호}
+    , 종료시간 = #{종료시간}
+    , 종료거주지 = #{종료거주지}
+    , 오후거리 = #{오후거리}
+    , 오후장소 = #{오후장소}
+    , 종료기사 = #{종료기사}
+   	, 종료기코드 = #{종료기코드}
+    , 종료동승 = #{종료동승}
+    , 단기시간 = #{단기시간}
+    , 단기사유 = #{단기사유}
+    , 미입소 = #{미입소}
+    , 인증비고a = #{인증비고a}
+    , 인증비고b = #{인증비고b}
+    WHERE sicode = #{sicode}
+    AND k_number = #{k_number}
+    </update>
+</mapper>

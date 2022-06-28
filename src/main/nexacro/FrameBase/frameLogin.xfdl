@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frameLogin" width="1916" height="930" titletext="Login Frame" onkeyup="frameLogin_onkeyup" onload="frameLogin_onload" background="url('imagerc::login_bg2.png') no-repeat center center">
+    <Layouts>
+      <Layout width="1916" height="930">
+        <Div id="div_login" taborder="0" text="Login Division" left="0.05%" top="0.00%" right="-0.05%" bottom="0.00%" background="transparent" border="0px solid rgba(128,128,128,1)">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="ImageViewer00" taborder="6" top="145" visible="false" stretch="none" left="670" height="100" width="574" background="transparent" border="0px solid rgba(170,170,170,1)" image="" text=""/>
+              <ImageViewer id="ImageViewer01" taborder="7" top="17.10%" height="39" image="url('imagerc::login_logo_sangji.png')" stretch="fixaspectratio" width="342" left="40.81%" background="transparent" border="0px solid rgba(170,170,170,1)"/>
+              <Static id="Static00" taborder="9" text="Copyright(c) SCT CO., Ltd. All Rights Reserved." left="38.76%" top="93.66%" height="32" width="442" textAlign="center" verticalAlign="middle" color="#b0b0b0" font="normal 400 10pt/normal &quot;Noto Sans KR&quot;"/>
+              <Div id="div_log" taborder="10" left="38%" top="30%" width="450" height="450" background="#ffffff" borderRadius="3px" boxShadow="3px 3px 3px #c9c9c9" text="">
+                <Layouts>
+                  <Layout>
+                    <Edit id="edt_loginId" taborder="1" autoselect="true" left="74" top="184" height="40" width="300" border="1px solid #cccccc" background="#fbfbfb" borderRadius="3px" displaynulltext="아이디" font="11pt/normal &quot;Noto Sans KR Regular&quot;" color="#999999" padding="0px 0px 0px 40px" textAlign="left"/>
+                    <Edit id="edt_pwd" taborder="2" password="true" autoselect="true" left="74" top="234" height="40" width="300" border="1px solid #cccccc" background="#fbfbfb" borderRadius="3px" displaynulltext="패스워드" font="11pt/normal &quot;Noto Sans KR Regular&quot;" color="#999999" padding="0px 0px 0px 40px"/>
+                    <Button id="btn_login" taborder="3" text="로그인" onclick="div_login_btn_login_onclick" cssclass="btn_login" top="314" width="300" height="40" left="70" borderRadius="3px" cursor="pointer" textAlign="center" verticalAlign="middle" font="normal 700 12pt/normal &quot;Noto Sans KR&quot;" background="#2d5dbb"/>
+                    <!--opacity="1"-->
+                    <CheckBox id="rememId" taborder="4" text="Remember ID" left="77" top="283" height="20" width="238" color="black" font="9pt/normal &quot;Noto Sans KR Regular&quot;"/>
+                    <Button id="Button00" taborder="5" text="사용자 계정신청" onclick="div_login_Div_log_Button00_onclick" top="282" width="99" height="22" left="269" background="url('imagerc::login_icon.png') no-repeat left center transparent" color="rgba(36,78,231,1)" textAlign="left" verticalAlign="middle" font="9pt/normal &quot;Noto Sans KR Regular&quot;" border="0px solid rgba(170,170,170,1)" padding="0px 0px 0px 12px" cursor="pointer" visible="false"/>
+                    <Static id="Static01" taborder="6" text="로그인" left="174" top="52" width="100" height="30" color="#2d5dbb" font="17pt/normal &quot;NanumSquare ExtraBold&quot;" textAlign="center" verticalAlign="middle"/>
+                    <Div id="Div00" taborder="7" left="83" top="195" width="18" height="18" background="url('imagerc::login_ico2.png') no-repeat">
+                      <Layouts>
+                        <Layout/>
+                      </Layouts>
+                    </Div>
+                    <Div id="Div01" taborder="8" left="83" top="247" width="18" height="18" background="url('imagerc::login_ico3.png') no-repeat"/>
+                    <Edit id="edt_companyCd" taborder="0" autoselect="true" left="74" top="134" height="40" width="300" border="1px solid #cccccc" background="#fbfbfb" borderRadius="3px" displaynulltext="시설코드" font="11pt/normal &quot;Noto Sans KR Regular&quot;" color="#999999" padding="0px 0px 0px 40px" textAlign="left"/>
+                    <Div id="Div00_00" taborder="9" left="83" top="145" width="18" height="18" background="url('imagerc::login_ico1.png') no-repeat">
+                      <Layouts>
+                        <Layout/>
+                      </Layouts>
+                    </Div>
+                    <Button id="btn_testLogin" taborder="10" text="테스트 로그인" cssclass="btn_login" top="364" width="300" height="40" left="70" borderRadius="3px" cursor="pointer" textAlign="center" verticalAlign="middle" font="normal 700 12pt/normal &quot;Noto Sans KR&quot;" background="#2d5dbb" onclick="div_login_div_log_btn_testLogin_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="USER_NM_KOR" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="test_ds">
+        <ColumnInfo>
+          <Column id="COL_1" type="STRING" size="256"/>
+          <Column id="COL_2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ms_ds">
+        <ColumnInfo>
+          <Column id="MAINCD" type="STRING" size="256"/>
+          <Column id="MAINM" type="STRING" size="256"/>
+          <Column id="Column2" type="STRING" size="256"/>
+          <Column id="Column3" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: frameLogin
+ * 화면명   	: 로그인화면
+ * 화면설명 	: 로그인화면
+ * 작성일   	: 2017.04
+ * 작성자   	: 송금준
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ ***********************************************************************
+ *		2022-02-09		조기종		너싱홈 DB 사용자로 로그인하도록 수정
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Include
+ ***********************************************************************/
+include "lib::lib_SHA256.xjs";
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.frameLogin_onload = function (obj:Form, e:nexacro.LoadEventInfo) 
+{
+	this.form_onload_com(obj, e,false);
+	
+	//nexacro.getApplication().gds_menu.clearData();
+	const cookieId = nexacro.getPrivateProfile("PRO_ID");
+	const cookieCd = nexacro.getPrivateProfile("PRO_CD");	//	2021-05-18 추가
+	if (cookieId != null && cookieId != "") {
+		trace("쿠키정보 존재 : " + cookieId);
+		this.div_login.form.div_log.form.rememId.set_value(1);
+		this.div_login.form.div_log.form.edt_loginId.set_value(cookieId);
+		// 2021-05-18 아이디 쿠키가 존재하면 시설코드도 세팅 추가
+		this.div_login.form.div_log.form.edt_companyCd.set_value(cookieCd);
+	}
+	this.div_login.form.div_log.form.btn_login.set_opacity(1);
+};
+
+this.div_login_btn_login_onclick = function (obj:Button, e:nexacro.ClickEventInfo) {
+	const strCompanyCd = this.div_login.form.div_log.form.edt_companyCd.value;
+	const strLoginId = this.div_login.form.div_log.form.edt_loginId.value;
+	const pwd = this.div_login.form.div_log.form.edt_pwd.value;
+	let strLoginPwd;
+	if(pwd != "" && pwd != null) {
+		//strLoginPwd = sha256_digest(pwd);
+		strLoginPwd = pwd;
+	}
+	
+	
+	if (strCompanyCd == "" || strCompanyCd == null) {
+		this.alert("시설코드를 입력해주세요");
+		return;
+	}
+	if (strLoginId == "" || strLoginId == null) {
+		this.alert("ID를 입력해주세요.");
+		return;
+	} else if (strLoginPwd == "" || strLoginPwd == null) {
+		this.alert("비밀번호를 입력해주세요.");
+		return;
+	} else {
+		// gv_langType, gv_locale ko_KR로 세팅
+		nexacro.getApplication().gv_locale = "ko_KR";
+		nexacro.getApplication().gv_langType = "ko_KR";
+		nexacro.getApplication().gv_company = strCompanyCd;
+		
+		var svcId = "login";
+		var params = "/loginCheck.do";
+		var inDatasets = "";
+		var outDatasets = "gds_userInfo=gds_userInfo";
+		var argument = this.gfn_setParam("V_USER_ID", strLoginId); 
+			argument += this.gfn_setParam("V_USER_PWD", strLoginPwd); 
+			argument += this.gfn_setParam("V_LANG_CD", nexacro.getApplication().gv_locale);
+			argument += this.gfn_setParam("V_COMPANY_CD", strCompanyCd);
+			argument += this.gfn_setParam("V_SERVICE_TP", nexacro.getApplication().gv_serviceTp);
+			argument += this.gfn_setParam("V_APPLICATION_TP", nexacro.getApplication().gv_applicationTp);
+		var callbackFunc = "fn_logincallback";
+
+		this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+	}
+};
+
+this.fn_logincallback = function (strSvcID, nErrorCode, strErrorMsg) {
+	if (nErrorCode != 0) {
+		//this.alert(strErrorMsg);
+	} else {
+		if (strSvcID == "login") {
+		
+			nexacro.getApplication().gv_userId = this.div_login.form.div_log.form.edt_loginId.value;
+			nexacro.getApplication().gv_company = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+
+// 			var svcId = "search";
+// 			var params = "/commonController.do";
+// 			var inDatasets = "";
+// 			var outDatasets = "gds_systemproperty=output1";
+// 			var argument = "method=getList "
+// 				 + "sqlId='getSystemProperty' "
+// 				 + "LANG_CD=" + nexacro.getApplication().gv_locale + " "
+// 				 + "COMPANY_CD=" + nexacro.getApplication().gv_company + " ";
+// 			var callbackFunc = "fn_logincallback";
+// 			this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+
+			nexacro.getApplication().av_homeFrame.set_formurl("FrameBase::frameHome.xfdl");
+
+			if (this.div_login.form.div_log.form.rememId.value == 1) {
+				trace("아이디 기억하기 : " + this.div_login.form.div_log.form.edt_loginId.value);
+				nexacro.setPrivateProfile("PRO_ID", this.div_login.form.div_log.form.edt_loginId.value);
+				// 2021-05-18 로그인한 시설코드 기억하기 추가
+				nexacro.setPrivateProfile("PRO_CD", this.div_login.form.div_log.form.edt_companyCd.value);
+				
+			} else {
+				nexacro.setPrivateProfile("PRO_ID", "");
+				nexacro.setPrivateProfile("PRO_CD", "");	// 2021-05-18 추가
+			}
+
+			nexacro.getApplication().av_topFrame.set_formurl("FrameBase::frameTop.xfdl");
+			nexacro.getEnvironment().set_httptimeout(300);
+			nexacro.getApplication().av_vFrameSetMain.set_separatesize(nexacro.getApplication().av_mainModeSize);
+			
+			
+		} else if (strSvcID == "search") {
+// 			nexacro.getApplication().av_homeFrame.set_formurl("Frame::frameHome.xfdl");
+// 
+// 			if (this.div_login.form.div_log.form.rememId.value == 1) {
+// 				trace("아이디 기억하기 : " + this.div_login.form.div_log.form.edt_loginId.value);
+// 				nexacro.setPrivateProfile("PRO_ID", this.div_login.form.div_log.form.edt_loginId.value);
+// 				// 2021-05-18 로그인한 시설코드 기억하기 추가
+// 				nexacro.setPrivateProfile("PRO_CD", this.div_login.form.div_log.form.edt_companyCd.value);
+// 				
+// 			} else {
+// 				nexacro.setPrivateProfile("PRO_ID", "");
+// 				nexacro.setPrivateProfile("PRO_CD", "");	// 2021-05-18 추가
+// 			}
+// 
+// 			nexacro.getApplication().av_topFrame.set_formurl("Frame::frameTop.xfdl");
+// 			nexacro.getEnvironment().set_httptimeout(300);
+// 			nexacro.getApplication().av_vFrameSet0.set_separatesize(nexacro.getApplication().av_mainModeSize);
+           
+// 			for (var i = 0; i < nexacro.getApplication().gds_systemproperty.rowcount; i++) {
+// 				nexacro.getApplication().addVariable("gv_" + nexacro.getApplication().gds_systemproperty.getColumn(i, "CODE").toLowerCase(), nexacro.getApplication().gds_systemproperty.getColumn(i, "SET_VALUE"));
+// 			}
+		}
+	}
+};
+
+// enter key login
+this.frameLogin_onkeyup = function (obj:Form, e:nexacro.KeyEventInfo) {
+	if (e.keycode == 13) {
+		this.div_login_btn_login_onclick();
+	}
+};
+
+this.div_login_div_log_btn_testLogin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const strCompanyCd = "T22614000050";
+	const strLoginId = "20210007";
+	const pwd = "1234";
+	const strLoginPwd = pwd;
+	
+	// gv_langType, gv_locale ko_KR로 세팅
+	nexacro.getApplication().gv_locale = "ko_KR";
+	nexacro.getApplication().gv_langType = "ko_KR";
+	nexacro.getApplication().gv_company = strCompanyCd;
+	
+	var svcId = "login";
+	var params = "/loginCheck.do";
+	var inDatasets = "";
+	var outDatasets = "gds_userInfo=gds_userInfo";
+	var argument = this.gfn_setParam("V_USER_ID", strLoginId); 
+		argument += this.gfn_setParam("V_USER_PWD", strLoginPwd); 
+		argument += this.gfn_setParam("V_LANG_CD", nexacro.getApplication().gv_locale);
+		argument += this.gfn_setParam("V_COMPANY_CD", strCompanyCd);
+		argument += this.gfn_setParam("V_SERVICE_TP", nexacro.getApplication().gv_serviceTp);
+		argument += this.gfn_setParam("V_APPLICATION_TP", nexacro.getApplication().gv_applicationTp);
+	var callbackFunc = "fn_logincallback";
+
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+]]></Script>
+  </Form>
+</FDL>

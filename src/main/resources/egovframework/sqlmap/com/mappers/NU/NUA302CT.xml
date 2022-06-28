@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA302CT                                                         
+     * 프로그램 명     : 배변일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-22     10:11        |  SOOIM     | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA302CT"> 
+<!--SELECT  -->
+	<select id="NUA302CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.GRADE
+					,A.AREA
+					,A.LOCATION 
+					,CASE WHEN NVL(A.RETIRE_DT,'99991231') >= DATE_FORMAT(CURDATE(),'%Y%m%d')
+					      THEN 'N'
+					      ELSE 'Y' END AS ENTER_GB
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY NAME) ROWNUM
+              	FROM T_NU_RESIDENT A
+               WHERE 1=1
+		]]>
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+                 AND A.COMPANY_CD = #{COMPANY_CD}
+        </if>
+        <if test="NAME != '' and NAME != null">
+                 AND A.NAME LIKE CONCAT('%', #{NAME},'%')
+        </if>
+        <if test="AREA != '' and AREA != null">
+                 AND A.AREA = #{AREA} -- 층
+        </if>
+        <if test="LOCATION != '' and LOCATION != null">
+                 AND A.LOCATION = #{LOCATION} -- 생활실
+        </if>
+        <if test="RETIRE_YN != '' and RETIRE_YN != null">
+				 AND IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') = #{RETIRE_YN}
+		</if>
+               ORDER BY ROWNUM ASC, A.ENTER_DT DESC, A.NAME ASC
+    </select>                                                                                                                                                                                                   
+	<select id="NUA302CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+							SELECT CC.COMPANY_CD
+									,CC.SERVICE_TP
+    								,CAST(CC.CMCD AS SIGNED INTEGER) AS POS_HOUR
+    								,CC.CMNM
+								    ,CC.STR1
+								    ,CC.STR2
+								    ,CC.STR3
+								    ,IF(CC.STR3 = 0 ,#{DT}, DATE_FORMAT(DATE_ADD(#{DT},INTERVAL 1 DAY),'%Y%m%d')) AS POS_DT
+								    ,#{RES_ID} AS RES_ID
+    								,(SELECT NR.NAME
+  										FROM T_NU_RESIDENT NR
+ 									   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+										 AND NR.RES_ID = #{RES_ID}) AS RES_NM
+									,(SELECT NR.AREA
+										FROM T_NU_RESIDENT NR
+									   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+										 AND NR.RES_ID = #{RES_ID}) AS AREA
+				        			,(SELECT NR.LOCATION
+										FROM T_NU_RESIDENT NR
+									   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+										 AND NR.RES_ID = #{RES_ID}) AS LOCATION
+									,NP.POS_SEQ
+									,IF(NP.POS_SEQ IS NULL,'I','U') AS STATUS     
+									,NP.POS_CD
+									-- ,NP.POS_HOUR
+									,IFNULL(NP.POS_MIN,'00') AS POS_MIN
+									,NP.POSTURE
+									,NP.MANAGER_ID
+									,(SELECT CU.USER_NM_KOR
+										FROM T_CM_USER CU
+									   WHERE NP.COMPANY_CD = CU.COMPANY_CD
+									     AND NP.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+									,NP.REMARK
+									,#{DT} AS SEARCH_DT
+									,NP.REG_DT
+									,NP.REG_USER
+									,(SELECT CU.USER_NM_KOR
+										FROM T_CM_USER CU
+									   WHERE NP.COMPANY_CD = CU.COMPANY_CD
+										 AND NP.REG_USER = CU.USER_ID) AS REG_USER_NM
+									,NP.MOD_DT
+									,NP.MOD_USER
+									,(SELECT CU.USER_NM_KOR
+				      					FROM T_CM_USER CU
+									   WHERE NP.COMPANY_CD = CU.COMPANY_CD
+										 AND NP.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+									,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+								FROM T_CM_CODE CC
+					 LEFT OUTER JOIN T_NU_POSTURE NP
+								  ON(CC.COMPANY_CD = NP.COMPANY_CD
+								 AND CC.CMCD = NP.POS_CD
+								 AND NP.COMPANY_CD = #{COMPANY_CD}
+								 AND NP.POS_DT = IF(CC.STR3= 1,  DATE_FORMAT(DATE_ADD(#{DT},INTERVAL 1 DAY),'%Y%m%d'), #{DT})
+								 AND NP.RES_ID = (SELECT NR.RES_ID
+				                                    FROM T_NU_RESIDENT NR
+				                                   WHERE NR.RES_ID = #{RES_ID}
+				                                     AND NR.AREA = #{AREA}
+				                                     AND NR.LOCATION = #{LOCATION}
+				                                     AND NR.COMPANY_CD = #{COMPANY_CD}))
+									,(SELECT @ROWNUM:=0) ROWNUM
+							   WHERE CC.GRP_CD = 'NU_POSTURE_TIME'
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND CC.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              ORDER BY POS_HOUR ASC
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA302CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_POSTURE (                                                                                                                                                                                 
+					         COMPANY_CD
+							,POS_SEQ
+							,RES_ID
+							,POS_DT
+							,POS_CD
+							,POS_HOUR
+							,POS_MIN
+							,POSTURE
+							,MANAGER_ID
+							,REMARK
+							,SEARCH_DT
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD  }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_POSTURE ),12,0)))
+							,#{RES_ID      }
+							,#{POS_DT      }
+							,#{POS_HOUR	   }
+							,#{STR1}
+							,#{POS_MIN}
+							,#{POSTURE     }
+							,#{MANAGER_ID  }
+							,#{REMARK      }
+							,#{SEARCH_DT}
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+							,#{MOD_PGM_ID  }
+							,#{MOD_USER    }
+							,#{MOD_DT      }
+							,#{MOD_DT_CURR }
+							,#{MOD_DT_LOC  }
+							,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA302CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_POSTURE                                                                                                                                                                                              
+						 SET RES_ID  	   =#{RES_ID	  }
+						 	,POS_DT        =#{POS_DT      }
+							,POS_CD        =#{POS_HOUR	  }
+							,POS_HOUR	   =#{STR1}
+							,POS_MIN	   =#{POS_MIN}
+							,POSTURE       =#{POSTURE     }
+							,MANAGER_ID    =#{MANAGER_ID  }
+							,REMARK        =#{REMARK      }
+							,MOD_PGM_ID    =#{MOD_PGM_ID  }
+							,MOD_USER      =#{MOD_USER    }
+							,MOD_DT        =#{MOD_DT      }
+							,MOD_DT_CURR   =#{MOD_DT_CURR }
+							,MOD_DT_LOC    =#{MOD_DT_LOC  }
+							,MOD_IP        =#{MOD_IP      }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       AND POS_SEQ = #{POS_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA302CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_POSTURE
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND SEARCH_DT = #{SEARCH_DT}
+                   AND RES_ID	 = #{RES_ID};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+      <select id="NUA302CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA302CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>
+    <!-- 요양사 조회 -->    
+    <select id="NUA302CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7','8')
+				   AND USE_YN = 'Y'
+    	 ]]>
+	</select>
+    
+    <!-- 층 조회 -->
+    <select id="NUA302CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA302CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if> 
+	</select>     
+	<select id="NUA302CT_DS_MINUTE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT CMCD
+			      ,LEFT(CMNM,2) AS CMNM
+			FROM T_CM_CODE
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND GRP_CD = 'NU_MINUTE'
+    	]]>                
+    </select>
+</mapper>                                                                                                                                                                                                          

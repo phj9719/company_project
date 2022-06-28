@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_TEMP_POP" width="350" height="350" titletext="체온 측정 팝업" onload="NUB_TEMP_POP_onload" onclick="formClick" ondevicebuttonup="NUB_TEMP_POP_ondevicebuttonup">
+    <Layouts>
+      <Layout width="350" height="350" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="350" height="350" background="#FFFFFF" borderRadius="20px" text="" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_popTitle" taborder="0" text="측정중" left="110" top="26" width="135" height="44" textAlign="center" cssclass="sta_tPopupTitle" onclick="formClick"/>
+              <Static id="sta_text" taborder="4" text="측정중입니다." left="45" top="225" width="260" height="47" textAlign="center" cssclass="sta_tPopupText" wordWrap="char" onclick="formClick" usedecorate="true"/>
+              <Div id="div_cont" taborder="5" text="Div00" left="60" top="80" width="230" height="120" visible="false" onclick="formClick">
+                <Layouts>
+                  <Layout>
+                    <Edit id="edt_temp" taborder="0" left="60" top="65" width="150" height="40"/>
+                    <Static id="Static01_00" taborder="1" text="체온 : " left="3" top="65" width="45" height="40" cssclass="sta_tPopupText"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_btn_fail" taborder="3" text="Div00" left="30" top="280" height="50" right="30" visible="false">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="종료" left="5" top="5" width="140" height="40" cssclass="btn_tDefaultGray" onclick="div_pop_main_btn_cancel_onclick"/>
+                    <Button id="btn_restart" taborder="1" text="재시작" left="150" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_div_btn_fail_btn_restart_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_cont_fail" taborder="7" left="60" top="100" width="230" height="120" background="url('theme://images/ico_fail.png') no-repeat center center" visible="false">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Div id="div_btn_complete" taborder="2" text="Div00" left="30" top="280" height="50" visible="false" width="290">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="취소" left="5" top="5" width="140" height="40" cssclass="btn_tDefaultGray" onclick="div_pop_main_btn_cancel_onclick" visible="true"/>
+                    <Button id="btn_save" taborder="1" text="저장하기" left="150" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_btn_cancel_onclick" visible="true"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_btn" taborder="1" text="Div00" left="30" top="280" height="50" right="30" visible="true">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="취소" left="85" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_btn_cancel_onclick" visible="true"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_cont_measure" taborder="6" left="60" top="100" width="230" height="120" background="url('theme://images/ico_measuring.png') no-repeat center center" visible="true">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="TEMP" type="STRING" size="256"/>
+          <Column id="TEM_TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_mac = this.parent.mac; // 맥어드레스
+this.NUB_TEMP_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_measure();
+};
+
+// 앱에서 _oncallback의 callback 호출시
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	let flag;
+	let json;
+
+	if(e.svcid == "bluetooth_temp")
+	{
+		if(e.reason == 0)
+		{
+			trace("this.on_callback ::: return : " + JSON.stringify(e.returnvalue));
+			json = e.returnvalue;
+			//const date = json.tempDate;
+			//const time = json.tempTime;
+			const datetime = json.temperatureTime;
+			const time = datetime.split(" ")[1];
+			const timeSp = time.split(":");
+			const meaTime = timeSp[0] + "" + timeSp[1];
+			const temp = json.temperature;
+			const tempFix = temp.toFixed(1);
+			
+// 			this.div_pop_main.form.div_cont.set_visible(true);		
+// 			this.div_pop_main.form.div_btn_complete.set_visible(true);
+// 			
+// 			this.div_pop_main.form.div_btn.set_visible(false);
+// 			this.div_pop_main.form.div_cont_measure.set_visible(false);
+// 			
+// 			this.div_pop_main.form.sta_popTitle.set_text("체온측정");
+// 			this.div_pop_main.form.sta_text.set_text("저장하기를 눌러 측정된 데이터를 저장하시오.");
+// 			
+// 			this.div_pop_main.form.div_cont.form.edt_temp.set_value(tempFix);
+// 			
+// 			this.div_pop_main.form.div_btn_complete.form.btn_save.setFocus();
+
+			this.ds_return.setColumn(0, "TEMP", tempFix);
+			this.ds_return.setColumn(0, "TEM_TIME", meaTime);
+			
+			this.fn_setData();
+		}
+		else if(e.reason == -1)
+		{
+			trace("this.on_callback ::: return : " + JSON.stringify(e.returnvalue));
+			json = e.returnvalue;
+			flag = json.flag;
+			
+			if (json.err == "2") 
+			{
+				
+			}
+			else 
+			{
+				this.div_pop_main.form.div_cont_measure.set_visible(false);
+				this.div_pop_main.form.div_btn.set_visible(false);
+				
+				this.div_pop_main.form.div_cont_fail.set_visible(true);
+				this.div_pop_main.form.div_btn_fail.set_visible(true);
+				
+				this.div_pop_main.form.sta_popTitle.set_text("측정실패");			
+				this.div_pop_main.form.sta_text.set_text("측정에 실패하였거나 측정기기와 연결된 기기가 일치하지 않습니다.");
+			}
+		}
+		else if(e.reason == 1)
+		{
+			this.div_pop_main.form.sta_text.set_text("<fc v='green'>기기와 <b v='true'>연결되었습니다.</b> 체온을 측정해주세요.</fc>");
+		}
+	}
+};
+
+// 앱에서 _onresume 의 callback 호출시
+this.on_standardPlugin_resume = function(obj, e)
+{
+	let str = "";
+	str += "\nthis.on_resume svcid ::: " + e.svcid;
+	str += "\nthis.on_resume reason ::: " + e.reason;
+	str += "\nthis.on_resume returnvalue ::: " + e.returnvalue;
+	
+};
+
+// 앱에서 _onpermissionresult 의 callback 호출시
+this.on_standardPlugin_permission_result = function(obj, e)
+{
+	trace("this.on_permission_result ::: " + e.svcid);
+	trace("this.on_permission_result ::: " + e.reason);
+	trace("this.on_permission_result ::: " + e.returnvalue);
+	
+	if (e.reason == -9)
+	{
+		this.alert("권한허용이 되지 않았습니다.");
+		this.close();
+	}
+};
+
+// 팝업을 닫으면서 부모 화면으로 데이터 전송
+this.fn_setData = function (obj:Button, e:nexacro.ClickEventInfo) 
+{
+	//this.ds_return.clearData();
+	//Multi 선택인경우 체크한 ROW들 전체 return
+	
+	this.close(this.ds_return.saveXML());
+};
+
+// 취소, 종료, 저장하기 버튼
+this.div_pop_main_btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(obj.text == "취소")
+	{
+		const param = {};
+ 		this.standardPlugin.callMethod("bluetooth_cancel", param);
+		this.close();
+	}
+	else if(obj.text == "종료")
+	{
+		this.close();
+	}
+	else if(obj.text == "저장하기")
+	{
+		this.fn_setData();
+	}
+};
+
+// 재시작 버튼
+this.div_pop_main_div_btn_fail_btn_restart_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{		
+	this.div_pop_main.form.div_btn_fail.set_visible(false);
+	this.div_pop_main.form.div_cont_fail.set_visible(false);
+	this.div_pop_main.form.div_btn_complete.set_visible(false);
+	this.div_pop_main.form.div_cont.set_visible(false);
+	
+	this.div_pop_main.form.div_cont_measure.set_visible(true);
+	this.div_pop_main.form.div_btn.set_visible(true);
+	this.div_pop_main.form.sta_popTitle.set_text("측정중");
+	this.div_pop_main.form.sta_text.set_text("측정중입니다.");
+	
+	this.fn_measure();
+};
+
+// 가져오기 버튼
+this.div_pop_main_div_btn_btn_value_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+// 	const param = {arg1 : "test"};
+// 	this.standardPlugin.callMethod("bluetooth_temp", param);
+};
+
+// 측정
+this.fn_measure = function ()
+{
+	const param = {mac : fv_mac, byuser : false};
+	const standard = this.makeStandardObject();
+	
+	if(!standard)
+	{
+		this.close();
+	}
+	else
+	{
+		this.div_pop_main.form.div_btn.form.btn_close.setFocus();
+		this.standardPlugin.callMethod("bluetooth_temp", param);
+	}
+};
+
+this.NUB_TEMP_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		this.close();
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_pop_main.form.div_cont.form.edt_temp" propid="value" datasetid="ds_return" columnid="TEMP"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1180" height="700" onload="form_onload" titletext="운동치료" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclick="formClick">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Static id="sta_menuTitle" taborder="0" text="메뉴명" left="2.46%" top="10" height="30" onclick="formClick" right="3.47%" cssclass="sta_tMenuTitle"/>
+        <Div id="div_search" taborder="1" left="2.46%" top="55" height="40" right="3.39%" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR"/>
+              <Combo id="cmb_location" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_location" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged"/>
+              <Combo id="cmb_room" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" innerdataset="ds_room" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_room_onitemchanged"/>
+              <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+              <Button id="btn_tDelete" taborder="4" text="삭제" top="0" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" width="80" right="0"/>
+              <Button id="btn_tSave" taborder="5" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="90"/>
+              <Combo id="cmb_resident" taborder="6" text="Combo00" left="420" top="0" width="120" height="40" innerdataset="ds_resident" codecolumn="CMCD" datacolumn="CMNM" itemheight="36"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="2" left="2.46%" top="97" bottom="5%" right="3.39%" text="" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_name" taborder="0" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+              <Static id="sta_name00" taborder="1" text="홍길순(87)" left="100" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+              <Static id="sta_name01" taborder="2" text="| 입소일 :" left="200" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+              <Static id="sta_name01_00" taborder="3" text="2017.01.01" left="280" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+              <Static id="sta_name01_00_00" taborder="4" text="| 생활실 :" left="390" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+              <Static id="sta_name01_00_00_00" taborder="5" text="1층/101호" left="470" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+              <Static id="Static01" taborder="8" left="0" top="55" width="222" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_name01_00_00_01" taborder="6" text="| 작성일 :" left="560" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+              <Static id="Static01_01" taborder="10" left="0" top="155" width="222" height="150" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="sta_name01_00_01" taborder="7" text="2021.01.31" left="640" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+              <Grid id="Grid00" taborder="12" left="0%" top="336" right="0%" bottom="0%" cssclass="grd_DataList" binddataset="ds_list" autosizingtype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="45"/>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                      <Column size="160"/>
+                      <Column size="200"/>
+                      <Column size="120"/>
+                      <Column size="250"/>
+                      <Column size="80"/>
+                      <Column size="65"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="45"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번"/>
+                      <Cell col="1" text="날짜"/>
+                      <Cell col="2" text="입소자"/>
+                      <Cell col="3" text="치료내용"/>
+                      <Cell col="4" text="치료부위"/>
+                      <Cell col="5" text="시간"/>
+                      <Cell col="6" text="기타(특이사항)"/>
+                      <Cell col="7" text="처리자"/>
+                      <Cell col="8" expandchar="delete"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell expr="currow + 1"/>
+                      <Cell col="1" text="bind:DATE"/>
+                      <Cell col="2" text="bind:P1"/>
+                      <Cell col="3" text="bind:DES" wordWrap="char"/>
+                      <Cell col="4" maskeditformat="##:##~##:##" maskedittype="string" text="bind:PART"/>
+                      <Cell col="5" text="bind:TIME"/>
+                      <Cell col="6" text="bind:ETC" wordWrap="char"/>
+                      <Cell col="7" text="bind:P2"/>
+                      <Cell col="8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <TextArea id="TextArea00" taborder="13" left="20" top="210" width="180" height="80"/>
+              <Static id="Static02" taborder="9" text="Rom-exercise" left="0" top="55" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static01_01_00" taborder="15" left="222" top="155" width="222" height="150" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Radio id="Radio00" taborder="14" left="65" top="105" width="90" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">02</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static02_01" taborder="11" text="치료부위" left="0" top="155" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static01_01_00_00" taborder="18" left="444" top="155" width="444" height="150" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="Static01_01_00_01" taborder="21" top="155" width="222" height="150" cssclass="sta_tDataBForm3" left="888" onclick="formClick"/>
+              <TextArea id="TextArea00_00" taborder="16" left="242" top="210" width="180" height="80"/>
+              <TextArea id="TextArea00_00_00" taborder="19" left="464" top="210" width="400" height="80"/>
+              <Static id="Static01_00" taborder="24" left="222" top="55" width="222" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="Static02_01_00" taborder="17" text="시간" left="222" top="155" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static00" taborder="23" text="김물리" left="955" top="221" width="70" height="55" textAlign="center" verticalAlign="middle" onclick="formClick"/>
+              <Static id="Static01_00_00" taborder="27" left="444" top="55" width="222" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="Static01_00_00_00" taborder="30" left="666" top="55" width="222" height="100" cssclass="sta_tDataBForm1" onclick="formClick"/>
+              <Static id="Static02_01_00_00" taborder="20" text="기타(특이사항)" left="444" top="155" width="444" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Radio id="Radio00_00" taborder="26" left="287" top="105" width="90" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">02</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Radio id="Radio00_00_00" taborder="29" left="509" top="105" width="90" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">02</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static02_00" taborder="25" text="standing-table" left="222" top="55" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static01_00_00_00_00" taborder="33" left="888" top="55" width="222" height="100" cssclass="sta_tDataBForm3" onclick="formClick"/>
+              <Static id="Static02_01_00_01" taborder="22" text="처리자" left="888" top="155" width="222" height="40" cssclass="sta_tDataHForm2" onclick="formClick"/>
+              <Radio id="Radio00_00_00_00" taborder="32" left="731" top="105" width="90" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">02</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static02_00_00" taborder="28" text="자동자전거 태우기" left="444" top="55" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Radio id="Radio00_00_00_00_00" taborder="35" left="945" top="105" width="90" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">01</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">02</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static02_00_00_00" taborder="31" text="보행운동" left="666" top="55" width="222" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+              <Static id="Static02_00_00_00_00" taborder="34" text="근력운동" left="888" top="55" width="222" height="40" cssclass="sta_tDataHForm2" onclick="formClick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="P1" type="STRING" size="256"/>
+          <Column id="DES" type="STRING" size="256"/>
+          <Column id="PART" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
+          <Column id="ETC" type="STRING" size="256"/>
+          <Column id="P2" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATE">2021-01-31</Col>
+            <Col id="P1">홍길순</Col>
+            <Col id="DES">Rom-exercise</Col>
+            <Col id="PART">양쪽어깨 및 양쪽다리</Col>
+            <Col id="TIME">10:40~11:30</Col>
+            <Col id="ETC">특이사항 내용</Col>
+            <Col id="P2">김물리</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_room">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    : CMA001CT
+ * 화면명   :
+ * 화면설명 :
+ * 작성일    : 2020-07-08
+ * 작성자   :  배영걸
+ * 수정이력 :
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.sta_menuTitle.set_text(this.getOwnerFrame().arguments["menuTitle"]);
+	
+	// 검색조건 세팅
+	this.taSearchDataSetting(obj);
+};
+
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{
+	//this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	//this.fn_save();
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	//this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_head=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_HEAD_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//저장
+this.fn_save = function ()
+{
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	let svcId = "save";
+	let inDs = "ds_head"
+	this.fn_save_com(svcId, inDs);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+		else if(strSvcID == "save" || strSvcID == "delete")
+		{
+			//this.fn_search();
+		}
+	}
+	else
+	{
+		
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item2" compid="div_search.form.cmb_room" propid="value" datasetid="ds_search" columnid="ROOM"/>
+      <BindItem id="item3" compid="div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+    </Bind>
+  </Form>
+</FDL>

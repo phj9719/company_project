@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00210                                                         
+     * 프로그램 명     	: 2-10 자세변경.욕창간호기록                                  
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-21 00:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00210_DS_LIST_S		조회
+        DAY00210_DS_DATA_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00210">
+	<!-- 조회 -->
+    <select id="DAY00210_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 LIST */     
+	  	SELECT a.sicode
+		  	 , a.거주현황
+		     , b.b_offname
+		     , a.m_code
+		     , a.m_group
+		     , a.m_name
+		     , a.성별
+		     , a.m_regist
+		     , FN_GRADE_NM(a.sicode, a.m_code, #{date_to}) AS m_grade_nm
+		     , a.m_roomname
+		     , a.m_roomno
+		     , a.m_history
+		     , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(CONCAT((CASE WHEN SUBSTRING(a.m_jumin2,1,1) IN ('1','2') THEN '19'
+		       WHEN SUBSTRING(a.m_jumin2,1,1) IN ('3','4') THEN '20'
+		       WHEN SUBSTRING(a.m_jumin2,1,1) IN ('9','0') THEN '18'
+		            ELSE '19' END),a.m_jumin1) AS UNSIGNED)) / 10000 ) AS AGE
+		     , CONCAT((CASE WHEN SUBSTRING(a.m_jumin2,1,1) IN ('1','2') THEN '19'
+		  WHEN SUBSTRING(a.m_jumin2,1,1) IN ('3','4') THEN '20'
+		  WHEN SUBSTRING(a.m_jumin2,1,1) IN ('9','0') THEN '18'
+		              ELSE '19' END),a.m_jumin1) AS m_b_date
+		     , 0 AS chk
+		FROM base_mate a
+		   , base_info b
+		   , (SELECT distinct sicode, so_code
+		FROM base_sore 
+			WHERE sicode = #{sicode} 
+			AND so_nalja BETWEEN #{date_from} AND #{date_to}
+			AND ((체위시08 > 0 OR 체위시09 > 0) OR CAST(방지도구 AS INT) > 0)
+		     ) c
+		WHERE a.sicode = b.sicode
+		  AND a.sicode = c.sicode
+		  AND a.m_code = c.so_code
+		  AND a.sicode = #{sicode}
+		ORDER BY a.m_name 			
+    </select>
+    
+    <select id="DAY00210_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 DATA */     
+	  	SELECT bs.sicode
+			, bs.so_number
+			, bs.so_nalja
+			, DATE_FORMAT(bs.so_nalja,'%Y.%m.%d') AS nalja
+			, bm.m_group
+			, bs.so_code
+			, bs.so_name
+			, bs.욕창시점
+			, CASE WHEN bs.욕창시점 = '1' THEN '시작'
+				WHEN bs.욕창시점 = '2' THEN '진행'
+				WHEN bs.욕창시점 = '3' THEN '완치'
+				WHEN bs.욕창시점 = '4' THEN '예방'
+				ELSE ''
+				END AS 상태
+			, CASE WHEN SUBSTRING(bs.방지도구,1,1) = '1' THEN '쿠션'
+				  WHEN SUBSTRING(bs.방지도구,2,1) = '1' THEN '방석'
+			     WHEN SUBSTRING(bs.방지도구,3,1) = '1' THEN '에어매트릭스'
+			     ELSE ''
+			     END AS 방지도구
+			, bs.욕창메모
+			, bs.욕창담당
+			, bs.담당코드
+			, bs.체위시08
+			, bs.체위시09
+			, trim(bs.담당자08)
+			, bs.담당코드08
+			, trim(bs.담당자09)
+			, bs.담당코드09
+		FROM base_sore bs
+			, base_mate bm
+		WHERE bs.sicode = bm.sicode
+			AND bs.so_code = bm.m_code
+			AND bs.sicode = #{sicode}
+			AND bs.so_nalja BETWEEN #{date_from} AND #{date_to}
+			AND ((bs.체위시08 + bs.체위시09 + bs.체위시10 + bs.체위시11 + bs.체위시12 + bs.체위시13 + bs.체위시14 + bs.체위시15 + bs.체위시16 + bs.체위시17 + bs.체위시18) > 0 OR CAST(bs.방지도구 AS INT) > 0)		
+		ORDER BY bs.so_nalja, bs.so_name
+	</select>
+	
+	<!-- 출력 전 체크 -->
+    <select id="DAY00210_DS_LIST_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 LIST CHK*/     
+	  	SELECT DISTINCT sicode, so_code
+	  	FROM base_sore
+		WHERE sicode = #{sicode}
+			AND so_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			AND so_code IN 
+			<foreach item="code" collection="m_codes" open="(" separator="," close=")">
+				#{code}
+			</foreach>
+		<if test="chkname == 'posAndsore'">
+	   		AND ((TRIM(방지도구) != '' AND 방지도구 != '0000') OR (체위시08 + 체위시09 + 체위시10 + 체위시11 + 체위시12 + 체위시13 + 체위시14 + 체위시15 + 체위시16 + 체위시17 + 체위시18) != 0) -- 자세+욕창
+		</if>
+		<if test="chkname == 'posture'">
+	   		AND (체위시08 + 체위시09 + 체위시10 + 체위시11 + 체위시12 + 체위시13 + 체위시14 + 체위시15 + 체위시16 + 체위시17 + 체위시18) != 0 -- 자세변경
+		</if>
+		<if test="chkname == 'bedsore'">
+	   		AND (TRIM(방지도구) != '' AND 방지도구 != '0000') -- 욕창간호
+		</if>
+    </select>
+	
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="768" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="마이페이지">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Div id="div_personal" taborder="0" text="Div00" left="0" top="0" height="300" right="0" background="#172959" border="1px solid #172959">
+          <Layouts>
+            <Layout>
+              <Static id="sta_name" taborder="0" text="홍길수" left="7%" top="40" width="20%" height="40" textAlign="left" color="#e8eaef" font="bold 19pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+              <Static id="Static01" taborder="1" text="님" left="27%" top="40" width="6%" height="40" color="#8b94ac" font="bold 18pt/normal &quot;Noto Sans CJK KR Medium&quot;" textAlign="left"/>
+              <Static id="sta_rName" taborder="2" text="입소자 성함 : " left="7%" top="128" width="25%" height="33" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;" color="#8b94ac" letterSpacing="-0.5px"/>
+              <Static id="sta_fName" taborder="3" text="보호자 성함 : " left="7%" top="163" width="25%" height="33" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;" color="#8b94ac" letterSpacing="-0.5px"/>
+              <Static id="sta_fCellphone" taborder="4" text="보호자 연락처 : " left="7%" top="198" width="29%" height="33" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;" color="#8b94ac" letterSpacing="-0.5px"/>
+              <Static id="sta_fCellPhoneDetail" taborder="5" text="(※응급 상황 발생 시 연락받으실 전화번호)" left="7%" top="229" width="80%" height="30" font="bold 14pt/normal &quot;Noto Sans CJK KR Regular&quot;" color="#81a0da" letterSpacing="-1px"/>
+              <Static id="sta_fCellPhoneValue" taborder="6" text="01012345678" left="170" top="198" width="31%" height="33" color="#e8eaef" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+              <Static id="sta_fNameValue" taborder="7" text="홍길수" left="150" top="163" width="17%" height="33" color="#e8eaef" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+              <Static id="sta_rNameValue" taborder="8" text="홍길동" left="150" top="128" width="17%" height="33" color="#e8eaef" font="bold 16pt/normal &quot;Noto Sans CJK KR Medium&quot;"/>
+              <ImageViewer id="img_profile" taborder="9" left="339" top="25" width="80" height="80" borderRadius="40px" border="1px solid transparent" background="url('theme://images/ico_mypage_profile1.png') no-repeat center"/>
+              <ImageViewer id="img_setting" taborder="10" left="161" top="46" width="36" height="31" background="url('theme://images/ico_mypage_setting1.png') no-repeat center" onclick="movePersonalUpdate"/>
+              <Div id="div_line" taborder="11" left="7%" top="84" width="26%" height="2" background="#c5c9d5"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_terms" taborder="1" text="Div01" left="0" top="300" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="movePersonalInfo">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_terms" taborder="0" left="5%" top="15" width="35" height="35" onclick="movePersonalInfo" background="url('theme://images/ico_mypage1.png') no-repeat center center"/>
+              <Static id="sta_terms" taborder="1" text="서비스이용약관 및 개인정보 처리방침" left="13%" top="15" width="73%" height="40" onclick="movePersonalInfo" color="#555555" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="left" verticalAlign="middle"/>
+              <Button id="btn_terms" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="movePersonalInfo" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_version" taborder="2" text="Div01" left="0" top="370" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="moveVersion">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_version" taborder="0" left="5%" top="15" width="35" height="35" onclick="moveVersion" background="url('theme://images/ico_mypage2.png') no-repeat center center"/>
+              <Static id="sta_version" taborder="1" text="버전정보" left="13%" top="15" width="73%" height="40" onclick="moveVersion" color="#555555" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="left" verticalAlign="middle"/>
+              <Button id="btn_version" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="moveVersion" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_logout" taborder="3" text="Div01" left="0" top="440" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="logoutPop">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_logout" taborder="0" left="5%" top="15" width="35" height="35" onclick="logoutPop" background="url('theme://images/ico_mypage3.png') no-repeat center center"/>
+              <Static id="sta_logout" taborder="1" text="로그아웃" left="13%" top="15" width="73%" height="40" onclick="logoutPop" color="#555555" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="left" verticalAlign="middle"/>
+              <Button id="btn_logout" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="logoutPop" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NOT_SEQ" type="STRING" size="256"/>
+          <Column id="NOT_DT" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_LIST" type="STRING" size="256"/>
+          <Column id="FILE_REAL_LIST" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileDialog id="fileDialog"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const resName = nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_NAME");
+	const name = nexacro.getApplication().gds_mUserInfo.getColumn(0, "NAME");
+	const cellphone = nexacro.getApplication().gds_mUserInfo.getColumn(0, "CELLPHONE");
+	
+	this.div_personal.form.sta_name.set_text(name);
+	this.div_personal.form.sta_fNameValue.set_text(name);
+	this.div_personal.form.sta_rNameValue.set_text(resName);
+	this.div_personal.form.sta_fCellPhoneValue.set_text(cellphone);
+	
+	//조회조건
+	//this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	
+	//조회
+	//this.fn_search();
+	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		+ "sqlId=mTest7.mTest7_DS_LIST_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "NUC_LOGOUT_POP" :
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 개인정보 변경(톱니바퀴)
+this.movePersonalUpdate = function()
+{
+	const id = "test10";
+	const url = "MobileFrame::mTest10.xfdl";
+	const title = "마이페이지";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 서비스 이용약관 및 개인정보 처리방침
+this.movePersonalInfo = function()
+{
+	const id = "test11";
+	const url = "MobileFrame::mTest11.xfdl";
+	const title = "마이페이지";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 버전정보
+this.moveVersion = function()
+{
+	const id = "test12";
+	const url = "MobileFrame::mTest12.xfdl";
+	const title = "마이페이지";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 로그아웃
+this.logoutPop = function()
+{
+	const param = {};
+	
+	Sct.tPopup(this, "NUC_LOGOUT_POP", 350, 300, param, "MobilePOP::NUC_LOGOUT_POP.xfdl", "fn_popCallback");
+};]]></Script>
+  </Form>
+</FDL>

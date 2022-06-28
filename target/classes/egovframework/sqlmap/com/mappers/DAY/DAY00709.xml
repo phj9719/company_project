@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00709                                                        
+     * 프로그램 명     	: 7-9 수급자교육(훈련)일지                                                     
+     * Description 	: 수급자교육(훈련) 내역 관리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-07 10:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00709_DS_LIST_S		조회
+        DAY00709_DS_PRINT_S		리포트 종류 조회
+        DAY00709_DS_DATA_I		삽입
+        DAY00709_DS_DATA_U		수정
+        DAY00709_DS_DATA_D		삭제
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00709">
+	<!-- 조회 -->
+    <select id="DAY00709_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-9 조회 */
+    SELECT
+      be.sicode
+    , be.교육번호
+    , be.교육일
+    , be.교육시간
+    , be.교육강사 AS 강사
+    , be.교육정원
+    , be.출석정원
+    , be.교육명
+    , be.교육방법
+    , be.교육내용
+    , be.작성자명
+    , be.작성자코드
+    , (SELECT CF.FILE_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = be.sicode
+       AND CF.FILE_GRP_ID = be.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS daysajin
+    , be.참석명단
+    , be.직원명단
+    , be.참석직종
+    , be.출석직원
+    , be.교육장소
+    , be.FILE_GRP_ID
+    , (SELECT CF.FILE_REAL_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = be.sicode
+       AND CF.FILE_GRP_ID = be.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_REAL_NAME
+    , (SELECT CF.FILE_ID
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = be.sicode
+       AND CF.FILE_GRP_ID = be.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_ID
+    FROM base_educate be
+    WHERE be.sicode = #{SICODE}
+    AND be.교육일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY
+      be.교육일 DESC
+    , be.교육번호 ASC
+    </select>
+    
+    <!-- 리포트 종류 조회 -->
+    <select id="DAY00709_DS_PRINT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-9 리포트 종류 조회 */
+    SELECT be.교육방법 AS TP
+    FROM base_educate be
+    WHERE be.sicode = #{SICODE}
+    AND be.교육번호 = #{NO}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00709_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-9 삽입 */
+    INSERT INTO base_educate
+    (
+      sicode
+    , 교육일
+    , 교육시간
+    , 교육강사
+    , 출석정원
+    , 교육명
+    , 교육방법
+    , 교육내용
+    , 작성자명
+    , 작성자코드
+    , 참석명단
+    , 참석직종
+    , 교육장소
+    , FILE_GRP_ID
+    , 직원명단
+    , 출석직원
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{교육일}
+    , #{교육시간}
+    , #{강사}
+    , #{출석정원}
+    , #{교육명}
+    , #{교육방법}
+    , #{교육내용}
+    , #{작성자명}
+    , #{작성자코드}
+    , #{참석명단}
+    , #{참석직종}
+    , #{교육장소}
+    , #{FILE_GRP_ID}
+    , #{직원명단}
+    , #{출석직원}
+    )   	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00709_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-9 수정 */
+    UPDATE base_educate
+    SET
+      교육시간 = #{교육시간}
+    , 교육강사 = #{강사}
+    , 출석정원 = #{출석정원}
+    , 교육명 = #{교육명}
+    , 교육방법 = #{교육방법}
+    , 교육내용 = #{교육내용}
+    , 작성자명 = #{작성자명}
+    , 작성자코드 = #{작성자코드}
+    , 참석명단 = #{참석명단}
+    , 참석직종 = #{참석직종}
+    , 교육장소 = #{교육장소}
+    , FILE_GRP_ID = #{FILE_GRP_ID}
+    , 직원명단 = #{직원명단}
+    , 출석직원 = #{출석직원}
+    WHERE sicode = #{sicode}
+    AND 교육번호 = #{교육번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00709_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-9 삭제 */
+    DELETE FROM base_educate
+    WHERE sicode = #{sicode}
+    AND 교육번호 = #{교육번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

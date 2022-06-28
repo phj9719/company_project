@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Grid_Sort_Multi_Pop" width="300" height="350" titletext="Multi Sort" onload="Grid_Sort_Multi_Pop_onload">
+    <Layouts>
+      <Layout width="300" height="350">
+        <Button id="btn_sort" taborder="1" text="Sort" width="52" height="25" right="68" bottom="10" onclick="btn_sort_onclick"/>
+        <Button id="btn_cancel" taborder="2" text="Cancel" width="52" height="25" right="12" bottom="10" onclick="btn_cancel_onclick"/>
+        <Grid id="grd_sort" taborder="3" left="8" top="44" width="282" height="260" binddataset="ds_sortInfo" autofittype="col" autoenter="select">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="158"/>
+                <Column size="108"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="항목"/>
+                <Cell col="1" text="정렬"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="combo" edittype="combo" text="bind:COL_ID" combodataset="ds_colInfo" combocodecol="COL_ID" combodatacol="COL_TEXT" combodisplay="display"/>
+                <Cell col="1" displaytype="combo" edittype="combo" text="bind:SORT_TYPE" combodataset="ds_sortType" combocodecol="code" combodatacol="name" combodisplay="display"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_add" taborder="4" left="240" top="14" width="24" height="22" text="+" onclick="btn_add_onclick"/>
+        <Button id="btn_del" taborder="5" text="-" left="266" top="14" width="24" height="22" onclick="btn_del_onclick"/>
+        <Static id="Static00" taborder="6" text="** 정렬" left="10" top="13" width="148" height="23"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Dataset00" oncolumnchanged="Dataset00_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="col_id" type="STRING" size="256"/>
+          <Column id="col_text" type="STRING" size="256"/>
+          <Column id="col_sort" type="STRING" size="256"/>
+          <Column id="col_seq" type="STRING" size="256"/>
+          <Column id="col_nm" type="STRING" size="256"/>
+          <Column id="col_index" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sortType">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="name">ascending</Col>
+          </Row>
+          <Row>
+            <Col id="code">2</Col>
+            <Col id="name">descending</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_colInfo">
+        <ColumnInfo>
+          <Column id="SEQ" type="INT" size="256"/>
+          <Column id="COL_ID" type="STRING" size="256"/>
+          <Column id="COL_TEXT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sortInfo" oncolumnchanged="ds_sortInfo_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="SEQ" type="INT" size="256"/>
+          <Column id="COL_ID" type="STRING" size="256"/>
+          <Column id="COL_TEXT" type="STRING" size="256"/>
+          <Column id="SORT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.fv_order = 1;
+this.rowC = 0;
+this.argstr = undefined;
+
+this.Grid_Sort_Multi_Pop_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.rowC = obj.getOwnerFrame().rowC;
+	this.argstr = obj.getOwnerFrame().argstr;
+
+	for (var i = 0; i < this.rowC; i++) 
+	{
+		this.ds_colInfo.addRow();
+		this.ds_colInfo.setColumn(i, "SEQ", parseInt(this.argstr[i].split(":")[0]));
+		this.ds_colInfo.setColumn(i, "COL_ID", this.argstr[i].split(":")[1]);
+		this.ds_colInfo.setColumn(i, "COL_TEXT", this.argstr[i].split(":")[2]);
+	}
+};
+
+this.btn_add_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_sortInfo.addRow();
+	this.ds_sortInfo.setColumn(nRow, "SORT_TYPE", "1");
+};
+
+this.btn_del_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (this.ds_sortInfo.rowposition < 0) 
+	{
+		return;
+	}
+
+	this.ds_sortInfo.deleteRow(this.ds_sortInfo.rowposition);
+};
+
+this.ds_sortInfo_oncolumnchanged = function (obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if (e.columnid != "COL_ID") 
+	{
+		return;
+	}
+
+	var row = this.ds_colInfo.findRow("COL_ID", e.newvalue);
+	var seq = this.ds_colInfo.getColumn(row, "SEQ");
+	var text = this.ds_colInfo.getColumn(row, "COL_TEXT");
+
+	obj.setColumn(e.row, "SEQ", seq);
+	obj.setColumn(e.row, "COL_TEXT", text);
+};
+
+this.btn_sort_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.close(this.ds_sortInfo.saveXML());
+};
+
+this.btn_cancel_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+  </Form>
+</FDL>

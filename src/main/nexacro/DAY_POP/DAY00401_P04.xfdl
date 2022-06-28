@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00401_P04" width="1150" height="400" titletext="운전자지정" onload="form_onload">
+    <Layouts>
+      <Layout width="1150" height="400">
+        <Div id="div_cont" taborder="1" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="10" top="0" width="590" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="30" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" autofittype="col" oncellclick="div_cont_div_left_grd_list_oncellclick" right="0" bottom="20">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                            <Column size="50"/>
+                            <Column size="70"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="구분"/>
+                            <Cell col="1" text="차종"/>
+                            <Cell col="2" text="차번호"/>
+                            <Cell col="3" text="운전자1"/>
+                            <Cell col="4" text="운전자2"/>
+                            <Cell col="5" text="운전자3"/>
+                            <Cell col="6" text="지정"/>
+                            <Cell col="7" text="운행유무"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:차구분"/>
+                            <Cell col="1" text="bind:차종"/>
+                            <Cell col="2" text="bind:차번호"/>
+                            <Cell col="3" text="bind:운전자1"/>
+                            <Cell col="4" text="bind:운전자2"/>
+                            <Cell col="5" text="bind:운전자3"/>
+                            <Cell col="6" text="bind:지정"/>
+                            <Cell col="7" text="bind:차표시"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta_subTitle" taborder="1" text="송영차량 리스트" left="0" top="0" width="260" height="24" cssclass="lb01"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="div_left:20" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" right="10" bottom="20">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="11" text="송영차량 운전자지정" left="0" top="0" width="260" height="24" cssclass="lb01"/>
+                          <Div id="div_line" taborder="12" left="0" top="30" height="2" background="#000000" right="0"/>
+                          <Static id="sta_head1" taborder="13" text="차량코드" left="0" top="37" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="14" left="sta_head1:-1" top="sta_head1:-34" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head2" taborder="15" left="0" top="sta_head1:-1" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="차종"/>
+                          <Static id="sta_body2" taborder="16" left="sta_head2:-1" top="sta_body1:-1" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head3" taborder="17" text="차량번호" left="0" top="sta_head2:-1" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body3" taborder="18" left="sta_head3:-1" top="sta_body2:-1" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4" taborder="19" left="0" top="136" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body4" taborder="20" left="sta_head4:-1" top="136" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Edit id="edt_car_kind" taborder="1" left="sta_body2:-407" top="sta_body2:-30" width="170" height="25" maxlength="24"/>
+                          <Edit id="edt_car_no" taborder="2" left="sta_body3:-407" top="sta_body3:-30" width="124" height="25" maxlength="14"/>
+                          <Static id="sta_head4_00" taborder="21" left="0" top="169" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body4_00" taborder="22" left="102" top="169" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4_00_00" taborder="23" left="0" top="202" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body4_00_00" taborder="24" left="102" top="202" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4_00_00_00" taborder="25" left="0" top="235" width="103" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="운행유무"/>
+                          <Static id="sta_body4_00_00_00" taborder="26" left="102" top="235" width="418" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Button id="btn_driver1" taborder="3" text="운전자①" left="5" top="140" width="93" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+                          <Static id="sta_driver1_name" taborder="27" text="이동철" left="115" top="144" width="69" height="19"/>
+                          <Static id="sta_driver1_code" taborder="28" text="20210004" left="199" top="144" width="79" height="19"/>
+                          <CheckBox id="chk_default1" taborder="4" left="333" top="141" width="20" height="25" falsevalue="0" truevalue="1" onchanged="chk_default_onchanged"/>
+                          <Static id="sta_default1" taborder="29" text="." left="311" top="141" width="19" height="25" textAlign="right" font="normal bold 15pt/normal &quot;Arial&quot;"/>
+                          <Button id="btn_driver2" taborder="5" text="운전자②" left="5" top="173" width="93" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+                          <Static id="sta_driver2_name" taborder="30" text="이동철" left="115" top="177" width="69" height="19"/>
+                          <Static id="sta_driver2_code" taborder="31" text="20210004" left="199" top="177" width="79" height="19"/>
+                          <Static id="sta_default2" taborder="32" text="." left="311" top="174" width="19" height="25" textAlign="right" font="normal bold 15pt/normal &quot;Arial&quot;"/>
+                          <CheckBox id="chk_default2" taborder="6" left="333" top="174" width="20" height="25" falsevalue="0" truevalue="2" onchanged="chk_default_onchanged"/>
+                          <Button id="btn_driver3" taborder="7" text="운전자③" left="5" top="206" width="93" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+                          <Static id="sta_driver3_name" taborder="33" text="이동철" left="115" top="210" width="69" height="19"/>
+                          <Static id="sta_driver3_code" taborder="34" text="20210004" left="199" top="210" width="79" height="19"/>
+                          <Static id="sta_default3" taborder="35" text="." left="311" top="207" width="19" height="25" textAlign="right" font="normal bold 15pt/normal &quot;Arial&quot;"/>
+                          <CheckBox id="chk_default3" taborder="8" left="333" top="207" width="20" height="25" falsevalue="0" truevalue="3" onchanged="chk_default_onchanged"/>
+                          <CheckBox id="chk_visible1" taborder="9" text="운행표시" left="114" top="242" width="100" height="20" truevalue="1" falsevalue="0" onchanged="chk_visible_onchanged"/>
+                          <CheckBox id="chk_visible2" taborder="10" text="표시안함" left="224" top="242" width="100" height="20" truevalue="2" falsevalue="0" onchanged="chk_visible_onchanged"/>
+                          <Edit id="edt_car_gubun" taborder="0" left="113" top="42" width="40" height="25" maxlength="30" readonly="true"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="0" left="0" top="0" height="35" formscrollbartype="none" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_refresh" taborder="0" text="새로고침" left="10" top="5" width="90" height="25" cssclass="btn_refresh" onclick="div_func_btn_refresh_onclick"/>
+              <Button id="btn_save" taborder="2" text="저장" top="5" width="70" height="25" onclick="fn_saveBtn" right="10" cssclass="btn_save"/>
+              <Button id="btn_report" taborder="1" text="송영차량 리스트" top="5" width="140" height="25" onclick="fn_report" cssclass="btn_print" left="460"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="차구분" type="STRING" size="256"/>
+          <Column id="차종" type="STRING" size="256"/>
+          <Column id="차번호" type="STRING" size="256"/>
+          <Column id="운전자1" type="STRING" size="256"/>
+          <Column id="운전코드1" type="STRING" size="256"/>
+          <Column id="운전자2" type="STRING" size="256"/>
+          <Column id="운전코드2" type="STRING" size="256"/>
+          <Column id="운전자3" type="STRING" size="256"/>
+          <Column id="운전코드3" type="STRING" size="256"/>
+          <Column id="지정" type="STRING" size="256"/>
+          <Column id="차표시" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="차구분" type="STRING" size="256"/>
+          <Column id="차종" type="STRING" size="256"/>
+          <Column id="차번호" type="STRING" size="256"/>
+          <Column id="운전자1" type="STRING" size="256"/>
+          <Column id="운전코드1" type="STRING" size="256"/>
+          <Column id="운전자2" type="STRING" size="256"/>
+          <Column id="운전코드2" type="STRING" size="256"/>
+          <Column id="운전자3" type="STRING" size="256"/>
+          <Column id="운전코드3" type="STRING" size="256"/>
+          <Column id="지정" type="STRING" size="256"/>
+          <Column id="지정1" type="STRING" size="256"/>
+          <Column id="지정2" type="STRING" size="256"/>
+          <Column id="지정3" type="STRING" size="256"/>
+          <Column id="차표시" type="STRING" size="256"/>
+          <Column id="표시1" type="STRING" size="256"/>
+          <Column id="표시2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00401_P04
+ * 화면명   	: 운전자지정 팝업
+ * 화면설명 	: 차량별 운전자를 지정하는 팝업
+ * 작성일   	: 2022-05-02
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+const fv_date = this.parent.DATE;
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+this.searchFlag = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 저장을 위한 gv_curWinKey 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00401_P04";
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+ 	
+	// 오픈시 조회
+	this.fn_search();
+};
+
+// 그리드 css 적용
+this.initGrid = function(grid)
+{
+	// 차표시 값에 따라 차번호 색변경
+	const noIdx = grid.getBindCellIndex("body", "차번호");
+	const noCss = "expr:dataset.getColumn(currow, '차표시') == 1 ? 'CellBe6ffff' : ''";
+	grid.setCellProperty("body", noIdx, "cssclass", noCss);
+	
+	// 지정에 따라 운전자 배경색 변경
+	const nameIdx1 = grid.getBindCellIndex("body", "운전자1");
+	const nameIdx2 = grid.getBindCellIndex("body", "운전자2");
+	const nameIdx3 = grid.getBindCellIndex("body", "운전자3");
+	const nameCss1 = "expr:dataset.getColumn(currow, '지정') == 1 ? 'CellBLightSky' : ''";
+	const nameCss2 = "expr:dataset.getColumn(currow, '지정') == 2 ? 'CellBLightSky' : ''";
+	const nameCss3 = "expr:dataset.getColumn(currow, '지정') == 3 ? 'CellBLightSky' : ''";
+	grid.setCellProperty("body", nameIdx1, "cssclass", nameCss1);
+	grid.setCellProperty("body", nameIdx2, "cssclass", nameCss2);
+	grid.setCellProperty("body", nameIdx3, "cssclass", nameCss3);
+	
+	// 차표시 값에 따라 차표시 색변경
+	const viIdx = grid.getBindCellIndex("body", "차표시");
+	const viCss = "expr:dataset.getColumn(currow, '차표시') == 1 ? 'CellBLightSky' : ''";
+	grid.setCellProperty("body", viIdx, "cssclass", viCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	if (this.ds_data.rowcount > 0)
+		this.reSearchData = this.ds_data.getColumn(0, "차구분");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00401_P04.DAY00401_P04_DS_LIST_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData, this.searchFlag);
+			this.searchFlag = "";
+			
+			this.initGrid(this.div_cont.form.div_left.form.grd_list);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	const dValue = this.ds_data.getColumn(nRow, "지정");
+	switch(dValue) 
+	{
+		case "1" :
+			this.ds_data.setColumn(nRow, "지정1", "1");
+			break;
+		case "2" :
+			this.ds_data.setColumn(nRow, "지정2", "2");
+			break;
+		case "3" :
+			this.ds_data.setColumn(nRow, "지정3", "3");
+			break;
+	}
+	
+	const vValue = this.ds_data.getColumn(nRow, "차표시");
+	switch(vValue) 
+	{
+		case "1" :
+			this.ds_data.setColumn(nRow, "표시1", "1");
+			break;
+		case "0" :
+			this.ds_data.setColumn(nRow, "표시2", "2");
+			break;
+	}
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo, flag) {
+	let sFindRow = this.ds_list.findRow("차구분", fv_saveRefNo);
+	
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 운전자 선택 팝업
+this.btn_driver_select = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let svcId = "";
+	
+	switch(obj.id) {
+		case "btn_driver1" :	// 운전자①
+			svcId = "driver1";
+			break;
+		case "btn_driver2" :	// 운전자②
+			svcId = "driver2";
+			break;
+		case "btn_driver3" :	// 운전자③
+			svcId = "driver3";
+			break;
+		default:
+	}
+	
+	const param = {
+		SICODE : fv_sicode
+	,	DATE : fv_date
+	};
+
+	Sct.popup(this, svcId, 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_list.rowcount == 0)
+	{
+		this.alert("차량목록이 없습니다.");
+		return;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00401_R07.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + fv_date + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "driver1" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "운전자1", nexacro.trim(objDs.getColumn(0, "c_name")));
+				this.ds_data.setColumn(0, "운전코드1", objDs.getColumn(0, "c_staffid"));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "운전자1", "");
+				this.ds_data.setColumn(0, "운전코드1", "");
+			}
+			break;
+		case "driver2" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "운전자2", nexacro.trim(objDs.getColumn(0, "c_name")));
+				this.ds_data.setColumn(0, "운전코드2", objDs.getColumn(0, "c_staffid"));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "운전자2", "");
+				this.ds_data.setColumn(0, "운전코드2", "");
+			}
+			break;
+		case "driver3" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "운전자3", nexacro.trim(objDs.getColumn(0, "c_name")));
+				this.ds_data.setColumn(0, "운전코드3", objDs.getColumn(0, "c_staffid"));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "운전자3", "");
+				this.ds_data.setColumn(0, "운전코드3", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const noIdx = obj.getBindCellIndex("body", "차번호");
+	// 차번호 선택
+	if (e.col == noIdx)
+	{
+		// 입력, 수정용 데이터셋에 데이터 복사
+		this.fn_dataCopy(e.row);
+	}
+};
+
+// 지정 운전자 체크박스 변경 이벤트
+this.chk_default_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) 
+	{
+		case "1" :
+			this.ds_data.setColumn(0, "지정2", 0);
+			this.ds_data.setColumn(0, "지정3", 0);
+			this.ds_data.setColumn(0, "지정", e.postvalue);
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "지정1", 0);
+			this.ds_data.setColumn(0, "지정3", 0);
+			this.ds_data.setColumn(0, "지정", e.postvalue);
+			break;
+		case "3" :
+			this.ds_data.setColumn(0, "지정1", 0);
+			this.ds_data.setColumn(0, "지정2", 0);
+			this.ds_data.setColumn(0, "지정", e.postvalue);
+			break;
+		default:
+	}
+};
+
+// 운행유무 체크박스 변경 이벤트
+this.chk_visible_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(obj.id) 
+	{
+		case "1" :
+			this.ds_data.setColumn(0, "표시2", 0);
+			this.ds_data.setColumn(0, "차표시", e.postvalue);
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "표시1", 0);
+			this.ds_data.setColumn(0, "차표시", 0);
+			break;
+		default:
+	}
+};
+
+// 새로고침
+this.div_func_btn_refresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.div_main.form.edt_car_gubun" propid="value" datasetid="ds_data" columnid="차구분"/>
+      <BindItem id="item1" compid="div_cont.form.div_right.form.div_main.form.edt_car_kind" propid="value" datasetid="ds_data" columnid="차종"/>
+      <BindItem id="item2" compid="div_cont.form.div_right.form.div_main.form.edt_car_no" propid="value" datasetid="ds_data" columnid="차번호"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_driver1_name" propid="text" datasetid="ds_data" columnid="운전자1"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_driver1_code" propid="text" datasetid="ds_data" columnid="운전코드1"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_driver2_name" propid="text" datasetid="ds_data" columnid="운전자2"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_driver2_code" propid="text" datasetid="ds_data" columnid="운전코드2"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_driver3_name" propid="text" datasetid="ds_data" columnid="운전자3"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_driver3_code" propid="text" datasetid="ds_data" columnid="운전코드3"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.chk_default1" propid="value" datasetid="ds_data" columnid="지정1"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.chk_default2" propid="value" datasetid="ds_data" columnid="지정2"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.chk_default3" propid="value" datasetid="ds_data" columnid="지정3"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.chk_visible1" propid="value" datasetid="ds_data" columnid="표시1"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.chk_visible2" propid="value" datasetid="ds_data" columnid="표시2"/>
+    </Bind>
+  </Form>
+</FDL>

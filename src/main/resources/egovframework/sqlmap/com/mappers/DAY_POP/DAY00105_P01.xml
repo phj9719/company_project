@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00105_P01                                                       
+     * 프로그램 명     	: 상태변화기록 수정                                                     
+     * Description 	: 상태변화기록을 조회 및 수정
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-04-20 16:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00105_P01_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00105_P01">
+	<select id="DAY00105_P01_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00105_P01_DS_HEAD_S */
+		SELECT bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+			 , TIMESTAMPDIFF(YEAR, STR_TO_DATE(
+			        CONCAT(CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN(1,2,5,6) THEN 19 /* 주민번호 뒷자리 */
+			              		WHEN SUBSTRING(bm.m_jumin2,1,1) IN(3,4,7,8) THEN 20
+			              		ELSE 19		END
+			         	, bm.m_jumin1), '%Y%m%d'), CURRENT_DATE) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		  FROM base_mate bm  
+		  WHERE bm.sicode = #{sicode}
+			AND bm.m_code = #{m_code}
+	</select>
+	
+	<select id="DAY00105_P01_DS_ITEM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00105_P01_DS_ITEM_S */
+		SELECT A.DATES AS aDates
+			, DATE_FORMAT(A.DATES,'%e') AS dday
+			, A.rnum
+			, B.sicode
+			, DATE_FORMAT(B.ba_nalja, '%Y-%m-%d') AS ba_nalja
+			, B.DATES AS bDates
+			, B.ba_code
+			, B.ba_name
+			, B.ba_cnt
+			, IF(DATEDIFF(A.DATES, #{date_from}) <![CDATA[ < ]]> 0, 0, 1) AS bShow
+			, IF(IFNULL(B.ba_nalja,'') <![CDATA[ <> ]]> '', 1, 0) AS bChk
+	    FROM (SELECT A1.MAKE_DATES,
+	                DATE_ADD(A1.MAKE_DATES, INTERVAL A3.rnum - 1 DAY) AS DATES,
+	                A3.rnum
+	           FROM (SELECT DATE_FORMAT(DATE_ADD(#{date_from}, INTERVAL -DAYOFWEEK(#{date_from}) + 1 DAY), '%Y%m%d') MAKE_DATES
+	                   FROM DUAL) A1
+	           JOIN (SELECT rnum
+	                  FROM (SELECT ROW_NUMBER() OVER() AS rnum
+	                          FROM INFORMATION_SCHEMA.ALL_PLUGINS) A2
+	                 WHERE A2.rnum <![CDATA[ <= ]]>
+	                       (SELECT FORMAT(DATE_FORMAT(LAST_DAY(#{date_from}),
+	                                                  '%Y%m%d') -
+	                                      DATE_FORMAT(#{date_from}, '%Y%m%d') + 1 + DAYOFWEEK(#{date_from}) - 1,
+	                                      0))) A3
+	             ON (1 = 1)) A
+	         LEFT JOIN (SELECT  bb.sicode
+	           , bb.ba_nalja
+	           , DATE_FORMAT(bb.ba_nalja,'%Y-%m-%d') AS DATES
+	           , bb.ba_code
+	           , bb.ba_name
+	           , COUNT(*) OVER (PARTITION BY bb.ba_code) AS ba_cnt
+	   FROM base_bath bb
+	   WHERE bb.sicode = #{sicode}
+	     AND bb.ba_nalja BETWEEN #{date_from} AND #{date_to} 
+	     AND bb.ba_code = #{m_code}) B
+	          ON (A.DATES = B.DATES)	
+	</select>
+	
+	<select id="DAY00105_P01_DS_ITEM_NOW_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00105_P01_DS_ITEM_NOW_S */
+		SELECT bb.sicode
+			, bb.ba_code
+			, bb.ba_nalja
+			, bb.제공방법
+		FROM base_bath bb
+		WHERE bb.sicode = #{sicode}
+		  AND bb.ba_code = #{m_code}
+		  AND bb.ba_nalja BETWEEN #{date_from} AND #{date_to}
+	</select>
+	
+	<insert id="DAY00105_P01_DS_ITEM_I" parameterType="java.util.HashMap">
+	/* DAY00105_P01_DS_ITEM_I */
+		INSERT INTO base_bath
+		(
+			   sicode
+			 , ba_code
+			 , ba_name
+			 , ba_nalja
+			 , 제공방법
+		)
+		VALUES
+		(
+			  #{sicode}
+			, #{ba_code}
+			, #{ba_name}
+			, #{ba_nalja}
+			, 0				-- 예약
+		)
+	</insert>
+	
+	<delete id="DAY00105_P01_DS_ITEM_D" parameterType="java.util.HashMap">
+	/* DAY00105_P01_DS_ITEM_D */
+		DELETE FROM base_bath
+		WHERE sicode = #{sicode}
+		  AND ba_code = #{ba_code}
+		  AND ba_nalja = #{ba_nalja}
+	</delete>
+</mapper>

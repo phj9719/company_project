@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CM_MANAGER_PP                                                         
+     * 프로그램 명     : 처리자 팝업                                                     
+     * Description : 
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-10-21 10:14        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_MANAGER_PP"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CM_MANAGER_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.USER_NM_KOR
+					,A.RANK_CD
+					,A.USER_ID
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+              FROM   T_CM_USER A                                                                                                                                                                              
+              WHERE  1=1
+                AND USE_YN = 'Y'
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.USER_NM_KOR LIKE CONCAT('%', #{NAME},'%') 
+              </if>
+              <if test="RANK_CD != '' and RANK_CD != null">
+                    AND A.RANK_CD = #{RANK_CD}
+              </if>
+        
+               ORDER BY A.USER_NM_KOR ASC, A.RANK_CD ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	                                                                                                                                                                              
+</mapper>                                                                                                                                                                                                          

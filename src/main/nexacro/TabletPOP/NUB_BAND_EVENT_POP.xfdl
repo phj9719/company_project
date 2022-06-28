@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_BAND_EVENT_POP" width="800" height="600" titletext="처리자 조회 팝업" onclick="formClick" onkeyup="fn_openDebugPopup" onload="NUB_BAND_EVENT_POP_onload" ondevicebuttonup="NUB_BAND_EVENT_POP_ondevicebuttonup">
+    <Layouts>
+      <Layout width="800" height="600" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="800" height="600" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" text="">
+          <Layouts>
+            <Layout>
+              <Div id="div_title" taborder="0" text="맥박이상 처리 팝업" left="0" top="0" height="70" background="#47afe1" right="0" color="#ffffff" font="normal 700 27pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_date" taborder="1" text="-" left="40" top="108" width="250" height="40" font="normal 500 18pt/normal &quot;Noto Sans KR&quot;" onclick="formClick"/>
+              <Static id="sta_nameAge" taborder="2" text="-" left="36" top="140" width="250" height="66" font="normal 700 30pt/normal &quot;Noto Sans KR&quot;" onclick="formClick"/>
+              <Static id="sta_band_event_tp" taborder="3" text="맥박이상유형 : " left="39" top="245" width="170" height="40" cssclass="sta_check" onclick="formClick"/>
+              <Button id="btn_save" taborder="4" text="저장" top="515" width="200" height="50" cssclass="btn_tDefaultSkyblue" visible="true" onclick="div_pop_main_btn_save_onclick" borderRadius="25px" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;" right="190"/>
+              <Button id="btn_close" taborder="5" text="취소" left="190" top="515" width="200" height="50" cssclass="btn_tDefaultGray" visible="true" onclick="div_pop_main_btn_close_onclick" borderRadius="25px" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_band_desc" taborder="6" text="사유 및 조치 :" left="39" top="288" width="170" height="40" cssclass="sta_check" onclick="formClick" letterSpacing="1.7px"/>
+              <TextArea id="txa_band_desc" taborder="7" left="40" top="330" height="150" displaynulltext="낙상사유 및 조치내용을 입력해주세요. (마이크버튼으로 음성 입력 가능)" right="40"/>
+              <Static id="sta_manager" taborder="8" text="처리자 선택 : " left="416" top="113" width="155" height="35" cssclass="sta_check" onclick="formClick"/>
+              <Combo id="cmb_manager" taborder="9" left="586" top="104" height="50" buttonsize="0 0" oneditclick="div_pop_main_cmb_manager_oneditclick" innerdataset="ds_manager" codecolumn="CMCD" datacolumn="CMNM" font="normal 500 17pt/normal &quot;Noto Sans KR&quot;" right="40"/>
+              <Radio id="rdo_band_event_tp" taborder="10" left="220" top="251" width="530" height="40" cssclass="sqRadio" innerdataset="ds_nu_band_event_tp" codecolumn="CMCD" datacolumn="CMNM" rowcount="1" fittocontents="both" font="normal 500 18pt/normal &quot;Noto Sans KR&quot;"/>
+              <Button id="btn_tRecord" taborder="11" top="286" height="36" cssclass="btn_tRecord2" onclick="div_pop_main_btn_tRecord_onclick" borderRadius="18px" right="50" width="60"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_band_event" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME_AGE" type="STRING" size="256"/>
+          <Column id="BAND_TP" type="STRING" size="256"/>
+          <Column id="BAND_DESC" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_nu_band_event_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_Company = this.parent.COMPANY_CD;
+
+// 온로드
+this.NUB_BAND_EVENT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	nexacro.getApplication().gv_curWinKey = "NUB_BAND_EVENT_POP";
+	
+	this.ds_nu_band_event_tp.filter("CMCD != null");
+	
+	const dateStr = this.fn_dateString(this.parent.BAND_ALERT_TIME);
+	const nameAge = this.parent.NAME + "(" + this.parent.AGE + ")";
+	const manager = nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID");
+	
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_Company);
+	this.ds_band_event.setColumn(0, "COMPANY_CD", fv_Company);
+	this.ds_band_event.setColumn(0, "BAN_TIME", this.parent.BAND_ALERT_TIME);
+	this.ds_band_event.setColumn(0, "BAN_DT", dateStr);
+	this.ds_band_event.setColumn(0, "RES_ID", this.parent.RES_ID);
+	this.ds_band_event.setColumn(0, "NAME_AGE", nameAge);
+	this.ds_band_event.setColumn(0, "MANAGER_ID", manager);
+	
+	this.fn_setComboDs(obj);
+	
+	this.div_pop_main.form.resetScroll();
+};
+
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+		{ outDsName : "ds_manager", sqlId : "NUB_COMMON.NUB_COMMON_DS_MANAGER_S", param : this.ds_search, bEmptyRow : true }
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+this.fn_dateString = function(str)
+{
+	if (Sct.Util.isEmpty(str)) return "";
+
+	const YYYY = str.substr(0, 4);
+	const MM = str.substr(4, 2);
+	const DD = str.substr(6, 2);
+	const HH = str.substr(8, 2);
+	const mm = str.substr(10, 2);
+	const ss = str.substr(12, 2);
+	const sss = str.substr(15);
+	
+	const dateStr = YYYY + "-" + MM + "-" + DD + " " + HH + ":" + mm + ":" + ss;
+	
+	return dateStr;
+};
+
+// 디바이스 버튼
+this.NUB_BAND_EVENT_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if (e.button == 2)
+	{
+		this.close();
+	}
+};
+
+// 취소 버튼
+this.div_pop_main_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 처리자 팝업
+this.div_pop_main_cmb_manager_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+	
+	Sct.tPopup(this, "pop2", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "pop2" : // 처리자
+			this.ds_band_event.setColumn(0, "MANAGER_ID", objDs.getColumn(0,"USER_ID"));
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 음성 입력
+this.div_pop_main_btn_tRecord_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {arg1 : "1"};
+	const stObj = this.makeStandardObject();
+	if(stObj)
+	{
+		this.standardPlugin.callMethod("VOICE", param);
+	}
+};
+
+// 안드로이드 네이티브 통신 콜백
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	// STT
+	if(e.svcid == "VOICE1")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.ds_band_event.getColumn(0, "BAND_DESC");
+			if (rmkValue == undefined)
+			{
+				this.ds_band_event.setColumn(0, "BAND_DESC", e.returnvalue);
+			}
+			else
+			{
+				this.ds_band_event.setColumn(0, "BAND_DESC", rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+};
+
+// 저장 버튼
+this.div_pop_main_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const banTp = this.ds_band_event.getColumn(0, "BAND_TP");
+	if (banTp != null && banTp != undefined)
+	{
+		const svcId = "save";
+		const inDs = "ds_band_event";
+		this.fn_save_com(svcId, inDs);
+	}
+	else
+	{
+		alert("맥박이상유형을 선택해주세요");
+	}
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "save")
+		{				
+			alert("저장하였습니다.");
+			this.close();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_pop_main.form.sta_date" propid="text" datasetid="ds_band_event" columnid="BAN_DT"/>
+      <BindItem id="item1" compid="div_pop_main.form.sta_nameAge" propid="text" datasetid="ds_band_event" columnid="NAME_AGE"/>
+      <BindItem id="item2" compid="div_pop_main.form.rdo_band_event_tp" propid="value" datasetid="ds_band_event" columnid="BAND_TP"/>
+      <BindItem id="item3" compid="div_pop_main.form.txa_band_desc" propid="value" datasetid="ds_band_event" columnid="BAND_DESC"/>
+      <BindItem id="item4" compid="div_pop_main.form.cmb_manager" propid="value" datasetid="ds_band_event" columnid="MANAGER_ID"/>
+    </Bind>
+  </Form>
+</FDL>

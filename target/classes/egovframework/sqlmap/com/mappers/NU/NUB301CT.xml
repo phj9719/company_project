@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB301CT                                                         
+     * 프로그램 명     	: 요양일지                                                     
+     * Description 	: 태블릿 입소자별 요양일지 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-08-11 17:21        		|  조기종       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	NUB301CT_DS_OBSERVE_LIST_S		요양/관찰일지 검색
+     	NUB301CT_DS_OBSERVE_LIST_I		요양/관찰일지 삽입 
+     	NUB301CT_DS_OBSERVE_LIST_U		요양/관찰일지 수정
+     	NUB301CT_DS_OBSERVE_LIST_D		요양/관찰일지 삭제
+     	NUB301CT_DS_SLEEP_LIST_S		수면상태 검색
+     	NUB301CT_DS_SLEEP_INPUT_I		수면상태 삽입
+     	NUB301CT_DS_SLEEP_INPUT_U		수면상태 수정
+     	NUB301CT_DS_SLEEP_LIST_D		수면상태 삭제 
+     	NUB301CT_DS_WATER_LIST_S		수분섭취 검색
+     	NUB301CT_DS_WATER_INPUT_I		수분섭취 삽입
+     	NUB301CT_DS_WATER_INPUT_U		수분섭취 수정
+     	NUB301CT_DS_WATER_LIST_D		수분섭취 삭제
+     	NUB301CT_DS_MEAL_LIST_S			식사 검색
+     	NUB301CT_DS_MEAL_RESIDENT_S		식사 입소자 정보 조회
+     	NUB301CT_DS_MEAL_LIST_I			식사 삽입
+     	NUB301CT_DS_MEAL_LIST_U			식사 수정
+     	NUB301CT_DS_MEAL_LIST_D			식사 삭제
+     	NUB301CT_DS_POSTURE_LIST_S		체위변경 검색
+     	NUB301CT_DS_POSTURE_LIST_I		체위변경 삽입
+     	NUB301CT_DS_POSTURE_LIST_U		체위변경 수정
+     	NUB301CT_DS_POSTURE_LIST_D		체위변경 삭제
+     	NUB301CT_DS_EXCRETION_S			집중배설관찰 검색 공통부
+     	NUB301CT_DS_EXCRETION_TEMP1_S	집중배설관찰 당일분 검색
+     	NUB301CT_DS_EXCRETION_TEMP2_S	집중배설관찰 명일분 검색
+     	NUB301CT_DS_EXCRETION_I			집중배설관찰 삽입 공통
+     	NUB301CT_DS_EXCRETION_TEMP1_I	집중배설관찰 당일분 삽입
+     	NUB301CT_DS_EXCRETION_TEMP2_I	집중배설관찰 명일분 삽입
+     	NUB301CT_DS_EXCRETION_U			집중배설관찰 수정 공통
+     	NUB301CT_DS_EXCRETION_TEMP1_U	집중배설관찰 당일분 수정
+     	NUB301CT_DS_EXCRETION_TEMP2_U	집중배설관찰 명일분 수정
+     	NUB301CT_DS_EXCRETION_D			집중배설관찰 삭제(당일)                                                                        
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB301CT">
+	<!-- 요양/관찰일지 검색 -->
+	<select id="NUB301CT_DS_OBSERVE_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_OBSERVE_LIST_S */
+		SELECT
+				NO.COMPANY_CD
+			,	NO.OBS_SEQ
+			,	NO.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NO.OBS_DT
+			,	NO.NOTE
+			,	NO.REMARK
+			,	NO.MANAGER_ID
+			,	NO.REG_PGM_ID
+			,	NO.REG_USER
+			,	NO.REG_DT
+			,	NO.REG_DT_CURR
+			,	NO.REG_DT_LOC
+			,	NO.REG_IP
+			,	NO.MOD_PGM_ID
+			,	NO.MOD_USER
+			,	NO.MOD_DT
+			,	NO.MOD_DT_CURR
+			,	NO.MOD_DT_LOC
+			,	NO.MOD_IP
+		FROM
+				T_NU_OBSERVE NO
+			,	T_NU_RESIDENT NR
+		WHERE
+				NO.COMPANY_CD = NR.COMPANY_CD
+		AND		NO.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+		AND		NO.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+		AND		NO.OBS_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+		AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+		AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+		AND		NO.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 요양/관찰일지 삽입 -->
+	<insert id="NUB301CT_DS_OBSERVE_LIST_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_OBSERVE_LIST_I */
+		INSERT INTO
+			T_NU_OBSERVE
+		(
+				COMPANY_CD
+			,	OBS_SEQ
+			,	RES_ID
+			,	OBS_DT
+			,	NOTE
+			,	REMARK
+			,	MANAGER_ID
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_OBSERVE ),12,0)))
+			,	#{RES_ID}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{NOTE}
+			,	#{REMARK}
+			,	#{MANAGER_ID}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 요양/관찰일지 수정 -->
+	<update id="NUB301CT_DS_OBSERVE_LIST_U"	parameterType="java.util.HashMap">
+	/* NUB301CT_DS_OBSERVE_LIST_U */
+		UPDATE
+			T_NU_OBSERVE
+		SET
+				NOTE = #{NOTE}
+			,	REMARK = #{REMARK}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		OBS_SEQ = #{OBS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 요양/관찰일지 삭제 -->
+	<delete id="NUB301CT_DS_OBSERVE_LIST_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_OBSERVE_LIST_D */
+		DELETE FROM
+			T_NU_OBSERVE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		OBS_SEQ = #{OBS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+	
+	<!-- 수면상태 검색 -->
+	<select id="NUB301CT_DS_SLEEP_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_SLEEP_LIST_S */
+			SELECT
+					NS.COMPANY_CD
+				,	NS.SLE_SEQ
+				,	NS.RES_ID
+				,	NR.NAME
+				,	NR.AREA
+				,	NR.LOCATION
+				,	NS.SLE_DT
+				,	NS.SLE_TIME
+				,	NS.SLEEP_TP
+				,	NS.MANAGER_ID
+				,	NS.REMARK
+				,	NS.REG_PGM_ID
+				,	NS.REG_USER
+				,	NS.REG_DT
+				,	NS.REG_DT_CURR
+				,	NS.REG_DT_LOC
+				,	NS.REG_IP
+				,	NS.MOD_PGM_ID
+				,	NS.MOD_USER
+				,	NS.MOD_DT
+				,	NS.MOD_DT_CURR
+				,	NS.MOD_DT_LOC
+				,	NS.MOD_IP
+			FROM
+					T_NU_SLEEP NS
+				,	T_NU_RESIDENT NR
+			WHERE	NS.COMPANY_CD = NR.COMPANY_CD
+			AND		NS.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NS.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NS.SLE_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NS.RES_ID = #{RES_ID}
+		</if>
+			ORDER BY NS.SLE_TIME DESC
+	</select>
+	
+	<!-- 수면상태 삽입 -->
+	<insert id="NUB301CT_DS_SLEEP_INPUT_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_SLEEP_INPUT_I */
+		INSERT INTO
+			T_NU_SLEEP
+		(
+				COMPANY_CD
+			,	SLE_SEQ
+			,	RES_ID
+			,	SLE_DT
+			,	SLE_TIME
+			,	SLEEP_TP
+			,	MANAGER_ID
+			,	REMARK
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_SLEEP ),12,0)))
+			,	#{RES_ID}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{SLE_TIME}
+			,	#{SLEEP_TP}
+			,	#{MANAGER_ID}
+			,	#{REMARK}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수면상태 수정 -->
+	<update id="NUB301CT_DS_SLEEP_INPUT_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_SLEEP_INPUT_U */
+		UPDATE
+			T_NU_SLEEP
+		SET
+				SLE_TIME = #{SLE_TIME}
+			,	SLEEP_TP = #{SLEEP_TP}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SLE_SEQ = #{SLE_SEQ}
+		AND		RES_ID = #{RES_ID}  
+	</update>
+	
+	<!-- 수면상태 삭제 -->
+	<delete id="NUB301CT_DS_SLEEP_LIST_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_SLEEP_LIST_D */
+		DELETE FROM
+			T_NU_SLEEP
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SLE_SEQ = #{SLE_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+	
+	<!-- 수분섭취 검색 -->
+	<select id="NUB301CT_DS_WATER_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_WATER_LIST_S */
+			SELECT
+					NW.COMPANY_CD
+				,	NW.WAT_SEQ
+				,	NW.RES_ID
+				,	NR.NAME
+				,	NR.AREA
+				,	NR.LOCATION
+				,	NW.WAT_DT
+				,	NW.WAT_TIME
+				,	NW.VOLUME
+				,	NW.MANAGER_ID
+				,	NW.REMARK
+				,	NW.REG_PGM_ID
+				,	NW.REG_USER
+				,	NW.REG_DT
+				,	NW.REG_DT_CURR
+				,	NW.REG_DT_LOC
+				,	NW.REG_IP
+				,	NW.MOD_PGM_ID
+				,	NW.MOD_USER
+				,	NW.MOD_DT
+				,	NW.MOD_DT_CURR
+				,	NW.MOD_DT_LOC
+				,	NW.MOD_IP
+			FROM
+					T_NU_WATER NW
+				,	T_NU_RESIDENT NR
+			WHERE	NW.COMPANY_CD = NR.COMPANY_CD
+			AND		NW.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NW.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NW.WAT_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NW.RES_ID = #{RES_ID}
+		</if>
+			ORDER BY NW.WAT_TIME DESC
+	</select>
+	
+	<!-- 수분섭취 삽입 -->
+	<insert id="NUB301CT_DS_WATER_INPUT_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_WATER_INPUT_I */
+		INSERT INTO
+			T_NU_WATER
+		(
+				COMPANY_CD
+			,	WAT_SEQ
+			,	RES_ID
+			,	WAT_DT
+			,	WAT_TIME
+			,	VOLUME
+			,	MANAGER_ID
+			,	REMARK
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_WATER ),12,0)))
+			,	#{RES_ID}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{WAT_TIME}
+			,	#{VOLUME}
+			,	#{MANAGER_ID}
+			,	#{REMARK}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수분섭취 수정 -->
+	<update id="NUB301CT_DS_WATER_INPUT_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_WATER_INPUT_U */
+		UPDATE
+			T_NU_WATER
+		SET
+				WAT_TIME = #{WAT_TIME}
+			,	VOLUME = #{VOLUME}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		WAT_SEQ = #{WAT_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 수분섭취 삭제 -->
+	<delete id="NUB301CT_DS_WATER_LIST_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_WATER_LIST_D */
+		DELETE FROM
+			T_NU_WATER
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		WAT_SEQ = #{WAT_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+	
+	<!-- 식사 검색 -->
+	<select id="NUB301CT_DS_MEAL_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_MEAL_LIST_S */
+			SELECT
+					NM.COMPANY_CD
+				,	NM.MEA_DT
+				,	NM.RES_ID
+				,	NR.NAME
+				,	NR.AREA
+				,	NR.LOCATION
+				,	NM.FUND_DIS
+				,	SUBSTRING(NM.FUND_DIS, 1, 1) AS FUND1
+				,	SUBSTRING(NM.FUND_DIS, 2, 1) AS FUND2
+				,	SUBSTRING(NM.FUND_DIS, 3, 1) AS FUND3
+				,	SUBSTRING(NM.FUND_DIS, 4, 1) AS FUND4
+				,	SUBSTRING(NM.FUND_DIS, 5, 1) AS FUND5
+				,	SUBSTRING(NM.FUND_DIS, 6, 1) AS FUND6
+				,	NM.DIETARY_CURE
+				,	SUBSTRING(NM.DIETARY_CURE, 1, 1) AS DIET1
+				,	SUBSTRING(NM.DIETARY_CURE, 2, 1) AS DIET2
+				,	SUBSTRING(NM.DIETARY_CURE, 3, 1) AS DIET3
+				,	SUBSTRING(NM.DIETARY_CURE, 4, 1) AS DIET4
+				,	NM.BRE_TP
+				,	SUBSTRING(NM.BRE_TP, 1, 1) AS B_MEAL1
+				,	SUBSTRING(NM.BRE_TP, 2, 1) AS B_MEAL2
+				,	SUBSTRING(NM.BRE_TP, 3, 1) AS B_MEAL3
+				,	SUBSTRING(NM.BRE_TP, 4, 1) AS B_MEAL4
+				,	SUBSTRING(NM.BRE_TP, 5, 1) AS B_MEAL5
+				,	SUBSTRING(NM.BRE_TP, 6, 1) AS B_MEAL6
+				,	NM.BRE_QTY
+				,	NM.BRE_TIME
+				,	NM.LUN_TP
+				,	SUBSTRING(NM.LUN_TP, 1, 1) AS L_MEAL1
+				,	SUBSTRING(NM.LUN_TP, 2, 1) AS L_MEAL2
+				,	SUBSTRING(NM.LUN_TP, 3, 1) AS L_MEAL3
+				,	SUBSTRING(NM.LUN_TP, 4, 1) AS L_MEAL4
+				,	SUBSTRING(NM.LUN_TP, 5, 1) AS L_MEAL5
+				,	SUBSTRING(NM.LUN_TP, 6, 1) AS L_MEAL6
+				,	NM.LUN_QTY
+				,	NM.LUN_TIME
+				,	NM.DIN_TP
+				,	SUBSTRING(NM.DIN_TP, 1, 1) AS D_MEAL1
+				,	SUBSTRING(NM.DIN_TP, 2, 1) AS D_MEAL2
+				,	SUBSTRING(NM.DIN_TP, 3, 1) AS D_MEAL3
+				,	SUBSTRING(NM.DIN_TP, 4, 1) AS D_MEAL4
+				,	SUBSTRING(NM.DIN_TP, 5, 1) AS D_MEAL5
+				,	SUBSTRING(NM.DIN_TP, 6, 1) AS D_MEAL6
+				,	NM.DIN_QTY
+				,	NM.DIN_TIME
+				,	NM.MOR_SNACK_QTY
+				,	NM.MOR_SNACK_TIME
+				,	NM.AFT_SNACK_QTY
+				,	NM.AFT_SNACK_TIME
+				,	NM.REMARK
+				,	NM.MANAGER_ID
+				,	NM.REG_PGM_ID
+				,	NM.REG_USER
+				,	NM.REG_DT
+				,	NM.REG_DT_CURR
+				,	NM.REG_DT_LOC
+				,	NM.REG_IP
+				,	NM.MOD_PGM_ID
+				,	NM.MOD_USER
+				,	NM.MOD_DT
+				,	NM.MOD_DT_CURR
+				,	NM.MOD_DT_LOC
+				,	NM.MOD_IP
+			FROM
+					T_NU_MEAL NM
+				,	T_NU_RESIDENT NR
+			WHERE	NM.COMPANY_CD = NR.COMPANY_CD
+			AND		NM.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NM.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NM.MEA_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NM.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 식사 입소자 정보 조회 -->
+	<select id="NUB301CT_DS_MEAL_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_MEAL_RESIDENT_S */
+			SELECT
+					NR.COMPANY_CD
+				,	CC.BRE_FR_TIME
+				,	CC.BRE_TO_TIME
+				,	CC.LUN_FR_TIME
+				,	CC.LUN_TO_TIME
+				,	CC.DIN_FR_TIME
+				,	CC.DIN_TO_TIME
+				,	CC.MOR_SNACK_TIME
+				,	CC.AFT_SNACK_TIME
+				,	NR.FOOD_TP
+				,	SUBSTRING(NR.FOOD_TP, 1, 1) AS FOOD1
+				,	SUBSTRING(NR.FOOD_TP, 2, 1) AS FOOD2
+				,	SUBSTRING(NR.FOOD_TP, 3, 1) AS FOOD3
+				,	SUBSTRING(NR.FOOD_TP, 4, 1) AS FOOD4
+				,	SUBSTRING(NR.FOOD_TP, 5, 1) AS FOOD5
+				,	SUBSTRING(NR.FOOD_TP, 6, 1) AS FOOD6
+				,	NR.FUNC_DIS
+				,	SUBSTRING(NR.FUNC_DIS, 1, 1) AS FUNC1
+				,	SUBSTRING(NR.FUNC_DIS, 2, 1) AS FUNC2
+				,	SUBSTRING(NR.FUNC_DIS, 3, 1) AS FUNC3
+				,	SUBSTRING(NR.FUNC_DIS, 4, 1) AS FUNC4
+				,	SUBSTRING(NR.FUNC_DIS, 5, 1) AS FUNC5
+				,	SUBSTRING(NR.FUNC_DIS, 6, 1) AS FUNC6
+				,	NR.DIETARY_CURE
+				,	SUBSTRING(NR.DIETARY_CURE, 1, 1) AS DIET1
+				,	SUBSTRING(NR.DIETARY_CURE, 2, 1) AS DIET2
+				,	SUBSTRING(NR.DIETARY_CURE, 3, 1) AS DIET3
+				,	SUBSTRING(NR.DIETARY_CURE, 4, 1) AS DIET4
+			FROM
+					T_CM_COMPANY CC
+				,	T_NU_RESIDENT NR
+			WHERE	CC.COMPANY_CD = NR.COMPANY_CD
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		CC.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NR.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 식사 삽입 -->
+	<insert id="NUB301CT_DS_MEAL_LIST_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_MEAL_LIST_I */
+		INSERT INTO
+			T_NU_MEAL
+		(
+				COMPANY_CD
+			,	MEA_DT
+			,	RES_ID
+			,	FUND_DIS
+			,	DIETARY_CURE
+			,	BRE_TP
+			,	BRE_QTY
+			,	BRE_TIME
+			,	LUN_TP
+			,	LUN_QTY
+			,	LUN_TIME
+			,	DIN_TP
+			,	DIN_QTY
+			,	DIN_TIME
+			,	MOR_SNACK_QTY
+			,	MOR_SNACK_TIME
+			,	AFT_SNACK_QTY
+			,	AFT_SNACK_TIME
+			,	MANAGER_ID
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{RES_ID}
+			,	CONCAT(IFNULL(#{FUND1}, 0), IFNULL(#{FUND2}, 0), IFNULL(#{FUND3}, 0), IFNULL(#{FUND4}, 0), IFNULL(#{FUND5}, 0), IFNULL(#{FUND6}, 0))
+			,	CONCAT(IFNULL(#{DIET1}, 0), IFNULL(#{DIET2}, 0), IFNULL(#{DIET3}, 0), IFNULL(#{DIET4}, 0))
+			,	CONCAT(IFNULL(#{B_MEAL1}, 0), IFNULL(#{B_MEAL2}, 0), IFNULL(#{B_MEAL3}, 0), IFNULL(#{B_MEAL4}, 0), IFNULL(#{B_MEAL5}, 0), IFNULL(#{B_MEAL6}, 0))
+			,	#{BRE_QTY}
+			,	#{BRE_TIME}
+			,	CONCAT(IFNULL(#{L_MEAL1}, 0), IFNULL(#{L_MEAL2}, 0), IFNULL(#{L_MEAL3}, 0), IFNULL(#{L_MEAL4}, 0), IFNULL(#{L_MEAL5}, 0), IFNULL(#{L_MEAL6}, 0))
+			,	#{LUN_QTY}
+			,	#{LUN_TIME}
+			,	CONCAT(IFNULL(#{D_MEAL1}, 0), IFNULL(#{D_MEAL2}, 0), IFNULL(#{D_MEAL3}, 0), IFNULL(#{D_MEAL4}, 0), IFNULL(#{D_MEAL5}, 0), IFNULL(#{D_MEAL6}, 0))
+			,	#{DIN_QTY}
+			,	#{DIN_TIME}
+			,	#{MOR_SNACK_QTY}
+			,	#{MOR_SNACK_TIME}
+			,	#{AFT_SNACK_QTY}
+			,	#{AFT_SNACK_TIME}
+			,	#{MANAGER_ID}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 식사 수정 -->
+	<update id="NUB301CT_DS_MEAL_LIST_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_MEAL_LIST_U */
+		UPDATE
+			T_NU_MEAL
+		SET
+				FUND_DIS = CONCAT(IFNULL(#{FUND1}, 0), IFNULL(#{FUND2}, 0), IFNULL(#{FUND3}, 0), IFNULL(#{FUND4}, 0), IFNULL(#{FUND5}, 0), IFNULL(#{FUND6}, 0))
+			,	DIETARY_CURE = CONCAT(IFNULL(#{DIET1}, 0), IFNULL(#{DIET2}, 0), IFNULL(#{DIET3}, 0), IFNULL(#{DIET4}, 0))
+			,	BRE_TP = CONCAT(IFNULL(#{B_MEAL1}, 0), IFNULL(#{B_MEAL2}, 0), IFNULL(#{B_MEAL3}, 0), IFNULL(#{B_MEAL4}, 0), IFNULL(#{B_MEAL5}, 0), IFNULL(#{B_MEAL6}, 0))
+			,	BRE_QTY = #{BRE_QTY}
+			,	BRE_TIME = #{BRE_TIME}
+			,	LUN_TP = CONCAT(IFNULL(#{L_MEAL1}, 0), IFNULL(#{L_MEAL2}, 0), IFNULL(#{L_MEAL3}, 0), IFNULL(#{L_MEAL4}, 0), IFNULL(#{L_MEAL5}, 0), IFNULL(#{L_MEAL6}, 0))
+			,	LUN_QTY = #{LUN_QTY}
+			,	LUN_TIME = #{LUN_TIME}
+			,	DIN_TP = CONCAT(IFNULL(#{D_MEAL1}, 0), IFNULL(#{D_MEAL2}, 0), IFNULL(#{D_MEAL3}, 0), IFNULL(#{D_MEAL4}, 0), IFNULL(#{D_MEAL5}, 0), IFNULL(#{D_MEAL6}, 0))
+			,	DIN_QTY = #{DIN_QTY}
+			,	DIN_TIME = #{DIN_TIME}
+			,	MOR_SNACK_QTY = #{MOR_SNACK_QTY}
+			,	MOR_SNACK_TIME = #{MOR_SNACK_TIME}
+			,	AFT_SNACK_QTY = #{AFT_SNACK_QTY}
+			,	AFT_SNACK_TIME = #{AFT_SNACK_TIME}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		MEA_DT = #{MEA_DT}
+	</update>
+	
+	<!-- 식사 삭제 -->
+	<delete id="NUB301CT_DS_MEAL_LIST_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_MEAL_LIST_D */
+		DELETE FROM
+			T_NU_MEAL
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		MEA_DT = #{MEA_DT}
+	</delete>
+	
+	<!-- 체위변경 검색 -->
+	<select id="NUB301CT_DS_POSTURE_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_POSTURE_LIST_S */
+			SELECT
+					CC.COMPANY_CD
+				,	CAST(CC.CMCD AS SIGNED INTEGER) AS POS_HOUR
+				,	CC.CMNM
+				,	CONCAT(CC.STR1, ' : ') AS STR1
+				,	CONCAT('~ ', CC.STR2) AS STR2
+				,	CC.STR3
+				,	IF(CC.STR3 = 0, #{DATE}, DATE_FORMAT(DATE_ADD(#{DATE}, INTERVAL 1 DAY), '%Y%m%d')) AS POS_DT
+				,	#{RES_ID} AS RES_ID
+				,	NP.POS_SEQ
+				,	IF(NP.POS_SEQ IS NULL, 'I', 'U') AS STATUS
+				,	NP.POS_CD
+				,	IFNULL(NP.POS_MIN, '00') AS POS_MIN
+				,	NP.POSTURE
+				,	NP.MANAGER_ID
+				,	NP.REMARK
+				,	#{DATE} AS SEARCH_DT
+				,	NP.REG_PGM_ID
+				,	NP.REG_USER
+				,	NP.REG_DT
+				,	NP.REG_DT_CURR
+				,	NP.REG_DT_LOC
+				,	NP.REG_IP
+				,	NP.MOD_PGM_ID
+				,	NP.MOD_USER
+				,	NP.MOD_DT
+				,	NP.MOD_DT_CURR
+				,	NP.MOD_DT_LOC
+				,	NP.MOD_IP
+			FROM
+					T_CM_CODE CC
+			LEFT OUTER JOIN
+					T_NU_POSTURE NP
+			ON
+			(
+					CC.COMPANY_CD = NP.COMPANY_CD
+			AND		CC.CMCD = NP.POS_CD
+			AND		NP.COMPANY_CD = #{COMPANY_CD}
+			AND		NP.POS_DT = IF(CC.STR3 = 1, DATE_FORMAT(DATE_ADD(#{DATE}, INTERVAL 1 DAY), '%Y%m%d'), #{DATE})
+			AND		NP.RES_ID = (SELECT NR.RES_ID
+								 FROM	T_NU_RESIDENT NR
+								 WHERE	NR.RES_ID = #{RES_ID}
+								 AND	NR.AREA = #{AREA}
+								 AND	NR.LOCATION = #{LOCATION}
+								 AND	NR.COMPANY_CD = #{COMPANY_CD})
+			)
+			WHERE	CC.GRP_CD = 'NU_POSTURE_TIME'
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		CC.COMPANY_CD = #{COMPANY_CD}
+		</if>
+			ORDER BY POS_HOUR
+	</select>
+	
+	<!-- 체위변경 삽입 -->
+	<insert id="NUB301CT_DS_POSTURE_LIST_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_POSTURE_LIST_I */
+		INSERT INTO
+			T_NU_POSTURE
+		(
+				COMPANY_CD
+			,	POS_SEQ
+			,	RES_ID
+			,	POS_DT
+			,	POS_CD
+			,	POS_HOUR
+			,	POS_MIN
+			,	POSTURE
+			,	MANAGER_ID
+			,	REMARK
+			,	SEARCH_DT
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_POSTURE ),12,0)))
+			,	#{RES_ID}
+			,	#{POS_DT}
+			,	#{POS_HOUR}
+			,	#{CMNM}
+			,	#{POS_MIN}
+			,	#{POSTURE}
+			,	#{MANAGER_ID}
+			,	#{REMARK}
+			,	#{SEARCH_DT}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 체위변경 수정 -->                                                                                                                                                                 
+	<update id="NUB301CT_DS_POSTURE_LIST_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_POSTURE_LIST_U */
+		UPDATE
+			T_NU_POSTURE
+		SET
+				POS_MIN = #{POS_MIN}
+			,	POSTURE = #{POSTURE}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		POS_SEQ = #{POS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 체위변경 삭제 -->
+	<delete id="NUB301CT_DS_POSTURE_LIST_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_POSTURE_LIST_D */
+		DELETE FROM
+			T_NU_POSTURE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SEARCH_DT = #{SEARCH_DT}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+	
+	<!-- 집중배설관찰 검색 공통부 -->
+	<sql id="NUB301CT_DS_EXCRETION_S">
+		SELECT
+					NE.COMPANY_CD			/* 시설코드 */
+				,	NE.EXC_DT				/* 배설관찰일 */
+				,	NE.RES_ID				/* 입소자코드 */
+				,	NE.DAY_MANAGER_ID		/* 주간담당자ID */
+				,	NE.DAY_MANAGER_NM		/* 주간담당자명 */
+				,	NE.NIG_MANAGER_ID		/* 야간담당자ID */
+				,	NE.NIG_MANAGER_NM		/* 야간담당자명 */
+				,	NE.EXC_TIME				/* 관찰분 */
+				,	NE.URIN_OBS				/* 배뇨관찰 */
+				,	NE.FECES_OBS			/* 배변관찰 */
+				,	NE.DIAPER_CHG			/* 기저귀교환 */
+				,	NE.CLOTH_CHG			/* 옷교환 */
+				,	NE.URIN_QTY				/* 소변량 */
+				,	NE.REMARK				/* 비고 */
+				,	NE.REG_PGM_ID
+				,	NE.REG_USER
+				,	NE.REG_DT
+				,	NE.REG_DT_CURR
+				,	NE.REG_DT_LOC
+				,	NE.REG_IP
+				,	NE.MOD_PGM_ID
+				,	NE.MOD_USER
+				,	NE.MOD_DT
+				,	NE.MOD_DT_CURR
+				,	NE.MOD_DT_LOC
+				,	NE.MOD_IP
+			FROM
+					T_NU_EXCRETION NE
+				,	T_NU_RESIDENT NR
+	</sql>
+	
+	<!-- 집중배설관찰 당일분 검색 -->
+	<select id="NUB301CT_DS_EXCRETION_TEMP1_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP1_S */
+			<include refid="NUB301CT_DS_EXCRETION_S"></include>
+			WHERE	NE.COMPANY_CD = NR.COMPANY_CD
+			AND		NE.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NE.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NE.EXC_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NE.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 집중배설관찰 명일분 검색 -->
+	<select id="NUB301CT_DS_EXCRETION_TEMP2_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP2_S */
+			<include refid="NUB301CT_DS_EXCRETION_S"></include>
+			WHERE	NE.COMPANY_CD = NR.COMPANY_CD
+			AND		NE.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NE.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NE.EXC_DT = DATE_FORMAT(DATE_ADD(#{DATE},INTERVAL 1 DAY),'%Y%m%d')
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NE.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 집중배설관찰 삽입 공통부 -->
+	<sql id="NUB301CT_DS_EXCRETION_I">
+		INSERT INTO
+			T_NU_EXCRETION
+		(
+				COMPANY_CD
+			,	EXC_DT
+			,	RES_ID
+			,	DAY_MANAGER_ID
+			,	DAY_MANAGER_NM
+			,	NIG_MANAGER_ID
+			,	NIG_MANAGER_NM
+			,	EXC_TIME
+			,	URIN_OBS
+			,	FECES_OBS
+			,	DIAPER_CHG
+			,	CLOTH_CHG
+			,	URIN_QTY
+			,	REMARK
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	#{EXC_DT}
+			,	#{RES_ID}
+			,	#{DAY_MANAGER_ID}
+			,	#{DAY_MANAGER_NM}
+			,	#{NIG_MANAGER_ID}
+			,	#{NIG_MANAGER_NM}
+			,	#{EXC_TIME}
+			,	#{URIN_OBS}
+			,	#{FECES_OBS}
+			,	#{DIAPER_CHG}
+			,	#{CLOTH_CHG}
+			,	#{URIN_QTY}
+			,	#{REMARK}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</sql>
+	
+	<!-- 집중배설관찰 당일분 삽입 -->
+	<insert id="NUB301CT_DS_EXCRETION_TEMP1_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP1_I_ */
+		<include refid="NUB301CT_DS_EXCRETION_I"></include>
+	</insert>
+	
+	<!-- 집중배설관찰 명일분 삽입 -->
+	<insert id="NUB301CT_DS_EXCRETION_TEMP2_I" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP2_I */
+		<include refid="NUB301CT_DS_EXCRETION_I"></include>
+	</insert>
+	
+	<!-- 집중배설관찰 수정 공통부 -->
+	<sql id="NUB301CT_DS_EXCRETION_U">
+		UPDATE
+			T_NU_EXCRETION
+		SET
+				DAY_MANAGER_ID = #{DAY_MANAGER_ID}
+			,	DAY_MANAGER_NM = #{DAY_MANAGER_NM}
+			,	NIG_MANAGER_ID = #{NIG_MANAGER_ID}
+			,	NIG_MANAGER_NM = #{NIG_MANAGER_NM}
+			,	EXC_TIME = #{EXC_TIME}
+			,	URIN_OBS = #{URIN_OBS}
+			,	FECES_OBS = #{FECES_OBS}
+			,	DIAPER_CHG = #{DIAPER_CHG}
+			,	CLOTH_CHG = #{CLOTH_CHG}
+			,	URIN_QTY = #{URIN_QTY}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		EXC_DT = #{EXC_DT}
+		AND		RES_ID = #{RES_ID}
+	</sql>
+	
+	<!-- 집중배설관찰 당일분 수정 -->
+	<update id="NUB301CT_DS_EXCRETION_TEMP1_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP1_U */
+		<include refid="NUB301CT_DS_EXCRETION_U"></include>
+	</update>
+	
+	<!-- 집중배설관찰 명일분 수정 -->
+	<update id="NUB301CT_DS_EXCRETION_TEMP2_U" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_TEMP2_U */
+		<include refid="NUB301CT_DS_EXCRETION_U"></include>
+	</update>
+	
+	<!-- 집중배설관찰 삭제 -->
+	<delete id="NUB301CT_DS_EXCRETION_D" parameterType="java.util.HashMap">
+	/* NUB301CT_DS_EXCRETION_D */
+		DELETE FROM
+			T_NU_EXCRETION
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		EXC_DT = #{EXC_DT}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+</mapper>                                                                                                                                                                                                          

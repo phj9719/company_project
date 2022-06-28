@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	*================================================================                                                                                                       
+    * 프로그램 ID	  : CMA007CT
+    * 프로그램 명     : 사용자별 권한관리
+    * Description 	  : 사용자별 권한관리 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================ 
+      2017-06-12  |  김정록    | 최초작성 
+      2017-12-26  |  김정민    | 1차 수정
+    *================================================================
+    * Statement List  		  	|  Description
+    * CMA007CT_DS_HEAD_S      	|  사용자 조회
+    * CMA007CT_DS_HEAD_I	  	|  INSERT
+    * CMA007CT_DS_HEAD_U	  	|  UPDATE
+    * CMA007CT_DS_HEAD_D      	|  DELETE
+    * CMA007CT_DS_DETAIL_S02    |  권한 조회 디테일1
+    * CMA007CT_DS_DETAIL2_S03   |  권한 조회 디테일2
+    *================================================================                                                                
+-->																												  
+<mapper namespace="CMA007CT">
+	<!-- 마스터 조회 -->                                                                                                                                                                                       
+    <select id="CMA007CT_DS_USER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+           	SELECT A.COMPANY_CD
+	           	  ,(SELECT COMPANY_NM
+		              FROM T_CM_COMPANY C
+		             WHERE A.COMPANY_CD = C.COMPANY_CD) AS COMPANY_NM
+	           	  ,A.SERVICE_TP
+	           	  ,A.USER_ID
+	           	  ,A.USER_NM_KOR
+	           	  ,A.DEPT_NM
+				  ,A.REG_PGM_ID
+				  ,A.REG_USER
+				  ,(SELECT CU.USER_NM_KOR
+					  FROM T_CM_USER CU
+					 WHERE A.COMPANY_CD = CU.COMPANY_CD
+					   AND A.SERVICE_TP = CU.SERVICE_TP
+					   AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+				  ,A.REG_DT
+				  ,A.MOD_USER
+				  ,(SELECT CU.USER_NM_KOR
+					  FROM T_CM_USER CU
+					 WHERE A.COMPANY_CD = CU.COMPANY_CD
+					   AND A.SERVICE_TP = CU.SERVICE_TP
+					   AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+				  ,A.MOD_DT
+           	FROM  T_CM_USER A
+     ]]>      
+     		WHERE 1=1
+		    <if test="COMPANY_CD != '' and COMPANY_CD != null"> 
+			  AND COMPANY_CD = #{COMPANY_CD}
+			</if>
+		    <if test="SERVICE_TP != '' and SERVICE_TP != null"> 
+			  AND SERVICE_TP = #{SERVICE_TP}
+			</if>						     		                                                
+		    <if test="USER_ID != '' and USER_ID != null"> 
+			  AND USER_ID LIKE CONCAT('%' , #{USER_ID} , '%')
+			</if>     
+			<if test="USER_NM_KOR != '' and USER_NM_KOR != null"> 
+			  AND USER_NM_KOR LIKE CONCAT('%' , #{USER_NM_KOR} , '%')
+			</if>
+    </select>
+    <!-- 마스터 INSERT -->
+    <insert id="CMA007CT_DS_ROLE_I" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            	BEGIN NOT ATOMIC
+            	
+			        INSERT INTO T_CM_USER_ROLE
+			          (GRP_CD,
+			          SERVICE_TP,
+			          APPLICATION_TP,
+			           COMPANY_CD,
+			           USER_ID,
+			           REG_PGM_ID,
+			           REG_USER,
+			           REG_DT,
+			           REG_DT_CURR,
+			           REG_DT_LOC,
+			           REG_IP,
+			           MOD_PGM_ID,
+			           MOD_USER,
+			           MOD_DT,
+			           MOD_DT_CURR,
+			           MOD_DT_LOC,
+			           MOD_IP)
+			        VALUES
+			          (#{GRP_CD},
+			          #{SERVICE_TP},
+			          #{APPLICATION_TP},
+			           #{COMPANY_CD},
+			           #{USER_ID},
+			           #{REG_PGM_ID},
+			           #{REG_USER},
+			           #{REG_DT},
+			           #{REG_DT_CURR},
+			           #{REG_DT_LOC},
+			           #{REG_IP},
+			           #{MOD_PGM_ID},
+			           '',
+			           '',
+			           '',
+			           '',
+			           '');
+					
+				END
+		     ]]>                                                                                                                                                                                                              
+    </insert>
+    <!-- 마스터 UPDATE -->
+    <update id="CMA007CT_DS_ROLE_U" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+	           UPDATE T_CM_USER_ROLE
+	              SET GRP_CD      = #{GRP_CD}
+	                 ,MOD_PGM_ID  = #{MOD_PGM_ID}
+	                 ,MOD_USER    = #{MOD_USER}
+	                 ,MOD_DT      = #{MOD_DT}
+	                 ,MOD_DT_CURR = #{MOD_DT_CURR}
+	                 ,MOD_DT_LOC  = #{MOD_DT_LOC}
+	                 ,MOD_IP      = #{MOD_IP}
+	            WHERE USER_ID = #{USER_ID}
+	              AND COMPANY_CD = #{COMPANY_CD}
+	              AND SERVICE_TP = #{SERVICE_TP}
+	              AND APPLICATION_TP = #{APPLICATION_TP}
+     		]]>                                                                                                                                                                                                              
+    </update>
+    <!-- 마스터 DELETE -->
+    <delete id="CMA007CT_DS_ROLE_D" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            BEGIN NOT ATOMIC
+            
+           	DELETE FROM T_CM_USER_ROLE
+		 	 WHERE GRP_CD = #{GRP_CD} 
+		 	   AND USER_ID = #{USER_ID}
+		 	   AND COMPANY_CD = #{COMPANY_CD}
+	           AND SERVICE_TP = #{SERVICE_TP}
+	           AND APPLICATION_TP = #{APPLICATION_TP};
+
+		    END                                                                                                                                                                
+     ]]>                                                                                                                                                                                                              
+    </delete>
+    <!-- 역할 리스트 조회 -->
+     <select id="CMA007CT_DS_GROUP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+		           SELECT CG.COMPANY_CD
+		           		 ,CG.SERVICE_TP
+		           		 ,CG.APPLICATION_TP
+		                 ,CG.GRP_CD
+		                 ,CG.GRP_NM
+		                 ,CG.GRP_DESC
+						 ,CG.REG_PGM_ID     
+						 ,CG.REG_USER
+						 ,(SELECT CU.USER_NM_KOR
+							 FROM T_CM_USER CU
+							WHERE CG.COMPANY_CD = CU.COMPANY_CD
+							  AND CG.SERVICE_TP = CU.SERVICE_TP
+							  AND CG.REG_USER = CU.USER_ID) AS REG_USER_NM
+						 ,CG.REG_DT         
+						 ,CG.MOD_USER
+						 ,(SELECT CU.USER_NM_KOR
+							 FROM T_CM_USER CU
+							WHERE CG.COMPANY_CD = CU.COMPANY_CD
+							  AND CG.SERVICE_TP = CU.SERVICE_TP
+							  AND CG.MOD_USER = CU.USER_ID) AS MOD_USER_NM       
+						 ,CG.MOD_DT         
+		             FROM T_CM_GROUP CG
+		            WHERE CG.GRP_CD NOT IN
+		                  (SELECT CUR.GRP_CD
+		                     FROM T_CM_USER_ROLE CUR
+		                    WHERE CUR.USER_ID = #{USER_ID}
+		                    AND CUR.APPLICATION_TP = #{APPLICATION_TP}
+		                    AND CUR.COMPANY_CD = #{COMPANY_CD})
+		            AND CG.COMPANY_CD = #{COMPANY_CD}
+		            AND CG.SERVICE_TP = #{SERVICE_TP}
+		            AND CG.APPLICATION_TP = #{APPLICATION_TP}
+		            ORDER BY CG.GRP_CD
+		     ]]>                                                                                                             
+    </select>
+    <!-- Role 조회 -->
+    <select id="CMA007CT_DS_ROLE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+		          SELECT A.COMPANY_CD
+		          		,A.SERVICE_TP
+		         		,A.APPLICATION_TP
+		                ,A.GRP_CD
+		                ,A.USER_ID
+		                ,B.GRP_NM
+		                ,B.GRP_DESC
+		                ,A.REG_PGM_ID     
+						,A.REG_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							 AND A.SERVICE_TP = CU.SERVICE_TP
+							 AND A.REG_USER = CU.USER_ID) AS REG_USER_NM       
+						,A.REG_DT         
+						,A.MOD_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							 AND A.SERVICE_TP = CU.SERVICE_TP
+							 AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+						,A.MOD_DT  
+		           FROM T_CM_USER_ROLE A
+		          INNER JOIN T_CM_GROUP B
+		             ON (A.GRP_CD = B.GRP_CD
+		            AND A.APPLICATION_TP = B.APPLICATION_TP
+		            AND A.COMPANY_CD = B.COMPANY_CD
+                 	AND A.SERVICE_TP = B.SERVICE_TP)
+		          WHERE A.COMPANY_CD = #{COMPANY_CD}
+		          	AND A.SERVICE_TP = #{SERVICE_TP}
+		          	AND A.USER_ID = #{USER_ID}
+		          	AND A.APPLICATION_TP = #{APPLICATION_TP}
+		       ORDER BY A.GRP_CD
+     		]]>                                                                                                                                                                                                              
+    </select>
+
+</mapper>                                                                                                                                                                                                          

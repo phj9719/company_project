@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Sample_RDView_HTML5_XML" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <WebBrowser id="WebBrowser00" left="10" top="64" right="104" bottom="10" taborder="0" onloadcompleted="Sample_RDview_HTML5_onload"/>
+        <Static id="Static00" taborder="1" text="Report View Sample for XML(HTML5)" onclick="Static00_onclick" left="132" top="17" width="660" height="37" textAlign="center" font="bold 18pt &quot;arial&quot;"/>
+        <Button id="Button00" taborder="2" text="리포트 보기" onclick="Button00_onclick" left="779" top="30" width="105" height="21"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Dataset00">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column0">1</Col>
+            <Col id="Column1">2</Col>
+          </Row>
+          <Row>
+            <Col id="Column0">3</Col>
+            <Col id="Column1">4</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.bIsLoaded = false; //페이지 오픈 여부
+
+this.Sample_RDview_HTML5_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var objWeb = this.WebBrowser00;
+
+	if (this.bIsLoaded) 
+	{
+		trace(this.Dataset00.saveXML()); //Dataset to XML 예시
+		var str_param = "";
+		str_param += '<?xml version="1.0" encoding="euc-kr"?>                              ';
+		str_param += '<root>                                                               ';
+		str_param += '	<dataset id="Dataset0">                                             ';
+		str_param += '		<colinfo id="CustomerID" size="255" summ="default" type="STRING"/>';
+		str_param += '		<colinfo id="EmployeeID" size="255" summ="default" type="STRING"/>';
+		str_param += '		<colinfo id="OrderDate" size="255" summ="default" type="DATE"/>   ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168550</CustomerID>                            ';
+		str_param += '			<EmployeeID>11111111</EmployeeID>                               ';
+		str_param += '			<OrderDate>20050109</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168206</CustomerID>                            ';
+		str_param += '			<EmployeeID>2222222221</EmployeeID>                             ';
+		str_param += '			<OrderDate>20050102</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168550</CustomerID>                            ';
+		str_param += '			<EmployeeID>11111111</EmployeeID>                               ';
+		str_param += '			<OrderDate>20050109</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168206</CustomerID>                            ';
+		str_param += '			<EmployeeID>2222222221</EmployeeID>                             ';
+		str_param += '			<OrderDate>20050102</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168550</CustomerID>                            ';
+		str_param += '			<EmployeeID>11111111</EmployeeID>                               ';
+		str_param += '			<OrderDate>20050109</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '		<record>                                                          ';
+		str_param += '			<CustomerID>00101168206</CustomerID>                            ';
+		str_param += '			<EmployeeID>2222222221</EmployeeID>                             ';
+		str_param += '			<OrderDate>20050102</OrderDate>                                 ';
+		str_param += '		</record>                                                         ';
+		str_param += '	</dataset>                                                          ';
+		str_param += '</root>    ';
+
+		objWeb.callMethod("mrdparam", "");
+		objWeb.callMethod("SetRData", str_param);
+		objWeb.callMethod("mrdPath", nexacro.getApplication().gv_RdMrd + "/bs/cf/cm/emdv3_xmlsample.mrd");
+		objWeb.callMethod("mrdparam", "/rfn [" + nexacro.getApplication().gv_RdXmlViwer + "] /rsn [sis_oracle] /rp [param1][param2] /rv param1[AAA]param2[B]");
+		return;
+	}
+};
+
+
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var objWeb = this.WebBrowser00;
+
+	// 샘플
+	objWeb.set_url(nexacro.getApplication().gv_RdXmlViwer); //html 파일 내부에 하위 함수들이 정의되어 있음.
+	this.bIsLoaded = true;
+};
+]]></Script>
+  </Form>
+</FDL>

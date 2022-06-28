@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC104QR                                                         
+     * 프로그램 명     	: 로봇훈련점수                                                 
+     * Description 	: 모바일에서 입소자의 로봇훈련 점수를 조회 
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-09 13:50     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================
+        NUC104QR_DS_BOMI_S				마지막 측정 정보 조회
+        NUC104QR_DS_LIST_S				지난 30일간 훈련 내역 조회                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC104QR">
+	<!-- 마지막 측정 정보 조회 -->
+	<select id="NUC104QR_DS_BOMI_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC104QR_DS_BOMI_S */
+		SELECT
+				NB.COMPANY_CD
+			,	NB.RES_ID
+			,	NB.BOM_DT		/* 일자 */
+			,	NB.CONTENT_ID	
+			,	NB.PROGRAM_NM	/* 프로그램 */
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_BOMI_CONT'
+				 AND   NB.COMPANY_CD = CC.COMPANY_CD
+				 AND   NB.PROGRAM_NM = CC.CMCD
+				) AS CONTENT_ID_VAL
+			,	NB.CONT_LVL		/* 단계 */
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_BOMI_LEVEL'
+				 AND   NB.COMPANY_CD = CC.COMPANY_CD
+				 AND   NB.CONT_LVL = CC.CMCD
+				) AS CONT_LVL_VAL
+			,	NB.CONT_PT		/* 점수 */
+			,	CONCAT(
+						TRUNCATE(NB.CONT_PT, 0)
+					,	'/100점'
+				) AS SCORE	/* 점수 표시 */
+		FROM 	T_NU_BOMI NB
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY BOM_DT DESC LIMIT 1
+	</select>
+	
+	<!-- 지난 30일간 훈련 내역 조회 -->
+	<select id="NUC104QR_DS_LIST_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC104QR_DS_LIST_S */
+		SELECT
+				COMPANY_CD
+			,	RES_ID
+			,	BOM_DT
+			,	CONCAT(
+						SUBSTRING(BOM_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(BOM_DT, 7, 2)) AS CHART_DATE
+			,	CONTENT_ID
+			,	PROGRAM_NM
+			,	CONT_LVL
+			,	TRUNCATE(CONT_PT, 0) AS CONT_PT
+		FROM	T_NU_BOMI
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		BOM_DT BETWEEN #{FROM} AND #{TO}
+		ORDER BY BOM_DT DESC
+	</select>
+	
+	<!-- 차트 로봇훈련 평균 -->                                                                                                                                                                                 
+	<select id="NUC104QR_DS_CHART_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC104QR_DS_CHART_S */
+		SELECT
+				COMPANY_CD
+			,	RES_ID
+			,	BOM_DT
+			,	CONCAT(
+						SUBSTRING(BOM_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(BOM_DT, 7, 2)) AS CHART_DATE
+			,	CONTENT_ID
+			,	PROGRAM_NM
+			,	CONT_LVL
+			,	TRUNCATE(AVG(CONT_PT), 0) AS CONT_PT
+		FROM	T_NU_BOMI
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		BOM_DT BETWEEN #{FROM} AND #{TO}
+		GROUP BY CHART_DATE
+		ORDER BY BOM_DT ASC
+	</select>
+</mapper>                                                                                                                                                                                                          

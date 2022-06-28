@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA804QR_D                                                         
+     * 프로그램 명     	: 기저귀 모니터링                                                   
+     * Description 	: 기저귀에 관한 모니터링
+     *================================================================                  
+                작성일자         		   |  작성자         |  	비고                                    
+     *================================================================                  
+       2021-12-20 09:55        |  조기종         | 	최초작성                         
+       
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA804QR_D">
+	<!-- 기저귀 모니터링 -->
+	<select id="NUA804QR_D_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 기저귀 모니터링 : NUA803QR_D_DS_LIST_S */
+	<![CDATA[
+		SELECT
+			MAIN.COMPANY_CD
+		,	MAIN.NAME AS RESIDENT
+		,	CONCAT(MAIN.ARE_NM, '/', MAIN.LOC_NM) AS LOCATION
+		,	MAIN.CONN_ST
+		,	MAIN.B_HUMI_RATE
+		,	CASE
+				WHEN MAIN.CONN_ST = 1 THEN
+					CONCAT(
+							'('
+						,	CASE
+								WHEN MAIN.B_HUMI_RATE >= 100 THEN '100'
+								WHEN MAIN.B_HUMI_RATE <= 0 THEN '0'
+								ELSE MAIN.B_HUMI_RATE
+							END
+						,	'%)'
+					)
+				ELSE
+					NULL
+			END AS B_HUMI_RATE_VALUE
+		,	MAIN.HUMI_RATE
+		,	CASE
+				WHEN MAIN.CONN_ST = 1 THEN
+					CONCAT( 
+							CASE
+								WHEN MAIN.HUMI_RATE >= 100 THEN '100'
+								WHEN MAIN.HUMI_RATE <= 0 THEN '0'
+								ELSE MAIN.HUMI_RATE
+							END
+						,	'%'
+					) 
+				ELSE
+					NULL
+			END AS HUMI_RATE_VALUE
+		,	MAIN.BAT_RATE
+		,	CASE
+				WHEN MAIN.CONN_ST = 1 THEN
+					CONCAT(
+							CASE
+								WHEN MAIN.BAT_RATE >= 100 THEN '100'
+								WHEN MAIN.BAT_RATE <= 0 THEN '0'
+								ELSE MAIN.BAT_RATE
+							END
+						,	'%'
+					)
+				ELSE
+					NULL
+			END AS BAT_RATE_VALUE
+		FROM
+		(
+			SELECT
+				NR.COMPANY_CD
+			,	NR.NAME
+			,	NR.RES_ID
+			,	FLOOR((CAST(REPLACE(CURRENT_DATE, '-', '') AS UNSIGNED) - CAST(REPLACE(NR.BIRTHDAY, '-', '') AS UNSIGNED)) / 10000) AS AGE
+			,	NR.LOCATION
+			,	DIAPER.CONN_ST
+			,	TRUNCATE(DIAPER.HUMI, 0) AS HUMI
+			,	TRUNCATE(DIAPER.HUMI2, 0) AS B_HUMI
+			,	TRUNCATE(ROUND(((DIAPER.HUMI - CC2.STR2) / (CC2.STR2 - CC2.STR1)) * -100), 0) AS HUMI_RATE
+			,	TRUNCATE(ROUND(((DIAPER.HUMI2 - CC2.STR2) / (CC2.STR2 - CC2.STR1)) * -100), 0) AS B_HUMI_RATE
+			,	DIAPER.BAT_QTY
+			,	TRUNCATE(ROUND(((DIAPER.BAT_QTY - CC2.STR4) / (CC2.STR3 - CC2.STR4)) * 100), 0) AS BAT_RATE
+			,	CASE WHEN NMU2.USE_ID IS NOT NULL THEN 'Y' ELSE 'N' END AS DIAPER_YN
+			,	CC2.STR5 AS HUMI_ALERT
+			,	CC2.STR6 AS BATTERY_ALERT
+			,	NL.LOC_NM
+			,	NA.ARE_NM
+			,	NR.AREA
+			FROM T_NU_RESIDENT NR
+			LEFT JOIN
+			(
+				SELECT
+					C.*
+				,	NMU.USE_ID
+				FROM
+				(
+					SELECT
+						B.TIME
+					,	B.FALL
+					,	B.HUMI
+					,	B.COMPANY_CD
+					,	B.MAC_ADD
+					,	B.BAT_QTY
+					,	B.CONN_ST
+					,	B.HUMI2
+					FROM
+					(
+						SELECT
+							A.*
+						,	CASE
+								WHEN (CASE WHEN A.RANK_1 = 1 THEN SUBSTRING(A.TIME, 1, 12) END) - SUBSTRING(LEAD(A.TIME) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1), 1, 12) >= 4 
+									THEN LEAD(A.HUMI) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1)
+								ELSE
+									NULL
+							END AS HUMI2
+						FROM
+						(
+							SELECT
+								SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS TIME
+							,	JT.FALL
+							,	JT.HUMI
+							,	JT.COMPANY_CD
+							,	JT.MAC_ADD
+							,	JT.BAT_QTY
+							,	JT.CONN_ST
+							,	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE DESC) AS RANK_1
+							,	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE ASC) AS RANK_5
+							FROM JSON_TABLE(#{DIAPER_JSON}, '$.datas[*]'
+								COLUMNS(
+							      DATE VARCHAR(1000) PATH '$.time',
+							      fall INT PATH '$.values.fall',
+							      HUMI DOUBLE PATH '$.values.wetness',
+							      COMPANY_CD VARCHAR(50) PATH '$.values.service_identifier',
+							      MAC_ADD VARCHAR(20) PATH '$.values.device_identifier',
+							      BAT_QTY DOUBLE PATH '$.values.battery',
+							      CONN_ST DOUBLE PATH '$.values.connecting_status'
+							    )
+							) AS JT
+						) AS A
+						WHERE (A.RANK_1 = 1 OR A.RANK_5 = 1)
+					) AS B
+					WHERE B.RANK_1 = 1
+				) AS C
+				INNER JOIN T_CM_MACHINE CM
+				ON	C.COMPANY_CD = CM.COMPANY_CD
+				AND	C.MAC_ADD = CM.MAC_ADD
+				AND	CM.MACH_TP = '0200'
+				INNER JOIN T_NU_MACH_USE NMU
+				ON	CM.COMPANY_CD = NMU.COMPANY_CD
+				AND	CM.MAC_SEQ = NMU.MAC_SEQ
+				AND	NMU.USE_TP = '10'
+			) AS DIAPER
+			ON	NR.COMPANY_CD = DIAPER.COMPANY_CD
+			AND	NR.RES_ID = DIAPER.USE_ID
+			LEFT JOIN T_CM_CODE CC2
+			ON	NR.COMPANY_CD = CC2.COMPANY_CD
+			AND	CC2.GRP_CD = 'NU_DIAPER_IOT'
+			AND CC2.CMCD = 'SWL-009c'
+			LEFT JOIN
+			(
+				SELECT
+					NMU.COMPANY_CD
+				,	NMU.USE_ID
+				FROM T_NU_MACH_USE NMU
+				INNER JOIN T_CM_MACHINE CM
+				ON	NMU.COMPANY_CD = CM.COMPANY_CD
+				AND	NMU.MAC_SEQ = CM.MAC_SEQ
+				WHERE CM.MACH_TP = '0200'
+				AND NMU.USE_TP = '10'
+			) AS NMU2
+			ON NR.COMPANY_CD = NMU2.COMPANY_CD
+			AND NR.RES_ID = NMU2.USE_ID
+			LEFT JOIN T_NU_LOCATION NL
+			ON NR.COMPANY_CD = NL.COMPANY_CD
+			AND NR.LOCATION = NL.LOC_CD
+			LEFT JOIN T_NU_AREA NA
+			ON NL.COMPANY_CD = NA.COMPANY_CD
+			AND NL.ARE_CD = NA.ARE_CD
+			WHERE NR.COMPANY_CD = #{COMPANY_CD}
+			AND (NR.RETIRE_DT IS NULL OR NR.RETIRE_DT > DATE_FORMAT(NOW(), '%Y%m%d'))
+		) AS MAIN
+		WHERE MAIN.DIAPER_YN = 'Y'
+	]]>
+		<if test="AREA != '' and AREA != null">
+		AND	MAIN.AREA = #{AREA}
+		</if>
+		<if test="MON_AREA != '' and MON_AREA != null">
+		AND MAIN.LOCATION IN (SELECT NL.LOC_CD
+          				 	  	FROM T_NU_MON_LOCATION NML
+								 	  ,T_NU_MON_AREA NMA
+								 	  ,T_NU_LOCATION NL
+								 	  ,T_NU_AREA NA
+								 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+								   AND NML.ARE_CD = NMA.ARE_CD
+								   AND NML.COMPANY_CD = NL.COMPANY_CD
+							  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+								   AND NL.COMPANY_CD = NA.COMPANY_CD
+								   AND NL.ARE_CD = NA.ARE_CD
+								   AND NML.USE_YN = 'Y'
+								   AND NML.COMPANY_CD = #{COMPANY_CD}
+								   AND NML.ARE_CD = #{MON_AREA})
+		</if>
+		ORDER BY LOCATION, RESIDENT
+	</select>
+	
+	<!-- 기기 총 개수 등 기타 정보 -->
+	<select id="NUA804QR_D_DS_ETC_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 기기 총 개수 등 기타 정보 : NUA808QR_DS_ETC_LIST_S */
+		SELECT
+			CC.COMPANY_CD
+		,	CC.COMPANY_NM
+		,	DC.COUNT AS DIAPER_ALL_COUNT
+		,	CC1.STR5 AS HUMI_LINE
+		,	CC1.STR6 AS BAT_LINE
+		FROM T_CM_COMPANY CC
+		LEFT JOIN
+		(
+			SELECT
+				COUNT(*) AS COUNT
+			,	NR.COMPANY_CD
+			FROM T_NU_RESIDENT NR
+			INNER JOIN T_NU_MACH_USE NMU
+			ON NR.COMPANY_CD = NMU.COMPANY_CD
+			AND NR.RES_ID = NMU.USE_ID
+			INNER JOIN T_CM_MACHINE CM
+			ON NMU.COMPANY_CD = CM.COMPANY_CD
+			AND NMU.MAC_SEQ = CM.MAC_SEQ
+			AND CM.MACH_TP = '0200'
+			<where>
+			AND (NR.RETIRE_DT IS NULL OR NR.RETIRE_DT > DATE_FORMAT(NOW(), '%Y%m%d'))
+			</where>
+			GROUP BY NR.COMPANY_CD
+		) AS DC
+		ON CC.COMPANY_CD = DC.COMPANY_CD
+		LEFT JOIN T_CM_CODE CC1
+		ON CC.COMPANY_CD = CC1.COMPANY_CD
+		AND CC1.GRP_CD = 'NU_DIAPER_IOT'
+		AND CC1.CMCD = 'SWL-009c'
+		WHERE CC.COMPANY_CD = #{COMPANY_CD}
+	</select>
+</mapper>                                                                                                                                                                                                          

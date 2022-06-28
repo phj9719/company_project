@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00404
+     * 프로그램 명     	: 4-4 송영 일정표·제공계획서(매월)
+     * Description 		: 송영일정표 작성을 위한 달력 만들기 
+     					  && 수급자 목록 조회
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-10 13:30        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00404_DS_LIST_S		수급자 목록 조회
+        DAY00404_DS_CAL_S		달력 만들기
+        DAY00404_DS_REPORT_S	출력일자 조회
+        DAY00404_DS_DATA_U		운행일정 수정
+     *================================================================
+-->
+<mapper namespace="DAY00404">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 수급자 목록 조회 -->
+    <select id="DAY00404_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-4 수급자 목록 조회 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.등급
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        , bm.이용시간
+        , bm.이용차량
+        , bm.월요시간
+        , bm.월요차량
+        , bm.화요시간
+        , bm.화요차량
+        , bm.수요시간
+        , bm.수요차량
+        , bm.목요시간
+        , bm.목요차량
+        , bm.금요시간
+        , bm.금요차량
+        , bm.토요시간
+        , bm.토요차량
+        , bm.일요시간
+        , bm.일요차량
+        , bm.sajin
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND bm.m_reday &gt;= #{DATE_FROM}
+        AND bm.m_enday &lt;= #{DATE_TO}
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      mat.ord1
+    , mat.sicode
+    , mat.거주현황
+    , mat.m_group
+    , mat.m_name
+    , mat.성별
+    , mat.등급
+    , mat.m_roomname
+    , mat.m_enday
+    , mat.m_reday
+    , DATE_FORMAT(mat.m_enday, '%Y.%m.%d') AS 입소일
+    , CASE WHEN mat.m_reday != '2100-01-01' THEN DATE_FORMAT(mat.m_reday, '%Y.%m.%d') ELSE NULL END AS 퇴소일
+    , mat.m_code
+    , CONCAT(
+        SUBSTRING(mat.m_jumin1, 1, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 3, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 5)
+      ) AS 생일
+    , mat.m_regist
+    , mat.주소
+    , mat.sajin
+    , SUBSTRING(mat.이용일, 1, 1) AS 월
+    , SUBSTRING(mat.이용일, 2, 1) AS 화
+    , SUBSTRING(mat.이용일, 3, 1) AS 수
+    , SUBSTRING(mat.이용일, 4, 1) AS 목
+    , SUBSTRING(mat.이용일, 5, 1) AS 금
+    , SUBSTRING(mat.이용일, 6, 1) AS 토
+    , mat.일요일
+    , mat.이용시간
+    , SUBSTRING(mat.이용시간, 1, 2) AS 이용시작시
+    , SUBSTRING(mat.이용시간, 4, 2) AS 이용시작분
+    , SUBSTRING(mat.이용시간, 7, 2) AS 이용종료시
+    , SUBSTRING(mat.이용시간, 10, 2) AS 이용종료분
+    , mat.이용차량
+    , mat.월요시간
+    , CONCAT(SUBSTRING(mat.월요차량, 1, 2), '-', SUBSTRING(mat.월요시간, 1, 5)) AS 월요시작
+    , CONCAT(SUBSTRING(mat.월요차량, 3, 2), '-', SUBSTRING(mat.월요시간, 7, 5)) AS 월요종료
+    , SUBSTRING(mat.월요시간, 1, 2) AS 월요시작시
+    , SUBSTRING(mat.월요시간, 4, 2) AS 월요시작분
+    , SUBSTRING(mat.월요시간, 7, 2) AS 월요종료시
+    , SUBSTRING(mat.월요시간, 10, 2) AS 월요종료분
+    , mat.월요차량
+    , mat.화요시간
+    , CONCAT(SUBSTRING(mat.화요차량, 1, 2), '-', SUBSTRING(mat.화요시간, 1, 5)) AS 화요시작
+    , CONCAT(SUBSTRING(mat.화요차량, 3, 2), '-', SUBSTRING(mat.화요시간, 7, 5)) AS 화요종료
+    , SUBSTRING(mat.화요시간, 1, 2) AS 화요시작시
+    , SUBSTRING(mat.화요시간, 4, 2) AS 화요시작분
+    , SUBSTRING(mat.화요시간, 7, 2) AS 화요종료시
+    , SUBSTRING(mat.화요시간, 10, 2) AS 화요종료분
+    , mat.화요차량
+    , mat.수요시간
+    , CONCAT(SUBSTRING(mat.수요차량, 1, 2), '-', SUBSTRING(mat.수요시간, 1, 5)) AS 수요시작
+    , CONCAT(SUBSTRING(mat.수요차량, 3, 2), '-', SUBSTRING(mat.수요시간, 7, 5)) AS 수요종료
+    , SUBSTRING(mat.수요시간, 1, 2) AS 수요시작시
+    , SUBSTRING(mat.수요시간, 4, 2) AS 수요시작분
+    , SUBSTRING(mat.수요시간, 7, 2) AS 수요종료시
+    , SUBSTRING(mat.수요시간, 10, 2) AS 수요종료분
+    , mat.수요차량
+    , mat.목요시간
+    , CONCAT(SUBSTRING(mat.목요차량, 1, 2), '-', SUBSTRING(mat.목요시간, 1, 5)) AS 목요시작
+    , CONCAT(SUBSTRING(mat.목요차량, 3, 2), '-', SUBSTRING(mat.목요시간, 7, 5)) AS 목요종료
+    , SUBSTRING(mat.목요시간, 1, 2) AS 목요시작시
+    , SUBSTRING(mat.목요시간, 4, 2) AS 목요시작분
+    , SUBSTRING(mat.목요시간, 7, 2) AS 목요종료시
+    , SUBSTRING(mat.목요시간, 10, 2) AS 목요종료분
+    , mat.목요차량
+    , mat.금요시간
+    , CONCAT(SUBSTRING(mat.금요차량, 1, 2), '-', SUBSTRING(mat.금요시간, 1, 5)) AS 금요시작
+    , CONCAT(SUBSTRING(mat.금요차량, 3, 2), '-', SUBSTRING(mat.금요시간, 7, 5)) AS 금요종료
+    , SUBSTRING(mat.금요시간, 1, 2) AS 금요시작시
+    , SUBSTRING(mat.금요시간, 4, 2) AS 금요시작분
+    , SUBSTRING(mat.금요시간, 7, 2) AS 금요종료시
+    , SUBSTRING(mat.금요시간, 10, 2) AS 금요종료분
+    , mat.금요차량
+    , mat.토요시간
+    , CONCAT(SUBSTRING(mat.토요차량, 1, 2), '-', SUBSTRING(mat.토요시간, 1, 5)) AS 토요시작
+    , CONCAT(SUBSTRING(mat.토요차량, 3, 2), '-', SUBSTRING(mat.토요시간, 7, 5)) AS 토요종료
+    , SUBSTRING(mat.토요시간, 1, 2) AS 토요시작시
+    , SUBSTRING(mat.토요시간, 4, 2) AS 토요시작분
+    , SUBSTRING(mat.토요시간, 7, 2) AS 토요종료시
+    , SUBSTRING(mat.토요시간, 10, 2) AS 토요종료분
+    , mat.토요차량
+    , mat.일요시간
+    , CONCAT(SUBSTRING(mat.일요차량, 1, 2), '-', SUBSTRING(mat.일요시간, 1, 5)) AS 일요시작
+    , CONCAT(SUBSTRING(mat.일요차량, 3, 2), '-', SUBSTRING(mat.일요시간, 7, 5)) AS 일요종료
+    , SUBSTRING(mat.일요시간, 1, 2) AS 일요시작시
+    , SUBSTRING(mat.일요시간, 4, 2) AS 일요시작분
+    , SUBSTRING(mat.일요시간, 7, 2) AS 일요종료시
+    , SUBSTRING(mat.일요시간, 10, 2) AS 일요종료분
+    , mat.일요차량
+    FROM mate mat
+    ORDER BY
+      mat.ord1
+    , mat.m_name
+    </select>
+	
+	<!-- 달력 만들기 -->
+    <select id="DAY00404_DS_CAL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-4 달력 만들기 */
+    SELECT
+      MIN(CASE DAYOFWEEK(a.dates) WHEN 1 THEN DATE_FORMAT(a.dates, '%d일') END) AS sun
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 2 THEN DATE_FORMAT(a.dates, '%d일') END) AS mon
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 3 THEN DATE_FORMAT(a.dates, '%d일') END) AS tue
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 4 THEN DATE_FORMAT(a.dates, '%d일') END) AS wed
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 5 THEN DATE_FORMAT(a.dates, '%d일') END) AS thu
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 6 THEN DATE_FORMAT(a.dates, '%d일') END) AS fri
+    , MIN(CASE DAYOFWEEK(a.dates) WHEN 7 THEN DATE_FORMAT(a.dates, '%d일') END) AS sat
+    FROM
+    (
+        SELECT
+          a1.make_dates
+        , a1.make_dates + a3.row_num - 1 AS dates
+        , a3.row_num
+        FROM
+        (
+            SELECT DATE_FORMAT(#{DATE_FROM}, '%Y%m%d') AS make_dates
+            FROM DUAL
+        ) AS a1
+        JOIN
+        (
+            SELECT row_num
+            FROM
+            (
+                SELECT ROW_NUMBER() OVER() AS row_num
+                FROM information_schema.ALL_PLUGINS
+            ) AS a2
+            WHERE a2.row_num &lt;= (SELECT FORMAT(DATE_FORMAT(LAST_DAY(#{DATE_FROM}), '%Y%m%d') - DATE_FORMAT(#{DATE_FROM}, '%Y%m%d') + 1, 0))
+        ) AS a3
+        ON (1=1)
+    ) AS a
+    GROUP BY YEARWEEK(a.dates)
+    ORDER BY YEARWEEK(a.dates)
+    </select>
+    
+    <!-- 출력일자 조회 -->
+    <select id="DAY00404_DS_REPORT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-4 출력일자 조회 */
+    SELECT DATE_FORMAT(DATE_SUB(#{DATE_FROM}, INTERVAL 7 DAY), '%Y%m%d') AS print
+    </select>
+    
+    <!-- 운행일정 수정 -->
+    <update id="DAY00404_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 4-4 수급자 송영 운행일정 수정 */
+    UPDATE base_mate
+    SET 
+      이용일 = #{이용일}
+    , 일요일 = #{일요일}
+    , 이용시간 = #{이용시간}
+    , 이용차량 = #{이용차량}
+    , 월요시간 = #{월요시간}
+    , 월요차량 = #{월요차량}
+    , 화요시간 = #{화요시간}
+    , 화요차량 = #{화요차량}
+    , 수요시간 = #{수요시간}
+    , 수요차량 = #{수요차량}
+    , 목요시간 = #{목요시간}
+    , 목요차량 = #{목요차량}
+    , 금요시간 = #{금요시간}
+    , 금요차량 = #{금요차량}
+    , 토요시간 = #{토요시간}
+    , 토요차량 = #{토요차량}
+    , 일요시간 = #{일요시간}
+    , 일요차량 = #{일요차량}
+    WHERE sicode = #{sicode}
+    AND m_code = #{m_code}
+    </update>
+</mapper>

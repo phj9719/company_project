@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00204                                                         
+     * 프로그램 명     	: 2-04 상비약품점검                                             
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-17 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00204">
+	<!-- 조회 -->
+    <select id="DAY00204_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00204_DS_LIST_S */
+	SELECT 0 AS chk 
+	     , sicode
+	     , 점검번호 AS hd_number
+	     , 점검일 AS hd_date
+	     , 점검자
+	     , 점검코드
+	     , 점검직종
+	  FROM km_homedrug kh
+	 WHERE kh.sicode = #{sicode}
+	   AND 점검일 BETWEEN #{date_from} AND #{date_to}
+	 ORDER 
+	    BY 점검일 DESC
+	</select>
+	
+	<!-- 조회 -->
+    <select id="DAY00204_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00204_DS_DATA_S */
+    SELECT kh.sicode
+		 , kh.점검번호
+		 , kh.점검일
+		 , kh.점검확인01
+		 , kh.점검확인02
+		 , kh.점검확인03
+		 , kh.점검자
+		 , kh.점검코드
+		 , kh.점검직종
+		 , kh.약품정보01
+		 , kh.약품정보02
+		 , kh.약품정보03
+		 , kh.약품정보04
+		 , kh.약품정보05
+		 , kh.약품정보06
+		 , kh.약품정보07
+		 , kh.약품정보08
+		 , kh.약품정보09
+		 , kh.약품정보10
+		 , kh.약품정보11
+		 , kh.약품정보12
+		 , kh.약품정보13
+		 , kh.약품정보14
+		 , kh.약품정보15
+		 , kh.약품정보16
+		 , kh.약품정보17
+		 , kh.약품정보18
+		 , kh.약품정보19
+		 , kh.약품정보20
+		 , kh.약품정보21
+		 , kh.약품정보22
+		 , kh.약품정보23
+		 , kh.약품정보24
+		 , kh.약품정보25
+		 , kh.약품정보26
+		 , kh.약품정보27
+		 , kh.약품정보28
+		 , kh.약품정보29
+		 , kh.약품정보30
+		 , kh.약품정보31
+		 , kh.약품정보32
+		 , kh.약품정보33
+		 , kh.약품정보34
+		 , kh.약품정보35
+		 , kh.약품정보36
+		 , kh.약품정보37
+		 , kh.약품정보38
+		 , kh.약품정보39
+		 , kh.약품정보40
+		 , kh.약품정보41
+		 , kh.약품정보42
+		 , kh.약품정보43
+		 , kh.약품정보44
+		 , kh.약품정보45
+		 , kh.약품정보46
+		 , kh.약품정보47
+		 , kh.약품정보48
+		 , kh.약품정보49
+		 , kh.약품정보50
+		 , kh.약품정보51
+		 , kh.약품정보52
+		 , kh.약품정보53
+		 , kh.약품정보54
+		 , kh.약품정보55
+		 , kh.약품정보56
+		 , kh.약품정보57
+		 , kh.약품정보58
+		 , kh.약품정보59
+		 , kh.약품정보60
+		 , kh.약품수량01 AS 약품수량1
+		 , SUBSTRING(kh.약품수량01,1,4) AS 약품수량01
+		 , SUBSTRING(kh.약품수량01,5,4) AS 약품수량02 
+		 , SUBSTRING(kh.약품수량01,9,4) AS 약품수량03 
+		 , SUBSTRING(kh.약품수량01,13,4) AS 약품수량04 
+		 , SUBSTRING(kh.약품수량01,17,4) AS 약품수량05 
+		 , SUBSTRING(kh.약품수량01,21,4) AS 약품수량06 
+		 , SUBSTRING(kh.약품수량01,25,4) AS 약품수량07 
+		 , SUBSTRING(kh.약품수량01,29,4) AS 약품수량08 
+		 , SUBSTRING(kh.약품수량01,33,4) AS 약품수량09 
+		 , SUBSTRING(kh.약품수량01,37,4) AS 약품수량10   
+		 , kh.약품수량02 AS 약품수량2
+		 , SUBSTRING(kh.약품수량02,1,4) AS 약품수량11 
+		 , SUBSTRING(kh.약품수량02,5,4) AS 약품수량12 
+		 , SUBSTRING(kh.약품수량02,9,4) AS 약품수량13 
+		 , SUBSTRING(kh.약품수량02,13,4) AS 약품수량14 
+		 , SUBSTRING(kh.약품수량02,17,4) AS 약품수량15 
+		 , SUBSTRING(kh.약품수량02,21,4) AS 약품수량16 
+		 , SUBSTRING(kh.약품수량02,25,4) AS 약품수량17 
+		 , SUBSTRING(kh.약품수량02,29,4) AS 약품수량18 
+		 , SUBSTRING(kh.약품수량02,33,4) AS 약품수량19 
+		 , SUBSTRING(kh.약품수량02,37,4) AS 약품수량20   
+		 , kh.약품수량03 AS 약품수량3
+		 , SUBSTRING(kh.약품수량03,1,4) AS 약품수량21 
+		 , SUBSTRING(kh.약품수량03,5,4) AS 약품수량22 
+		 , SUBSTRING(kh.약품수량03,9,4) AS 약품수량23 
+		 , SUBSTRING(kh.약품수량03,13,4) AS 약품수량24 
+		 , SUBSTRING(kh.약품수량03,17,4) AS 약품수량25 
+		 , SUBSTRING(kh.약품수량03,21,4) AS 약품수량26 
+		 , SUBSTRING(kh.약품수량03,25,4) AS 약품수량27 
+		 , SUBSTRING(kh.약품수량03,29,4) AS 약품수량28 
+		 , SUBSTRING(kh.약품수량03,33,4) AS 약품수량29
+		 , SUBSTRING(kh.약품수량03,37,4) AS 약품수량30   
+		 , kh.약품수량04 AS 약품수량4
+		 , SUBSTRING(kh.약품수량04,1,4) AS 약품수량31 
+		 , SUBSTRING(kh.약품수량04,5,4) AS 약품수량32 
+		 , SUBSTRING(kh.약품수량04,9,4) AS 약품수량33 
+		 , SUBSTRING(kh.약품수량04,13,4) AS 약품수량34 
+		 , SUBSTRING(kh.약품수량04,17,4) AS 약품수량35 
+		 , SUBSTRING(kh.약품수량04,21,4) AS 약품수량36 
+		 , SUBSTRING(kh.약품수량04,25,4) AS 약품수량37 
+		 , SUBSTRING(kh.약품수량04,29,4) AS 약품수량38 
+		 , SUBSTRING(kh.약품수량04,33,4) AS 약품수량39 
+		 , SUBSTRING(kh.약품수량04,37,4) AS 약품수량40   
+		 , kh.약품수량05 AS 약품수량5
+		 , SUBSTRING(kh.약품수량05,1,4) AS 약품수량41 
+		 , SUBSTRING(kh.약품수량05,5,4) AS 약품수량42 
+		 , SUBSTRING(kh.약품수량05,9,4) AS 약품수량43 
+		 , SUBSTRING(kh.약품수량05,13,4) AS 약품수량44 
+		 , SUBSTRING(kh.약품수량05,17,4) AS 약품수량45 
+		 , SUBSTRING(kh.약품수량05,21,4) AS 약품수량46 
+		 , SUBSTRING(kh.약품수량05,25,4) AS 약품수량47 
+		 , SUBSTRING(kh.약품수량05,29,4) AS 약품수량48 
+		 , SUBSTRING(kh.약품수량05,33,4) AS 약품수량49 
+		 , SUBSTRING(kh.약품수량05,37,4) AS 약품수량50   
+		 , kh.약품수량06 AS 약품수량6
+		 , SUBSTRING(kh.약품수량06,1,4) AS 약품수량51 
+		 , SUBSTRING(kh.약품수량06,5,4) AS 약품수량52 
+		 , SUBSTRING(kh.약품수량06,9,4) AS 약품수량53 
+		 , SUBSTRING(kh.약품수량06,13,4) AS 약품수량54 
+		 , SUBSTRING(kh.약품수량06,17,4) AS 약품수량55 
+		 , SUBSTRING(kh.약품수량06,21,4) AS 약품수량56 
+		 , SUBSTRING(kh.약품수량06,25,4) AS 약품수량57 
+		 , SUBSTRING(kh.약품수량06,29,4) AS 약품수량58 
+		 , SUBSTRING(kh.약품수량06,33,4) AS 약품수량59 
+		 , SUBSTRING(kh.약품수량06,37,4) AS 약품수량60
+		 , kh.유통기한01 AS 유통기한1
+		 , SUBSTRING(kh.유통기한01,1,10) AS 유통기한01
+		 , SUBSTRING(kh.유통기한01,11,10) AS 유통기한02
+		 , SUBSTRING(kh.유통기한01,21,10) AS 유통기한03
+		 , SUBSTRING(kh.유통기한01,31,10) AS 유통기한04
+		 , SUBSTRING(kh.유통기한01,41,10) AS 유통기한05
+		 , SUBSTRING(kh.유통기한01,51,10) AS 유통기한06
+		 , SUBSTRING(kh.유통기한01,61,10) AS 유통기한07
+		 , SUBSTRING(kh.유통기한01,71,10) AS 유통기한08
+		 , SUBSTRING(kh.유통기한01,81,10) AS 유통기한09
+		 , SUBSTRING(kh.유통기한01,91,10) AS 유통기한10
+		 , kh.유통기한02 AS 유통기한2
+		 , SUBSTRING(kh.유통기한02,1,10) AS 유통기한11
+		 , SUBSTRING(kh.유통기한02,11,10) AS 유통기한12
+		 , SUBSTRING(kh.유통기한02,21,10) AS 유통기한13
+		 , SUBSTRING(kh.유통기한02,31,10) AS 유통기한14
+		 , SUBSTRING(kh.유통기한02,41,10) AS 유통기한15
+		 , SUBSTRING(kh.유통기한02,51,10) AS 유통기한16
+		 , SUBSTRING(kh.유통기한02,61,10) AS 유통기한17
+		 , SUBSTRING(kh.유통기한02,71,10) AS 유통기한18
+		 , SUBSTRING(kh.유통기한02,81,10) AS 유통기한19
+		 , SUBSTRING(kh.유통기한02,91,10) AS 유통기한20
+		 , kh.유통기한03 AS 유통기한3
+		 , SUBSTRING(kh.유통기한03,1,10) AS 유통기한21
+		 , SUBSTRING(kh.유통기한03,11,10) AS 유통기한22
+		 , SUBSTRING(kh.유통기한03,21,10) AS 유통기한23
+		 , SUBSTRING(kh.유통기한03,31,10) AS 유통기한24
+		 , SUBSTRING(kh.유통기한03,41,10) AS 유통기한25
+		 , SUBSTRING(kh.유통기한03,51,10) AS 유통기한26
+		 , SUBSTRING(kh.유통기한03,61,10) AS 유통기한27
+		 , SUBSTRING(kh.유통기한03,71,10) AS 유통기한28
+		 , SUBSTRING(kh.유통기한03,81,10) AS 유통기한29
+		 , SUBSTRING(kh.유통기한03,91,10) AS 유통기한30
+		 , kh.유통기한04 AS 유통기한4
+		 , SUBSTRING(kh.유통기한04,1,10) AS 유통기한31
+		 , SUBSTRING(kh.유통기한04,11,10) AS 유통기한32
+		 , SUBSTRING(kh.유통기한04,21,10) AS 유통기한33
+		 , SUBSTRING(kh.유통기한04,31,10) AS 유통기한34
+		 , SUBSTRING(kh.유통기한04,41,10) AS 유통기한35
+		 , SUBSTRING(kh.유통기한04,51,10) AS 유통기한36
+		 , SUBSTRING(kh.유통기한04,61,10) AS 유통기한37
+		 , SUBSTRING(kh.유통기한04,71,10) AS 유통기한38
+		 , SUBSTRING(kh.유통기한04,81,10) AS 유통기한39
+		 , SUBSTRING(kh.유통기한04,91,10) AS 유통기한40
+		 , kh.유통기한05 AS 유통기한5
+		 , SUBSTRING(kh.유통기한05,1,10) AS 유통기한41
+		 , SUBSTRING(kh.유통기한05,11,10) AS 유통기한42
+		 , SUBSTRING(kh.유통기한05,21,10) AS 유통기한43
+		 , SUBSTRING(kh.유통기한05,31,10) AS 유통기한44
+		 , SUBSTRING(kh.유통기한05,41,10) AS 유통기한45
+		 , SUBSTRING(kh.유통기한05,51,10) AS 유통기한46
+		 , SUBSTRING(kh.유통기한05,61,10) AS 유통기한47
+		 , SUBSTRING(kh.유통기한05,71,10) AS 유통기한48
+		 , SUBSTRING(kh.유통기한05,81,10) AS 유통기한49
+		 , SUBSTRING(kh.유통기한05,91,10) AS 유통기한50
+		 , kh.유통기한06 AS 유통기한6
+		 , SUBSTRING(kh.유통기한06,1,10) AS 유통기한51
+		 , SUBSTRING(kh.유통기한06,11,10) AS 유통기한52
+		 , SUBSTRING(kh.유통기한06,21,10) AS 유통기한53
+		 , SUBSTRING(kh.유통기한06,31,10) AS 유통기한54
+		 , SUBSTRING(kh.유통기한06,41,10) AS 유통기한55
+		 , SUBSTRING(kh.유통기한06,51,10) AS 유통기한56
+		 , SUBSTRING(kh.유통기한06,61,10) AS 유통기한57
+		 , SUBSTRING(kh.유통기한06,71,10) AS 유통기한58
+		 , SUBSTRING(kh.유통기한06,81,10) AS 유통기한59
+		 , SUBSTRING(kh.유통기한06,91,10) AS 유통기한60
+		 , kh.약품효능01 AS 약품효능1
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능01
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능02
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능03
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능04
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능05
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능06
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능07
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능08
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능09
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능01 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능10
+		 , kh.약품효능02 AS 약품효능2
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능11
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능12
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능13
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능14
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능15
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능16
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능17
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능18
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능19
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능02 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능20
+		 , kh.약품효능03 AS 약품효능3
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능21
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능22
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능23
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능24
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능25
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능26
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능27
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능28
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능29
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능03 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능30
+		 , kh.약품효능04 AS 약품효능4
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능31
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능32
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능33
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능34
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능35
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능36
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능37
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능38
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능39
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능04 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능40
+		 , kh.약품효능05 AS 약품효능5
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능41
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능42
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능43
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능44
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능45
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능46
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능47
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능48
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능49
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능05 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능50
+		 , kh.약품효능06 AS 약품효능6
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),1,20) USING 'euckr') USING 'utf8mb3') AS 약품효능51
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),21,20) USING 'euckr') USING 'utf8mb3') AS 약품효능52
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),41,20) USING 'euckr') USING 'utf8mb3') AS 약품효능53
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),61,20) USING 'euckr') USING 'utf8mb3') AS 약품효능54
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),81,20) USING 'euckr') USING 'utf8mb3') AS 약품효능55
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),101,20) USING 'euckr') USING 'utf8mb3') AS 약품효능56
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),121,20) USING 'euckr') USING 'utf8mb3') AS 약품효능57
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),141,20) USING 'euckr') USING 'utf8mb3') AS 약품효능58
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),161,20) USING 'euckr') USING 'utf8mb3') AS 약품효능59
+		 , CONVERT(CONVERT(SUBSTRING(CONVERT(CONVERT(kh.약품효능06 USING 'euckr') USING BINARY),181,20) USING 'euckr') USING 'utf8mb3') AS 약품효능60
+		 , kh.org_점검번호
+	  FROM km_homedrug kh
+	 WHERE kh.sicode = #{sicode}
+	   AND kh.점검번호 = #{hd_number}
+	   AND kh.점검일 = #{hd_date}
+	</select>
+
+	<!-- 삽입 -->
+    <insert id="DAY00204_DS_DATA_I" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="n_number">
+    /* 2-04 삽입 */
+    INSERT INTO km_homedrug
+    (
+	  sicode
+	, 점검일
+	, 점검확인01
+	, 점검확인02
+	, 점검확인03
+	, 점검자
+	, 점검코드
+	, 점검직종
+	, 약품정보01
+	, 약품정보02
+	, 약품정보03
+	, 약품정보04
+	, 약품정보05
+	, 약품정보06
+	, 약품정보07
+	, 약품정보08
+	, 약품정보09
+	, 약품정보10
+	, 약품정보11
+	, 약품정보12
+	, 약품정보13
+	, 약품정보14
+	, 약품정보15
+	, 약품정보16
+	, 약품정보17
+	, 약품정보18
+	, 약품정보19
+	, 약품정보20
+	, 약품정보21
+	, 약품정보22
+	, 약품정보23
+	, 약품정보24
+	, 약품정보25
+	, 약품정보26
+	, 약품정보27
+	, 약품정보28
+	, 약품정보29
+	, 약품정보30
+	, 약품정보31
+	, 약품정보32
+	, 약품정보33
+	, 약품정보34
+	, 약품정보35
+	, 약품정보36
+	, 약품정보37
+	, 약품정보38
+	, 약품정보39
+	, 약품정보40
+	, 약품정보41
+	, 약품정보42
+	, 약품정보43
+	, 약품정보44
+	, 약품정보45
+	, 약품정보46
+	, 약품정보47
+	, 약품정보48
+	, 약품정보49
+	, 약품정보50
+	, 약품정보51
+	, 약품정보52
+	, 약품정보53
+	, 약품정보54
+	, 약품정보55
+	, 약품정보56
+	, 약품정보57
+	, 약품정보58
+	, 약품정보59
+	, 약품정보60
+	, 약품수량01
+	, 약품수량02
+	, 약품수량03
+	, 약품수량04
+	, 약품수량05
+	, 약품수량06
+	, 유통기한01
+	, 유통기한02
+	, 유통기한03
+	, 유통기한04
+	, 유통기한05
+	, 유통기한06
+	, 약품효능01
+	, 약품효능02
+	, 약품효능03
+	, 약품효능04
+	, 약품효능05
+	, 약품효능06
+    )
+    VALUES
+    (
+	  #{sicode}
+	, #{점검일}
+	, #{점검확인01}
+	, #{점검확인02}
+	, #{점검확인03}
+	, #{점검자}
+	, #{점검코드}
+	, #{점검직종}
+	, #{약품정보01}
+	, #{약품정보02}
+	, #{약품정보03}
+	, #{약품정보04}
+	, #{약품정보05}
+	, #{약품정보06}
+	, #{약품정보07}
+	, #{약품정보08}
+	, #{약품정보09}
+	, #{약품정보10}
+	, #{약품정보11}
+	, #{약품정보12}
+	, #{약품정보13}
+	, #{약품정보14}
+	, #{약품정보15}
+	, #{약품정보16}
+	, #{약품정보17}
+	, #{약품정보18}
+	, #{약품정보19}
+	, #{약품정보20}
+	, #{약품정보21}
+	, #{약품정보22}
+	, #{약품정보23}
+	, #{약품정보24}
+	, #{약품정보25}
+	, #{약품정보26}
+	, #{약품정보27}
+	, #{약품정보28}
+	, #{약품정보29}
+	, #{약품정보30}
+	, #{약품정보31}
+	, #{약품정보32}
+	, #{약품정보33}
+	, #{약품정보34}
+	, #{약품정보35}
+	, #{약품정보36}
+	, #{약품정보37}
+	, #{약품정보38}
+	, #{약품정보39}
+	, #{약품정보40}
+	, #{약품정보41}
+	, #{약품정보42}
+	, #{약품정보43}
+	, #{약품정보44}
+	, #{약품정보45}
+	, #{약품정보46}
+	, #{약품정보47}
+	, #{약품정보48}
+	, #{약품정보49}
+	, #{약품정보50}
+	, #{약품정보51}
+	, #{약품정보52}
+	, #{약품정보53}
+	, #{약품정보54}
+	, #{약품정보55}
+	, #{약품정보56}
+	, #{약품정보57}
+	, #{약품정보58}
+	, #{약품정보59}
+	, #{약품정보60}
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량01}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량02}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량03}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량04}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량05}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량06}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량07}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량08}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량09}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량10}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량11}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량12}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량13}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량14}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량15}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량16}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량17}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량18}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량19}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량20}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량21}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량22}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량23}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량24}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량25}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량26}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량27}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량28}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량29}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량30}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량31}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량32}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량33}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량34}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량35}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량36}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량37}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량38}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량39}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량40}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량41}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량42}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량43}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량44}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량45}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량46}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량47}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량48}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량49}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량50}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    LPAD(IFNULL(#{약품수량51}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량52}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량53}, 0), 4, ' ') 
+	          , LPAD(IFNULL(#{약품수량54}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량55}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량56}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량57}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량58}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량59}, 0), 4, ' ')
+	          , LPAD(IFNULL(#{약품수량60}, 0), 4, ' ')	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{유통기한01},'    .  .  ') 
+	          , IFNULL(#{유통기한02},'    .  .  ')
+	          , IFNULL(#{유통기한03},'    .  .  ') 
+	          , IFNULL(#{유통기한04},'    .  .  ')
+	          , IFNULL(#{유통기한05},'    .  .  ')
+	          , IFNULL(#{유통기한06},'    .  .  ')
+	          , IFNULL(#{유통기한07},'    .  .  ')
+	          , IFNULL(#{유통기한08},'    .  .  ')
+	          , IFNULL(#{유통기한09},'    .  .  ')
+	          , IFNULL(#{유통기한10},'    .  .  ')	          
+	          )        
+	, CONCAT(
+	  		    IFNULL(#{유통기한11},'    .  .  ') 
+	          , IFNULL(#{유통기한12},'    .  .  ')
+	          , IFNULL(#{유통기한13},'    .  .  ') 
+	          , IFNULL(#{유통기한14},'    .  .  ')
+	          , IFNULL(#{유통기한15},'    .  .  ')
+	          , IFNULL(#{유통기한16},'    .  .  ')
+	          , IFNULL(#{유통기한17},'    .  .  ')
+	          , IFNULL(#{유통기한18},'    .  .  ')
+	          , IFNULL(#{유통기한19},'    .  .  ')
+	          , IFNULL(#{유통기한20},'    .  .  ')	          
+	          )        
+	, CONCAT(
+	  		    IFNULL(#{유통기한21},'    .  .  ') 
+	          , IFNULL(#{유통기한22},'    .  .  ')
+	          , IFNULL(#{유통기한23},'    .  .  ') 
+	          , IFNULL(#{유통기한24},'    .  .  ')
+	          , IFNULL(#{유통기한25},'    .  .  ')
+	          , IFNULL(#{유통기한26},'    .  .  ')
+	          , IFNULL(#{유통기한27},'    .  .  ')
+	          , IFNULL(#{유통기한28},'    .  .  ')
+	          , IFNULL(#{유통기한29},'    .  .  ')
+	          , IFNULL(#{유통기한30},'    .  .  ')	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{유통기한31},'    .  .  ') 
+	          , IFNULL(#{유통기한32},'    .  .  ')
+	          , IFNULL(#{유통기한33},'    .  .  ') 
+	          , IFNULL(#{유통기한34},'    .  .  ')
+	          , IFNULL(#{유통기한35},'    .  .  ')
+	          , IFNULL(#{유통기한36},'    .  .  ')
+	          , IFNULL(#{유통기한37},'    .  .  ')
+	          , IFNULL(#{유통기한38},'    .  .  ')
+	          , IFNULL(#{유통기한39},'    .  .  ')
+	          , IFNULL(#{유통기한40},'    .  .  ')	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{유통기한41},'    .  .  ') 
+	          , IFNULL(#{유통기한42},'    .  .  ')
+	          , IFNULL(#{유통기한43},'    .  .  ') 
+	          , IFNULL(#{유통기한44},'    .  .  ')
+	          , IFNULL(#{유통기한45},'    .  .  ')
+	          , IFNULL(#{유통기한46},'    .  .  ')
+	          , IFNULL(#{유통기한47},'    .  .  ')
+	          , IFNULL(#{유통기한48},'    .  .  ')
+	          , IFNULL(#{유통기한49},'    .  .  ')
+	          , IFNULL(#{유통기한50},'    .  .  ')	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{유통기한51},'    .  .  ') 
+	          , IFNULL(#{유통기한52},'    .  .  ')
+	          , IFNULL(#{유통기한53},'    .  .  ') 
+	          , IFNULL(#{유통기한54},'    .  .  ')
+	          , IFNULL(#{유통기한55},'    .  .  ')
+	          , IFNULL(#{유통기한56},'    .  .  ')
+	          , IFNULL(#{유통기한57},'    .  .  ')
+	          , IFNULL(#{유통기한58},'    .  .  ')
+	          , IFNULL(#{유통기한59},'    .  .  ')
+	          , IFNULL(#{유통기한60},'    .  .  ')	          
+	          )        
+	, CONCAT(
+	  		    IFNULL(#{약품효능01}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능02}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능03}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능04}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능05}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능06}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능07}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능08}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능09}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능10}, RPAD("", 20, ' '))          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{약품효능11}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능12}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능13}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능14}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능15}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능16}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능17}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능18}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능19}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능20}, RPAD("", 20, ' '))	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{약품효능21}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능22}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능23}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능24}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능25}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능26}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능27}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능28}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능29}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능30}, RPAD("", 20,  ' '))	          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{약품효능31}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능32}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능33}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능34}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능35}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능36}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능37}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능38}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능39}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능40}, RPAD("", 20, ' '))	          
+	          )      
+	, CONCAT(
+	  		    IFNULL(#{약품효능41}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능42}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능43}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능44}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능45}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능46}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능47}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능48}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능49}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능50}, RPAD("", 20, ' '))          
+	          )
+	, CONCAT(
+	  		    IFNULL(#{약품효능51}, RPAD("", 20, ' ')) 
+	          , IFNULL(#{약품효능52}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능53}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능54}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능55}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능56}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능57}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능58}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능59}, RPAD("", 20, ' '))
+	          , IFNULL(#{약품효능60}, RPAD('', 20, ' '))	          
+	          )      
+    ) 
+    </insert>
+     <!-- 수정 -->
+    <update id="DAY00204_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 2-04 수정 */
+    UPDATE km_homedrug
+       SET
+		   sicode   = #{sicode}
+		 , 점검번호      = #{점검번호}
+		 , 점검일        = #{점검일}
+		 , 점검확인01 = #{점검확인01}
+		 , 점검확인02 = #{점검확인02}
+		 , 점검확인03 = #{점검확인03}
+		 , 점검자        = #{점검자}
+		 , 점검코드     = #{점검코드}
+		 , 점검직종     = #{점검직종}
+		 , 약품정보01 = #{약품정보01}
+		 , 약품정보02 = #{약품정보02}
+		 , 약품정보03 = #{약품정보03}
+		 , 약품정보04 = #{약품정보04}
+		 , 약품정보05 = #{약품정보05}
+		 , 약품정보06 = #{약품정보06}
+		 , 약품정보07 = #{약품정보07}
+		 , 약품정보08 = #{약품정보08}
+		 , 약품정보09 = #{약품정보09}
+		 , 약품정보10 = #{약품정보10}
+		 , 약품정보11 = #{약품정보11}
+		 , 약품정보12 = #{약품정보12}
+		 , 약품정보13 = #{약품정보13}
+		 , 약품정보14 = #{약품정보14}
+		 , 약품정보15 = #{약품정보15}
+		 , 약품정보16 = #{약품정보16}
+		 , 약품정보17 = #{약품정보17}
+		 , 약품정보18 = #{약품정보18}
+		 , 약품정보19 = #{약품정보19}
+		 , 약품정보20 = #{약품정보20}
+		 , 약품정보21 = #{약품정보21}
+		 , 약품정보22 = #{약품정보22}
+		 , 약품정보23 = #{약품정보23}
+		 , 약품정보24 = #{약품정보24}
+		 , 약품정보25 = #{약품정보25}
+		 , 약품정보26 = #{약품정보26}
+		 , 약품정보27 = #{약품정보27}
+		 , 약품정보28 = #{약품정보28}
+		 , 약품정보29 = #{약품정보29}
+		 , 약품정보30 = #{약품정보30}
+		 , 약품정보31 = #{약품정보31}
+		 , 약품정보32 = #{약품정보32}
+		 , 약품정보33 = #{약품정보33}
+		 , 약품정보34 = #{약품정보34}
+		 , 약품정보35 = #{약품정보35}
+		 , 약품정보36 = #{약품정보36}
+		 , 약품정보37 = #{약품정보37}
+		 , 약품정보38 = #{약품정보38}
+		 , 약품정보39 = #{약품정보39}
+		 , 약품정보40 = #{약품정보40}
+		 , 약품정보41 = #{약품정보41}
+		 , 약품정보42 = #{약품정보42}
+		 , 약품정보43 = #{약품정보43}
+		 , 약품정보44 = #{약품정보44}
+		 , 약품정보45 = #{약품정보45}
+		 , 약품정보46 = #{약품정보46}
+		 , 약품정보47 = #{약품정보47}
+		 , 약품정보48 = #{약품정보48}
+		 , 약품정보49 = #{약품정보49}
+		 , 약품정보50 = #{약품정보50}
+		 , 약품정보51 = #{약품정보51}
+		 , 약품정보52 = #{약품정보52}
+		 , 약품정보53 = #{약품정보53}
+		 , 약품정보54 = #{약품정보54}
+		 , 약품정보55 = #{약품정보55}
+		 , 약품정보56 = #{약품정보56}
+		 , 약품정보57 = #{약품정보57}
+		 , 약품정보58 = #{약품정보58}
+		 , 약품정보59 = #{약품정보59}
+		 , 약품정보60 = #{약품정보60}
+		 , 약품수량01 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량01}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량02}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량03}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량04}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량05}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량06}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량07}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량08}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량09}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량10}, 0), 4, ' ')	          
+				            )
+		 , 약품수량02 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량11}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량12}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량13}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량14}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량15}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량16}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량17}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량18}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량19}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량20}, 0), 4, ' ')	          
+				            )
+		 , 약품수량03 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량21}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량22}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량23}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량24}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량25}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량26}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량27}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량28}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량29}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량30}, 0), 4, ' ')	          
+				            )
+		 , 약품수량04 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량31}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량32}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량33}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량34}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량35}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량36}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량37}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량38}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량39}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량40}, 0), 4, ' ')	          
+				            )
+		 , 약품수량05 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량41}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량42}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량43}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량44}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량45}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량46}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량47}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량48}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량49}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량50}, 0), 4, ' ')	          
+				            )
+		 , 약품수량06 = CONCAT(
+				  		      LPAD(IFNULL(#{약품수량51}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량52}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량53}, 0), 4, ' ') 
+				            , LPAD(IFNULL(#{약품수량54}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량55}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량56}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량57}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량58}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량59}, 0), 4, ' ')
+				            , LPAD(IFNULL(#{약품수량60}, 0), 4, ' ')	          
+				            )
+		 , 유통기한01 = CONCAT(
+				  		      IFNULL(#{유통기한01},'    .  .  ') 
+				            , IFNULL(#{유통기한02},'    .  .  ')
+				            , IFNULL(#{유통기한03},'    .  .  ') 
+				            , IFNULL(#{유통기한04},'    .  .  ')
+				            , IFNULL(#{유통기한05},'    .  .  ')
+				            , IFNULL(#{유통기한06},'    .  .  ')
+				            , IFNULL(#{유통기한07},'    .  .  ')
+				            , IFNULL(#{유통기한08},'    .  .  ')
+				            , IFNULL(#{유통기한09},'    .  .  ')
+				            , IFNULL(#{유통기한10},'    .  .  ')	          
+				            )     
+		 , 유통기한02 = CONCAT(
+				  		      IFNULL(#{유통기한11},'    .  .  ') 
+				            , IFNULL(#{유통기한12},'    .  .  ')
+				            , IFNULL(#{유통기한13},'    .  .  ') 
+				            , IFNULL(#{유통기한14},'    .  .  ')
+				            , IFNULL(#{유통기한15},'    .  .  ')
+				            , IFNULL(#{유통기한16},'    .  .  ')
+				            , IFNULL(#{유통기한17},'    .  .  ')
+				            , IFNULL(#{유통기한18},'    .  .  ')
+				            , IFNULL(#{유통기한19},'    .  .  ')
+				            , IFNULL(#{유통기한20},'    .  .  ')	          
+				            )      
+		 , 유통기한03 = CONCAT(
+				  		      IFNULL(#{유통기한21},'    .  .  ') 
+				            , IFNULL(#{유통기한22},'    .  .  ')
+				            , IFNULL(#{유통기한23},'    .  .  ') 
+				            , IFNULL(#{유통기한24},'    .  .  ')
+				            , IFNULL(#{유통기한25},'    .  .  ')
+				            , IFNULL(#{유통기한26},'    .  .  ')
+				            , IFNULL(#{유통기한27},'    .  .  ')
+				            , IFNULL(#{유통기한28},'    .  .  ')
+				            , IFNULL(#{유통기한29},'    .  .  ')
+				            , IFNULL(#{유통기한30},'    .  .  ')	          
+				            )
+		 , 유통기한04 = CONCAT(
+				  		      IFNULL(#{유통기한31},'    .  .  ') 
+				            , IFNULL(#{유통기한32},'    .  .  ')
+				            , IFNULL(#{유통기한33},'    .  .  ') 
+				            , IFNULL(#{유통기한34},'    .  .  ')
+				            , IFNULL(#{유통기한35},'    .  .  ')
+				            , IFNULL(#{유통기한36},'    .  .  ')
+				            , IFNULL(#{유통기한37},'    .  .  ')
+				            , IFNULL(#{유통기한38},'    .  .  ')
+				            , IFNULL(#{유통기한39},'    .  .  ')
+				            , IFNULL(#{유통기한40},'    .  .  ')	          
+				            )
+		 , 유통기한05 = CONCAT(
+				  		      IFNULL(#{유통기한41},'    .  .  ') 
+				            , IFNULL(#{유통기한42},'    .  .  ')
+				            , IFNULL(#{유통기한43},'    .  .  ') 
+				            , IFNULL(#{유통기한44},'    .  .  ')
+				            , IFNULL(#{유통기한45},'    .  .  ')
+				            , IFNULL(#{유통기한46},'    .  .  ')
+				            , IFNULL(#{유통기한47},'    .  .  ')
+				            , IFNULL(#{유통기한48},'    .  .  ')
+				            , IFNULL(#{유통기한49},'    .  .  ')
+				            , IFNULL(#{유통기한50},'    .  .  ')	          
+				            )
+		 , 유통기한06 = CONCAT(
+				  		      IFNULL(#{유통기한51},'    .  .  ') 
+				            , IFNULL(#{유통기한52},'    .  .  ')
+				            , IFNULL(#{유통기한53},'    .  .  ') 
+				            , IFNULL(#{유통기한54},'    .  .  ')
+				            , IFNULL(#{유통기한55},'    .  .  ')
+				            , IFNULL(#{유통기한56},'    .  .  ')
+				            , IFNULL(#{유통기한57},'    .  .  ')
+				            , IFNULL(#{유통기한58},'    .  .  ')
+				            , IFNULL(#{유통기한59},'    .  .  ')
+				            , IFNULL(#{유통기한60},'    .  .  ')	          
+				            )  
+		 , 약품효능01 = CONCAT(
+				  		      IFNULL(#{약품효능01}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능02}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능03}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능04}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능05}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능06}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능07}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능08}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능09}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능10}, RPAD("", 20, ' '))          
+				            )
+		 , 약품효능02 = CONCAT(
+				  		      IFNULL(#{약품효능11}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능12}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능13}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능14}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능15}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능16}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능17}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능18}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능19}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능20}, RPAD("", 20, ' '))	          
+				            )
+		 , 약품효능03 = CONCAT(
+				  		      IFNULL(#{약품효능21}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능22}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능23}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능24}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능25}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능26}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능27}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능28}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능29}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능30}, RPAD("", 20,  ' '))	          
+				            )
+		 , 약품효능04 = CONCAT(
+				  		      IFNULL(#{약품효능31}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능32}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능33}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능34}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능35}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능36}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능37}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능38}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능39}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능40}, RPAD("", 20, ' '))	          
+				            )   
+		 , 약품효능05 = CONCAT(
+				  		      IFNULL(#{약품효능41}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능42}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능43}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능44}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능45}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능46}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능47}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능48}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능49}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능50}, RPAD("", 20, ' '))          
+				            )
+		 , 약품효능06 = CONCAT(
+				  		      IFNULL(#{약품효능51}, RPAD("", 20, ' ')) 
+				            , IFNULL(#{약품효능52}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능53}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능54}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능55}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능56}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능57}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능58}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능59}, RPAD("", 20, ' '))
+				            , IFNULL(#{약품효능60}, RPAD('', 20, ' '))	          
+				            )     
+    WHERE sicode = #{sicode}
+      AND 점검번호 = #{점검번호}
+      AND 점검일 = #{점검일}
+    </update>
+	
+    <!-- 삭제 -->
+    <delete id="DAY00204_DS_DATA_D" parameterType="java.util.HashMap">
+ 	/* 2-04 삭제 */
+ 	DELETE FROM km_homedrug
+ 	 WHERE sicode = #{sicode}
+       AND 점검번호 = #{점검번호}
+       AND 점검일 = #{점검일}
+    </delete>    
+    
+    <select id="DAY00204_DS_DATA_CHK" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-04 CHK */
+	SELECT sicode
+	     , 점검일
+	  FROM km_homedrug
+	 WHERE sicode = #{sicode}
+	   AND 점검일 = #{hd_date}
+	</select>
+    
+    <select id="DAY00204_DS_HOMEDRUG_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-04 HOMEDRUG 조회 */
+	SELECT sicode
+	     , ROW_NUMBER() OVER(ORDER BY homenum) AS num
+	     , homenum
+	     , 약품명
+	     , 효능
+	     , 제조사
+	     , 규격
+	     , 수량
+	     , DATE_FORMAT(유통기한, '%Y.%m.%d') AS 유통기한
+	     , 보관상태
+	     , 확인일
+	     , org_homenum 
+	  FROM base_homedrug
+	 WHERE sicode = #{sicode}
+	   AND 수량 > 0
+	 ORDER
+	    BY homenum 
+	</select>
+</mapper>

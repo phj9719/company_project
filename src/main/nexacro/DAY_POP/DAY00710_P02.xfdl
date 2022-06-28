@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00710_P02" width="1270" height="480" titletext="자원봉사자 정보 등록/수정" onload="form_onload">
+    <Layouts>
+      <Layout width="1270" height="480">
+        <Div id="div_cont" taborder="2" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="10" top="0" width="540" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="30" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" autofittype="col" height="370" oncellclick="div_cont_div_left_grd_list_oncellclick" right="0">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="70"/>
+                            <Column size="130"/>
+                            <Column size="40"/>
+                            <Column size="170"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="봉사자No"/>
+                            <Cell col="1" text="봉사자명"/>
+                            <Cell col="2" text="성별"/>
+                            <Cell col="3" text="소속"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell expandchar="dot" text="bind:봉사자번호"/>
+                            <Cell col="1" textAlign="left" text="bind:봉사자명" cursor="pointer"/>
+                            <Cell col="2" text="bind:성별"/>
+                            <Cell col="3" text="bind:소속"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta_rmk" taborder="1" text="▶ 봉사자명을 클릭하면 봉사자 정보를 수정할 수 있습니다." left="grd_list:-460" top="grd_list:5" width="457" height="25"/>
+                    <Static id="sta_subTitle" taborder="2" text="■ 자원봉사자 리스트 ■" left="140" top="0" width="260" height="24" font="normal 12pt/normal &quot;Arial&quot;" textAlign="center"/>
+                    <Grid id="grd_list2" taborder="3" left="0" top="30" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" height="370" oncellclick="div_cont_div_left_grd_list_oncellclick" right="0" visible="false">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="70"/>
+                            <Column size="130"/>
+                            <Column size="40"/>
+                            <Column size="170"/>
+                            <Column size="80"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="200"/>
+                            <Column size="200"/>
+                            <Column size="100"/>
+                            <Column size="200"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="봉사자No"/>
+                            <Cell col="1" text="봉사자명"/>
+                            <Cell col="2" text="성별"/>
+                            <Cell col="3" text="소속"/>
+                            <Cell col="4" text="생일"/>
+                            <Cell col="5" text="연락처1"/>
+                            <Cell col="6" text="연락처2"/>
+                            <Cell col="7" text="주소"/>
+                            <Cell col="8" text="세부주소"/>
+                            <Cell col="9" text="우편번호"/>
+                            <Cell col="10" text="비고"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell expandchar="dot" text="bind:봉사자번호"/>
+                            <Cell col="1" textAlign="left" text="bind:봉사자명" cursor="pointer"/>
+                            <Cell col="2" text="bind:성별"/>
+                            <Cell col="3" text="bind:소속"/>
+                            <Cell col="4" text="bind:생일"/>
+                            <Cell col="5" text="bind:연락처1"/>
+                            <Cell col="6" text="bind:연락처2"/>
+                            <Cell col="7" text="bind:주소"/>
+                            <Cell col="8" text="bind:세부주소"/>
+                            <Cell col="9" text="bind:우편번호"/>
+                            <Cell col="10" text="bind:비고"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="div_left:20" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" background="#ffffff" border="1px solid black" height="400" right="10">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="11" text="자원봉사자 정보등록·수정" left="246" top="9" width="260" height="24" cssclass="lb01"/>
+                          <Div id="div_line" taborder="12" left="10" top="40" height="2" background="#000000" right="10"/>
+                          <Static id="sta_head1" taborder="13" text="봉사자No" left="29" top="47" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="14" left="sta_head1:-1" top="sta_head1:-34" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head2" taborder="15" left="29" top="sta_head1:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="봉사자명"/>
+                          <Static id="sta_body2" taborder="16" left="sta_head2:-1" top="sta_body1:-1" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head3" taborder="17" text="소속" left="29" top="sta_head2:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body3" taborder="18" left="sta_head3:-1" top="sta_body2:-1" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4" taborder="19" left="29" top="146" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="연락처"/>
+                          <Static id="sta_body4" taborder="20" left="sta_head4:-1" top="146" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Edit id="edt_vol_name" taborder="0" left="sta_body2:-545" top="sta_body2:-30" width="240" height="25" cssclass="essential" maxlength="30"/>
+                          <Edit id="edt_att" taborder="3" left="sta_body3:-545" top="sta_body3:-30" width="304" height="25" maxlength="40"/>
+                          <Static id="sta_no" taborder="21" text="0000000" left="119" top="56" width="119" height="19"/>
+                          <Static id="sta_head4_00_00" taborder="22" left="29" top="179" width="83" height="64" cssclass="sta_WF_DetailLabel01" textAlign="center" text="주소"/>
+                          <Static id="sta_body4_00_00" taborder="23" left="111" top="179" width="550" height="64" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4_00_01" taborder="24" left="29" top="242" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="비고"/>
+                          <Static id="sta_body4_00_01" taborder="25" left="111" top="242" width="550" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head2_1" taborder="26" left="439" top="80" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="성별"/>
+                          <Static id="sta_head3_1" taborder="27" text="생년월일" left="439" top="113" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Edit id="edt_phone1" taborder="5" left="116" top="150" width="150" height="25" maxlength="15"/>
+                          <Edit id="edt_phone2" taborder="6" left="271" top="150" width="150" height="25" maxlength="15"/>
+                          <Edit id="edt_addr" taborder="7" left="116" top="184" width="420" height="25" maxlength="60"/>
+                          <Edit id="edt_addr_detail" taborder="8" left="116" top="212" width="420" height="25" maxlength="60"/>
+                          <Edit id="edt_zip_code" taborder="9" left="540" top="212" width="100" height="25" maxlength="7"/>
+                          <Edit id="edt_remark" taborder="10" left="116" top="247" width="530" height="25" maxlength="80"/>
+                          <CheckBox id="chk_man" taborder="1" text="남자" left="535" top="87" width="50" height="21" onchanged="chk_onchanged" truevalue="1" falsevalue="0"/>
+                          <CheckBox id="chk_woman" taborder="2" text="여자" left="597" top="87" width="50" height="21" onchanged="chk_onchanged" truevalue="2" falsevalue="0"/>
+                          <Calendar id="cal_birth" taborder="4" left="531" top="117" width="122" height="25" initvalueid="iv_cal_dot"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="30" text="" width="550">
+          <Layouts>
+            <Layout>
+              <Button id="btn_excel_down" taborder="0" text="엑셀다운로드" left="10" top="5" width="120" height="25" onclick="div_search_btn_excel_down_onclick" cssclass="btn_excel"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="div_search:20" top="0" height="35" formscrollbartype="none" width="690">
+          <Layouts>
+            <Layout>
+              <Button id="btn_new" taborder="0" text="새로작성" left="0" top="5" width="90" height="25" onclick="div_func_btn_new_onclick" cssclass="btn_newdoc"/>
+              <Button id="btn_save" taborder="1" text="저장" top="5" width="70" height="25" onclick="fn_saveBtn" right="0" cssclass="btn_save"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="봉사자번호" type="STRING" size="256"/>
+          <Column id="봉사자명" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+          <Column id="연락처1" type="STRING" size="256"/>
+          <Column id="연락처2" type="STRING" size="256"/>
+          <Column id="소속" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="세부주소" type="STRING" size="256"/>
+          <Column id="우편번호" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="봉사자번호" type="STRING" size="256"/>
+          <Column id="봉사자명" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="SEX1" type="STRING" size="256"/>
+          <Column id="SEX2" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+          <Column id="BIRTHSTR" type="STRING" size="256"/>
+          <Column id="연락처1" type="STRING" size="256"/>
+          <Column id="연락처2" type="STRING" size="256"/>
+          <Column id="소속" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="세부주소" type="STRING" size="256"/>
+          <Column id="우편번호" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_vol" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="봉사자번호" type="STRING" size="256"/>
+          <Column id="봉사자명" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+          <Column id="연락처1" type="STRING" size="256"/>
+          <Column id="연락처2" type="STRING" size="256"/>
+          <Column id="소속" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="세부주소" type="STRING" size="256"/>
+          <Column id="우편번호" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.edt_vol_name" propid="value" datasetid="ds_data" columnid="봉사자명"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.edt_att" propid="value" datasetid="ds_data" columnid="소속"/>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.div_main.form.edt_phone1" propid="value" datasetid="ds_data" columnid="연락처1"/>
+      <BindItem id="item1" compid="div_cont.form.div_right.form.div_main.form.edt_phone2" propid="value" datasetid="ds_data" columnid="연락처2"/>
+      <BindItem id="item2" compid="div_cont.form.div_right.form.div_main.form.edt_addr" propid="value" datasetid="ds_data" columnid="주소"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.edt_addr_detail" propid="value" datasetid="ds_data" columnid="세부주소"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.edt_zip_code" propid="value" datasetid="ds_data" columnid="우편번호"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.edt_remark" propid="value" datasetid="ds_data" columnid="비고"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.chk_man" propid="value" datasetid="ds_data" columnid="SEX1"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.chk_woman" propid="value" datasetid="ds_data" columnid="SEX2"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.cal_birth" propid="value" datasetid="ds_data" columnid="BIRTHSTR"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_no" propid="text" datasetid="ds_data" columnid="봉사자번호"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00710_P02
+ * 화면명   	: 자원봉사자 정보 등록/수정
+ * 화면설명 	: 자원봉사자를 등록/수정하는 팝업
+ * 작성일   	: 2022-03-14
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-04-05		조기종		단위테스트 오류 수정
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+this.searchFlag = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 저장을 위한 gv_curWinKey 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00710_P02";
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+ 	
+	// 오픈시 조회
+	this.fn_search();
+};
+
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	if (this.ds_data.rowcount > 0)
+		this.reSearchData = this.ds_data.getColumn(0, "봉사자번호");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 봉사명이 입력되지 않은 경우
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "봉사자명")))
+	{
+		this.alert("봉사자명은 필수입력입니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+	
+	const no = parseInt(this.ds_data.getColumn(0, "봉사자번호"));
+	this.ds_data.setColumn(0, "봉사자번호", no);
+	
+	const birth = this.ds_data.getColumn(0, "BIRTHSTR");
+	const yyyy = birth.substr(0, 4);
+	const mm = birth.substr(4, 2);
+	const dd = birth.substr(6, 2);
+	this.ds_data.setColumn(0, "생일", yyyy + "-" + mm + "-" + dd);
+	
+	if (this.ds_data.getRowType(0) == 2)
+	{
+		this.searchFlag = "I";
+		this.reSearchData = "";
+	}
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00710_P02.DAY00710_P02_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData, this.searchFlag);
+			this.searchFlag = "";
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			const no = this.ds_data.getColumn(0, "봉사자번호") + "";
+			if (this.searchFlag != "I")
+				this.ds_data.setColumn(0, "봉사자번호", no.padStart(7, '0'));
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	const sex = this.ds_data.getColumn(nRow, "성별");
+	switch(sex) {
+		case "남" :
+			this.ds_data.setColumn(nRow, "SEX1", 1);
+			break;
+		case "여" :
+			this.ds_data.setColumn(nRow, "SEX2", 2);
+			break;
+		default:
+	}
+	
+	let birth = "";
+	const birthStr = this.ds_data.getColumn(nRow, "생일")
+	const birthArr = birthStr.split("-");
+	for (let i = 0; i < birthArr.length; i++)
+	{
+		birth += birthArr[i];
+	}
+	this.ds_data.setColumn(nRow, "BIRTHSTR", birth);
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo, flag) {
+	let sFindRow = this.ds_list.findRow("봉사자번호", fv_saveRefNo);
+	
+	if (flag == "I")
+		sFindRow = this.ds_list.findRow("봉사자번호", this.ds_list.getMax("봉사자번호"));
+	
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+this.div_search_btn_excel_down_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let strFileName= "자원봉사자";
+	strFileName += "_" + Sct.Util.getToday();
+	Sct.Grid.exportExcel(this, this.div_cont.form.div_left.form.grd_list2, strFileName);
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const dateIdx = obj.getBindCellIndex("body", "봉사자명");
+	// 봉사자명 선택
+	if (e.col == dateIdx)
+	{
+		// 입력, 수정용 데이터셋에 데이터 복사
+		this.fn_dataCopy(e.row);
+	}
+};
+
+// 새로작성
+this.div_func_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	
+	// 시설코드
+	this.ds_data.setColumn(nRow, "sicode", fv_sicode);
+	
+	this.ds_data.setColumn(nRow, "봉사자번호", "0000000");
+	this.ds_data.setColumn(nRow, "봉사자명", "");
+	this.ds_data.setColumn(nRow, "성별", "");
+	this.ds_data.setColumn(nRow, "SEX1", 0);
+	this.ds_data.setColumn(nRow, "SEX2", 0);
+	this.ds_data.setColumn(nRow, "생일", "");
+	this.ds_data.setColumn(nRow, "BIRTHSTR", "19800101");
+	this.ds_data.setColumn(nRow, "연락처1", "");
+	this.ds_data.setColumn(nRow, "연락처2", "");
+	this.ds_data.setColumn(nRow, "소속", "");
+	this.ds_data.setColumn(nRow, "주소", "");
+	this.ds_data.setColumn(nRow, "세부주소", "");
+	this.ds_data.setColumn(nRow, "우편번호", "");
+	this.ds_data.setColumn(nRow, "비고", "");
+};
+
+// 성별 체크박스 값 변경 이벤트
+this.chk_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) {
+		case "1" :
+			this.ds_data.setColumn(0, "SEX2", 0);
+			this.ds_data.setColumn(0, "성별", "남");
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "SEX1", 0);
+			this.ds_data.setColumn(0, "성별", "여");
+			break;
+		default:
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Dataset Event Functions
+ ***********************************************************************/
+]]></Script>
+  </Form>
+</FDL>

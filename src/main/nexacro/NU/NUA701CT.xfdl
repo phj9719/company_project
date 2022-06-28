@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1250" height="610" titletext="보호자 공지등록" onload="form_onload" onbeforeclose="form_onbeforeclose" ondrop="form_ondrop" onkeyup="fn_openDebugPopup">
+    <Layouts>
+      <Layout width="1250" height="610">
+        <Div id="div_search" taborder="0" left="0" top="22" height="74" cssclass="s01" right="0">
+          <Layouts>
+            <Layout width="1112" height="99">
+              <Static id="sta_company_nm" taborder="4" text="제목" cssclass="sta_WF_SearchLabel" left="15" top="25" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle" onclick="div_search_sta_doc_no_onclick"/>
+              <Edit id="edt_company_nm" taborder="0" left="110" top="25" width="130" height="21" autoselect="true" textAlign="left"/>
+              <Static id="sta_serv_tp" taborder="5" text="등록자" cssclass="sta_WF_SearchLabel" left="245" top="25" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_company_nm00" taborder="1" left="340" top="25" width="130" height="21" autoselect="true" textAlign="left"/>
+              <Static id="sta_edate" taborder="6" text="일자" left="472" top="25" width="90" height="21" textAlign="right" verticalAlign="middle" cssclass="sta_WF_SearchLabel"/>
+              <Calendar id="cal_sdate" taborder="2" left="570" top="25" width="110" height="21" cssclass="essential"/>
+              <Static id="Static26" taborder="7" text="~" left="684" top="25" width="16" height="20" font="8pt &quot;Malgun Gothic&quot;"/>
+              <Calendar id="cal_edate" taborder="3" left="695" top="25" width="110" height="21" cssclass="essential"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0" top="120" bottom="0.00%" right="0%">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_cont" taborder="0" top="0" cssclass="div_WF_DetailBg" border="0px solid rgba(120,120,120,1)" font="9pt &quot;Malgun Gothic&quot;" text="" bottom="0" left="0" right="0">
+                <Layouts>
+                  <Layout width="1112" height="99">
+                    <Div id="div_right" taborder="2" text="" top="0" bottom="0" left="744" right="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="Static05_00_00_00" taborder="6" cssclass="sta_WF_DetailLabel02" left="37" top="35" height="29" text="" right="0"/>
+                          <Static id="Static05_00_00_00_00" taborder="7" cssclass="sta_WF_DetailLabel02" left="37" top="63" height="29" text="" right="0"/>
+                          <Static id="Static05_00_00_00_00_00" taborder="8" cssclass="sta_WF_DetailLabel02" left="37" top="91" text="" bottom="73" right="0"/>
+                          <Static id="sta_content" taborder="9" text="내용" cssclass="sta_WF_DetailLabel01" left="37" top="91" width="106" textAlign="center" verticalAlign="middle" bottom="73"/>
+                          <Static id="sta_title" taborder="10" text="제목" cssclass="sta_WF_DetailLabel01" left="37" top="63" width="106" height="29" textAlign="center" verticalAlign="middle"/>
+                          <Static id="Static05_00_01" taborder="11" cssclass="sta_WF_DetailLabel02" left="37" height="29" bottom="45" right="0"/>
+                          <Static id="sta_use_yn" taborder="12" text="첨부파일" cssclass="sta_WF_DetailLabel01" left="37" width="106" height="29" textAlign="center" verticalAlign="middle" bottom="45"/>
+                          <Static id="sta_not_dt" taborder="13" text="작성일" cssclass="sta_WF_DetailLabel01" left="37" top="35" width="106" height="29" textAlign="center" verticalAlign="middle"/>
+                          <Edit id="edt_title" taborder="1" left="148" top="67" height="21" cssclass="essential" right="6"/>
+                          <Calendar id="cal_not_dt" taborder="0" left="148" top="39" width="144" height="21" dateformat="yyyy-MM-dd ddd" visible="true" cssclass="essential"/>
+                          <Edit id="edt_user_passwd" taborder="4" left="148" height="21" password="false" bottom="49" readonly="true" color="black" right="51"/>
+                          <Button id="btn_chgpass" taborder="3" text="첨부" width="36" height="23" visible="true" bottom="48" right="8" onclick="div_cont_div_cont_div_right_btn_chgpass_onclick"/>
+                          <TextArea id="ta_content" taborder="2" left="148" top="97" right="6" bottom="78" padding="5px" font="normal 10pt/1.3 &quot;Arial&quot;"/>
+                          <Button id="btn_addrow" taborder="5" text="행추가" top="5" width="80" height="29" onclick="fn_addRow" visible="true" right="0" cssclass="btn_com_add"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_left" taborder="0" left="0" width="756" bottom="0" top="0" text="">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grd_list" taborder="0" left="0" top="30" right="0" binddataset="ds_list" autosizebandtype="body" autoenter="select" autofittype="none" bottom="40" onsetfocus="grd_list_onsetfocus">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="40"/>
+                                  <Column size="40"/>
+                                  <Column size="40"/>
+                                  <Column size="0"/>
+                                  <Column size="0"/>
+                                  <Column size="80"/>
+                                  <Column size="185"/>
+                                  <Column size="60"/>
+                                  <Column size="60"/>
+                                  <Column size="80"/>
+                                  <Column size="60"/>
+                                  <Column size="80"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="24" band="head"/>
+                                  <Row size="24"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell expandchar="status"/>
+                                  <Cell col="1" expandchar="delete"/>
+                                  <Cell col="2" text="NO"/>
+                                  <Cell col="3" text="사업장"/>
+                                  <Cell col="4" displaytype="normal" text="공장"/>
+                                  <Cell col="5" text="작성일"/>
+                                  <Cell col="6" text="제목"/>
+                                  <Cell col="7" text="등록자ID"/>
+                                  <Cell col="8" text="등록자명"/>
+                                  <Cell col="9" text="등록일자"/>
+                                  <Cell col="10" text="수정자명"/>
+                                  <Cell col="11" text="수정일자"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell displaytype="normal"/>
+                                  <Cell col="1"/>
+                                  <Cell col="2" text="expr:currow + 1"/>
+                                  <Cell col="3" displaytype="combotext" text="bind:BIZ_CD" combodataset="gds_biz" combocodecol="BIZ_CD" combodatacol="BIZ_NM" combotype="filterlike"/>
+                                  <Cell col="4" displaytype="combotext" text="bind:PLANT_CD" combodataset="gds_plant" combocodecol="PLANT_CD" combodatacol="PLANT_NM" combotype="filterlike"/>
+                                  <Cell col="5" text="bind:NOT_DT" displaytype="date"/>
+                                  <Cell col="6" text="bind:TITLE" displaytype="normal"/>
+                                  <Cell col="7" text="bind:REG_USER"/>
+                                  <Cell col="8" text="bind:REG_USER_NM"/>
+                                  <Cell col="9" text="bind:REG_DT" displaytype="date"/>
+                                  <Cell col="10" text="bind:MOD_USER_NM"/>
+                                  <Cell col="11" text="bind:MOD_DT" displaytype="date"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="Static_mid_label_left01" taborder="1" text="공지리스트" cssclass="lb01" left="0" top="7" width="194" height="22"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Button id="btn_gHMove" taborder="1" left="756" top="45.31%" width="25" height="50" icon="URL('imagerc::grid_horizontal.png')" background="transparent" borderRadius="10px"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_paging" taborder="1" height="30" bottom="0" url="CM_POP::CM_PAGING_DIV.xfdl" maxheight="" left="0" right="830" text=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static60" taborder="2" text="검색조건" cssclass="lb01" left="0" top="-1" width="120" height="22"/>
+        <Button id="btn_sMove" taborder="3" onclick="search_reset" left="44.78%" top="96" right="44.78%" height="16" ondrag="search_resize" background="url('imagerc::search_open.png') no-repeat transparent" border="0px solid"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true" oncolumnchanged="ds_list_oncolumnchanged" onrowposchanged="ds_list_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NOT_SEQ" type="STRING" size="256"/>
+          <Column id="NOT_DT" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="REF_USER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="REAL_USER_ID" type="STRING" size="256"/>
+          <Column id="FILE_REAL_NAME" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_use_yn" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dup">
+        <ColumnInfo>
+          <Column id="COL_1" type="STRING" size="256"/>
+          <Column id="COL_2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_files" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ROWIDX" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="FILE_SIZE" type="STRING" size="256"/>
+          <Column id="BLOB_FILE" type="BLOB" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_download" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="BLOB_FILE" type="BLOB" size="256"/>
+        </ColumnInfo>
+        <Rows/>
+      </Dataset>
+      <Dataset id="ds_cm_service_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="USER_NM_KOR" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="DT_FROM" type="STRING" size="256"/>
+          <Column id="DT_TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cm_rank_cd" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cm_sal_cd" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="GRADE_CD"/>
+      <BindItem id="item1" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_ID"/>
+      <BindItem id="item2" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_NM_KOR"/>
+      <BindItem id="item4" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="WORK_YN"/>
+      <BindItem id="item7" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_PASSWD"/>
+      <BindItem id="item8" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="COMPANY_CD"/>
+      <BindItem id="item9" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_NO"/>
+      <BindItem id="item11" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="DEF_LANG"/>
+      <BindItem id="item12" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_NM_ENG"/>
+      <BindItem id="item13" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USER_NM_CHI"/>
+      <BindItem id="item14" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="INOUT_USER_TP"/>
+      <BindItem id="item15" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="SRM_TP"/>
+      <BindItem id="item16" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="TEL_NO"/>
+      <BindItem id="item17" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="CELL_NO"/>
+      <BindItem id="item10" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="DEPT_CD"/>
+      <BindItem id="item6" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="BIZ_CD"/>
+      <BindItem id="item23" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="PLANT_CD"/>
+      <BindItem id="item18" compid="div_cont.cal_validitystart" propid="value" datasetid="ds_list" columnid="VALID_PERIOD_FR"/>
+      <BindItem id="item20" compid="div_cont.cal_passwdExpire" propid="value" datasetid="ds_list" columnid="VALID_PASSWD_DT"/>
+      <BindItem id="item3" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="USE_YN"/>
+      <BindItem id="item21" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="EMAIL"/>
+      <BindItem id="item19" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="VALID_PERIOD_TO"/>
+      <BindItem id="item24" compid="div_cont.form.div_cont" propid="image" datasetid="ds_download" columnid="BLOB_FILE"/>
+      <BindItem id="item25" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="WC_GROUP_CD"/>
+      <BindItem id="item26" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="WC_GROUP_NM"/>
+      <BindItem id="item27" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="VALID_PERIOD_FR"/>
+      <BindItem id="item28" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="VALID_PASSWD_DT"/>
+      <BindItem id="item29" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="CUST_NM"/>
+      <BindItem id="item30" compid="div_cont.form.div_cont" propid="value" datasetid="ds_list" columnid="CUST_CD"/>
+      <BindItem id="item5" compid="div_cont.form.div_cont.form.div_right.form.edt_user_passwd" propid="value" datasetid="ds_list" columnid="FILE_NAME"/>
+      <BindItem id="item42" compid="div_cont.form.div_cont.form.div_right.form.edt_title" propid="value" datasetid="ds_list" columnid="TITLE"/>
+      <BindItem id="item48" compid="div_search.form.edt_company_nm" propid="value" datasetid="ds_search" columnid="TITLE"/>
+      <BindItem id="item22" compid="div_cont.form.div_cont.form.div_right.form.cal_not_dt" propid="value" datasetid="ds_list" columnid="NOT_DT"/>
+      <BindItem id="item31" compid="div_cont.form.div_cont.form.div_right.form.ta_content" propid="value" datasetid="ds_list" columnid="CONTENT"/>
+      <BindItem id="item32" compid="div_search.form.edt_company_nm00" propid="value" datasetid="ds_search" columnid="REG_USER_NM"/>
+      <BindItem id="item33" compid="div_search.form.cal_sdate" propid="value" datasetid="ds_search" columnid="DT_FROM"/>
+      <BindItem id="item34" compid="div_search.form.cal_edate" propid="value" datasetid="ds_search" columnid="DT_TO"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   : NUA701CT.xfdl
+ * 화면명   : 
+ * 화면설명 : 공지등록
+ * 작성일   : 2021-06-25 10:32
+ * 작성자   : SOOIM
+ * 수정이력 :
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2021.06.24		SOOIM		최초작성
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+var fv_Company = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+var fv_ServiceTp = nexacro.getApplication().gds_userInfo.getColumn(0,"SERVICE_TP");
+var fv_appTp = nexacro.getApplication().gv_applicationTp;
+
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_cont.form.div_left.form.grd_list;
+
+this.fileGroupId = "";
+this.fv_currentTab = 0;
+this.gv_NextEmpNo = "";
+
+this.saveUrl = nexacro.getEnvironment().services["svcurl"].url + "/common/";
+
+this.fv_saveRefNo = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.setColumn(0,"COMPANY_CD",fv_Company);
+	this.ds_search.setColumn(0,"SERVICE_TP",fv_ServiceTp);
+	this.ds_search.setColumn(0,"APPLICATION_TP",fv_appTp);
+	this.ds_search.setColumn(0,"DT_FROM",Sct.Util.getFirstDay());
+	this.ds_search.setColumn(0,"DT_TO",Sct.Util.getToday());
+	//상태삭제순번컬럼 고정
+	//this.div_cont.form.div_left.form.grd_head.setFormatColProperty(2, "band", "left");
+	
+	//rowTypeValidation 설정
+	var dsArr = ["ds_list"];
+	this.gfn_rowTypeValidationDs(dsArr);
+	
+	//페이징 처리 초기화
+	this.fn_initPageSet();
+	
+	//drag 버튼 활성화
+	this.fn_setDivDrag();	
+	
+	// 오픈시 전체 조회
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.edt_company_nm.setFocus();
+};
+
+//페이징 처리 초기화
+this.fn_initPageSet = function()
+{
+	//페이징처리 초기화
+	this.ds_list.pageRowCount		= 50;											//조회될 row 갯수 (page Size)
+    this.ds_list.pageCount			= 10;											//최대 페이지 갯수 (page Scale)
+    this.ds_list.pageTotalVisible	= false;										//하단 page Size, pageScale 등 입력 div show YN
+	this.ds_list.pageNo				= 1;											//최초조회시 default 페이지 번호
+	this.ds_list.pageFunctionName	= "fn_search";									//페이지 버튼(1,2,3...)클릭시 조회할 function name
+	this.div_cont.form.div_paging.form.fn_init(this, this.ds_list);	//페이지 form 초기화
+	
+}
+this.fn_setDivDrag = function()
+{
+	//divCont
+	this.gfn_setDivDrag(this.div_cont.form.div_cont.form.btn_gHMove, this.div_cont.form.div_cont.form.div_left, this.div_cont.form.div_cont.form.div_right);
+}
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{
+	this.fn_save();
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{	
+	this.fn_delete();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+     //조회전 그리드에 변경된 데이터가 있을경우 ..
+     if(Sct.Grid.isUpdate(this.ds_list)
+		//|| Sct.Grid.isUpdate(this.ds_schdl)
+		){
+         //메세지로 변경된 데이터 여부와 상관없이 조회 할지 확인
+         if(!Sct.confirm(this,"000171","")){
+             return false;
+         }
+     }
+
+     //조회조건 필수여부확인
+	 if(!this.gfn_findSnull(this.div_search)) return false;
+	 
+	 var mm = Sct.Util.getMonthDiff(this.ds_search.getColumn(0,"DT_FROM"),this.ds_search.getColumn(0,"DT_TO"));
+	 
+	 if(mm>11){
+		Sct.alert(this, "000565"); //1년 이상 조회할 수 없습니다.
+		return;
+	 }
+	 
+	 return true;
+};
+
+//저장 전 validation
+this.fn_save_pre = function ()
+{
+	
+	//저장여부
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.fv_currentDS))
+	{
+		Sct.alert(this, "000240"); //추가나 수정한 데이터가 없습니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	if(!this.gfn_findSnull(this.div_cont.form.div_cont.form.div_right)) return false;
+	
+	//입력한값 중복 여부 체크
+	var keyArr ;
+	if(this.fv_currentDS.name == "ds_list"){
+		keyArr = ["COMPANY_CD", "TITLE","NOT_DT"];
+	}		
+	if(!this.gfn_duplicateCheck(this.fv_currentDS, keyArr)) return false; 
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+	
+	//데이터 저장전 저장할 key 값 dataset 변수에 저장
+	this.gfn_saveKeyArr(this.fv_currentDS, keyArr);
+	this.fv_saveRefNo = this.ds_list.getColumn(this.ds_list.rowposition, "TITLE");
+	return true;
+};
+
+
+// 삭제 전 validation
+this.fn_delete_pre = function ()
+{
+	if (!Sct.Grid.hasDeletedRow(this.fv_currentDS))
+	{
+		Sct.alert(this, "000150"); //삭제할 데이터가 없습니다.
+		return false;
+	}
+	//삭제하시겠습니까?
+	if(!Sct.confirm(this, "000152", "")) return false;
+	
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getListPaging "
+		+ "sqlId=NUA701CT.NUA701CT_DS_LIST_S ";		
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+//저장
+this.fn_save = function ()
+{
+	//입력 필수여부체크
+	if(!this.fn_save_pre()) return false;
+	
+	let svcId = "save";
+	let inDs = "ds_list"
+	this.fn_save_com(svcId, inDs);
+};
+//삭제
+this.fn_delete = function ()
+{
+	//validation
+	if(!this.fn_delete_pre()) return;
+	
+	var sqlId = "";
+	if(this.fv_currentDS.name == "ds_list")	sqlId = "NUA701CT.NUA701CT_DS_LIST_D";
+	
+	var svcId = "delete";
+	var params = "/commonController.do";
+	var inDatasets = "input1=" +  this.fv_currentDS.name + ":U";
+	var outDatasets = "";
+	var argument = "method=delete "
+		+ "sqlId=" + sqlId + " ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			var count = this.ds_list.rowcount;
+			Sct.alert(this, "000175", count + "|");
+			
+			//서비스 조회 시 return 받은 block count와 총 row 수 전달
+			this.div_cont.form.div_paging.form.fn_callAfter();
+			//저장후 조회후 변경된 row로 rowposition 설정
+			//this.gfn_saveAfterFindRow(this.ds_head);
+			this.fn_findMstRow(this.fv_saveRefNo);
+			
+		}
+		else if(strSvcID == "delete")
+		{
+			this.fn_search();
+		}
+		else if(strSvcID == "save")
+		{
+			this.fn_search();
+// 			const svcId = "fcm";
+// 			const params = "/mFcm.do";
+// 			const argument = "COMPANY_CD=" + fv_Company;
+// 			Sct.transaction(this, svcId, params, "", "", argument, "");
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	var sFindRow = this.ds_list.findRow("RES_ID", fv_saveRefNo);
+	if(sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * Popup Functions
+ ***********************************************************************/
+
+
+//코드 팝업 CALLBACK
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+
+
+//---------------------------------------행추가---------------------------------------------
+//master 행추가
+this.fn_head_addrow = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	var nRow = this.ds_list.addRow();
+	//초기화
+	this.ds_list.setColumn(nRow, "COMPANY_CD",fv_Company);								//회사코드
+};
+
+
+this.div_cont_grd_list_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	var param = {
+		MULTI_YN : "N",
+		COMPANY_CD : fv_Company
+	};
+	Sct.popup(this, "RES_ID", 326, 226, "", param, "CM_POP::CM_RES_PP.xfdl", "fn_popCallback");
+};
+ this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid){
+		case "RES_ID" : this.ds_list.setColumn(this.ds_list.rowposition, "RES_ID", objDs.getColumn(0, "RES_ID"));
+						this.ds_list.setColumn(this.ds_list.rowposition, "RES_NM", objDs.getColumn(0, "NAME"));
+						this.ds_list.setColumn(this.ds_list.rowposition, "LOCATION", objDs.getColumn(0, "LOCATION"));
+						this.ds_list.setColumn(this.ds_list.rowposition, "ROOM", objDs.getColumn(0, "ROOM"));
+		break;
+		case "RES_NM" : this.ds_search.setColumn(0, "NAME", objDs.getColumn(0, "NAME"));
+						this.ds_search.setColumn(0, "LOCATION", objDs.getColumn(0, "LOCATION"));
+						this.ds_search.setColumn(0, "ROOM", objDs.getColumn(0, "ROOM"));
+		break;
+	}
+
+};
+
+this.div_search_btn_res_pp_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var param = {
+		MULTI_YN : "N",
+		COMPANY_CD : fv_Company
+	};
+	Sct.popup(this, "RES_NM", 326, 226, "", param, "CM_POP::CM_RES_PP.xfdl", "fn_popCallback");
+};
+
+
+this.fn_addRow = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var nRow  = this.ds_list.addRow();
+	this.ds_list.setColumn(nRow, "COMPANY_CD",fv_Company);
+	this.ds_list.setColumn(nRow, "NOT_DT", Sct.Util.getToday());
+	this.div_cont.form.div_cont.form.div_right.form.edt_title.setFocus();
+};
+this.div_cont_div_cont_div_right_btn_chgpass_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//fileGroupId 설정
+	this.fileGroupId = Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "FILE_GRP_ID")) ? "" : this.ds_list.getColumn(this.ds_list.rowposition, "FILE_GRP_ID");
+	
+	if(this.ds_list.rowcount == 0) return;
+	var param = {
+		folderName:"CM/CMA014CT/",
+		multiYn : "Y"
+	};
+	Sct.popup(this, "FILEUPLOAD", 326, 226, "", param, "CM_POP::FILEUPLOAD.xfdl", "fn_fileUploadPopupCallback");
+};
+//파일 팝업 콜백
+this.fn_fileUploadPopupCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	
+	switch(popid)
+	{
+		case "FILEUPLOAD" :
+			var sRow = this.ds_list.rowposition;
+			var dataGrpId = this.ds_list.getColumn(sRow, "FILE_GRP_ID");
+
+// 			if(Sct.Util.isEmpty(dataGrpId) && (!Sct.Util.isEmpty(this.fileGroupId))){}
+			
+			if (this.ds_list.getColumn(sRow, "FILE_REAL_NAME") != objDs.getColumn(0, "FILE_REAL_NAME")) {
+				this.ds_list.setColumn(sRow, "FILE_GRP_ID", objDs.getColumn(0, "FILE_GRP_ID"));
+				this.ds_list.setColumn(sRow, "FILE_REAL_NAME", objDs.getColumn(0, "FILE_REAL_NAME"));
+				this.ds_list.setColumn(sRow, "FILE_NAME", objDs.getColumn(0, "FILE_NAME"));
+				//this.fn_getSignImage();
+			}
+				
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};]]></Script>
+  </Form>
+</FDL>

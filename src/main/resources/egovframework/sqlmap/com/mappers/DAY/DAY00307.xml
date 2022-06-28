@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00307                                                         
+     * 프로그램 명     	: 3-7 물리(작업)치료 제공기록 오류확인
+     * Description 		: 물리치료 운영일지 오류확인 조회
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-06-07 09:30        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00307_DS_HEAD_S		헤더 조회
+        DAY00307_DS_DETAIL_S	디테일 조회
+     *================================================================
+-->
+<mapper namespace="DAY00307">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00307_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-7 헤더 조회 */
+    SELECT
+      kh.sicode
+    , kh.제공일
+    , DATE_FORMAT(kh.제공일, '%Y.%m.%d') AS 제공일자
+    , kh.제공그룹
+    , CASE WHEN kh.제공그룹 = 'A' THEN 1 ELSE 0 END AS group_a
+    , CASE WHEN kh.제공그룹 = 'B' THEN 2 ELSE 0 END AS group_b
+    , kh.담당자01
+    , kh.담당코드01
+    , kh.km_number
+    , LPAD(kh.km_number, 7, '0') AS 기록번호
+    , kh.근무내용
+    , kh.특이사항
+    , (SELECT COUNT(1)
+       FROM heal_habilit AS hea
+       WHERE hea.sicode = kh.sicode
+       AND hea.mulday = kh.제공일
+       AND hea.mulgroup = kh.제공그룹) AS count_all
+    , (SELECT
+         SUM(CASE WHEN hea.참여01 + hea.참여02 + hea.참여03 + hea.참여04 + hea.참여05 + hea.참여06 + hea.참여07 + hea.참여08 &gt; 0 THEN 1 ELSE 0 END)
+       FROM heal_habilit AS hea
+       WHERE hea.sicode = kh.sicode
+       AND hea.mulday = kh.제공일
+       AND hea.mulgroup = kh.제공그룹) AS count
+    FROM km_habilit AS kh
+    WHERE kh.sicode = #{SICODE}
+    AND kh.제공일 &gt;= #{DATE_FROM}
+    AND kh.제공일 &lt;= #{DATE_TO}
+    ORDER BY
+      kh.제공일
+    , kh.제공그룹
+    </select>
+    
+    <!-- 디테일 조회 -->
+    <select id="DAY00307_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-7 디테일 조회 */
+    SELECT
+      hea.sicode
+    , hea.mulnumber
+    , hea.mulgroup
+    , hea.mulname
+    , hea.성별
+    , CONCAT(hea.multime, '-', hea.endtime) AS serv_time
+    , hea.치료01
+    , hea.치료02
+    , hea.치료03
+    , hea.치료04
+    , hea.치료05
+    , hea.치료06
+    , hea.치료07
+    , hea.치료08
+    , hea.참여01
+    , hea.참여02
+    , hea.참여03
+    , hea.참여04
+    , hea.참여05
+    , hea.참여06
+    , hea.참여07
+    , hea.참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료08) AS 치료명08
+    , (
+        SELECT CASE WHEN hea.mulday BETWEEN bha.계획시작 AND bha.계획종료 THEN '' ELSE '계획종료일 초과' END
+        FROM base_habilit AS bha
+        WHERE bha.sicode = hea.sicode
+        AND bha.ha_number = hea.평가번호
+      ) AS plan_reason
+    , (
+        SELECT CASE WHEN COUNT(1) &gt; 0 THEN '외출증 물리치료 기록' ELSE '' END
+        FROM kmstayout sta
+        WHERE sta.sicode = hea.sicode
+        AND sta.거주코드 = hea.mulcode
+        AND sta.외출일 = hea.mulday
+        AND TIME(CONCAT(LPAD(sta.외출시, 2, '0'), ':', LPAD(sta.외출분, 2, '0'), ':00')) &lt; TIME(CONCAT(hea.endtime, ':00'))
+        AND TIME(CONCAT(LPAD(sta.복귀시, 2, '0'), ':', LPAD(sta.복귀분, 2, '0'), ':00')) &gt; TIME(CONCAT(hea.multime, ':00'))
+      ) AS out_reason
+    , (
+        SELECT
+          CASE
+            WHEN mat.m_enday &gt; hea.mulday THEN '입소일 이전'
+            WHEN mat.m_reday &lt; hea.mulday THEN '퇴소일 이후'
+            ELSE ''
+          END
+        FROM base_mate mat
+        WHERE mat.sicode = hea.sicode
+        AND mat.m_code = hea.mulcode
+      ) AS mat_reason
+    FROM heal_habilit AS hea
+    WHERE hea.sicode = #{SICODE}
+    AND hea.mulday = #{DATE}
+    AND hea.mulgroup = #{GROUP}
+    ORDER BY hea.mulname
+    </select>
+</mapper>

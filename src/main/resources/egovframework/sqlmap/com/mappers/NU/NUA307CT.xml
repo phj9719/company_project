@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA307CT                                                         
+     * 프로그램 명     : 식사일지                                                     
+     * Description :
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-22     10:11        |  SOOIM     | 최초작성                         
+	   2021-11-26 	  10:30		   |  이승규		| 1차수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA307CT"> 
+	<!-- SELECT -->
+	<select id="NUA307CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.GRADE
+					,A.AREA
+					,A.LOCATION 
+					,IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') AS RETIRE_YN
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY NAME) ROWNUM
+              	FROM T_NU_RESIDENT A
+               WHERE 1=1
+		]]>
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+                 AND A.COMPANY_CD = #{COMPANY_CD}
+        </if>
+        <if test="NAME != '' and NAME != null">
+                 AND A.NAME LIKE CONCAT('%', #{NAME},'%')
+        </if>
+        <if test="AREA != '' and AREA != null">
+                 AND A.AREA = #{AREA} -- 층
+        </if>
+        <if test="LOCATION != '' and LOCATION != null">
+                 AND A.LOCATION = #{LOCATION} -- 생활실
+        </if>
+        <if test="RETIRE_YN != '' and RETIRE_YN != null">
+				 AND IF((SELECT(TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE()))) > 0 , 'Y', 'N') = #{RETIRE_YN}
+		</if>
+               ORDER BY ROWNUM ASC, A.ENTER_DT DESC, A.NAME ASC
+    </select>
+    
+	<select id="NUA307CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+              SELECT A.COMPANY_CD
+					,A.MEA_DT
+					,A.RES_ID
+					,A.FUND_DIS
+					,SUBSTRING(A.FUND_DIS,1,1) AS FUNC1
+					,SUBSTRING(A.FUND_DIS,2,1) AS FUNC2
+					,SUBSTRING(A.FUND_DIS,3,1) AS FUNC3
+					,SUBSTRING(A.FUND_DIS,4,1) AS FUNC4
+					,SUBSTRING(A.FUND_DIS,5,1) AS FUNC5
+					,SUBSTRING(A.FUND_DIS,6,1) AS FUNC6
+					,A.DIETARY_CURE
+					,SUBSTRING(A.DIETARY_CURE,1,1) AS DIET1
+					,SUBSTRING(A.DIETARY_CURE,2,1) AS DIET2
+					,SUBSTRING(A.DIETARY_CURE,3,1) AS DIET3
+					,SUBSTRING(A.DIETARY_CURE,4,1) AS DIET4
+					,A.BRE_TP
+					,SUBSTRING(A.BRE_TP,1,1) AS B_MEAL1
+					,SUBSTRING(A.BRE_TP,2,1) AS B_MEAL2
+					,SUBSTRING(A.BRE_TP,3,1) AS B_MEAL3
+					,SUBSTRING(A.BRE_TP,4,1) AS B_MEAL4
+					,SUBSTRING(A.BRE_TP,5,1) AS B_MEAL5
+					,SUBSTRING(A.BRE_TP,6,1) AS B_MEAL6
+					,A.BRE_QTY
+					,IF(A.BRE_QTY=1,1,0) AS B_QTY1
+					,IF(A.BRE_QTY=2,2,0) AS B_QTY2
+					,IF(A.BRE_QTY=3,3,0) AS B_QTY3
+					,A.BRE_TIME
+					,A.LUN_TP
+					,SUBSTRING(A.LUN_TP,1,1) AS L_MEAL1
+					,SUBSTRING(A.LUN_TP,2,1) AS L_MEAL2
+					,SUBSTRING(A.LUN_TP,3,1) AS L_MEAL3
+					,SUBSTRING(A.LUN_TP,4,1) AS L_MEAL4
+					,SUBSTRING(A.LUN_TP,5,1) AS L_MEAL5
+					,SUBSTRING(A.LUN_TP,6,1) AS L_MEAL6
+					,A.LUN_QTY
+					,IF(A.LUN_QTY=1,1,0) AS L_QTY1
+					,IF(A.LUN_QTY=2,2,0) AS L_QTY2
+					,IF(A.LUN_QTY=3,3,0) AS L_QTY3
+					,A.LUN_TIME
+					,A.DIN_TP
+					,SUBSTRING(A.DIN_TP,1,1) AS D_MEAL1
+					,SUBSTRING(A.DIN_TP,2,1) AS D_MEAL2
+					,SUBSTRING(A.DIN_TP,3,1) AS D_MEAL3
+					,SUBSTRING(A.DIN_TP,4,1) AS D_MEAL4
+					,SUBSTRING(A.DIN_TP,5,1) AS D_MEAL5
+					,SUBSTRING(A.DIN_TP,6,1) AS D_MEAL6
+					,A.DIN_QTY
+					,IF(A.DIN_QTY=1,1,0) AS D_QTY1
+					,IF(A.DIN_QTY=2,2,0) AS D_QTY2
+					,IF(A.DIN_QTY=3,3,0) AS D_QTY3
+					,A.DIN_TIME
+					,A.MOR_SNACK_QTY
+					,IF(A.MOR_SNACK_QTY=1,1,0) AS A_QTY1
+					,IF(A.MOR_SNACK_QTY=2,2,0) AS A_QTY2
+					,IF(A.MOR_SNACK_QTY=3,3,0) AS A_QTY3
+					,A.MOR_SNACK_TIME
+					,A.AFT_SNACK_QTY
+					,IF(A.AFT_SNACK_QTY=1,1,0) AS P_QTY1
+					,IF(A.AFT_SNACK_QTY=2,2,0) AS P_QTY2
+					,IF(A.AFT_SNACK_QTY=3,3,0) AS P_QTY3
+					,A.AFT_SNACK_TIME
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+              	FROM T_NU_MEAL A
+               WHERE A.COMPANY_CD = #{COMPANY_CD}
+                 AND A.MEA_DT = #{MEA_DT}
+                 AND A.RES_ID = #{RES_ID}
+		]]>
+    </select>
+    
+	<select id="NUA307CT_DS_DETAIL_S2" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.FUNC_DIS
+					,SUBSTRING(A.FUNC_DIS,1,1) AS FUNC1
+					,SUBSTRING(A.FUNC_DIS,2,1) AS FUNC2
+					,SUBSTRING(A.FUNC_DIS,3,1) AS FUNC3
+					,SUBSTRING(A.FUNC_DIS,4,1) AS FUNC4
+					,SUBSTRING(A.FUNC_DIS,5,1) AS FUNC5
+					,SUBSTRING(A.FUNC_DIS,6,1) AS FUNC6
+					,A.DIETARY_CURE
+					,SUBSTRING(A.DIETARY_CURE,1,1) AS DIET1
+					,SUBSTRING(A.DIETARY_CURE,2,1) AS DIET2
+					,SUBSTRING(A.DIETARY_CURE,3,1) AS DIET3
+					,SUBSTRING(A.DIETARY_CURE,4,1) AS DIET4
+					,A.FOOD_TP
+					,SUBSTRING(A.FOOD_TP,1,1) AS B_MEAL1
+					,SUBSTRING(A.FOOD_TP,2,1) AS B_MEAL2
+					,SUBSTRING(A.FOOD_TP,3,1) AS B_MEAL3
+					,SUBSTRING(A.FOOD_TP,4,1) AS B_MEAL4
+					,SUBSTRING(A.FOOD_TP,5,1) AS B_MEAL5
+					,SUBSTRING(A.FOOD_TP,6,1) AS B_MEAL6
+					,(SELECT CC.BRE_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS BRE_TIME
+					,SUBSTRING(A.FOOD_TP,1,1) AS L_MEAL1
+					,SUBSTRING(A.FOOD_TP,2,1) AS L_MEAL2
+					,SUBSTRING(A.FOOD_TP,3,1) AS L_MEAL3
+					,SUBSTRING(A.FOOD_TP,4,1) AS L_MEAL4
+					,SUBSTRING(A.FOOD_TP,5,1) AS L_MEAL5
+					,SUBSTRING(A.FOOD_TP,6,1) AS L_MEAL6
+					,(SELECT CC.LUN_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS LUN_TIME
+					,SUBSTRING(A.FOOD_TP,1,1) AS D_MEAL1
+					,SUBSTRING(A.FOOD_TP,2,1) AS D_MEAL2
+					,SUBSTRING(A.FOOD_TP,3,1) AS D_MEAL3
+					,SUBSTRING(A.FOOD_TP,4,1) AS D_MEAL4
+					,SUBSTRING(A.FOOD_TP,5,1) AS D_MEAL5
+					,SUBSTRING(A.FOOD_TP,6,1) AS D_MEAL6
+					,(SELECT CC.DIN_FR_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS DIN_TIME
+					,(SELECT CC.MOR_SNACK_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS MOR_SNACK_TIME
+					,(SELECT CC.AFT_SNACK_TIME
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS AFT_SNACK_TIME
+              	FROM T_NU_RESIDENT A
+               WHERE A.COMPANY_CD = #{COMPANY_CD}
+                 AND A.RES_ID = #{RES_ID}
+		]]>
+    </select>
+    
+	<!-- INSERT -->
+	<insert id="NUA307CT_DS_DETAIL_I" parameterType="java.util.HashMap">
+    <![CDATA[
+			   INSERT INTO T_NU_MEAL (                                                                                                                                                                                 
+					         COMPANY_CD
+							,MEA_DT
+							,RES_ID
+							,FUND_DIS
+							,DIETARY_CURE
+							,BRE_TP
+							,BRE_QTY
+							,BRE_TIME
+							,LUN_TP
+							,LUN_QTY
+							,LUN_TIME
+							,DIN_TP
+							,DIN_QTY
+							,DIN_TIME
+							,MOR_SNACK_QTY
+							,MOR_SNACK_TIME
+							,AFT_SNACK_QTY
+							,AFT_SNACK_TIME
+							,REMARK
+							,MANAGER_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD     }
+							,#{MEA_DT         }
+							,#{RES_ID         }
+							,CONCAT(IFNULL(#{FUNC1},0),IFNULL(#{FUNC2},0),IFNULL(#{FUNC3},0),IFNULL(#{FUNC4},0),IFNULL(#{FUNC5},0),IFNULL(#{FUNC6},0))
+							,CONCAT(IFNULL(#{DIET1},0),IFNULL(#{DIET2},0),IFNULL(#{DIET3},0),IFNULL(#{DIET4},0))
+							,CONCAT(IFNULL(#{B_MEAL1},0),IFNULL(#{B_MEAL2},0),IFNULL(#{B_MEAL3},0),IFNULL(#{B_MEAL4},0),IFNULL(#{B_MEAL5},0),IFNULL(#{B_MEAL6},0))
+							,IF(#{B_QTY1}= 1,#{B_QTY1},IF(#{B_QTY2}=2,#{B_QTY2},IF(#{B_QTY3}=3,#{B_QTY3},0)))
+							,#{BRE_TIME       }
+							,CONCAT(IFNULL(#{L_MEAL1},0),IFNULL(#{L_MEAL2},0),IFNULL(#{L_MEAL3},0),IFNULL(#{L_MEAL4},0),IFNULL(#{L_MEAL5},0),IFNULL(#{L_MEAL6},0))
+							,IF(#{L_QTY1}= 1,#{L_QTY1},IF(#{L_QTY2}=2,#{L_QTY2},IF(#{L_QTY3}=3,#{L_QTY3},0)))
+							,#{LUN_TIME       }
+							,CONCAT(IFNULL(#{D_MEAL1},0),IFNULL(#{D_MEAL2},0),IFNULL(#{D_MEAL3},0),IFNULL(#{D_MEAL4},0),IFNULL(#{D_MEAL5},0),IFNULL(#{D_MEAL6},0))
+							,IF(#{D_QTY1}= 1,#{D_QTY1},IF(#{D_QTY2}=2,#{D_QTY2},IF(#{D_QTY3}=3,#{D_QTY3},0)))
+							,#{DIN_TIME       }
+							,IF(#{A_QTY1}= 1,#{A_QTY1},IF(#{A_QTY2}=2,#{A_QTY2},IF(#{A_QTY3}=3,#{A_QTY3},0)))
+							,#{MOR_SNACK_TIME }
+							,IF(#{P_QTY1}= 1,#{P_QTY1},IF(#{P_QTY2}=2,#{P_QTY2},IF(#{P_QTY3}=3,#{P_QTY3},0)))
+							,#{AFT_SNACK_TIME }
+							,#{REMARK         }
+							,#{MANAGER_ID     }
+							,#{REG_PGM_ID     }
+							,#{REG_USER       }
+							,#{REG_DT         }
+							,#{REG_DT_CURR    }
+							,#{REG_DT_LOC     }
+							,#{REG_IP         }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA307CT_DS_DETAIL_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_MEAL                                                                                                                                                                                              
+						 SET FUND_DIS      = CONCAT(IFNULL(#{FUNC1},0),IFNULL(#{FUNC2},0),IFNULL(#{FUNC3},0),IFNULL(#{FUNC4},0),IFNULL(#{FUNC5},0),IFNULL(#{FUNC6},0))
+							,DIETARY_CURE  = CONCAT(IFNULL(#{DIET1},0),IFNULL(#{DIET2},0),IFNULL(#{DIET3},0),IFNULL(#{DIET4},0))
+							,BRE_TP        = CONCAT(IFNULL(#{B_MEAL1},0),IFNULL(#{B_MEAL2},0),IFNULL(#{B_MEAL3},0),IFNULL(#{B_MEAL4},0),IFNULL(#{B_MEAL5},0),IFNULL(#{B_MEAL6},0))
+							,BRE_QTY       = IF(#{B_QTY1}= 1,#{B_QTY1},IF(#{B_QTY2}=2,#{B_QTY2},IF(#{B_QTY3}=3,#{B_QTY3},0)))
+							,BRE_TIME      =#{BRE_TIME      }
+							,LUN_TP        = CONCAT(IFNULL(#{L_MEAL1},0),IFNULL(#{L_MEAL2},0),IFNULL(#{L_MEAL3},0),IFNULL(#{L_MEAL4},0),IFNULL(#{L_MEAL5},0),IFNULL(#{L_MEAL6},0))
+							,LUN_QTY       = IF(#{L_QTY1}= 1,#{L_QTY1},IF(#{L_QTY2}=2,#{L_QTY2},IF(#{L_QTY3}=3,#{L_QTY3},0)))
+							,LUN_TIME      =#{LUN_TIME      }
+							,DIN_TP        = CONCAT(IFNULL(#{D_MEAL1},0),IFNULL(#{D_MEAL2},0),IFNULL(#{D_MEAL3},0),IFNULL(#{D_MEAL4},0),IFNULL(#{D_MEAL5},0),IFNULL(#{D_MEAL6},0))
+							,DIN_QTY       = IF(#{D_QTY1}= 1,#{D_QTY1},IF(#{D_QTY2}=2,#{D_QTY2},IF(#{D_QTY3}=3,#{D_QTY3},0)))
+							,DIN_TIME      =#{DIN_TIME      }
+							,MOR_SNACK_QTY = IF(#{A_QTY1}= 1,#{A_QTY1},IF(#{A_QTY2}=2,#{A_QTY2},IF(#{A_QTY3}=3,#{A_QTY3},0)))
+							,MOR_SNACK_TIME=#{MOR_SNACK_TIME}
+							,AFT_SNACK_QTY = IF(#{P_QTY1}= 1,#{P_QTY1},IF(#{P_QTY2}=2,#{P_QTY2},IF(#{P_QTY3}=3,#{P_QTY3},0)))
+							,AFT_SNACK_TIME=#{AFT_SNACK_TIME}
+							,MANAGER_ID    =#{MANAGER_ID  }
+							,REMARK        =#{REMARK      }
+							,MOD_PGM_ID    =#{MOD_PGM_ID  }
+							,MOD_USER      =#{MOD_USER    }
+							,MOD_DT        =#{MOD_DT      }
+							,MOD_DT_CURR   =#{MOD_DT_CURR }
+							,MOD_DT_LOC    =#{MOD_DT_LOC  }
+							,MOD_IP        =#{MOD_IP      }
+			           WHERE 1=1
+			           	 AND COMPANY_CD = #{COMPANY_CD}
+                       	 AND MEA_DT = #{MEA_DT}
+                       	 AND RES_ID = #{RES_ID}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA307CT_DS_DETAIL_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_MEAL
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND MEA_DT = #{MEA_DT}
+                   AND RES_ID = #{RES_ID};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+      <select id="NUA307CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA307CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>
+    <!-- 요양사 조회 -->    
+     <select id="NUA307CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7','8')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+    
+    <!-- 층 조회 -->
+    <select id="NUA307CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA307CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if> 
+	</select>
+                                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

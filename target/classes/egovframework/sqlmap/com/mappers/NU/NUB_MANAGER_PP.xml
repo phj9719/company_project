@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB_MANAGER_PP                                                         
+     * 프로그램 명     	:                                                      
+     * Description 	: 태블릿 앱에서 처리자를 조회
+     *================================================================                  
+                작성일자         		|  작성자         |  비고                                    
+     *================================================================                  
+       2021-11-10 09:32     |  조기종         | 최초작성 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB_MANAGER_PP">
+    <!-- 처리자 조회 -->
+	<select id="NUB_MANAGER_PP_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+   				USER_ID 
+   			,	USER_NM_KOR
+   			,	RANK_CD
+   		FROM	T_CM_USER
+   		WHERE	COMPANY_CD = #{COMPANY_CD}
+   		AND		USE_YN = 'Y'
+   		<if test="NAME != null and NAME != ''">
+   		AND		USER_NM_KOR LIKE CONCAT('%', #{NAME}, '%')
+   		</if>
+   		<if test="RANK_CD != null and RANK_CD !=''">
+   		<choose>
+   		<when test='RANK_CD.equals("O")'>
+   		AND		RANK_CD NOT IN('4', '7', '8')
+   		</when>
+   		<otherwise>
+   		AND		RANK_CD = #{RANK_CD}
+   		</otherwise>
+   		</choose>
+   		</if>
+   		ORDER BY USER_NM_KOR ASC;
+	</select>
+    
+</mapper>                                                                                                                                                                                                          

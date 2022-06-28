@@ -1,0 +1,897 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00602_P01" width="1200" height="800" titletext="일별 감염예방일지" onload="form_onload" onclose="DAY00602_P01_onclose">
+    <Layouts>
+      <Layout width="1200" height="800">
+        <Div id="div_func" taborder="0" left="0" top="0" height="35" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="1" text="저장" top="5" height="25" onclick="fn_saveBtn" cssclass="btn_save" width="85" left="1105"/>
+              <Button id="btn_report2" taborder="0" text="프로그램일지(B)" top="5" width="135" height="25" cssclass="btn_print" left="965" onclick="div_func_btn_report2_onclick"/>
+              <Static id="sta_no_value" taborder="2" text="00000000" left="77" top="5" width="60" height="30"/>
+              <Static id="sta_no" taborder="3" text="기록번호 : " left="14" top="5" width="58" height="30"/>
+              <Button id="btn_report1" taborder="4" text="프로그램일지(A)" top="5" width="135" height="25" cssclass="btn_print" left="825" onclick="div_func_btn_report1_onclick"/>
+              <CheckBox id="chk_sign" taborder="5" text="결재란" left="760" top="5" width="65" height="26" truevalue="1" falsevalue="0"/>
+              <Static id="sta_subTitle" taborder="6" text="프로그램운영일지 제공기록 조회.수정" left="472" top="6" width="300" height="26" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="10" top="40" bottom="10" text="" right="10">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_up" taborder="1" top="0" text="" cssclass="chk_s1" left="0" right="0" height="300">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_body1" taborder="0" left="0" top="0" height="34" cssclass="sta_WF_DetailLabel02" text="" width="1180"/>
+                    <Static id="sta_head1" taborder="1" text="프로그램명" left="0" top="0" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00" taborder="2" text="운영기간" left="462" top="0" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00_01" taborder="3" text="참여인원" left="797" top="0" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00" taborder="4" left="0" top="33" height="34" cssclass="sta_WF_DetailLabel02" text="" width="1180"/>
+                    <Static id="sta_head1_00_01_00" taborder="5" text="장     소" left="797" top="33" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_00_00" taborder="6" text="진행자 자격" left="462" top="33" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_head1_01" taborder="7" text="운  영  일" left="0" top="33" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00_00" taborder="8" left="0" top="66" height="34" cssclass="sta_WF_DetailLabel02" text="" width="1180"/>
+                    <Static id="sta_head1_01_00" taborder="9" text="운영시간" left="0" top="66" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00_00_00" taborder="10" left="0" top="99" height="34" cssclass="sta_WF_DetailLabel02" text="" width="1180"/>
+                    <Button id="btn_program_search" taborder="11" text="주제.과정" left="0" top="100" height="34" cssclass="btn_search" width="100" onclick="div_cont_div_up_btn_program_search_onclick"/>
+                    <Static id="sta_no" taborder="12" text="부터" left="253" top="68" width="30" height="30"/>
+                    <Static id="sta_no00" taborder="13" text="까지" left="428" top="68" width="30" height="30"/>
+                    <Static id="sta_head1_00_00_00" taborder="14" text="준비물" left="462" top="66" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Button id="btn_manager" taborder="15" text="작성자" left="462" top="100" width="100" height="34" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                    <Button id="btn_manager_ex" taborder="16" text="외부강사" left="797" top="100" width="100" height="34" cssclass="btn_worker" onclick="div_cont_div_up_btn_manager_ex_onclick"/>
+                    <Static id="sta_head1_00_01_00_00" taborder="17" text="인원확인" left="797" top="66" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <Static id="sta_body1_00_02" taborder="18" left="105" top="36" width="100" height="25" padding="0px 0px 0px 5px" color="blueviolet"/>
+                    <Static id="sta_body1_00_01" taborder="19" left="110" top="5" width="80" height="25"/>
+                    <Static id="sta_body1_00_00_01" taborder="20" left="295" top="5" width="80" height="25"/>
+                    <Static id="sta_body1_00_01_00" taborder="21" left="194" top="5" width="80" height="25"/>
+                    <Static id="sta_body1_00_00_02" taborder="22" left="671" top="5" width="80" height="25" padding="0px 0px 0px 5px"/>
+                    <Static id="sta_body1_00_00_00_00" taborder="23" left="651" top="5" width="10" height="25" text="-" textAlign="center"/>
+                    <Static id="sta_body1_00_03" taborder="24" left="566" top="5" width="80" height="25" padding="0px 0px 0px 5px"/>
+                    <Static id="sta_body1_00_00_00_00_00" taborder="25" left="902" top="5" width="35" height="25" text="참여 : " textAlign="center"/>
+                    <Edit id="edt_attend" taborder="26" left="944" top="4" width="40" height="25" textAlign="right" background="#dafca4"/>
+                    <Static id="sta_body1_00_00_00_00_00_00" taborder="27" left="991" top="5" width="35" height="25" text="불참 : " textAlign="center"/>
+                    <Edit id="edt_no_attend" taborder="28" left="1032" top="4" width="40" height="25" textAlign="right" background="#dafca4"/>
+                    <Static id="sta_body1_00_00_00_00_00_00_00" taborder="29" left="1081" top="5" width="50" height="25" text="미이용 : " textAlign="center"/>
+                    <Edit id="edt_unused" taborder="30" left="1134" top="4" width="40" height="25" textAlign="right" background="#dafca4"/>
+                    <Edit id="edt_00_01" taborder="31" left="901" top="37" width="273" height="25" maxlength="30"/>
+                    <Edit id="edt_00_01_00" taborder="32" left="901" top="70" width="273" height="25" maxlength="30"/>
+                    <Edit id="edt_00_01_01" taborder="33" left="567" top="37" width="225" height="25" maxlength="30"/>
+                    <Edit id="edt_00_01_01_00" taborder="34" left="567" top="70" width="225" height="25" maxlength="80"/>
+                    <Static id="sta_body1_00_00_00_01" taborder="35" left="0" top="132" height="165" cssclass="sta_WF_DetailLabel02" text="" width="1180"/>
+                    <Static id="sta_head1_01_00_00" taborder="36" text="전반적평가" left="0" top="132" width="100" height="165" cssclass="sta_WF_DetailLabel01"/>
+                    <Static id="sta_head1_01_00_00_00" taborder="37" text="프로그램&#13;&#10;진행과정" left="462" top="132" width="100" height="165" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                    <TextArea id="txt_00" taborder="38" left="104" top="136" width="353" height="157" maxlength="2000" wordWrap="char"/>
+                    <TextArea id="txt_00_00" taborder="39" left="567" top="136" width="607" height="157" maxlength="1000" wordWrap="char"/>
+                    <Edit id="edt_00_01_01_00_00" taborder="40" left="104" top="103" width="353" height="25" maxlength="30"/>
+                    <Static id="sta_body1_00_00_01_00" taborder="41" left="355" top="5" width="80" height="25" textAlign="left"/>
+                    <MaskEdit id="mae_start_hour" taborder="42" left="105" top="70" width="50" height="25" format="00" type="number" padding="0px 0px 2px 0px" textAlign="center"/>
+                    <Static id="sta_start_hour" taborder="43" text="시" left="138" top="70" width="13" height="25" textAlign="right"/>
+                    <Spin id="spn_start_hour" taborder="44" left="155" top="70" width="20" height="25" type="spinonly" onspin="spn_onspin_hour" max="999" min="-99" value=""/>
+                    <Spin id="spn_start_min" taborder="45" left="225" top="70" width="20" height="25" type="spinonly" onspin="spn_onspin_min" max="999" min="-99" value=""/>
+                    <MaskEdit id="mae_start_min" taborder="47" left="175" top="70" width="50" height="25" format="00" type="number" textAlign="center" padding="0px 0px 2px 0px"/>
+                    <Static id="sta_start_min" taborder="46" text="분" left="210" top="70" width="13" height="25" textAlign="right"/>
+                    <MaskEdit id="mae_end_hour" taborder="48" left="284" top="70" width="50" height="25" format="00" type="number" textAlign="center" padding="0px 0px 2px 0px"/>
+                    <Static id="sta_end_hour" taborder="49" text="시" left="317" top="70" width="13" height="25" textAlign="right"/>
+                    <Spin id="spn_end_hour" taborder="50" left="334" top="70" width="20" height="25" type="spinonly" onspin="spn_onspin_hour" max="999" min="-99" value=""/>
+                    <MaskEdit id="mae_end_min" taborder="52" left="354" top="70" width="50" height="25" format="00" type="number" textAlign="center" padding="0px 0px 2px 0px"/>
+                    <Spin id="spn_end_min" taborder="53" left="404" top="70" width="20" height="25" type="spinonly" onspin="spn_onspin_min" max="999" min="-99" value=""/>
+                    <Static id="sta_end_min" taborder="51" text="분" left="389" top="70" width="13" height="25" textAlign="right"/>
+                    <Static id="sta_body1_00_02_00" taborder="54" left="190" top="36" width="100" height="25" textAlign="left" padding="0px 0px 0px 5px"/>
+                    <Static id="sta_manager_value" taborder="55" left="570" top="105" width="120" height="25" text="너싱홈 / 20210007"/>
+                    <Static id="sta_manager_ex" taborder="56" left="711" top="105" width="55" height="25" text="외부강사" color="green" visible="false"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_down" taborder="1" left="0" top="300" bottom="0" right="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_detail" taborder="0" left="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_detail" autofittype="col" bottom="20" top="0" width="1180" oncellclick="div_cont_div_down_grd_detail_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="40"/>
+                            <Column size="40"/>
+                            <Column size="100"/>
+                            <Column size="60"/>
+                            <Column size="100"/>
+                            <Column size="60"/>
+                            <Column size="670"/>
+                            <Column size="50"/>
+                            <Column size="60"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="연변"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="대상자"/>
+                            <Cell col="3" text="등급"/>
+                            <Cell col="4" text="생활실"/>
+                            <Cell col="5" text="참여확인"/>
+                            <Cell col="6" text="반응 및 특이사항"/>
+                            <Cell col="7" text="내용"/>
+                            <Cell col="8" text="참.만.수"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:row_num" textAlign="right"/>
+                            <Cell col="1" text="bind:healgroup"/>
+                            <Cell col="2" textAlign="left" text="bind:healname"/>
+                            <Cell col="3" text="bind:등급"/>
+                            <Cell col="4" textAlign="left" text="bind:healroom"/>
+                            <Cell col="5" text="bind:참석" displaytype="combotext" combodataset="ds_attend" combocodecol="CMCD" combodatacol="CMNM" edittype="combo"/>
+                            <Cell col="6" textAlign="left" text="bind:반응사항" edittype="normal"/>
+                            <Cell col="7" textAlign="left" text="++" cursor="pointer"/>
+                            <Cell col="8" textAlign="left" text="bind:참만수" cursor="pointer"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta_body1_00_02" taborder="1" left="82" top="431" width="500" height="16" color="red" text="▲ 동일 대상자가 2명 이상인 경우 [9-2] 프로그램계획서를 수정하면 됩니다."/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <PopupDiv id="pdiv_content" text="" left="1225" top="260" width="455" height="500" border="1px solid #ff8c00" background="#ffffff">
+          <Layouts>
+            <Layout>
+              <Button id="btn_pdiv_close" taborder="0" text="반응 및 특이사항 (닫기)" left="10" top="10" height="26" right="10" onclick="pdiv_content_btn_pdiv_close_onclick" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content1" taborder="1" left="10" top="41" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="1" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content2" taborder="2" text="2" left="10" top="72" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content3" taborder="3" text="3" left="10" top="103" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content4" taborder="4" text="4" left="10" top="134" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content5" taborder="5" text="5" left="10" top="165" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content6" taborder="6" text="6" left="10" top="196" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content7" taborder="7" left="10" top="226" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="7" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content8" taborder="8" left="10" top="256" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="8" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content9" taborder="9" text="9" left="10" top="286" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content10" taborder="10" left="10" top="316" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="10" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content11" taborder="11" left="10" top="346" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="11" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content12" taborder="12" left="10" top="376" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="12" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content13" taborder="13" left="10" top="406" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="13" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content14" taborder="14" left="10" top="436" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="14" cssclass="btn_basic_gray"/>
+              <Button id="btn_pdiv_content15" taborder="15" left="10" top="466" height="26" right="10" onclick="btn_pdiv_content_onclick" textAlign="left" padding="0px 0px 0px 20px" text="15" cssclass="btn_basic_gray"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <PopupDiv id="pdiv_satisfaction" text="" left="1695" top="260" width="455" height="205" border="1px solid #ff8c00" background="#ffffff">
+          <Layouts>
+            <Layout>
+              <Static id="sta_01_05_00_01_00_00_00_00_00_00_00_00_00" taborder="4" left="10" top="72" height="26" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_00_02" taborder="0" left="10" top="10" height="25" border="1px solid darkgray" text="" right="10"/>
+              <Static id="sta_00_02_00" taborder="1" left="10" top="41" height="26" border="1px solid darkgray" text="" right="10"/>
+              <Static id="sta_00_01" taborder="2" text="참여도.만족도.수행도 평가" left="23" top="41" width="221" height="26" cssclass="lb01"/>
+              <Static id="sta_01_05" taborder="3" left="10" top="72" width="100" height="26" cssclass="sta_WF_DetailLabel01" text="수급자명" textAlign="center"/>
+              <Static id="sta_01_05_00_01_00_00_00_00_00_00_00_00_00_00" taborder="5" left="10" top="103" height="26" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_01_05_00_01_00_00_00_00_00_00_00_00_00_00_00" taborder="6" left="10" top="134" height="26" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_01_05_00_01_00_00_00_00_00_00_00_00_00_00_00_00" taborder="7" left="10" top="166" height="26" cssclass="sta_WF_DetailLabel02" right="10"/>
+              <Static id="sta_01_05_00" taborder="8" left="10" top="103" width="100" height="26" cssclass="sta_WF_DetailLabel01" text="참여도" textAlign="center"/>
+              <Static id="sta_01_05_00_00" taborder="9" left="10" top="134" width="100" height="26" cssclass="sta_WF_DetailLabel01" text="만족도" textAlign="center"/>
+              <Static id="sta_01_05_00_00_00" taborder="10" left="10" top="166" width="100" height="26" cssclass="sta_WF_DetailLabel01" text="수행도" textAlign="center"/>
+              <Button id="btn_del" taborder="11" text="지움" left="318" top="10" width="60" height="25" cssclass="btn_eraser" onclick="btn_del"/>
+              <Button id="btn_check" taborder="12" text="확인" left="383" top="10" width="60" height="25" onclick="pdiv_satisfaction_btn_check_onclick"/>
+              <Static id="sta_body1_00_00_01" taborder="13" left="296" top="74" width="80" height="25"/>
+              <Static id="sta_body1_00_01_00" taborder="14" left="198" top="74" width="80" height="25" text=""/>
+              <Static id="sta_body1_00_01" taborder="15" left="111" top="74" width="80" height="25"/>
+              <Radio id="rdo_1" taborder="16" left="119" top="103" width="199" height="26" cssclass="radioselect" border="0,0px none,0px none" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_levels" direction="vertical" padding="0px 0px 3px 5px"/>
+              <Radio id="rdo_2" taborder="17" left="119" top="134" width="199" height="26" cssclass="radioselect" border="0,0px none,0px none" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_levels" direction="vertical" padding="0px 0px 3px 5px"/>
+              <Radio id="rdo_3" taborder="18" left="119" top="166" width="199" height="26" cssclass="radioselect" border="0,0px none,0px none" codecolumn="CMCD" datacolumn="CMNM" innerdataset="ds_levels" direction="vertical" padding="0px 0px 3px 5px"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_head" useclientlayout="true" oncolumnchanged="ds_head_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="il_number" type="STRING" size="256"/>
+          <Column id="prg_name" type="STRING" size="256"/>
+          <Column id="prg_number" type="STRING" size="256"/>
+          <Column id="pr바코드" type="STRING" size="256"/>
+          <Column id="pr영역" type="STRING" size="256"/>
+          <Column id="st_date" type="STRING" size="256"/>
+          <Column id="en_date" type="STRING" size="256"/>
+          <Column id="pgr_date" type="STRING" size="256"/>
+          <Column id="운영일" type="STRING" size="256"/>
+          <Column id="weekday" type="STRING" size="256"/>
+          <Column id="진행자" type="STRING" size="256"/>
+          <Column id="장소" type="STRING" size="256"/>
+          <Column id="운영시작시" type="STRING" size="256"/>
+          <Column id="운영시작분" type="STRING" size="256"/>
+          <Column id="운영종료시" type="STRING" size="256"/>
+          <Column id="운영종료분" type="STRING" size="256"/>
+          <Column id="운영시간" type="STRING" size="256"/>
+          <Column id="준비물" type="STRING" size="256"/>
+          <Column id="참가인원" type="STRING" size="256"/>
+          <Column id="주제" type="STRING" size="256"/>
+          <Column id="담당자" type="STRING" size="256"/>
+          <Column id="담당코드" type="STRING" size="256"/>
+          <Column id="외부" type="STRING" size="256"/>
+          <Column id="외부구분" type="STRING" size="256"/>
+          <Column id="전반적평가" type="STRING" size="256"/>
+          <Column id="진행과정" type="STRING" size="256"/>
+          <Column id="참여" type="STRING" size="256"/>
+          <Column id="불참" type="STRING" size="256"/>
+          <Column id="미이용" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+          <Column id="b_offname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="il_number" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detail" useclientlayout="true" oncolumnchanged="ds_detail_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="row_num" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="healnumber" type="STRING" size="256"/>
+          <Column id="healday" type="DATE" size="256"/>
+          <Column id="il_number" type="STRING" size="256"/>
+          <Column id="prg_number" type="STRING" size="256"/>
+          <Column id="healgroup" type="STRING" size="256"/>
+          <Column id="healname" type="STRING" size="256"/>
+          <Column id="healcode" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="healroom" type="STRING" size="256"/>
+          <Column id="참석" type="STRING" size="256"/>
+          <Column id="참여확인" type="STRING" size="256"/>
+          <Column id="반응사항" type="STRING" size="256"/>
+          <Column id="참여도" type="STRING" size="256"/>
+          <Column id="만족도" type="STRING" size="256"/>
+          <Column id="수행도" type="STRING" size="256"/>
+          <Column id="참만수" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_attend" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">참여</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">불참</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">미이용</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detail_popup" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="반응내용01" type="STRING" size="256"/>
+          <Column id="반응내용02" type="STRING" size="256"/>
+          <Column id="반응내용03" type="STRING" size="256"/>
+          <Column id="반응내용04" type="STRING" size="256"/>
+          <Column id="반응내용05" type="STRING" size="256"/>
+          <Column id="반응내용06" type="STRING" size="256"/>
+          <Column id="반응내용07" type="STRING" size="256"/>
+          <Column id="반응내용08" type="STRING" size="256"/>
+          <Column id="반응내용09" type="STRING" size="256"/>
+          <Column id="반응내용10" type="STRING" size="256"/>
+          <Column id="반응내용11" type="STRING" size="256"/>
+          <Column id="반응내용12" type="STRING" size="256"/>
+          <Column id="반응내용13" type="STRING" size="256"/>
+          <Column id="반응내용14" type="STRING" size="256"/>
+          <Column id="반응내용15" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_detail_satisfaction" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="healname" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="healcode" type="STRING" size="256"/>
+          <Column id="healroom" type="STRING" size="256"/>
+          <Column id="참여도" type="STRING" size="256"/>
+          <Column id="만족도" type="STRING" size="256"/>
+          <Column id="수행도" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_levels" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">상</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">중</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">하</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00602_P01
+ * 화면명   	: 프로그램운영일지 제공기록 조회.수정
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-24
+ * 작성자   	: 이동관
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_down.form.grd_detail;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	this.fv_sicode = this.parent.SICODE;
+	this.fv_ilNumber = this.parent.IL_NUMBER;
+	
+	//검색조건 삽입
+	this.ds_search.setColumn(0,"sicode", this.fv_sicode )
+	this.ds_search.setColumn(0,"il_number", this.fv_ilNumber)
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00602_P01";
+	
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_head=output1 ds_detail=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00602_P01.DAY00602_P01_DS_HEAD_S DAY00602_P01.DAY00602_P01_DS_DETAIL_S ' ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_pdiv_contentSearch = function(){
+
+	const svcId = "pdiv_contentSearch";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail_popup=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00602_P01.DAY00602_P01_DS_DETAIL_POPUP_S' "
+				   + "sicode=" + this.ds_head.getColumn(this.ds_head.rowposition, "sicode") + " ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+this.fn_pdiv_satisfactionSearch = function(){
+
+	const svcId = "fn_pdiv_satisfactionSearch";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail_satisfaction=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00602_P01.DAY00602_P01_DS_DETAIL_SATISFACTION_S' "
+				   + "sicode=" + this.ds_detail.getColumn(this.ds_detail.rowposition, "sicode") + " "
+				   + "il_number=" + this.ds_detail.getColumn(this.ds_detail.rowposition, "il_number") + " "
+				   + "healcode=" + this.ds_detail.getColumn(this.ds_detail.rowposition, "healcode") + " ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+}
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_head,ds_detail";
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0){
+		if (strSvcID == "search"){
+			const name = this.ds_head.getColumn(0, "담당자");
+			const staffid = this.ds_head.getColumn(0, "담당코드");
+			this.ds_head.setColumn(0, "VIEW_MANAGER", name + "     " + staffid);
+			
+			this.fn_checkattend();
+			
+			if(this.ds_head.getColumn(this.ds_head.rowposition, "외부") == 1){
+				this.div_cont.form.div_up.form.sta_manager_ex.set_visible(true);
+			}
+			
+		}else if (strSvcID == "save"){
+			this.fn_search();
+		}else if (strSvcID == "pdiv_contentSearch"){
+			this.pdiv_content.trackPopupByComponent(this.div_cont, 735, 260);
+		}else if(strSvcID == "fn_pdiv_satisfactionSearch"){
+			this.pdiv_satisfaction.trackPopupByComponent(this.div_cont, 735, 370);
+		}	
+	}
+	else{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 점검자 선택 팝업
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.fv_sicode
+		,	DATE : this.ds_head.getColumn(0, "pgr_date")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const dutyname = objDs.getColumn(0, "담당직종");
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_head.setColumn(0, "담당자", name);
+				this.ds_head.setColumn(0, "담당코드", staffid);
+				this.ds_head.setColumn(0, "외부", "0");
+				this.ds_head.setColumn(0, "VIEW_MANAGER", name + "     " + staffid);
+				this.div_cont.form.div_up.form.sta_manager_ex.set_visible(false);
+			}
+			else
+			{
+				this.ds_head.setColumn(0, "담당자", "");
+				this.ds_head.setColumn(0, "담당코드", "");
+				this.ds_head.setColumn(0, "외부", "0");
+				this.ds_head.setColumn(0, "VIEW_MANAGER", "");
+				this.div_cont.form.div_up.form.sta_manager_ex.set_visible(false);
+			}
+			break;
+		case "program_search" :
+			this.ds_head.setColumn(0, "주제", objDs.getColumn(0, "주제"+objDs.getColumn(0, "number")));
+			this.ds_head.setColumn(0, "진행과정", objDs.getColumn(0, "주과정"+objDs.getColumn(0, "number")));
+			break;
+		case "ex_emp" :
+			const name1 = nexacro.trim(objDs.getColumn(0, "e_name"));
+			const dutyname1 = objDs.getColumn(0, "e_dutyname");
+			const staffid1 = objDs.getColumn(0, "e_code");
+			this.ds_head.setColumn(0, "담당자", name1);
+			this.ds_head.setColumn(0, "담당코드", staffid1);
+			this.ds_head.setColumn(0, "외부", "1");
+			this.ds_head.setColumn(0, "VIEW_MANAGER", name1 + "     " + staffid1);
+			this.div_cont.form.div_up.form.sta_manager_ex.set_visible(true);
+			break;				
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+
+this.DAY00602_P01_onclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addColumn("REFRESH", "STRING");
+	var nRow = this.ds_return.addRow();
+	this.ds_return.setColumn(nRow, "REFRESH", "Y");
+		
+	this.close(this.ds_return.saveXML());
+};
+
+this.spn_onspin_hour= function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	//기본값 또는 DB값
+	const prevalue = this.div_cont.form.div_up.form.components["mae_" + idStr].value;
+
+	let pm = 0;
+	if(e.up == true){ // 증가
+		pm = 1;
+	}else{ // 감소
+		pm = -1;
+	}
+	
+	const value = Number(prevalue) + pm;
+	
+	if(value > 22 || value < 6){ // 입력값이 222이상 또는 6이하 입력안되게 설정	
+		return false;
+	}
+	
+	this.div_cont.form.div_up.form.components["mae_" + idStr].set_value(value);
+};
+
+this.spn_onspin_min= function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	//기본값 또는 DB값
+	const prevalue = this.div_cont.form.div_up.form.components["mae_" + idStr].value;
+	
+	let pm = 0;
+	if(e.up == true){ // 증가
+		pm = 1;
+	}else{ // 감소
+		pm = -1;
+	}
+	
+	const value = Number(prevalue) + pm;
+	
+	if(value > 59 || value < 0){ // 입력값이 59이상 또는 0이하 입력안되게 설정	
+		return false;
+	}
+	
+	this.div_cont.form.div_up.form.components["mae_" + idStr].set_value(value);
+};
+
+
+
+this.ds_detail_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "참석"){
+		if(e.newvalue == 1){
+			this.ds_detail.setColumn(e.row, "반응사항", "")
+			this.ds_detail.setColumn(e.row, "참여도", "0")
+			this.ds_detail.setColumn(e.row, "만족도", "0")
+			this.ds_detail.setColumn(e.row, "수행도", "0")
+			this.ds_detail.setColumn(e.row, "참만수", "")
+		}else if(e.newvalue == 2){
+			this.ds_detail.setColumn(e.row, "반응사항", "불참")
+			this.ds_detail.setColumn(e.row, "참여도", "0")
+			this.ds_detail.setColumn(e.row, "만족도", "0")
+			this.ds_detail.setColumn(e.row, "수행도", "0")
+			this.ds_detail.setColumn(e.row, "참만수", "")
+		}else if(e.newvalue == 3){
+			this.ds_detail.setColumn(e.row, "반응사항", "미이용")	
+			this.ds_detail.setColumn(e.row, "참여도", "0")
+			this.ds_detail.setColumn(e.row, "만족도", "0")
+			this.ds_detail.setColumn(e.row, "수행도", "0")
+			this.ds_detail.setColumn(e.row, "참만수", "")
+		}
+		this.fn_checkattend();
+	}
+};
+
+this.div_cont_div_up_btn_program_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+		const param = {
+			SICODE : this.fv_sicode
+		,	PRG_NUMBER : this.ds_head.getColumn(0, "prg_number")
+	};
+
+	Sct.popup(this, "program_search", 600, 700, "입력담당자 선택", param, "DAY_POP::DAY00602_P02.xfdl", "fn_popCallback");
+};
+
+this.div_cont_div_down_grd_detail_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 7){
+		if(this.ds_detail.getColumn(e.row, "참석") == "1"){
+			this.fn_pdiv_contentSearch();
+		}
+	}
+	if(e.col == 8){
+		if(this.ds_detail.getColumn(e.row, "참석") == "1"){
+			this.fn_pdiv_satisfactionSearch();
+		}
+	}
+};
+
+this.btn_pdiv_content_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_detail.setColumn(this.ds_detail.rowposition, "반응사항", obj.text.substr(2));
+	this.pdiv_content.closePopup();
+};
+
+this.btn_del = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_detail_satisfaction.setColumn(this.ds_detail_satisfaction.rowposition, "참여도", "0");
+	this.ds_detail_satisfaction.setColumn(this.ds_detail_satisfaction.rowposition, "만족도", "0");
+	this.ds_detail_satisfaction.setColumn(this.ds_detail_satisfaction.rowposition, "수행도", "0");
+};
+
+this.pdiv_satisfaction_btn_check_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_detail.setColumn(this.ds_detail.rowposition, "참여도", this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "참여도"));
+	this.ds_detail.setColumn(this.ds_detail.rowposition, "만족도", this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "만족도"));
+	this.ds_detail.setColumn(this.ds_detail.rowposition, "수행도", this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "수행도"));
+	
+	let points = "";
+	if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "참여도") == "1"){
+		points += "상"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "참여도") == "2"){
+		points += "중"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "참여도") == "3"){
+		points += "하"
+	}
+	
+	if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "만족도") == "1"){
+		points += "상"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "만족도") == "2"){
+		points += "중"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "만족도") == "3"){
+		points += "하"
+	}
+	
+	if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "수행도") == "1"){
+		points += "상"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "수행도") == "2"){
+		points += "중"
+	}else if(this.ds_detail_satisfaction.getColumn(this.ds_detail_satisfaction.rowposition, "수행도") == "3"){
+		points += "하"
+	}
+	
+	this.ds_detail.setColumn(this.ds_detail.rowposition, "참만수", points); 
+	this.pdiv_satisfaction.closePopup();
+};
+
+this.pdiv_content_btn_pdiv_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.pdiv_content.closePopup();
+};
+
+this.fn_checkattend = function(){
+	let attend = 0;
+	let no_attend = 0;
+	let unused = 0;
+	
+	for(let i = 0; i<this.ds_detail.rowcount; i++){
+		let kind = this.ds_detail.getColumn(i, "참석")
+		if(kind == "1"){
+			attend += 1;
+		}else if(kind == "2"){
+			no_attend += 1;
+		}else if(kind == "3"){
+			unused += 1;
+		}
+	}
+	
+	this.ds_head.setColumn(this.ds_head.rowposition, "참여", attend);
+	this.ds_head.setColumn(this.ds_head.rowposition, "불참", no_attend);
+	this.ds_head.setColumn(this.ds_head.rowposition, "미이용", unused);		
+	this.ds_head.setColumn(this.ds_head.rowposition, "참가인원", "참여 " + String(attend).padStart(2, "0") + "명/불참 " + no_attend + "명");
+
+};
+this.div_cont_div_up_btn_manager_ex_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.fv_sicode
+		,	PRONO : this.ds_head.getColumn(0, "prg_number")
+	};
+
+	Sct.popup(this, "ex_emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAY00602_P05.xfdl", "fn_popCallback");
+};
+
+this.div_func_btn_report1_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const jrfFile = "DAY00602_R01.jrf";
+	
+	const arg = "P_SICODE#" + this.fv_sicode + "#"
+			  + "P_PROGRAMNUM#" + this.ds_head.getColumn(this.ds_head.rowposition, "il_number") + "#"
+			  + "P_OFFNAME#" + this.ds_head.getColumn(this.ds_head.rowposition, "b_offname") + "#";
+
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+this.div_func_btn_report2_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const jrfFile = "DAY00602_R02.jrf";
+	
+	const arg = "P_SICODE#" + this.fv_sicode + "#"
+			  + "P_PROGRAMNUM#" + this.ds_head.getColumn(this.ds_head.rowposition, "il_number") + "#"
+			  + "P_OFFNAME#" + this.ds_head.getColumn(this.ds_head.rowposition, "b_offname") + "#";
+
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item8" compid="div_func.form.sta_no_value" propid="text" datasetid="ds_head" columnid="il_number"/>
+      <BindItem id="item0" compid="div_func.form.chk_sign" propid="value" datasetid="ds_report" columnid="SIGN"/>
+      <BindItem id="item1" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_name" propid="text" datasetid="ds_data" columnid="수급자명"/>
+      <BindItem id="item2" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_code" propid="text" datasetid="ds_data" columnid="수급코드"/>
+      <BindItem id="item3" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_group" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item4" compid="div_cont.form.div_up.form.div_right.form.sta_body1_sex_nm" propid="text" datasetid="ds_list_copy" columnid="sex_nm"/>
+      <BindItem id="item5" compid="div_cont.form.div_up.form.div_right.form.sta_body1_age" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item6" compid="div_cont.form.div_up.form.div_right.form.sta_body1_grade_nm" propid="text" datasetid="ds_data" columnid="grade_nm"/>
+      <BindItem id="item7" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_enday" propid="text" datasetid="ds_data" columnid="입소일"/>
+      <BindItem id="item9" compid="div_cont.form.div_up.form.div_right.form.sta_body1_age00" propid="text" datasetid="ds_data" columnid="생일"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00" propid="text" datasetid="ds_list_select" columnid="만료일"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_list_select" columnid="m_code"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_list_copy" columnid="sex_nm"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="sex_nm"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_list_select" columnid="m_roomname"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_enday"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_reday"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="b_date"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_history"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_01" propid="text" datasetid="ds_list_select" columnid="grade_nm"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_list_select" columnid="m_regist"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="age"/>
+      <BindItem id="item10" compid="div_cont.form.div_up.form.sta_body1_00_02" propid="text" datasetid="ds_head" columnid="운영일"/>
+      <BindItem id="item12" compid="div_cont.form.div_up.form.sta_body1_00_01" propid="text" datasetid="ds_head" columnid="prg_name"/>
+      <BindItem id="item25" compid="div_cont.form.div_up.form.sta_body1_00_00_01" propid="text" datasetid="ds_head" columnid="pr바코드"/>
+      <BindItem id="item26" compid="div_cont.form.div_up.form.sta_body1_00_01_00" propid="text" datasetid="ds_head" columnid="prg_number"/>
+      <BindItem id="item27" compid="div_cont.form.div_up.form.sta_body1_00_00_02" propid="text" datasetid="ds_head" columnid="en_date"/>
+      <BindItem id="item28" compid="div_cont.form.div_up.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item29" compid="div_cont.form.div_up.form.sta_body1_00_03" propid="text" datasetid="ds_head" columnid="st_date"/>
+      <BindItem id="item30" compid="div_cont.form.div_up.form.sta_body1_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item31" compid="div_cont.form.div_up.form.sta_body1_00_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item32" compid="div_cont.form.div_up.form.sta_body1_00_00_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item33" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_02" propid="text" datasetid="ds_list_select" columnid="m_roomname"/>
+      <BindItem id="item34" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_01" propid="text" datasetid="ds_list_select" columnid="m_name"/>
+      <BindItem id="item35" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_01" propid="text" datasetid="ds_list_select" columnid="m_code"/>
+      <BindItem id="item36" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_01_00" propid="text" datasetid="ds_list_select" columnid="m_name"/>
+      <BindItem id="item37" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_02" propid="text" datasetid="ds_list_select" columnid="m_code"/>
+      <BindItem id="item38" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item39" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_03" propid="text" datasetid="ds_list_select" columnid="m_name"/>
+      <BindItem id="item40" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item41" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item42" compid="div_cont.form.div_up.form.div_up.form.sta_body1_00_00_00_00_00_00_00" propid="text" datasetid="ds_list_select" columnid="m_group"/>
+      <BindItem id="item43" compid="div_cont.form.div_up.form.sta_body1_00_00_01_00" propid="text" datasetid="ds_head" columnid="pr영역"/>
+      <BindItem id="item44" compid="div_cont.form.div_up.form.edt_attend" propid="value" datasetid="ds_head" columnid="참여"/>
+      <BindItem id="item45" compid="div_cont.form.div_up.form.edt_no_attend" propid="value" datasetid="ds_head" columnid="불참"/>
+      <BindItem id="item46" compid="div_cont.form.div_up.form.edt_unused" propid="value" datasetid="ds_head" columnid="미이용"/>
+      <BindItem id="item47" compid="div_cont.form.div_up.form.edt_00_01_01" propid="value" datasetid="ds_head" columnid="진행자"/>
+      <BindItem id="item48" compid="div_cont.form.div_up.form.edt_00_01" propid="value" datasetid="ds_head" columnid="장소"/>
+      <BindItem id="item53" compid="div_cont.form.div_up.form.edt_00_01_01_00" propid="value" datasetid="ds_head" columnid="준비물"/>
+      <BindItem id="item54" compid="div_cont.form.div_up.form.edt_00_01_00" propid="value" datasetid="ds_head" columnid="참가인원"/>
+      <BindItem id="item55" compid="div_cont.form.div_up.form.edt_00_01_01_00_00" propid="value" datasetid="ds_head" columnid="주제"/>
+      <BindItem id="item56" compid="div_cont.form.div_up.form.txt_00" propid="value" datasetid="ds_head" columnid="전반적평가"/>
+      <BindItem id="item57" compid="div_cont.form.div_up.form.txt_00_00" propid="value" datasetid="ds_head" columnid="진행과정"/>
+      <BindItem id="item49" compid="div_cont.form.div_up.form.mae_start_hour" propid="value" datasetid="ds_head" columnid="운영시작시"/>
+      <BindItem id="item50" compid="div_cont.form.div_up.form.mae_start_min" propid="value" datasetid="ds_head" columnid="운영시작분"/>
+      <BindItem id="item51" compid="div_cont.form.div_up.form.mae_end_hour" propid="value" datasetid="ds_head" columnid="운영종료시"/>
+      <BindItem id="item52" compid="div_cont.form.div_up.form.mae_end_min" propid="value" datasetid="ds_head" columnid="운영종료분"/>
+      <BindItem id="item58" compid="div_cont.form.div_up.form.sta_body1_00_02_00" propid="text" datasetid="ds_head" columnid="weekday"/>
+      <BindItem id="item59" compid="div_cont.form.div_up.form.sta_manager_value" propid="text" datasetid="ds_head" columnid="VIEW_MANAGER"/>
+      <BindItem id="item60" compid="pdiv_content.form.btn_pdiv_content1" propid="text" datasetid="ds_detail_popup" columnid="반응내용01"/>
+      <BindItem id="item61" compid="pdiv_content.form.btn_pdiv_content2" propid="text" datasetid="ds_detail_popup" columnid="반응내용02"/>
+      <BindItem id="item62" compid="pdiv_content.form.btn_pdiv_content3" propid="text" datasetid="ds_detail_popup" columnid="반응내용03"/>
+      <BindItem id="item63" compid="pdiv_content.form.btn_pdiv_content4" propid="text" datasetid="ds_detail_popup" columnid="반응내용04"/>
+      <BindItem id="item64" compid="pdiv_content.form.btn_pdiv_content5" propid="text" datasetid="ds_detail_popup" columnid="반응내용05"/>
+      <BindItem id="item65" compid="pdiv_content.form.btn_pdiv_content6" propid="text" datasetid="ds_detail_popup" columnid="반응내용06"/>
+      <BindItem id="item66" compid="pdiv_content.form.btn_pdiv_content7" propid="text" datasetid="ds_detail_popup" columnid="반응내용07"/>
+      <BindItem id="item67" compid="pdiv_content.form.btn_pdiv_content8" propid="text" datasetid="ds_detail_popup" columnid="반응내용08"/>
+      <BindItem id="item68" compid="pdiv_content.form.btn_pdiv_content9" propid="text" datasetid="ds_detail_popup" columnid="반응내용09"/>
+      <BindItem id="item69" compid="pdiv_content.form.btn_pdiv_content10" propid="text" datasetid="ds_detail_popup" columnid="반응내용10"/>
+      <BindItem id="item70" compid="pdiv_content.form.btn_pdiv_content11" propid="text" datasetid="ds_detail_popup" columnid="반응내용11"/>
+      <BindItem id="item71" compid="pdiv_content.form.btn_pdiv_content12" propid="text" datasetid="ds_detail_popup" columnid="반응내용12"/>
+      <BindItem id="item72" compid="pdiv_content.form.btn_pdiv_content13" propid="text" datasetid="ds_detail_popup" columnid="반응내용13"/>
+      <BindItem id="item73" compid="pdiv_content.form.btn_pdiv_content14" propid="text" datasetid="ds_detail_popup" columnid="반응내용14"/>
+      <BindItem id="item74" compid="pdiv_content.form.btn_pdiv_content15" propid="text" datasetid="ds_detail_popup" columnid="반응내용15"/>
+      <BindItem id="item75" compid="pdiv_satisfaction.form.sta_body1_00_00_01" propid="text" datasetid="ds_detail_satisfaction" columnid="healcode"/>
+      <BindItem id="item76" compid="pdiv_satisfaction.form.sta_body1_00_01_00" propid="text" datasetid="ds_detail_satisfaction" columnid="성별"/>
+      <BindItem id="item77" compid="pdiv_satisfaction.form.sta_body1_00_01" propid="text" datasetid="ds_detail_satisfaction" columnid="healname"/>
+      <BindItem id="item79" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병01_3"/>
+      <BindItem id="item80" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00" propid="value" datasetid="ds_data" columnid="질병02_2"/>
+      <BindItem id="item81" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병02_3"/>
+      <BindItem id="item82" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00" propid="value" datasetid="ds_data" columnid="질병02_5"/>
+      <BindItem id="item83" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00" propid="value" datasetid="ds_data" columnid="질병03_2"/>
+      <BindItem id="item84" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병03_3"/>
+      <BindItem id="item85" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병04_2"/>
+      <BindItem id="item86" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병04_3"/>
+      <BindItem id="item87" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병05_2"/>
+      <BindItem id="item88" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병05_3"/>
+      <BindItem id="item89" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병06_2"/>
+      <BindItem id="item90" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병06_3"/>
+      <BindItem id="item91" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병06_5"/>
+      <BindItem id="item92" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병06_6"/>
+      <BindItem id="item93" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병07_2"/>
+      <BindItem id="item94" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병07_3"/>
+      <BindItem id="item95" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병08_2"/>
+      <BindItem id="item96" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병08_3"/>
+      <BindItem id="item97" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병08_5"/>
+      <BindItem id="item98" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병09_2"/>
+      <BindItem id="item99" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병09_3"/>
+      <BindItem id="item100" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병10_2"/>
+      <BindItem id="item101" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병10_3"/>
+      <BindItem id="item102" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병10_5"/>
+      <BindItem id="item103" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병10_6"/>
+      <BindItem id="item104" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병11_2"/>
+      <BindItem id="item105" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병11_3"/>
+      <BindItem id="item106" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_01" propid="value" datasetid="ds_data" columnid="질병11_4"/>
+      <BindItem id="item107" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병12_2"/>
+      <BindItem id="item108" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병12_3"/>
+      <BindItem id="item109" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병13_2"/>
+      <BindItem id="item110" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병13_3"/>
+      <BindItem id="item111" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병14_2"/>
+      <BindItem id="item112" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병14_3"/>
+      <BindItem id="item113" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_01" propid="value" datasetid="ds_data" columnid="질병14_4"/>
+      <BindItem id="item114" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병15_2"/>
+      <BindItem id="item115" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병15_3"/>
+      <BindItem id="item116" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병15_5"/>
+      <BindItem id="item117" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_00_01" propid="value" datasetid="ds_data" columnid="질병01_5"/>
+      <BindItem id="item78" compid="pdiv_satisfaction.form.rdo_1" propid="value" datasetid="ds_detail_satisfaction" columnid="참여도"/>
+      <BindItem id="item118" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.rdo_b00_00_02_01_01_00_00_00" propid="value" datasetid="ds_data" columnid="구강점수"/>
+      <BindItem id="item119" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.rdo_b00_00_02_01_01_00_00_00_00" propid="value" datasetid="ds_data" columnid="피부점수"/>
+      <BindItem id="item120" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.rdo_b00_00_02_01_01_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="수면점수"/>
+      <BindItem id="item121" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.rdo_b00_00_02_01_01_00_00_00_01" propid="value" datasetid="ds_data" columnid="질환점수"/>
+      <BindItem id="item122" compid="pdiv_satisfaction.form.rdo_2" propid="value" datasetid="ds_detail_satisfaction" columnid="만족도"/>
+      <BindItem id="item123" compid="pdiv_satisfaction.form.rdo_3" propid="value" datasetid="ds_detail_satisfaction" columnid="수행도"/>
+    </Bind>
+  </Form>
+</FDL>

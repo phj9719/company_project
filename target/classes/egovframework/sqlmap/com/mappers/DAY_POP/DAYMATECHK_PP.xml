@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAYMATECHK_PP                                                         
+     * 프로그램 명     	: 수급자 선택(체크박스)                                                     
+     * Description 	: 수급자를 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-11 10:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAYEMPCHK_PP_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAYMATECHK_PP">
+	<!-- 조회 -->
+    <select id="DAYMATECHK_PP_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 수급자 선택(체크) 조회 */
+    WITH mate AS
+    (
+        SELECT
+          bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+    )
+    SELECT *
+    FROM mate ma
+    WHERE <!-- EXISTS (SELECT 1
+                  FROM mate m
+                  WHERE m.m_code = ma.m_code
+                  AND #{DATE} BETWEEN m.m_conday1 AND m.m_conday2
+                  UNION ALL
+                  SELECT 1
+                  FROM kmhistory h
+                  WHERE h.sicode = ma.sicode
+                  AND h.수급코드 = ma.m_code
+                  AND #{DATE} BETWEEN h.계약시작 AND h.계약종료)
+    AND --> #{DATE} BETWEEN ma.m_enday AND ma.m_reday
+    ORDER BY ma.m_name
+    </select>
+</mapper>                                                                                                                                                                                                          

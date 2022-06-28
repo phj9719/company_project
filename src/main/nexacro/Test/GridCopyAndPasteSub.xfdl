@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="GridCopyAndPasteSub" width="634" height="276" titletext="New Form" onload="GridCopyAndPasteSub_onload">
+    <Layouts>
+      <Layout width="634" height="276">
+        <Grid id="grd_subTop" taborder="0" binddataset="ds_subTop" selecttype="area" cellsizingtype="col" left="8" top="7" width="235" height="177">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="A"/>
+                <Cell col="1" text="B"/>
+                <Cell col="2" text="C"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:A"/>
+                <Cell col="1" edittype="normal" text="bind:B"/>
+                <Cell col="2" edittype="normal" text="bind:C"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_subBottom" taborder="1" binddataset="ds_subBottom" selecttype="area" cellsizingtype="col" left="280" top="7" width="235" height="177">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="A"/>
+                <Cell col="1" text="B"/>
+                <Cell col="2" text="C"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:A"/>
+                <Cell col="1" edittype="normal" text="bind:B"/>
+                <Cell col="2" edittype="normal" text="bind:C"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_subTop" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="B" type="STRING" size="256"/>
+          <Column id="C" type="STRING" size="256"/>
+          <Column id="D" type="STRING" size="256"/>
+          <Column id="E" type="STRING" size="256"/>
+          <Column id="F" type="STRING" size="256"/>
+          <Column id="G" type="STRING" size="256"/>
+          <Column id="H" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="B">456</Col>
+            <Col id="A">123</Col>
+          </Row>
+          <Row>
+            <Col id="A">789</Col>
+            <Col id="B">10</Col>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_subBottom" firefirstcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="B" type="STRING" size="256"/>
+          <Column id="C" type="STRING" size="256"/>
+          <Column id="D" type="STRING" size="256"/>
+          <Column id="E" type="STRING" size="256"/>
+          <Column id="F" type="STRING" size="256"/>
+          <Column id="G" type="STRING" size="256"/>
+          <Column id="H" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="B">852</Col>
+            <Col id="A">741</Col>
+            <Col id="C">963</Col>
+          </Row>
+          <Row>
+            <Col id="A"/>
+            <Col id="B"/>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row>
+            <Col id="B"/>
+            <Col id="C"/>
+            <Col id="D"/>
+          </Row>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[// include "Example::GridCopyAndPaste.xjs";
+
+this.GridCopyAndPasteSub_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var copyPaste = new Link.CellDataCopy(this, true, true);
+
+	copyPaste.addGrid(this.grd_subTop);
+	copyPaste.addGrid(this.grd_subBottom);
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA204CT                                                         
+     * 프로그램 명     : 체온측정                                                     
+     * Description : 체온측정
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA204CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA204CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.RES_ID
+					,A.NAME
+					,A.SEX
+					,A.BIRTHDAY
+					,FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) - CAST(REPLACE(A.BIRTHDAY,'-','') AS UNSIGNED)) / 10000 ) AS AGE
+					,A.BIRTHDAY2
+					,A.GRADE
+					,A.AREA
+					,A.LOCATION 
+					,A.ENTER_DT
+					,IF((TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE())) > 0 , 'Y', 'N') AS RETIRE_YN
+					,ROW_NUMBER() OVER(ORDER BY A.NAME ASC, A.ENTER_DT DESC) ROWNUM
+              	FROM T_NU_RESIDENT A
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.NAME LIKE CONCAT('%', #{NAME},'%') 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.AREA = #{AREA} -- 층
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.LOCATION = #{LOCATION} -- 생활실
+              </if>
+              <if test="RETIRE_YN != '' and RETIRE_YN != null">
+					AND IF((TIMESTAMPDIFF(DAY, A.RETIRE_DT, CURDATE())) > 0 , 'Y', 'N') = #{RETIRE_YN}
+              </if>
+               ORDER BY A.NAME ASC, A.ENTER_DT DESC
+    </select>
+
+	<select id="NUA204CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.TEM_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION          
+					,A.TEM_DT
+					,A.TEM_TIME
+					,LEFT(A.TEM_TIME,2) AS HOUR
+					,RIGHT(A.TEM_TIME,2) AS MINUTE
+					,A.TEMPERATURE
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,ROW_NUMBER() OVER(ORDER BY A.TEM_TIME ASC) ROWNUM
+              	FROM T_NU_TEMPERATURE A
+               WHERE  1=1
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+                    AND A.RES_ID = #{RES_ID}
+                    AND A.TEM_DT = #{DATE}							                    				    			  	
+               ORDER BY A.TEM_TIME ASC
+		]]>
+    </select>  
+                                                                                                                                                                                                                                                                                                                                                                                                                 
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA204CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_TEMPERATURE (                                                                                                                                                                                 
+					         COMPANY_CD
+							,TEM_SEQ
+							,RES_ID
+							,TEM_DT
+							,TEM_TIME
+							,TEMPERATURE
+							,MANAGER_ID
+							,REMARK
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD  }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL(SQ_NU_TEMPERATURE),12,0)))
+							,#{RES_ID      }
+							,#{TEM_DT      }
+							,CONCAT(IFNULL(#{HOUR},'00'),IFNULL(#{MINUTE},'00'))
+							,IF(#{TEMPERATURE} < 10, '0', #{TEMPERATURE})
+							,#{MANAGER_ID  }
+							,#{REMARK      }
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+							,#{MOD_PGM_ID  }
+							,#{MOD_USER    }
+							,#{MOD_DT      }
+							,#{MOD_DT_CURR }
+							,#{MOD_DT_LOC  }
+							,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA204CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_TEMPERATURE                                                                                                                                                                                              
+						 SET RES_ID  	   =#{RES_ID	 }
+						 	,TEM_TIME    = CONCAT(IFNULL(#{HOUR},'00'),IFNULL(#{MINUTE},'00'))
+							,TEM_DT      = #{TEM_DT      }
+							,TEMPERATURE = IF(#{TEMPERATURE} < 10, '0', #{TEMPERATURE})
+							,MANAGER_ID  = #{MANAGER_ID  }
+							,REMARK      = #{REMARK      }
+							,MOD_PGM_ID  = #{MOD_PGM_ID  }
+							,MOD_USER    = #{MOD_USER    }
+							,MOD_DT      = #{MOD_DT      }
+							,MOD_DT_CURR = #{MOD_DT_CURR }
+							,MOD_DT_LOC  = #{MOD_DT_LOC  }
+							,MOD_IP      = #{MOD_IP      }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND TEM_SEQ = #{TEM_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA204CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_TEMPERATURE
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND TEM_SEQ = #{TEM_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    
+    <!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA204CT_TEMP1_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_HEALTH_CHECK                                                                                                                                                                                              
+						 SET TEMPERATURE1 	= (SELECT A.TEMPERATURE
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 0 AND 11))
+							,TEM_TIME1		= (SELECT A.TEM_TIME
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 0 AND 11))
+							,MANAGER_ID     = #{MANAGER_ID  }							
+							,MOD_PGM_ID     = #{MOD_PGM_ID  }
+							,MOD_USER       = #{MOD_USER    }
+							,MOD_DT         = #{MOD_DT      }
+							,MOD_DT_CURR    = #{MOD_DT_CURR }
+							,MOD_DT_LOC     = #{MOD_DT_LOC  }
+							,MOD_IP         = #{MOD_IP      }
+			           WHERE 1=1
+			           	 AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       	 AND RES_ID  = #{RES_ID}
+					   	 AND HEA_DT  = #{TEM_DT}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                
+	
+	<update id="NUA204CT_TEMP2_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_HEALTH_CHECK                                                                                                                                                                                              
+						 SET TEMPERATURE2 	= (SELECT A.TEMPERATURE
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 12 AND 17))
+							,TEM_TIME2		= (SELECT A.TEM_TIME
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 12 AND 17))
+							,MANAGER_ID     = #{MANAGER_ID  }							
+							,MOD_PGM_ID     = #{MOD_PGM_ID  }
+							,MOD_USER       = #{MOD_USER    }
+							,MOD_DT         = #{MOD_DT      }
+							,MOD_DT_CURR    = #{MOD_DT_CURR }
+							,MOD_DT_LOC     = #{MOD_DT_LOC  }
+							,MOD_IP         = #{MOD_IP      }
+			           WHERE 1=1
+			           	 AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       	 AND RES_ID  = #{RES_ID}
+					   	 AND HEA_DT  = #{TEM_DT}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <update id="NUA204CT_TEMP3_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_HEALTH_CHECK                                                                                                                                                                                              
+						 SET TEMPERATURE3 	= (SELECT A.TEMPERATURE
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 18 AND 23))
+							,TEM_TIME3		= (SELECT A.TEM_TIME
+						 						 FROM T_NU_TEMPERATURE A
+						 						WHERE A.COMPANY_CD = #{COMPANY_CD}
+						 						  AND A.RES_ID	   = #{RES_ID}
+						 						  AND A.TEM_DT	   = #{TEM_DT}
+						 						  AND A.TEM_TIME   = (SELECT MAX(B.TEM_TIME)
+						 						  						FROM T_NU_TEMPERATURE B
+						 						  					   WHERE B.COMPANY_CD = A.COMPANY_CD
+						 						  					   	 AND B.RES_ID = A.RES_ID
+						 						  					   	 AND B.TEM_DT = A.TEM_DT
+						 						  					   	 AND LEFT(B.TEM_TIME,2) BETWEEN 18 AND 23))
+							,MANAGER_ID     = #{MANAGER_ID  }							
+							,MOD_PGM_ID     = #{MOD_PGM_ID  }
+							,MOD_USER       = #{MOD_USER    }
+							,MOD_DT         = #{MOD_DT      }
+							,MOD_DT_CURR    = #{MOD_DT_CURR }
+							,MOD_DT_LOC     = #{MOD_DT_LOC  }
+							,MOD_IP         = #{MOD_IP      }
+			           WHERE 1=1
+			           	 AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       	 AND RES_ID  = #{RES_ID}
+					   	 AND HEA_DT  = #{TEM_DT}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    
+     <select id="NUA204CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7','8')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+    <select id="NUA204CT_HEALTH_YN" parameterType="java.util.HashMap" resultType="java.lang.String">
+<![CDATA[
+            SELECT CASE WHEN COUNT(*)>0 THEN 'Y'
+			       ELSE 'N'
+			       END AS HEALTH_YN
+			  FROM T_NU_HEALTH_CHECK
+			 WHERE COMPANY_CD = #{COMPANY_CD}
+			   AND RES_ID = #{RES_ID}
+			   AND HEA_DT = #{TEM_DT}    
+        ]]>
+	</select>   
+	<select id="NUA204CT_ROWCNT" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	<![CDATA[
+	            SELECT COUNT(*) AS ROWCNT
+  				  FROM T_NU_TEMPERATURE
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RES_ID = #{RES_ID}
+				   AND TEM_DT = #{TEM_DT}    
+	        ]]>
+	</select>      
+<insert id="NUA204CT_HEALTH_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_HEALTH_CHECK (                                                                                                                                                                                 
+					         COMPANY_CD
+							,HEA_SEQ
+							,RES_ID
+							,HEA_DT
+							,TEMPERATURE1
+							,TEMPERATURE2
+							,TEMPERATURE3
+							,TEM_TIME1
+							,TEM_TIME2
+							,TEM_TIME3
+							,PRE_H
+							,PRE_L
+							,PULSE
+							,BREATH
+							,WEIGHT
+							,SUGAR_FBS
+							,SUGAR_PP2
+							,MANAGER_ID
+							,REMARK
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      #{COMPANY_CD  }
+						 ,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL(SQ_NU_HEALTH_CHECK),12,0)))
+						 ,#{RES_ID      }
+						 ,#{TEM_DT      }
+						 ,IF(#{HOUR}>=0  && #{HOUR} <12 ,IF(#{TEMPERATURE} < 10, '0', #{TEMPERATURE}),'0')
+						 ,IF(#{HOUR}>=12  && #{HOUR} <18 ,IF(#{TEMPERATURE} < 10, '0', #{TEMPERATURE}),'0')
+						 ,IF(#{HOUR}>=18  && #{HOUR} <24 ,IF(#{TEMPERATURE} < 10, '0', #{TEMPERATURE}),'0')
+						 ,IF(#{HOUR}>=0  && #{HOUR} <12 ,CONCAT(#{HOUR},#{MINUTE}),NULL)
+						 ,IF(#{HOUR}>=12  && #{HOUR} <18 ,CONCAT(#{HOUR},#{MINUTE}),NULL)
+						 ,IF(#{HOUR}>=18  && #{HOUR} <24 ,CONCAT(#{HOUR},#{MINUTE}),NULL)
+						 ,0
+						 ,0
+						 ,0
+						 ,0
+						 ,0
+						 ,0
+						 ,0
+						 ,#{MANAGER_ID  }
+						 ,#{REMARK      }
+						 ,#{REG_PGM_ID  }
+						 ,#{REG_USER    }
+						 ,#{REG_DT      }
+						 ,#{REG_DT_CURR }
+						 ,#{REG_DT_LOC  }
+						 ,#{REG_IP      }
+						 ,#{MOD_PGM_ID  }
+						 ,#{MOD_USER    }
+						 ,#{MOD_DT      }
+						 ,#{MOD_DT_CURR }
+						 ,#{MOD_DT_LOC  }
+						 ,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+    
+    <!-- 층 조회 -->
+    <select id="NUA204CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA204CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if>                                                                                                                                                                 
+    </select>                                                                                                                                                                           
+</mapper>                                                                                                                                                                                                          

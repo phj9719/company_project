@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-05 17:20                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA020CT_RPTDOC_PP                                                         
+     * 프로그램 명  :                                           
+     * Description :                                                            
+     *================================================================                  
+                작성일자         		|  작성자    |  비고                                    
+     *================================================================                  
+       2021-02-05 17:20     |  이승규    |	최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->		
+<mapper namespace="CMA020CT_RPTDOC_PP">
+	<select id="CMA020CT_GRPLINE_STATUS_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT GAC.COMPANY_CD
+			     , GAC.PLANT_CD
+			     , GAC.PK_DOC_NO
+			     , GAC.GRP_DOC_NO
+			     , GAC.DOC_NM
+			     , GAC.DOC_DATE
+			     , GAC.DOC_WRITER
+			     , GAC.DOC_DEPT
+				 , (SELECT A.DEPT_NAME
+		    	      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		    	     WHERE A.COMPANY_CD = GAC.COMPANY_CD
+		               AND A.USE_YN     = 'Y'
+		               AND A.DEPT_CODE  = GAC.DOC_DEPT) AS DOC_DEPT_NM
+			     , GAC.URGENT
+			     , GAC.APPL_DOC_SBJT
+			     , GAC.GRP_DOC_KIND
+			     , GAC.RPT_DOC_NO
+			     , GAC.RPT_SUBJECT
+			     , GAC.RPT_CNT
+			     , GAC.UBI_VEW
+			     , GAC.UBI_VEW_PARM
+			     , GAC.MDFY_YN
+			     , GAC.FIRST_RPT_DT
+			     , GAC.RPT_WRITE
+			     , GAC.APPL_RPT_DT
+			     , GAC.APPVL_PRC_DT
+			     , GAC.APPVL_PRC_CHARGE
+			     , GAC.FNL_APPVL_DT
+			     , GAC.FNL_APPVL_CHARGE
+			     , GAC.APPVL_PRC_FLAG
+			     , GAC.ATTACH_FILE_YN
+			     , GAC.ATTACH_FILE_NM
+			     , GAC.ATTACH_GRP_ID
+			     , GAC.WK_FLAG
+			     , GAC.WK_FIELD
+			     , GAC.TRANS_JOB_ID
+			     , GAC.TRANS_ST
+			     , GAC.TRANS_RST_STS
+			     , GAC.SND_RCV_CD
+			     , GAC.REF_USER_KEY
+			     , GAC.REG_PGM_ID
+			     , GAC.REG_USER
+			     , GAC.REG_DT
+			     , GAC.REG_DT_CURR
+			     , GAC.REG_DT_LOC
+			     , GAC.REG_IP
+			     , GAC.MOD_PGM_ID
+			     , GAC.MOD_USER
+			     , GAC.MOD_DT
+			     , GAC.MOD_DT_CURR
+			     , GAC.MOD_DT_LOC
+			     , GAC.MOD_IP
+			  FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+			 WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+			   AND GAC.APPVL_PRC_FLAG = 'AV' -- 승인완료문서
+		]]>
+			<if test="USER_DEPT > '1000020' "> -- 해무/관리부문장, 해사부문장
+			   AND GAC.DOC_DEPT IN (SELECT A.DEPT_CODE
+			   						  FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+			   						 WHERE A.COMPANY_CD = GAC.COMPANY_CD
+			   						   AND A.P_DEPT_CODE = (SELECT B.P_DEPT_CODE
+			   						   						  FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+			   						   						 WHERE A.COMPANY_CD = B.COMPANY_CD
+			   						   						   AND B.DEPT_CODE  = #{USER_DEPT}))
+			</if>
+			<if test="USER_DEPT lt '1000020' "> -- 사장, 해무/관리부문장, 해사부문장 제외
+			   AND GAC.DOC_DEPT = #{USER_DEPT}
+			</if>
+			<if test="DOC_STATUS != '' and DOC_STATUS != null">
+				<if test="DOC_STATUS.equals('10')"> -- 승인문서함
+			   AND (SELECT GAL.FNL_READ_DT
+	          		  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	          		 WHERE GAC.COMPANY_CD = GAL.COMPANY_CD
+	          		   AND GAC.PLANT_CD   = GAL.PLANT_CD
+	          		   AND GAC.PK_DOC_NO  = GAL.PK_DOC_NO
+					   AND GAL.PK_APPL_TYPE = '10' -- 결재자
+	          		   AND GAL.APPL_LINE_CHRG = #{USER_NM}) IS NULL   -- 열람된건 조회 X
+			   AND (SELECT COUNT(*)
+					  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+					 WHERE GAL.COMPANY_CD   = GAC.COMPANY_CD
+					   AND GAL.PLANT_CD     = GAC.PLANT_CD
+					   AND GAL.PK_DOC_NO    = GAC.PK_DOC_NO
+					   AND GAL.PK_APPL_TYPE = '10' -- 결재자
+					   AND GAL.APPL_LINE_CHRG = #{USER_NM}) = 1 	-- 결재라인에 본인이 포함된 전체 문서 조회
+				</if>
+				<if test="DOC_STATUS.equals('20')"> -- 수신문서함
+			   AND (SELECT GAL.FNL_READ_DT
+	          		  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	          		 WHERE GAC.COMPANY_CD = GAL.COMPANY_CD
+	          		   AND GAC.PLANT_CD   = GAL.PLANT_CD
+	          		   AND GAC.PK_DOC_NO  = GAL.PK_DOC_NO
+					   AND GAL.PK_APPL_TYPE = '20' -- 참조자
+	          		   AND GAL.APPL_LINE_CHRG = #{USER_NM}) IS NULL   -- 열람된건 조회 X
+			   AND (SELECT COUNT(*)
+				      FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+				     WHERE GAC.COMPANY_CD   = GAL.COMPANY_CD
+				       AND GAC.PLANT_CD     = GAL.PLANT_CD
+				       AND GAC.PK_DOC_NO    = GAL.PK_DOC_NO
+				       AND GAL.PK_APPL_TYPE = '20' -- 참조자
+				       AND GAL.APPL_LINE_CHRG = #{USER_NM}) = 1		-- 참조자에 본인이 포함된 전체 문서 조회
+				</if>
+			</if>
+			<if test="DOC_DEPT != '' and DOC_DEPT != null">
+			   AND GAC.DOC_DEPT = #{DOC_DEPT}
+			</if>
+			<if test="DOC_DATE != '' and DOC_DATE != null">
+			   AND GAC.DOC_DATE >= #{DOC_DATE}
+			</if>
+			<if test="DOC_WRITER != '' and DOC_WRITER != null">
+			   AND GAC.DOC_WRITER = #{DOC_WRITER}
+			</if>
+			<if test="GRP_DOC_NO != '' and GRP_DOC_NO != null">
+			   AND GAC.GRP_DOC_NO = #{GRP_DOC_NO}
+			</if>
+			<if test="VESSEL_CD != '' and VESSEL_CD != null">
+			   AND GAC.PLANT_CD = #{VESSEL_CD}
+			</if>
+			<if test="APPVL_PRC_FLAG != '' and APPVL_PRC_FLAG != null">
+			   AND GAC.APPVL_PRC_FLAG = #{APPVL_PRC_FLAG}
+			</if>
+			 --AND GAC.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+			 ORDER
+			    BY GAC.DOC_DATE
+			     , GAC.PK_DOC_NO
+	</select>
+</mapper>

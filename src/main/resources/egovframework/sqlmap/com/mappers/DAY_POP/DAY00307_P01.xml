@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00307_P01
+     * 프로그램 명     	: 물리(작업)치료 제공기록 오류내역
+     * Description 		: 수급자 물리(작업)치료 제공기록 오류내역 조회, 삭제
+     *================================================================
+       작성일자         		|  작성자        |  비고
+     *================================================================
+       2022-06-07 10:30      	|  조기종		 | 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00307_P01_DS_DATA_S		조회
+        DAY00307_P01_DS_DATA_D		삭제
+     *================================================================
+-->
+<mapper namespace="DAY00307_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00307_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-7 P01 조회 */
+    SELECT
+      hea.sicode
+    , hea.mulnumber
+    , hea.mulday
+    , DATE_FORMAT(hea.mulday, '%Y.%m.%d') AS 제공일
+    , hea.mulgroup
+    , CONCAT(hea.multime, '-', hea.endtime) AS serv_time
+    , hea.mulname
+    , hea.mulcode
+    , hea.참여01
+    , hea.참여02
+    , hea.참여03
+    , hea.참여04
+    , hea.참여05
+    , hea.참여06
+    , hea.참여07
+    , hea.참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료01) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료02) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료03) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료04) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료05) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료06) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료07) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료08) AS 치료명08
+    , (
+        SELECT CASE WHEN hea.mulday BETWEEN bha.계획시작 AND bha.계획종료 THEN '' ELSE '계획종료일 초과' END
+        FROM base_habilit AS bha
+        WHERE bha.sicode = hea.sicode
+        AND bha.ha_number = hea.평가번호
+      ) AS plan_reason
+    , (
+        SELECT CASE WHEN COUNT(1) &gt; 0 THEN '외출중 물리치료 기록' ELSE '' END
+        FROM kmstayout AS sta
+        WHERE sta.sicode = hea.sicode
+        AND sta.거주코드 = hea.mulcode
+        AND sta.외출일 = hea.mulday
+        AND TIME(CONCAT(LPAD(sta.외출시, 2, '0'), ':', LPAD(sta.외출분, 2, '0'), ':00')) &lt; TIME(CONCAT(hea.endtime, ':00'))
+        AND TIME(CONCAT(LPAD(sta.복귀시, 2, '0'), ':', LPAD(sta.복귀분, 2, '0'), ':00')) &gt; TIME(CONCAT(hea.multime, ':00'))
+      ) AS out_reason
+    , (
+        SELECT 
+          CASE
+            WHEN mat.m_enday &gt; hea.mulday THEN '입소일 이전'
+            WHEN mat.m_reday &lt; hea.mulday THEN '퇴소일 이후'
+            ELSE ''
+          END
+        FROM base_mate AS mat
+        WHERE mat.sicode = hea.sicode
+        AND mat.m_code = hea.mulcode
+      ) AS mat_reason
+    , (
+        SELECT
+          CASE
+            WHEN hea.mulday BETWEEN bha.계획시작 AND bha.계획종료 THEN ''
+            ELSE
+              CONCAT(
+                '* 물리치료계획기간 : '
+              , DATE_FORMAT(bha.계획시작, '%Y.%m.%d')
+              , ' - '
+              , DATE_FORMAT(bha.계획종료, '%Y.%m.%d')
+              )
+          END
+        FROM base_habilit AS bha
+        WHERE bha.sicode = hea.sicode
+        AND bha.ha_number = hea.평가번호
+      ) AS plan_desc
+    , (
+        SELECT
+          CASE
+            WHEN NULLIF(sta.sicode, '') IS NULL THEN ''
+            ELSE
+              CONCAT(
+                '* 외출 : '
+              , DATE_FORMAT(sta.외출일, '%Y.%m.%d')
+              , '-'
+              , LPAD(sta.외출시, 2, '0')
+              , ':'
+              , LPAD(sta.외출분, 2, '0')
+              , ' 부터 '
+              , DATE_FORMAT(sta.외출일, '%Y.%m.%d')
+              , '-'
+              , LPAD(sta.복귀시, 2, '0')
+              , ':'
+              , LPAD(sta.복귀분, 2, '0')
+              , ' 까지'
+              )
+          END
+        FROM kmstayout AS sta
+        WHERE sta.sicode = hea.sicode
+        AND sta.거주코드 = hea.mulcode
+        AND sta.외출일 = hea.mulday
+        AND TIME(CONCAT(LPAD(sta.외출시, 2, '0'), ':', LPAD(sta.외출분, 2, '0'), ':00')) &lt; TIME(CONCAT(hea.endtime, ':00'))
+        AND TIME(CONCAT(LPAD(sta.복귀시, 2, '0'), ':', LPAD(sta.복귀분, 2, '0'), ':00')) &gt; TIME(CONCAT(hea.multime, ':00'))
+        LIMIT 1
+      ) AS out_desc
+    , (
+        SELECT
+          CASE
+            WHEN mat.m_enday &gt; hea.mulday THEN CONCAT('* 입소일 : ', mat.m_enday)
+            WHEN mat.m_reday &lt; hea.mulday THEN CONCAT('* 퇴소일 : ', mat.m_reday)
+            ELSE ''
+          END
+        FROM base_mate AS mat
+        WHERE mat.sicode = hea.sicode
+        AND mat.m_code = hea.mulcode
+      ) AS mat_desc
+    FROM heal_habilit AS hea
+    WHERE hea.sicode = #{SICODE}
+    AND hea.mulnumber = #{MULNUMBER}
+    </select>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00307_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 3-7 P01 삭제 */
+    DELETE FROM heal_habilit
+    WHERE sicode = #{sicode}
+    AND mulnumber = #{mulnumber}
+    </delete>
+</mapper>

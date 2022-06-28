@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_SEND_BATCH
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-16  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="SM_SEND_BATCH">
+	<select id="SM_SEND_BATCH_SEARCH_TEMP" resultType="java.util.HashMap">
+		<![CDATA[	
+			SELECT MST.COMPANY_CD
+				 , MST.PLANT_CD
+				 , MST.TRANS_ID
+				 , MST.DESTINATION
+				 , MST.DEPARTURE
+				 , MST.TRANS_MD
+				 , MST.TRANS_JOB
+				 , MST.TNS_EXEC_ID
+				 , MST.TRANS_CNT
+				 , MST.FILE_GROUP_ID
+				 , MST.PROGRAM_ID
+				 , MST.TRANS_STATUS
+				 , MST.TRANS_RST_STS
+				 , MST.FIRST_TRANS_CURR
+				 , MST.COMPLETE_TRANS_CURR
+				 , MST.FIN_FLAG
+				 , MST.WK_FLAG
+				 , MST.REG_PGM_ID
+				 , MST.REG_USER
+				 , MST.REG_DT
+				 , MST.REG_DT_CURR
+				 , MST.REG_DT_LOC
+				 , MST.REG_IP
+				 , MST.MOD_PGM_ID
+				 , MST.MOD_USER
+				 , MST.MOD_DT
+				 , MST.MOD_DT_CURR
+				 , MST.MOD_DT_LOC
+			  FROM T_SM_SEND_MAIN MST WITH(NOLOCK)
+			 WHERE MST.TRANS_STATUS IN ('01','03')
+			  AND ISNULL(MST.USE_YN,'Y') = 'Y' 
+			 ORDER BY MST.FIRST_TRANS_CURR
+		]]>
+	</select>
+	
+	<select id="SM_SEND_BATCH_SEARCH" resultType="java.util.HashMap">
+		<![CDATA[	
+			SELECT MST.COMPANY_CD
+				 , MST.PLANT_CD
+				 , MST.TRANS_ID
+				 , MST.DESTINATION
+				 , MST.DEPARTURE
+				 , MST.TRANS_MD
+				 , MST.TRANS_JOB
+				 , MST.TNS_EXEC_ID
+				 , MST.TRANS_CNT
+				 , MST.FILE_GROUP_ID
+				 , MST.PROGRAM_ID
+				 , MST.TRANS_STATUS
+				 , MST.TRANS_RST_STS
+				 , MST.FIRST_TRANS_CURR
+				 , MST.COMPLETE_TRANS_CURR
+				 , MST.FIN_FLAG
+				 , MST.WK_FLAG
+				 , MST.REG_PGM_ID
+				 , MST.REG_USER
+				 , MST.REG_DT
+				 , MST.REG_DT_CURR
+				 , MST.REG_DT_LOC
+				 , MST.REG_IP
+				 , MST.MOD_PGM_ID
+				 , MST.MOD_USER
+				 , MST.MOD_DT
+				 , MST.MOD_DT_CURR
+				 , MST.MOD_DT_LOC
+			  FROM T_SM_SEND_MAIN MST WITH(NOLOCK)
+			 WHERE MST.TRANS_STATUS IN ('01','03') 
+			   AND MST.DESTINATION = #{DESTINATION}
+			   AND ISNULL(MST.USE_YN,'Y') = 'Y'
+			 ORDER BY MST.FIRST_TRANS_CURR
+		]]>
+	</select>
+	
+	<!-- 전송대상서버정보 -->
+    <select id="GET_DESTINATION_S" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+			SELECT A.CMCD AS DESTINATION
+			FROM   T_CM_CODE A WITH(NOLOCK)
+			WHERE  A.GRP_CD = 'TRANS_DEST'
+			AND    A.USEYN = 'Y'
+			AND NOT EXISTS (SELECT B.SET_VALUE AS SERVER_CD
+							  FROM T_SM_PROFILE B WITH(NOLOCK)
+				 			 WHERE 1=1
+							   AND B.CODE = 'SERVER_NAME' 
+							   AND B.SET_VALUE = A.CMCD
+							   )
+		]]>
+    </select>
+    
+    <select id="GET_SERVER_CD_S" parameterType="java.lang.String" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+			SELECT SET_VALUE AS SERVER_CD
+			  FROM T_SM_PROFILE WITH(NOLOCK)
+ 			 WHERE 1=1
+			   AND COMPANY_CD = #{COMPANY_CD}
+			   AND CODE = #{SERVER_NAME}
+		]]>
+    </select>
+	
+</mapper>

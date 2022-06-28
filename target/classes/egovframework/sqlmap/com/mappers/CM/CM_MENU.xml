@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                     
+	 메뉴관리 mapper                                                                                 
+-->																											  
+<mapper namespace="CM_MENU">                                                                                                                                                                                           
+    <!-- 메뉴 관리 마스터 클릭시 디테일 조회 -->
+    <select id="CM_MENU_DETAIL" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            <![CDATA[
+          SELECT                                                                                                                                                                              
+				LANG_CD       
+  			   ,MENU_CD     
+  			   ,MENU_NM     
+  		 	   ,MENU_LEVEL  
+  		   	   ,MENU_GRP    
+  			   ,HIGH_MENU_CD
+  		       ,MENU_ID     
+  			   ,MENU_ORDER  
+  			   ,MENU_PARAM  
+  			   ,MENU_STATUS 
+	   	 	   ,DESCRIPTION 
+  			   ,USE_YN      
+  			   ,SHOW_YN     
+       
+			FROM CM_MENU
+			WHERE HIGH_MENU_CD = #{MENU_CD}
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </select>
+    
+    <insert id="CM_MENU_DETAIL_SAVE_I" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+          INSERT INTO CM_MENU(                                                                                                                                                                            
+				LANG_CD       
+  			   ,MENU_CD     
+  			   ,MENU_NM     
+  		 	   ,MENU_LEVEL  
+  		   	   ,MENU_GRP    
+  			   ,HIGH_MENU_CD
+  		       ,MENU_ID     
+  			   ,MENU_ORDER  
+  			   ,MENU_PARAM  
+  			   ,MENU_STATUS 
+	   	 	   ,DESCRIPTION 
+  			   ,USE_YN      
+  			   ,SHOW_YN
+  			   ,REG_PGM_ID
+			   ,REG_USER
+			   ,REG_DT
+			   ,REG_DT_LOC
+			   ,REG_IP
+			   ,REG_DT_CURR    
+       		) VALUES (
+       			#{LANG_CD}       
+  			   ,#{MENU_CD}     
+  			   ,#{MENU_NM}     
+  		 	   ,#{MENU_LEVEL}  
+  		   	   ,#{MENU_GRP}    
+  			   ,#{HIGH_MENU_CD}
+  		       ,#{MENU_ID}     
+  			   ,#{MENU_ORDER}  
+  			   ,#{MENU_PARAM}  
+  			   ,#{MENU_STATUS} 
+	   	 	   ,#{DESCRIPTION} 
+  			   ,#{USE_YN}      
+  			   ,#{SHOW_YN}
+  			   ,#{REG_PGM_ID}
+			   ,#{REG_USER}
+			   ,SYSDATE
+			   ,#{REG_DT_LOC}
+			   ,#{REG_IP}
+			   ,#{REG_DT_CURR}
+       		)	
+	
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </insert>
+    <update id="CM_MENU_DETAIL_SAVE_U" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+          UPDATE CM_MENU SET                                                                                                                                                                             
+				LANG_CD     = #{LANG_CD}   
+  			   ,MENU_CD     = #{MENU_CD}
+  			   ,MENU_NM     = #{MENU_NM}
+  		 	   ,MENU_LEVEL  = #{MENU_LEVEL}
+  		   	   ,MENU_GRP    = #{MENU_GRP}
+  			   ,HIGH_MENU_CD= #{HIGH_MENU_CD}
+  		       ,MENU_ID     = #{MENU_ID}
+  			   ,MENU_ORDER  = #{MENU_ORDER}
+  			   ,MENU_PARAM  = #{MENU_PARAM}
+  			   ,MENU_STATUS = #{MENU_STATUS}
+	   	 	   ,DESCRIPTION = #{DESCRIPTION}
+  			   ,USE_YN      = #{USE_YN}
+  			   ,SHOW_YN     = #{SHOW_YN}
+  			   ,MOD_PGM_ID = #{REG_PGM_ID}
+			   ,MOD_USER = #{REG_USER}
+			   ,MOD_DT = SYSDATE    
+			   ,MOD_DT_CURR = 'null'
+			   ,MOD_DT_LOC = #{REG_DT_LOC}
+			   ,MOD_IP = #{REG_IP}  
+			                        
+		WHERE MENU_CD = #{MENU_CD}
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </update>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

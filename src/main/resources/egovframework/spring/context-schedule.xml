@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- 작업 정의  -->
+	<!-- fileDelete (엑셀 다운로드 후 서버에 남은 엑셀 파일 삭제) -->
+	<bean id="fileDeleteEvent" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="excelFileDelete" />	<!-- service 명 -->
+		<property name="targetMethod" value="quartzExcelDeleteFiles" />	<!-- service 내의 method 명 -->
+		<property name="concurrent" value="false" />
+	</bean>
+	
+	<!-- 이벤트 정의 -->
+	<!--
+		0 0 12 * * *		매일 12시에 실행 
+		0 15 10 * * *		매일 10시 15분에 실행 
+		0 * 14 * * *		매일 14시에 0분~59분까지 매분 실행
+		0 0/5 14 * * *		매일 14시에 시작해서 5분 간격으로 실행 
+		0 0/5 14,18 * * *	매일 14시, 18시에 시작해서 5분 간격으로 실행 
+		0 0-5 14 * * *		매일 14시에 0분, 1분, 2분, 3분, 4분, 5분에 실행 
+		0 0 20 ? * MON-FRI	월~금일 20시 0분 0초에 실행 
+		0 0/5 14 * * ?		아무요일, 매월, 매일 14:00부터 14:05분까지 매분 0초 실행 (6번 실행됨)
+		0 15 10 ? * 6L		매월 마지막 금요일 아무날이나 10:15:00에 실행
+		0 15 10 15 * ?		아무요일, 매월 15일 10:15:00에 실행 
+		* /1 * * * *		매 1분마다 실행
+		* /10 * * * *		매 10분마다 실행 
+	 -->
+	
+	<!-- fileDelete Trigger -->
+	<bean id="fileDeleteEventTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="fileDeleteEvent" />
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+	<!-- 스케줄러 정의 -->
+	<bean id="batchScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="fileDeleteEventTrigger" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

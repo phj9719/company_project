@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CMA040CT
+    * 프로그램 명     : 일반코드관리
+    * Description     : 일반코드관리
+    *================================================================
+      작성일자    |  작성자    |  비고
+    *================================================================
+      2021-05-20  |      | 최초작성
+    *===============================================================
+    * Statement List  |  Description
+    *================================================================
+-->                                                                                
+<mapper namespace="NUA003CT">                                                                                                                                                                                   
+   <select id="NUA003CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+				SELECT COMPANY_CD
+				       , (SELECT COMPANY_NM
+		                FROM T_CM_COMPANY C
+		                WHERE A.COMPANY_CD = C.COMPANY_CD) AS COMPANY_NM
+						, A.SERVICE_TP
+						, A.GRP_CD
+						, A.GRPNM
+						, A.REMARK
+						, A.USER_VISIBLE_YN
+						, A.USE_YN
+						, A.TITLE1
+						, A.TITLE2
+						, A.TITLE3
+						, A.TITLE4
+						, A.TITLE5
+						, A.TITLE6
+						, A.TITLE7
+						, A.TITLE8
+						, A.TITLE9
+						, A.TITLE10
+						, A.STR1
+						, A.STR2
+						, A.STR3
+						, A.STR4
+						, A.STR5
+						, A.STR6
+						, A.STR7
+						, A.STR8
+						, A.STR9
+						, A.STR10
+						, A.REG_PGM_ID
+						, A.REG_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+						, A.REG_DT
+						, A.REG_DT_CURR
+						, A.REG_DT_LOC
+						, A.REG_IP
+						, A.MOD_PGM_ID
+						, A.MOD_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+						, A.MOD_DT
+						, A.MOD_DT_CURR
+						, A.MOD_DT_LOC
+						, A.MOD_IP 
+					FROM T_CM_CODE_GRP A
+				   WHERE 1=1
+				   	 AND GRP_CD NOT IN ('NU_COMM_QUE_OBJ_TP') -- SCT에서 관리 설문유형
+             ]]>
+             	<if test="COMPANY_CD != '' and COMPANY_CD != null">
+	            AND    COMPANY_CD = #{COMPANY_CD}
+		        </if>	
+	            <if test="SERVICE_TP != '' and SERVICE_TP != null">
+	            AND    SERVICE_TP = #{SERVICE_TP}
+		        </if>			
+	            <if test="APPLICATION_TP != '' and APPLICATION_TP != null">
+	            AND    APPLICATION_TP = #{APPLICATION_TP}
+		        </if>
+               <if test="GRP_CD != '' and GRP_CD != null">
+                    AND GRP_CD LIKE  CONCAT('%', #{GRP_CD},'%')
+               </if>
+                <if test="GRPNM != '' and GRPNM != null">
+                    AND GRPNM LIKE  CONCAT('%', #{GRPNM},'%')
+               </if>
+	            <if test="USE_YN != '' and USE_YN != null">
+	            AND    USE_YN = #{USE_YN}
+		        </if>               
+               ORDER BY GRP_CD                                                                                                                                                                            
+    </select>
+    
+    <insert id="NUA003CT_DS_HEAD_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+                INSERT INTO T_CM_CODE_GRP
+                ( COMPANY_CD
+                , GRP_CD
+                , GRPNM
+                , SERVICE_TP
+                , REMARK
+                , USE_YN
+                , USER_VISIBLE_YN
+                , TITLE1
+                , TITLE2
+                , TITLE3
+                , TITLE4
+                , TITLE5
+                , TITLE6
+                , TITLE7
+                , TITLE8
+                , TITLE9
+                , TITLE10
+                , STR1
+				, STR2
+				, STR3
+				, STR4
+				, STR5
+				, STR6
+				, STR7
+				, STR8
+				, STR9
+				, STR10
+                , REG_PGM_ID
+                , REG_USER
+                , REG_DT
+                , REG_DT_CURR
+                , REG_DT_LOC
+                , REG_IP
+                , MOD_PGM_ID
+                , MOD_USER
+                , MOD_DT
+                , MOD_DT_CURR
+                , MOD_DT_LOC
+                , MOD_IP
+                ) VALUES
+                ( #{COMPANY_CD}
+                , #{GRP_CD}
+                , #{GRPNM}
+                , #{SERVICE_TP}
+                , #{REMARK}
+                , #{USE_YN}
+                , #{USER_VISIBLE_YN}
+                , #{TITLE1}
+                , #{TITLE2}
+                , #{TITLE3}
+                , #{TITLE4}
+                , #{TITLE5}
+                , #{TITLE6}
+                , #{TITLE7}
+                , #{TITLE8}
+                , #{TITLE9}
+                , #{TITLE10}
+                , #{STR1}
+				, #{STR2}
+				, #{STR3}
+				, #{STR4}
+				, #{STR5}
+				, #{STR6}
+				, #{STR7}
+				, #{STR8}
+				, #{STR9}
+				, #{STR10}
+                , #{REG_PGM_ID}
+                , #{REG_USER}
+                , #{REG_DT}
+                , #{REG_DT_CURR}
+                , #{REG_DT_LOC}
+                , #{REG_IP}
+                , ''
+                , ''
+                , ''
+                , ''
+                , ''
+                , ''
+                )
+    ]]>                                                                                                                                                                                                            
+    </insert>
+    <update id="NUA003CT_DS_HEAD_U" parameterType="java.util.Map">                                                                                    
+    <![CDATA[  
+                UPDATE T_CM_CODE_GRP
+                SET    GRP_CD          = #{GRP_CD}
+                ,      GRPNM           = #{GRPNM}
+                ,      SERVICE_TP      = #{SERVICE_TP}
+                ,      REMARK          = #{REMARK}
+                ,      USE_YN          = #{USE_YN}
+                ,      USER_VISIBLE_YN = #{USER_VISIBLE_YN}
+                ,      TITLE1          = #{TITLE1}
+                ,      TITLE2          = #{TITLE2}
+                ,      TITLE3          = #{TITLE3}
+                ,      TITLE4          = #{TITLE4}
+                ,      TITLE5          = #{TITLE5}
+                ,      TITLE6          = #{TITLE6}
+                ,      TITLE7          = #{TITLE7}
+                ,      TITLE8          = #{TITLE8}
+                ,      TITLE9          = #{TITLE9}
+                ,      TITLE10         = #{TITLE10}
+                ,      STR1            = #{STR1}  
+				,      STR2            = #{STR2}  
+				,      STR3            = #{STR3}  
+				,      STR4            = #{STR4}  
+				,      STR5            = #{STR5}  
+				,      STR6            = #{STR6}  
+				,      STR7            = #{STR7}  
+				,      STR8            = #{STR8}  
+				,      STR9            = #{STR9}  
+				,      STR10           = #{STR10} 
+                ,      MOD_PGM_ID      = #{MOD_PGM_ID}
+                ,      MOD_USER        = #{MOD_USER}
+                ,      MOD_DT          = #{MOD_DT}
+                ,      MOD_DT_CURR     = #{MOD_DT_CURR}
+                ,      MOD_DT_LOC      = #{MOD_DT_LOC}
+                ,      MOD_IP          = #{MOD_IP}
+                WHERE  COMPANY_CD      = #{COMPANY_CD}
+                AND SERVICET_TP = #{SERVICE_TP}
+                AND    GRP_CD          = #{GRP_CD}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <delete id="NUA003CT_DS_HEAD_D" parameterType="java.util.Map">                                                                                         
+    <![CDATA[
+    BEGIN NOT ATOMIC
+          DELETE FROM T_CM_CODE_GRP
+                WHERE COMPANY_CD = #{COMPANY_CD}
+                  AND SERVICE_TP = #{SERVICE_TP}
+                  AND GRP_CD     = #{GRP_CD} ;
+                
+          DELETE FROM T_CM_CODE
+                WHERE COMPANY_CD = #{COMPANY_CD}
+                  AND SERVICE_TP = #{SERVICE_TP}
+                  AND GRP_CD     = #{GRP_CD} ;
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete> 
+      
+   <select id="NUA003CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	          SELECT CC.COMPANY_CD  AS COMPANY_CD,
+	                 CC.GRP_CD      AS GRP_CD,
+	                 CC.CMCD        AS CMCD,
+	                 CC.CMNM        AS CMNM,
+	                 CC.CMCD        AS ORG_CMCD,
+	                 CC.SERVICE_TP  AS SERVICE_TP,
+	                 CC.USEYN       AS USEYN,
+	                 CC.STR1        AS STR1,
+	                 CC.STR2        AS STR2,
+	                 CC.STR3        AS STR3,
+	                 CC.STR4        AS STR4,
+	                 CC.STR5        AS STR5,
+	                 CC.STR6        AS STR6,
+	                 CC.STR7        AS STR7,
+	                 CC.STR8        AS STR8,
+	                 CC.STR9        AS STR9,
+	                 CC.STR10       AS STR10,
+	                 CC.REG_PGM_ID  AS REG_PGM_ID,
+	                 CC.REG_USER    AS REG_USER,
+	                 (SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE CC.COMPANY_CD = CU.COMPANY_CD
+					     AND CC.SERVICE_TP = CU.SERVICE_TP
+					     AND CC.REG_USER = CU.USER_ID) AS REG_USER_NM,
+	                 CC.REG_DT      AS REG_DT,
+	                 CC.REG_DT_CURR AS REG_DT_CURR,
+	                 CC.REG_DT_LOC  AS REG_DT_LOC,
+	                 CC.REG_IP      AS REG_IP,
+	                 CC.MOD_PGM_ID  AS MOD_PGM_ID,
+	                 CC.MOD_USER    AS MOD_USER,
+	                 (SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE CC.COMPANY_CD = CU.COMPANY_CD
+					     AND CC.SERVICE_TP = CU.SERVICE_TP
+					     AND CC.MOD_USER = CU.USER_ID) AS MOD_USER_NM,
+	                 CC.MOD_DT      AS MOD_DT,
+	                 CC.MOD_DT_CURR AS MOD_DT_CURR,
+	                 CC.MOD_DT_LOC  AS MOD_DT_LOC,
+	                 CC.MOD_IP      AS MOD_IP
+	            FROM T_CM_CODE CC
+	           WHERE CC.COMPANY_CD = #{COMPANY_CD}
+	           	 AND CC.SERVICE_TP = #{SERVICE_TP}
+	           	 AND CC.GRP_CD = #{GRP_CD}
+	        ORDER BY CC.CMCD
+
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <insert id="NUA003CT_DS_DETAIL_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+                INSERT INTO T_CM_CODE
+                  (COMPANY_CD,
+                   GRP_CD,
+                   SERVICE_TP,
+                   CMCD,
+                   CMNM,
+                   USEYN,
+                   STR1,
+                   STR2,
+                   STR3,
+                   STR4,
+                   STR5,
+                   STR6,
+                   STR7,
+                   STR8,
+                   STR9,
+                   STR10,
+                   REG_PGM_ID,
+                   REG_USER,
+                   REG_DT,
+                   REG_DT_CURR,
+                   REG_DT_LOC,
+                   REG_IP,
+                   MOD_PGM_ID,
+                   MOD_USER,
+                   MOD_DT,
+                   MOD_DT_CURR,
+                   MOD_DT_LOC,
+                   MOD_IP)
+                VALUES
+                  (#{COMPANY_CD},
+                   #{GRP_CD},
+                   #{SERVICE_TP},
+                   #{CMCD},
+                   #{CMNM},
+                   #{USEYN},
+                   #{STR1},
+                   #{STR2},
+                   #{STR3},
+                   #{STR4},
+                   #{STR5},
+                   #{STR6},
+                   #{STR7},
+                   #{STR8},
+                   #{STR9},
+                   #{STR10},
+                   #{REG_PGM_ID},
+                   #{REG_USER},
+                   #{REG_DT},
+                   #{REG_DT_CURR},
+                   #{REG_DT_LOC},
+                   #{REG_IP},
+                   '',
+                   '',
+                   '',
+                   '',
+                   '',
+                   '')
+
+    ]]>                                                                                                                                                                                                            
+    </insert>
+    <update id="NUA003CT_DS_DETAIL_U" parameterType="java.util.Map">                                                                                    
+    <![CDATA[  
+                         UPDATE T_CM_CODE
+                            SET GRP_CD      = #{GRP_CD},
+                                CMCD        = #{CMCD},
+                                CMNM        = #{CMNM},
+                                USEYN       = #{USEYN},
+                                STR1        = #{STR1},
+                                STR2        = #{STR2},
+                                STR3        = #{STR3},
+                                STR4        = #{STR4},
+                                STR5        = #{STR5},
+                                STR6        = #{STR6},
+                                STR7        = #{STR7},
+                                STR8        = #{STR8},
+                                STR9        = #{STR9},
+                                STR10       = #{STR10},
+                                MOD_PGM_ID  = #{MOD_PGM_ID},
+                                MOD_USER    = #{MOD_USER},
+                                MOD_DT      = #{MOD_DT},
+                                MOD_DT_CURR = #{MOD_DT_CURR},
+                                MOD_DT_LOC  = #{MOD_DT_LOC},
+                                MOD_IP      = #{MOD_IP}
+                          WHERE COMPANY_CD = #{COMPANY_CD}
+                            AND SERVICE_TP  = #{SERVICE_TP}
+                            AND GRP_CD = #{GRP_CD}
+                            AND CMCD = #{ORG_CMCD}
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <delete id="NUA003CT_DS_DETAIL_D" parameterType="java.util.Map">                                                                                         
+    <![CDATA[
+				  DELETE FROM T_CM_CODE
+				   WHERE COMPANY_CD = #{COMPANY_CD}
+				     AND SERVICE_TP = #{SERVICE_TP}
+				     AND GRP_CD     = #{GRP_CD}
+				     AND CMCD       = #{CMCD}
+
+    ]]>                                                                                                                                                                                                            
+    </delete>                                                                                                    
+</mapper>                                                                                                                                                                                                          

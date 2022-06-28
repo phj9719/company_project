@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-03-02 16:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA380QR                                                         
+     * 프로그램 명  		: 반려문서함
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-02 16:00     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA380QR">
+	<select id="CMA380QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		SELECT GAC.COMPANY_CD
+		     , GAC.PLANT_CD
+		     , GAC.PK_DOC_NO
+		     , GAC.GRP_DOC_NO
+		     , GAC.DOC_NM
+		     , GAC.DOC_DATE
+		     , GAC.DOC_WRITER
+		     , GAC.DOC_DEPT
+		     , CASE WHEN GAC.URGENT = 1
+		     		THEN 'Urgent'
+		     		ELSE 'Not Urgent' END AS URGENT
+		     , GAC.ACC_SUB_SYS
+		     , GAC.APPL_DOC_SBJT
+		     , GAC.GRP_DOC_KIND
+		     , GAC.RPT_DOC_NO
+		     , GAC.RPT_SUBJECT
+		     , GAC.RPT_CNT
+		     , GAC.UBI_VEW
+		     , GAC.UBI_VEW_PARM
+		     , GAC.MDFY_YN
+		     , CONVERT(CHAR(16), GAC.FIRST_RPT_DT, 20) AS FIRST_RPT_DT
+		     , GAC.RPT_WRITE
+		     , CONVERT(CHAR(16), GAC.APPL_RPT_DT, 20) AS APPL_RPT_DT
+		     , CONVERT(CHAR(16), GAC.APPVL_PRC_DT, 20) AS APPVL_PRC_DT
+		     , GAC.APPVL_PRC_CHARGE
+		     , CONVERT(CHAR(16), GAC.FNL_APPVL_DT, 20) AS FNL_APPVL_DT
+		     , GAC.FNL_APPVL_CHARGE
+		     , GAC.APPVL_PRC_FLAG
+		     , CONCAT((SELECT COUNT(*)
+				            FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				            WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				            AND GAC.PLANT_CD   = A.PLANT_CD
+				            AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				            AND A.FNL_READ_DT IS NOT NULL) , '/', (SELECT COUNT(*)
+				                                                   FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				                                                   WHERE GAC.COMPANY_CD = B.COMPANY_CD
+				                                                   AND   GAC.PLANT_CD   = B.PLANT_CD
+				                                                   AND   GAC.PK_DOC_NO  = B.PK_DOC_NO
+				                                                   ))			AS R_CNT				-- 열람자 수		     
+		     , GAC.DOC_PRC_RVW
+		     , GAC.DOC_SND_DT
+		     , GAC.DOC_RCV_DT
+		     , CONVERT(CHAR(16), GAC.FRST_READ_DT, 20) AS FRST_READ_DT
+		     , GAC.FRST_READ_STS
+		     , GAC.ATTACH_FILE_YN
+		     , GAC.ATTACH_FILE_NM
+		     , GAC.ATTACH_GRP_ID
+		     , GAC.WK_FLAG
+		     , GAC.WK_FIELD
+		     , GAC.TRANS_JOB_ID
+		     , GAC.TRANS_ST
+		     , GAC.TRANS_RST_STS
+		     , GAC.SND_RCV_CD
+		     , GAC.REF_USER_KEY
+		     , GAC.REG_PGM_ID
+		     , GAC.REG_USER
+		     , GAC.REG_DT
+		     , GAC.REG_DT_CURR
+		     , GAC.REG_DT_LOC
+		     , GAC.REG_IP
+		     , GAC.MOD_PGM_ID
+		     , GAC.MOD_USER
+		     , GAC.MOD_DT
+		     , GAC.MOD_DT_CURR
+		     , GAC.MOD_DT_LOC
+		     , GAC.MOD_IP
+		  FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+		 WHERE GAC.APPVL_PRC_FLAG IN ('RT') -- 반려 문서
+		   AND GAC.COMPANY_CD = #{COMPANY_CD}
+	    <!--  		 
+		<if test="USER_DEPT > '1000020' ">  해무/관리부문장, 해사부문장
+		   AND GAC.DOC_DEPT IN (SELECT A.DEPT_CODE
+		   						  FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		   						 WHERE A.COMPANY_CD = GAC.COMPANY_CD
+		   						   AND A.P_DEPT_CODE = (SELECT B.P_DEPT_CODE
+		   						   						  FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+		   						   						 WHERE A.COMPANY_CD = B.COMPANY_CD
+		   						   						   AND B.DEPT_CODE  = {USER_DEPT}))
+		</if>
+		<if test="USER_DEPT lt '1000020' ">  사장, 해무/관리부문장, 해사부문장 제외
+		   AND GAC.DOC_DEPT = {USER_DEPT}
+		</if> 
+		 -->
+		<if test="PLANT_CD != '' and PLANT_CD != null">
+		   AND GAC.PLANT_CD   = #{PLANT_CD}
+		</if>
+		<if test="DOC_DEPT1 != '1000021' and DOC_DEPT1 != '1000022' and DOC_DEPT1 != '1000020' and AUTH != 40">
+		   AND GAC.DOC_DEPT   = #{DOC_DEPT}
+		</if>
+		<if test="DOC_DEPT1 == 1000021"> -- 해무/관리부문장
+		    AND	(SELECT A.P_DEPT_CODE
+		                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000007'      -- 해무팀, 관리팀 2가지를 볼 수 있는 권한을 가짐
+		</if>		
+		<if test="DOC_DEPT1 == 1000022"> -- 해사부문장
+			AND	(SELECT A.P_DEPT_CODE
+		                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000008'      -- 공무팀, 안전운항팀 2가지를 볼 수 있는 권한을 가짐
+		</if>
+		<if test="DOC_WRITER != '' and DOC_WRITER != null">
+		   AND GAC.DOC_WRITER = #{DOC_WRITER}
+		</if>
+		<if test="DOC_DATE != '' and DOC_DATE != null">
+		   AND GAC.DOC_DATE  >= #{DOC_DATE}
+		</if>
+		<if test="PK_DOC_NO != '' and PK_DOC_NO != null">
+		   AND GAC.PK_DOC_NO LIKE CONCAT ('%', #{PK_DOC_NO}, '%')
+		</if>
+		<if test="APPVL_PRC_FLAG != '' and APPVL_PRC_FLAG != null">
+		   AND GAC.APPVL_PRC_FLAG = #{APPVL_PRC_FLAG}
+		</if>
+		
+		 ORDER
+		    BY GAC.URGENT DESC
+		     , GAC.DOC_DATE DESC
+    </select>
+    
+    
+    
+</mapper>                                                                                                                                                                                                                                        

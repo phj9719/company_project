@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00405
+     * 프로그램 명     	: 4-5 월간 출석률·송영집계
+     * Description 		: 월별 출석, 송영, 식사 집계 조회
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-03 09:40        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00405_DS_LIST1_S		수급자별 월간 출석·송영집계 조회
+        DAY00405_DS_LIST2_S		월간 출석, 송영, 식사 집계 조회
+     *================================================================
+-->
+<mapper namespace="DAY00405">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 수급자별 월간 출석·송영집계 조회 -->
+    <select id="DAY00405_DS_LIST1_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-5 조회 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.등급
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND bm.m_reday &gt;= #{DATE_FROM}
+        AND bm.m_enday &lt;= #{DATE_TO}
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      mat.ord1
+    , mat.거주현황
+    , mat.m_group
+    , mat.m_name
+    , mat.성별
+    , mat.등급
+    , mat.m_roomname
+    , SUM(dat.제공유무) AS 일수
+    , SUM(dat.아침식수) AS 아침
+    , SUM(dat.점심식수) AS 점심
+    , SUM(dat.저녁식수) AS 저녁
+    , mat.m_enday
+    , mat.m_reday
+    , CASE
+        WHEN mat.m_reday != '2100-01-01' THEN mat.m_reday
+        ELSE NULL
+      END AS 퇴소일
+    , '' AS 조회
+    , mat.m_code
+    , CONCAT(
+        SUBSTRING(mat.m_jumin1, 1, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 3, 2)
+      , '-'
+      , SUBSTRING(mat.m_jumin1, 5)
+      ) AS 생일
+    FROM mate mat
+    LEFT JOIN
+    (
+        SELECT
+          kmr.k_name
+        , kmr.k_code
+        , DATE_FORMAT(kmr.k_nalja, '%d') AS kday
+        , SUM(CASE
+            WHEN SUBSTRING(kmr.미입소, 1, 1) = 1 THEN 1
+            ELSE 0
+          END) AS 미입소
+        , SUM(CASE
+            WHEN SUBSTRING(kmr.미입소, 1, 1) &gt; 0 THEN 0
+            ELSE
+              CASE
+                WHEN ((SUBSTRING(kmr.종료시간, 1, 2) * 60) + SUBSTRING(kmr.종료시간, 4, 2)) &gt; 0 AND ((SUBSTRING(kmr.시작시간, 1, 2) * 60) + SUBSTRING(kmr.시작시간, 4, 2)) &gt; 0 THEN
+                  CASE
+                    WHEN ((SUBSTRING(kmr.종료시간, 1, 2) * 60) + SUBSTRING(kmr.종료시간, 4, 2)) - ((SUBSTRING(kmr.시작시간, 1, 2) * 60) + SUBSTRING(kmr.시작시간, 4, 2)) &gt;= 0 THEN 1
+                    ELSE 0
+                  END
+                ELSE 0
+              END
+          END) AS 제공유무
+        , SUM(CASE WHEN kmr.아침종류 &gt; 0 THEN 1 ELSE 0 END) AS 아침식수
+        , SUM(CASE WHEN kmr.점심종류 &gt; 0 THEN 1 ELSE 0 END) AS 점심식수
+        , SUM(CASE WHEN kmr.저녁종류 &gt; 0 THEN 1 ELSE 0 END) AS 저녁식수
+        , SUM(CASE WHEN kmr.아침종류 &gt; 0 THEN 1 ELSE 0 END)
+          + SUM(CASE WHEN kmr.점심종류 &gt; 0 THEN 1 ELSE 0 END)
+          + SUM(CASE WHEN kmr.저녁종류 &gt; 0 THEN 1 ELSE 0 END) AS 식수합
+        FROM kmrecord kmr
+        WHERE kmr.sicode = #{SICODE}
+        AND kmr.k_nalja &gt;= #{DATE_FROM}
+        AND kmr.k_nalja &lt; DATE_ADD(#{DATE_FROM}, INTERVAL 1 MONTH)
+        GROUP BY
+          kmr.k_name
+        , kmr.k_code
+        , DATE_FORMAT(kmr.k_nalja, '%d')
+    ) AS dat
+    ON (mat.m_code = dat.k_code)
+    GROUP BY
+      mat.ord1
+    , mat.m_name
+    ORDER BY
+      mat.ord1
+    , mat.m_name
+    </select>
+    
+    <!-- 월간 출석, 송영, 식사 집계 조회 -->
+    <select id="DAY00405_DS_LIST2_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-5 월간 출석, 송영, 식사 집계 조회 */
+    WITH RECURSIVE line_num AS
+    (
+        SELECT 1 rnum
+        UNION ALL
+        SELECT lin.rnum + 1 AS rnum
+        FROM line_num lin
+        WHERE lin.rnum &lt; DATE_FORMAT(LAST_DAY(#{DATE_FROM}), '%d')
+    )
+    , mate AS
+    (
+        SELECT 
+          CASE 
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2)  AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+        AND bm.m_reday &gt;= #{DATE_FROM}
+        AND bm.m_enday &lt;= #{DATE_TO}
+        ORDER BY
+          1
+        , bm.m_name
+    )
+    SELECT
+      DATE_FORMAT(STR_TO_DATE(CONCAT(#{MON}, LPAD(mai.rnum, 2, '0')), '%Y%m%d'), '%Y.%m.%d') AS nalja
+    , CASE DATE_FORMAT(STR_TO_DATE(CONCAT(#{MON}, LPAD(mai.rnum, 2, '0')), '%Y%m%d'), '%w')
+        WHEN 0 THEN '(일)'
+        WHEN 1 THEN '(월)'
+        WHEN 2 THEN '(화)'
+        WHEN 3 THEN '(수)'
+        WHEN 4 THEN '(목)'
+        WHEN 5 THEN '(금)'
+        WHEN 6 THEN '(토)'
+      END AS 요일
+    , mai.현인원
+    , dat.출석
+    , dat.남자
+    , dat.여자
+    , dat.시작거주지y
+    , dat.시작거주지n
+    , dat.종료거주지y
+    , dat.종료거주지n
+    , dat.야간
+    , dat.아침
+    , dat.점심
+    , dat.저녁
+    , dat.식수합
+    FROM
+    (
+        SELECT
+          lin.rnum
+        , SUM(CASE WHEN mat.m_reday &gt;= DATE_ADD(#{DATE_FROM}, INTERVAL lin.rnum - 1 DAY)
+                        AND mat.m_enday &lt;= DATE_ADD(#{DATE_FROM}, INTERVAL lin.rnum - 1 DAY) THEN 1 ELSE 0 END) AS 현인원
+        FROM line_num lin
+        JOIN mate mat
+        ON (mat.m_reday &gt;= DATE_ADD(#{DATE_FROM}, INTERVAL lin.rnum - 1 DAY)
+            AND mat.m_enday &lt;= DATE_ADD(#{DATE_TO}, INTERVAL lin.rnum - 1 DAY))
+        GROUP BY lin.rnum
+    ) AS mai
+    LEFT JOIN
+    (
+        SELECT
+          sub.mday
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN 1 ELSE 0 END) AS 출석
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.남자 ELSE 0 END) AS 남자
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.여자 ELSE 0 END) AS 여자
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.시작거주지y ELSE 0 END) AS 시작거주지y
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.시작거주지n ELSE 0 END) AS 시작거주지n
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.종료거주지y ELSE 0 END) AS 종료거주지y
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.종료거주지n ELSE 0 END) AS 종료거주지n
+        , SUM(CASE WHEN sub.미이용 = 0 AND sub.출석 = 1 THEN sub.야간 ELSE 0 END) AS 야간
+        , SUM(CASE WHEN sub.미이용 = 0 THEN sub.아침 ELSE 0 END) AS 아침
+        , SUM(CASE WHEN sub.미이용 = 0 THEN sub.점심 ELSE 0 END) AS 점심
+        , SUM(CASE WHEN sub.미이용 = 0 THEN sub.저녁 ELSE 0 END) AS 저녁
+        , SUM(CASE WHEN sub.미이용 = 0 THEN sub.아침 + sub.점심 + sub.저녁 ELSE 0 END) AS 식수합
+        , SUM(sub.미이용) AS 미이용
+        FROM
+        (
+            SELECT
+              SUBSTRING(kmr.시작시간, 1, 2) * 60 + SUBSTRING(kmr.시작시간, 4, 2) AS 시작분
+            , SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2) AS 종료분
+            <!-- , CASE 
+                WHEN (SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2) &gt;= 60
+                    AND SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2) - SUBSTRING(kmr.시작시간, 1, 2) * 60 + SUBSTRING(kmr.시작시간, 4, 2) &gt; 0) THEN 1 
+                ELSE 0 
+              END AS 출석 -->
+            , CASE WHEN (kmr.종료시간 != '' AND kmr.종료시간 IS NOT NULL) AND SUBSTRING(kmr.미입소, 1, 1) &lt; 1 THEN 1 ELSE 0 END AS 출석
+            , CASE WHEN SUBSTRING(kmr.종료시간, 1, 2) * 60 + SUBSTRING(kmr.종료시간, 4, 2) &gt; 1080 THEN 1 ELSE 0 END AS 야간
+            , CASE WHEN mat.성별 = '남' THEN 1 ELSE 0 END AS 남자
+            , CASE WHEN mat.성별 = '여' THEN 1 ELSE 0 END AS 여자
+            , CASE WHEN kmr.시작거주지 = 'Y' THEN 1 ELSE 0 END AS 시작거주지y
+            , CASE WHEN kmr.시작거주지 = 'Y' THEN 0 ELSE 1 END AS 시작거주지n
+            , CASE WHEN kmr.종료거주지 = 'Y' THEN 1 ELSE 0 END AS 종료거주지y
+            , CASE WHEN kmr.종료거주지 = 'Y' THEN 0 ELSE 1 END AS 종료거주지n
+            , CASE WHEN SUBSTRING(kmr.미입소, 1, 1) &gt; 0 THEN 1 ELSE 0 END AS 미이용
+            , CASE WHEN kmr.아침종류 &gt; 0 THEN 1 ELSE 0 END AS 아침
+            , CASE WHEN kmr.점심종류 &gt; 0 THEN 1 ELSE 0 END AS 점심
+            , CASE WHEN kmr.저녁종류 &gt; 0 THEN 1 ELSE 0 END AS 저녁
+            , CAST(DATE_FORMAT(kmr.k_nalja, '%d') AS INT) AS mday
+            FROM mate mat
+            LEFT JOIN kmrecord kmr
+            ON (kmr.sicode = mat.sicode
+                AND kmr.k_code = mat.m_code
+                AND kmr.k_nalja &lt;= mat.m_reday
+                AND kmr.k_nalja &gt;= mat.m_enday
+                AND kmr.k_nalja &gt;= #{DATE_FROM}
+                AND kmr.k_nalja &lt;= #{DATE_TO})
+        ) AS sub
+        GROUP BY sub.mday
+    ) AS dat
+    ON (mai.rnum = dat.mday)
+    </select>
+</mapper>

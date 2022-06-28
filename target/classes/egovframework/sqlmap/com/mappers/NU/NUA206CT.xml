@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA206CT                                                         
+     * 프로그램 명     : 건강기록일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA206CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA206CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.PRE_SEQ
+					,A.RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION          
+					,A.FROM_DT
+					,A.TO_DT
+					,A.MED_NM
+					,A.MED_CD
+					,TRUNCATE(A.ONE_DOSE,4) AS ONE_DOSE
+					,A.DAILY_DOSE_CNT
+					,A.REGULAR_YN
+					,A.DOSE_TP
+					,A.BREAKFAST_YN
+					,A.LUNCH_YN
+					,A.DINNNER_YN
+					,A.BED_YN
+					,A.MANAGER_ID
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+					,A.REMARK
+					,A.FILE_GRP_ID
+					,(SELECT CONCAT(#{URL},CF.FILE_REAL_NAME)
+						FROM T_CM_FILE CF
+					   WHERE CF.COMPANY_CD = A.COMPANY_CD
+					   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID
+					   	 AND CF.DELETE_YN = 'N'
+					   	 LIMIT 1) AS FILE_REAL_NAME
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_NU_PREDISCRIPTION A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+               WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="NAME != '' and NAME != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.NAME LIKE CONCAT('%', #{NAME},'%') ) 
+              </if>
+              <if test="AREA != '' and AREA != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.AREA = #{AREA}) 
+              </if>
+              <if test="LOCATION != '' and LOCATION != null">
+                    AND A.RES_ID IN (SELECT NR.RES_ID
+						   			   FROM T_NU_RESIDENT NR
+					   	  			  WHERE NR.COMPANY_CD  = #{COMPANY_CD}
+					   	  				AND NR.LOCATION = #{LOCATION}) 
+              </if>
+              <if test="DT != '' and DT != null">                    
+                    AND A.TO_DT >= #{DT}								                    				    			  	
+              </if>
+               ORDER BY ROWNUM ASC, A.FROM_DT ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUA206CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_PREDISCRIPTION (                                                                                                                                                                                 
+					         COMPANY_CD
+							,PRE_SEQ
+							,RES_ID
+							,FROM_DT
+							,TO_DT
+							,MED_NM
+							,MED_CD
+							,ONE_DOSE
+							,DAILY_DOSE_CNT
+							,REGULAR_YN
+							,DOSE_TP
+							,BREAKFAST_YN
+							,LUNCH_YN
+							,DINNNER_YN
+							,BED_YN
+							,MANAGER_ID
+							,REMARK
+							,FILE_GRP_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      #{COMPANY_CD  }
+						 ,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_PREDISCRIPTION ),12,0)))
+						 ,#{RES_ID        }
+						 ,#{FROM_DT       }
+						 ,#{TO_DT         }
+						 ,#{MED_NM        }
+						 ,#{MED_CD        }
+						 ,#{ONE_DOSE      }
+						 ,#{DAILY_DOSE_CNT}
+						 ,#{REGULAR_YN    }
+						 ,#{DOSE_TP       }
+						 ,#{BREAKFAST_YN  }
+						 ,#{LUNCH_YN      }
+						 ,#{DINNNER_YN    }
+						 ,#{BED_YN        }
+						 ,#{MANAGER_ID    }
+						 ,#{REMARK        }
+						 ,#{FILE_GRP_ID   }
+						 ,#{REG_PGM_ID  }
+						 ,#{REG_USER    }
+						 ,#{REG_DT      }
+						 ,#{REG_DT_CURR }
+						 ,#{REG_DT_LOC  }
+						 ,#{REG_IP      }
+						 ,#{MOD_PGM_ID  }
+						 ,#{MOD_USER    }
+						 ,#{MOD_DT      }
+						 ,#{MOD_DT_CURR }
+						 ,#{MOD_DT_LOC  }
+						 ,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUA206CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_PREDISCRIPTION                                                                                                                                                                                              
+						 SET RES_ID         = #{RES_ID        }
+							,FROM_DT        = #{FROM_DT       }
+							,TO_DT          = #{TO_DT         }
+							,MED_NM         = #{MED_NM        }
+							,MED_CD         = #{MED_CD        }
+							,ONE_DOSE       = #{ONE_DOSE      }
+							,DAILY_DOSE_CNT = #{DAILY_DOSE_CNT}
+							,REGULAR_YN     = #{REGULAR_YN    }
+							,DOSE_TP        = #{DOSE_TP       }
+							,BREAKFAST_YN   = #{BREAKFAST_YN  }
+							,LUNCH_YN       = #{LUNCH_YN      }
+							,DINNNER_YN     = #{DINNNER_YN    }
+							,BED_YN         = #{BED_YN        }
+							,MANAGER_ID     = #{MANAGER_ID    }
+							,REMARK         = #{REMARK        }
+							,FILE_GRP_ID    = #{FILE_GRP_ID   }
+							,MOD_PGM_ID     = #{MOD_PGM_ID  }
+							,MOD_USER       = #{MOD_USER    }
+							,MOD_DT         = #{MOD_DT      }
+							,MOD_DT_CURR    = #{MOD_DT_CURR }
+							,MOD_DT_LOC     = #{MOD_DT_LOC  }
+							,MOD_IP         = #{MOD_IP      }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND PRE_SEQ = #{PRE_SEQ}                       
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="NUA206CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_NU_PREDISCRIPTION
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND PRE_SEQ = #{PRE_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+      <select id="NUA206CT_DS_LOCATION_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+				      ,LOCATION AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select>  
+      <select id="NUA206CT_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY ROOM  
+     ]]>                                                                                                                                                                 
+    </select>    
+     <select id="NUA206CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('7')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+    
+    <insert id="NUA206CT_INSERT_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+			INSERT INTO T_CM_FILE
+			(
+			  COMPANY_CD
+			, FILE_GRP_ID
+			, FILE_ID
+			, FILE_NAME
+			, FILE_REAL_NAME
+			, FILE_SIZE
+			, DELETE_YN
+			, REG_PGM_ID
+			, REG_USER
+			, REG_DT
+			, REG_DT_CURR
+			, REG_DT_LOC
+			, REG_IP
+			, MOD_PGM_ID
+			, MOD_USER
+			, MOD_DT
+			, MOD_DT_CURR
+			, MOD_DT_LOC
+			, MOD_IP
+			)
+			SELECT 
+				#{COMPANY_CD}
+				, #{FILE_GRP_ID}
+				, (SELECT COUNT(*)+1
+				 FROM T_CM_FILE A
+				WHERE A.COMPANY_CD = #{COMPANY_CD}
+				  AND A.FILE_GRP_ID = #{FILE_GRP_ID}) AS FILE_ID
+				, FILE_NAME
+				, FILE_REAL_NAME
+				, FILE_SIZE
+				, 'N' AS DELETE_YN
+				, #{REG_PGM_ID}
+				, #{REG_USER}
+				, #{REG_DT}
+				, #{REG_DT_CURR}
+				, #{REG_DT_LOC}
+				, #{REG_IP}
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+				, ''
+	      FROM T_CM_FILE
+	      WHERE COMPANY_CD = #{COMPANY_CD}
+	      	AND FILE_GRP_ID = #{SELECT_FILE_GRP_ID}
+	      	AND DELETE_YN = 'N'
+          ]]>
+	</insert>
+	
+	<update id="NUA206CT_DELETE_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+             UPDATE T_CM_FILE
+             SET    DELETE_YN = 'Y'
+				  , MOD_PGM_ID    = #{MOD_PGM_ID}
+				  , MOD_USER      = #{MOD_USER}
+				  , MOD_DT        = #{MOD_DT}
+				  , MOD_DT_CURR   = #{MOD_DT_CURR}
+				  , MOD_DT_LOC    = #{MOD_DT_LOC}
+				  , MOD_IP        = #{MOD_IP}
+			 WHERE  COMPANY_CD    = #{COMPANY_CD}
+			 AND    FILE_GRP_ID = #{FILE_GRP_ID}
+			 AND    DELETE_YN   = 'N'
+          ]]>
+	</update>     
+	
+	<!-- 층 조회 -->
+    <select id="NUA206CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+    	]]>                
+    </select>
+    
+    <!-- 생활실 조회 -->
+    <select id="NUA206CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT COMPANY_CD
+			      ,LOC_SEQ
+			      ,ARE_CD
+			      ,LOC_CD
+			      ,LOC_NM
+			      ,LOC_TP
+			      ,USE_YN
+			FROM T_NU_LOCATION
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOC_TP = '10'
+    	]]>
+    	<if test="AREA != '' and AREA != null">
+			AND ARE_CD = #{AREA}
+        </if>                                                                                                                                                                 
+    </select>                                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

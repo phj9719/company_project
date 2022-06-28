@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00717_P02                                                         
+     * 프로그램 명     	: 소독기록 가져오기                                                
+     * Description 	: 실내·외 정기소독일지 목록 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-07 15:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00717_P02_DS_LIST_S		조회
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00717_P02">
+	<!-- 조회 -->
+    <select id="DAY00717_P02_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-17 P02 조회 */
+    SELECT
+      bg.sicode
+    , bg.소독일
+    , bg.소독제품
+    , bg.소독장소
+    , bg.소독자명
+    FROM base_germ bg
+    WHERE bg.sicode = #{SICODE}
+    AND bg.소독일 <![CDATA[<]]> #{DATE}
+    ORDER BY bg.소독일 DESC
+    </select>
+</mapper>                                                                                                                                                                                                          

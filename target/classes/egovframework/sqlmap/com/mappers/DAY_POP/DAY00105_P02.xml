@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00105_P02                                                       
+     * 프로그램 명     	: 목욕제공기록조회                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-03 17:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00105_P02">
+	<select id="DAY00105_P02_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00105_P02_DS_LIST_S */
+		SELECT B.sicode
+			, B.ba_code
+			, B.ba_name
+			, bm.거주현황
+			, bm.m_group
+			, bm.성별 AS sex_nm
+			, bm.m_roomname
+			, B.ba_cnt
+			, B.ba_mm_01
+			, B.ba_mm_02
+			, B.ba_mm_03
+			, B.ba_mm_04
+			, B.ba_mm_05
+			, B.ba_mm_06
+			, B.ba_mm_07
+			, B.ba_mm_08
+			, B.ba_mm_09
+			, B.ba_mm_10
+			, B.ba_mm_11
+			, B.ba_mm_12
+		FROM (
+			SELECT ba1.sicode
+			  , ba1.ba_code
+			  , ba1.ba_name
+			  , SUM(ba1.ba_cnt) AS ba_cnt
+			  , MAX(IF(ba1.ba_mm = '01', ba1.ba_cnt, '')) AS ba_mm_01
+			  , MAX(IF(ba1.ba_mm = '02', ba1.ba_cnt, '')) AS ba_mm_02
+			  , MAX(IF(ba1.ba_mm = '03', ba1.ba_cnt, '')) AS ba_mm_03
+			  , MAX(IF(ba1.ba_mm = '04', ba1.ba_cnt, '')) AS ba_mm_04
+			  , MAX(IF(ba1.ba_mm = '05', ba1.ba_cnt, '')) AS ba_mm_05
+			  , MAX(IF(ba1.ba_mm = '06', ba1.ba_cnt, '')) AS ba_mm_06
+			  , MAX(IF(ba1.ba_mm = '07', ba1.ba_cnt, '')) AS ba_mm_07
+			  , MAX(IF(ba1.ba_mm = '08', ba1.ba_cnt, '')) AS ba_mm_08
+			  , MAX(IF(ba1.ba_mm = '09', ba1.ba_cnt, '')) AS ba_mm_09
+			  , MAX(IF(ba1.ba_mm = '10', ba1.ba_cnt, '')) AS ba_mm_10
+			  , MAX(IF(ba1.ba_mm = '11', ba1.ba_cnt, '')) AS ba_mm_11
+			  , MAX(IF(ba1.ba_mm = '12', ba1.ba_cnt, '')) AS ba_mm_12
+			FROM (
+				SELECT ba.sicode
+				  , ba.ba_code
+				  , ba.ba_name
+				  , ba.ba_mm
+				  , COUNT(*) AS ba_cnt
+				FROM (
+					SELECT DATE_FORMAT(bb.ba_nalja,'%Y%m') AS ba_ym
+					  , DATE_FORMAT(bb.ba_nalja,'%m') AS ba_mm
+					  , bb.*
+					FROM base_bath bb
+					WHERE 1=1
+					  AND bb.sicode = #{sicode}
+					  AND bb.ba_nalja BETWEEN #{date_from} AND #{date_to}
+				) ba
+				GROUP BY ba.sicode
+				  , ba.ba_code
+				  , ba.ba_name
+				  , ba.ba_ym
+				  , ba.ba_mm
+			) ba1
+			GROUP BY ba1.sicode
+			     , ba1.ba_code
+			     , ba1.ba_name
+		) B
+		INNER JOIN (
+			SELECT sicode
+				, m_code
+				, 거주현황
+				, m_group
+				, 성별
+				, m_roomname
+			FROM base_mate
+			WHERE sicode = #{sicode}
+			<if test="m_group != '전체'">
+			  AND m_group = #{m_group}
+			</if>
+		) bm
+		  ON B.sicode = bm.sicode
+		  AND B.ba_code = bm.m_code
+		ORDER BY B.sicode, bm.m_group, B.ba_name
+	</select>
+	
+	<select id="DAY00105_P02_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* DAY00105_P02_DS_DETAIL_S */
+		SELECT BB.sicode
+			, DATE_FORMAT(BB.ba_nalja, '%Y.%m.%d') AS ba_nalja
+			, BB.ba_code
+			, BB.ba_name
+			, CASE WHEN BB.제공방법 = '1' THEN '전신입욕'					
+					WHEN BB.제공방법 = '2' THEN '목욕의자'					
+					WHEN BB.제공방법 = '3' THEN '침상'					
+					WHEN BB.제공방법 = '4' THEN '목욕거부'					
+					WHEN BB.제공방법 = '5' THEN '미입소'					
+					ELSE '' END AS ba_type_nm
+			, BB.제공방법
+			, BB.목욕시간
+			, BB.담당자01
+			, BB.담당자02
+			, CASE WHEN IFNULL(KR.시작시간,'') = '' AND IFNULL(KR.종료시간,'') = '' THEN NULL						
+				             ELSE CONCAT(KR.시작시간,'-',KR.종료시간) END AS 송영시간
+			, BM.성별 AS sex_nm
+			, BM.m_group
+		FROM (
+			SELECT sicode
+				, ba_nalja
+				, ba_code
+				, ba_name
+				, 제공방법
+				, 목욕시간
+				, 담당자01
+				, 담당자02
+			FROM base_bath
+			WHERE sicode = #{sicode}
+			  AND ba_nalja BETWEEN #{date_from} AND #{date_to}
+		) BB
+		INNER JOIN (
+			SELECT sicode
+				, m_code
+				, 성별
+				, m_group
+			FROM base_mate
+			WHERE sicode = #{sicode}
+			<if test="m_group != '전체'">
+			  AND m_group = #{m_group}
+			</if>
+		) BM
+		ON BB.sicode = BM.sicode
+		  AND BB.ba_code = BM.m_code
+		LEFT OUTER JOIN (
+			SELECT sicode
+				, k_code
+				, k_nalja
+				, 시작시간
+				, 종료시간
+			FROM kmrecord
+			WHERE sicode = #{sicode}
+		) KR
+		ON BB.sicode = KR.sicode
+		  AND BB.ba_code = KR.k_code
+		  AND BB.ba_nalja = KR.k_nalja
+		ORDER BY BB.sicode, BB.ba_name, BB.ba_nalja	
+	</select>
+</mapper>

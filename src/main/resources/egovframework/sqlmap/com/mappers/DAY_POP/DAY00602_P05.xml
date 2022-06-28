@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00602_P05                                                    
+     * 프로그램 명  :                                                      
+     * Description 	: 
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+      20220627       	|  이동관		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                 
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00602_P05">
+	<!-- 조회 -->
+    <select id="DAY00602_P05_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P05 LIST 조회 */
+	SELECT epr.e_code
+	     , epr.e_name
+	     , bex.e_성별
+	     , bex.e_dutyname
+	     , epr.prono
+	  FROM base_exprg epr
+	  JOIN base_exname bex
+	    ON (   bex.sicode = epr.sicode
+	   AND bex.e_code = epr.e_code)
+	 WHERE epr.sicode = #{sicode}
+	   AND epr.prono = #{prono}
+ 	 ORDER
+ 	    BY epr.e_code
+	</select>
+</mapper>

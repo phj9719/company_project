@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC203QR" width="480" height="1000" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="예약목록" onclick="formClick" onload="NUC203QR_onload">
+    <Layouts>
+      <Layout width="480" height="1000" screenid="Mobile" stepcount="0">
+        <Static id="sta_mainTitle" taborder="0" text="비대면 예약 서비스" left="5.00%" top="20" height="40" cssclass="sta_title" right="5.00%" onclick="formClick"/>
+        <Static id="sta_mainText" taborder="1" text="요양원 직접방문 / 영상통화 예약 및 예약상태 확인" left="5.00%" top="62" height="30" cssclass="sta_txt" right="5.00%" onclick="formClick"/>
+        <Div id="div_btnDiv" taborder="2" text="Div00" left="0%" top="110" height="50" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_visit" taborder="0" text="직접방문" left="0" top="2" width="33%" bottom="0" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" onclick="div_btnDiv_btn_visit_onclick" border="0px none,0px none,3px solid #cccccc" color="#cccccc"/>
+              <Button id="btn_phone" taborder="1" text="영상통화" left="33%" top="2" width="33%" bottom="0" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" onclick="div_btnDiv_btn_phone_onclick" border="0px none,0px none,3px solid #cccccc" color="#cccccc"/>
+              <Button id="btn_list" taborder="2" text="예약목록" left="66%" top="2" bottom="0" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" border="0px none,0px none,5px solid #082c71" width="34%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_list" taborder="3" left="5.00%" top="180" right="5.00%" bottom="22" autofittype="col" cssclass="grid2" binddataset="ds_list">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="170"/>
+                <Column size="120"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="일시"/>
+                <Cell col="1" text="신청내역"/>
+                <Cell col="2" text="상태"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:VIS_DT_TIME"/>
+                <Cell col="1" text="bind:VIS_TP" displaytype="combotext" combodataset="ds_nu_visit_tp" combodatacol="CMNM" combocodecol="CMCD"/>
+                <Cell col="2" text="bind:VIS_APPLY" displaytype="combotext" combodataset="ds_nu_reservation" combodatacol="CMNM" combocodecol="CMCD"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="VIS_DT_TIME" type="STRING" size="256"/>
+          <Column id="VIS_TP" type="STRING" size="256"/>
+          <Column id="VIS_APPLY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_visit_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_reservation">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC203QR
+ * 화면명   	: 예약목록
+ * 화면설명 	: 모바일에서 보호자가 예약한 내역을 조회
+ * 작성일    	: 2021-09-06
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2021-09-27		조기종		DB변경으로 인한 FAM_ID 삭제
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC203QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	// 조회조건
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+		+ "sqlId=NUC203QR.NUC203QR_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 영상통화
+this.div_btnDiv_btn_phone_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const id = "NUC202CT";
+	const url = "MobileFrame::NUC202CT.xfdl";
+	const title = "예약하기";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 직접방문
+this.div_btnDiv_btn_visit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const id = "NUC201CT";
+	const url = "MobileFrame::NUC201CT.xfdl";
+	const title = "예약하기";
+
+	this.mMenuOpen(id, url, title);
+};
+]]></Script>
+  </Form>
+</FDL>

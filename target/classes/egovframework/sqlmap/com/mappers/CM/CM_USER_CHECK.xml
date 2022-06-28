@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="CM_USER_CHECK">
+
+	<!-- 사용자 아이디 확인 -->
+    <select id="idCheck" parameterType="java.lang.String" resultType="java.util.Map">                                                                       
+    <![CDATA[
+			SELECT  
+			       USER_ID                        
+			      ,USER_PASSWD          
+			  FROM T_CM_USER
+			 WHERE
+			 	   USER_ID = #{USER_ID}                                                                                    
+     ]]>
+    </select>
+    
+    <!-- 사용자 아이디 확인 (시설코드 추가) -->
+    <select id="idCheck2" parameterType="java.util.Map" resultType="java.util.Map">
+    	SELECT
+    			USER_ID
+    		,	USER_PASSWD
+    		,	USE_YN
+    	FROM 	T_CM_USER
+    	WHERE 	USER_ID = #{USER_ID}
+    	AND		COMPANY_CD = #{COMPANY_CD}
+    	AND		SERVICE_TP = #{SERVICE_TP}
+    </select>
+    
+    <select id="idLicenseCheck" parameterType="java.util.Map" resultType="java.util.Map">
+    	SELECT
+				COMPANY_CD
+			,	START_DT
+			,	END_DT
+		FROM 	T_CM_COMPANY
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND 	SERVICE_TP = #{SERVICE_TP}
+		AND 	DATE_FORMAT(NOW(), '%Y%m%d') BETWEEN START_DT AND END_DT
+		<if test="COMPANY_CD != null and COMPANY_CD != '' and COMPANY_CD.equals('001')">
+		OR		END_DT IS NULL;
+		</if>
+    </select>
+    
+    <!-- 모바일 입소자 로그인 -->
+    <select id="mobileIdCheck" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT
+    			COMPANY_CD
+    		,	RES_ID
+    		,	NAME
+    		,	APP_PW
+    	FROM	T_NU_RESIDENT
+    	WHERE	COMPANY_CD = #{COMPANY_CD}
+    	AND		NAME = #{NAME}
+    </select>
+    
+    <!-- 모바일 보호자 계정 활성화 여부 -->
+    <select id="mobileIdLicenseCheck" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    SELECT
+    			COMPANY_CD
+    		,	RES_ID
+    		,	RETIRE_DT
+    	FROM	T_NU_RESIDENT NR
+    	WHERE	RES_ID = #{USER_ID}
+    	AND		COMPANY_CD = #{COMPANY_CD}
+    	AND		RETIRE_DT IS NOT NULL
+    	AND		RETIRE_DT <![CDATA[<]]> DATE_FORMAT(NOW(), '%Y%m%d')
+    </select>
+    
+    <!-- 모바일 보호자 계정 정보 -->
+    <select id="mobileUserInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT
+    			NR.COMPANY_CD
+    		,	NR.RES_ID
+    		, 	NR.NAME AS RES_NAME
+    		,	NR.JU1
+    		,	NR.FAM_NM
+    		,	NR.FAM_CON
+    		,	CAST(AES_DECRYPT(UNHEX(NR.FAM_TEL1), CC.STR1) AS CHAR) AS FAM_TEL1
+    		,	CAST(AES_DECRYPT(UNHEX(NR.FAM_TEL2), CC.STR1) AS CHAR) AS FAM_TEL2
+    		,	NR.ZIP_CODE
+    		,	NR.ADDR1
+    		,	NR.ADDR2
+    		,	NR.ADDR3
+    		,	NR.ADDR4
+    		,	NR.REF_SYS_RES_ID
+    		,	NR.TOS_YN
+    		,	(SELECT CF.FILE_REAL_NAME
+    			 FROM	T_CM_FILE CF
+    			 WHERE	CF.COMPANY_CD = NR.COMPANY_CD
+    			 AND	CF.FILE_GRP_ID = NR.FILE_GRP_ID
+    			 AND	CF.DELETE_YN = 'N'
+    			 LIMIT 1) AS FILE_REAL_NAME
+    	FROM	T_NU_RESIDENT NR
+    		,	T_CM_CODE CC
+    	WHERE	NR.COMPANY_CD = CC.COMPANY_CD
+    	AND		CC.GRP_CD = 'CM_AES_KEY'
+    	AND		CC.CMCD = '10'
+    	AND		NR.RES_ID = #{USER_ID}
+    	AND		NR.COMPANY_CD = #{COMPANY_CD}
+    </select>
+    
+    <!-- 모바일 메뉴 -->
+    <select id="mobileLoginMenu" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	WITH RECURSIVE R_SORT_MENU AS (
+		              SELECT A.COMPANY_CD
+                  ,      A.SERVICE_TP
+                  ,      A.APPLICATION_TP
+	              ,      A.MENU_CD
+	              ,      A.MENU_NM
+	              ,      A.MENU_LEVEL
+	              ,      A.MENU_ORDER
+	              ,      A.HIGH_MENU_CD
+	              ,      A.MENU_ID
+	              ,      A.MENU_PARAM
+	              ,      A.MENU_STATUS
+	              ,      A.DESCRIPTION
+	              ,      A.USE_YN
+	              ,      A.SHOW_YN
+                  ,      A.MENU_ORDER AS SORT
+	              ,      SUBSTRING(A.MENU_CD, 1, 2) AS MENU_GRP
+	              ,		 A.PAGE_URL
+	              FROM   T_CM_MENU A
+	              WHERE  A.HIGH_MENU_CD = '00000000'
+	              AND    A.APPLICATION_TP = #{APPLICATION_TP}
+                  AND    A.SERVICE_TP = #{SERVICE_TP}
+	              UNION  ALL
+	              SELECT B.COMPANY_CD
+                  ,      B.SERVICE_TP
+                  ,      B.APPLICATION_TP
+	              ,      B.MENU_CD
+	              ,      B.MENU_NM
+	              ,      B.MENU_LEVEL
+	              ,      B.MENU_ORDER
+	              ,      B.HIGH_MENU_CD
+	              ,      B.MENU_ID
+	              ,      B.MENU_PARAM
+	              ,      B.MENU_STATUS
+	              ,      B.DESCRIPTION
+	              ,      B.USE_YN
+	              ,      B.SHOW_YN
+                  ,      CONCAT_WS('>', A.SORT, B.MENU_ORDER) AS SORT
+	              ,      A.MENU_GRP
+	              ,		 B.PAGE_URL
+	              FROM   R_SORT_MENU A 
+	              INNER
+	              JOIN   T_CM_MENU B
+	              ON     B.HIGH_MENU_CD = A.MENU_CD
+	              AND    B.COMPANY_CD   = A.COMPANY_CD
+                  AND    B.SERVICE_TP   = A.SERVICE_TP
+                  AND    B.APPLICATION_TP = A.APPLICATION_TP
+	            )
+	            SELECT B.RES_ID
+	            ,	   A.COMPANY_CD
+	            ,	   A.SERVICE_TP
+	            ,	   A.APPLICATION_TP
+	            ,      A.MENU_CD
+	            ,	   A.MENU_NM
+	            ,      A.MENU_LEVEL
+	            ,      A.MENU_ORDER
+	            ,      A.MENU_GRP
+	            ,      A.HIGH_MENU_CD
+	            ,      A.MENU_ID
+	            ,      A.PAGE_URL
+	            ,      A.MENU_PARAM
+	            ,      A.MENU_STATUS
+	            ,      A.DESCRIPTION
+	            ,      A.USE_YN
+	            ,      A.SHOW_YN
+	            ,	   CONCAT(A.COMPANY_CD, "_", A.MENU_GRP) AS C_MENU_GRP
+	            FROM   R_SORT_MENU A
+               	INNER
+               	JOIN   T_NU_RESIDENT B
+               	ON     B.COMPANY_CD = A.COMPANY_CD
+ 
+	        	WHERE  A.COMPANY_CD = #{COMPANY_CD}
+	            AND    A.USE_YN     = 'Y'
+	            AND    B.RES_ID    = #{USER_ID}
+
+	            ORDER
+	            BY    A.SORT
+	]]>
+    </select>
+    
+    <!-- 사용자별 권한에 따른 메뉴 가져오기(관리자웹, 보호사웹앱) -->
+    <select id="loginMenu_auth" parameterType="java.lang.String" resultType="java.util.HashMap">
+         <![CDATA[             
+					WITH RECURSIVE R_SORT_MENU AS (
+			              SELECT A.COMPANY_CD
+	                  ,      A.SERVICE_TP
+	                  ,      A.APPLICATION_TP
+		              ,      A.MENU_CD
+		              ,      A.MENU_NM
+		              ,      A.MENU_LEVEL
+		              ,      A.MENU_ORDER
+		              ,      A.HIGH_MENU_CD
+		              ,      A.MENU_ID
+		              ,      A.MENU_PARAM
+		              ,      A.MENU_STATUS
+		              ,      A.DESCRIPTION
+		              ,      A.USE_YN
+		              ,      A.SHOW_YN
+	                  ,      A.MENU_ORDER AS SORT
+		              ,      SUBSTRING(A.MENU_CD, 1, 2)                         AS MENU_GRP
+		              ,		 A.PAGE_URL
+		              FROM   T_CM_MENU A
+		              WHERE  A.HIGH_MENU_CD = '00000000'
+		              AND    A.APPLICATION_TP = #{APPLICATION_TP}
+	                  AND    A.SERVICE_TP = #{SERVICE_TP}
+		              UNION  ALL
+		              SELECT B.COMPANY_CD
+	                  ,      B.SERVICE_TP
+	                  ,      B.APPLICATION_TP
+		              ,      B.MENU_CD
+		              ,      B.MENU_NM
+		              ,      B.MENU_LEVEL
+		              ,      B.MENU_ORDER
+		              ,      B.HIGH_MENU_CD
+		              ,      B.MENU_ID
+		              ,      B.MENU_PARAM
+		              ,      B.MENU_STATUS
+		              ,      B.DESCRIPTION
+		              ,      B.USE_YN
+		              ,      B.SHOW_YN
+	                  ,      CONCAT_WS('>', A.SORT, B.MENU_ORDER) AS SORT
+		              ,      A.MENU_GRP
+		              ,		 B.PAGE_URL
+		              FROM   R_SORT_MENU A 
+		              INNER
+		              JOIN   T_CM_MENU B
+		              ON     B.HIGH_MENU_CD = A.MENU_CD
+		              AND    B.COMPANY_CD   = A.COMPANY_CD
+                 	  AND    B.SERVICE_TP   = A.SERVICE_TP
+	                  AND    B.APPLICATION_TP = A.APPLICATION_TP
+		            )
+		            SELECT D.USER_ID
+		            ,	   A.COMPANY_CD
+		            ,	   A.SERVICE_TP
+		            ,	   A.APPLICATION_TP
+		            ,      A.MENU_CD
+		            ,	   A.MENU_NM
+		            ,      A.MENU_LEVEL
+		            ,      A.MENU_ORDER
+		            ,      A.MENU_GRP
+		            ,      A.HIGH_MENU_CD
+		            ,      A.MENU_ID
+		            ,      A.PAGE_URL
+		            ,      A.MENU_PARAM
+		            ,      A.MENU_STATUS
+		            ,      A.DESCRIPTION
+		            ,      A.USE_YN
+		            ,      A.SHOW_YN
+		            ,      D.CLS_AUTH
+		            ,      D.SEAR_AUTH
+		            ,      D.ADD_AUTH
+		            ,      D.SAVE_AUTH
+		            ,      D.DEL_AUTH
+		            ,      D.PRN_AUTH
+		            ,      D.APPV_AUTH
+		            ,	   CONCAT(A.COMPANY_CD, "_", A.MENU_GRP) AS C_MENU_GRP
+		            FROM   R_SORT_MENU A
+		            INNER
+		            JOIN   ( /* USER 한명이 다중 ROLE 을 사용할경우 체크된 모든 권한을 보여줌 */
+		                     SELECT B.COMPANY_CD
+		                     ,      C.USER_ID
+		                     ,      B.MENU_CD
+                         ,      B.SERVICE_TP
+                         ,      B.APPLICATION_TP
+		                     ,      MAX(B.CLS_AUTH)      AS CLS_AUTH
+		                     ,      MAX(B.SEAR_AUTH)     AS SEAR_AUTH
+		                     ,      MAX(B.ADD_AUTH)      AS ADD_AUTH
+		                     ,      MAX(B.SAVE_AUTH)     AS SAVE_AUTH
+		                     ,      MAX(B.DEL_AUTH)      AS DEL_AUTH
+		                     ,      MAX(B.PRN_AUTH)      AS PRN_AUTH
+		                     ,      MAX(B.APPV_AUTH)     AS APPV_AUTH
+		                     FROM   T_CM_USER_ROLE C
+		                     INNER
+		                     JOIN   T_CM_GROUP_MENU B
+		                     ON     B.COMPANY_CD = C.COMPANY_CD
+		                     AND    B.GRP_CD     = C.GRP_CD
+                         AND    B.SERVICE_TP = C.SERVICE_TP
+                         AND    B.APPLICATION_TP = C.APPLICATION_TP
+		                     GROUP
+		                     BY     B.COMPANY_CD
+		                     ,      C.USER_ID
+		                     ,      B.MENU_CD
+		                   ) D
+		            ON     D.COMPANY_CD = A.COMPANY_CD
+		            AND    D.MENU_CD    = A.MENU_CD
+	                AND    D.SERVICE_TP = A.SERVICE_TP
+	                AND    D.APPLICATION_TP = A.APPLICATION_TP
+		            INNER
+		            JOIN   T_CM_USER E
+		            ON     E.COMPANY_CD = D.COMPANY_CD
+		            AND    E.USER_ID    = D.USER_ID
+	                AND    E.SERVICE_TP = D.SERVICE_TP
+		            LEFT
+		            JOIN   T_CM_MENU_ID F
+		            ON     F.MENU_ID = A.MENU_ID
+                	AND    F.SERVICE_TP = A.SERVICE_TP
+	                AND    F.APPLICATION_TP = A.APPLICATION_TP
+	                AND	   F.COMPANY_CD = A.COMPANY_CD
+		            WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		            AND    A.USE_YN     = 'Y'
+		            AND    E.USE_YN     = 'Y'
+		            AND	   A.SHOW_YN    = 'Y'
+		            AND    E.USER_ID    = #{USER_ID}
+		            
+		            ORDER
+		            BY    A.SORT
+
+  		 ]]>        
+    </select>
+    
+    <!-- 사업장 리스트 들고오기 --> <!-- 삭제 -->
+    <select id="getBIZLIST" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+				SELECT 
+			          COMPANY_CD                        
+					, BIZ_CD                          
+					, LOCALE_CD                       
+					, DATE_FR                         
+					, DATE_TO                         
+					, BIZ_NM                          
+					, BIZ_NM_ENG                      
+					, BIZ_NO                          
+					, TAX_OFFICE_NM                   
+					, CORP_NO                         
+					, FINNANCIAL_YEAR                 
+					, PRESIDENT_NM                    
+					, PRESIDENT_NM_ENG                
+					, PRESIDENT_ID_NO                 
+					, NATIVE_YN                       
+					, FOREIGN_ID_NO                   
+					, BIZ_ADDRESS_ID                  
+					, BIZ_ADDRESS_ENG_ID              
+					, TEL_NO                          
+					, FAX_NO                          
+					, BIZ_TP                          
+					, BIZ_ITM                         
+					, BIZ_START_DT                    
+					, BIZ_LAST_DT                     
+					, MAIN_COMP_YN                    
+					, CORP_TP                         
+					, INIT_STOCK_TRANSFER_DT          
+					, PRICE_APPLYING_STANDARD         
+					, FISCAL_MONTH                    
+					, STOCK_ASSET_EVALUATION_STANDAD  
+					, ACCESS_CERT_YN                  
+					, PASSWD                          
+					, SLIP_APPROVE_YN                 
+					, TOTAL_PAYMENT_YN                
+					, PERFORM_CONDITION_REPORT_YN     
+					, JURISDICTION_TAX_OFFICE         
+					, MAIN_BIZ_ITM_CD                 
+					, INHABIT_TAX_PAY_PLACE           
+					, E_REPORT_CHARGER                
+					, E_REPORT_ID                     
+					, NATIONAL_TAX_RETURN_ACCOUNT_CD  
+					, ZIP_CD                          
+					, TAX_OFFICE_CD                   
+					, GOV_TAX_RTN_BANK_CD             
+					, GOV_TAX_RTN_BANK_BRANCH_NM      
+					, TAX_PAYER_TP                    
+					, PRINCIPAL_BIZ_YN                
+					, BIZ_TAX_SEQ                     
+					, REG_PGM_ID                      
+					, REG_USER                        
+					, REG_DT                          
+					, REG_DT_CURR                     
+					, REG_DT_LOC                      
+					, REG_IP                          
+					, MOD_PGM_ID                      
+					, MOD_USER                        
+					, MOD_DT                          
+					, MOD_DT_CURR                     
+					, MOD_DT_LOC                      
+					, MOD_IP                                                            
+			  FROM T_CM_BIZ
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- 부서 리스트 들고오기 --> <!-- 삭제 -->
+    <select id="getDEPTLIST" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			SELECT  
+			        COMPANY_CD
+			      , BIZ_CD         
+				  , MANAGE_DEPT_CD  
+				  , DEPT_CD         
+				  , DEPT_NM         
+				  , DEPT_NM_ENG     
+				  , DEPT_NM_SHORT   
+				  , DEPT_LEVEL      
+				  , HIGH_DEPT_CODE  
+				  , DEPT_ID         
+				  , DEPT_ORDER      
+				  , DEPT_BOTTOM_YN  
+				  , REG_PGM_ID      
+				  , REG_USER        
+				  , REG_DT          
+				  , REG_DT_CURR     
+				  , REG_DT_LOC      
+				  , REG_IP          
+				  , MOD_PGM_ID      
+				  , MOD_USER        
+				  , MOD_DT          
+				  , MOD_DT_CURR     
+				  , MOD_DT_LOC      
+				  , MOD_IP              
+			  FROM T_CM_DEPT                         
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- 로그인한 사용자 정보 들고오기 -->
+    <select id="getuserInfo" parameterType="java.lang.String" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			   SELECT  
+                      A.COMPANY_CD 
+                    , A.SERVICE_TP            
+                    , A.USER_ID          
+                    , A.USER_NO          
+                    , A.USER_PASSWD
+                    , A.RANK_CD
+                    , (SELECT CMNM
+                    	FROM T_CM_CODE CC
+                    	WHERE CC.COMPANY_CD = A.COMPANY_CD
+                    	AND	  CC.SERVICE_TP = A.SERVICE_TP
+                    	AND   CC.CMCD = A.RANK_CD
+                    	AND   CC.GRP_CD = 'CM_RANK_CD') AS RANK_NM
+                    , A.SAL_CD
+                    , A.USER_NM_KOR      
+                    , A.USER_NM_ENG      
+                    , A.USER_NM_CHI      
+                    , A.USE_YN                   
+                    , A.DEPT_CD          
+                    , A.DEPT_NM                  
+                    , A.INOUT_USER_TP
+                    , A.ZIP_CODE
+                    , A.ADDRESS               
+                    , A.TEL_NO 
+                    , A.TEL_NO2                    
+                    , A.FAX_NO           
+                    , A.EMAIL            
+                    , A.DEF_LANG         
+                    , A.AUTH1            
+                    , A.AUTH2            
+                    , A.AUTH3            
+                    , A.AUTH4            
+                    , A.AUTH5   
+                    , A.BIRTH_DT
+                    , A.HIRE_DT
+                    , A.RETIRE_DT
+                    , A.FILE_GRP_ID
+                    ,(SELECT CF.FILE_REAL_NAME
+							FROM T_CM_FILE CF
+						   WHERE CF.COMPANY_CD = A.COMPANY_CD
+						   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID
+						   	 AND CF.DELETE_YN = 'N'
+						   LIMIT 1) AS FILE_REAL_NAME
+                    , A.FILE_GRP_ID2
+                    ,(SELECT CF.FILE_REAL_NAME
+							FROM T_CM_FILE CF
+						   WHERE CF.COMPANY_CD = A.COMPANY_CD
+						   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID2
+						   	 AND CF.DELETE_YN = 'N'
+						   LIMIT 1) AS FILE_REAL_NAME2          
+                    , A.VALID_PERIOD_FR  
+                    , A.VALID_PERIOD_TO  
+                    , A.VALID_PASSWD_DT
+                    , A.REG_PGM_ID       
+                    , A.REG_USER         
+                    , A.REG_DT           
+                    , A.REG_DT_CURR      
+                    , A.REG_DT_LOC       
+                    , A.REG_IP           
+                    , A.MOD_PGM_ID       
+                    , A.MOD_USER         
+                    , A.MOD_DT           
+                    , A.MOD_DT_CURR      
+                    , A.MOD_DT_LOC
+                    ,B.CAMERA_YN
+                    ,B.CAMERA_ID
+                    ,B.CAMERA_PW
+                    ,(SELECT NULLIF(CP.SET_VALUE,'')
+                    	FROM T_CM_PROFILE CP
+                       WHERE CP.COMPANY_CD = A.COMPANY_CD
+                       	 AND CP.CODE = 'chatbot') AS CHATBOT
+                 FROM T_CM_USER A
+           INNER JOIN T_CM_COMPANY B
+           		   ON(B.COMPANY_CD = A.COMPANY_CD)
+                WHERE A.USER_ID = #{USER_ID}
+                AND	  A.COMPANY_CD = #{COMPANY_CD}
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- GDS_PLANT --> <!-- 삭제 -->
+    <select id="getPlant" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+				SELECT  
+			              COMPANY_CD              
+						, PLANT_CD              
+						, PLANT_NM              
+						, PLANT_MAIN_YN         
+						, PLANT_REG_NO          
+						, USE_YN                
+						, DATE_FR               
+						, DATE_TO               
+						, PLANT_ADDRESS_ID      
+						, COUNTRY_CD            
+						, REMARK
+						, STOCK_NEGATIVE_YN     
+						, CALENDAR_CD           
+						, PRODUCT_AUTO_STOCK_YN 
+						, REG_PGM_ID            
+						, REG_USER              
+						, REG_DT                
+						, REG_DT_CURR           
+						, REG_DT_LOC            
+						, REG_IP                
+						, MOD_PGM_ID            
+						, MOD_USER              
+						, MOD_DT                
+						, MOD_DT_CURR           
+						, MOD_DT_LOC            
+						, MOD_IP                                                          
+			  	FROM T_CM_PLANT                         
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- GDS_COMPANY -->
+    <select id="getCompany" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			   SELECT  
+                      A.COMPANY_CD                    
+                    , A.COMPANY_NM
+                    , A.SERVICE_TP
+                    , A.SUB_SERVICE1
+                    , A.SUB_SERVICE2                                   
+                    , A.USE_YN                                             
+                    , A.REG_NO                        
+                    , A.CORP_NO
+                    , A.COUNTRY_CD                       
+                    , A.BIZ_ITM                       
+                    , A.PRESIDENT_NM                  
+                    , A.PRESIDENT_NM_ENG                         
+                    , A.TEL_NO
+                    , A.TEL_NO2                        
+                    , A.FAX_NO                        
+                    , A.BIZ_START_DT                  
+                    , A.BIZ_LAST_DT                   
+                    , A.HOMEPAGE_URL                  
+                    , A.FISCAL_PERIOD
+                    , A.START_DT                       
+                    , A.END_DT                    
+                    , A.PURCHASE_TAX_CALC_TP
+                    , A.REF_SYS_COMP_CD
+                    , A.SALES_TAX_CALC_TP 
+                    , A.TAX_CALC_TP      
+                    , A.PURCHASE_KEY_TP 
+                    , A.BUSINESS_CATEGORY             
+                    , A.BUSINESS_CONDITION   
+                    , A.E_MAIL                
+                    , A.TAX_OFFICE_CD                 
+                    , A.COMPANY_AREA                  
+                    , A.BUSINESS_TP                   
+                    , A.TAX_REPORT_TP                 
+                    , A.TOT_PAY_APPROVAL_NO           
+                    , A.BIZ_UNIT_TAX_APPROVAL_NO      
+                    , A.CALENDAR_CD                   
+                    , A.GROUP_TP                                                  
+                    , IFNULL(A.IMG_SRC,'imagerc::argos_w.png') AS IMG_SRC
+                    , A.ADDRESS
+                    , A.ADDRESS_ENG
+                    , A.REG_PGM_ID                    
+                    , A.REG_USER                      
+                    , A.REG_DT                        
+                    , A.REG_DT_CURR                   
+                    , A.REG_DT_LOC                    
+                    , A.REG_IP                        
+                    , A.MOD_PGM_ID                    
+                    , A.MOD_USER                      
+                    , A.MOD_DT                        
+                    , A.MOD_DT_CURR                   
+                    , A.MOD_DT_LOC                    
+                    , A.MOD_IP                                          
+                 FROM T_CM_COMPANY A   
+     ]]> 
+     <where>
+     	<if test="SERVICE_TP != null and SERVICE_TP != ''">
+     		AND A.SERVICE_TP = #{SERVICE_TP}
+	    </if>                              
+	    <if test="COMPANY_NM != '' and COMPANY_NM != null">
+	     	AND A.COMPANY_NM LIKE CONCAT('%', #{COMPANY_NM}, '%')
+	    </if>
+     </where>                                                                                                                                                                             
+    </select>
+    <!-- MESSAGE -->
+    <select id="getMessage" parameterType="java.lang.String" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+                SELECT A.MSG_ID
+                ,      A.MSG_TYPE
+                ,      A.TITLE
+                ,      B.LANG_CD
+                ,      B.DESCRIPTION
+                ,      A.REG_PGM_ID
+                ,      A.REG_USER
+                ,      A.REG_DT
+                ,      A.REG_DT_CURR
+                ,      A.REG_DT_LOC
+                ,      A.REG_IP
+                ,      A.MOD_PGM_ID
+                ,      A.MOD_USER
+                ,      A.MOD_DT
+                ,      A.MOD_DT_CURR
+                ,      A.MOD_DT_LOC
+                ,      A.MOD_IP
+                FROM   T_CM_MESSAGE A
+                INNER
+                JOIN   T_CM_MESSAGE_DETAIL B
+                ON     B.MSG_ID = A.MSG_ID
+                AND	   B.COMPANY_CD = A.COMPANY_CD
+                WHERE  B.LANG_CD = #{LANG_CD}
+                AND	   B.COMPANY_CD = #{COMPANY_CD}
+                AND	   B.SERVICE_TP = #{SERVICE_TP}
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- WHOUSE -->
+    <select id="getWhouse" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			       SELECT  
+	                      A.COMPANY_CD
+	                    , A.PLANT_CD 
+	                    , A.BIZ_CD
+	                    , A.WHOUSE_CD
+	                    , A.WHOUSE_NM
+	                    , A.START_DT
+	                    , A.END_DT
+	                    , A.USE_YN
+	                    , A.REG_PGM_ID
+	                    , A.REG_USER
+	                    , A.REG_DT
+	                    , A.REG_DT_CURR
+	                    , A.REG_DT_LOC
+	                    , A.REG_IP
+	                    , A.MOD_PGM_ID
+	                    , A.MOD_USER
+	                    , A.MOD_DT
+	                    , A.MOD_DT_CURR
+	                    , A.MOD_DT_LOC
+	                    , A.MOD_IP                                        
+                     FROM T_CM_WHOUSE A                       
+                    WHERE 1=1                      
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- Location --> <!-- 삭제 -->
+    <select id="getLocation" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			   SELECT  
+			          COMPANY_CD
+					, WHOUSE_CD
+					, LOCATION_CD
+					, LOCATION_CD AS LOCATION_NM
+					, CELL_CD
+					, MAX_QTY
+					, MIN_QTY
+					, USE_YN
+					, REG_PGM_ID
+					, REG_USER
+					, REG_DT
+					, REG_DT_CURR
+					, REG_DT_LOC
+					, REG_IP
+					, MOD_PGM_ID
+					, MOD_USER
+					, MOD_DT
+					, MOD_DT_CURR
+					, MOD_DT_LOC
+					, MOD_IP                                       
+			  	 FROM T_CM_LOCATION                     
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- PP Location -->
+    <select id="getPPLocation" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			     SELECT 
+					    COMPANY_CD   
+					  , WHOUSE_CD  
+					  , LOCATION_CD
+					  , LOCATION_NM
+					  , USE_YN     
+					  , REG_PGM_ID 
+					  , REG_USER   
+					  , REG_DT     
+					  , REG_DT_CURR
+					  , REG_DT_LOC 
+					  , REG_IP     
+					  , MOD_PGM_ID 
+					  , MOD_USER   
+					  , MOD_DT     
+					  , MOD_DT_CURR
+					  , MOD_DT_LOC 
+					  , MOD_IP     
+				   FROM T_PP_LOCATION                     
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- 통화정보 --><!-- 삭제 -->
+    <select id="getCurrencyinfo" parameterType="java.lang.String" resultType="java.util.Map">                                                                                                           
+     <![CDATA[
+			    SELECT CCI.COMPANY_CD 
+				,      CCI.CURRENCY_CD
+				,      CCI.CURRENCY_TP
+				,      CCI.DECIMAL_SIZE
+				,      CCI.ROUND_OPTION
+				,      CCI.SET_VALUE
+				FROM   T_CM_CURRENCY_INFO CCI
+				WHERE  CCI.COMPANY_CD = #{COMPANY_CD} 
+				AND    CCI.USE_YN     = 'Y'
+				ORDER  BY
+				       CCI.CURRENCY_TP
+				,      CCI.CURRENCY_CD                        
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- 전송대상서버정보 -->
+    <select id="getServerUrl" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+		<![CDATA[
+			SELECT A.CMCD AS SERVER_CD
+			     , A.STR1 AS IP
+				 , A.STR2 AS REQ_URL
+				 , A.STR3 AS DB_NAME
+			FROM   T_CM_CODE A
+			WHERE  A.GRP_CD = 'TRANS_DEST'
+		]]>
+	<if test="SERVER_CD != '' and SERVER_CD != null">
+			AND    A.CMCD   = #{SERVER_CD}
+	</if>
+    </select>
+    <!-- 로그인한 시간정보 저장 -->
+    <insert id="setLoginTime" parameterType="java.lang.String">                                                                                                           
+     <![CDATA[
+ 			INSERT INTO T_CM_LOGIN (
+		     			  NO
+		     			, COMPANY_CD
+		     			, BIZ_CD
+		     			, PLANT_CD
+		     			, USER_ID
+		     			, USER_NO
+		     			, DEPT_CD
+		     			, DEPT_NM
+		     			, LOGIN_TIME
+		     			, LOGOUT_TIME
+		     			, CONNECT_HOURS
+		     			, LOGIN_IP
+		       ) VALUES (		       			 
+		       			 IFNULL((SELECT MAX(NO) + 1 FROM T_CM_LOGIN AS FOR_SUBQUERY), 1)
+		       		    , #{COMPANY_CD}
+		       		    , '001'
+		       		    , '001'
+		       		    , #{USER_ID}
+		       		    , #{USER_NO}
+		       		    , #{DEPT_CD}
+		       		    , #{DEPT_NM}
+		       		    , NOW()
+		       		    , NULL
+		       		    , NULL
+		       		    , #{LOGIN_IP}
+		       		    )  			                   
+     ]]>                                                                                                                                                                                                              
+    </insert>
+     
+     
+</mapper>                                                                                                                                                                                                          

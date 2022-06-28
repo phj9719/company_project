@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COMMON_CODE" width="1200" height="800" titletext="차트 팝업" onload="COMMON_CODE_onload">
+    <Layouts>
+      <Layout width="1200" height="800">
+        <Div id="div_cont" taborder="0" left="0" top="0" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <BasicChart id="cha_care" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_chart" categorycolumn="bind:HEA_DT" onclick="div_cont_div_right_div_right_up_cha_care_onclick">
+                <Contents><![CDATA[{
+	"title": {
+		"id": "title",
+		"text": "건강측정 추이차트",
+		"textfont": "normal 700 20pt/normal \"Noto Sans KR\"",
+		"padding": "0px 0px 5px"
+	},
+	"legend": {
+		"id": "legend",
+		"padding": "3px 10px 3px 10px",
+		"itemtextfont": "normal 400 9pt/normal \"Noto Sans KR\"",
+		"itemtextcolor": "#4c4c4c"
+	},
+	"hrangebar": {
+		"id": "hrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"vrangebar": {
+		"id": "vrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "normal 400 10pt/normal \"Noto Sans KR\"",
+		"padding": "5px"
+	},
+	"board": {
+		"id": "board",
+		"visible": true
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 12pt '맑은 고딕'",
+		"labeltextcolor": "#6f6f6f",
+		"labeltextfont": "9pt '맑은 고딕'",
+		"axislinestyle": "1px solid #525252",
+		"ticklinestyle": "1px solid #525252",
+		"boardlinestyle": "1px solid #d0d0d0"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "고혈압",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 12pt '맑은 고딕'",
+			"valuecolumn": "bind:PRE_H",
+			"highlightlinevisible": "false",
+			"linevisible": "true",
+			"itemtexttype": "normal",
+			"tooltiptext": "bind:PRE_H",
+			"pointvisible": "false",
+			"pointsize": "5"
+		},
+		{
+			"id": "series1",
+			"titletext": "저혈압",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 12pt '맑은 고딕'",
+			"valuecolumn": "bind:PRE_L",
+			"highlightlinevisible": "false",
+			"linevisible": "true",
+			"pointvisible": "false",
+			"pointsize": "5"
+		},
+		{
+			"id": "series2",
+			"titletext": "식전혈당",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 12pt '맑은 고딕'",
+			"valuecolumn": "bind:SUGAR_FBS",
+			"highlightlinevisible": "false",
+			"linevisible": "true",
+			"pointvisible": "false",
+			"pointsize": "5"
+		},
+		{
+			"id": "series3",
+			"titletext": "식후 2시간 혈당",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#003860",
+			"itemtextfont": "bold 12pt '맑은 고딕'",
+			"valuecolumn": "bind:SUGAR_PP2",
+			"highlightlinevisible": "false",
+			"linevisible": "true",
+			"pointvisible": "false",
+			"pointsize": "5"
+		},
+		{
+			"id": "series4",
+			"titletext": "맥박",
+			"valuecolumn": "bind:PULSE",
+			"barvisible": "false",
+			"highlightlinevisible": "false",
+			"linevisible": "true",
+			"pointvisible": "false",
+			"pointsize": "5",
+			"itemtextvisible": "true"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": true,
+			"boardlinestyle": "1px solid #d0d0d0",
+			"labeltextcolor": "#6f6f6f",
+			"labeltextfont": "10pt/normal '맑은 고딕'",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 12pt '맑은 고딕'",
+			"ticklinestyle": "1px solid #525252",
+			"axislinestyle": "1px solid #525252"
+		}
+	]
+}]]></Contents>
+              </BasicChart>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_chart" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="HEA_DT" type="STRING" size="256"/>
+          <Column id="PRE_H" type="STRING" size="256"/>
+          <Column id="PRE_L" type="STRING" size="256"/>
+          <Column id="SUGAR_FBS" type="STRING" size="256"/>
+          <Column id="SUGAR_PP2" type="STRING" size="256"/>
+          <Column id="PULSE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+var fv_ds = this.parent.ds;	
+this.COMMON_CODE_onload = function (obj:Form, e:nexacro.LoadEventInfo) {
+	
+	this.form_onload_com(obj, e, false);
+	this.div_cont.form.cha_care.set_binddataset(fv_ds);
+	
+};
+
+]]></Script>
+  </Form>
+</FDL>

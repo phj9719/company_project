@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P10                                                        
+     * 프로그램 명     	: 1-3 인지관리지원, 인지활동지원 팝업                                       
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-09 11:20        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P10_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P10">
+	<!-- 조회 -->
+    <select id="DAY00101_P10_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT ba.sicode
+			, ba.ac_num
+			, ba.ac_day
+			, DATE_FORMAT(ba.ac_day, '%Y.%m.%d') AS nalja
+			, ba.ac_name
+			, bm.m_group
+			, ba.ac_code
+			, ba.날씨
+			, ba.기분
+			, ba.오전활동1
+			, ba.오전활동2
+			, ba.오전활동3
+			, ba.오후활동1
+			, ba.오후활동2
+			, ba.오후활동3
+			, ba.오전점검
+			, ba.오후점검
+			, ba.인지관리
+			, ba.작성자
+			, ba.작성코드
+			, ba.org_ac_num
+			, '' AS VIEW_MANAGER
+		FROM base_actday ba
+		  , base_mate bm
+		WHERE ba.sicode = bm.sicode
+		  AND ba.ac_code = bm.m_code
+		  AND ba.sicode = #{sicode}
+		  AND ba.ac_day = #{date}
+		  AND ba.ac_code = #{m_code}						
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00101_P10_DS_DATA_I" parameterType="java.util.HashMap">
+    /*  */
+		INSERT INTO base_actday
+		(
+			  sicode
+			, ac_day
+			, ac_name
+			, ac_code
+			, 날씨
+			, 기분
+			, 오전활동1
+			, 오전활동2
+			, 오전활동3
+			, 오후활동1
+			, 오후활동2
+			, 오후활동3
+			, 오전점검
+			, 오후점검
+			, 인지관리
+			, 작성자
+			, 작성코드
+			, org_ac_num
+		)
+		VALUES 
+		(
+		      #{sicode}
+			, #{ac_day}
+			, #{ac_name}
+			, #{ac_code}
+			, #{날씨}
+			, #{기분}
+			, #{오전활동1}
+			, #{오전활동2}
+			, #{오전활동3}
+			, #{오후활동1}
+			, #{오후활동2}
+			, #{오후활동3}
+			, #{오전점검}
+			, #{오후점검}
+			, #{인지관리}
+			, #{작성자}
+			, #{작성코드}
+			, #{org_ac_num}
+		)    	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P10_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+	    UPDATE base_actday
+			SET 날씨 = #{날씨}
+			, 기분    = #{기분}
+			, 오전활동1 = #{오전활동1}
+			, 오전활동2 = #{오전활동2}
+			, 오전활동3 = #{오전활동3}
+			, 오후활동1 = #{오후활동1}
+			, 오후활동2 = #{오후활동2}
+			, 오후활동3 = #{오후활동3}
+			, 오전점검  = #{오전점검}
+			, 오후점검  = #{오후점검}
+			, 인지관리  = #{인지관리}
+			, 작성자   = #{작성자}
+			, 작성코드  = #{작성코드}
+			, org_ac_num = #{org_ac_num}
+		WHERE sicode = #{sicode}
+		AND ac_num = #{ac_num}
+    	
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00101_P10_DS_DATA_D" parameterType="java.util.HashMap">
+    /*  */
+    	DELETE FROM base_actday
+    	WHERE sicode = #{sicode}
+    	AND	ac_num = #{ac_num}
+    </delete>
+    
+    <!-- 전날 일지 조회 -->
+    <select id="DAY00101_P10_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        SELECT sicode
+			, ac_day
+			, ac_name
+			, ac_code
+			, 날씨
+			, 기분
+			, 오전활동1
+			, 오전활동2
+			, 오전활동3
+			, 오후활동1
+			, 오후활동2
+			, 오후활동3
+			, 오전점검
+			, 오후점검
+			, 인지관리
+		FROM base_actday
+		WHERE sicode = #{sicode}
+		  AND ac_code = #{ac_code}		 
+		  AND ac_day BETWEEN DATE_SUB(#{ac_day}, INTERVAL 5 DAY) AND DATE_SUB(#{ac_day}, INTERVAL 1 DAY)
+		ORDER BY ac_day DESC
+		LIMIT 1
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

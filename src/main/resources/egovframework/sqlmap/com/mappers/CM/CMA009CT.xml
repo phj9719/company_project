@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA009CT                                                         
+     * 프로그램 명     : 메세지관리                                                       
+     * Description : 화면에서 사용하는 메세지 관리하는 프로그램                                                            
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2017-07-27 10:11        |  김정록         | 최초작성                         
+       2018-01-09			   |  김정민         | 1차 수정
+       2021-10-28			   |  박한준         | 법인별 메시지관리                        
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CMA009CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CMA009CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.SERVICE_TP
+					,A.MSG_ID
+					,A.MSG_TYPE
+					,A.TITLE
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.SERVICE_TP = CU.SERVICE_TP
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.SERVICE_TP = CU.SERVICE_TP
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+              FROM   T_CM_MESSAGE A                                                                                                                                                                              
+              WHERE  1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="SERVICE_TP != '' and SERVICE_TP != null">
+                    AND A.SERVICE_TP = #{SERVICE_TP} 
+              </if>
+              <if test="MSG_ID != '' and MSG_ID != null">
+                    AND A.MSG_ID LIKE CONCAT('%', #{MSG_ID}, '%')
+              </if>
+              <if test="MSG_TYPE != '' and MSG_TYPE != null">
+                    AND A.MSG_TYPE = #{MSG_TYPE}
+              </if>
+              <if test="TITLE != '' and TITLE != null">
+                    AND A.TITLE LIKE CONCAT('%', #{TITLE}, '%')
+              </if>
+              <if test="DESCRIPTION != '' and DESCRIPTION != null">
+              		AND A.MSG_ID IN (SELECT B.MSG_ID
+              						   FROM T_CM_MESSAGE_DETAIL B
+              						  WHERE B.DESCRIPTION LIKE CONCAT('%', #{DESCRIPTION}, '%'))
+               </if>
+               ORDER BY A.MSG_ID                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="CMA009CT_DS_HEAD_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_CM_MESSAGE (                                                                                                                                                                                 
+					       COMPANY_CD
+						  ,SERVICE_TP
+						  ,MSG_ID
+						  ,MSG_TYPE
+						  ,TITLE
+						  ,REG_PGM_ID
+						  ,REG_USER
+						  ,REG_DT
+						  ,REG_DT_CURR
+						  ,REG_DT_LOC
+						  ,REG_IP
+						  ,MOD_PGM_ID
+						  ,MOD_USER
+						  ,MOD_DT
+						  ,MOD_DT_CURR
+						  ,MOD_DT_LOC
+						  ,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					       #{COMPANY_CD  }
+						  ,#{SERVICE_TP  }
+						  ,#{MSG_ID      }
+						  ,#{MSG_TYPE    }
+						  ,#{TITLE       }
+						  ,#{REG_PGM_ID  }
+						  ,#{REG_USER    }
+						  ,#{REG_DT      }
+						  ,#{REG_DT_CURR }
+						  ,#{REG_DT_LOC  }
+						  ,#{REG_IP      }
+						  ,#{MOD_PGM_ID  }
+						  ,#{MOD_USER    }
+						  ,#{MOD_DT      }
+						  ,#{MOD_DT_CURR }
+						  ,#{MOD_DT_LOC  }
+						  ,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="CMA009CT_DS_HEAD_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			        UPDATE T_CM_MESSAGE                                                                                                                                                                                              
+					   SET COMPANY_CD   =#{COMPANY_CD  }
+						  ,SERVICE_TP   =#{SERVICE_TP  }
+						  ,MSG_TYPE     =#{MSG_TYPE    }
+						  ,TITLE        =#{TITLE       }
+						  ,REG_PGM_ID   =#{REG_PGM_ID  }
+						  ,REG_USER     =#{REG_USER    }
+						  ,REG_DT       =#{REG_DT      }
+						  ,REG_DT_CURR  =#{REG_DT_CURR }
+						  ,REG_DT_LOC   =#{REG_DT_LOC  }
+						  ,REG_IP       =#{REG_IP      }
+						  ,MOD_PGM_ID   =#{MOD_PGM_ID  }
+						  ,MOD_USER     =#{MOD_USER    }
+						  ,MOD_DT       =#{MOD_DT      }
+						  ,MOD_DT_CURR  =#{MOD_DT_CURR }
+						  ,MOD_DT_LOC   =#{MOD_DT_LOC  }
+						  ,MOD_IP       =#{MOD_IP      }
+			         WHERE 1=1     
+			           AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                 
+                       AND MSG_ID  = #{MSG_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="CMA009CT_DS_HEAD_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+                DELETE FROM T_CM_MESSAGE
+                 WHERE 1=1
+                 AND COMPANY_CD = #{COMPANY_CD} 
+                 AND MSG_ID = #{MSG_ID} ;
+                
+                DELETE FROM T_CM_MESSAGE_DETAIL
+                WHERE 1=1
+                AND COMPANY_CD = #{COMPANY_CD}
+                AND MSG_ID = #{MSG_ID} ;
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    <!-- DETAIL SELECT  -->                                                                                                                                                                                                   
+	<select id="CMA009CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		  SELECT A.COMPANY_CD
+							,A.SERVICE_TP
+							,A.MSG_ID
+							,A.LANG_CD
+							,A.DESCRIPTION
+							,A.REG_PGM_ID
+							,A.REG_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.SERVICE_TP = CU.SERVICE_TP
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+							,A.REG_DT
+							,A.REG_DT_CURR
+							,A.REG_DT_LOC
+							,A.REG_IP
+							,A.MOD_PGM_ID
+							,A.MOD_USER
+							,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.SERVICE_TP = CU.SERVICE_TP
+							     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+							,A.MOD_DT
+							,A.MOD_DT_CURR
+							,A.MOD_DT_LOC
+							,A.MOD_IP
+              		  FROM T_CM_MESSAGE_DETAIL A                                                                                                                                                                                      
+             		 WHERE 1=1
+               		   AND MSG_ID = #{MSG_ID}
+               		   AND COMPANY_CD = #{COMPANY_CD}
+               		 ORDER BY LANG_CD
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="CMA009CT_DS_DETAIL_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_CM_MESSAGE_DETAIL (                                                                                                                                                                                 
+					       COMPANY_CD
+							,SERVICE_TP
+							,MSG_ID
+							,LANG_CD
+							,DESCRIPTION
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					    	 #{COMPANY_CD  }
+							,#{SERVICE_TP  }
+							,#{MSG_ID      }
+							,#{LANG_CD     }
+							,#{DESCRIPTION }
+							,#{REG_PGM_ID  }
+							,#{REG_USER    }
+							,#{REG_DT      }
+							,#{REG_DT_CURR }
+							,#{REG_DT_LOC  }
+							,#{REG_IP      }
+							,#{MOD_PGM_ID  }
+							,#{MOD_USER    }
+							,#{MOD_DT      }
+							,#{MOD_DT_CURR }
+							,#{MOD_DT_LOC  }
+							,#{MOD_IP      }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="CMA009CT_DS_DETAIL_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			          UPDATE T_CM_MESSAGE_DETAIL                                                                                                                                                                                              
+					     SET COMPANY_CD  =#{COMPANY_CD  } 
+							,SERVICE_TP  =#{SERVICE_TP  }
+							,LANG_CD     =#{LANG_CD     }
+							,DESCRIPTION =#{DESCRIPTION }
+							,REG_PGM_ID  =#{REG_PGM_ID  }
+							,REG_USER    =#{REG_USER    }
+							,REG_DT      =#{REG_DT      }
+							,REG_DT_CURR =#{REG_DT_CURR }
+							,REG_DT_LOC  =#{REG_DT_LOC  }
+							,REG_IP      =#{REG_IP      }
+							,MOD_PGM_ID  =#{MOD_PGM_ID  }
+							,MOD_USER    =#{MOD_USER    }
+							,MOD_DT      =#{MOD_DT      }
+							,MOD_DT_CURR =#{MOD_DT_CURR }
+							,MOD_DT_LOC  =#{MOD_DT_LOC  }
+							,MOD_IP      =#{MOD_IP      }
+			         WHERE 1=1       
+			           AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                               
+                       AND LANG_CD = #{LANG_CD}
+                       AND MSG_ID  = #{MSG_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="CMA009CT_DS_DETAIL_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+
+                DELETE FROM T_CM_MESSAGE_DETAIL
+                WHERE 1=1
+                AND COMPANY_CD = #{COMPANY_CD}  
+                AND MSG_ID  = #{MSG_ID}
+                AND    LANG_CD = #{LANG_CD}
+    ]]>                                                                                                                                                                                                            
+    </delete>
+                                                                                                                                                                                        
+</mapper>                                                                                                                                                                                                          

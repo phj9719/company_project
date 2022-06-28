@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00107" width="1920" height="800" titletext="1-7 요양보호사인수인계서" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="0" bottom="4.38%" right="0.00%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="43" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" oncellclick="div_cont_div_left_grd_list_oncellclick" height="718">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="23"/>
+                            <Column size="32"/>
+                            <Column size="78"/>
+                            <Column size="50"/>
+                            <Column size="112"/>
+                            <Column size="48"/>
+                            <Column size="60"/>
+                            <Column size="84"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1">
+                              <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                              <Cell col="1" text="출력" expandchar="rno"/>
+                            </Cell>
+                            <Cell col="2" text="현황"/>
+                            <Cell col="3" text="그룹"/>
+                            <Cell col="4" text="수급자명"/>
+                            <Cell col="5" text="성별"/>
+                            <Cell col="6" text="등급"/>
+                            <Cell col="7" text="생활실"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:chk" checkboxfalsevalue="0" checkboxtruevalue="1"/>
+                            <Cell col="2" text="bind:s_nm"/>
+                            <Cell col="3" textAlign="center" text="bind:m_group" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="4" text="bind:m_name" textAlign="center" cssclass="cellBWoman" cursor="pointer" expandchar="dot"/>
+                            <Cell col="5" text="bind:sex_nm"/>
+                            <Cell col="6" text="bind:grade_nm"/>
+                            <Cell col="7" text="bind:m_roomname"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="460" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="7" width="1230" height="500" text="">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_body8_00" taborder="35" left="22" top="267" width="1180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body10_00" taborder="33" left="22" top="201" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1" taborder="1" left="22" top="36" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body2" taborder="3" left="22" top="sta_body1:-1" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body3" taborder="4" left="22" top="sta_body2:-1" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body4" taborder="6" left="22" top="135" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body10" taborder="9" left="22" top="168" width="982" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <ImageViewer id="imv_pic" taborder="10" left="1003" top="36" width="199" height="199" tabstop="false"/>
+                          <Button id="btn_report1" taborder="11" text="업무인수인계서 서식" left="707" top="0" width="160" height="26" cssclass="btn_print" onclick="fn_report1"/>
+                          <Button id="btn_report2" taborder="12" text="업무인수인계서(선택)" left="872" top="0" width="165" height="26" cssclass="btn_print" onclick="fn_report2"/>
+                          <Button id="btn_report3" taborder="13" text=" 업무인수인계서" left="1042" top="0" width="160" height="26" cssclass="btn_print" onclick="fn_report3"/>
+                          <Static id="sta_body1_00" taborder="14" left="106" top="40" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00" taborder="15" left="190" top="40" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1" taborder="0" text="수급자명" left="20" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="2" text="생활실" left="680" top="69" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head4" taborder="5" text="주    소" left="20" top="168" width="83" height="68" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00" taborder="16" text="성별 나이" left="359" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1_00_01" taborder="17" left="445" top="40" width="55" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_00_00" taborder="18" left="503" top="40" width="55" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_00_00" taborder="19" text="생년월일" left="680" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01" taborder="20" text="입소일" left="20" top="69" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_00_00" taborder="21" text="퇴소일" left="359" top="69" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00" taborder="22" text="인정번호" left="359" top="102" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00_00" taborder="23" text="인정기간" left="20" top="102" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00_00_00" taborder="24" text="인정등급" left="680" top="102" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1_00_00_01_00_00_01_00" taborder="25" left="445" top="106" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_01_00" taborder="26" left="224" top="104" width="15" height="25" text="-" textAlign="center" padding="0px" verticalAlign="middle"/>
+                          <Static id="sta_body1_00_02" taborder="27" left="766" top="74" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body8" taborder="8" left="22" top="234" width="1180" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head8" taborder="7" left="20" top="234" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="동거가족"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00" taborder="28" left="766" top="40" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00" taborder="29" left="106" top="74" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00_00" taborder="30" left="445" top="74" width="114" height="25" color="red" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_00_01_00_00_01" taborder="31" text="제공기간" left="20" top="135" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1_00_01_00_00" taborder="32" left="224" top="137" width="15" height="25" text="-" textAlign="center" padding="0px" verticalAlign="middle"/>
+                          <Static id="sta_head8_00" taborder="34" left="20" top="267" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="자택전화"/>
+                          <Static id="sta_head8_01" taborder="36" left="359" top="234" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="주수발자"/>
+                          <Static id="sta_head8_01_00" taborder="37" left="359" top="267" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="이동전화"/>
+                          <Static id="sta_head8_01_01" taborder="38" left="680" top="234" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="보호자명"/>
+                          <Static id="sta_head8_01_00_00" taborder="39" left="680" top="267" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종교"/>
+                          <Static id="sta_subTitle" taborder="40" text="요양보호사 업무인수인계서" left="20" top="7" width="250" height="26" cssclass="lb01"/>
+                          <Edit id="edt_liday1" taborder="41" left="106" top="106" width="114" height="25"/>
+                          <Edit id="edt_liday2" taborder="42" left="242" top="106" width="114" height="25"/>
+                          <Edit id="edt_serv_day1" taborder="43" left="106" top="139" width="114" height="25"/>
+                          <Edit id="edt_serv_day2" taborder="44" left="242" top="139" width="114" height="25"/>
+                          <Edit id="edt_juso1" taborder="45" left="106" top="172" width="573" height="25"/>
+                          <Edit id="edt_juso2" taborder="46" left="106" top="205" width="573" height="25"/>
+                          <Edit id="edt_post" taborder="47" left="682" top="205" width="114" height="25"/>
+                          <Edit id="edt_conname" taborder="48" left="106" top="238" width="144" height="25"/>
+                          <Edit id="edt_religion" taborder="49" left="766" top="271" width="144" height="25"/>
+                          <Edit id="edt_phone" taborder="50" left="445" top="271" width="144" height="25"/>
+                          <Edit id="edt_tel" taborder="51" left="106" top="271" width="144" height="25"/>
+                          <Edit id="edt_guardian" taborder="52" left="766" top="238" width="144" height="25"/>
+                          <Edit id="edt_jusubal" taborder="53" left="445" top="238" width="144" height="25"/>
+                          <Edit id="edt_grade" taborder="54" left="766" top="106" width="144" height="25"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="chk" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="m_juso1" type="STRING" size="256"/>
+          <Column id="m_juso2" type="STRING" size="256"/>
+          <Column id="m_post" type="STRING" size="256"/>
+          <Column id="m_juso" type="STRING" size="256"/>
+          <Column id="m_conname1" type="STRING" size="256"/>
+          <Column id="m_conname2" type="STRING" size="256"/>
+          <Column id="m_conname3" type="STRING" size="256"/>
+          <Column id="age" type="INT" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="today" type="STRING" size="256"/>
+          <Column id="tel" type="STRING" size="256"/>
+          <Column id="phone" type="STRING" size="256"/>
+          <Column id="religion" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="sign" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list_copy" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="p_chk" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="m_juso1" type="STRING" size="256"/>
+          <Column id="m_juso2" type="STRING" size="256"/>
+          <Column id="m_post" type="STRING" size="256"/>
+          <Column id="m_juso" type="STRING" size="256"/>
+          <Column id="m_conname1" type="STRING" size="256"/>
+          <Column id="m_conname2" type="STRING" size="256"/>
+          <Column id="m_conname3" type="STRING" size="256"/>
+          <Column id="age" type="INT" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="today" type="STRING" size="256"/>
+          <Column id="tel" type="STRING" size="256"/>
+          <Column id="phone" type="STRING" size="256"/>
+          <Column id="religion" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00" propid="text" datasetid="ds_list_copy" columnid="m_name"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_list_copy" columnid="m_code"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_list_copy" columnid="sex_nm"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_list_copy" columnid="m_roomname"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_list_copy" columnid="m_regist"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="b_date"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="m_enday"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="m_reday"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="age"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.edt_liday1" propid="value" datasetid="ds_list_copy" columnid="m_liday1"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.edt_liday2" propid="value" datasetid="ds_list_copy" columnid="m_liday2"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.edt_serv_day1" propid="value" datasetid="ds_list_copy" columnid="m_enday"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.edt_serv_day2" propid="value" datasetid="ds_list_copy" columnid="today"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.edt_juso1" propid="value" datasetid="ds_list_copy" columnid="m_juso1"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.edt_juso2" propid="value" datasetid="ds_list_copy" columnid="m_juso2"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.edt_post" propid="value" datasetid="ds_list_copy" columnid="m_post"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.edt_religion" propid="value" datasetid="ds_list_copy" columnid="religion"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.edt_phone" propid="value" datasetid="ds_list_copy" columnid="phone"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.edt_tel" propid="value" datasetid="ds_list_copy" columnid="tel"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.edt_guardian" propid="value" datasetid="ds_list_copy" columnid="m_conname3"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.edt_jusubal" propid="value" datasetid="ds_list_copy" columnid="m_conname2"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.edt_conname" propid="value" datasetid="ds_list_copy" columnid="m_conname1"/>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.div_main.form.edt_grade" propid="value" datasetid="ds_list_copy" columnid="grade_nm"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00107
+ * 화면명   	: 1-7 요양보호사인수인계서
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-02
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+
+	// 그리드 설정
+	this.fn_setMainGrid();
+	
+	// 리포트 출력 초기화
+	this.ds_report.setColumn(0, "sign", 1);
+
+	// 오픈시 조회
+	this.fn_search("search");
+};
+
+this.fn_setMainGrid = function()
+{
+	var grdMain = this.div_cont.form.div_left.form.grd_list;
+	
+	var nameIdx = grdMain.getBindCellIndex("body","m_name");
+	var snmIdx = grdMain.getBindCellIndex("body","s_nm");
+	
+	var nameCss = "expr:dataset.getColumn(currow,'sex_nm')=='남'?'cellBMan':'cellBWoman'";
+	var snmCss = "expr:dataset.getColumn(currow,'s_nm')=='퇴소자'?'cellBRetire':''";
+	
+	grdMain.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grdMain.setCellProperty("body", snmIdx, "cssclass", snmCss);
+}
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00107.DAY00107_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_list.set_rowposition(-1);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";		
+		imgUrl = webHost + path + fileGrp;
+	}
+	
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image(imgUrl);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+// 업무인수인계서 서식 리포트
+this.fn_report1 = function()
+{
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00107_R01.xfdl";
+	const popupName = "";
+	
+	params = {
+		sicode : fv_sicode
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+}
+
+this.fn_report2_pre = function()
+{
+	var chk = 0;
+	
+	// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+	for(var i=0; i < this.ds_list.rowcount; i++){
+		chk = (parseInt(this.ds_list.getColumn(i,"chk"))==1)? chk+1 : chk; // 체크된 경우 1 더한다.
+	}
+
+	// 체크박스 체크된 수급자가 없는 경우
+	if (chk == 0) {
+		alert("출력할 수급자를 체크박스로 선택하세요!");	
+		return false;	
+	}
+	
+	return true;
+}
+
+// 업무인수인계서(선택) 리포트 (좌그리드 체크박스에 선택된 수급자에 대한 리포트)
+this.fn_report2 = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.fn_report2_pre()) return;
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00107_R02.xfdl";
+	const popupName = "";
+	
+	var mCodeStr = "";
+
+	// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+	for(var i=0; i < this.ds_list.rowcount; i++){
+		if(this.ds_list.getColumn(i,"chk") == 1){ // 체크된 수급자 코드 문자열로 이어붙이기
+			let _code = this.ds_list.getColumn(i,"m_code");
+			mCodeStr += (_code + ",");
+		}
+	}
+	// 마지막 콤마 제거
+	mCodeStr = mCodeStr.substring(0,mCodeStr.length-1);
+	
+	params = {
+		sicode : fv_sicode
+	,	m_code : mCodeStr
+	,	sign : this.ds_report.getColumn(0,"sign")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");	
+};
+
+
+this.fn_report3_pre = function()
+{
+	if (this.ds_list_copy.rowcount == 0)
+	{
+		alert("수급자를 선택하세요");	// as-is에서는 아무 메세지 없음
+		return false;
+	}
+	
+	return true;
+}
+
+
+// 업무인수인계서 리포트 (우측 메인에 선택된 수급자에 대한 리포트)
+// edit 컴포넌트에서 수정한 값들이 리포트에 반영
+this.fn_report3 = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.fn_report3_pre()) return;
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00107_R03.xfdl";
+	const popupName = "";
+
+	var mCode = this.ds_list_copy.getColumn(0,"m_code");
+	var liday1 = this.ds_list_copy.getColumn(0,"m_liday1");
+	var liday2 = this.ds_list_copy.getColumn(0,"m_liday2");
+	var grade = this.ds_list_copy.getColumn(0,"grade_nm");
+	var seday1 = this.ds_list_copy.getColumn(0,"m_enday");
+	var seday2 = this.ds_list_copy.getColumn(0,"today");
+	var juso1 = this.ds_list_copy.getColumn(0,"m_juso1");
+	var juso2 = this.ds_list_copy.getColumn(0,"m_juso2");
+	var post = this.ds_list_copy.getColumn(0,"m_post");
+	var conname1 = this.ds_list_copy.getColumn(0,"m_conname1");
+	var conname2 = this.ds_list_copy.getColumn(0,"m_conname2");
+	var conname3 = this.ds_list_copy.getColumn(0,"m_conname3");
+	var tel = this.ds_list_copy.getColumn(0,"tel");
+	var phone = this.ds_list_copy.getColumn(0,"phone");
+	var religion = this.ds_list_copy.getColumn(0,"religion");
+
+	params = {
+		sicode : fv_sicode
+	,	m_code : mCode
+	,	liday1 : liday1
+	,	liday2 : liday2
+	,	grade : grade
+	,	seday1 : seday1
+	,	seday2 : seday2
+	,	juso1 : juso1
+	,	juso2 : juso2
+	,	post : post
+	,	conname1 : conname1
+	,	conname2 : conname2
+	,	conname3 : conname3
+	,	tel : tel
+	,	phone : phone
+	,	religion : religion
+	,	sign : this.ds_report.getColumn(0,"sign")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");	
+}
+
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.ds_list_copy.clearData();
+
+	this.fn_search("search");
+};
+
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const selIdx = obj.getBindCellIndex("body", "m_name");
+	
+	// 수급자명 컬럼인 경우
+	if (e.col == 4)
+	{
+		var selRow = this.ds_list.rowposition;
+		var m_code = this.ds_list.getColumn(selRow,"m_code");
+	
+		// 우상단 수급자 조회 div 내용표시
+		this.ds_list_copy.deleteAll();
+		this.ds_list_copy.addRow();
+		this.ds_list_copy.copyRow(0,this.ds_list,selRow);
+	}
+};
+
+]]></Script>
+  </Form>
+</FDL>

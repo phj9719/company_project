@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUA303CT                                                         
+     * 프로그램 명     : 배변일지                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-22     10:11        |  SOOIM     | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="TABLET_COMMON"> 
+	 <!-- 동(생활실) 조회 -->
+     <select id="TCOMMON_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT LOCATION AS CMCD
+	            	  ,LOCATION AS CMNM	
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+			  GROUP BY LOCATION  
+     ]]>                                                                                                                                                                 
+    </select> 
+    
+    <!-- (생활실별) 호실 조회 --> 
+    <select id="TCOMMON_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    <![CDATA[
+	            SELECT ROOM AS CMCD
+				      ,ROOM AS CMNM
+				  FROM T_NU_RESIDENT
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				 AND LOCATION = #{LOCATION}
+			  GROUP BY ROOM  
+    ]]>                                                                                                                                                                 
+    </select>
+    
+    <!-- (호실별) 입소자 조회 -->
+    <select id="TCOMMON_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+    	SELECT RES_ID AS CMCD
+		      ,NAME AS CMNM
+		FROM T_NU_RESIDENT
+		WHERE COMPANY_CD = #{COMPANY_CD}
+			AND LOCATION = #{LOCATION}
+			AND ROOM = #{ROOM}
+    ]]>
+    </select>
+    
+    <!-- 요양사 조회 -->    
+     <select id="TCOMMON_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD = '10'
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+                                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

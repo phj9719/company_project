@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-25 09:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA200QR                                                         
+     * 프로그램 명  		: 결재함 및 문서함 조회화면
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-04-06 18:00     |   고준민      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA200QR">                                                                                                                                                                              
+	<select id="CMA200QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[     
+				SELECT TOP 1
+				            (SELECT COUNT(*) 
+				             FROM T_GR_APPL_CNT A WITH(NOLOCK)
+				             WHERE A.GRP_DOC_NO IS NULL
+				             AND   A.DOC_WRITER = #{USER_NM}
+				             AND   A.DOC_DEPT   = #{DEPT_CD})    AS COUNT1 -- 작성문서 조회
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.GRP_DOC_NO IS NOT NULL
+				             AND   GAC.APPVL_PRC_FLAG NOT IN ('RT', 'AV')
+				             AND   (SELECT COUNT(*)
+								    FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+								    WHERE GAL.COMPANY_CD     = GAC.COMPANY_CD
+								    AND  GAL.PLANT_CD       = GAC.PLANT_CD
+								    AND  GAL.PK_DOC_NO      = GAC.PK_DOC_NO
+								    AND  GAL.PK_APPL_TYPE   = '10' -- 결재자
+							]]>
+							<if test="AUTH != '40'">			-- 시스템 관리자는 모든 부서 조회가능
+									AND  GAC.DOC_DEPT = #{DEPT_CD}
+							</if>
+							<![CDATA[
+								    AND  GAL.APPL_LINE_CHRG = #{USER_NM}) = 1
+				             AND   (SELECT MIN(GAL.GRP_LINE_SEQ)  -- 현재 결재자의 순번
+						            FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+						            WHERE GAL.COMPANY_CD   = GAC.COMPANY_CD
+						            AND GAL.PLANT_CD     = GAC.PLANT_CD
+						            AND GAL.PK_DOC_NO    = GAC.PK_DOC_NO
+								    AND GAL.APPVL_PRC_FLAG != '20') >= (SELECT GAL.GRP_LINE_SEQ  -- 로그인 사용자의 순번
+														                FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+														                WHERE GAC.COMPANY_CD     = GAL.COMPANY_CD
+														                AND   GAC.PLANT_CD       = GAL.PLANT_CD
+														                AND   GAC.PK_DOC_NO      = GAL.PK_DOC_NO
+														                AND   GAL.APPL_LINE_CHRG = #{USER_NM}))       AS COUNT2  -- 진행결재함
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.GRP_DOC_NO IS NOT NULL
+				             AND   GAC.APPVL_PRC_FLAG = 'AV'
+						     AND  (SELECT A.FNL_READ_DT
+				          	       FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				          	       WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				          	       AND   GAC.PLANT_CD   = A.PLANT_CD
+				          	       AND   GAC.PK_DOC_NO  = A.PK_DOC_NO
+							       AND   A.PK_APPL_TYPE = '10' -- 결재자
+				          	       AND   A.APPL_LINE_CHRG = #{USER_NM}
+				          	       ]]>
+				                   <if test="AUTH != '40'">					-- 시스템 관리자는 모든 부서 조회가능
+								   AND  GAC.DOC_DEPT = #{DEPT_CD}
+								   </if>
+							<![CDATA[
+									) IS NULL -- 열람하지 않은 문서 조회
+				             AND   (SELECT COUNT(*)
+								    FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+								    WHERE GAL.COMPANY_CD = GAC.COMPANY_CD
+								    AND GAL.PLANT_CD   = GAC.PLANT_CD
+								    AND GAL.PK_DOC_NO  = GAC.PK_DOC_NO
+								    AND GAL.PK_APPL_TYPE = '10' -- 결재자
+								    AND GAL.APPL_LINE_CHRG = #{USER_NM}
+				          	        ]]>
+				                    <if test="AUTH != '40'">					-- 시스템 관리자는 모든 부서 조회가능
+								    AND  GAC.DOC_DEPT = #{DEPT_CD}
+								    </if>
+							<![CDATA[
+								    ) = 1)          AS COUNT3 -- 승인결재함    
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.APPVL_PRC_FLAG = 'AV'
+				             AND   (SELECT A.FNL_READ_DT
+				          		    FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				          		    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				          		    AND   GAC.PLANT_CD   = A.PLANT_CD
+				          		    AND   GAC.PK_DOC_NO  = A.PK_DOC_NO
+								    AND   A.PK_APPL_TYPE = '20' -- 참조자
+				          		    AND   A.APPL_LINE_CHRG = #{USER_NM}) IS NULL
+				          	]]>	    
+							<if test="DEPT_CD != '1000021' and DEPT_CD != '1000022' and DEPT_CD != '1000020'"> -- 본인이 참조자로 있는 것만 리스트에 출력하기 위해(해무/관리부문장, 해사부문장, 사장, 시스템관리자 제외)
+						 	 AND (SELECT COUNT(*)											
+							    	FROM T_GR_APPL_LINE B WITH(NOLOCK)
+							   		WHERE GAC.COMPANY_CD   = B.COMPANY_CD
+							     	AND GAC.PLANT_CD     = B.PLANT_CD
+							     	AND GAC.PK_DOC_NO    = B.PK_DOC_NO
+							     	AND B.PK_APPL_TYPE   = '20'          -- 참조자
+							    	 AND B.APPL_LINE_CHRG = #{USER_NM}   -- 로그인사용자 이름
+							     	) = 1
+							</if> 
+							<if test="DEPT_CD == '1000021'"> -- 해무/관리부문장
+		    				 AND	(SELECT A.P_DEPT_CODE
+		                    	     FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		                    		 WHERE GAC.COMPANY_CD = A.COMPANY_CD
+		                    		 AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000007'      -- 해무팀, 관리팀 2가지를 볼 수 있는 권한을 가짐
+							</if>
+							<if test="DEPT_CD == '1000022'"> -- 해사부문장
+								AND	(SELECT A.P_DEPT_CODE
+							         FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+							         WHERE GAC.COMPANY_CD = A.COMPANY_CD
+							         AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000008'      -- 공무팀, 안전운항팀 2가지를 볼 수 있는 권한을 가짐
+							</if>							
+							<![CDATA[	  
+							)       AS COUNT4 -- 공람문서조회
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.APPVL_PRC_FLAG = 'AV'
+				             AND (SELECT COUNT(*)
+								  FROM T_GR_APPL_LINE B WITH(NOLOCK)
+								  WHERE GAC.COMPANY_CD = B.COMPANY_CD
+								  AND GAC.PLANT_CD   = B.PLANT_CD
+								  AND GAC.PK_DOC_NO  = B.PK_DOC_NO
+								  AND B.PK_APPL_TYPE = '30'        -- 수신처
+								  AND B.DOC_TRNF_SVDT IS NULL	   -- 보관되지 않은 문서
+				 			      AND B.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+									                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+									                      WHERE B.COMPANY_CD = A.COMPANY_CD
+									                      AND A.DEPT_CODE  = #{DEPT_CD})) = 1)       AS COUNT5 -- 수신문서
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.FNL_APPVL_DT IS NOT NULL		-- 최종결재일
+						     AND GAC.FNL_APPVL_CHARGE IS NOT NULL	-- 최종결재자 존재 = 결재완료
+						     AND GAC.APPVL_PRC_FLAG IN ('AV') 		-- 승인완료 문서
+				          	 ]]>
+							<if test="DEPT_CD != '1000021' and DEPT_CD != '1000022' and DEPT_CD != '1000020' and AUTH != '40'"> -- 본인이 참조자로 있는 것만 리스트에 출력하기 위해(해무/관리부문장, 해사부문장, 사장, 시스템관리자 제외)
+							   AND GAC.DOC_DEPT   = #{DEPT_CD}
+							</if>
+							<if test="DEPT_CD == '1000021'"> -- 해무/관리부문장
+							    AND	(SELECT A.P_DEPT_CODE
+							                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+							                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+							                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000007'      -- 해무팀, 관리팀 2가지를 볼 수 있는 권한을 가짐
+							</if>		
+							<if test="DEPT_CD == '1000022'"> -- 해사부문장
+								AND	(SELECT A.P_DEPT_CODE
+							                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+							                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+							                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000008'      -- 공무팀, 안전운항팀 2가지를 볼 수 있는 권한을 가짐
+							</if>
+							<![CDATA[
+				             )                         AS COUNT6	-- 승인문서함
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.APPVL_PRC_FLAG = 'AV'
+				             AND   (SELECT COUNT(*)
+								    FROM T_GR_APPL_LINE A WITH(NOLOCK)
+								    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+								    AND GAC.PLANT_CD   = A.PLANT_CD
+								    AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+								    AND A.PK_APPL_TYPE = '30') >= 1 -- 수신처가 존재하는 문서     
+				             ]]>
+				             <if test="AUTH == '10'">       
+				             	<if test="DEPT_CD > '1000020' "> -- 해무/관리부문장, 해사부문장
+						     AND GAC.DOC_DEPT IN (SELECT A.DEPT_CODE
+						   						  FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+						   						  WHERE A.COMPANY_CD = GAC.COMPANY_CD
+						   						  AND A.P_DEPT_CODE = (SELECT B.P_DEPT_CODE
+						   						   					   FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+						   						   					   WHERE A.COMPANY_CD = B.COMPANY_CD
+						   						   					   AND B.DEPT_CODE  = #{DEPT_CD}))
+						  		</if>
+						    	<if test="DEPT_CD lt '1000020' "> -- 사장, 해무/관리부문장, 해사부문장 제외
+						     AND GAC.DOC_DEPT = #{DEPT_CD}
+								</if>
+							</if>
+							<if test="AUTH == '20'">
+						     AND GAC.PLANT_CD = #{PLANT_CD}
+							</if>
+							<![CDATA[       
+							)  AS COUNT7  -- 발신문서함
+				          , (SELECT COUNT(*)
+				             FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				             WHERE GAC.APPVL_PRC_FLAG = 'AV'
+				             AND ((SELECT COUNT(*)
+								   FROM T_GR_APPL_LINE B WITH(NOLOCK)
+								   WHERE GAC.COMPANY_CD = B.COMPANY_CD
+								   AND GAC.PLANT_CD     = B.PLANT_CD
+								   AND GAC.PK_DOC_NO    = B.PK_DOC_NO
+								   AND B.PK_APPL_TYPE   = '20'        -- 참조자
+								   AND B.APPL_LINE_CHRG = #{USER_NM}  -- 로그인사용자 이름
+								   ) = 1							  -- 해당 조회유저가 결재의 참조자만 조회
+							 AND  (SELECT A.FNL_READ_DT
+				          	       FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				          	       WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				          	       AND GAC.PLANT_CD   = A.PLANT_CD
+				          	       AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+							       AND A.PK_APPL_TYPE = '20' -- 참조자
+				          	       AND A.APPL_LINE_CHRG = #{USER_NM}) IS NOT NULL)      -- 열람 된 문서 조회
+				             OR ((SELECT COUNT(*)
+				          	      FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+				          	  	  WHERE GAC.COMPANY_CD = GAL.COMPANY_CD
+				          	  	  AND GAC.PLANT_CD   = GAL.PLANT_CD
+				          	  	  AND GAC.PK_DOC_NO  = GAL.PK_DOC_NO
+				          	  	  AND GAL.PK_APPL_TYPE   = '30'
+				          	  	  AND GAL.DOC_TRNF_SVDT IS NOT NULL) >= 1 	-- 수신처로 등록된 문서 & 보관된 문서
+				          	  	  ))                     AS COUNT8          -- 수신문서함
+				           , (SELECT COUNT(*)
+				              FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+				              WHERE GAC.APPVL_PRC_FLAG IN ('RT') -- 반려 문서
+				              ]]>
+							<if test="DEPT_CD != '1000021' and DEPT_CD != '1000022' and DEPT_CD != '1000020' and AUTH != 40"> -- 본인이 참조자로 있는 것만 리스트에 출력하기 위해(해무/관리부문장, 해사부문장, 사장, 시스템관리자 제외)
+							   AND GAC.DOC_DEPT   = #{DEPT_CD}
+							</if>
+							<if test="DEPT_CD == '1000021'"> -- 해무/관리부문장
+							    AND	(SELECT A.P_DEPT_CODE
+							                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+							                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+							                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000007'      -- 해무팀, 관리팀 2가지를 볼 수 있는 권한을 가짐
+							</if>		
+							<if test="DEPT_CD == '1000022'"> -- 해사부문장
+								AND	(SELECT A.P_DEPT_CODE
+							                    FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+							                    WHERE GAC.COMPANY_CD = A.COMPANY_CD
+							                    AND   GAC.DOC_DEPT   = A.DEPT_CODE) = '1000008'      -- 공무팀, 안전운항팀 2가지를 볼 수 있는 권한을 가짐
+							</if>
+							<![CDATA[
+				              )           AS COUNT9        -- 반려문서함		 	          	         
+				FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+	]]>
+    </select>
+</mapper>                                                                                                                                                                                                                                        

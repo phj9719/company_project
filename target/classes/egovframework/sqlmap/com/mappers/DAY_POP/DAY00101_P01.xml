@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P01                                                        
+     * 프로그램 명     	: 자세변경 기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-23 14:30        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P01_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P01">
+	<!-- 조회 -->
+    <select id="DAY00101_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT sicode
+			, so_number
+			, so_nalja
+			, so_code
+			, so_name
+			, '' AS m_group
+			, '' AS sex_gb
+			, '' AS jumin
+			, '' AS m_roomname
+			, 체위시08
+			, 체위시09
+			, 체위시10
+			, 체위시11
+			, 체위시12
+			, 체위시13
+			, 체위시14
+			, 체위시15
+			, 체위시16
+			, 체위시17
+			, 체위시18
+			, 담당자08
+			, 담당코드08
+			, 담당자09
+			, 담당코드09
+			, 담당자10
+			, 담당코드10
+			, 담당자11
+			, 담당코드11
+			, 담당자12
+			, 담당코드12
+			, 담당자13
+			, 담당코드13
+			, 담당자14
+			, 담당코드14
+			, 담당자15
+			, 담당코드15
+			, 담당자16
+			, 담당코드16
+			, 담당자17
+			, 담당코드17
+			, 담당자18
+			, 담당코드18
+			, 체위시분
+			, SUBSTRING(체위시분,7,2) AS smin8
+			, SUBSTRING(체위시분,9,2) AS smin9
+			, SUBSTRING(체위시분,11,2) AS smin10
+			, SUBSTRING(체위시분,13,2) AS smin11
+			, SUBSTRING(체위시분,15,2) AS smin12
+			, SUBSTRING(체위시분,17,2) AS smin13
+			, SUBSTRING(체위시분,19,2) AS smin14
+			, SUBSTRING(체위시분,21,2) AS smin15
+			, SUBSTRING(체위시분,23,2) AS smin16
+			, SUBSTRING(체위시분,25,2) AS smin17
+			, SUBSTRING(체위시분,27,2) AS smin18
+			, 체위끝분
+			, SUBSTRING(체위끝분,7,2) AS emin9
+			, SUBSTRING(체위끝분,9,2) AS emin10
+			, SUBSTRING(체위끝분,11,2) AS emin11
+			, SUBSTRING(체위끝분,13,2) AS emin12
+			, SUBSTRING(체위끝분,15,2) AS emin13
+			, SUBSTRING(체위끝분,17,2) AS emin14
+			, SUBSTRING(체위끝분,19,2) AS emin15
+			, SUBSTRING(체위끝분,21,2) AS emin16
+			, SUBSTRING(체위끝분,23,2) AS emin17
+			, SUBSTRING(체위끝분,25,2) AS emin18
+			, SUBSTRING(체위끝분,27,2) AS emin19
+			, org_so_number
+			, '' AS VIEW_MANAGER
+			 FROM base_sore
+		WHERE sicode = #{sicode}
+		  AND so_code = #{m_code}
+		  AND so_nalja = #{date}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00101_P01_DS_DATA_I" parameterType="java.util.HashMap">
+    /*  */
+    	INSERT INTO base_sore
+		(
+			sicode
+			, so_nalja
+			, so_code
+			, so_name
+			, 체위시08
+			, 체위시09
+			, 체위시10
+			, 체위시11
+			, 체위시12
+			, 체위시13
+			, 체위시14
+			, 체위시15
+			, 체위시16
+			, 체위시17
+			, 체위시18
+			, 담당자08
+			, 담당코드08
+			, 담당자09
+			, 담당코드09
+			, 담당자10
+			, 담당코드10
+			, 담당자11
+			, 담당코드11
+			, 담당자12
+			, 담당코드12
+			, 담당자13
+			, 담당코드13
+			, 담당자14
+			, 담당코드14
+			, 담당자15
+			, 담당코드15
+			, 담당자16
+			, 담당코드16
+			, 담당자17
+			, 담당코드17
+			, 담당자18
+			, 담당코드18
+			, 체위시분		
+			, 체위끝분
+			, org_so_number
+		)
+		VALUES
+		(
+			#{sicode}
+			, #{so_nalja}
+			, #{so_code}
+			, #{so_name}
+			, IFNULL(#{체위시08}, '0')
+			, IFNULL(#{체위시09}, '0')
+			, IFNULL(#{체위시10}, '0')
+			, IFNULL(#{체위시11}, '0')
+			, IFNULL(#{체위시12}, '0')
+			, IFNULL(#{체위시13}, '0')
+			, IFNULL(#{체위시14}, '0')
+			, IFNULL(#{체위시15}, '0')
+			, IFNULL(#{체위시16}, '0')
+			, IFNULL(#{체위시17}, '0')
+			, IFNULL(#{체위시18}, '0')
+			, IFNULL(#{담당자08}, '')
+			, IFNULL(#{담당코드08}, '')
+			, IFNULL(#{담당자09}, '')
+			, IFNULL(#{담당코드09}, '')
+			, IFNULL(#{담당자10}, '')
+			, IFNULL(#{담당코드10}, '')
+			, IFNULL(#{담당자11}, '')
+			, IFNULL(#{담당코드11}, '')
+			, IFNULL(#{담당자12}, '')
+			, IFNULL(#{담당코드12}, '')
+			, IFNULL(#{담당자13}, '')
+			, IFNULL(#{담당코드13}, '')
+			, IFNULL(#{담당자14}, '')
+			, IFNULL(#{담당코드14}, '')
+			, IFNULL(#{담당자15}, '')
+			, IFNULL(#{담당코드15}, '')
+			, IFNULL(#{담당자16}, '')
+			, IFNULL(#{담당코드16}, '')
+			, IFNULL(#{담당자17}, '')
+			, IFNULL(#{담당코드17}, '')
+			, IFNULL(#{담당자18}, '')
+			, IFNULL(#{담당코드18}, '')
+			, #{체위시분}	
+			, #{체위끝분}
+			, #{org_so_number}
+			)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+		UPDATE base_sore
+		SET   체위시08 = #{체위시08}
+			, 체위시09 = #{체위시09}
+			, 체위시10 = #{체위시10}
+			, 체위시11 = #{체위시11}
+			, 체위시12 = #{체위시12}
+			, 체위시13 = #{체위시13}
+			, 체위시14 = #{체위시14}
+			, 체위시15 = #{체위시15}
+			, 체위시16 = #{체위시16}
+			, 체위시17 = #{체위시17}
+			, 체위시18 = #{체위시18}
+			, 담당자08 = #{담당자08}
+			, 담당코드08 = #{담당코드08}
+			, 담당자09 = #{담당자09}
+			, 담당코드09 = #{담당코드09}
+			, 담당자10 = #{담당자10}
+			, 담당코드10 = #{담당코드10}
+			, 담당자11 = #{담당자11}
+			, 담당코드11 = #{담당코드11}
+			, 담당자12 = #{담당자12}
+			, 담당코드12 = #{담당코드12}
+			, 담당자13 = #{담당자13}
+			, 담당코드13 = #{담당코드13}
+			, 담당자14 = #{담당자14}
+			, 담당코드14 = #{담당코드14}
+			, 담당자15 = #{담당자15}
+			, 담당코드15 = #{담당코드15}
+			, 담당자16 = #{담당자16}
+			, 담당코드16 = #{담당코드16}
+			, 담당자17 = #{담당자17}
+			, 담당코드17 = #{담당코드17}
+			, 담당자18 = #{담당자18}
+			, 담당코드18 = #{담당코드18}
+			, 체위시분	 = #{체위시분}	
+			, 체위끝분 = #{체위끝분}
+		WHERE sicode = #{sicode}
+		AND so_number = #{so_number}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00101_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /*  */
+    	DELETE FROM base_sore
+    	WHERE sicode = #{sicode}
+    	AND	so_number = #{so_number}
+    </delete>
+    
+    <!-- 전날 일지 조회 -->
+    <select id="DAY00101_P01_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        SELECT sicode
+			, so_number
+			, so_nalja
+			, so_code
+			, so_name
+			, 체위시08
+			, 체위시09
+			, 체위시10
+			, 체위시11
+			, 체위시12
+			, 체위시13
+			, 체위시14
+			, 체위시15
+			, 체위시16
+			, 체위시17
+			, 체위시18
+			, 담당자08
+			, 담당코드08
+			, 담당자09
+			, 담당코드09
+			, 담당자10
+			, 담당코드10
+			, 담당자11
+			, 담당코드11
+			, 담당자12
+			, 담당코드12
+			, 담당자13
+			, 담당코드13
+			, 담당자14
+			, 담당코드14
+			, 담당자15
+			, 담당코드15
+			, 담당자16
+			, 담당코드16
+			, 담당자17
+			, 담당코드17
+			, 담당자18
+			, 담당코드18
+		FROM base_sore
+		WHERE sicode = #{sicode}
+		  AND so_code = #{so_code}
+		  AND so_nalja BETWEEN DATE_SUB(#{so_nalja}, INTERVAL 5 DAY) AND DATE_SUB(#{so_nalja}, INTERVAL 1 DAY)
+		  ORDER BY so_nalja DESC
+	  	  LIMIT 1
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

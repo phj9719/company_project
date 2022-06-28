@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC103QR                                                         
+     * 프로그램 명     	: 체성분분석                                                  
+     * Description 	: 모바일에서 입소자의 체성분분석 내역을 조회 
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-08 15:53     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================
+        NUC103QR_DS_COMPOSITION_S		마지막 체성분 측정 정보 조회
+        NUC103QR_DS_LIST_S				연간 체성분 분석 내역 조회                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC103QR">
+	<!-- 마지막 체성분 측정 정보 조회 -->
+	<select id="NUC103QR_DS_COMPOSITION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC103QR_DS_COMPOSITION_S */
+		SELECT
+				COMPANY_CD
+			,	RES_ID
+			,	COM_DT	/* 일자 */
+			,	HEIGHT	/* 신장 */
+			,	WEIGHT	/* 체중 */
+			,	SMM		/* 골격근량 */
+			,	BFM 	/* 체지방량 */
+			,	PBF 	/* 체지방율 */
+		FROM 	T_NU_COMPOSITION
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY COM_DT DESC LIMIT 1
+	</select>
+	
+	<!-- 연간 체성분 분석 내역 조회 -->
+	<select id="NUC103QR_DS_LIST_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC103QR_DS_LIST_S */
+		SELECT
+				COMPANY_CD
+			,	RES_ID
+			,	COM_DT
+			,	CONCAT(
+						SUBSTRING(COM_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(COM_DT, 7, 2)) AS CHART_DATE
+			,	HEIGHT
+			,	WEIGHT
+			,	SMM
+			,	BFM
+			,	PBF
+		FROM	T_NU_COMPOSITION
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		COM_DT BETWEEN #{FROM} AND #{TO}
+		ORDER BY COM_DT DESC
+	</select>                                                                                                                                                                                 
+</mapper>                                                                                                                                                                                                          

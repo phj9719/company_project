@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="mAgreeFail" width="480" height="708" titletext="Mobile Agree Fail" onclick="formClick" onload="mAgreeFail_onload" ondevicebuttonup="mAgreeFail_ondevicebuttonup">
+    <Layouts>
+      <Layout width="480" height="708" screenid="Mobile">
+        <Div id="div_login" taborder="0" text="Login Division" left="0.00%" top="3.65%" right="0.00%" bottom="0%" background="transparent" border="0px solid rgba(128,128,128,1)" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Static id="sta_title" taborder="0" text="스마트 안심요양원&#13;&#10;회원가입미완료" left="5.00%" top="0" width="360" height="100" font="bold 22pt/normal &quot;Noto Sans CJK KR Black&quot;" color="#555555" onclick="formClick"/>
+              <Button id="btn_back" taborder="1" text="돌아가기" left="3.75%" height="54" cssclass="btn_basic" right="3.75%" onclick="div_login_btn_back_onclick" bottom="5%"/>
+              <Static id="sta_txt" taborder="2" left="5%" top="130" width="426" height="150" text="서비스이용약관 및 개인정보취급방침에&#13;&#10;동의하지 않아 로그인되지 않았습니다.&#13;&#10;스마트 안심요양원 사용을 위해&#13;&#10;해당 내용에 동의해 주세요."/>
+              <ImageViewer id="img_fail" taborder="3" left="5%" top="315" width="112" height="103" background="url('theme://images/ico_loginfailed.png') no-repeat center"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: mAgreeFail
+ * 화면명   	: 회원가입 미완료
+ * 화면설명 	: 이용약관 및 개인정보취급방침 동의를 하지 않아
+				  가입이 되지 않았음을 알려주는 화면
+ * 작성일   	: 2021-07-05
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.mAgreeFail_onload = function (obj:Form, e:nexacro.LoadEventInfo) 
+{
+
+	//this.form_onload_com(obj, e,false);
+	
+	// topFrame 아래쪽 경계선
+	nexacro.getApplication().av_topFrame.set_border("1px solid transparent,1px solid transparent,1px solid #cccccc");
+	
+};
+
+// 돌아가기
+this.div_login_btn_back_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.getApplication().av_loginFrame.set_formurl("MobileFrame::mFrameLogin.xfdl");
+	nexacro.getApplication().av_topFrame.form.sta_top.set_text("로그인");
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.mAgreeFail_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_loginFrame.set_formurl("MobileFrame::mFrameLogin.xfdl");
+		nexacro.getApplication().av_topFrame.form.sta_top.set_text("로그인");
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

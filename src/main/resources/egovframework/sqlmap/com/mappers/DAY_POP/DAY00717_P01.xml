@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00717_P01                                                    
+     * 프로그램 명  : 실내·외 소독일지 출력                                                     
+     * Description 	: 실내·외 소독일지 조회, 삽입, 수정, 삭제
+     *================================================================                  
+           작성일자        		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-03-23 16:00        	|  조기종		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00717_P01_DS_LIST_S		조회
+        DAY00717_P01_DS_LIST2_S		엑셀 출력용 조회
+        DAY00717_P01_DS_DATA_I		삽입
+        DAY00717_P01_DS_DATA_U		수정
+        DAY00717_P01_DS_DATA_D		삭제                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00717_P01">
+	<!-- 조회 -->
+    <select id="DAY00717_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-17 P01 조회 */
+    WITH RECURSIVE line AS
+    (
+        SELECT
+          LAST_DAY(#{DATE_FROM} - INTERVAL 1 MONTH) + INTERVAL 1 DAY AS date
+        , 1 AS row
+        UNION ALL
+        SELECT
+	      date + INTERVAL 1 DAY AS date
+        , row + 1 AS row
+        FROM line
+        WHERE date <![CDATA[<]]> LAST_DAY(#{DATE_TO})
+    )
+    SELECT
+      li.date
+    , bg.sicode
+    , LPAD(bg.소독번호, 7, '0') AS 소독번호
+    , bg.소독일
+    , bg.소독제품
+    , bg.소독장소
+    , bg.소독자명
+    , bg.소독코드
+    , bg.소독직종
+    , bg.소독차량
+    , CASE WHEN bg.소독번호 IS NOT NULL THEN 'O' ELSE NULL END AS 작성
+    , (SELECT CF.FILE_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS germsajin1
+    , (SELECT CF.FILE_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID2
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS germsajin2
+    , bg.FILE_GRP_ID
+    , (SELECT CF.FILE_REAL_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_REAL_NAME
+    , (SELECT CF.FILE_ID
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_ID
+    , bg.FILE_GRP_ID2
+    , (SELECT CF.FILE_REAL_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID2
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_REAL_NAME2
+    , (SELECT CF.FILE_ID
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = bg.sicode
+       AND CF.FILE_GRP_ID = bg.FILE_GRP_ID2
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_ID2
+    FROM line li
+    LEFT JOIN base_germ bg
+    ON li.date = bg.소독일
+    AND bg.sicode = #{SICODE}
+    ORDER BY li.date ASC
+    </select>
+    
+    <!-- 엑셀 출력용 조회 -->
+    <select id="DAY00717_P01_DS_LIST2_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-17 P01 엑셀 조회 */
+    SELECT
+      bg.sicode
+    , LPAD(bg.소독번호, 7, '0') AS 소독번호
+    , bg.소독일
+    , bg.소독제품
+    , bg.소독장소
+    , bg.소독자명
+    , bg.소독코드
+    , bg.소독직종
+    , bg.소독차량
+    FROM base_germ bg
+    WHERE bg.sicode = #{SICODE}
+    AND bg.소독일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY bg.소독일 ASC
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00717_P01_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-17 P01 삽입 */
+    INSERT INTO base_germ
+    (
+      sicode
+    , 소독일
+    , 소독제품
+    , 소독장소
+    , 소독자명
+    , 소독코드
+    , 소독직종
+    , 소독차량
+    , FILE_GRP_ID
+    , FILE_GRP_ID2
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{소독일}
+    , #{소독제품}
+    , #{소독장소}
+    , #{소독자명}
+    , #{소독코드}
+    , #{소독직종}
+    , #{소독차량}
+    , #{FILE_GRP_ID}
+    , #{FILE_GRP_ID2}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00717_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-17 P01 수정 */
+    UPDATE base_germ
+    SET
+      소독제품 = #{소독제품}
+    , 소독장소 = #{소독장소}
+    , 소독자명 = #{소독자명}
+    , 소독코드 = #{소독코드}
+    , 소독직종 = #{소독직종}
+    , 소독차량 = #{소독차량}
+    , FILE_GRP_ID = #{FILE_GRP_ID}
+    , FILE_GRP_ID2 = #{FILE_GRP_ID2}
+    WHERE sicode = #{sicode}
+    AND 소독일 = #{소독일}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00717_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-17 P01 삭제 */
+    DELETE FROM base_germ
+    WHERE sicode = #{sicode}
+    AND 소독일 = #{소독일}
+    </delete>
+</mapper>

@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00203_P01" width="700" height="690" titletext="간호기록소독일지" onload="form_onload">
+    <Layouts>
+      <Layout width="700" height="690">
+        <Div id="div_cont" taborder="1" left="10" top="50" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" autofittype="col" bottom="0" right="0" binddataset="ds_list" oncellclick="div_cont_grd_list_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="525"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="연번"/>
+                      <Cell col="1" text="소독기구명"/>
+                      <Cell col="2" text="보유수량"/>
+                      <Cell col="3" text="지움"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:기구번호" cssclass="cellBWoman"/>
+                      <Cell col="1" text="bind:기구명" edittype="normal" editmaxlength="15" textAlign="left"/>
+                      <Cell col="2" text="bind:수량" maskeditformat="####" displaytype="mask" edittype="mask" maskeditlimitbymask="both" textAlign="right"/>
+                      <Cell col="3" displaytype="buttoncontrol" edittype="button" text="지움"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="10" right="10" height="30" top="10">
+          <Layouts>
+            <Layout>
+              <Button id="btn_reset" taborder="0" text="재정렬" top="4" width="70" height="26" left="533" onclick="div_func_btn_reset_onclick"/>
+              <Button id="btn_save" taborder="1" text="저장" top="4" width="70" height="26" onclick="fn_save" cssclass="btn_save" left="608"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="기구번호" type="STRING" size="256"/>
+          <Column id="기구명" type="STRING" size="256"/>
+          <Column id="수량" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list_copy" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="기구번호" type="STRING" size="256"/>
+          <Column id="기구명" type="STRING" size="256"/>
+          <Column id="수량" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00203_P01
+ * 화면명   	: 간호기구 목록조회팝업
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-16
+ * 작성자   	: 이동관
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00203_P01";
+	
+	this.ds_search.setColumn(0, "sicode", this.parent.SICODE);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	return true;
+};
+
+this.fn_save_pre = function()
+{
+	return true;
+}
+
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00203_P01.DAY00203_P01_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+	
+	const svcId = "save";
+ 	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search"){
+			
+		} else if(strSvcID == "save"){
+			this.fn_search();
+		} 
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+this.div_func_btn_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+	
+	this.ds_list_copy.copyData(this.ds_list);
+	this.ds_list.clearData();
+	for(let i = 0; i<this.ds_list_copy.rowcount; i++){
+		if(!Sct.Util.isEmpty(this.ds_list_copy.getColumn(i, "기구명"))){
+			let aRow = this.ds_list.addRow();
+			this.ds_list.copyRow(aRow, this.ds_list_copy, i, "sicode=sicode,기구명=기구명,수량=수량");
+			this.ds_list.setColumn(aRow, "기구번호", aRow+1);
+		}
+	}
+	
+ 	for(let i = this.ds_list.rowcount; i<this.ds_list_copy.rowcount; i++){
+ 		let aRow = this.ds_list.addRow();
+		this.ds_list.setColumn(aRow, "sicode", this.parent.SICODE);
+		this.ds_list.setColumn(aRow, "기구번호", aRow+1);
+ 		this.ds_list.setColumn(aRow, "기구명", "");
+ 		this.ds_list.setColumn(aRow, "수량", 0);
+ 	}
+ 	this.ds_list_copy.clearData();		
+	
+	this.ds_list.set_updatecontrol(false);
+	for(let i = 0; i<this.ds_list.rowcount; i++){
+		this.ds_list.setRowType(i, Dataset.ROWTYPE_UPDATE);
+	}
+	this.ds_list.set_updatecontrol(true);
+
+};
+
+
+this.div_cont_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo){
+	
+	if(e.col == 3){
+		this.ds_list.setColumn(e.row, "기구명", "");
+		this.ds_list.setColumn(e.row, "수량", 0);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

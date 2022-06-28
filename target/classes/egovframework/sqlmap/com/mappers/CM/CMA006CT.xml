@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                 
+	  역할관리 mapper                                                                                   
+-->																											  
+<mapper namespace="CMA006CT">                                                                                                                                                                                       
+    <select id="CMA006CT_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+           		  SELECT A.COMPANY_CD
+           			    ,(SELECT COMPANY_NM
+							FROM T_CM_COMPANY C
+						   WHERE A.COMPANY_CD = C.COMPANY_CD) AS COMPANY_NM
+	           			,A.SERVICE_TP
+	           			,A.APPLICATION_TP
+					 	,A.GRP_CD      
+					    ,A.GRP_NM     
+					    ,A.GRP_ORDER  
+					    ,A.GRP_DESC   
+					    ,A.USE_YN
+					    ,A.REG_PGM_ID
+						,A.REG_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+						,A.REG_DT
+						,A.REG_DT_CURR
+						,A.REG_DT_LOC
+						,A.REG_IP
+						,A.MOD_PGM_ID
+						,A.MOD_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+						,A.MOD_DT
+						,A.MOD_DT_CURR
+						,A.MOD_DT_LOC
+						,A.MOD_IP     
+			   	 FROM T_CM_GROUP A
+			   	WHERE 1=1
+     ]]>    
+				<if test="COMPANY_CD != '' and COMPANY_CD != null"> 
+				  AND A.COMPANY_CD = #{COMPANY_CD}
+				</if>      
+				<if test="SERVICE_TP != '' and SERVICE_TP != null"> 
+				  AND A.SERVICE_TP = #{SERVICE_TP}
+				</if> 
+				<if test="APPLICATION_TP != '' and APPLICATION_TP != null"> 
+				  AND A.APPLICATION_TP = #{APPLICATION_TP}
+				</if>              
+				<if test="GRP_NM != '' and GRP_NM != null"> 
+				  AND A.GRP_NM LIKE CONCAT('%' , #{GRP_NM} , '%')
+				</if>
+				 ORDER BY A.GRP_CD                                                                                                                                                                                                  
+    </select>
+    
+    <insert id="CMA006CT_DS_HEAD_I" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+			      INSERT INTO T_CM_GROUP
+			        (COMPANY_CD,
+			        SERVICE_TP,
+           			APPLICATION_TP,
+			         GRP_CD,
+			         GRP_NM,
+			         GRP_ORDER,
+			         GRP_DESC,
+			         USE_YN,
+			         REG_PGM_ID,
+			         REG_USER,
+			         REG_DT,
+			         REG_DT_CURR,
+			         REG_DT_LOC,
+			         REG_IP,
+			         MOD_PGM_ID,
+			         MOD_USER,
+			         MOD_DT,
+			         MOD_DT_CURR,
+			         MOD_DT_LOC,
+			         MOD_IP)
+			      VALUES
+			        (#{COMPANY_CD},
+			        #{SERVICE_TP},
+			        #{APPLICATION_TP},
+			         #{GRP_CD},
+			         #{GRP_NM},
+			         #{GRP_ORDER},
+			         #{GRP_DESC},
+			         #{USE_YN},
+			         #{REG_PGM_ID},
+			         #{REG_USER},
+			         #{REG_DT},
+			         #{REG_DT_CURR},
+			         #{REG_DT_LOC},
+			         #{REG_IP},
+			         '',
+			         '',
+			         '',
+			         '',
+			         '',
+			         '')                                                                                                                                                               
+     		]]>                                                                                                                                                                                                              
+    </insert>
+    <update id="CMA006CT_DS_HEAD_U" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+		           UPDATE T_CM_GROUP
+		              SET COMPANY_CD  = #{COMPANY_CD},
+		                  GRP_CD      = #{GRP_CD},
+		                  GRP_NM      = #{GRP_NM},
+		                  SERVICE_TP  = #{SERVICE_TP},
+		                  APPLICATION_TP = #{APPLICATION_TP},
+		                  GRP_ORDER   = #{GRP_ORDER},
+		                  GRP_DESC    = #{GRP_DESC},
+		                  USE_YN      = #{USE_YN},
+		                  MOD_PGM_ID  = #{MOD_PGM_ID},
+		                  MOD_USER    = #{MOD_USER},
+		                  MOD_DT      = #{MOD_DT},
+		                  MOD_DT_CURR = #{MOD_DT_CURR},
+		                  MOD_DT_LOC  = #{MOD_DT_LOC},
+		                  MOD_IP      = #{MOD_IP}
+		            WHERE COMPANY_CD = #{COMPANY_CD}
+		              AND GRP_CD = #{GRP_CD}
+		              AND SERVICE_TP = #{SERVICE_TP}
+		              AND APPLICATION_TP = #{APPLICATION_TP}
+                                                                                                                                                                                 
+		     ]]>                                                                                                                                                                                                              
+    </update>
+    <delete id="CMA006CT_DS_HEAD_D" parameterType="java.util.HashMap">
+    	<![CDATA[
+		BEGIN NOT ATOMIC
+			DELETE FROM T_CM_GROUP
+			 WHERE GRP_CD     = #{GRP_CD}
+			   AND COMPANY_CD = #{COMPANY_CD}
+			   AND SERVICE_TP = #{SERVICE_TP}
+			   AND APPLICATION_TP = #{APPLICATION_TP};
+			
+			DELETE FROM T_CM_GROUP_MENU
+			WHERE  GRP_CD     = #{GRP_CD} 
+			  AND COMPANY_CD = #{COMPANY_CD}
+			  AND SERVICE_TP = #{SERVICE_TP}
+			  AND APPLICATION_TP = #{APPLICATION_TP};
+			
+			DELETE FROM T_CM_USER_ROLE
+			WHERE  GRP_CD     = #{GRP_CD}
+			  AND COMPANY_CD = #{COMPANY_CD}
+			  AND SERVICE_TP = #{SERVICE_TP}
+			  AND APPLICATION_TP = #{APPLICATION_TP};
+			
+    	END ;
+    	]]>    
+    </delete>
+    <select id="CMA006CT_DS_MENU_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[
+		        SELECT A.COMPANY_CD
+		       		  ,A.SERVICE_TP
+		       		  ,A.APPLICATION_TP
+		              ,A.MENU_CD
+		              ,A.MENU_NM
+		              ,A.MENU_LEVEL
+		              ,A.MENU_ID
+		              ,B.CLS_AUTH
+		              ,B.SEAR_AUTH
+		              ,B.ADD_AUTH
+		              ,B.DEL_AUTH
+		              ,B.SAVE_AUTH
+		              ,B.PRN_AUTH
+		              ,B.APPV_AUTH
+		              ,B.MENU_TP
+		              ,A.REG_DT
+		              ,A.REG_USER
+		              ,(SELECT CU.USER_NM_KOR
+						  FROM T_CM_USER CU
+						 WHERE A.COMPANY_CD = CU.COMPANY_CD
+						   AND A.SERVICE_TP = CU.SERVICE_TP
+						   AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					  ,A.REG_DT_CURR
+					  ,A.REG_DT_LOC
+					  ,A.REG_IP
+					  ,A.MOD_PGM_ID
+					  ,A.MOD_USER
+					  ,(SELECT CU.USER_NM_KOR
+						  FROM T_CM_USER CU
+						 WHERE A.COMPANY_CD = CU.COMPANY_CD
+						   AND A.SERVICE_TP = CU.SERVICE_TP
+						   AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					  ,A.MOD_DT
+					  ,A.MOD_DT_CURR
+					  ,A.MOD_DT_LOC
+					  ,A.MOD_IP
+		         FROM T_CM_MENU A
+	  LEFT OUTER JOIN T_CM_MENU_ID B
+		           ON (A.COMPANY_CD = B.COMPANY_CD
+		          AND A.MENU_ID = B.MENU_ID)
+		        WHERE A.MENU_CD NOT IN (SELECT CGM.MENU_CD
+										  FROM T_CM_GROUP_MENU CGM
+		                				 WHERE CGM.GRP_CD = #{GRP_CD}
+		                  				   AND CGM.COMPANY_CD = #{COMPANY_CD}
+		                  				   AND CGM.SERVICE_TP = #{SERVICE_TP}
+		                  				   AND CGM.APPLICATION_TP = #{APPLICATION_TP})
+		          AND A.COMPANY_CD = #{COMPANY_CD}             
+		          AND A.SERVICE_TP = #{SERVICE_TP}
+		          AND A.APPLICATION_TP = #{APPLICATION_TP}
+		   	 ORDER BY MENU_CD
+
+		]]>                                                                                                                                                                                                              
+    </select>
+
+    <select id="CMA006CT_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+		         SELECT A.COMPANY_CD
+			           ,A.SERVICE_TP
+			           ,A.APPLICATION_TP
+			           ,A.GRP_CD
+			           ,A.MENU_CD
+			           ,B.MENU_NM
+			           ,B.MENU_LEVEL
+			           ,A.CLS_AUTH
+			           ,A.SEAR_AUTH
+			           ,A.ADD_AUTH
+			           ,A.DEL_AUTH
+			           ,A.SAVE_AUTH
+			           ,A.PRN_AUTH
+			           ,A.APPV_AUTH
+			           ,A.REG_PGM_ID
+				       ,A.REG_USER
+				       ,(SELECT CU.USER_NM_KOR
+						   FROM T_CM_USER CU
+						  WHERE A.COMPANY_CD = CU.COMPANY_CD
+						    AND A.SERVICE_TP = CU.SERVICE_TP
+						    AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+				       ,A.REG_DT
+				       ,A.REG_DT_CURR
+				       ,A.REG_DT_LOC
+				       ,A.REG_IP
+				       ,A.MOD_PGM_ID
+				       ,A.MOD_USER
+				       ,(SELECT CU.USER_NM_KOR
+						   FROM T_CM_USER CU
+						  WHERE A.COMPANY_CD = CU.COMPANY_CD
+						    AND A.SERVICE_TP = CU.SERVICE_TP
+						    AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+				       ,A.MOD_DT
+				       ,A.MOD_DT_CURR
+				       ,A.MOD_DT_LOC
+				       ,A.MOD_IP   
+		           FROM T_CM_GROUP_MENU A
+		     INNER JOIN	T_CM_MENU B
+		         	 ON	B.MENU_CD    = A.MENU_CD
+		         	AND B.COMPANY_CD = A.COMPANY_CD
+		          WHERE	A.GRP_CD     = #{GRP_CD}
+		         	AND A.COMPANY_CD = #{COMPANY_CD}
+		         	AND A.SERVICE_TP = #{SERVICE_TP}
+		         	AND A.APPLICATION_TP = #{APPLICATION_TP}
+		       ORDER BY B.MENU_CD                                       
+     		]]>                                                                                                                                                                                                              
+    </select> 
+    
+    <insert id="CMA006CT_DS_DETAIL_I" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            	BEGIN NOT ATOMIC
+            	
+			      INSERT INTO T_CM_GROUP_MENU
+			        (COMPANY_CD,
+			         GRP_CD,
+			         SERVICE_TP,
+			         APPLICATION_TP,
+			         MENU_CD,
+			         CLS_AUTH,
+			         SEAR_AUTH,
+			         ADD_AUTH,
+			         DEL_AUTH,
+			         SAVE_AUTH,
+			         PRN_AUTH,
+			         APPV_AUTH,
+			         REG_PGM_ID,
+			         REG_USER,
+			         REG_DT,
+			         REG_DT_CURR,
+			         REG_DT_LOC,
+			         REG_IP,
+			         MOD_PGM_ID,
+			         MOD_USER,
+			         MOD_DT,
+			         MOD_DT_CURR,
+			         MOD_DT_LOC,
+			         MOD_IP			         
+			         )
+			      VALUES
+			        (#{COMPANY_CD},
+			         #{GRP_CD},
+			         #{SERVICE_TP},
+			         #{APPLICATION_TP},
+			         #{MENU_CD},
+			         #{CLS_AUTH},
+			         #{SEAR_AUTH},
+			         #{ADD_AUTH},
+			         #{DEL_AUTH},
+			         #{SAVE_AUTH},
+			         #{PRN_AUTH},
+			         #{APPV_AUTH},
+			         #{REG_PGM_ID},
+			         #{REG_USER},
+			         #{REG_DT},
+			         #{REG_DT_CURR},
+			         #{REG_DT_LOC},
+			         #{REG_IP},
+			         '',
+			         '',
+			         '',
+			         '',
+			         '',
+			         '');
+			         
+			      
+			    END
+     		]]>                                                                                                                                                                                                              
+    </insert>
+    
+    <update id="CMA006CT_DS_DETAIL_U" parameterType="java.util.HashMap">                                                                                                           
+            <![CDATA[
+            BEGIN NOT ATOMIC
+            
+		      UPDATE T_CM_GROUP_MENU
+		         SET CLS_AUTH    = #{CLS_AUTH},
+		             SEAR_AUTH   = #{SEAR_AUTH},
+		             ADD_AUTH    = #{ADD_AUTH},
+		             DEL_AUTH    = #{DEL_AUTH},
+		             SAVE_AUTH   = #{SAVE_AUTH},
+		             PRN_AUTH    = #{PRN_AUTH},
+		             APPV_AUTH   = #{APPV_AUTH},
+		             MOD_PGM_ID  = #{MOD_PGM_ID},
+		             MOD_USER    = #{MOD_USER},
+		             MOD_DT      = #{MOD_DT},
+		             MOD_DT_CURR = #{MOD_DT_CURR},
+		             MOD_DT_LOC  = #{MOD_DT_LOC},
+		             MOD_IP      = #{MOD_IP}
+		       WHERE COMPANY_CD = #{COMPANY_CD}
+		         AND SERVICE_TP = #{SERVICE_TP}
+		         AND GRP_CD = #{GRP_CD}
+		         AND MENU_CD = #{MENU_CD};
+		         
+		         
+			END 
+		     ]]>                                                                                                                                                                                                              
+    </update>
+    <delete id="CMA006CT_DS_DETAIL_D" parameterType="java.util.HashMap">
+    	<![CDATA[
+    		BEGIN NOT ATOMIC
+		        DELETE FROM T_CM_GROUP_MENU
+		         WHERE GRP_CD = #{GRP_CD}
+		           AND COMPANY_CD = #{COMPANY_CD}
+		           AND SERVICE_TP = #{SERVICE_TP}
+		           AND MENU_CD = #{MENU_CD};
+
+		    END
+    	]]>    
+    </delete>
+    
+</mapper>                                                                                                                                                                                                          

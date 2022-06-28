@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="768" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="체성분분석">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Static id="Static00" taborder="0" text="체성분 분석 내역" left="5.00%" top="10" height="40" right="5.00%" cssclass="sta_title"/>
+        <Static id="Static01" taborder="1" text="최근 30일간 홍길동님의 물리치료 정보입니다." left="5.00%" top="111" height="30" textAlign="left" right="5.00%" cssclass="sta_txt"/>
+        <Grid id="Grid00" taborder="2" left="5.00%" top="545" autofittype="col" binddataset="ds_list" right="5.00%" height="131">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="80"/>
+                <Column size="50"/>
+                <Column size="70"/>
+                <Column size="70"/>
+                <Column size="70"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜"/>
+                <Cell col="1" text="골격근량"/>
+                <Cell col="2" text="체중"/>
+                <Cell col="3" text="신장"/>
+                <Cell col="4" text="체지방량"/>
+                <Cell col="5" text="체지방률"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DATE"/>
+                <Cell col="1" text="bind:SMM"/>
+                <Cell col="2" text="bind:WEIGHT"/>
+                <Cell col="3" text="bind:HEIGHT"/>
+                <Cell col="4" text="bind:BFM"/>
+                <Cell col="5" text="bind:BFB"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="Div00" taborder="3" text="Div00" left="5.00%" top="59" height="40" right="5.00%">
+          <Layouts>
+            <Layout>
+              <Button id="Button00" taborder="0" text="분기별" left="0" top="0" width="90" height="40" cssclass="btn_3month"/>
+              <Button id="Button00_00" taborder="1" text="반기별" left="88" top="0" width="90" height="40" cssclass="btn_6month"/>
+              <Button id="Button00_00_00" taborder="2" text="연도별" left="176" top="0" width="90" height="40" cssclass="btn_12month"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_chart" taborder="4" text="Div00" left="5.00%" top="152" height="220" right="5.00%" background="#eef3fa" borderRadius="6px" formscrollbartype="indicator" formscrolltype="both">
+          <Layouts>
+            <Layout>
+              <BasicChart id="BasicChart00" taborder="0" left="0" top="10" width="430" height="200" categorycolumn="bind:DATE" binddataset="ds_chart" boardspacing="0px 5px 0px 0px" minwidth="">
+                <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#082c71",
+		"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #afc3e8",
+		"visible": true,
+		"axistype": "normal",
+		"labelgap": "",
+		"titletextalign": "high"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "골격근량",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#f5b9d1",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"valuecolumn": "bind:SMM",
+			"linevisible": "true",
+			"pointvisible": "false",
+			"pointitemtextposition": "centertop",
+			"pointitemtextgap": "10",
+			"lineitemtextposition": "centertop",
+			"lineitemtextgap": "5",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"lineareafillstyle": "#f5b9d1",
+			"linestyle": "1px solid #f5b9d1",
+			"pointlinestyle": "2px solid #f5b9d1",
+			"selectbarfillstyle": "#f5b9d1",
+			"selectlineareafillstyle": "#f5b9d1",
+			"selectpointfillstyle": "#f5b9d1"
+		},
+		{
+			"id": "series1",
+			"valuecolumn": "bind:WEIGHT",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "centertop",
+			"lineitemtextgap": "5",
+			"titletext": "체중",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#ffae93",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"lineareafillstyle": "#ffae93",
+			"linestyle": "1px solid #ffae93",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #ffae93",
+			"selectbarfillstyle": "#ffae93",
+			"selectlineareafillstyle": "#ffae93"
+		},
+		{
+			"id": "series2",
+			"valuecolumn": "bind:HEIGHT",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "centertop",
+			"lineitemtextgap": "5",
+			"titletext": "신장",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#ffcc41",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"lineareafillstyle": "#ffcc41",
+			"linestyle": "1px solid #ffcc41",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #ffcc41",
+			"selectbarfillstyle": "#ffcc41",
+			"selectlineareafillstyle": "#ffcc41",
+			"selectpointfillstyle": "#ffcc41"
+		},
+		{
+			"id": "series3",
+			"valuecolumn": "bind:BFM",
+			"barvisible": "false",
+			"linevisible": "true",
+			"itemtextvisible": "true",
+			"lineitemtextposition": "centertop",
+			"lineitemtextgap": "5",
+			"titletext": "체지방량",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#86d1de",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"lineareafillstyle": "#86d1de",
+			"linestyle": "1px solid #86d1de",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #86d1de",
+			"selectlineareafillstyle": "#86d1de",
+			"selectlinestyle": "#86d1de"
+		},
+		{
+			"id": "series4",
+			"valuecolumn": "bind:BFB",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"lineitemtextposition": "centertop",
+			"lineitemtextgap": "5",
+			"titletext": "체지방률",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"barsize": "65",
+			"itemtextcolor": "#a88eff",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"lineareafillstyle": "#a88eff",
+			"linestyle": "1px solid #a88eff",
+			"pointitemtextgap": "10",
+			"pointitemtextposition": "centertop",
+			"pointlinestyle": "2px solid #a88eff",
+			"selectbarfillstyle": "#a88eff",
+			"selectlineareafillstyle": "#a88eff",
+			"selectpointfillstyle": "#a88eff"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"titletextcolor": "#082c71",
+			"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"tickmax": "200",
+			"autotickscale": "",
+			"tickinterval": "50",
+			"ticks": "4",
+			"titletext": "수치",
+			"titlegap": "10",
+			"titletextalign": "high",
+			"titlerotate": "0"
+		}
+	],
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"padding": "5px"
+	},
+	"legend": {
+		"id": "legend",
+		"padding": "3px 0px 20px",
+		"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"itemtextcolor": "#555555",
+		"align": "topcenter",
+		"markertextgap": "3",
+		"horizontalitemgap": "5",
+		"itemcolumncount": "5",
+		"verticalitemgap": "",
+		"top": ""
+	}
+}]]></Contents>
+              </BasicChart>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="5" text="Div01" left="5%" top="392" height="133" right="5%">
+          <Layouts>
+            <Layout>
+              <Div id="Div03" taborder="0" text="Div03" left="0%" top="0" width="18%" height="133" edge="url('theme://images/bg_diary_bc1.png') 0px 0px">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static00" taborder="0" text="골격근량" left="0" top="10" width="100%" height="24" font="bold 15pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="center" color="#fcecf2" verticalAlign="middle"/>
+                    <Static id="Static01" taborder="1" text="28" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 25pt/normal &quot;Arial&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+                    <Static id="Static02" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" color="#ffffff" font="17pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="Div03_00" taborder="1" text="Div03" left="20.5%" top="0" width="18.00%" height="133" edge="url('theme://images/bg_diary_bc2.png') 0px 0px">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static00" taborder="0" text="체중" left="0" top="10" width="100%" height="24" font="bold 15pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="center" color="#ffe9e2" verticalAlign="middle"/>
+                    <Static id="Static01" taborder="1" text="28" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 25pt/normal &quot;Arial&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+                    <Static id="Static02" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" color="#ffffff" font="17pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="Div03_01" taborder="2" text="Div03" left="41%" top="0" width="18.00%" height="133" edge="url('theme://images/bg_diary_bc3.png') 0px 0px">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static00" taborder="0" text="신장" left="0" top="10" width="100%" height="24" font="bold 15pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="center" color="#fff2d6" verticalAlign="middle"/>
+                    <Static id="Static01" taborder="1" text="28" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 25pt/normal &quot;Arial&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+                    <Static id="Static02" taborder="2" text="㎝" left="0" top="80" width="100%" height="40" textAlign="center" color="#ffffff" font="17pt/normal &quot;Noto Sans CJK KR Bold&quot;" onclick="Div01_Div03_01_Static02_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="Div03_02" taborder="3" text="Div03" left="61.5%" top="0" width="18.00%" height="133" edge="url('theme://images/bg_diary_bc4.png') 0px 0px">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static00" taborder="0" text="체지방량" left="0" top="10" width="100%" height="24" font="bold 15pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="center" color="#dff2f5" verticalAlign="middle"/>
+                    <Static id="Static01" taborder="1" text="28" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 25pt/normal &quot;Arial&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+                    <Static id="Static02" taborder="2" text="㎏" left="0" top="80" width="100%" height="40" textAlign="center" color="#ffffff" font="17pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="Div03_03" taborder="4" text="Div03" left="82%" top="0" width="18.00%" height="133" edge="url('theme://images/bg_diary_bc5.png') 0px 0px">
+                <Layouts>
+                  <Layout>
+                    <Static id="Static00" taborder="0" text="체지방률" left="0" top="10" width="100%" height="24" font="bold 15pt/normal &quot;Noto Sans CJK KR Bold&quot;" textAlign="center" color="#e7e1ff" verticalAlign="middle"/>
+                    <Static id="Static01" taborder="1" text="28" left="0" top="50" width="100%" height="40" textAlign="center" font="normal 700 25pt/normal &quot;Arial&quot;" color="#ffffff" verticalAlign="middle" letterSpacing="-1px"/>
+                    <Static id="Static02" taborder="2" text="％" left="0" top="80" width="100%" height="40" textAlign="center" color="#ffffff" font="17pt/normal &quot;Noto Sans CJK KR Bold&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="PRESIDENT_NM" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="START_DT" type="STRING" size="256"/>
+          <Column id="END_DT" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="BFB" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATE">2021.06.10</Col>
+            <Col id="SMM">28kg</Col>
+            <Col id="WEIGHT">70kg</Col>
+            <Col id="HEIGHT">175cm</Col>
+            <Col id="BFM">30kg</Col>
+            <Col id="BFB">30%</Col>
+          </Row>
+          <Row>
+            <Col id="DATE">2021.05.10</Col>
+            <Col id="SMM">30kg</Col>
+            <Col id="WEIGHT">68kg</Col>
+            <Col id="HEIGHT">175cm</Col>
+            <Col id="BFM">29kg</Col>
+            <Col id="BFB">29%</Col>
+          </Row>
+          <Row>
+            <Col id="DATE">2021.04.10</Col>
+            <Col id="SMM">27kg</Col>
+            <Col id="WEIGHT">65kg</Col>
+            <Col id="HEIGHT">176cm</Col>
+            <Col id="BFM">27kg</Col>
+            <Col id="BFB">25%</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_chart">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="BFM" type="STRING" size="256"/>
+          <Column id="BFB" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATE">04.10</Col>
+            <Col id="SMM">27</Col>
+            <Col id="WEIGHT">65</Col>
+            <Col id="HEIGHT">176</Col>
+            <Col id="BFM">27</Col>
+            <Col id="BFB">25</Col>
+          </Row>
+          <Row>
+            <Col id="DATE">05.10</Col>
+            <Col id="SMM">30</Col>
+            <Col id="WEIGHT">68</Col>
+            <Col id="HEIGHT">175</Col>
+            <Col id="BFM">29</Col>
+            <Col id="BFB">29</Col>
+          </Row>
+          <Row>
+            <Col id="DATE">06.10</Col>
+            <Col id="SMM">28</Col>
+            <Col id="WEIGHT">70</Col>
+            <Col id="HEIGHT">175</Col>
+            <Col id="BFM">30</Col>
+            <Col id="BFB">30</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	//조회조건
+	//this.div_search.form.cmb_use_yn.set_value("Y")
+	
+	//조회
+	//this.fn_search();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	//조회전 그리드에 변경된 데이터가 있을경우 ..
+	if(Sct.Grid.isUpdate(this.ds_notice) || Sct.Grid.isUpdate(this.ds_read_user)){
+		if(!Sct.confirm(this,"000171","")){ //변경된 데이터가 있습니다. 무시하겠습니까?
+			return;
+		}
+	}
+	
+	//조회조건 필수여부확인
+	if(!this.gfn_findSnull(this.div_search)) return false;
+
+	return true;
+};
+
+//추가 전 validation
+this.fn_insert_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasInsertedRow(this.ds_notice))
+	{
+		Sct.alert(this, "000240"); //추가한 데이터가 없습니다.
+		return false;
+	}
+	
+	//다른상태값 존재여부
+	if(!Sct.Grid.hasDifferentRowType(this.ds_notice, Dataset.ROWTYPE_INSERT))
+	{
+		Sct.alert(this, "000237"); //추가작업 외 다른 작업상태가 존재합니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_findSnull(this.div_cont.form.div_edit)) return false;
+	
+	//수신인 저장시 validation
+	if(!this.fn_readUserValidation()) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+
+	return true;
+};
+
+// 수정 전 validation
+this.fn_update_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasUpdatedRow(this.ds_notice) && !Sct.Grid.isUpdate(this.ds_read_user))
+	{
+		Sct.alert(this, "000118"); //변경된 데이터가 없습니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_findSnull(this.div_cont.form.div_edit)) return false;
+	
+	//수신인 저장시 validation
+	if(!this.fn_readUserValidation()) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_head=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_HEAD_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//detail 조회
+this.fn_searchDetail = function ()
+{
+	var companyCd = this.ds_head.getColumn(this.ds_head.rowposition, "COMPANY_CD");
+
+	var svcId = "searchDetail";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_detail=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_DETAIL_S ";
+	
+	if(!Sct.Util.isEmpty(companyCd)) argument += "COMPANY_CD=" + companyCd + " ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false);
+};
+
+//저장
+this.fn_save = function ()
+{
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	let svcId = "save";
+	let inDs = "ds_head"
+	this.fn_save_com(svcId, inDs);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			var count = this.ds_head.rowcount;
+			Sct.alert(this, "000175", count + "|");
+		}
+		else if(strSvcID == "insert" || strSvcID == "update" || strSvcID == "delete")
+		{
+			this.fn_search();
+		}
+		else if(strSvcID == "readUserInfoUpdate")
+		{
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+this.Div01_Div03_01_Static02_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	
+};
+]]></Script>
+  </Form>
+</FDL>

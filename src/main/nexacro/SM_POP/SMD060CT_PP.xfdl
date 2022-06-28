@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="SMD060CT_PP" width="326" height="226" titletext="비밀번호 변경" onload="SMD060CT_PP_onload">
+    <Layouts>
+      <Layout width="326" height="226">
+        <Edit id="edt_cur_pass" taborder="1" left="9" top="17" width="307" height="39" displaynulltext="현재 비밀번호" password="true" color="rgba(160,175,194,1)" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;"/>
+        <Edit id="edt_new_pass_chk" taborder="3" left="9" top="113" width="307" height="39" displaynulltext="새 비밀번호 확인" password="true" color="rgba(160,175,194,1)" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;"/>
+        <Edit id="edt_new_pass" taborder="2" left="9" top="65" width="307" height="39" displaynulltext="새 비밀번호" password="true" color="rgba(160,175,194,1)" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;"/>
+        <Button id="btn_ok" taborder="4" text="확인" left="98" top="169" width="100" height="34" onclick="fn_chkPass" enable="true" background="rgba(31,188,2,1)" border="0px solid rgba(125,127,128,1)" color="white" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;"/>
+        <Button id="btn_cancel" taborder="0" text="취소" left="209" top="169" width="100" height="34" onclick="fn_close" border="1px solid gainsboro" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;"/>
+        <Button id="btn_clear" taborder="5" text="초기화" left="8" top="169" width="80" height="34" enable="true" background="RGBA(183,26,5,1)" border="0px solid rgba(125,127,128,1)" color="white" font="9pt &quot;Verdana, antialias 9 malgun gothic,맑은 고딕&quot;" onclick="btn_clear_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_chk" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="FLAG" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[// 비밀번호 변경 팝업
+// 개발자  : 김정록
+// 날   짜 : 2018-02-12
+include "lib::sct_com.xjs"
+include "lib::lib_SHA256.xjs"
+
+this.SMD060CT_PP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 오픈시 첫번째 항목에 커서 이동
+	this.edt_cur_pass.setFocus();
+};
+
+this.fn_chkPass = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var curpass = this.edt_cur_pass.value;
+	var newpass = this.edt_new_pass.value;
+	var newpassChk = this.edt_new_pass_chk.value;
+
+	// 정규표현식
+	if(Sct.Util.isEmpty(curpass) || Sct.Util.isEmpty(newpass) || Sct.Util.isEmpty(newpassChk))
+	{
+		alert("필수값이 누락되었습니다.");
+		return;
+	}
+	const companyCd = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "COMPANY_CD");
+	var userid;
+	var isSys = "";
+	if (nexacro.getApplication().gv_userauth == "01") 
+	{
+		userid = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "USER_ID");
+		isSys = nexacro.getApplication().gv_userId;
+	}
+	else 
+	{
+		userid = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "USER_ID");
+	}
+
+
+	if (newpass != newpassChk) 
+	{
+		Sct.alert(this, "000137");//비밀번호가 일치하지 않습니다.
+		return false;
+	}
+
+	// var check1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,12}$/.test(newpass);   //영문,숫자
+	// var check2 = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{10,12}$/.test(newpass);  //영문,특수문자
+	// if(!(check1 && check2 && newpass.length >=10)){
+	// alert("패스워드는 영대소문자,특수문자 포함 10자리 이상입니다.");
+	// return;
+	// }
+	
+	var argument = "method=changePassword "
+		 + "USER_ID=" + userid + " "
+		 + "COMPANY_CD=" + companyCd + " "
+		 + "SYS=" + isSys + " "
+		 + "CUR_PASS=" + sha256_digest(curpass) + " "
+		 + "NEW_PASS=" + sha256_digest(newpass) + " ";
+
+	Sct.transaction(this, "passChk", "/SMD060CTController.do", "", "ds_chk=output1", argument, "fn_callback");
+};
+
+this.fn_close = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "passChk")
+		{	
+			Sct.alert(this, "000058");//성공적으로 처리되었습니다.
+			this.close();
+		} else if(strSvcID == "passClear") {
+		
+			Sct.alert(this, "000554");
+		//	this.close();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+	
+};
+
+this.fn_enter = function (obj:Form, e:nexacro.KeyEventInfo)
+{
+	if (e.keycode == 13) 
+	{
+		this.fn_chkPass();
+	}
+};
+
+this.fn_clearPw_pre = function () {
+	
+	if(!Sct.confirm(this, "000083", "0000으로 초기화")) return false;
+	
+	return true;
+};
+
+this.btn_clear_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	//validation
+	if(!this.fn_clearPw_pre()) return;
+	
+	var userid;
+	var isSys = "";
+	const companyCd = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "COMPANY_CD");
+	if (nexacro.getApplication().gv_userauth == "01") 
+	{
+		userid = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "USER_ID");
+		isSys = nexacro.getApplication().gv_userId;
+	}
+	else 
+	{
+		userid = this.opener.ds_list.getColumn(this.opener.ds_list.rowposition, "USER_ID");
+	}
+	
+	// 초기화 0000
+	var newpass = "0000";
+
+	// var check1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,12}$/.test(newpass);   //영문,숫자
+	// var check2 = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{10,12}$/.test(newpass);  //영문,특수문자
+	// if(!(check1 && check2 && newpass.length >=10)){
+	// alert("패스워드는 영대소문자,특수문자 포함 10자리 이상입니다.");
+	// return;
+	// }
+	
+	var argument = "method=clearPassword "
+		 + "USER_ID=" + userid + " "
+		 + "COMPANY_CD=" + companyCd + " "
+		 + "SYS=" + isSys + " "
+		 + "NEW_PASS=" + sha256_digest(newpass) + " ";
+
+	Sct.transaction(this, "passClear", "/SMD060CTController.do", "", "ds_chk=output1", argument, "fn_callback");
+};
+]]></Script>
+  </Form>
+</FDL>

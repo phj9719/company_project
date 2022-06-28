@@ -1,0 +1,2578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1180" height="700" onload="form_onload" titletext="요양일지" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclick="formClick">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Static id="sta_menuTitle" taborder="0" text="메뉴명" left="2.46%" top="10" height="30" onclick="formClick" right="3.47%" cssclass="sta_tMenuTitle"/>
+        <Tab id="Tab00" taborder="1" tabindex="0" left="2.46%" top="52" right="3.39%" bottom="5%" tabbuttonheight="50" tabbuttonwidth="150" showextrabutton="false" onchanged="Tab00_onchanged">
+          <Tabpages>
+            <Tabpage id="Tabpage0" text="집중배설관찰">
+              <Layouts>
+                <Layout>
+                  <Div id="div_search" taborder="0" left="2.34%" top="10" height="40" right="2.34%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_area_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_location_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Combo id="cmb_resident" taborder="4" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명"/>
+                        <Button id="btn_tReset" taborder="5" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="188" onclick="fn_searchBtn"/>
+                        <Button id="btn_tSave" taborder="6" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="98"/>
+                        <Button id="btn_tDelete" taborder="7" text="삭제" top="0" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" width="80" right="8"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_cont" taborder="1" left="2.34%" top="55" bottom="3%" right="2.43%" text="" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_resident" taborder="0" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="1" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="2" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocation" taborder="3" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="4" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="5" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Grid id="grd_excretion_list" taborder="6" left="0.00%" top="175" cssclass="grd_DataList_h2" bottom="0" right="0.00%" binddataset="ds_excretion_list" autofittype="col" cellclickbound="cell">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="70"/>
+                                <Column size="120"/>
+                                <Column size="60"/>
+                                <Column size="60"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="105"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="30" band="head"/>
+                                <Row size="30" band="head"/>
+                                <Row size="40"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell rowspan="2" text="순번"/>
+                                <Cell col="1" rowspan="2" text="일자"/>
+                                <Cell col="2" rowspan="2" colspan="2" text="시간"/>
+                                <Cell col="4" colspan="3" text="배뇨관찰"/>
+                                <Cell col="7" colspan="3" text="배변관찰"/>
+                                <Cell col="10" colspan="2" text="기저귀교환"/>
+                                <Cell col="12" rowspan="2" text="옷&#13;&#10;교환"/>
+                                <Cell row="1" col="4" text="소량"/>
+                                <Cell row="1" col="5" text="다량"/>
+                                <Cell row="1" col="6" text="소변량"/>
+                                <Cell row="1" col="7" text="정상"/>
+                                <Cell row="1" col="8" text="실변"/>
+                                <Cell row="1" col="9" text="설사"/>
+                                <Cell row="1" col="10" text="일반"/>
+                                <Cell row="1" col="11" text="스마트"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell expr="currow + 1"/>
+                                <Cell col="1" text="bind:EXC_DT"/>
+                                <Cell col="2" text="bind:HOUR"/>
+                                <Cell col="3" text="bind:MIN" displaytype="combotext" edittype="combo" combodataset="ds_nu_minute" combodatacol="CMCD" combocodecol="CMCD"/>
+                                <Cell col="4" displaytype="checkboxcontrol" edittype="checkbox" text="bind:URIN_1" checkboxtruevalue="2" checkboxfalsevalue="0"/>
+                                <Cell col="5" displaytype="checkboxcontrol" edittype="checkbox" text="bind:URIN_2" checkboxtruevalue="3" checkboxfalsevalue="0"/>
+                                <Cell col="6" text="bind:URIN_QTY" edittype="mask" maskeditformat="#,###" displaytype="mask" maskeditlimitbymask="integer"/>
+                                <Cell col="7" displaytype="checkboxcontrol" edittype="checkbox" text="bind:FECES_1" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                                <Cell col="8" displaytype="checkboxcontrol" edittype="checkbox" text="bind:FECES_2" checkboxtruevalue="2" checkboxfalsevalue="0"/>
+                                <Cell col="9" displaytype="checkboxcontrol" edittype="checkbox" text="bind:FECES_3" checkboxtruevalue="3" checkboxfalsevalue="0"/>
+                                <Cell col="10" displaytype="checkboxcontrol" edittype="checkbox" text="bind:DIAPER_N" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                                <Cell col="11" displaytype="checkboxcontrol" edittype="checkbox" text="bind:DIAPER_S" checkboxtruevalue="2" checkboxfalsevalue="0"/>
+                                <Cell col="12" displaytype="checkboxcontrol" edittype="checkbox" text="bind:CLOTH" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <Static id="sta_daytimeWorkerH" taborder="7" text="주간관찰자" left="0" top="40" width="162" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_nighttimeWorkerH" taborder="8" text="야간관찰자" left="575" top="40" width="162" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_grd_goH" taborder="9" text="입력 행&#13;&#10;바로가기" left="0" top="85" width="90" height="85" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Button id="btn_grd_go0" taborder="10" text="금일 새벽&#13;&#10;00시 ~ 04시&#13;&#10;행 클릭" left="99" top="85" width="110" height="85" background="#d9d9d9" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go4" taborder="11" text="금일 새벽&#13;&#10;04시 ~ 08시&#13;&#10;행 클릭" left="219" top="85" width="110" height="85" background="#d9d9d9" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go9" taborder="12" text="금일 주간&#13;&#10;09시 ~ 13시&#13;&#10;행 클릭" left="339" top="85" width="110" height="85" background="#dbeef4" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go13" taborder="13" text="금일 주간&#13;&#10;13시 ~ 17시&#13;&#10;행 클릭" left="459" top="85" width="110" height="85" background="#dbeef4" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go18" taborder="14" text="금일 야간&#13;&#10;18시 ~ 22시&#13;&#10;행 클릭" left="579" top="85" width="110" height="85" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go21" taborder="15" text="금일 야간&#13;&#10;21시 ~ 01시&#13;&#10;행 클릭" left="699" top="85" width="110" height="85" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go24" taborder="16" text="명일 새벽&#13;&#10;00시 ~ 04시&#13;&#10;행 클릭" left="819" top="85" width="110" height="85" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go28" taborder="17" text="명일 새벽&#13;&#10;04시 ~ 08시&#13;&#10;행 클릭" left="939" top="85" width="110" height="85" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <MaskEdit id="mae_enterDt" taborder="18" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <MaskEdit id="mae_dateVal" taborder="19" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Combo id="cmb_daytimeWorker" taborder="20" left="171" top="42" width="250" height="35" innerdataset="ds_manager" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                        <Combo id="cmb_nighttimeWorker" taborder="21" left="745" top="42" width="250" height="35" innerdataset="ds_manager" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage1" text="체위변경">
+              <Layouts>
+                <Layout>
+                  <Div id="div_cont" taborder="1" left="2.52%" top="55" bottom="3%" right="2.43%" text="" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_grd_goH" taborder="0" text="입력 행&#13;&#10; 바로가기 " left="0" top="50" width="150" height="110" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Button id="btn_grd_go0" taborder="1" text="주간&#13;&#10;08시 ~ 11시&#13;&#10;행 클릭" left="170" top="50" width="160" height="110" background="#dbeef4" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go3" taborder="2" text="주간&#13;&#10;11시 ~ 14시&#13;&#10;행 클릭" left="350" top="50" width="160" height="110" background="#dbeef4" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go6" taborder="3" text="주간&#13;&#10;14시 ~ 17시&#13;&#10;행 클릭" left="530" top="50" width="160" height="110" background="#dbeef4" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go10" taborder="4" text="야간&#13;&#10;18시 ~ 00시&#13;&#10;행 클릭" left="710" top="50" width="160" height="110" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Button id="btn_grd_go13" taborder="5" text="야간&#13;&#10;00시 ~ 07시&#13;&#10;행 클릭" left="890" top="50" width="160" height="110" background="#fdeada" onclick="fn_gridRow_go" cssclass="sta_tDataHForm1" font="normal 700 11pt/normal &quot;Noto Sans KR&quot;" color="#555555"/>
+                        <Grid id="grd_posture_list" taborder="6" left="0%" top="175" cssclass="grd_DataList_h2" bottom="0" right="0%" autofittype="col" binddataset="ds_posture_list" oncellclick="Tab00_Tabpage1_div_cont_grd_posture_list_oncellclick">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="70"/>
+                                <Column size="120"/>
+                                <Column size="60"/>
+                                <Column size="60"/>
+                                <Column size="100"/>
+                                <Column size="350"/>
+                                <Column size="300"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="40" band="head"/>
+                                <Row size="40"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell text="순번"/>
+                                <Cell col="1" text="자세변경일자"/>
+                                <Cell col="2" colspan="3" text="자세변경시간"/>
+                                <Cell col="5" text="변경자세"/>
+                                <Cell col="6" text="처리자"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell expr="currow + 1"/>
+                                <Cell col="1" text="bind:POS_DT"/>
+                                <Cell col="2" text="bind:STR1"/>
+                                <Cell col="3" text="bind:POS_MIN" displaytype="combotext" edittype="combo" combodataset="ds_nu_minute" combodatacol="CMCD" combocodecol="CMCD"/>
+                                <Cell col="4" text="bind:STR2"/>
+                                <Cell col="5" text="bind:POSTURE" displaytype="combotext" edittype="combo" combodataset="ds_nu_posture" combodatacol="CMNM" combocodecol="CMCD" comboitemheight="36"/>
+                                <Cell col="6" text="bind:MANAGER_ID" displaytype="combotext" combodataset="ds_manager" combodatacol="CMNM" combocodecol="CMCD" comboitemheight="36"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <Static id="sta_resident" taborder="7" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="8" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="9" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_enterDt" taborder="10" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_areaLocation" taborder="11" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="12" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="13" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_dateVal" taborder="14" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_search" taborder="1" left="2.52%" top="10" height="40" right="2.52%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_room_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Button id="btn_tDelete" taborder="4" text="삭제" top="0" width="80" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" right="0%"/>
+                        <Button id="btn_tSave" taborder="5" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="90"/>
+                        <Combo id="cmb_resident" taborder="6" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명"/>
+                        <Button id="btn_tReset" taborder="7" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="180" onclick="fn_searchBtn"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage2" text="식사">
+              <Layouts>
+                <Layout>
+                  <Div id="div_cont" taborder="1" left="2.52%" top="55" bottom="3%" right="2.43%" text="" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_fundDisB" taborder="1" left="0" top="50" width="857" height="40" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_fundDisH" taborder="0" text="기능장애" left="0" top="50" width="147" height="40" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <CheckBox id="chk_fundVal1" taborder="2" text="저작곤란" left="167" top="61" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_fundVal2" taborder="3" text="연하곤란" left="267" top="61" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_fundVal3" taborder="4" text="소화곤란" left="367" top="61" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_fundVal4" taborder="5" text="당뇨" left="467" top="61" width="60" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_fundVal5" taborder="6" text="위관영양" left="537" top="61" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_fundVal6" taborder="7" text="기타장애" left="637" top="61" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <Static id="sta_dietaryCureB" taborder="9" left="0" top="91" width="857" height="40" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_dietaryCureH" taborder="8" text="치료식이" left="0" top="91" width="147" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <CheckBox id="chk_dietaryVal1" taborder="10" text="체중조절식" left="167" top="100" width="110" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dietaryVal2" taborder="11" text="당뇨식" left="282" top="100" width="80" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dietaryVal3" taborder="12" text="저염식" left="371" top="100" width="80" height="20" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dietaryVal4" taborder="13" text="고단백식" left="461" top="100" width="100" height="20" falsevalue="0" truevalue="1"/>
+                        <Static id="sta_managerIdB" taborder="15" left="857" top="50" width="195" height="81" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_managerIdH" taborder="14" text="처리자" left="857" top="50" width="195" height="40" cssclass="sta_tDataHForm3" onclick="formClick"/>
+                        <Combo id="cmb_managerId" taborder="16" left="870" top="95" width="170" height="30" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                        <Static id="sta_division" taborder="17" text="구분" left="0" top="140" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_timeH" taborder="18" text="시간" left="147" top="140" width="130" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_tpH" taborder="19" text="식사유형" left="277" top="140" width="500" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_qtyH" taborder="20" text="식사량" left="777" top="140" width="279" height="45" cssclass="sta_tDataHForm3" onclick="formClick"/>
+                        <Static id="sta_breB" taborder="22" left="0" top="185" width="1055" height="45" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_breH" taborder="21" text="아침식사" left="0" top="185" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_lunB" taborder="24" left="0" top="231" width="1055" height="45" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_lunH" taborder="23" text="점심식사" left="0" top="231" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_dinB" taborder="26" left="0" top="277" width="1055" height="45" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_dinH" taborder="25" text="저녁식사" left="0" top="277" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_morSnackB" taborder="28" left="0" top="323" width="1055" height="45" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_morSnackH" taborder="27" text="오전간식" left="0" top="323" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <Static id="sta_aftSnackB" taborder="30" left="0" top="369" width="1055" height="45" cssclass="sta_tDataBForm3" onclick="formClick"/>
+                        <Static id="sta_aftSnackH" taborder="29" text="오후간식" left="0" top="369" width="147" height="45" cssclass="sta_tDataHForm4" onclick="formClick"/>
+                        <MaskEdit id="mae_breTime" taborder="31" left="161" top="191" width="110" height="30" cssclass="medt_clock" format="## : ##" readonly="true" type="string" padding="0px 0px 0px 20px" oneditclick="msk_oneditclick"/>
+                        <MaskEdit id="mae_lunTime" taborder="32" left="161" top="237" width="110" height="30" cssclass="medt_clock" format="## : ##" readonly="true" type="string" padding="0px 0px 0px 20px" oneditclick="msk_oneditclick"/>
+                        <MaskEdit id="mae_dinTime" taborder="33" left="161" top="285" width="110" height="30" cssclass="medt_clock" format="## : ##" readonly="true" type="string" padding="0px 0px 0px 20px" oneditclick="msk_oneditclick"/>
+                        <MaskEdit id="mae_morSnackTime" taborder="34" left="161" top="330" width="110" height="30" cssclass="medt_clock" format="## : ##" readonly="true" type="string" padding="0px 0px 0px 20px" oneditclick="msk_oneditclick"/>
+                        <MaskEdit id="mae_aftSnackTime" taborder="35" left="161" top="375" width="110" height="30" cssclass="medt_clock" format="## : ##" readonly="true" type="string" padding="0px 0px 0px 20px" oneditclick="msk_oneditclick"/>
+                        <CheckBox id="chk_breTp1" taborder="36" text="일반식" left="286" top="195" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_breTp2" taborder="37" text="죽식" left="366" top="195" width="70" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_breTp3" taborder="38" text="유동·경관식" left="431" top="195" width="110" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_breTp4" taborder="39" text="갈은식" left="546" top="195" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_breTp5" taborder="40" text="다진식" left="626" top="195" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_breTp6" taborder="41" text="미음" left="706" top="195" width="60" height="24" falsevalue="0" truevalue="1"/>
+                        <Radio id="rdo_breQty" taborder="42" left="773" top="195" width="264" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">전량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">1/2 이상</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">1/2 미만</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <CheckBox id="chk_lunTp1" taborder="43" text="일반식" left="286" top="240" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_lunTp2" taborder="44" text="죽식" left="366" top="240" width="70" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_lunTp3" taborder="45" text="유동·경관식" left="431" top="240" width="110" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_lunTp4" taborder="46" text="갈은식" left="546" top="240" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_lunTp5" taborder="47" text="다진식" left="626" top="240" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_lunTp6" taborder="48" text="미음" left="706" top="240" width="60" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp1" taborder="49" text="일반식" left="286" top="287" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp2" taborder="50" text="죽식" left="366" top="287" width="70" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp3" taborder="51" text="유동·경관식" left="431" top="287" width="110" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp4" taborder="52" text="갈은식" left="546" top="287" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp5" taborder="53" text="다진식" left="626" top="287" width="80" height="24" falsevalue="0" truevalue="1"/>
+                        <CheckBox id="chk_dinTp6" taborder="54" text="미음" left="706" top="287" width="60" height="24" falsevalue="0" truevalue="1"/>
+                        <Radio id="rdo_lunQty" taborder="55" left="773" top="240" width="264" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">전량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">1/2 이상</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">1/2 미만</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Radio id="rdo_dinQty" taborder="56" left="773" top="287" width="264" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">전량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">1/2 이상</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">1/2 미만</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Radio id="rdo_morSnackQty" taborder="57" left="773" top="333" width="264" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">전량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">1/2 이상</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">1/2 미만</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Radio id="rdo_aftSnackQty" taborder="58" left="773" top="380" width="264" height="24" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" onitemchanged="Tab00_Tabpage2_div_cont_Radio00_onitemchanged" cssclass="sqRadio">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">전량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">1/2 이상</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">1/2 미만</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Static id="sta_resident" taborder="59" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="60" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="61" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_enterDt" taborder="62" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_areaLocation" taborder="63" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="64" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="65" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_dateVal" taborder="66" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_search" taborder="0" left="2.43%" top="10" height="40" right="2.43%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_room_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Button id="btn_tDelete" taborder="4" text="삭제" top="0" width="80" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" right="0%"/>
+                        <Button id="btn_tSave" taborder="5" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="90"/>
+                        <Combo id="cmb_resident" taborder="6" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명" onitemchanged="meal_cmb_resident_onitemchanged"/>
+                        <Button id="btn_tReset" taborder="7" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="180" onclick="fn_searchBtn"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage3" text="수분섭취">
+              <Layouts>
+                <Layout>
+                  <Div id="div_cont" taborder="1" left="2.52%" top="55" bottom="3%" right="2.43%" text="" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_resident" taborder="0" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="1" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="2" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_enterDt" taborder="3" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_areaLocation" taborder="4" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="5" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="6" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_dateVal" taborder="7" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_wat_timeB" taborder="9" left="0" top="58" width="120" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_wat_timeH" taborder="8" text="시간" left="0" top="58" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_volumeB" taborder="11" left="120" top="58" width="120" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_volumeH" taborder="10" text="섭취량" left="120" top="58" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_water_remarkB" taborder="13" left="240" top="58" width="650" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_water_remarkH" taborder="12" text="비고" left="240" top="58" width="650" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_water_managerIdB" taborder="15" left="890" top="58" width="165" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_water_managerIdH" taborder="14" text="처리자" left="890" top="58" width="165" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Grid id="grd_water_list" taborder="16" left="0" top="190" right="0" bottom="0" cssclass="grd_DataList_h2" autofittype="col" binddataset="ds_water_list" onexpandup="fn_grid_onexpandup">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="70"/>
+                                <Column size="110"/>
+                                <Column size="110"/>
+                                <Column size="400"/>
+                                <Column size="100"/>
+                                <Column size="70"/>
+                                <Column size="70"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="40" band="head"/>
+                                <Row size="40"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell text="순번"/>
+                                <Cell col="1" text="시간"/>
+                                <Cell col="2" text="섭취량"/>
+                                <Cell col="3" text="비고"/>
+                                <Cell col="4" text="처리자"/>
+                                <Cell col="5" expandchar="tEdit"/>
+                                <Cell col="6" expandchar="tDelete"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell expr="currow + 1"/>
+                                <Cell col="1" text="bind:WAT_TIME" displaytype="mask" maskeditformat="## : ##" maskedittype="string"/>
+                                <Cell col="2" text="bind:VOLUME"/>
+                                <Cell col="3" text="bind:REMARK"/>
+                                <Cell col="4" text="bind:MANAGER_ID" displaytype="combotext" combodataset="ds_manager" combodatacol="CMNM" combocodecol="CMCD"/>
+                                <Cell col="5"/>
+                                <Cell col="6"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <MaskEdit id="mae_wat_time" taborder="17" left="8" top="120" width="100" height="40" cssclass="medt_clock" format="## : ##" type="string" padding="0px 0px 0px 20px" readonly="true" oneditclick="msk_oneditclick"/>
+                        <Edit id="edt_volume" taborder="18" left="133" top="120" width="95" height="40" inputtype="number"/>
+                        <TextArea id="txt_water_remark" taborder="19" left="255" top="106" width="620" height="64"/>
+                        <Combo id="cmb_managerId" taborder="20" left="902" top="120" width="140" height="40" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                        <Button id="btn_tRecord_water" taborder="21" left="595" top="65" width="60" height="24" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_search" taborder="1" left="2.34%" top="10" height="40" right="2.34%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_room_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Button id="btn_tSave" taborder="4" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="0"/>
+                        <Combo id="cmb_resident" taborder="5" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명"/>
+                        <Button id="btn_tReset" taborder="6" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="90" onclick="fn_searchBtn"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage4" text="수면상태">
+              <Layouts>
+                <Layout>
+                  <Div id="div_cont" taborder="1" left="2.52%" top="55" bottom="3%" right="2.43%" text="" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_resident" taborder="0" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="1" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="2" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_enterDt" taborder="3" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_areaLocation" taborder="4" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="5" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="6" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_dateVal" taborder="7" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_sle_timeB" taborder="9" left="0" top="78" width="120" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_sleep_tpB" taborder="10" left="120" top="78" width="120" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Static id="sta_sleep_tpH" taborder="11" text="수면상태" left="120" top="78" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_sleep_remarkB" taborder="13" left="240" top="78" width="650" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <TextArea id="txt_sleep_remark" taborder="14" left="255" top="126" width="620" height="64"/>
+                        <Static id="sta_sleep_managerIdB" taborder="16" left="890" top="78" width="165" height="120" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Combo id="cmb_managerId" taborder="17" left="902" top="140" width="140" height="40" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                        <Static id="sta_sle_timeH" taborder="8" text="기상시간" left="0" top="78" width="120" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_sleep_remarkH" taborder="12" text="비고" left="240" top="78" width="650" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_sleep_managerIdH" taborder="15" text="처리자" left="890" top="78" width="165" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Button id="btn_tRecord_sleep" taborder="18" left="605" top="85" width="60" height="24" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+                        <Grid id="grd_sleep_list" taborder="19" left="0" top="210" right="0" bottom="0" cssclass="grd_DataList_h2" autofittype="col" binddataset="ds_sleep_list" onexpandup="fn_grid_onexpandup">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="70"/>
+                                <Column size="110"/>
+                                <Column size="110"/>
+                                <Column size="400"/>
+                                <Column size="100"/>
+                                <Column size="70"/>
+                                <Column size="70"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="40" band="head"/>
+                                <Row size="40"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell text="순번"/>
+                                <Cell col="1" text="기상시간"/>
+                                <Cell col="2" text="수면상태"/>
+                                <Cell col="3" text="비고"/>
+                                <Cell col="4" text="처리자"/>
+                                <Cell col="5" expandchar="tEdit"/>
+                                <Cell col="6" expandchar="tDelete"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell expr="currow + 1"/>
+                                <Cell col="1" text="bind:SLE_TIME" displaytype="mask" maskeditformat="## : ##" maskedittype="string"/>
+                                <Cell col="2" text="bind:SLEEP_TP" displaytype="combotext" combodataset="ds_nu_sleep_tp" combodatacol="CMNM" combocodecol="CMCD"/>
+                                <Cell col="3" text="bind:REMARK"/>
+                                <Cell col="4" text="bind:MANAGER_ID" displaytype="combotext" combodataset="ds_manager" combodatacol="CMNM" combocodecol="CMCD"/>
+                                <Cell col="5"/>
+                                <Cell col="6"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <MaskEdit id="mae_sle_time" taborder="20" left="15" top="140" width="85" height="40" format="## : ##" type="string" cssclass="medt_clock" readonly="true" oneditclick="msk_oneditclick"/>
+                        <Combo id="cmb_sleep_tp" taborder="21" left="135" top="140" width="90" height="40" innerdataset="ds_nu_sleep_tp" datacolumn="CMNM" codecolumn="CMCD"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_search" taborder="1" left="2.34%" top="10" height="40" right="2.34%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_room_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Button id="btn_tSave" taborder="4" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" right="0%" onclick="fn_saveBtn"/>
+                        <Combo id="cmb_resident" taborder="5" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명"/>
+                        <Button id="btn_tReset" taborder="6" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="90" onclick="fn_resetBtn"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage5" text="요양/관찰일지">
+              <Layouts>
+                <Layout>
+                  <Div id="div_cont" taborder="1" left="2.7%" top="55" bottom="4%" right="2.7%" text="" background="'" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_resident" taborder="0" text="입소자성명 :" left="0" top="11" width="100" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_residentVal" taborder="1" text="성명(나이)" left="110" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_enterDt" taborder="2" text="| 입소일 :" left="214" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_enterDt" taborder="3" left="283" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_areaLocation" taborder="4" text="| 생활실 :" left="404" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <Static id="sta_areaLocatonVal" taborder="5" text="층/호실" left="484" top="11" width="100" height="25" cssclass="sta_tTxt2" onclick="formClick"/>
+                        <Static id="sta_date" taborder="6" text="| 작성일 :" left="584" top="11" width="80" height="25" cssclass="sta_tTxt1" onclick="formClick"/>
+                        <MaskEdit id="mae_dateVal" taborder="7" left="653" top="11" width="110" height="25" format="####.##.##" type="string" readonly="true" background="transparent" border="0px none #dbdbdb" oneditclick="formClick" cssclass="sta_tTxt2" font="normal 500 13pt/normal &quot;Noto Sans KR&quot;"/>
+                        <Static id="sta_observe_remarkB" taborder="9" left="0" top="68" width="880" height="150" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <TextArea id="txt_observe_remark" taborder="10" left="15" top="121" width="850" height="85"/>
+                        <Static id="sta_observe_managerIdB" taborder="12" left="880" top="68" width="165" height="150" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <Combo id="cmb_managerId" taborder="13" left="892" top="140" width="140" height="40" innerdataset="ds_manager" datacolumn="CMNM" codecolumn="CMCD" itemheight="36" oneditclick="cmb_manager_oneditclick" buttonsize="0 0"/>
+                        <Static id="sta_observe_remarkH" taborder="8" text="관찰기록" left="0" top="68" width="880" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Button id="btn_tRecord_observe1" taborder="14" left="515" top="75" width="60" height="24" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+                        <Static id="sta_observe_managerIdH" taborder="11" text="처리자" left="880" top="68" width="165" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Static id="sta_observe_noteB" taborder="16" left="0" top="258" width="1045" height="150" cssclass="sta_tDataBForm2" onclick="formClick"/>
+                        <TextArea id="txt_observe_note" taborder="17" left="15" top="311" width="1015" height="85"/>
+                        <Static id="sta_observe_noteH" taborder="15" text="요양일지" left="0" top="258" width="1045" height="40" cssclass="sta_tDataHForm1" onclick="formClick"/>
+                        <Button id="btn_tRecord_observe2" taborder="18" left="595" top="265" width="60" height="24" cssclass="btn_tRecord" onclick="btn_tRecord_onclick"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="div_search" taborder="1" left="2.34%" top="10" height="40" right="2.34%" onclick="formClick">
+                    <Layouts>
+                      <Layout>
+                        <Calendar id="cal_date" taborder="0" left="0" top="0" width="150" height="40" locale="ko_KR" displaynulltext="일자"/>
+                        <Combo id="cmb_area" taborder="1" text="Combo00" left="160" top="0" width="120" height="40" innerdataset="ds_area" codecolumn="CMCD" datacolumn="CMNM" itemheight="36" onitemchanged="cmb_location_onitemchanged" displaynulltext="층(생활실)"/>
+                        <Combo id="cmb_location" taborder="2" text="Combo00" left="290" top="0" width="120" height="40" itemheight="36" innerdataset="ds_location" datacolumn="CMNM" codecolumn="CMCD" onitemchanged="cmb_room_onitemchanged" displaynulltext="호실"/>
+                        <Button id="btn_tSearch" taborder="3" text="검색" left="550" top="0" width="80" height="40" cssclass="btn_tSearch" onclick="fn_searchBtn"/>
+                        <Button id="btn_tDelete" taborder="4" text="삭제" top="0" width="80" height="40" onclick="fn_deleteBtn" cssclass="btn_tDelete" right="0%"/>
+                        <Button id="btn_tSave" taborder="5" text="저장" top="0" width="80" height="40" cssclass="btn_tSave" onclick="fn_saveBtn" right="90"/>
+                        <Combo id="cmb_resident" taborder="6" text="Combo00" left="420" top="0" width="120" height="40" itemheight="36" innerdataset="ds_resident" datacolumn="CMNM" codecolumn="CMCD" displaynulltext="입소자명"/>
+                        <Button id="btn_tReset" taborder="7" text="초기화" top="0" width="90" height="40" cssclass="btn_tReset" right="180" onclick="fn_searchBtn"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resident">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_excretion_list" useclientlayout="true" oncolumnchanged="ds_excretion_list_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="EXC_DT" type="STRING" size="256"/>
+          <Column id="HOUR" type="STRING" size="256"/>
+          <Column id="MIN" type="STRING" size="256"/>
+          <Column id="URIN_1" type="STRING" size="256"/>
+          <Column id="URIN_2" type="STRING" size="256"/>
+          <Column id="URIN_QTY" type="STRING" size="256"/>
+          <Column id="FECES_1" type="STRING" size="256"/>
+          <Column id="FECES_2" type="STRING" size="256"/>
+          <Column id="FECES_3" type="STRING" size="256"/>
+          <Column id="DIAPER_N" type="STRING" size="256"/>
+          <Column id="DIAPER_S" type="STRING" size="256"/>
+          <Column id="CLOTH" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_resInfo">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="NAME_AGE" type="STRING" size="256"/>
+          <Column id="ENTER_DT" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_posture_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="POS_HOUR" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="STR1" type="STRING" size="256"/>
+          <Column id="STR2" type="STRING" size="256"/>
+          <Column id="STR3" type="STRING" size="256"/>
+          <Column id="POS_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="POS_SEQ" type="STRING" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+          <Column id="POS_CD" type="STRING" size="256"/>
+          <Column id="POS_MIN" type="STRING" size="256"/>
+          <Column id="POSTURE" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="SEARCH_DT" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="ROW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_meal_list" useclientlayout="true" oncolumnchanged="ds_meal_list_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="MEA_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="FUND_DIS" type="STRING" size="256"/>
+          <Column id="FUND1" type="STRING" size="256"/>
+          <Column id="FUND2" type="STRING" size="256"/>
+          <Column id="FUND3" type="STRING" size="256"/>
+          <Column id="FUND4" type="STRING" size="256"/>
+          <Column id="FUND5" type="STRING" size="256"/>
+          <Column id="FUND6" type="STRING" size="256"/>
+          <Column id="DIETARY_CURE" type="STRING" size="256"/>
+          <Column id="DIET1" type="STRING" size="256"/>
+          <Column id="DIET2" type="STRING" size="256"/>
+          <Column id="DIET3" type="STRING" size="256"/>
+          <Column id="DIET4" type="STRING" size="256"/>
+          <Column id="BRE_TP" type="STRING" size="256"/>
+          <Column id="B_MEAL1" type="STRING" size="256"/>
+          <Column id="B_MEAL2" type="STRING" size="256"/>
+          <Column id="B_MEAL3" type="STRING" size="256"/>
+          <Column id="B_MEAL4" type="STRING" size="256"/>
+          <Column id="B_MEAL5" type="STRING" size="256"/>
+          <Column id="B_MEAL6" type="STRING" size="256"/>
+          <Column id="BRE_QTY" type="STRING" size="256"/>
+          <Column id="BRE_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TP" type="STRING" size="256"/>
+          <Column id="L_MEAL1" type="STRING" size="256"/>
+          <Column id="L_MEAL2" type="STRING" size="256"/>
+          <Column id="L_MEAL3" type="STRING" size="256"/>
+          <Column id="L_MEAL4" type="STRING" size="256"/>
+          <Column id="L_MEAL5" type="STRING" size="256"/>
+          <Column id="L_MEAL6" type="STRING" size="256"/>
+          <Column id="LUN_QTY" type="STRING" size="256"/>
+          <Column id="LUN_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TP" type="STRING" size="256"/>
+          <Column id="D_MEAL1" type="STRING" size="256"/>
+          <Column id="D_MEAL2" type="STRING" size="256"/>
+          <Column id="D_MEAL3" type="STRING" size="256"/>
+          <Column id="D_MEAL4" type="STRING" size="256"/>
+          <Column id="D_MEAL5" type="STRING" size="256"/>
+          <Column id="D_MEAL6" type="STRING" size="256"/>
+          <Column id="DIN_QTY" type="STRING" size="256"/>
+          <Column id="DIN_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_QTY" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_water_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="WAT_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="WAT_DT" type="STRING" size="256"/>
+          <Column id="WAT_TIME" type="STRING" size="256"/>
+          <Column id="VOLUME" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="RANK_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sleep_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SLE_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="SLE_DT" type="STRING" size="256"/>
+          <Column id="SLE_TIME" type="STRING" size="256"/>
+          <Column id="SLEEP_TP" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_observe_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="OBS_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="OBS_DT" type="STRING" size="256"/>
+          <Column id="NOTE" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sleep_input" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SLE_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="SLE_DT" type="STRING" size="256"/>
+          <Column id="SLE_TIME" type="STRING" size="256"/>
+          <Column id="SLEEP_TP" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_sleep_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_water_input" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="WAT_SEQ" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="WAT_DT" type="STRING" size="256"/>
+          <Column id="WAT_TIME" type="STRING" size="256"/>
+          <Column id="VOLUME" type="STRING" size="256"/>
+          <Column id="MANAGER_ID" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_posture_time">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_minute">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_posture">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_excretion_temp1" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="EXC_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="DAY_MANAGER_ID" type="STRING" size="256"/>
+          <Column id="DAY_MANAGER_NM" type="STRING" size="256"/>
+          <Column id="NIG_MANAGER_ID" type="STRING" size="256"/>
+          <Column id="NIG_MANAGER_NM" type="STRING" size="256"/>
+          <Column id="EXC_TIME" type="STRING" size="256"/>
+          <Column id="URIN_OBS" type="STRING" size="256"/>
+          <Column id="FECES_OBS" type="STRING" size="256"/>
+          <Column id="DIAPER_CHG" type="STRING" size="256"/>
+          <Column id="CLOTH_CHG" type="STRING" size="256"/>
+          <Column id="URIN_QTY" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_excretion_temp2" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="EXC_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="DAY_MANAGER_ID" type="STRING" size="256"/>
+          <Column id="DAY_MANAGER_NM" type="STRING" size="256"/>
+          <Column id="NIG_MANAGER_ID" type="STRING" size="256"/>
+          <Column id="NIG_MANAGER_NM" type="STRING" size="256"/>
+          <Column id="EXC_TIME" type="STRING" size="256"/>
+          <Column id="URIN_OBS" type="STRING" size="256"/>
+          <Column id="FECES_OBS" type="STRING" size="256"/>
+          <Column id="DIAPER_CHG" type="STRING" size="256"/>
+          <Column id="CLOTH_CHG" type="STRING" size="256"/>
+          <Column id="URIN_QTY" type="STRING" size="256"/>
+          <Column id="REMARK" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_meal_resident" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="BRE_FR_TIME" type="STRING" size="256"/>
+          <Column id="BRE_TO_TIME" type="STRING" size="256"/>
+          <Column id="LUN_FR_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TO_TIME" type="STRING" size="256"/>
+          <Column id="DIN_FR_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TO_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="FOOD_TP" type="STRING" size="256"/>
+          <Column id="FOOD1" type="STRING" size="256"/>
+          <Column id="FOOD2" type="STRING" size="256"/>
+          <Column id="FOOD3" type="STRING" size="256"/>
+          <Column id="FOOD4" type="STRING" size="256"/>
+          <Column id="FOOD5" type="STRING" size="256"/>
+          <Column id="FOOD6" type="STRING" size="256"/>
+          <Column id="FUNC_DIS" type="STRING" size="256"/>
+          <Column id="FUNC1" type="STRING" size="256"/>
+          <Column id="FUNC2" type="STRING" size="256"/>
+          <Column id="FUNC3" type="STRING" size="256"/>
+          <Column id="FUNC4" type="STRING" size="256"/>
+          <Column id="FUNC5" type="STRING" size="256"/>
+          <Column id="FUNC6" type="STRING" size="256"/>
+          <Column id="DIETARY_CURE" type="STRING" size="256"/>
+          <Column id="DIET1" type="STRING" size="256"/>
+          <Column id="DIET2" type="STRING" size="256"/>
+          <Column id="DIET3" type="STRING" size="256"/>
+          <Column id="DIET4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUB301CT
+ * 화면명   	: 요양일지
+ * 화면설명 	: 태블릿 입소자별 요양일지 관리
+ * 작성일    	: 2021-08-12
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";	// 현재 데이터셋 (조회용)	
+this.fv_inputDS = "";	// 등록, 수정용 데이터셋 (단일)
+this.fv_currentGrid = "";	// 현재 그리드
+this.tranFlag = "";	// 등록, 수정 결과 플래그
+this.tabChangeFlag = "";	// 탭 변경시 검색 플래그
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.sta_menuTitle.set_text(this.getOwnerFrame().arguments["menuTitle"]);
+	
+	// 검색조건 세팅
+	this.taSearchDataSetting(obj);
+	
+	// 처리자 콤보
+	this.fn_setComboDs(obj);
+	
+	// 온로드가 끝났으므로 탭 체인지시 검색하게 하기 위해 플래그 Y로 세팅
+	this.tabChangeFlag = "Y";
+	
+	this.fn_search();
+};
+
+// 처리자 콤보
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+		{ outDsName : "ds_manager", sqlId : "NUB_COMMON.NUB_COMMON_DS_MANAGER_S", param : this.ds_search, bEmptyRow : true }
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 그리드 컬럼에 색입히기
+this.fn_initGrid = function(grid)
+{
+	if(grid.id == "grd_posture_list")
+	{
+		const pMinIdx = grid.getBindCellIndex("body", "POS_MIN");
+		const pMinCss = "expr: dataset.getColumn(currow, 'POS_HOUR') < 110 ? 'blueFont' : 'orangeFont'";
+		grid.setCellProperty("body", pMinIdx, "cssclass", pMinCss);
+	}
+	else if(grid.id == "grd_excretion_list")
+	{
+		const eMinIdx = grid.getBindCellIndex("body", "MIN");
+		const eMinCss = "blueFont";
+		grid.setCellProperty("body", eMinIdx, "cssclass", eMinCss);
+	}
+};
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 초기화 버튼
+this.fn_resetBtn = function ()
+{
+	this.ds_search.setColumn(0, "DATE", Sct.Util.getToday()); // 오늘
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{	
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+// 검색 전 validation
+this.fn_search_pre = function()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if(this.Tab00.tabindex != 0)
+	{
+		if(this.inputDS = "") return;
+
+		// 저장 내용 체크
+		if(!Sct.Grid.hasInsertAndUpdateRow(this.fv_inputDS))
+		{
+			Sct.alert(this, "000569", "저장");	// {0}할 내용이 없습니다.
+			return false;
+		}
+		
+		// 저장하시겠습니까?
+		if(!Sct.confirm(this, "000038")) return false;
+		
+		const nRow = this.fv_inputDS.rowposition;
+		
+		if(this.fv_inputDS.getRowType(nRow) == 2) this.tranFlag = "I";
+		else if(this.fv_inputDS.getRowType(nRow) == 4) this.tranFlag = "U";
+	}
+	else
+	{
+		if(!Sct.Grid.hasInsertAndUpdateRow(this.ds_excretion_temp1) && !Sct.Grid.hasInsertAndUpdateRow(this.ds_excretion_temp2))
+		{
+			Sct.alert(this, "000569", "저장");
+			return false;
+		}
+		
+		// 저장하시겠습니까?
+		if(!Sct.confirm(this, "000038")) return false;
+		
+		this.tranFlag = "IU";
+	}
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	let nRow;
+	if(this.Tab00.tabindex != 0)
+	{
+		// 데이터셋 상태가 추가상태이면 삭제 못함
+		if(this.fv_currentDS.getRowType(this.fv_currentDS.rowposition) == 2)
+		{
+			Sct.alert(this, "000569", "삭제");	// {0}할 내용이 없습니다.
+			return false;
+		}
+		
+		// 삭제하시겠습니까?
+		if(!Sct.confirm(this, "000083", "삭제")) return false;
+		
+		nRow = this.fv_currentDS.rowposition;
+		this.fv_currentDS.set_updatecontrol(false);
+		this.fv_currentDS.setRowType(nRow, Dataset.ROWTYPE_DELETE);
+		this.fv_currentDS.set_updatecontrol(true);
+	}
+	else
+	{
+		if(this.ds_excretion_temp1.getRowType(this.ds_excretion_temp1.rowposition) == 2)
+		{
+			Sct.alert(this, "000569", "삭제");	// {0}할 내용이 없습니다.
+			return false;
+		}
+		
+		// 삭제하시겠습니까?
+		if(!Sct.confirm(this, "000083", "삭제")) return false;
+		
+		nRow = this.ds_excretion_temp1.rowposition;
+		this.ds_excretion_temp1.set_updatecontrol(false);
+		this.ds_excretion_temp1.setRowType(nRow, Dataset.ROWTYPE_DELETE);
+		this.ds_excretion_temp1.set_updatecontrol(true);
+	}
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function()
+{
+	if(!this.fn_search_pre()) return;
+
+	let svcId = "";
+	let inDatasets = "input1=ds_search input2=ds_search";
+	let outDatasets = this.fv_currentDS.name + "=output1 ds_resInfo=output2";
+	let argument = "method=getList ";
+	
+	// 요양/관찰일지 검색
+	if(this.Tab00.tabindex == 5)
+	{
+		svcId = "observeSearch";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_OBSERVE_LIST_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+	}
+	// 수면상태 검색
+	else if(this.Tab00.tabindex == 4)
+	{
+		svcId = "sleepSearch";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_SLEEP_LIST_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+	}
+	// 수분섭취 검색
+	else if(this.Tab00.tabindex == 3)
+	{
+		svcId = "waterSearch";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_WATER_LIST_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+	}
+	// 식사 검색
+	else if(this.Tab00.tabindex == 2)
+	{
+		svcId = "mealSearch";
+		inDatasets = "input1=ds_search input2=ds_search input3=ds_search";
+		outDatasets = "ds_meal_list=output1 ds_meal_resident=output2 ds_resInfo=output3";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_MEAL_LIST_S NUB301CT.NUB301CT_DS_MEAL_RESIDENT_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+	}
+	// 체위변경 검색
+	else if(this.Tab00.tabindex == 1)
+	{
+		svcId = "postureSearch";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_POSTURE_LIST_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+	}
+	// 집중배설관찰 검색
+	else if(this.Tab00.tabindex == 0)
+	{
+		svcId = "excretionSearch";
+		argument += "sqlId='NUB301CT.NUB301CT_DS_EXCRETION_TEMP1_S NUB301CT.NUB301CT_DS_EXCRETION_TEMP2_S NUB_COMMON.NUB_COMMON_DS_RESINFO_S'";
+		inDatasets = "input1=ds_search input2=ds_search input3=ds_search";
+		outDatasets = "ds_excretion_temp1=output1 ds_excretion_temp2=output2 ds_resInfo=output3";
+	}
+	
+	const params = "/commonController.do";
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if(!this.fn_save_pre()) return;
+	
+	let inDs;
+	if(this.Tab00.tabindex != 0)
+	{
+		inDs = this.fv_inputDS.name;
+	}
+	// 집중배설관찰
+	else
+	{
+		inDs = "ds_excretion_temp1,ds_excretion_temp2";
+	}
+	
+	const svcId = "save";
+	this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	if(!this.fn_delete_pre()) return;
+	
+	let inDatasets = "input1=" + this.fv_currentDS.name + ":U";
+	let argument = "method=delete ";
+		
+	if(this.Tab00.tabindex == 5)
+	{
+		argument += "sqlId=NUB301CT.NUB301CT_DS_OBSERVE_LIST_D ";
+	}
+	else if(this.Tab00.tabindex == 4)
+	{
+		argument += "sqlId=NUB301CT.NUB301CT_DS_SLEEP_LIST_D ";
+	}
+	else if(this.Tab00.tabindex == 3)
+	{
+		argument += "sqlId=NUB301CT.NUB301CT_DS_WATER_LIST_D ";
+	}
+	else if(this.Tab00.tabindex == 2)
+	{
+		argument += "sqlId=NUB301CT.NUB301CT_DS_MEAL_LIST_D";
+	}
+	else if(this.Tab00.tabindex == 1)
+	{
+		argument += "sqlId=NUB301CT.NUB301CT_DS_POSTURE_LIST_D ";
+	}
+	else if(this.Tab00.tabindex == 0)
+	{
+		inDatasets = "input1=ds_excretion_temp1:U";
+		argument += "sqlId=NUB301CT.NUB301CT_DS_EXCRETION_D ";
+	}
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const outDatasets = "";
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	let nRow;
+	if (nErrorCode == 0) 
+	{
+		// 검색조건 유지를 위해 글로벌 데이터셋에 조건 세팅
+		nexacro.getApplication().gds_taCurRes.setColumn(0, "AREA", this.ds_resInfo.getColumn(0,"AREA"));
+		nexacro.getApplication().gds_taCurRes.setColumn(0, "LOCATION", this.ds_resInfo.getColumn(0,"LOCATION"));
+		nexacro.getApplication().gds_taCurRes.setColumn(0, "RES_ID", this.ds_resInfo.getColumn(0,"RES_ID"));
+		
+		// 요양/관찰일지 검색 콜백
+		if(strSvcID == "observeSearch")
+		{
+			// 검색결과가 없을경우
+			if(this.ds_observe_list.rowcount < 1)
+			{
+				// 행추가
+				nRow = this.ds_observe_list.addRow();
+				// 초기화
+				this.ds_observe_list.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+				this.ds_observe_list.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+				
+				// 처리자에 접속자 세팅
+				this.ds_observe_list.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+			}
+			else
+			{
+				// 처리자에 접속자 세팅
+				this.ds_observe_list.setColumn(0, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+			}
+		}
+		// 수면상태 검색 콜백
+		else if(strSvcID == "sleepSearch")
+		{
+			this.ds_sleep_input.clearData();
+			nRow = this.ds_sleep_input.addRow();
+			// 초기화
+			this.ds_sleep_input.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+			this.ds_sleep_input.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+			
+			// 처리자에 접속자 세팅
+			this.ds_sleep_input.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+		}
+		// 수분섭취 검색 콜백
+		else if(strSvcID == "waterSearch")
+		{
+			this.ds_water_input.clearData();
+			nRow = this.ds_water_input.addRow();
+			// 초기화
+			this.ds_water_input.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+			this.ds_water_input.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+			
+			// 처리자에 접속자 세팅
+			this.ds_water_input.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+		}
+		// 식사 검색 콜백
+		else if(strSvcID == "mealSearch")
+		{
+			// 검색결과가 없을경우
+			if(this.ds_meal_list.rowcount < 1)
+			{
+				// 초기화
+				nRow = this.ds_meal_list.addRow();
+				this.ds_meal_list.setColumn(nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+				this.ds_meal_list.setColumn(nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+				
+				// 식사시간
+				this.ds_meal_list.setColumn(nRow, "BRE_TIME", this.ds_meal_resident.getColumn(0, "BRE_FR_TIME"));
+				this.ds_meal_list.setColumn(nRow, "LUN_TIME", this.ds_meal_resident.getColumn(0, "LUN_FR_TIME"));
+				this.ds_meal_list.setColumn(nRow, "DIN_TIME", this.ds_meal_resident.getColumn(0, "DIN_FR_TIME"));
+				this.ds_meal_list.setColumn(nRow, "MOR_SNACK_TIME", this.ds_meal_resident.getColumn(0, "MOR_SNACK_TIME"));
+				this.ds_meal_list.setColumn(nRow, "AFT_SNACK_TIME", this.ds_meal_resident.getColumn(0, "AFT_SNACK_TIME"));
+				
+				// 기능장애
+				this.ds_meal_list.setColumn(nRow, "FUND1", this.ds_meal_resident.getColumn(0, "FUNC1"));
+				this.ds_meal_list.setColumn(nRow, "FUND2", this.ds_meal_resident.getColumn(0, "FUNC2"));
+				this.ds_meal_list.setColumn(nRow, "FUND3", this.ds_meal_resident.getColumn(0, "FUNC3"));
+				this.ds_meal_list.setColumn(nRow, "FUND4", this.ds_meal_resident.getColumn(0, "FUNC4"));
+				this.ds_meal_list.setColumn(nRow, "FUND5", this.ds_meal_resident.getColumn(0, "FUNC5"));
+				this.ds_meal_list.setColumn(nRow, "FUND6", this.ds_meal_resident.getColumn(0, "FUNC6"));
+				
+				// 치료식이
+				this.ds_meal_list.setColumn(nRow, "DIET1", this.ds_meal_resident.getColumn(0, "DIET1"));
+				this.ds_meal_list.setColumn(nRow, "DIET2", this.ds_meal_resident.getColumn(0, "DIET2"));
+				this.ds_meal_list.setColumn(nRow, "DIET3", this.ds_meal_resident.getColumn(0, "DIET3"));
+				this.ds_meal_list.setColumn(nRow, "DIET4", this.ds_meal_resident.getColumn(0, "DIET4"));
+				
+				// 아침식사
+				this.ds_meal_list.setColumn(nRow, "B_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_meal_list.setColumn(nRow, "B_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_meal_list.setColumn(nRow, "B_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_meal_list.setColumn(nRow, "B_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_meal_list.setColumn(nRow, "B_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_meal_list.setColumn(nRow, "B_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 점심식사
+				this.ds_meal_list.setColumn(nRow, "L_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_meal_list.setColumn(nRow, "L_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_meal_list.setColumn(nRow, "L_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_meal_list.setColumn(nRow, "L_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_meal_list.setColumn(nRow, "L_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_meal_list.setColumn(nRow, "L_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 저녁식사
+				this.ds_meal_list.setColumn(nRow, "D_MEAL1", this.ds_meal_resident.getColumn(0, "FOOD1"));
+				this.ds_meal_list.setColumn(nRow, "D_MEAL2", this.ds_meal_resident.getColumn(0, "FOOD2"));
+				this.ds_meal_list.setColumn(nRow, "D_MEAL3", this.ds_meal_resident.getColumn(0, "FOOD3"));
+				this.ds_meal_list.setColumn(nRow, "D_MEAL4", this.ds_meal_resident.getColumn(0, "FOOD4"));
+				this.ds_meal_list.setColumn(nRow, "D_MEAL5", this.ds_meal_resident.getColumn(0, "FOOD5"));
+				this.ds_meal_list.setColumn(nRow, "D_MEAL6", this.ds_meal_resident.getColumn(0, "FOOD6"));
+				
+				// 처리자에 접속자 세팅
+				this.ds_meal_list.setColumn(nRow, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+			}
+		}
+		// 체위변경 검색 콜백
+		else if(strSvcID == "postureSearch")
+		{
+			this.ds_posture_list.set_updatecontrol(false);
+			for(let i = 0; i < this.ds_posture_list.rowcount; i++)
+			{
+				if(this.ds_posture_list.getColumn(i, "STATUS") == "I")
+				{
+					this.ds_posture_list.setRowType(i, Dataset.ROWTYPE_INSERT);
+					this.Tab00.Tabpage1.form.div_cont.form.mae_dateVal.set_value("");
+				}
+			}
+			this.ds_posture_list.set_updatecontrol(true);
+			if(this.ds_posture_list.getColumn(0, "STATUS") == "U")
+			{
+				this.Tab00.Tabpage1.form.div_cont.form.mae_dateVal.set_value(this.ds_posture_list.getColumn(0, "SEARCH_DT"));
+			}
+			this.fn_initGrid(this.fv_currentGrid);
+		}
+		// 집중배변관찰 검색 콜백
+		else if(strSvcID == "excretionSearch")
+		{
+			this.ds_excretion_list.clearData();
+			let nRow;
+			const searchDay = this.ds_search.getColumn(0, "DATE");
+			const nextDay = Sct.Util.addDate(searchDay, 1);
+			// 당일 검색결과가 없을 경우
+			if(this.ds_excretion_temp1.rowcount < 1)
+			{
+				// 당일 데이터셋 초기화
+				const temp1nRow = this.ds_excretion_temp1.addRow();
+				this.ds_excretion_temp1.setColumn(temp1nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+				this.ds_excretion_temp1.setColumn(temp1nRow, "EXC_DT", searchDay);
+				this.ds_excretion_temp1.setColumn(temp1nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+				this.ds_excretion_temp1.setColumn(temp1nRow, "EXC_TIME", "000000000000000000000000000000000000000000000000");	// 관찰분 (48자리)
+				this.ds_excretion_temp1.setColumn(temp1nRow, "URIN_OBS", "000000000000000000000000");	// 배뇨관찰 (24자리)
+				this.ds_excretion_temp1.setColumn(temp1nRow, "FECES_OBS", "000000000000000000000000");	// 배변관찰 (24자리)
+				this.ds_excretion_temp1.setColumn(temp1nRow, "DIAPER_CHG", "000000000000000000000000");	// 기저귀교환 (24자리)
+				this.ds_excretion_temp1.setColumn(temp1nRow, "CLOTH_CHG", "000000000000000000000000");	// 옷교환 (24자리)
+				this.ds_excretion_temp1.setColumn(temp1nRow, "URIN_QTY", "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"); // 소변량 (96자리)
+				
+				// 그리드에 그리는 속도 향상을 위하여 이벤트 중지
+				this.fv_currentGrid.set_enableevent(false);
+				this.fv_currentGrid.set_enableredraw(false);				
+				this.ds_excretion_list.set_enableevent(false);
+				
+				// 그리드에 데이터 추가
+				for(let i = 0; i < 24; i++)
+				{
+					nRow = this.ds_excretion_list.addRow();
+					// 초기화
+					this.ds_excretion_list.setColumn(nRow, "EXC_DT", searchDay);
+					if(i < 10)
+					{
+						this.ds_excretion_list.setColumn(nRow, "HOUR", "0" + i + " : ");
+					}
+					else
+					{
+						this.ds_excretion_list.setColumn(nRow, "HOUR", i + " : ");
+					}
+					this.ds_excretion_list.setColumn(nRow, "MIN", "00");
+					this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+					this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+					this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+					this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+					this.ds_excretion_list.setColumn(nRow, "CLOTH", 0);
+				}
+				
+				// 다 그렸으므로 이벤트 다시 활성화
+				this.fv_currentGrid.set_enableevent(true);
+				this.fv_currentGrid.set_enableredraw(true);				
+				this.ds_excretion_list.set_enableevent(true);
+			}
+			// 당일 검색결과가 있는경우
+			else
+			{
+				let j = 0;	// String 자르기용 변수 2칸씩 자름
+				let k = 0;	// String 자르기용 변수 1칸씩 자름
+				let l = 0;	// String 자르기용 변수 4칸씩 자름
+				
+				// 그리드에 그리는 속도 향상을 위하여 이벤트 중지
+				this.fv_currentGrid.set_enableevent(false);
+				this.fv_currentGrid.set_enableredraw(false);				
+				this.ds_excretion_list.set_enableevent(false);
+				
+				// 그리드에 데이터 추가
+				for(let i = 0; i < 24; i++)
+				{
+					nRow = this.ds_excretion_list.addRow();
+					const excTime = this.ds_excretion_temp1.getColumn(0, "EXC_TIME");
+					const urinObs = this.ds_excretion_temp1.getColumn(0, "URIN_OBS");
+					const urinOvalue = urinObs.substr(k, 1);
+					const urinQty = this.ds_excretion_temp1.getColumn(0, "URIN_QTY");
+					const urinQsub = urinQty.substr(l, 4);
+					const urinQvalue = urinQsub.replace(/(^0+)/, "");
+					const fecesObs = this.ds_excretion_temp1.getColumn(0, "FECES_OBS");
+					const fecesOvalue = fecesObs.substr(k, 1);
+					const diaperChg = this.ds_excretion_temp1.getColumn(0, "DIAPER_CHG");
+					const diaperCvalue = diaperChg.substr(k, 1);
+					const clothChg = this.ds_excretion_temp1.getColumn(0, "CLOTH_CHG");
+					const clothCvalue = clothChg.substr(k, 1);
+					
+					this.ds_excretion_list.setColumn(nRow, "EXC_DT", searchDay);
+					if(i < 10)
+					{
+						this.ds_excretion_list.setColumn(nRow, "HOUR", "0" + i + " : ");
+					}
+					else
+					{
+						this.ds_excretion_list.setColumn(nRow, "HOUR", i + " : ");
+					}
+					this.ds_excretion_list.setColumn(nRow, "MIN", excTime.substr(j, 2));
+					switch(urinOvalue)
+					{
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", urinOvalue);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+							break;
+						case "3":
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", urinOvalue);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+							break;
+					}
+					this.ds_excretion_list.setColumn(nRow, "URIN_QTY", urinQvalue);
+					switch(fecesOvalue)
+					{
+						case "1":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", fecesOvalue);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", fecesOvalue);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+						case "3":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", fecesOvalue);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+					}
+					switch(diaperCvalue) 
+					{
+						case "1":
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", diaperCvalue);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+							break;
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", diaperCvalue);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+					}
+					this.ds_excretion_list.setColumn(nRow, "CLOTH", clothCvalue);
+					j += 2;
+					k++;
+					l += 4;
+				}
+				this.Tab00.Tabpage0.form.div_cont.form.mae_dateVal.set_value(searchDay);
+				
+				// 다 그렸으므로 이벤트 다시 활성화
+				this.fv_currentGrid.set_enableevent(true);
+				this.fv_currentGrid.set_enableredraw(true);				
+				this.ds_excretion_list.set_enableevent(true);
+			}
+			// 명일 검색결과가 없는경우
+			if(this.ds_excretion_temp2.rowcount < 1)
+			{
+				// 명일 데이터셋 초기화
+				const temp2nRow = this.ds_excretion_temp2.addRow();
+				this.ds_excretion_temp2.setColumn(temp2nRow, "COMPANY_CD", this.ds_search.getColumn(0, "COMPANY_CD"));
+				this.ds_excretion_temp2.setColumn(temp2nRow, "EXC_DT", nextDay);
+				this.ds_excretion_temp2.setColumn(temp2nRow, "RES_ID", this.ds_search.getColumn(0, "RES_ID"));
+				this.ds_excretion_temp2.setColumn(temp2nRow, "EXC_TIME", "000000000000000000000000000000000000000000000000");	// 관찰분 (48자리)
+				this.ds_excretion_temp2.setColumn(temp2nRow, "URIN_OBS", "000000000000000000000000");	// 배뇨관찰 (24자리)
+				this.ds_excretion_temp2.setColumn(temp2nRow, "FECES_OBS", "000000000000000000000000");	// 배변관찰 (24자리)
+				this.ds_excretion_temp2.setColumn(temp2nRow, "DIAPER_CHG", "000000000000000000000000");	// 기저귀교환 (24자리)
+				this.ds_excretion_temp2.setColumn(temp2nRow, "CLOTH_CHG", "000000000000000000000000");	// 옷교환 (24자리)
+				this.ds_excretion_temp2.setColumn(temp2nRow, "URIN_QTY", "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"); // 소변량 (96자리)
+				
+				// 그리드에 그리는 속도 향상을 위하여 이벤트 중지
+				this.fv_currentGrid.set_enableevent(false);
+				this.fv_currentGrid.set_enableredraw(false);				
+				this.ds_excretion_list.set_enableevent(false);
+				
+				// 그리드에 데이터 추가
+				for(let i = 0; i < 9; i++)
+				{
+					nRow = this.ds_excretion_list.addRow();
+					// 초기화
+					this.ds_excretion_list.setColumn(nRow, "EXC_DT", nextDay);
+					this.ds_excretion_list.setColumn(nRow, "HOUR", "0" + i + " : ");
+					this.ds_excretion_list.setColumn(nRow, "MIN", "00");
+					this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+					this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+					this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+					this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+					this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+					this.ds_excretion_list.setColumn(nRow, "CLOTH", 0);
+				}
+				
+				// 다 그렸으므로 이벤트 다시 활성화
+				this.fv_currentGrid.set_enableevent(true);
+				this.fv_currentGrid.set_enableredraw(true);				
+				this.ds_excretion_list.set_enableevent(true);
+			}
+			// 명일 검색결과가 있는경우
+			else
+			{
+				let j = 0;
+				let k = 0;
+				let l = 0;
+				
+				// 그리드에 그리는 속도 향상을 위하여 이벤트 중지
+				this.fv_currentGrid.set_enableevent(false);
+				this.fv_currentGrid.set_enableredraw(false);				
+				this.ds_excretion_list.set_enableevent(false);
+				
+				// 그리드에 데이터 추가
+				for(let i = 0; i < 9; i++)
+				{
+					nRow = this.ds_excretion_list.addRow();
+					const excTime2 = this.ds_excretion_temp2.getColumn(0, "EXC_TIME");
+					const urinObs2 = this.ds_excretion_temp2.getColumn(0, "URIN_OBS");
+					const urinOvalue2 = urinObs2.substr(k, 1);
+					const urinQty2 = this.ds_excretion_temp2.getColumn(0, "URIN_QTY");
+					const urinQsub2 = urinQty2.substr(l, 4);
+					const urinQvalue2 = urinQsub2.replace(/(^0+)/, "");
+					const fecesObs2 = this.ds_excretion_temp2.getColumn(0, "FECES_OBS");
+					const fecesOvalue2 = fecesObs2.substr(k, 1);
+					const diaperChg2 = this.ds_excretion_temp2.getColumn(0, "DIAPER_CHG");
+					const diaperCvalue2 = diaperChg2.substr(k, 1);
+					const clothChg2 = this.ds_excretion_temp2.getColumn(0, "CLOTH_CHG");
+					const clothCvalue2 = clothChg2.substr(k, 1);
+					
+					this.ds_excretion_list.setColumn(nRow, "EXC_DT", nextDay);
+					this.ds_excretion_list.setColumn(nRow, "HOUR", "0" + i + " : ");
+					this.ds_excretion_list.setColumn(nRow, "MIN", excTime2.substr(j, 2));
+					switch(urinOvalue2)
+					{
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", urinOvalue2);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+							break;
+						case "3":
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", urinOvalue2);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "URIN_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "URIN_2", 0);
+							break;
+					}
+					this.ds_excretion_list.setColumn(nRow, "URIN_QTY", urinQvalue2);
+					switch(fecesOvalue2)
+					{
+						case "1":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", fecesOvalue2);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", fecesOvalue2);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+						case "3":
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", fecesOvalue2);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "FECES_1", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_2", 0);
+							this.ds_excretion_list.setColumn(nRow, "FECES_3", 0);
+							break;
+					}
+					switch(diaperCvalue2) 
+					{
+						case "1":
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", diaperCvalue2);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+							break;
+						case "2":
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", diaperCvalue2);
+							break;
+						default:
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_N", 0);
+							this.ds_excretion_list.setColumn(nRow, "DIAPER_S", 0);
+					}
+					this.ds_excretion_list.setColumn(nRow, "CLOTH", clothCvalue2);
+					j += 2;
+					k++;
+					l += 4;
+				}
+				
+				// 다 그렸으므로 이벤트 다시 활성화
+				this.fv_currentGrid.set_enableevent(true);
+				this.fv_currentGrid.set_enableredraw(true);				
+				this.ds_excretion_list.set_enableevent(true);
+			}
+			this.fn_initGrid(this.fv_currentGrid);
+			this.ds_excretion_list.set_rowposition(0);
+		}
+		// 저장 콜백
+		else if(strSvcID == "save")
+		{	
+			if(this.tranFlag == "I")
+			{
+				Sct.alert(this, "000570", "등록");	// {0} 되었습니다.
+			}
+			else if(this.tranFlag == "U")
+			{
+				Sct.alert(this, "000570", "수정");	// {0} 되었습니다.
+			}
+			else if(this.tranFlag == "IU")
+			{
+				Sct.alert(this, "000570", "저장");
+			}
+			this.tranFlag = "";
+			
+			this.fn_search();
+		}
+		// 삭제 콜백
+		else if(strSvcID == "delete")
+		{
+			Sct.alert(this, "000570", "삭제");	// {0} 되었습니다.
+			this.fn_search();
+		}
+	}
+	else
+	{
+		this.tranFlag = "";
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+/**
+ * 집중배설관찰 DB입력용 String 만들기
+ * 
+ * @param cRow 당일 바꿀 문자 index
+ * @param sRow 명일 바꿀 문자 index
+ * @param str1 당일 원본 문자열
+ * @param str2 명일 원본 문자열
+ * @param col 데이터셋 컬럼명
+ * @param value 바꿀 문자값
+ * @param offset 문자 간격
+ */
+this.fn_valueSet = function(cRow, sRow, str1, str2, col, value, offset)
+{
+	let index;
+	if(offset == null || offset == 0)
+	{
+		if(cRow < 24)
+		{
+			str1 = this.stringReplaceAt(str1, value, cRow);
+			this.ds_excretion_temp1.setColumn(0, col, str1);
+		}
+		else
+		{
+			str2 = this.stringReplaceAt(str2, value, sRow);
+			this.ds_excretion_temp2.setColumn(0, col, str2);
+		}
+	}
+	else
+	{
+		if(cRow < 24)
+		{
+			index = cRow * offset;
+			str1 = this.stringReplaceAt(str1, value, index);
+			this.ds_excretion_temp1.setColumn(0, col, str1);
+		}
+		else
+		{
+			index = sRow * offset;
+			str2 = this.stringReplaceAt(str2, value, index);
+			this.ds_excretion_temp2.setColumn(0, col, str2);
+		}
+	}
+};
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 탭 변경시 
+this.Tab00_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+{
+	const i = e.postindex;
+	const today = Sct.Util.getToday();
+	// 요양/관찰일지
+	if(i == 5)
+	{
+		this.fv_currentDS = this.ds_observe_list;
+		this.fv_inputDS = this.ds_observe_list;
+		this.fv_currentGrid = "";
+		this.ds_search.setColumn(0, "DATE", today);
+	}
+	// 수면상태
+	else if(i == 4)
+	{
+		this.fv_currentDS = this.ds_sleep_list;
+		this.fv_inputDS = this.ds_sleep_input;
+		this.fv_currentGrid = this.Tab00.Tabpage4.form.div_cont.form.grd_sleep_list;
+		this.ds_search.setColumn(0, "DATE", today);
+	}
+	// 수분섭취
+	else if(i == 3)
+	{
+		this.fv_currentDS = this.ds_water_list;
+		this.fv_inputDS = this.ds_water_input;
+		this.fv_currentGrid = this.Tab00.Tabpage3.form.div_cont.form.grd_water_list;
+		this.ds_search.setColumn(0, "DATE", today);
+	}
+	// 식사
+	else if(i == 2)
+	{
+		this.fv_currentDS = this.ds_meal_list;
+		this.fv_inputDS = this.ds_meal_list;
+		this.fv_currentGrid = "";
+		this.ds_search.setColumn(0, "DATE", today);
+	}
+	// 체위변경
+	else if(i == 1)
+	{
+		this.fv_currentDS = this.ds_posture_list;
+		this.fv_inputDS = this.ds_posture_list;
+		this.fv_currentGrid = this.Tab00.Tabpage1.form.div_cont.form.grd_posture_list;
+		const nowTime = Sct.Util.getHour() + Sct.Util.getMin();
+		if(nowTime < 0800)
+		{
+			const beforeDay = today - 1;
+			this.ds_search.setColumn(0, "DATE", beforeDay);
+		}
+		else
+		{
+			this.ds_search.setColumn(0, "DATE", today);
+		}
+	}
+	// 집중배설관찰
+	else if(i == 0)
+	{
+		this.fv_currentDS = this.ds_excretion_list;
+		this.fv_inputDS = "";
+		this.fv_currentGrid = this.Tab00.Tabpage0.form.div_cont.form.grd_excretion_list;
+		this.ds_search.setColumn(0, "DATE", today);
+	}
+	
+	// 온로드시 검색하지 않고 탭체인지 할때 검색
+	if(this.tabChangeFlag == "Y")
+	{
+		this.fn_search();
+	}
+	
+};
+
+// 음성인식
+this.btn_tRecord_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	trace(obj.id);
+	let param;
+	this.makeStandardObject();
+	
+	// 요양/관찰일지 관찰기록
+	if(obj.id == "btn_tRecord_observe1")
+	{
+		param = {arg1 : "1"};
+	}
+	// 요양/관찰일지 요양일지
+	else if(obj.id == "btn_tRecord_observe2")
+	{
+		param = {arg1 : "2"};
+	}
+	// 수면상태 비고
+	else if(obj.id == "btn_tRecord_sleep")
+	{
+		param = {arg1 : "3"};
+	}
+	// 수분섭취 비고
+	else if(obj.id == "btn_tRecord_water")
+	{
+		param = {arg1 : "4"};
+	}
+	
+	this.standardPlugin.callMethod("VOICE", param);
+};
+
+// standardObject 안드로이드 네이티브 통신 callback
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	// 관찰기록 STT
+	if(e.svcid == "VOICE1")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.Tab00.Tabpage5.form.div_cont.form.txt_observe_remark.value;
+			if (rmkValue == undefined)
+			{
+				this.Tab00.Tabpage5.form.div_cont.form.txt_observe_remark.set_value(e.returnvalue);
+			}
+			else
+			{
+				this.Tab00.Tabpage5.form.div_cont.form.txt_observe_remark.set_value(rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+	// 요양일지 STT
+	else if(e.svcid == "VOICE2")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.Tab00.Tabpage5.form.div_cont.form.txt_observe_note.value;
+			if (rmkValue == undefined)
+			{
+				this.Tab00.Tabpage5.form.div_cont.form.txt_observe_note.set_value(e.returnvalue);
+			}
+			else
+			{
+				this.Tab00.Tabpage5.form.div_cont.form.txt_observe_note.set_value(rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+	// 수면상태 비고 STT
+	else if(e.svcid == "VOICE3")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.Tab00.Tabpage4.form.div_cont.form.txt_sleep_remark.value;
+			if (rmkValue == undefined)
+			{
+				this.Tab00.Tabpage4.form.div_cont.form.txt_sleep_remark.set_value(e.returnvalue);
+			}
+			else
+			{
+				this.Tab00.Tabpage4.form.div_cont.form.txt_sleep_remark.set_value(rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+	// 수분섭취 비고 STT
+	else if(e.svcid == "VOICE4")
+	{
+		if(e.reason == 0)
+		{
+			let rmkValue = this.Tab00.Tabpage3.form.div_cont.form.txt_water_remark.value;
+			if (rmkValue == undefined)
+			{
+				this.Tab00.Tabpage3.form.div_cont.form.txt_water_remark.set_value(e.returnvalue);
+			}
+			else
+			{
+				this.Tab00.Tabpage3.form.div_cont.form.txt_water_remark.set_value(rmkValue + " " + e.returnvalue);
+			}
+		}
+	}
+	// 수면상태 기상시간 timepicker
+	else if(e.svcid == "TIMEPICKER1")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage4.form.div_cont.form.mae_sle_time.set_value(e.returnvalue);
+		}
+	}
+	// 수분섭취 시간 timepicker
+	else if(e.svcid == "TIMEPICKER2")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage3.form.div_cont.form.mae_wat_time.set_value(e.returnvalue);
+		}
+	}
+	// 식사 오전식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER3")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.div_cont.form.mae_breTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 점심식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER4")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.div_cont.form.mae_lunTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 저녁식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER5")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.div_cont.form.mae_dinTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 오전간식 시간 timepicker
+	else if(e.svcid == "TIMEPICKER6")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.div_cont.form.mae_morSnackTime.set_value(e.returnvalue);
+		}
+	}
+	// 식사 오전식사 시간 timepicker
+	else if(e.svcid == "TIMEPICKER7")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.div_cont.form.mae_aftSnackTime.set_value(e.returnvalue);
+		}
+	}
+};
+
+// TIMEPICKER
+this.msk_oneditclick = function(obj:nexacro.MaskEdit,e:nexacro.EditClickEventInfo)
+{
+	let param;
+	this.makeStandardObject();
+	// 수면상태 기상시간 timepicker
+	if(obj.id == "mae_sle_time")
+	{
+		param = {arg1 : "1"};
+	}
+	// 수분섭취 시간 timepicker
+	else if(obj.id == "mae_wat_time")
+	{
+		param = {arg1 : "2"};
+	}
+	// 식사 아침식사 시간 timepicker
+	else if(obj.id == "mae_breTime")
+	{
+		param = {arg1 : "3"};
+	}
+	// 식사 점심식사 시간 timepicker
+	else if(obj.id == "mae_lunTime")
+	{
+		param = {arg1 : "4"};
+	}
+	// 식사 저녁식사 시간 timepicker
+	else if(obj.id == "mae_dinTime")
+	{
+		param = {arg1 : "5"};
+	}
+	// 식사 오전간식 시간 timepicker
+	else if(obj.id == "mae_morSnackTime")
+	{
+		param = {arg1 : "6"};
+	}
+	// 식사 오후간식 시간 timepicker
+	else if(obj.id == "mae_aftSnackTime")
+	{
+		param = {arg1 : "7"};
+	}
+	this.standardPlugin.callMethod("TIMEPICKER", param);
+};
+
+// 그리드 확장버튼
+this.fn_grid_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	// 수정버튼 클릭
+	if(obj.getBindCellIndex("body", "EDIT_COL") == e.col)
+	{
+		this.fv_inputDS.copyRow(0, this.fv_currentDS, e.row);
+		this.fv_inputDS.set_updatecontrol(false);
+		this.fv_inputDS.setRowType(0, Dataset.ROWTYPE_UPDATE);
+		this.fv_inputDS.set_updatecontrol(true);
+		
+		if (this.fv_inputDS != "" && this.fv_inputDS.name != "ds_posture_list")
+		{
+			// 처리자에 접속자 세팅
+			this.fv_inputDS.setColumn(0, "MANAGER_ID", nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID"));
+		}
+	}
+	
+	// 삭제버튼 클릭
+	if(obj.getBindCellIndex("body", "DEL_COL") == e.col)
+	{	
+		this.fv_currentDS.set_rowposition(e.row);		
+		this.fn_delete();
+	}
+};
+
+// 그리드 목적행으로 이동 (집중배설관찰, 체위변경)
+this.fn_gridRow_go = function(obj)
+{
+	switch(obj.id)
+	{
+		case "btn_grd_go0":
+			this.fv_currentDS.set_rowposition(0);
+			this.fv_currentGrid.scrollTo(0, 0);
+			break;
+		case "btn_grd_go3":
+			this.fv_currentDS.set_rowposition(3);
+			this.fv_currentGrid.scrollTo(0, 120);
+			break;
+		case "btn_grd_go4":
+			this.fv_currentDS.set_rowposition(4);
+			this.fv_currentGrid.scrollTo(0, 160);
+			break;
+		case "btn_grd_go6":
+			this.fv_currentDS.set_rowposition(6);
+			this.fv_currentGrid.scrollTo(0, 240);
+			break;
+		case "btn_grd_go9":
+			this.fv_currentDS.set_rowposition(9);
+			this.fv_currentGrid.scrollTo(0, 360);
+			break;
+		case "btn_grd_go10":
+			this.fv_currentDS.set_rowposition(10);
+			this.fv_currentGrid.scrollTo(0, 400);
+			break;
+		case "btn_grd_go13":
+			this.fv_currentDS.set_rowposition(13);
+			this.fv_currentGrid.scrollTo(0, 520);
+			break;
+		case "btn_grd_go18":
+			this.fv_currentDS.set_rowposition(18);
+			this.fv_currentGrid.scrollTo(0, 720);
+			break;
+		case "btn_grd_go21":
+			this.fv_currentDS.set_rowposition(21);
+			this.fv_currentGrid.scrollTo(0, 840);
+			break;
+		case "btn_grd_go24":
+			this.fv_currentDS.set_rowposition(24);
+			this.fv_currentGrid.scrollTo(0, 960);
+			break;
+		case "btn_grd_go28":
+			this.fv_currentDS.set_rowposition(28);
+			this.fv_currentGrid.scrollTo(0, 1120);
+			break;
+	}
+};
+
+// 집중배설관찰 그리드 데이터셋 값변경시 이벤트
+this.ds_excretion_list_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	const cRow = obj.rowposition;
+	const sRow = cRow - 24;
+	let col;
+	let value = e.newvalue;
+	let offset = 0;
+	switch(e.columnid)
+	{
+		// 관찰분
+		case "MIN":
+			col = "EXC_TIME";
+			offset = 2;
+			break;
+		// 배뇨관찰 소량
+		case "URIN_1":
+			obj.setColumn(cRow, "URIN_2", 0);
+			col = "URIN_OBS";
+			break;
+		// 배뇨관찰 대량
+		case "URIN_2":
+			obj.setColumn(cRow, "URIN_1", 0);
+			col = "URIN_OBS";
+			break;
+		// 소변량
+		case "URIN_QTY":
+			col = "URIN_QTY";
+			value = value.padStart(4, "0");
+			offset = 4;
+			break;
+		// 배변관찰 정상
+		case "FECES_1":
+			obj.setColumn(cRow, "FECES_2", 0);
+			obj.setColumn(cRow, "FECES_3", 0);
+			col = "FECES_OBS";
+			break;
+		// 배변관찰 실변
+		case "FECES_2":
+			obj.setColumn(cRow, "FECES_1", 0);
+			obj.setColumn(cRow, "FECES_3", 0);
+			col = "FECES_OBS";
+			break;
+		// 배변관찰 설사
+		case "FECES_3":
+			obj.setColumn(cRow, "FECES_1", 0);
+			obj.setColumn(cRow, "FECES_2", 0);
+			col = "FECES_OBS";
+			break;
+		// 기저귀교환 일반
+		case "DIAPER_N":
+			obj.setColumn(cRow, "DIAPER_S", 0);
+			col = "DIAPER_CHG";
+			break;
+		// 기저귀교환 스마트
+		case "DIAPER_S":
+			obj.setColumn(cRow, "DIAPER_N", 0);
+			col = "DIAPER_CHG";
+			break;
+		// 옷교환
+		case "CLOTH":
+			col = "CLOTH_CHG";
+			break;
+	}
+	if(e.columnid != "EXC_DT" && e.columnid != "HOUR")
+	{
+		const str1 = this.ds_excretion_temp1.getColumn(0, col);
+		const str2 = this.ds_excretion_temp2.getColumn(0, col);
+		// DB입력용 String 만들기
+		this.fn_valueSet(cRow, sRow, str1, str2, col, value, offset);
+	}
+};
+
+// 식사 데이터셋 값 변경시 이벤트
+this.ds_meal_list_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	const cRow = obj.rowposition;
+	let col = "A";
+	let j;
+	switch(e.columnid)
+	{
+		// 아침식사 일반식
+		case "B_MEAL1":
+			col = "B_MEAL";
+			j = 1;
+			break;
+		// 아침식사 죽식
+		case "B_MEAL2":
+			col = "B_MEAL";
+			j = 2;
+			break;
+		// 아침식사 유동·경관식
+		case "B_MEAL3":
+			col = "B_MEAL";
+			j = 3;
+			break;
+		// 아침식사 갈은식
+		case "B_MEAL4":
+			col = "B_MEAL";
+			j = 4;
+			break;
+		// 아침식사 다진식
+		case "B_MEAL5":
+			col = "B_MEAL";
+			j = 5;
+			break;
+		// 아침식사 미음
+		case "B_MEAL6":
+			col = "B_MEAL";
+			j = 6;
+			break;
+		// 점심식사 일반식
+		case "L_MEAL1":
+			col = "L_MEAL";
+			j = 1;
+			break;
+		// 점심식사 죽식
+		case "L_MEAL2":
+			col = "L_MEAL";
+			j = 2;
+			break;
+		// 점심식사 유동·경관식
+		case "L_MEAL3":
+			col = "L_MEAL";
+			j = 3;
+			break;
+		// 점심식사 갈은식
+		case "L_MEAL4":
+			col = "L_MEAL";
+			j = 4;
+			break;
+		// 점심식사 다진식
+		case "L_MEAL5":
+			col = "L_MEAL";
+			j = 5;
+			break;
+		// 점심식사 미음
+		case "L_MEAL6":
+			col = "L_MEAL";
+			j = 6;
+			break;
+		// 저녁식사 일반식
+		case "D_MEAL1":
+			col = "D_MEAL";
+			j = 1;
+			break;
+		// 저녁식사 죽식
+		case "D_MEAL2":
+			col = "D_MEAL";
+			j = 2;
+			break;
+		// 저녁식사 유동·경관식
+		case "D_MEAL3":
+			col = "D_MEAL";
+			j = 3;
+			break;
+		// 저녁식사 갈은식
+		case "D_MEAL4":
+			col = "D_MEAL";
+			j = 4;
+			break;
+		// 저녁식사 다진식
+		case "D_MEAL5":
+			col = "D_MEAL";
+			j = 5;
+			break;
+		// 저녁식사 미음
+		case "D_MEAL6":
+			col = "D_MEAL";
+			j = 6;
+			break;
+	}
+	
+	// 식사유형 체크박스 하나만 선택되도록 하기
+	for(let i = 1; i < 7; i++)
+	{
+		if(i != j)
+		{
+			this.ds_meal_list.setColumn(cRow, col + i, 0);
+		}
+	}
+};
+
+// 식사 입소자 콤보 변경시 이벤트
+this.meal_cmb_resident_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_search();
+};
+
+// 자세변경일지 그리드 셀 클릭 이벤트
+this.Tab00_Tabpage1_div_cont_grd_posture_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const minIdx = obj.getBindCellIndex("body", "POS_MIN");
+	const posIdx = obj.getBindCellIndex("body", "POSTURE");
+	const manIdx = obj.getBindCellIndex("body", "MANAGER_ID");
+	if (e.col == minIdx || e.col == posIdx || e.col == manIdx)
+	{
+		const manValue = this.ds_posture_list.getColumn(e.row, "MANAGER_ID");
+		trace(manValue);
+		if (manValue == undefined)
+		{
+			const userId = nexacro.getApplication().gds_userInfo.getColumn(0, "USER_ID");
+			this.ds_posture_list.setColumn(e.row, "MANAGER_ID", userId);
+		}
+		
+		if (e.col == manIdx)
+		{
+			const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+			
+			Sct.tPopup(this, "pop3", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+		}
+	}
+};
+
+// 처리자 선택
+this.cmb_manager_oneditclick = function(obj:nexacro.Combo,e:nexacro.EditClickEventInfo)
+{
+	const param = {COMPANY_CD : nexacro.getApplication().gds_taCurRes.getColumn(0, "COMPANY_CD")};
+	
+	if (obj.id == "cmb_daytimeWorker")	// 집중배설관찰일지 주간관찰자
+		Sct.tPopup(this, "pop1", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+	else if (obj.id == "cmb_nighttimeWorker")	// 집중배설관찰일지 야간관찰자
+		Sct.tPopup(this, "pop2", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+	else if (obj.id == "cmb_managerId")	// 처리자
+		Sct.tPopup(this, "pop4", 350, 350, param, "TabletPOP::NUB_MANAGER_POP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "pop1" :	// 주간관찰자
+			this.ds_excretion_temp1.setColumn(0, "DAY_MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			this.ds_excretion_temp1.setColumn(0, "DAY_MANAGER_NM", objDs.getColumn(0, "NAME"));
+			break;
+		case "pop2" :	// 야간관찰자
+			this.ds_excretion_temp1.setColumn(0, "NIG_MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			this.ds_excretion_temp1.setColumn(0, "NIG_MANAGER_NM", objDs.getColumn(0, "NAME"));
+			break;
+		case "pop3" :	// 체위변경 처리자
+			this.ds_posture_list.setColumn(this.ds_posture_list.rowposition, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			break;
+		case "pop4" :	// 그 외 화면 처리자
+			const i = this.Tab00.tabindex;
+			if (i == 2)	// 식사
+				this.ds_meal_list.setColumn(0, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			else if (i == 3)	// 수분섭취
+				this.ds_water_input.setColumn(0, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			else if (i == 4)	// 수면상태
+				this.ds_sleep_input.setColumn(0, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+			else if (i == 5)	// 요양/관찰일지
+				this.ds_observe_list.setColumn(0, "MANAGER_ID", objDs.getColumn(0, "USER_ID"));
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Tab00.Tabpage0.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="Tab00.Tabpage0.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item2" compid="Tab00.Tabpage0.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item61" compid="Tab00.Tabpage0.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item3" compid="Tab00.Tabpage1.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item4" compid="Tab00.Tabpage1.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item5" compid="Tab00.Tabpage1.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item14" compid="Tab00.Tabpage1.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item6" compid="Tab00.Tabpage0.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item8" compid="Tab00.Tabpage0.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item9" compid="Tab00.Tabpage0.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item10" compid="Tab00.Tabpage2.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item11" compid="Tab00.Tabpage2.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item12" compid="Tab00.Tabpage2.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item13" compid="Tab00.Tabpage2.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item15" compid="Tab00.Tabpage1.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item16" compid="Tab00.Tabpage1.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item17" compid="Tab00.Tabpage1.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item19" compid="Tab00.Tabpage2.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item20" compid="Tab00.Tabpage2.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item21" compid="Tab00.Tabpage2.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item22" compid="Tab00.Tabpage2.form.div_cont.form.mae_dateVal" propid="value" datasetid="ds_meal_list" columnid="MEA_DT"/>
+      <BindItem id="item24" compid="Tab00.Tabpage3.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item25" compid="Tab00.Tabpage3.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item26" compid="Tab00.Tabpage3.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item27" compid="Tab00.Tabpage3.form.div_cont.form.mae_dateVal" propid="value" datasetid="ds_water_list" columnid="WAT_DT"/>
+      <BindItem id="item31" compid="Tab00.Tabpage4.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item32" compid="Tab00.Tabpage4.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item33" compid="Tab00.Tabpage4.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item34" compid="Tab00.Tabpage4.form.div_cont.form.mae_dateVal" propid="value" datasetid="ds_sleep_list" columnid="SLE_DT"/>
+      <BindItem id="item35" compid="Tab00.Tabpage5.form.div_cont.form.sta_residentVal" propid="text" datasetid="ds_resInfo" columnid="NAME_AGE"/>
+      <BindItem id="item36" compid="Tab00.Tabpage5.form.div_cont.form.mae_enterDt" propid="value" datasetid="ds_resInfo" columnid="ENTER_DT"/>
+      <BindItem id="item37" compid="Tab00.Tabpage5.form.div_cont.form.sta_areaLocatonVal" propid="text" datasetid="ds_resInfo" columnid="ROOM"/>
+      <BindItem id="item23" compid="Tab00.Tabpage3.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item28" compid="Tab00.Tabpage3.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item29" compid="Tab00.Tabpage3.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item30" compid="Tab00.Tabpage3.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item39" compid="Tab00.Tabpage4.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item40" compid="Tab00.Tabpage4.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item41" compid="Tab00.Tabpage4.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item42" compid="Tab00.Tabpage4.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item43" compid="Tab00.Tabpage5.form.div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item44" compid="Tab00.Tabpage5.form.div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item45" compid="Tab00.Tabpage5.form.div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item46" compid="Tab00.Tabpage5.form.div_search.form.cmb_resident" propid="value" datasetid="ds_search" columnid="RES_ID"/>
+      <BindItem id="item38" compid="Tab00.Tabpage5.form.div_cont.form.mae_dateVal" propid="value" datasetid="ds_observe_list" columnid="OBS_DT"/>
+      <BindItem id="item47" compid="Tab00.Tabpage5.form.div_cont.form.txt_observe_remark" propid="value" datasetid="ds_observe_list" columnid="REMARK"/>
+      <BindItem id="item48" compid="Tab00.Tabpage5.form.div_cont.form.cmb_managerId" propid="value" datasetid="ds_observe_list" columnid="MANAGER_ID"/>
+      <BindItem id="item49" compid="Tab00.Tabpage5.form.div_cont.form.txt_observe_note" propid="value" datasetid="ds_observe_list" columnid="NOTE"/>
+      <BindItem id="item52" compid="Tab00.Tabpage4.form.div_cont.form.txt_sleep_remark" propid="value" datasetid="ds_sleep_input" columnid="REMARK"/>
+      <BindItem id="item53" compid="Tab00.Tabpage4.form.div_cont.form.cmb_managerId" propid="value" datasetid="ds_sleep_input" columnid="MANAGER_ID"/>
+      <BindItem id="item50" compid="Tab00.Tabpage4.form.div_cont.form.mae_sle_time" propid="value" datasetid="ds_sleep_input" columnid="SLE_TIME"/>
+      <BindItem id="item51" compid="Tab00.Tabpage4.form.div_cont.form.cmb_sleep_tp" propid="value" datasetid="ds_sleep_input" columnid="SLEEP_TP"/>
+      <BindItem id="item54" compid="Tab00.Tabpage3.form.div_cont.form.mae_wat_time" propid="value" datasetid="ds_water_input" columnid="WAT_TIME"/>
+      <BindItem id="item55" compid="Tab00.Tabpage3.form.div_cont.form.edt_volume" propid="value" datasetid="ds_water_input" columnid="VOLUME"/>
+      <BindItem id="item56" compid="Tab00.Tabpage3.form.div_cont.form.txt_water_remark" propid="value" datasetid="ds_water_input" columnid="REMARK"/>
+      <BindItem id="item57" compid="Tab00.Tabpage3.form.div_cont.form.cmb_managerId" propid="value" datasetid="ds_water_input" columnid="MANAGER_ID"/>
+      <BindItem id="item7" compid="Tab00.Tabpage0.form.div_cont.form.cmb_daytimeWorker" propid="value" datasetid="ds_excretion_temp1" columnid="DAY_MANAGER_ID"/>
+      <BindItem id="item18" compid="Tab00.Tabpage0.form.div_cont.form.cmb_nighttimeWorker" propid="value" datasetid="ds_excretion_temp1" columnid="NIG_MANAGER_ID"/>
+      <BindItem id="item58" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal1" propid="value" datasetid="ds_meal_list" columnid="FUND1"/>
+      <BindItem id="item59" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal2" propid="value" datasetid="ds_meal_list" columnid="FUND2"/>
+      <BindItem id="item60" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal3" propid="value" datasetid="ds_meal_list" columnid="FUND3"/>
+      <BindItem id="item62" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal4" propid="value" datasetid="ds_meal_list" columnid="FUND4"/>
+      <BindItem id="item63" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal5" propid="value" datasetid="ds_meal_list" columnid="FUND5"/>
+      <BindItem id="item64" compid="Tab00.Tabpage2.form.div_cont.form.chk_fundVal6" propid="value" datasetid="ds_meal_list" columnid="FUND6"/>
+      <BindItem id="item65" compid="Tab00.Tabpage2.form.div_cont.form.chk_dietaryVal1" propid="value" datasetid="ds_meal_list" columnid="DIET1"/>
+      <BindItem id="item66" compid="Tab00.Tabpage2.form.div_cont.form.chk_dietaryVal2" propid="value" datasetid="ds_meal_list" columnid="DIET2"/>
+      <BindItem id="item67" compid="Tab00.Tabpage2.form.div_cont.form.chk_dietaryVal3" propid="value" datasetid="ds_meal_list" columnid="DIET3"/>
+      <BindItem id="item68" compid="Tab00.Tabpage2.form.div_cont.form.chk_dietaryVal4" propid="value" datasetid="ds_meal_list" columnid="DIET4"/>
+      <BindItem id="item69" compid="Tab00.Tabpage2.form.div_cont.form.cmb_managerId" propid="value" datasetid="ds_meal_list" columnid="MANAGER_ID"/>
+      <BindItem id="item70" compid="Tab00.Tabpage2.form.div_cont.form.mae_breTime" propid="value" datasetid="ds_meal_list" columnid="BRE_TIME"/>
+      <BindItem id="item71" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp1" propid="value" datasetid="ds_meal_list" columnid="B_MEAL1"/>
+      <BindItem id="item72" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp2" propid="value" datasetid="ds_meal_list" columnid="B_MEAL2"/>
+      <BindItem id="item73" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp3" propid="value" datasetid="ds_meal_list" columnid="B_MEAL3"/>
+      <BindItem id="item74" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp4" propid="value" datasetid="ds_meal_list" columnid="B_MEAL4"/>
+      <BindItem id="item75" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp5" propid="value" datasetid="ds_meal_list" columnid="B_MEAL5"/>
+      <BindItem id="item76" compid="Tab00.Tabpage2.form.div_cont.form.chk_breTp6" propid="value" datasetid="ds_meal_list" columnid="B_MEAL6"/>
+      <BindItem id="item77" compid="Tab00.Tabpage2.form.div_cont.form.rdo_breQty" propid="value" datasetid="ds_meal_list" columnid="BRE_QTY"/>
+      <BindItem id="item78" compid="Tab00.Tabpage2.form.div_cont.form.mae_lunTime" propid="value" datasetid="ds_meal_list" columnid="LUN_TIME"/>
+      <BindItem id="item79" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp1" propid="value" datasetid="ds_meal_list" columnid="L_MEAL1"/>
+      <BindItem id="item80" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp2" propid="value" datasetid="ds_meal_list" columnid="L_MEAL2"/>
+      <BindItem id="item81" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp3" propid="value" datasetid="ds_meal_list" columnid="L_MEAL3"/>
+      <BindItem id="item82" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp4" propid="value" datasetid="ds_meal_list" columnid="L_MEAL4"/>
+      <BindItem id="item83" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp5" propid="value" datasetid="ds_meal_list" columnid="L_MEAL5"/>
+      <BindItem id="item84" compid="Tab00.Tabpage2.form.div_cont.form.chk_lunTp6" propid="value" datasetid="ds_meal_list" columnid="B_MEAL6"/>
+      <BindItem id="item85" compid="Tab00.Tabpage2.form.div_cont.form.rdo_lunQty" propid="value" datasetid="ds_meal_list" columnid="LUN_QTY"/>
+      <BindItem id="item86" compid="Tab00.Tabpage2.form.div_cont.form.mae_dinTime" propid="value" datasetid="ds_meal_list" columnid="DIN_TIME"/>
+      <BindItem id="item87" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp1" propid="value" datasetid="ds_meal_list" columnid="D_MEAL1"/>
+      <BindItem id="item88" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp2" propid="value" datasetid="ds_meal_list" columnid="D_MEAL2"/>
+      <BindItem id="item89" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp3" propid="value" datasetid="ds_meal_list" columnid="D_MEAL3"/>
+      <BindItem id="item90" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp4" propid="value" datasetid="ds_meal_list" columnid="D_MEAL4"/>
+      <BindItem id="item91" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp5" propid="value" datasetid="ds_meal_list" columnid="D_MEAL5"/>
+      <BindItem id="item92" compid="Tab00.Tabpage2.form.div_cont.form.chk_dinTp6" propid="value" datasetid="ds_meal_list" columnid="D_MEAL6"/>
+      <BindItem id="item93" compid="Tab00.Tabpage2.form.div_cont.form.rdo_dinQty" propid="value" datasetid="ds_meal_list" columnid="DIN_QTY"/>
+      <BindItem id="item94" compid="Tab00.Tabpage2.form.div_cont.form.mae_morSnackTime" propid="value" datasetid="ds_meal_list" columnid="MOR_SNACK_TIME"/>
+      <BindItem id="item95" compid="Tab00.Tabpage2.form.div_cont.form.rdo_morSnackQty" propid="value" datasetid="ds_meal_list" columnid="MOR_SNACK_QTY"/>
+      <BindItem id="item96" compid="Tab00.Tabpage2.form.div_cont.form.mae_aftSnackTime" propid="value" datasetid="ds_meal_list" columnid="AFT_SNACK_TIME"/>
+      <BindItem id="item97" compid="Tab00.Tabpage2.form.div_cont.form.rdo_aftSnackQty" propid="value" datasetid="ds_meal_list" columnid="AFT_SNACK_QTY"/>
+    </Bind>
+  </Form>
+</FDL>

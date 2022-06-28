@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00402" width="1920" height="800" titletext="4-2 송영차량 운행일정 현황" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_search" taborder="0" left="0" top="0" height="30" text="" width="305">
+          <Layouts>
+            <Layout>
+              <Button id="btn_pre_dt" taborder="0" text="◀ 전날" top="3" width="80" height="25" visible="true" left="0" onclick="div_search_btn_pre_dt_onclick"/>
+              <Calendar id="cal_date" taborder="2" left="85" top="3" width="110" height="25" cssclass="essential" onchanged="div_search_cal_sdate_onchanged" initvalueid="iv_cal_yyyyMMddddd" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Button id="btn_next_dt" taborder="1" text="앞날 ▶" top="3" width="80" height="25" visible="true" left="224" onclick="div_search_btn_next_dt_onclick"/>
+              <Calendar id="cal_date_pic" taborder="3" left="cal_date:-1" top="cal_date:-25" width="25" height="25" onchanged="div_search_cal_date_pic_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="div_search:10" top="0" height="31" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="0" text="기록식 전체운행일지()" left="0" top="3" width="235" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report2" taborder="1" text="기록식 전체운행일정()" left="240" top="3" width="235" height="25" onclick="fn_report" cssclass="btn_print"/>
+              <Button id="btn_report3" taborder="2" text="기록식 주간운행일정(~)" left="480" top="3" width="315" height="25" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func2" taborder="2" left="0" top="35" height="70" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report4" taborder="1" text="차량별 운행일지" left="200" top="0" width="140" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report5" taborder="2" text="차량별 운행일정(해당요일)" left="345" top="0" width="195" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report6" taborder="3" text="송영일지서식(A)" left="545" top="0" width="135" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report7" taborder="4" text="송영일지서식(B)" left="685" top="0" width="135" height="25" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_yearCar" taborder="6" text="연간 차량운행 현황" left="950" top="0" width="130" height="25" onclick="div_func2_btn_yearCar_onclick"/>
+              <Button id="btn_yearMate" taborder="7" text="연간 수급자 송영집계" left="1085" top="0" width="140" height="25" onclick="div_func2_btn_yearMate_onclick"/>
+              <Static id="sta_subTitle" taborder="8" text="송영차량 운행일정·현황" left="830" top="37" width="180" height="25" cssclass="lb01"/>
+              <Button id="btn_driver_select" taborder="5" text="운전자지정" left="825" top="0" width="120" height="25" onclick="div_func_btn_driver_select_onclick"/>
+              <Combo id="cmb_car_select" taborder="0" left="0" top="0" width="192" height="25" innerdataset="ds_car" codecolumn="combocode" datacolumn="comboname"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_main" taborder="3" left="0" top="110" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="0" left="0" top="0" right="0" bottom="20" autofittype="col" binddataset="ds_list" onexpandup="div_main_grd_list_onexpandup">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="70"/>
+                      <Column size="60"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                      <Column size="90"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="현황"/>
+                      <Cell col="1" text="수급자명"/>
+                      <Cell col="2" text="성별"/>
+                      <Cell col="3" text="생활실"/>
+                      <Cell col="4" text="이용일"/>
+                      <Cell col="5" text="이용시간"/>
+                      <Cell col="6" text="월(月)"/>
+                      <Cell col="7" text="월요시간"/>
+                      <Cell col="8" text="화(火)"/>
+                      <Cell col="9" text="화요시간"/>
+                      <Cell col="10" text="수(水)"/>
+                      <Cell col="11" text="수요시간"/>
+                      <Cell col="12" text="목(木)"/>
+                      <Cell col="13" text="목요시간"/>
+                      <Cell col="14" text="금(金)"/>
+                      <Cell col="15" text="금요시간"/>
+                      <Cell col="16" text="토(土)"/>
+                      <Cell col="17" text="토요시간"/>
+                      <Cell col="18" text="일(日)"/>
+                      <Cell col="19" text="일요시간"/>
+                      <Cell col="20" text="조회"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:거주현황"/>
+                      <Cell col="1" text="bind:m_name" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                      <Cell col="2" text="bind:성별"/>
+                      <Cell col="3" text="bind:m_roomname" textAlign="left"/>
+                      <Cell col="4" text="bind:요일이용"/>
+                      <Cell col="5" text="bind:이용시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="6" text="bind:월요차량"/>
+                      <Cell col="7" text="bind:월요시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="8" text="bind:화요차량"/>
+                      <Cell col="9" text="bind:화요시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="10" text="bind:수요차량"/>
+                      <Cell col="11" text="bind:수요시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="12" text="bind:목요차량"/>
+                      <Cell col="13" text="bind:목요시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="14" text="bind:금요차량"/>
+                      <Cell col="15" text="bind:금요시간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="16" text="bind:토요차량" cssclass="BlueFontCell"/>
+                      <Cell col="17" text="bind:토요시간" cssclass="BlueFontCell" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="18" text="bind:일요차량" cssclass="RedFontCell"/>
+                      <Cell col="19" text="bind:일요시간" cssclass="RedFontCell" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="20" text="bind:조회" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="60"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ord1" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="요일이용" type="STRING" size="256"/>
+          <Column id="이용시간" type="STRING" size="256"/>
+          <Column id="월요차량" type="STRING" size="256"/>
+          <Column id="월요시간" type="STRING" size="256"/>
+          <Column id="화요차량" type="STRING" size="256"/>
+          <Column id="화요시간" type="STRING" size="256"/>
+          <Column id="수요차량" type="STRING" size="256"/>
+          <Column id="수요시간" type="STRING" size="256"/>
+          <Column id="목요차량" type="STRING" size="256"/>
+          <Column id="목요시간" type="STRING" size="256"/>
+          <Column id="금요차량" type="STRING" size="256"/>
+          <Column id="금요시간" type="STRING" size="256"/>
+          <Column id="토요차량" type="STRING" size="256"/>
+          <Column id="토요시간" type="STRING" size="256"/>
+          <Column id="일요차량" type="STRING" size="256"/>
+          <Column id="일요시간" type="STRING" size="256"/>
+          <Column id="조회" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="MONTH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_car" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="combocode" type="STRING" size="256"/>
+          <Column id="comboname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_week">
+        <ColumnInfo>
+          <Column id="sun" type="STRING" size="256"/>
+          <Column id="mon" type="STRING" size="256"/>
+          <Column id="tue" type="STRING" size="256"/>
+          <Column id="wed" type="STRING" size="256"/>
+          <Column id="thu" type="STRING" size="256"/>
+          <Column id="fri" type="STRING" size="256"/>
+          <Column id="sat" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00402
+ * 화면명   	: 송영차량 운행일정 현황
+ * 화면설명 	: 송영차량 운행일정 현황을 조회하는 화면
+ * 작성일   	: 2022-05-03
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ * 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", Sct.Util.getToday());
+	this.ds_search.setColumn(0, "YEAR", year);
+	this.ds_search.setColumn(0, "MONTH", month);
+	
+	// 콤보
+	this.fn_set_car_combo();
+	
+	// 리포트 출력 초기화
+	this.ds_report.setColumn(0, "SIGN", 1);
+	
+	this.fn_search();
+};
+
+// 그리드 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_list=output1 ds_week=output2";
+	const argument = "method=getList"
+				   + " sqlId='DAY00402.DAY00402_DS_LIST_S DAY00402.DAY00402_DS_WEEK_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 차량 조회
+this.fn_car_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_car=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00402.DAY00402_DS_CAR_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if (this.ds_week.rowcount > 0)
+			{
+				const sun = this.ds_week.getColumn(0, "sun");
+				const sat = this.ds_week.getColumn(0, "sat");
+				
+				this.div_func.form.btn_report1.set_text("기록식 전체운행일지(" + sun + ")");
+				this.div_func.form.btn_report2.set_text("기록식 전체운행일정(" + sun + ")");
+				this.div_func.form.btn_report3.set_text("기록식 주간운행일정(" + sun + "~" + sat + ")");
+			}
+		
+			this.initGrid(this.div_main.form.grd_list);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+		return false;
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 차량 콤보 세팅
+this.fn_set_car_combo = function()
+{
+	this.ds_car.clearData();
+
+	this.fn_car_search();
+	
+	const firstRowValue = this.ds_car.getColumn(0, "combocode");
+	this.div_func2.form.cmb_car_select.set_value(firstRowValue);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+	switch(obj.id) 
+	{
+		case "btn_report1" :
+			jrfFile = "DAY00402_R01.jrf";
+			break;
+		case "btn_report2" :
+			jrfFile = "DAY00402_R02.jrf";
+			break;
+		case "btn_report3" :
+			jrfFile = "DAY00402_R03.jrf";
+			break;
+		case "btn_report4" :
+			jrfFile = "DAY00402_R04.jrf";
+			break;
+		case "btn_report5" :
+			jrfFile = "DAY00402_R05.jrf";
+			break;
+		case "btn_report6" :
+			jrfFile = "DAY00402_R06.jrf";
+			break;
+		case "btn_report7" :
+			jrfFile = "DAY00402_R07.jrf";
+			break;
+		default:
+	}
+	
+	const year = this.ds_search.getColumn(0, "YEAR");
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + this.ds_search.getColumn(0, "DATE") + "#"
+			  + "P_DGUBUN#" + this.div_func2.form.cmb_car_select.value + "#"
+			  + "P_YY#" + year.substr(0, 2) + "#"
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 운전자지정 버튼
+this.div_func_btn_driver_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_search.getColumn(0, "DATE")
+	};
+
+	Sct.popup(this, "driverSelect", 450, 400, "차량별 송영일지 출력", param, "DAY_POP::DAY00401_P04.xfdl", "fn_popCallback");
+};
+
+// 연간 차량운행 현황 버튼
+this.div_func2_btn_yearCar_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+		SICODE : fv_sicode
+	,	YEAR : this.ds_search.getColumn(0, "YEAR")
+	};
+
+	Sct.popup(this, "yearCar", 450, 400, "연간 차량운행 현황", param, "DAY_POP::DAY00402_P02.xfdl", "fn_popCallback");
+};
+
+// 연간 수급자별 송영집계 버튼
+this.div_func2_btn_yearMate_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+		SICODE : fv_sicode
+	,	YEAR : this.ds_search.getColumn(0, "YEAR")
+	};
+
+	Sct.popup(this, "yearMate", 450, 400, "연간 수급자별 송영집계", param, "DAY_POP::DAY00402_P03.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	//trace("popid : " + popid);
+	if (popid != "driverSelect" 
+		&& popid != "yearCar"
+		&& popid != "yearMate"
+		&& popid != "search")
+	{
+		if(Sct.Util.isEmpty(strDs)) return;
+	}
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "driverSelect" :
+		case "yearCar" :
+		case "yearMate" :
+		case "search" :
+			//trace("검색하자!");
+			this.fn_search();
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 앞날
+this.div_search_btn_next_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "DATE");
+	searchDt.setDate(searchDt.getDate() + 1);
+	this.ds_search.setColumn(0, "DATE", searchDt);
+	this.ds_search.setColumn(0, "YEAR", searchDt.getFullYear());
+	this.ds_search.setColumn(0, "MONTH", searchDt.getMonth() + 1);
+	this.fn_search();
+};
+
+// 전날
+this.div_search_btn_pre_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "DATE");
+	searchDt.setDate(searchDt.getDate() - 1);
+	this.ds_search.setColumn(0, "DATE", searchDt);
+	this.ds_search.setColumn(0, "YEAR", searchDt.getFullYear());
+	this.ds_search.setColumn(0, "MONTH", searchDt.getMonth() + 1);
+	this.fn_search();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "DATE");
+	this.ds_search.setColumn(0, "YEAR", searchDt.getFullYear());
+	this.ds_search.setColumn(0, "MONTH", searchDt.getMonth() + 1);
+	this.fn_search();
+};
+
+// 그리드 확장버튼 클릭 이벤트
+this.div_main_grd_list_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	const searchIdx = obj.getBindCellIndex("body", "조회");
+	// 돋보기
+	if (e.col == searchIdx)
+	{
+		const param = {
+			SICODE : fv_sicode
+		,	M_CODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "search", 450, 400, "수급자 주간송영 운행일정", param, "DAY_POP::DAY00402_P01.xfdl", "fn_popCallback");
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+    </Bind>
+  </Form>
+</FDL>

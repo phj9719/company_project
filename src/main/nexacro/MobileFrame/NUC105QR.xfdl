@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC105QR" width="480" height="1000" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="CIST검사" ondevicebuttonup="NUC105QR_ondevicebuttonup" onload="NUC105QR_onload">
+    <Layouts>
+      <Layout width="480" height="1000" screenid="Mobile" stepcount="0">
+        <Static id="sta_weekTitle" taborder="0" text="지난 1년간 검사정보" left="5%" top="333" height="40" cssclass="sta_title" right="5.63%"/>
+        <Div id="div_lastCist" taborder="1" left="5.00%" top="70" height="240" right="5.00%" background="#6a8ed3" borderRadius="6px" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_day" taborder="0" text="DAY" left="2.78%" top="11" height="26" color="#ffffff" right="2.78%" textAlign="center" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <Div id="div_line" taborder="1" text="Div00" left="2.78%" top="49" height="2" right="2.78%" background="#bfd5ff"/>
+              <Static id="sta_cistPtH1" taborder="2" text="지남력" left="10%" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtH2" taborder="3" text="주의력" left="40%" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="20%"/>
+              <Static id="sta_cistPtH3" taborder="4" text="시공간기능" top="62" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="20%" left="70%"/>
+              <Static id="sta_cistPtVal1" taborder="5" left="10%" top="87" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtVal2" taborder="6" left="40%" top="87" height="26" color="#bfd5ff" width="19.91%" text="-" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_cistPtVal3" taborder="7" top="87" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" text="-" width="19.91%" left="70%"/>
+              <Static id="sta_cistPtH4" taborder="8" text="집행기능" left="10%" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtVal4" taborder="9" left="10%" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtH5" taborder="10" text="기억력" left="40%" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%"/>
+              <Static id="sta_cistPtVal5" taborder="11" left="40%" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" width="19.91%" text="-"/>
+              <Static id="sta_cistPtH6" taborder="12" text="언어기능" top="122" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="19.91%" left="70%"/>
+              <Static id="sta_cistPtVal6" taborder="13" top="147" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" text="-" width="19.91%" left="70%"/>
+              <Div id="div_line00" taborder="14" text="Div00" left="2.78%" top="189" height="2" right="2.78%" background="#bfd5ff"/>
+              <Static id="sta_cistPtH7" taborder="15" text="총점 : " left="14.58%" top="202" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="12.73%"/>
+              <Static id="sta_cistPtVal7" taborder="16" text="-" left="27.55%" top="202" height="26" font="normal 700 16pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#ffffff" width="17.59%"/>
+              <Static id="sta_cistGradeH" taborder="17" text="판정 : " left="47.92%" top="202" height="26" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" width="12.50%"/>
+              <Static id="sta_cistGradeVal" taborder="18" text="-" left="59.72%" top="202" height="26" font="normal 700 16pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#ffffff" width="32.64%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_todayTitle" taborder="2" text="마지막 검사정보" left="5%" top="20" height="40" cssclass="sta_title" right="5.00%"/>
+        <Grid id="grd_list" taborder="3" left="5.00%" top="612" autofittype="col" right="5.00%" binddataset="ds_list" height="200" oncellclick="grd_list_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="130"/>
+                <Column size="100"/>
+                <Column size="130"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜"/>
+                <Cell col="1" text="총점" border="1px solid transparent,1px solid #ffffff,1px solid #ffffff"/>
+                <Cell col="2" text="판정"/>
+                <Cell col="3" text="상세"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CIS_DT" expandchar="dot" displaytype="date"/>
+                <Cell col="1" text="bind:TOTAL_VAL" combodataset="ds_nu_bomi_cont" combodatacol="CMNM" combocodecol="CMCD"/>
+                <Cell col="2" text="bind:CIS_GRADE" displaytype="combotext" combodataset="ds_nu_cist_grade" combodatacol="CMNM" combocodecol="CMCD"/>
+                <Cell col="3" text="확인" color="#6a8ed3"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <BasicChart id="cha_cist" taborder="4" left="5.00%" top="378" height="220" background="#eef3fa" right="5.00%" borderRadius="6px" binddataset="ds_chart" categorycolumn="bind:CHART_DATE" boardspacing="0px 10px 0px 0px">
+          <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 12pt '맑은 고딕'",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #cccccc",
+		"tickendgap": "20px",
+		"tickstartgap": "20px",
+		"ticksize": "3",
+		"labeltextwidth": "23"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": true,
+			"itemtextcolor": "#003860",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"valuecolumn": "bind:PT1",
+			"linevisible": "true",
+			"lineitemtextposition": "lefttop",
+			"titletext": "지남력",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series1",
+			"valuecolumn": "bind:PT2",
+			"titletext": "주의력",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"itemtextcolor": "#ff7f0e",
+			"lineitemtextposition": "righttop",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series2",
+			"valuecolumn": "bind:PT3",
+			"titletext": "시공간기능",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineitemtextposition": "centerbottom",
+			"itemtextcolor": "#2ca02c",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series3",
+			"valuecolumn": "bind:PT4",
+			"titletext": "집행기능",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineitemtextposition": "leftbottom",
+			"itemtextcolor": "#d62728",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series4",
+			"valuecolumn": "bind:PT5",
+			"titletext": "기억력",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineitemtextposition": "centertop",
+			"itemtextcolor": "#9467bd",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series5",
+			"valuecolumn": "bind:PT6",
+			"titletext": "언어기능",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineitemtextposition": "rightbottom",
+			"itemtextcolor": "#8c564b",
+			"lineitemtextgap": "3"
+		},
+		{
+			"id": "series6",
+			"valuecolumn": "bind:PT7",
+			"titletext": "총점",
+			"barvisible": "false",
+			"itemtextvisible": "true",
+			"linevisible": "true",
+			"itemtextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"lineitemtextposition": "centertop",
+			"itemtextcolor": "#e377c2",
+			"lineitemtextgap": "3"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "normal 500 12pt/normal \"Noto Sans KR\"",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 12pt '맑은 고딕'",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"tickmax": "30",
+			"ticksize": "3",
+			"labelgap": "0"
+		}
+	],
+	"legend": {
+		"id": "legend",
+		"padding": "5px 0px 10px",
+		"itemtextfont": "normal 500 10pt/normal \"Noto Sans KR\"",
+		"itemtextcolor": "#555555",
+		"align": "topcenter",
+		"useiteminvisible": "false",
+		"itemautofit": "false"
+	}
+}]]></Contents>
+        </BasicChart>
+        <Div id="div_dummy" taborder="5" left="5.00%" top="863" height="5" right="5.00%" background="transparent"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="FROM" type="STRING" size="256"/>
+          <Column id="TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="TOTAL_VAL" type="STRING" size="256"/>
+          <Column id="CIS_GRADE" type="STRING" size="256"/>
+          <Column id="PT1" type="STRING" size="256"/>
+          <Column id="PT2" type="STRING" size="256"/>
+          <Column id="PT3" type="STRING" size="256"/>
+          <Column id="PT4" type="STRING" size="256"/>
+          <Column id="PT5" type="STRING" size="256"/>
+          <Column id="PT6" type="STRING" size="256"/>
+          <Column id="PT7" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_cist" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+          <Column id="PT1_VAL" type="STRING" size="256"/>
+          <Column id="PT2_VAL" type="STRING" size="256"/>
+          <Column id="PT3_VAL" type="STRING" size="256"/>
+          <Column id="PT4_VAL" type="STRING" size="256"/>
+          <Column id="PT5_VAL" type="STRING" size="256"/>
+          <Column id="PT6_VAL" type="STRING" size="256"/>
+          <Column id="PT7_VAL" type="STRING" size="256"/>
+          <Column id="CIS_GRADE_VAL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_chart" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CIS_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="TOTAL_VAL" type="STRING" size="256"/>
+          <Column id="CIS_GRADE" type="STRING" size="256"/>
+          <Column id="PT1" type="STRING" size="256"/>
+          <Column id="PT2" type="STRING" size="256"/>
+          <Column id="PT3" type="STRING" size="256"/>
+          <Column id="PT4" type="STRING" size="256"/>
+          <Column id="PT5" type="STRING" size="256"/>
+          <Column id="PT6" type="STRING" size="256"/>
+          <Column id="PT7" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_cist_pt">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_cist_grade">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC105QR
+ * 화면명   	: CIST검사
+ * 화면설명 	: 모바일에서 입소자의 CIST검사 결과를 확인하는 화면
+ * 작성일    	: 2021-09-09
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC105QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const today = Sct.Util.getToday();					// 오늘 날짜
+	const from = Sct.Util.addMonth(today, -12);			// 1년전 날짜
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "FROM", from);
+	this.ds_search.setColumn(0, "TO", today);
+	
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC105QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_cist=output1 ds_list=output2";
+	const argument = "method=getList "
+		+ "sqlId='NUC105QR.NUC105QR_DS_CIST_S NUC105QR.NUC105QR_DS_LIST_S '";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 마지막 측정 결과가 없을 경우
+			if(this.ds_cist.rowcount < 1)
+			{
+				// 빈값 세팅
+				this.div_lastCist.form.sta_day.set_text("측정 정보 없음");
+				for(let i = 1; i <= 7; i++)
+				{
+					const name = "sta_cistPtVal" + i;
+					this.div_lastCist.form.all[name].set_text("-");
+				}
+				this.div_lastCist.form.sta_cistGradeVal.set_text("-");
+			}
+			else
+			{
+				// 마지막 측정 날짜 세팅
+				const cisDt = this.ds_cist.getColumn(0, "CIS_DT");
+				const day = Sct.Util.getDayH(cisDt, false);
+				const cisDate = cisDt.substr(0, 4) + "." + cisDt.substr(4, 2) + "." + cisDt.substr(6, 2) + "(" + day + ")";
+				this.div_lastCist.form.sta_day.set_text(cisDate);
+			}
+			
+			// 30일간 데이터가 있는 경우
+			if(this.ds_list.rowcount > 0)
+			{
+				// 차트에 그리드와 반대순서로 데이터 세팅
+				this.ds_chart.set_enableevent(false);
+				for(let i = this.ds_list.rowcount-1; i >= 0; i--)
+				{
+					const nRow = this.ds_chart.addRow();
+					this.ds_chart.copyRow(nRow, this.ds_list, i);
+				}
+				this.ds_chart.set_enableevent(true);
+				this.cha_cist.set_binddataset("ds_chart");
+				this.cha_cist.set_categorycolumn("BIND:CHART_DATE");			
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 그리드 셀 클릭 이벤트
+this.grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	// 그리드의 상세 셀
+	if(e.cell == 3)
+	{
+		const rIdx = e.row;
+		
+		const param = {
+				companyCd : this.ds_list.getColumn(rIdx, "COMPANY_CD")
+			,	resId : this.ds_list.getColumn(rIdx, "RES_ID")
+			,	cisDt : this.ds_list.getColumn(rIdx, "CIS_DT")
+		};
+		
+		Sct.tPopup(this, "NUC_CIST_DETAIL_POP", 460, 700, param, "MobilePOP::NUC_CIST_DETAIL_POP.xfdl", "fn_popCallback");
+	}
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "NUC_CIST_DETAIL_POP" :
+			break;
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_lastCist.form.sta_cistPtVal1" propid="text" datasetid="ds_cist" columnid="PT1_VAL"/>
+      <BindItem id="item1" compid="div_lastCist.form.sta_cistPtVal2" propid="text" datasetid="ds_cist" columnid="PT2_VAL"/>
+      <BindItem id="item2" compid="div_lastCist.form.sta_cistPtVal3" propid="text" datasetid="ds_cist" columnid="PT3_VAL"/>
+      <BindItem id="item3" compid="div_lastCist.form.sta_cistPtVal4" propid="text" datasetid="ds_cist" columnid="PT4_VAL"/>
+      <BindItem id="item4" compid="div_lastCist.form.sta_cistPtVal5" propid="text" datasetid="ds_cist" columnid="PT5_VAL"/>
+      <BindItem id="item5" compid="div_lastCist.form.sta_cistPtVal6" propid="text" datasetid="ds_cist" columnid="PT6_VAL"/>
+      <BindItem id="item6" compid="div_lastCist.form.sta_cistPtVal7" propid="text" datasetid="ds_cist" columnid="PT7_VAL"/>
+      <BindItem id="item7" compid="div_lastCist.form.sta_cistGradeVal" propid="text" datasetid="ds_cist" columnid="CIS_GRADE_VAL"/>
+    </Bind>
+  </Form>
+</FDL>

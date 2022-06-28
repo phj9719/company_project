@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00708                                                      
+     * 프로그램 명     	: 7-8 직원회의록
+     * Description 	: 직원회의록 내역 관리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-10 14:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00708_DS_LIST_S		조회
+        DAY00708_DS_DATA_I		삽입
+        DAY00708_DS_DATA_U		수정
+        DAY00708_DS_DATA_D		삭제                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00708">
+	<!-- 조회 -->
+    <select id="DAY00708_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-8 조회 */
+    SELECT
+      km.sicode
+    , km.회의번호
+    , km.회의일자
+    , km.회의시간
+    , km.회의명
+    , km.회의장소
+    , km.참석인원
+    , km.회의내용
+    , km.회의결과
+    , km.참석명단
+    , km.참석직종
+    , km.작성자명
+    , km.작성자코드
+    , (SELECT CF.FILE_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = km.sicode
+       AND CF.FILE_GRP_ID = km.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS daysajin
+    , km.FILE_GRP_ID
+    , (SELECT CF.FILE_REAL_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = km.sicode
+       AND CF.FILE_GRP_ID = km.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_REAL_NAME
+    , (SELECT CF.FILE_ID
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = km.sicode
+       AND CF.FILE_GRP_ID = km.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_ID
+    FROM km_meeting km
+    WHERE km.sicode = #{SICODE}
+    AND km.회의일자 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY
+      km.회의일자 DESC
+    , km.회의번호 ASC
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00708_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-8 삽입 */
+    INSERT INTO km_meeting
+    (
+      sicode
+    , 회의일자
+    , 회의시간
+    , 회의명
+    , 회의장소
+    , 참석인원
+    , 회의내용
+    , 회의결과
+    , 참석명단
+    , 참석직종
+    , 작성자명
+    , 작성자코드
+    , FILE_GRP_ID
+  	)
+    VALUES
+    (
+      #{sicode}
+    , #{회의일자}
+    , #{회의시간}
+    , #{회의명}
+    , #{회의장소}
+    , #{참석인원}
+    , #{회의내용}
+    , #{회의결과}
+    , #{참석명단}
+    , #{참석직종}
+    , #{작성자명}
+    , #{작성자코드}
+    , #{FILE_GRP_ID}
+    )   	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00708_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-8 수정 */
+    UPDATE km_meeting
+    SET
+      회의시간 = #{회의시간}
+    , 회의명 = #{회의명}
+    , 회의장소 = #{회의장소}
+    , 참석인원 = #{참석인원}
+    , 회의내용 = #{회의내용}
+    , 회의결과 = #{회의결과}
+    , 참석명단 = #{참석명단}
+    , 참석직종 = #{참석직종}
+    , 작성자명 = #{작성자명}
+    , 작성자코드 = #{작성자코드}
+    , FILE_GRP_ID = #{FILE_GRP_ID}
+    WHERE sicode = #{sicode}
+    AND 회의번호 = #{회의번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00708_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-8 삭제 */
+    DELETE FROM km_meeting
+    WHERE sicode = #{sicode}
+    AND 회의번호 = #{회의번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

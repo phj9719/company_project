@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00715                                                         
+     * 프로그램 명     	: 7-15 미세먼지대응 현장점검(수시)                                                     
+     * Description 	: 미세먼지대응 현장점검 내역
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-03 15:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00715_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00715">
+	<!-- 조회 -->
+    <select id="DAY00715_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+			kd.sicode
+		,	kd.먼지번호
+		,	kd.점검일
+		,	kd.점검항목
+		,	kd.점검자
+		,	kd.점검코드
+		FROM km_dust kd
+		WHERE kd.sicode = #{SICODE}
+		AND kd.점검일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+		ORDER BY kd.점검일 DESC
+    </select>
+    
+    <!-- 삽입전 점검일 중복 확인 -->
+    <select id="DAY00715_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT
+    		kd.sicode
+    	,	kd.먼지번호
+    	,	kd.점검일
+    	FROM km_dust kd
+    	WHERE kd.sicode = #{sicode}
+    	AND	kd.점검일 = #{점검일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00715_DS_DATA_I" parameterType="java.util.HashMap">
+    	INSERT INTO km_dust
+    	(
+    		sicode
+    	,	점검일
+    	,	점검항목
+    	,	점검자
+    	,	점검코드
+    	)
+		VALUES
+		(
+			#{sicode}
+		,	#{점검일}
+		,   #{점검항목}
+		,	#{점검자}
+		,	#{점검코드}
+		)    	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00715_DS_DATA_U" parameterType="java.util.HashMap">
+    	UPDATE km_dust
+    	SET	점검항목 = #{점검항목}
+    	,	점검자 = #{점검자}
+    	,	점검코드 = #{점검코드}
+    	WHERE sicode = #{sicode}
+    	AND	먼지번호 = #{먼지번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00715_DS_DATA_D" parameterType="java.util.HashMap">
+    	DELETE FROM km_dust
+    	WHERE sicode = #{sicode}
+    	AND	먼지번호 = #{먼지번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

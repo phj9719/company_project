@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201_P12                                                        
+     * 프로그램 명     	: 자세변경 기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-23 09:30        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_P12_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00201_P12">
+	<!-- 조회 -->
+    <select id="DAY00201_P12_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_S */
+		SELECT bm.sicode
+			, so_number
+			, DATE_FORMAT(#{s_date}, '%Y.%m.%d') AS so_nalja
+			, bm.m_code	AS so_code
+			, bm.m_name	AS so_name
+			, bm.m_group
+			, bm.성별 AS sex_gb
+			, INSERT(INSERT(bm.m_jumin1,5,0,'-'),3,0,'-') AS jumin
+			, bm.m_roomname
+			, 욕창크기
+			, 욕창색
+			, 욕창시점
+			, 욕창시간
+			, 욕창위치
+			, 욕창부위
+			, 욕창깊이
+			, 욕창배액
+			, 욕창냄새
+			, 욕창처치
+			, 방지도구
+			, SUBSTRING(방지도구,1,1)	AS 방지도구1
+			, SUBSTRING(방지도구,2,1)	AS 방지도구2
+			, SUBSTRING(방지도구,3,1)	AS 방지도구3
+			, SUBSTRING(방지도구,4,1)	AS 방지도구4		
+			, 욕창메모
+			, 욕창담당
+			, 담당코드
+			, 체위시08
+			, 체위시09
+			, 체위시10
+			, 체위시11
+			, 체위시12
+			, 체위시13
+			, 체위시14
+			, 체위시15
+			, 체위시16
+			, 체위시17
+			, 체위시18
+			, 담당자08
+			, 담당코드08
+			, 담당자09
+			, 담당코드09
+			, 담당자10
+			, 담당코드10
+			, 담당자11
+			, 담당코드11
+			, 담당자12
+			, 담당코드12
+			, 담당자13
+			, 담당코드13
+			, 담당자14
+			, 담당코드14
+			, 담당자15
+			, 담당코드15
+			, 담당자16
+			, 담당코드16
+			, 담당자17
+			, 담당코드17
+			, 담당자18
+			, 담당코드18		
+			, 체위시분
+			, SUBSTRING(체위시분,7,2) AS smin8
+			, SUBSTRING(체위시분,9,2) AS smin9
+			, SUBSTRING(체위시분,11,2) AS smin10
+			, SUBSTRING(체위시분,13,2) AS smin11
+			, SUBSTRING(체위시분,15,2) AS smin12
+			, SUBSTRING(체위시분,17,2) AS smin13
+			, SUBSTRING(체위시분,19,2) AS smin14
+			, SUBSTRING(체위시분,21,2) AS smin15
+			, SUBSTRING(체위시분,23,2) AS smin16
+			, SUBSTRING(체위시분,25,2) AS smin17
+			, SUBSTRING(체위시분,27,2) AS smin18
+			, 체위끝분
+			, SUBSTRING(체위끝분,7,2) AS emin9
+			, SUBSTRING(체위끝분,9,2) AS emin10
+			, SUBSTRING(체위끝분,11,2) AS emin11
+			, SUBSTRING(체위끝분,13,2) AS emin12
+			, SUBSTRING(체위끝분,15,2) AS emin13
+			, SUBSTRING(체위끝분,17,2) AS emin14
+			, SUBSTRING(체위끝분,19,2) AS emin15
+			, SUBSTRING(체위끝분,21,2) AS emin16
+			, SUBSTRING(체위끝분,23,2) AS emin17
+			, SUBSTRING(체위끝분,25,2) AS emin18
+			, SUBSTRING(체위끝분,27,2) AS emin19
+		FROM base_mate bm
+		LEFT OUTER JOIN (
+			SELECT *
+			FROM base_sore
+			WHERE sicode = #{sicode}
+			  AND so_code = #{m_code}
+			  AND so_nalja = #{s_date}
+		) bs
+		ON bs.sicode = bm.sicode
+		  AND bs.so_code = bm.m_code
+		WHERE bm.sicode = #{sicode}
+		  AND bm.m_code = #{m_code}
+    </select>
+
+    <select id="DAY00201_P12_DS_SORE_PART_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_SORE_PART_S */
+		SELECT 욕창위치
+			, SUBSTRING(욕창위치,1,1) AS part1
+			, SUBSTRING(욕창위치,2,1) AS part2
+			, SUBSTRING(욕창위치,3,1) AS part3
+			, SUBSTRING(욕창위치,4,1) AS part4
+			, SUBSTRING(욕창위치,5,1) AS part5
+			, SUBSTRING(욕창위치,6,1) AS part6
+			, SUBSTRING(욕창위치,7,1) AS part7
+			, SUBSTRING(욕창위치,8,1) AS part8
+			, SUBSTRING(욕창위치,9,1) AS part9
+			, SUBSTRING(욕창위치,10,1) AS part10
+			, SUBSTRING(욕창위치,11,1) AS part11
+			, SUBSTRING(욕창위치,12,1) AS part12
+			, SUBSTRING(욕창위치,13,1) AS part13
+			, SUBSTRING(욕창위치,14,1) AS part14
+			, SUBSTRING(욕창위치,15,1) AS part15
+			, SUBSTRING(욕창위치,16,1) AS part16
+		FROM base_sore
+		WHERE sicode = #{sicode}
+		  AND so_code = #{m_code}
+		  AND so_nalja = #{s_date}
+    </select>
+
+    <select id="DAY00201_P12_DS_SORE_PART_S 바뀌기 전" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_SORE_PART_S */
+		WITH RECURSIVE line AS (
+		      SELECT 1 AS row_num
+		      UNION ALL
+		      SELECT row_num + 1 AS row_num
+		      FROM line
+		      WHERE row_num <![CDATA[ < ]]> 16
+		)
+		, bs_data AS (
+			SELECT line.row_num
+				, sicode
+				, so_code
+				, so_nalja
+				, SUBSTRING_INDEX(SUBSTRING_INDEX(욕창부위,',',line.row_num), ',', -1) AS part_nm
+			FROM line
+			INNER JOIN (
+				SELECT sicode
+					, so_code
+					, so_nalja
+					, 욕창부위
+					, CHAR_LENGTH(욕창부위) AS org_len
+					, CHAR_LENGTH(REPLACE(욕창부위,',','')) AS rep_len
+					, CHAR_LENGTH(욕창부위) - CHAR_LENGTH(REPLACE(욕창부위,',','')) AS comma_cnt
+				FROM base_sore
+				WHERE sicode = #{sicode}
+					AND so_code = #{m_code}
+					AND so_nalja = #{s_date}	
+			) bs
+			ON line.row_num <![CDATA[ <= ]]> bs.comma_cnt
+		)
+		SELECT sicode
+			, so_code
+			, DATE_FORMAT(so_nalja, '%Y%m%d') AS so_nalja
+			, MAX(CASE WHEN INSTR(part_nm, '1.') = 1 OR INSTR(part_nm, '①') = 1 THEN 1 ELSE 0 END) AS part1
+			, MAX(CASE WHEN INSTR(part_nm, '2.') = 1 OR INSTR(part_nm, '②') = 1 THEN 1 ELSE 0 END) AS part2
+			, MAX(CASE WHEN INSTR(part_nm, '3.') = 1 OR INSTR(part_nm, '③') = 1 THEN 1 ELSE 0 END) AS part3
+			, MAX(CASE WHEN INSTR(part_nm, '4.') = 1 OR INSTR(part_nm, '④') = 1 THEN 1 ELSE 0 END) AS part4
+			, MAX(CASE WHEN INSTR(part_nm, '5.') = 1 OR INSTR(part_nm, '⑤') = 1 THEN 1 ELSE 0 END) AS part5
+			, MAX(CASE WHEN INSTR(part_nm, '6.') = 1 OR INSTR(part_nm, '⑥') = 1 THEN 1 ELSE 0 END) AS part6
+			, MAX(CASE WHEN INSTR(part_nm, '7.') = 1 OR INSTR(part_nm, '⑦') = 1 THEN 1 ELSE 0 END) AS part7
+			, MAX(CASE WHEN INSTR(part_nm, '8.') = 1 OR INSTR(part_nm, '⑧') = 1 THEN 1 ELSE 0 END) AS part8
+			, MAX(CASE WHEN INSTR(part_nm, '9.') = 1 OR INSTR(part_nm, '⑨') = 1 THEN 1 ELSE 0 END) AS part9
+			, MAX(CASE WHEN INSTR(part_nm, '10.') = 1 OR INSTR(part_nm, '⑩') = 1 THEN 1 ELSE 0 END) AS part10
+			, MAX(CASE WHEN INSTR(part_nm, '11.') = 1 OR INSTR(part_nm, '⑪') = 1 THEN 1 ELSE 0 END) AS part11
+			, MAX(CASE WHEN INSTR(part_nm, '12.') = 1 OR INSTR(part_nm, '⑫') = 1 THEN 1 ELSE 0 END) AS part12
+			, MAX(CASE WHEN INSTR(part_nm, '13.') = 1 OR INSTR(part_nm, '⑬') = 1 THEN 1 ELSE 0 END) AS part13
+			, MAX(CASE WHEN INSTR(part_nm, '14.') = 1 OR INSTR(part_nm, '⑭') = 1 THEN 1 ELSE 0 END) AS part14
+			, MAX(CASE WHEN INSTR(part_nm, '15.') = 1 OR INSTR(part_nm, '⑮') = 1 THEN 1 ELSE 0 END) AS part15
+			, MAX(CASE WHEN INSTR(part_nm, '16.') = 1 THEN 1 ELSE 0 END) AS part16
+		FROM bs_data
+		GROUP BY sicode, so_code, so_nalja
+    </select>
+        
+    <!-- 삽입 -->
+    <insert id="DAY00201_P12_DS_DATA_I" parameterType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_I */
+    	INSERT INTO base_sore
+		(
+			sicode
+			, so_nalja
+			, so_code
+			, so_name
+			, 욕창위치
+			, 욕창시점
+			, 욕창시간
+			, 욕창부위
+			, 욕창깊이
+			, 욕창색
+			, 욕창크기
+			, 욕창배액
+			, 욕창냄새
+			, 욕창처치
+			, 방지도구
+			, 욕창메모
+			, 욕창담당
+			, 담당코드
+		)
+		VALUES
+		(
+			#{sicode}
+			, #{so_nalja}
+			, #{so_code}
+			, #{so_name}
+			, IFNULL(#{욕창위치}, '')
+			, IFNULL(#{욕창시점}, 0)
+			, IFNULL(#{욕창시간}, '')
+			, IFNULL(#{욕창부위}, '')
+			, IFNULL(#{욕창깊이}, 0)
+			, IFNULL(#{욕창색}, '')
+			, IFNULL(#{욕창크기}, '')
+			, IFNULL(#{욕창배액}, 0)
+			, IFNULL(#{욕창냄새}, 0)
+			, IFNULL(#{욕창처치}, 0)
+			, IFNULL(CONCAT(#{방지도구1}, #{방지도구2}, #{방지도구3}, #{방지도구4}), '')
+			, IFNULL(#{욕창메모}, '')
+			, IFNULL(#{욕창담당}, '')
+			, IFNULL(#{담당코드}, '')
+			)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00201_P12_DS_DATA_U" parameterType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_U */
+		UPDATE base_sore
+		SET   욕창위치 = #{욕창위치}
+			, 욕창시점 = #{욕창시점}
+			, 욕창시간 = #{욕창시간}
+			, 욕창부위 = #{욕창부위}
+			, 욕창깊이 = #{욕창깊이}
+			, 욕창색 	= #{욕창색}
+			, 욕창크기 = #{욕창크기}
+			, 욕창배액 = #{욕창배액}
+			, 욕창냄새 = #{욕창냄새}
+			, 욕창처치 = #{욕창처치}
+			, 방지도구 = CONCAT(#{방지도구1}, #{방지도구2}, #{방지도구3}, #{방지도구4})
+			, 욕창메모 = #{욕창메모}
+			, 욕창담당 = #{욕창담당}
+			, 담당코드	 = #{담당코드}
+		WHERE sicode = #{sicode}
+		AND so_number = #{so_number}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00201_P12_DS_DATA_D" parameterType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_D */
+    	DELETE FROM base_sore
+    	WHERE sicode = #{sicode}
+    	AND	so_number = #{so_number}
+    </delete>
+    
+    <!-- 전날 일지 조회 -->
+    <select id="DAY00201_P12_DS_DATA_PREV_DAY_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_PREV_DAY_S */
+    <![CDATA[
+		SELECT 욕창크기
+			, 욕창색
+			, 욕창시점
+			, 욕창시간
+			, 욕창위치
+			, 욕창부위
+			, 욕창깊이
+			, 욕창배액
+			, 욕창냄새
+			, 욕창처치
+			, 방지도구
+			, IF(SUBSTRING(방지도구,1,1)='', 0, SUBSTRING(방지도구,1,1))	AS 방지도구1
+			, IF(SUBSTRING(방지도구,2,1)='', 0, SUBSTRING(방지도구,2,1))	AS 방지도구2
+			, IF(SUBSTRING(방지도구,3,1)='', 0, SUBSTRING(방지도구,3,1))	AS 방지도구3
+			, IF(SUBSTRING(방지도구,4,1)='', 0, SUBSTRING(방지도구,4,1))	AS 방지도구4		
+			, 욕창메모
+		FROM base_sore
+		WHERE sicode = #{sicode}
+			AND so_code = #{m_code}
+			AND so_nalja BETWEEN DATE_ADD(#{s_date}, INTERVAL -5 DAY) AND DATE_ADD(#{s_date}, INTERVAL -1 DAY)
+		ORDER BY so_nalja DESC
+		LIMIT 1
+	]]>
+    </select>
+    
+    <select id="DAY00201_P12_DS_SORE_PART_PREV_DAY_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_SORE_PART_PREV_DAY_S */
+		SELECT 욕창위치
+			, IF(SUBSTRING(욕창위치,1,1)='', 0 ,SUBSTRING(욕창위치,1,1)) AS part1
+			, IF(SUBSTRING(욕창위치,2,1)='', 0 ,SUBSTRING(욕창위치,2,1)) AS part2
+			, IF(SUBSTRING(욕창위치,3,1)='', 0 ,SUBSTRING(욕창위치,3,1)) AS part3
+			, IF(SUBSTRING(욕창위치,4,1)='', 0 ,SUBSTRING(욕창위치,4,1)) AS part4
+			, IF(SUBSTRING(욕창위치,5,1)='', 0 ,SUBSTRING(욕창위치,5,1)) AS part5
+			, IF(SUBSTRING(욕창위치,6,1)='', 0 ,SUBSTRING(욕창위치,6,1)) AS part6
+			, IF(SUBSTRING(욕창위치,7,1)='', 0 ,SUBSTRING(욕창위치,7,1)) AS part7
+			, IF(SUBSTRING(욕창위치,8,1)='', 0 ,SUBSTRING(욕창위치,8,1)) AS part8
+			, IF(SUBSTRING(욕창위치,9,1)='', 0 ,SUBSTRING(욕창위치,9,1)) AS part9
+			, IF(SUBSTRING(욕창위치,10,1)='', 0 ,SUBSTRING(욕창위치,10,1)) AS part10
+			, IF(SUBSTRING(욕창위치,11,1)='', 0 ,SUBSTRING(욕창위치,11,1)) AS part11
+			, IF(SUBSTRING(욕창위치,12,1)='', 0 ,SUBSTRING(욕창위치,12,1)) AS part12
+			, IF(SUBSTRING(욕창위치,13,1)='', 0 ,SUBSTRING(욕창위치,13,1)) AS part13
+			, IF(SUBSTRING(욕창위치,14,1)='', 0 ,SUBSTRING(욕창위치,14,1)) AS part14
+			, IF(SUBSTRING(욕창위치,15,1)='', 0 ,SUBSTRING(욕창위치,15,1)) AS part15
+			, IF(SUBSTRING(욕창위치,16,1)='', 0 ,SUBSTRING(욕창위치,16,1)) AS part16
+		FROM base_sore
+		WHERE sicode = #{sicode}
+		  AND so_code = #{m_code}
+		  AND so_nalja BETWEEN DATE_ADD(#{s_date}, INTERVAL -5 DAY) AND DATE_ADD(#{s_date}, INTERVAL -1 DAY)
+		ORDER BY so_nalja DESC
+		LIMIT 1
+    </select>
+    
+    <!-- 욕창간호기록조회(1개월) 팝업으로부터 받은 파라메터로 검색 -->
+    <select id="DAY00201_P12_DS_DATA_MON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_DATA_MON_S */
+    <![CDATA[
+		SELECT 욕창크기
+			, 욕창색
+			, 욕창시점
+			, 욕창시간
+			, 욕창위치
+			, 욕창부위
+			, 욕창깊이
+			, 욕창배액
+			, 욕창냄새
+			, 욕창처치
+			, 방지도구
+			, IF(SUBSTRING(방지도구,1,1)='', 0, SUBSTRING(방지도구,1,1))	AS 방지도구1
+			, IF(SUBSTRING(방지도구,2,1)='', 0, SUBSTRING(방지도구,2,1))	AS 방지도구2
+			, IF(SUBSTRING(방지도구,3,1)='', 0, SUBSTRING(방지도구,3,1))	AS 방지도구3
+			, IF(SUBSTRING(방지도구,4,1)='', 0, SUBSTRING(방지도구,4,1))	AS 방지도구4		
+			, 욕창메모
+		FROM base_sore
+		WHERE sicode = #{sicode}
+			AND so_code = #{m_code}
+			AND so_nalja = #{s_date}
+	]]>
+    </select>   
+    
+    <!-- 욕창간호기록조회(1개월) 팝업으로부터 받은 파라메터로 검색 -->
+    <select id="DAY00201_P12_DS_SORE_PART_MON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00201_P12_DS_SORE_PART_MON_S */
+		SELECT 욕창위치
+			, IF(SUBSTRING(욕창위치,1,1)='', 0 ,SUBSTRING(욕창위치,1,1)) AS part1
+			, IF(SUBSTRING(욕창위치,2,1)='', 0 ,SUBSTRING(욕창위치,2,1)) AS part2
+			, IF(SUBSTRING(욕창위치,3,1)='', 0 ,SUBSTRING(욕창위치,3,1)) AS part3
+			, IF(SUBSTRING(욕창위치,4,1)='', 0 ,SUBSTRING(욕창위치,4,1)) AS part4
+			, IF(SUBSTRING(욕창위치,5,1)='', 0 ,SUBSTRING(욕창위치,5,1)) AS part5
+			, IF(SUBSTRING(욕창위치,6,1)='', 0 ,SUBSTRING(욕창위치,6,1)) AS part6
+			, IF(SUBSTRING(욕창위치,7,1)='', 0 ,SUBSTRING(욕창위치,7,1)) AS part7
+			, IF(SUBSTRING(욕창위치,8,1)='', 0 ,SUBSTRING(욕창위치,8,1)) AS part8
+			, IF(SUBSTRING(욕창위치,9,1)='', 0 ,SUBSTRING(욕창위치,9,1)) AS part9
+			, IF(SUBSTRING(욕창위치,10,1)='', 0 ,SUBSTRING(욕창위치,10,1)) AS part10
+			, IF(SUBSTRING(욕창위치,11,1)='', 0 ,SUBSTRING(욕창위치,11,1)) AS part11
+			, IF(SUBSTRING(욕창위치,12,1)='', 0 ,SUBSTRING(욕창위치,12,1)) AS part12
+			, IF(SUBSTRING(욕창위치,13,1)='', 0 ,SUBSTRING(욕창위치,13,1)) AS part13
+			, IF(SUBSTRING(욕창위치,14,1)='', 0 ,SUBSTRING(욕창위치,14,1)) AS part14
+			, IF(SUBSTRING(욕창위치,15,1)='', 0 ,SUBSTRING(욕창위치,15,1)) AS part15
+			, IF(SUBSTRING(욕창위치,16,1)='', 0 ,SUBSTRING(욕창위치,16,1)) AS part16
+		FROM base_sore
+		WHERE sicode = #{sicode}
+		  AND so_code = #{m_code}
+		  AND so_nalja = #{s_date}
+    </select>     
+</mapper>                                                                                                                                                                                                          

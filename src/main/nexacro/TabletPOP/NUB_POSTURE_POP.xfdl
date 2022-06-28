@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_POSTURE_POP" width="485" height="580" titletext="자세변경 팝업" onclick="formClick" onkeyup="fn_openDebugPopup" ondevicebuttonup="NUB_POSTURE_POP_ondevicebuttonup" onload="NUB_POSTURE_POP_onload">
+    <Layouts>
+      <Layout width="485" height="580" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="485" height="580" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" text="">
+          <Layouts>
+            <Layout>
+              <Div id="Div00" taborder="0" text="Div00" left="5%" top="75" height="3" background="#47afe1" right="5%"/>
+              <ImageViewer id="img_posture1" taborder="1" left="35" top="90" width="200" height="140" image="url('theme://images/lie1.png')" onclick="div_pop_main_img_posture1_onclick"/>
+              <ImageViewer id="img_posture2" taborder="2" left="250" top="90" width="200" height="140" image="url('theme://images/lie2.png')" stretch="none" onclick="div_pop_main_img_posture2_onclick"/>
+              <ImageViewer id="img_posture3" taborder="3" left="35" top="240" width="200" height="140" image="url('theme://images/lie3.png')" onclick="div_pop_main_img_posture3_onclick"/>
+              <ImageViewer id="img_posture4" taborder="4" left="250" top="240" width="200" height="140" image="url('theme://images/lie4.png')" stretch="none" onclick="div_pop_main_img_posture4_onclick"/>
+              <ImageViewer id="img_posture5" taborder="5" left="35" top="390" width="200" height="140" image="url('theme://images/lie5.png')" onclick="div_pop_main_img_posture5_onclick"/>
+              <ImageViewer id="img_posture6" taborder="6" left="250" top="390" width="200" height="140" image="url('theme://images/lie6.png')" stretch="none" onclick="div_pop_main_img_posture6_onclick"/>
+              <Button id="btn_close" taborder="7" top="5.00%" width="24" height="24" onclick="div_pop_main_btn_close_onclick" right="7.01%" edge="url('theme://images/ico_popclose.png') 0px 0px"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_popTitle" taborder="1" text="자세 변경" left="165" top="16" width="150" height="44" textAlign="center" cssclass="sta_tPopupTitle" visible="true" onclick="formClick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="POSTURE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+this.NUB_POSTURE_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+};
+
+this.NUB_POSTURE_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		this.close();
+	}
+};
+
+this.div_pop_main_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+
+
+/***********************************************************************
+ * User Functions
+*******************************************************************/
+this.fn_returnValue = function(rtnVal){
+	
+	this.ds_return.clearData();
+	this.ds_return.addRow();
+	this.ds_return.setColumn(0, "POSTURE", rtnVal);
+	this.close(this.ds_return.saveXML());
+}
+
+this.div_pop_main_img_posture1_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	
+	this.fn_returnValue("1");
+	
+};
+
+this.div_pop_main_img_posture2_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.fn_returnValue("2");
+};
+
+this.div_pop_main_img_posture3_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.fn_returnValue("3");
+};
+
+this.div_pop_main_img_posture4_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.fn_returnValue("4");
+};
+
+this.div_pop_main_img_posture5_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.fn_returnValue("5");
+};
+
+this.div_pop_main_img_posture6_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.fn_returnValue("6");
+};
+]]></Script>
+  </Form>
+</FDL>

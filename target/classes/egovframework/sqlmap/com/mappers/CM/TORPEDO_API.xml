@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     	: TORPEDE_API
+    * 프로그램 명		: 
+    * Description  	: 
+    *================================================================
+                    작성일자    		|  작성자    	|  비고
+    *================================================================
+      2020-06-16  		|  박진국    	| 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="TORPEDO_API">
+	<select id="TORPEDO_API_AIR" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		{
+			CALL TORPEDO_AIR
+			(
+					#{JSON}
+				,	#{RESULT, mode=OUT, jdbcType=VARCHAR, javaType=String}
+			)
+		}
+	</select>
+	
+	<select id="TORPEDO_API_SMARTBAND" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		{
+			CALL TORPEDO_SMARTBAND
+			(
+					#{JSON}
+				,	#{RESULT, mode=OUT, jdbcType=VARCHAR, javaType=String}
+			)
+		}
+	</select>
+	
+	<select id="TORPEDO_API_DIAPER" statementType="CALLABLE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		{
+			CALL TORPEDO_DIAPER
+			(
+					#{JSON}
+				,	#{RESULT, mode=OUT, jdbcType=VARCHAR, javaType=String}
+			)
+		}
+	</select>
+	
+</mapper>

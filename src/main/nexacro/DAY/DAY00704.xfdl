@@ -1,0 +1,1118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00704" width="1920" height="800" titletext="7-4 급식운영일지" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" height="748" oncellclick="div_cont_div_left_grd_list_oncellclick" cellclickbound="cell">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="20"/>
+                            <Column size="30"/>
+                            <Column size="110"/>
+                            <Column size="60"/>
+                            <Column size="90"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="23" band="head"/>
+                            <Row size="23"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" cursor="pointer" checkboxtruevalue="1" checkboxfalsevalue="0">
+                              <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxfalsevalue="0" checkboxtruevalue="1" text="0"/>
+                              <Cell col="1" text="출력" expandchar="rno"/>
+                            </Cell>
+                            <Cell col="2" text="급식운영일"/>
+                            <Cell col="3" text="요일"/>
+                            <Cell col="4" text="작성자"/>
+                            <Cell col="5" text="작성(O)"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK" checkboxtruevalue="1" checkboxfalsevalue="0"/>
+                            <Cell col="2" text="bind:급식일" cursor="pointer" displaytype="date" expandchar="dot" cssclass="cellBWoman"/>
+                            <Cell col="3" text="bind:급식요일"/>
+                            <Cell col="4" text="bind:작성자명"/>
+                            <Cell col="5" text="bind:작성"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="470" top="0" right="0" bottom="0" text="">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" background="#ffffff" border="1px solid #e2e2e2" width="858" height="748" text="">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="52" text="급식운영일지" left="382" top="7" width="97" height="26" cssclass="lb01"/>
+                          <Static id="sta_no" taborder="53" text="기록번호 : " left="24" top="10" width="58" height="26"/>
+                          <Static id="sta_no_value" taborder="54" text="00000000" left="87" top="10" width="60" height="26"/>
+                          <Div id="div_line" taborder="55" left="20" top="40" height="1" background="#e2e2e2" right="20"/>
+                          <Static id="sta_head1" taborder="59" text="구분" left="20" top="89" width="100" height="25" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="60" text="조   식" left="119" top="89" width="180" height="25" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head3" taborder="61" text="중   식" left="298" top="89" width="180" height="25" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_num1" taborder="64" text="식단메뉴" left="20" top="113" width="100" height="160" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num2" taborder="69" text="열량(kcal)" left="20" top="272" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body28" taborder="70" text="kcal          " left="119" top="272" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body31" taborder="74" text="명             " left="119" top="299" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body34" taborder="78" text="명             " left="119" top="326" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_info1" taborder="56" left="20" top="44" width="212" height="34" cssclass="sta_SearchTxt"/>
+                          <Static id="sta_date" taborder="57" text="급식운영일" left="24" top="52" width="60" height="26"/>
+                          <Calendar id="cal_date" taborder="0" left="94" top="52" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0"/>
+                          <Button id="btn_manager" taborder="1" text="점검자" left="214" top="52" width="80" height="26" onclick="div_cont_div_right_div_main_btn_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager_value" taborder="58" text="너싱홈/ 요양보호사 / 20210007" left="304" top="52" width="174" height="26" textAlign="center"/>
+                          <Static id="sta_num6" taborder="85" text="수급자인원" left="20" top="380" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body43" taborder="90" text="명             " left="119" top="407" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body46" taborder="95" text="" left="119" top="434" width="538" height="110" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body48" taborder="99" left="119" top="632" width="538" height="28" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body49" taborder="51" left="119" top="659" width="538" height="28" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body50" taborder="102" left="119" top="686" width="538" height="28" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_num10" taborder="98" text="급식근무자" left="20" top="632" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num11" taborder="100" text="급식휴무자" left="20" top="659" width="100" height="28" cssclass="sta_WF_DetailLabel02" onclick="div_cont_div_right_div_main_sta_body13_02_00_onclick" textAlign="center"/>
+                          <Static id="sta_num12" taborder="101" text="음식폐기일" left="20" top="686" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num3" taborder="73" text="일반식" left="20" top="299" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num4" taborder="77" text="죽식" left="20" top="326" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num5" taborder="81" text="유동식(미음)" left="20" top="353" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_num7" taborder="89" text="직원인원" left="20" top="407" width="100" height="28" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body37" taborder="82" left="119" top="353" width="180" height="28" cssclass="sta_WF_DetailLabel02" text="명             " textAlign="right"/>
+                          <Static id="sta_body40" taborder="86" text="명             " left="119" top="380" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_num8" taborder="94" text="업무내용" left="20" top="434" width="100" height="110" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body47" taborder="97" text="" left="119" top="543" width="538" height="90" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_num9" taborder="96" text="음식물섭취량&#13;&#10;조치사항" left="20" top="543" width="100" height="90" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_head4" taborder="62" text="석   식" left="477" top="89" width="180" height="25" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head5" taborder="63" text="간   식" left="656" top="89" width="180" height="25" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body0" taborder="65" text="" left="119" top="113" width="180" height="160" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body1" taborder="2" left="124" top="116" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body2" taborder="6" left="124" top="142" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body3" taborder="10" left="124" top="168" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body4" taborder="14" left="124" top="194" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body5" taborder="18" left="124" top="220" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body6" taborder="22" left="124" top="246" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <TextArea id="txt_1" taborder="44" left="124" top="439" width="528" height="100" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="1000"/>
+                          <Static id="sta_body7" taborder="66" text="" left="298" top="113" width="180" height="160" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body8" taborder="3" left="303" top="116" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body9" taborder="7" left="303" top="142" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body10" taborder="11" left="303" top="168" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body11" taborder="15" left="303" top="194" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body12" taborder="19" left="303" top="220" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body13" taborder="23" left="303" top="246" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body29" taborder="71" text="kcal          " left="298" top="272" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body32" taborder="75" text="명             " left="298" top="299" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body35" taborder="79" text="명             " left="298" top="326" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body44" taborder="91" text="명             " left="298" top="407" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body38" taborder="83" left="298" top="353" width="180" height="28" cssclass="sta_WF_DetailLabel02" text="명             " textAlign="right"/>
+                          <Static id="sta_body41" taborder="87" text="명             " left="298" top="380" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body14" taborder="67" text="" left="477" top="113" width="180" height="160" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body15" taborder="4" left="482" top="116" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body16" taborder="8" left="482" top="142" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body17" taborder="12" left="482" top="168" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body18" taborder="16" left="482" top="194" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body19" taborder="20" left="482" top="220" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body20" taborder="24" left="482" top="246" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body30" taborder="72" text="kcal          " left="477" top="272" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body33" taborder="76" text="명             " left="477" top="299" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body36" taborder="80" text="명             " left="477" top="326" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body45" taborder="92" text="명             " left="477" top="407" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body39" taborder="84" left="477" top="353" width="180" height="28" cssclass="sta_WF_DetailLabel02" text="명             " textAlign="right"/>
+                          <Static id="sta_body42" taborder="88" text="명             " left="477" top="380" width="180" height="28" cssclass="sta_WF_DetailLabel02" textAlign="right"/>
+                          <Static id="sta_body21" taborder="68" text="" left="656" top="113" width="180" height="160" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body22" taborder="5" left="661" top="116" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body23" taborder="9" left="661" top="142" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body24" taborder="13" left="661" top="168" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body25" taborder="17" left="661" top="194" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body26" taborder="21" left="661" top="220" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body27" taborder="25" left="661" top="246" width="170" height="24" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body51" taborder="93" text="* 직원조식 - 08:00 이전&#13;&#10;* 직원중식 - 12:00 전후&#13;&#10;* 직원석식 - 18:00 이후" left="656" top="272" width="180" height="442" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <TextArea id="txt_2" taborder="45" left="124" top="548" width="528" height="80" scrollbartype="fixed" scrolltype="vertical" maxlength="1000"/>
+                          <Edit id="edt_19" taborder="46" left="124" top="635" width="528" height="22" maxlength="80"/>
+                          <Edit id="edt_20" taborder="47" left="124" top="662" width="528" height="22" maxlength="80"/>
+                          <Calendar id="cal_date_from" taborder="48" left="124" top="689" width="110" height="22" readonly="false" initvalueid="iv_cal_dot" tooltiptext="시작날짜"/>
+                          <Static id="sta_info4" taborder="103" left="512" top="44" width="324" height="34" cssclass="sta_SearchTxt"/>
+                          <Button id="btn_record1" taborder="49" text="근무기록적용" left="611" top="52" width="110" height="26" onclick="div_cont_div_right_div_main_btn_record1_onclick"/>
+                          <Button id="btn_record2" taborder="50" text="식사기록적용" left="726" top="52" width="110" height="26" onclick="div_cont_div_right_div_main_btn_record2_onclick"/>
+                          <MaskEdit id="mae_1" taborder="26" left="162" top="275" width="65" height="22" format="###,#" limitbymask="both"/>
+                          <MaskEdit id="mae_2" taborder="27" left="341" top="275" width="65" height="22" format="###,#" limitbymask="both"/>
+                          <MaskEdit id="mae_1_01" taborder="28" left="520" top="275" width="65" height="22" format="###,#" limitbymask="both"/>
+                          <MaskEdit id="mae_mor1" taborder="29" left="172" top="303" width="55" height="22" format="###" limitbymask="both" onchanged="edt_onchanged"/>
+                          <MaskEdit id="mae_mor2" taborder="32" left="172" top="329" width="55" height="22" format="###" limitbymask="both" onchanged="edt_onchanged"/>
+                          <MaskEdit id="mae_mor3" taborder="35" left="172" top="356" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_mor4" taborder="38" left="172" top="383" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_1_00_04" taborder="41" left="172" top="410" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_lun1" taborder="30" left="351" top="302" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_lun2" taborder="33" left="351" top="329" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_lun3" taborder="36" left="351" top="356" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_lun4" taborder="39" left="351" top="383" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_1_00_04_00" taborder="42" left="351" top="410" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_din1" taborder="31" left="530" top="302" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_din2" taborder="34" left="530" top="329" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_din3" taborder="37" left="530" top="356" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_din4" taborder="40" left="530" top="383" width="55" height="22" format="###" limitbymask="both"/>
+                          <MaskEdit id="mae_1_00_04_00_00" taborder="43" left="530" top="410" width="55" height="22" format="###" limitbymask="both"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_yyyymm" taborder="0" left="41" top="7" width="90" height="26" readonly="true" cssclass="essential" dateformat="yyyy-MM" editformat="yyyy-MM" initvalueid="iv_cal_yyyyMM" calendarfunc="month" onchanged="div_search_cal_yyyymm_onchanged" buttonsize="0 0"/>
+              <Calendar id="cal_date_from" taborder="1" left="174" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0"/>
+              <Static id="sta_00" taborder="2" text="~" left="267" top="12" width="8" height="17" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="280" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0"/>
+              <Button id="btn_search" taborder="4" text="조회" top="7" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" right="0"/>
+              <Calendar id="cal_yyyymm_pic" taborder="5" left="cal_yyyymm:-1" top="7" width="26" height="26" onchanged="div_search_cal_yyyymm_pic_onchanged" initvalueid="iv_cal_yyyyMM"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="470" top="0" height="40" formscrollbartype="none" width="858" text="">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란" left="0" top="7" width="55" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_delete" taborder="2" text="삭제" top="7" width="70" height="26" onclick="fn_deleteBtn" right="0" cssclass="btn_delete"/>
+              <Button id="btn_save" taborder="1" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" right="btn_delete:5" cssclass="btn_save"/>
+              <Static id="sta_report_body" taborder="3" left="76" top="3" width="320" height="30" cssclass="sta_SearchTxt"/>
+              <Button id="btn_report2" taborder="7" text="보존식기록표" left="348" top="7" width="120" height="26" cssclass="btn_print" onclick="div_func_btn_report2_onclick"/>
+              <Static id="sta_report_body00" taborder="8" left="64" top="5" width="280" height="30" cssclass="sta_WF_DetailLabel02" text=""/>
+              <CheckBox id="chk_repo1" taborder="4" text="급식일지" left="69" top="7" width="79" height="26" truevalue="1" falsevalue="0" cssclass="sta_SearchTxt" onchanged="chk_repo_onchanged"/>
+              <CheckBox id="chk_repo2" taborder="5" text="급식일지(선택)" left="159" top="7" width="110" height="26" truevalue="1" falsevalue="0" onchanged="chk_repo_onchanged"/>
+              <Button id="btn_report1" taborder="6" text="출력" left="268" top="7" width="70" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="YYYYMM" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_emp">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="c_staffid" type="STRING" size="256"/>
+          <Column id="c_group" type="STRING" size="256"/>
+          <Column id="c_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="c_become" type="STRING" size="256"/>
+          <Column id="c_dutyname" type="STRING" size="256"/>
+          <Column id="담당직종" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="startDate" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="KM_sicode" type="STRING" size="256"/>
+          <Column id="급식번호" type="INT" size="256"/>
+          <Column id="작성" type="STRING" size="256"/>
+          <Column id="급식일" type="DATE" size="256"/>
+          <Column id="급식요일" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="mor01" type="STRING" size="256"/>
+          <Column id="mor02" type="STRING" size="256"/>
+          <Column id="mor03" type="STRING" size="256"/>
+          <Column id="mor04" type="STRING" size="256"/>
+          <Column id="mor05" type="STRING" size="256"/>
+          <Column id="mor06" type="STRING" size="256"/>
+          <Column id="lun01" type="STRING" size="256"/>
+          <Column id="lun02" type="STRING" size="256"/>
+          <Column id="lun03" type="STRING" size="256"/>
+          <Column id="lun04" type="STRING" size="256"/>
+          <Column id="lun05" type="STRING" size="256"/>
+          <Column id="lun06" type="STRING" size="256"/>
+          <Column id="din01" type="STRING" size="256"/>
+          <Column id="din02" type="STRING" size="256"/>
+          <Column id="din03" type="STRING" size="256"/>
+          <Column id="din04" type="STRING" size="256"/>
+          <Column id="din05" type="STRING" size="256"/>
+          <Column id="din06" type="STRING" size="256"/>
+          <Column id="sna01" type="STRING" size="256"/>
+          <Column id="sna02" type="STRING" size="256"/>
+          <Column id="sna03" type="STRING" size="256"/>
+          <Column id="sna04" type="STRING" size="256"/>
+          <Column id="sna05" type="STRING" size="256"/>
+          <Column id="sna06" type="STRING" size="256"/>
+          <Column id="조식거주" type="STRING" size="256"/>
+          <Column id="조식직원" type="STRING" size="256"/>
+          <Column id="조식일반" type="STRING" size="256"/>
+          <Column id="xxx_조식다진" type="STRING" size="256"/>
+          <Column id="조식죽식" type="STRING" size="256"/>
+          <Column id="xxx_조식당뇨" type="STRING" size="256"/>
+          <Column id="조식경관" type="STRING" size="256"/>
+          <Column id="xxx_조식저염" type="STRING" size="256"/>
+          <Column id="중식거주" type="STRING" size="256"/>
+          <Column id="중식직원" type="STRING" size="256"/>
+          <Column id="중식일반" type="STRING" size="256"/>
+          <Column id="xxx_중식다진" type="STRING" size="256"/>
+          <Column id="중식죽식" type="STRING" size="256"/>
+          <Column id="xxx_중식당뇨" type="STRING" size="256"/>
+          <Column id="중식경관" type="STRING" size="256"/>
+          <Column id="xxx_중식저염" type="STRING" size="256"/>
+          <Column id="석식거주" type="STRING" size="256"/>
+          <Column id="석식직원" type="INT" size="256"/>
+          <Column id="석식일반" type="STRING" size="256"/>
+          <Column id="xxx_석식다진" type="STRING" size="256"/>
+          <Column id="석식죽식" type="STRING" size="256"/>
+          <Column id="xxx_석식당뇨" type="STRING" size="256"/>
+          <Column id="석식경관" type="STRING" size="256"/>
+          <Column id="xxx_석식저염" type="STRING" size="256"/>
+          <Column id="조식열량" type="STRING" size="256"/>
+          <Column id="중식열량" type="STRING" size="256"/>
+          <Column id="석식열량" type="STRING" size="256"/>
+          <Column id="근무자" type="STRING" size="256"/>
+          <Column id="휴무자" type="STRING" size="256"/>
+          <Column id="업무내용" type="STRING" size="1000"/>
+          <Column id="폐기일" type="STRING" size="256"/>
+          <Column id="조치사항" type="STRING" size="1000"/>
+          <Column id="org_급식번호" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true" oncolumnchanged="ds_data_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="startDate" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="KM_sicode" type="STRING" size="256"/>
+          <Column id="급식번호" type="INT" size="256"/>
+          <Column id="작성" type="STRING" size="256"/>
+          <Column id="급식일" type="DATE" size="256"/>
+          <Column id="급식요일" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="mor01" type="STRING" size="256"/>
+          <Column id="mor02" type="STRING" size="256"/>
+          <Column id="mor03" type="STRING" size="256"/>
+          <Column id="mor04" type="STRING" size="256"/>
+          <Column id="mor05" type="STRING" size="256"/>
+          <Column id="mor06" type="STRING" size="256"/>
+          <Column id="lun01" type="STRING" size="256"/>
+          <Column id="lun02" type="STRING" size="256"/>
+          <Column id="lun03" type="STRING" size="256"/>
+          <Column id="lun04" type="STRING" size="256"/>
+          <Column id="lun05" type="STRING" size="256"/>
+          <Column id="lun06" type="STRING" size="256"/>
+          <Column id="din01" type="STRING" size="256"/>
+          <Column id="din02" type="STRING" size="256"/>
+          <Column id="din03" type="STRING" size="256"/>
+          <Column id="din04" type="STRING" size="256"/>
+          <Column id="din05" type="STRING" size="256"/>
+          <Column id="din06" type="STRING" size="256"/>
+          <Column id="sna01" type="STRING" size="256"/>
+          <Column id="sna02" type="STRING" size="256"/>
+          <Column id="sna03" type="STRING" size="256"/>
+          <Column id="sna04" type="STRING" size="256"/>
+          <Column id="sna05" type="STRING" size="256"/>
+          <Column id="sna06" type="STRING" size="256"/>
+          <Column id="조식거주" type="STRING" size="256"/>
+          <Column id="조식직원" type="STRING" size="256"/>
+          <Column id="조식일반" type="STRING" size="256"/>
+          <Column id="xxx_조식다진" type="STRING" size="256"/>
+          <Column id="조식죽식" type="STRING" size="256"/>
+          <Column id="xxx_조식당뇨" type="STRING" size="256"/>
+          <Column id="조식경관" type="STRING" size="256"/>
+          <Column id="xxx_조식저염" type="STRING" size="256"/>
+          <Column id="중식거주" type="STRING" size="256"/>
+          <Column id="중식직원" type="STRING" size="256"/>
+          <Column id="중식일반" type="STRING" size="256"/>
+          <Column id="xxx_중식다진" type="STRING" size="256"/>
+          <Column id="중식죽식" type="STRING" size="256"/>
+          <Column id="xxx_중식당뇨" type="STRING" size="256"/>
+          <Column id="중식경관" type="STRING" size="256"/>
+          <Column id="xxx_중식저염" type="STRING" size="256"/>
+          <Column id="석식거주" type="STRING" size="256"/>
+          <Column id="석식직원" type="INT" size="256"/>
+          <Column id="석식일반" type="STRING" size="256"/>
+          <Column id="xxx_석식다진" type="STRING" size="256"/>
+          <Column id="석식죽식" type="STRING" size="256"/>
+          <Column id="xxx_석식당뇨" type="STRING" size="256"/>
+          <Column id="석식경관" type="STRING" size="256"/>
+          <Column id="xxx_석식저염" type="STRING" size="256"/>
+          <Column id="조식열량" type="STRING" size="256"/>
+          <Column id="중식열량" type="STRING" size="256"/>
+          <Column id="석식열량" type="STRING" size="256"/>
+          <Column id="근무자" type="STRING" size="256"/>
+          <Column id="휴무자" type="STRING" size="256"/>
+          <Column id="업무내용" type="STRING" size="1000"/>
+          <Column id="폐기일" type="DATE" size="256"/>
+          <Column id="조치사항" type="STRING" size="1000"/>
+          <Column id="org_급식번호" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_meal">
+        <ColumnInfo>
+          <Column id="조식일반식" type="STRING" size="256"/>
+          <Column id="조식죽식" type="STRING" size="256"/>
+          <Column id="조식유동식" type="STRING" size="256"/>
+          <Column id="중식일반식" type="STRING" size="256"/>
+          <Column id="중식죽식" type="STRING" size="256"/>
+          <Column id="중식유동식" type="STRING" size="256"/>
+          <Column id="석식일반식" type="STRING" size="256"/>
+          <Column id="석식죽식" type="STRING" size="256"/>
+          <Column id="석식유동식" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_work">
+        <ColumnInfo>
+          <Column id="mor_cnt" type="STRING" size="256"/>
+          <Column id="lun_cnt" type="STRING" size="256"/>
+          <Column id="din_cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="급식번호"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.cal_date" propid="value" datasetid="ds_data" columnid="급식일"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.chk_o3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.chk_x3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.chk_o4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.chk_x4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.chk_o5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.chk_x5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.chk_o6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.chk_x6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.chk_o7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.chk_x7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.chk_o8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.chk_x8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.chk_v3" propid="value" datasetid="ds_data" columnid="항목03"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.chk_v4" propid="value" datasetid="ds_data" columnid="항목04"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.chk_v5" propid="value" datasetid="ds_data" columnid="항목05"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_main.form.chk_v6" propid="value" datasetid="ds_data" columnid="항목06"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.chk_v7" propid="value" datasetid="ds_data" columnid="항목07"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.chk_v8" propid="value" datasetid="ds_data" columnid="항목08"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.chk_v9" propid="value" datasetid="ds_data" columnid="항목09"/>
+      <BindItem id="item0" compid="div_search.form.cal_yyyymm" propid="value" datasetid="ds_search" columnid="YYYYMM"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_body1" propid="text" datasetid="ds_data" columnid="mor01"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_body2" propid="text" datasetid="ds_data" columnid="mor02"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_main.form.sta_body16" propid="text" datasetid="ds_data" columnid="din02"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.sta_body8" propid="text" datasetid="ds_data" columnid="lun01"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.sta_body9" propid="text" datasetid="ds_data" columnid="lun02"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_body3" propid="text" datasetid="ds_data" columnid="mor03"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_body4" propid="text" datasetid="ds_data" columnid="mor04"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body5" propid="text" datasetid="ds_data" columnid="mor05"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.sta_body6" propid="text" datasetid="ds_data" columnid="mor06"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.sta_body10" propid="text" datasetid="ds_data" columnid="lun03"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.sta_body11" propid="text" datasetid="ds_data" columnid="lun04"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.sta_body12" propid="text" datasetid="ds_data" columnid="lun05"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.sta_body13" propid="text" datasetid="ds_data" columnid="lun06"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.sta_body15" propid="text" datasetid="ds_data" columnid="din01"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_main.form.sta_body17" propid="text" datasetid="ds_data" columnid="din03"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.sta_body18" propid="text" datasetid="ds_data" columnid="din04"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_main.form.sta_body19" propid="text" datasetid="ds_data" columnid="din05"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_main.form.sta_body20" propid="text" datasetid="ds_data" columnid="din06"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_main.form.sta_body22" propid="text" datasetid="ds_data" columnid="sna01"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_main.form.sta_body23" propid="text" datasetid="ds_data" columnid="sna02"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_main.form.sta_body24" propid="text" datasetid="ds_data" columnid="sna03"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_main.form.sta_body25" propid="text" datasetid="ds_data" columnid="sna04"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_main.form.sta_body26" propid="text" datasetid="ds_data" columnid="sna05"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_main.form.sta_body27" propid="text" datasetid="ds_data" columnid="sna06"/>
+      <BindItem id="item67" compid="div_cont.form.div_right.form.div_main.form.txt_1" propid="value" datasetid="ds_data" columnid="업무내용"/>
+      <BindItem id="item68" compid="div_cont.form.div_right.form.div_main.form.txt_2" propid="value" datasetid="ds_data" columnid="조치사항"/>
+      <BindItem id="item72" compid="div_cont.form.div_right.form.div_main.form.cal_date_from" propid="value" datasetid="ds_data" columnid="폐기일"/>
+      <BindItem id="item71" compid="div_cont.form.div_right.form.div_main.form.mae_1" propid="value" datasetid="ds_data" columnid="조식열량"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_main.form.mae_2" propid="value" datasetid="ds_data" columnid="중식열량"/>
+      <BindItem id="item56" compid="div_cont.form.div_right.form.div_main.form.mae_1_01" propid="value" datasetid="ds_data" columnid="석식열량"/>
+      <BindItem id="item50" compid="div_cont.form.div_right.form.div_main.form.edt_19" propid="value" datasetid="ds_data" columnid="근무자"/>
+      <BindItem id="item51" compid="div_cont.form.div_right.form.div_main.form.edt_20" propid="value" datasetid="ds_data" columnid="휴무자"/>
+      <BindItem id="item70" compid="div_cont.form.div_right.form.div_main.form.mae_mor1" propid="value" datasetid="ds_data" columnid="조식일반"/>
+      <BindItem id="item74" compid="div_cont.form.div_right.form.div_main.form.mae_mor2" propid="value" datasetid="ds_data" columnid="조식죽식"/>
+      <BindItem id="item75" compid="div_cont.form.div_right.form.div_main.form.mae_mor3" propid="value" datasetid="ds_data" columnid="조식경관"/>
+      <BindItem id="item76" compid="div_cont.form.div_right.form.div_main.form.mae_mor4" propid="value" datasetid="ds_data" columnid="조식거주"/>
+      <BindItem id="item77" compid="div_cont.form.div_right.form.div_main.form.mae_1_00_04" propid="value" datasetid="ds_data" columnid="조식직원"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_main.form.mae_lun1" propid="value" datasetid="ds_data" columnid="중식일반"/>
+      <BindItem id="item53" compid="div_cont.form.div_right.form.div_main.form.mae_lun2" propid="value" datasetid="ds_data" columnid="중식죽식"/>
+      <BindItem id="item54" compid="div_cont.form.div_right.form.div_main.form.mae_lun3" propid="value" datasetid="ds_data" columnid="중식경관"/>
+      <BindItem id="item55" compid="div_cont.form.div_right.form.div_main.form.mae_lun4" propid="value" datasetid="ds_data" columnid="중식거주"/>
+      <BindItem id="item57" compid="div_cont.form.div_right.form.div_main.form.mae_1_00_04_00" propid="value" datasetid="ds_data" columnid="중식직원"/>
+      <BindItem id="item58" compid="div_cont.form.div_right.form.div_main.form.mae_din1" propid="value" datasetid="ds_data" columnid="석식일반"/>
+      <BindItem id="item59" compid="div_cont.form.div_right.form.div_main.form.mae_din2" propid="value" datasetid="ds_data" columnid="석식죽식"/>
+      <BindItem id="item60" compid="div_cont.form.div_right.form.div_main.form.mae_din3" propid="value" datasetid="ds_data" columnid="석식경관"/>
+      <BindItem id="item61" compid="div_cont.form.div_right.form.div_main.form.mae_din4" propid="value" datasetid="ds_data" columnid="석식거주"/>
+      <BindItem id="item62" compid="div_cont.form.div_right.form.div_main.form.mae_1_00_04_00_00" propid="value" datasetid="ds_data" columnid="석식직원"/>
+      <BindItem id="item63" compid="div_search.form.cal_yyyymm_pic" propid="value" datasetid="ds_search" columnid="YYYYMM"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00704
+ * 화면명   	: 7-4 급식운영일지
+ * 화면설명 	: 급식운영일지를 작성하는 화면
+ * 작성일   	: 2022-03-11
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-04-04		조기종		단위테스트 오류 수정
+ *	2022-06-27		조기종		리포트 출력 pdf출력으로 수정
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재월의 1일, 마지막일 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	var firstDay = new Date(year, month, 1);
+	var lastDay = new Date(year, month + 1, 0);
+	
+	var yymm = date.getFullYear() + ((date.getMonth() + 1) + "").padLeft(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	//this.ds_search.setColumn(0, "YYYYMM", yymm);
+	this.div_search.form.cal_yyyymm.set_value(yymm);
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	this.div_func.form.chk_sign.set_value(1); // 결재란 체크 
+	this.div_func.form.chk_repo1.set_value(1); // 보존기록표 체크
+	
+	// 오픈시 조회
+	this.fn_search("search");
+	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+// 	if (this.ds_data.rowcount > 0)
+// 		this.reSearchData = this.ds_data.getColumn(0, "급식일");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 저장 내용 체크
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.ds_data))
+	{
+		this.alert("저장할 내용이 없습니다.");
+		return false;
+	}
+	
+	// 작성자가 지정되지 않은 경우
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "작성코드")))
+	{
+		this.alert("점검직원을 지정해야합니다.");
+		return false;
+	}
+	
+	// 근무자 2글자 이상 입력해야함.
+	var worker = this.ds_data.getColumn(0, "근무자");
+	
+	if(worker.length < 2){
+		this.alert("근무자를 기록해야 합니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+		
+// 	let str2String = "";
+// 	for (let i = 0; i < 13; i++)
+// 	{
+// 		str2String += this.ds_data.getColumn(0, "조치" + (i + 1)) + "\r\n";
+// 	}
+// 	this.ds_data.setColumn(0, "조치사항", str2String);
+	
+	this.reSearchData = this.ds_data.getColumn(0, "급식일");
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 데이터셋 상태가 추가상태이면 데이터셋 비우기
+	if(this.ds_data.getRowType(0) == 2)
+	{
+		this.ds_data.clearData();
+		return false;
+	}
+
+	if (!this.confirm("삭제 하시겠습니까?"))
+		return false;
+	
+	this.reSearchData = "";
+		
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_data.set_updatecontrol(true);
+		
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	var datefrom = this.ds_search.getColumn(0,"DATE_FROM");
+	var dateto = this.ds_search.getColumn(0,"DATE_TO");
+	var dfrom = new Date(+datefrom + 3240 * 10000).toISOString().split("T")[0];
+	var dto = new Date(+dateto + 3240 * 10000).toISOString().split("T")[0];
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	//const inDatasets = "input1=ds_search";
+	const inDatasets = "";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00704.DAY00704_DS_LIST_S "
+				   + "SICODE="+this.ds_search.getColumn(0,"SICODE")				   
+				   + " DATE_FROM="+dfrom
+ 				   + " DATE_TO="+dto;
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+				   + "sqlId=DAY00704.DAY00704_DS_DATA_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_data.clearData();
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+		else if (strSvcID == "delete")
+		{
+			this.alert("삭제되었습니다.");
+			//this.ds_data.clearData();
+			this.fn_search("serach");
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+// 식사기록 조회
+this.fn_mealRecord = function()
+{
+	this.ds_meal.clear();
+	
+	const svcId = "mealrecord";
+	const params = "/commonController.do";
+	//const inDatasets = "input1=ds_search";
+	const inDatasets = "";
+	const outDatasets = "ds_meal=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00704.DAY00704_DS_MEAL_S "
+				   + "SICODE="+this.ds_search.getColumn(0,"SICODE")				   
+				   + " NALJA="+this.ds_data.getColumn(0,"급식일");
+	 
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 근무기록 조회
+this.fn_workRecord = function()
+{
+	this.ds_work.clear();
+	
+	const svcId = "workrecord";
+	const params = "/commonController.do";
+	//const inDatasets = "input1=ds_search";
+	const inDatasets = "";
+	const outDatasets = "ds_work=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00704.DAY00704_DS_WORK_S "
+				   + "SICODE="+this.ds_search.getColumn(0,"SICODE")				   
+				   + " WORKDATE="+this.ds_data.getColumn(0,"급식일");
+	 
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+		
+	const managerStr = this.ds_data.getColumn(nRow, "작성자명")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "작성코드");
+					 
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	const sFindRow = this.ds_list.findRow("급식일", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 팝업
+this.fn_report = function()
+{
+	var repo1 = this.div_func.form.chk_repo1.value; // 급식일지
+	var repo2 = this.div_func.form.chk_repo2.value; // 급식일지(선택)
+
+	var arrDate = []; // 선택된 급식일 (파라미터)
+	
+	if(repo1 != 1 && repo2 != 1 ){ // 평가일지
+ 		this.alert("출력할 레포트를 선택해주세요.")
+		return false;
+ 	}
+	
+ 	if(repo1 == 1){ // 급식일지
+		if(this.ds_data.rowcount < 1) return false;
+
+		if(this.ds_data.getColumn(0,"급식번호") == null || this.ds_data.getColumn(0,"급식번호") == ""){
+			this.alert("급식운영일지 저장 후 출력해주세요.");
+			return false;
+		}
+		arrDate.push(this.ds_data.getColumn(0,"급식일"));
+		
+ 	}else if(repo2 == 1){ // 급식일지(선택)
+		// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+		for(var i=0; i < this.ds_list.rowcount; i++){
+			
+			if(this.ds_list.getColumn(i,"CHK") == 1){ // 체크된 급식일 배열에 담기
+				var sdate = this.ds_list.getColumn(i,"급식일").toString(); // 날짜를 string으로 변환
+				
+				if(this.ds_list.getColumn(i, "작성") == "O"){
+					arrDate.push(sdate); // arrDate 배열에 담기
+				}
+			}
+		}
+	}
+	
+	// 체크된게 없으면 메시지 출력
+	if (arrDate.length < 1){
+		this.alert("출력할 항목을 선택해주세요");
+		return false;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00704_R01.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + arrDate + "#"
+			  + "P_SIGN#" + this.div_func.form.chk_sign.value + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 점검자 선택 팝업
+this.div_cont_div_right_div_main_btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "급식일")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1"){
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const dutyname = objDs.getColumn(0, "담당직종");
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "작성자명", name);
+				this.ds_data.setColumn(0, "작성코드", staffid);
+				this.ds_data.setColumn(0, "VIEW_MANAGER", name + "/" + staffid);
+			}else{
+				this.ds_data.setColumn(0, "작성자명", "");
+				this.ds_data.setColumn(0, "작성코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 리포트 버튼
+this.fn_reportBtn = function()
+{
+	this.fn_report();
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{	
+	const dateIdx = obj.getBindCellIndex("body", "급식일") + 1;
+	// 급식일 선택
+	if (e.col == dateIdx)
+	{
+		if(this.ds_list.getColumn(e.row, "작성") == "O"){ // 작성 O이면 데이터셋 복사
+			// 입력, 수정용 데이터셋에 데이터 복사
+			this.ds_data.set_enableevent(false);
+			this.fn_dataCopy(e.row);
+			this.ds_data.set_enableevent(true);
+		}else{ // 작성 빈값이면 새로작성
+			this.ds_data.clearData();			
+			const nRow = this.ds_data.addRow();
+			this.ds_data.set_enableevent(false);
+			this.ds_data.setColumn(nRow, "sicode", this.ds_list.getColumn(e.row, "sicode"));
+			this.ds_data.setColumn(nRow, "급식일", this.ds_list.getColumn(e.row, "급식일"));
+			this.ds_data.setColumn(nRow, "작성자명", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+			this.ds_data.setColumn(nRow, "작성코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+			const managerStr = this.ds_data.getColumn(0, "작성자명")
+							+ "/"
+							+ this.ds_data.getColumn(0, "작성코드");
+			this.ds_data.setColumn(0, "VIEW_MANAGER", managerStr);
+			
+			// 식단메뉴
+			for(var i=1; i<7; i++){
+				this.ds_data.setColumn(nRow,"mor0" + i, this.ds_list.getColumn(e.row,"mor0" + i));
+				this.ds_data.setColumn(nRow,"lun0" + i, this.ds_list.getColumn(e.row,"lun0" + i));
+				this.ds_data.setColumn(nRow,"din0" + i, this.ds_list.getColumn(e.row,"din0" + i));
+				this.ds_data.setColumn(nRow,"sna0" + i, this.ds_list.getColumn(e.row,"sna0" + i));
+			}
+			
+			this.ds_data.setColumn(nRow,"조식거주", 0);
+			this.ds_data.setColumn(nRow,"조식직원", 0);
+			this.ds_data.setColumn(nRow,"조식일반", 0);
+			this.ds_data.setColumn(nRow,"xxx_조식다진", 0);
+			this.ds_data.setColumn(nRow,"조식죽식", 0);
+			this.ds_data.setColumn(nRow,"xxx_조식당뇨", 0);
+			this.ds_data.setColumn(nRow,"조식경관", 0);
+			this.ds_data.setColumn(nRow,"xxx_조식저염", 0);
+			this.ds_data.setColumn(nRow,"중식거주", 0);
+			this.ds_data.setColumn(nRow,"중식직원", 0);
+			this.ds_data.setColumn(nRow,"중식일반", 0);
+			this.ds_data.setColumn(nRow,"xxx_중식다진", 0);
+			this.ds_data.setColumn(nRow,"중식죽식", 0);
+			this.ds_data.setColumn(nRow,"xxx_중식당뇨", 0);
+			this.ds_data.setColumn(nRow,"중식경관", 0);
+			this.ds_data.setColumn(nRow,"xxx_중식저염", 0);
+			this.ds_data.setColumn(nRow,"석식거주", 0);
+			this.ds_data.setColumn(nRow,"석식직원", 0);
+			this.ds_data.setColumn(nRow,"석식일반", 0);
+			this.ds_data.setColumn(nRow,"xxx_석식다진", 0);
+			this.ds_data.setColumn(nRow,"석식죽식", 0);
+			this.ds_data.setColumn(nRow,"xxx_석식당뇨", 0);
+			this.ds_data.setColumn(nRow,"석식경관", 0);
+			this.ds_data.setColumn(nRow,"xxx_석식저염", 0);
+			this.ds_data.setColumn(nRow,"조식열량", 0);
+			this.ds_data.setColumn(nRow,"중식열량", 0);
+			this.ds_data.setColumn(nRow,"석식열량", 0);
+			
+			this.ds_data.setColumn(nRow,"근무자", "");
+			this.ds_data.setColumn(nRow,"휴무자", "");
+			this.ds_data.setColumn(nRow,"업무내용", "");
+			this.ds_data.setColumn(nRow,"조치사항", "");
+			//음식폐기일은 급식일 + 6일
+			var tDate = this.ds_data.getColumn(0,"급식일");
+			tDate.setDate(tDate.getDate() + 6);
+			this.ds_data.setColumn(0, "폐기일", tDate);
+			this.ds_data.set_enableevent(true);
+		}
+		
+	}
+	
+};
+
+this.div_search_cal_yyyymm_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	var year = this.ds_search.getColumn(0,"YYYYMM").substr(0,4);
+	var month = this.ds_search.getColumn(0,"YYYYMM").substr(4);
+	var firstDay = new Date(year, month-1 , 1);
+	var lastDay = new Date(year, month, 0);
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstDay);
+	this.ds_search.setColumn(0, "DATE_TO", lastDay);
+	
+	this.ds_data.clearData();
+	//조회
+	this.fn_search("search");
+};
+
+// 출력 체크박스 이벤트 
+this.chk_repo_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	if(e.postvalue == 1)
+	{ 
+		switch (obj.id)
+		{
+			case "chk_repo1":
+				this.div_func.form.chk_repo2.set_value(0);
+				break;
+			case "chk_repo2":
+				this.div_func.form.chk_repo1.set_value(0);
+				break;
+		}
+	}
+	else if (e.postvalue == 0)
+	{
+		obj.set_value(e.prevalue);
+	}
+};
+
+
+// 수급자인원 자동 계산 이벤트
+this.ds_data_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	//trace(">> " + e.col);
+	var person = 0;
+
+	if(e.columnid == "조식일반" || e.columnid == "조식죽식" || e.columnid == "조식경관"){
+		person += nexacro.toNumber(obj.getColumn(e.row,"조식일반"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"조식죽식"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"조식경관"));
+	
+		if(person > 999) person = 0; // 합계가 1000이상이면 값을 0으로 변경	
+		this.ds_data.setColumn(0, "조식거주" ,person);
+	}else if(e.columnid == "중식일반" || e.columnid == "중식죽식" || e.columnid == "중식경관"){
+		person += nexacro.toNumber(obj.getColumn(e.row,"중식일반"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"중식죽식"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"중식경관"));
+		if(person > 999) person = 0;
+		this.ds_data.setColumn(0, "중식거주" ,person);
+	}else if(e.columnid == "석식일반" || e.columnid == "석식죽식" || e.columnid == "석식경관"){
+		person += nexacro.toNumber(obj.getColumn(e.row,"석식일반"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"석식죽식"));
+		person += nexacro.toNumber(obj.getColumn(e.row,"석식경관"));
+		if(person > 999) person = 0;
+		this.ds_data.setColumn(0, "석식거주" ,person);
+	}
+
+};
+
+// 식사기록적용 버튼 이벤트
+this.div_cont_div_right_div_main_btn_record2_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	if(this.ds_data.rowcount < 1) return false;
+	
+	this.fn_mealRecord();
+	
+	this.ds_data.setColumn(0,"조식일반", this.ds_meal.getColumn(0,"조식일반식"));
+	this.ds_data.setColumn(0,"조식죽식", this.ds_meal.getColumn(0,"조식죽식"));
+	this.ds_data.setColumn(0,"조식경관", this.ds_meal.getColumn(0,"조식유동식"));
+	this.ds_data.setColumn(0,"중식일반", this.ds_meal.getColumn(0,"중식일반식"));
+	this.ds_data.setColumn(0,"중식죽식", this.ds_meal.getColumn(0,"중식죽식"));
+	this.ds_data.setColumn(0,"중식경관", this.ds_meal.getColumn(0,"중식유동식"));
+	this.ds_data.setColumn(0,"석식일반", this.ds_meal.getColumn(0,"석식일반식"));
+	this.ds_data.setColumn(0,"석식죽식", this.ds_meal.getColumn(0,"석식죽식"));
+	this.ds_data.setColumn(0,"석식경관", this.ds_meal.getColumn(0,"석식유동식"));
+
+};
+
+// 근무기록적용 버튼 이벤트
+this.div_cont_div_right_div_main_btn_record1_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.ds_data.rowcount < 1) return false;
+	
+	this.fn_workRecord();
+	
+	this.ds_data.setColumn(0,"조식직원",this.ds_work.getColumn(0,"mor_cnt"));
+	this.ds_data.setColumn(0,"중식직원",this.ds_work.getColumn(0,"lun_cnt"));
+	this.ds_data.setColumn(0,"석식직원",this.ds_work.getColumn(0,"din_cnt"));
+};
+
+// 보존식기록표 클릭 이벤트
+this.div_func_btn_report2_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var arrDate = []; // 선택된 급식일 (파라미터)
+ 	
+	// 리스트 row 수만큼 for문 돌려서 체크된 row 찾기
+	for(var i=0; i < this.ds_list.rowcount; i++){		
+		if(this.ds_list.getColumn(i,"CHK") == 1){ // 체크된 급식일 배열에 담기
+			var sdate = this.ds_list.getColumn(i,"급식일").toString(); // 날짜를 string으로 변환
+			arrDate.push(sdate); // arrDate 배열에 담기
+		}
+	}
+	
+	// 체크된게 없으면 메시지 출력
+	if (arrDate.length < 1){
+		this.alert("출력할 항목을 선택해주세요");
+		return false;
+	}
+	
+	const jrfFile = "DAY00704_R02.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + arrDate + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+]]></Script>
+  </Form>
+</FDL>

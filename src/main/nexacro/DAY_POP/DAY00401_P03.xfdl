@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00701_P03" width="1200" height="520" titletext="차량별송영일지" onload="form_onload">
+    <Layouts>
+      <Layout width="1200" height="520">
+        <Div id="div_cont" taborder="1" left="10" top="40" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="1" left="0" top="30" binddataset="ds_list" right="0" bottom="0" autosizingtype="none" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="50"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="현황"/>
+                      <Cell col="1" text="수급자명"/>
+                      <Cell col="2" text="성별"/>
+                      <Cell col="3" text="오전차"/>
+                      <Cell col="4" text="차번호"/>
+                      <Cell col="5" text="시작시간"/>
+                      <Cell col="6" text="실거주"/>
+                      <Cell col="7" text="시작운전"/>
+                      <Cell col="8" text="시작동승"/>
+                      <Cell col="9" text="오후차"/>
+                      <Cell col="10" text="차번호"/>
+                      <Cell col="11" text="종료시간"/>
+                      <Cell col="12" text="실거주"/>
+                      <Cell col="13" text="종료운전"/>
+                      <Cell col="14" text="종료동승"/>
+                      <Cell col="15" text="이용"/>
+                      <Cell col="16" text="제공시분"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:거주현황"/>
+                      <Cell col="1" text="bind:m_name"/>
+                      <Cell col="2" text="bind:성별"/>
+                      <Cell col="3" text="bind:시작코스"/>
+                      <Cell col="4" text="bind:시작차번호"/>
+                      <Cell col="5" text="bind:시작시간"/>
+                      <Cell col="6" text="bind:시작거주지"/>
+                      <Cell col="7" text="bind:시작기사"/>
+                      <Cell col="8" text="bind:시작동승"/>
+                      <Cell col="9" text="bind:종료코스"/>
+                      <Cell col="10" text="bind:종료차번호"/>
+                      <Cell col="11" text="bind:종료시간"/>
+                      <Cell col="12" text="bind:종료거주지"/>
+                      <Cell col="13" text="bind:종료기사"/>
+                      <Cell col="14" text="bind:종료동승"/>
+                      <Cell col="15" text="bind:이용구분"/>
+                      <Cell col="16" text="bind:제공시간"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_subTitle" taborder="0" text="차량별 송영일지 출력" left="655" top="3" width="170" height="26" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta_head1" taborder="3" text="송영일자" left="10" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1" taborder="4" left="sta_head1:-1" top="3" width="150" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head2" taborder="5" text="차량구분" left="248" top="3" width="90" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body2" taborder="6" left="337" top="3" width="220" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Combo id="cmb_gubun" taborder="0" left="350" top="6" width="190" height="25" innerdataset="ds_car" codecolumn="combocode" datacolumn="comboname" onitemchanged="div_search_cmb_gubun_onitemchanged"/>
+              <Static id="sta_date" taborder="7" left="108" top="6" width="122" height="25" text="송영일자"/>
+              <Button id="btn_report2" taborder="2" text="차량별 송영일지" top="6" width="140" height="25" onclick="fn_report" cssclass="btn_print" right="10"/>
+              <Button id="btn_report1" taborder="1" text="차량별 송영일지(운행)" top="6" width="170" height="25" onclick="fn_report" cssclass="btn_print" right="155"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ord1" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="시작코스" type="STRING" size="256"/>
+          <Column id="시작차번호" type="STRING" size="256"/>
+          <Column id="시작시간" type="STRING" size="256"/>
+          <Column id="시작거주지" type="STRING" size="256"/>
+          <Column id="시작기사" type="STRING" size="256"/>
+          <Column id="시작동승" type="STRING" size="256"/>
+          <Column id="종료코스" type="STRING" size="256"/>
+          <Column id="종료차번호" type="STRING" size="256"/>
+          <Column id="종료시간" type="STRING" size="256"/>
+          <Column id="종료거주지" type="STRING" size="256"/>
+          <Column id="종료기사" type="STRING" size="256"/>
+          <Column id="종료동승" type="STRING" size="256"/>
+          <Column id="이용구분" type="STRING" size="256"/>
+          <Column id="제공시간" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_car" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="combocode" type="STRING" size="256"/>
+          <Column id="comboname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00401_P03
+ * 화면명   	: 차량별송영일지
+ * 화면설명 	: 차량별 송영일지를 출력하기 위한 팝업
+ * 작성일   	: 2022-04-29
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+const fv_date = this.parent.DATE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", fv_date);
+	
+	// 콤보
+	this.fn_set_car_combo();
+	
+	this.fn_search();
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00401_P03.DAY00401_P03_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 차량 조회
+this.fn_car_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_car=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00401_P03.DAY00401_P03_DS_CAR_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			const date = this.ds_search.getColumn(0, "DATE");
+			const fDate = date.getFullYear() + "." + ((date.getMonth() + 1) + "").padStart(2, '0') + "." + (date.getDate() + "").padStart(2, '0');
+			this.div_search.form.sta_date.set_text(fDate);
+			
+			// 그리드에 css 적용
+			this.initGrid(this.div_cont.form.grd_list);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 차량 콤보 세팅
+this.fn_set_car_combo = function()
+{
+	this.ds_car.clearData();
+
+	this.fn_car_search();
+	
+	const firstRowValue = this.ds_car.getColumn(0, "combocode");
+	this.div_search.form.cmb_gubun.set_value(firstRowValue);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+	switch(obj.id) {
+		case "btn_report1" :	// 차량별 송영일지(운행) 버튼
+			jrfFile = "DAY00401_R03.jrf";
+			break;
+		case "btn_report2" :	// 차량별 송영일지 버튼
+			jrfFile = "DAY00401_R04.jrf";
+			break;
+		default:
+	}
+	
+	const gubun = this.div_search.form.cmb_gubun.value;
+	const fRow = this.ds_car.findRow("combocode", gubun);
+	const cName = this.ds_car.getColumn(fRow, "comboname");
+	const cNameArr = cName.split("-");
+	const no = cNameArr[1];
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + this.ds_search.getColumn(0, "DATE") + "#"
+			  + "P_DGUBUN#" + gubun + "#"
+			  + "P_DNO#" + no + "#"
+			  + "P_FLAG#1#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 콤보 아이템 변경 이벤트
+this.div_search_cmb_gubun_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	let fRow = this.ds_list.findRowExpr("시작코스 == " + e.postvalue);
+	if (fRow == -1)
+	{
+		fRow = this.ds_list.findRowExpr("종료코스 == " + e.postvalue);
+		if (fRow == -1)
+			fRow = 0;
+	}
+	this.ds_list.set_rowposition(fRow);
+};]]></Script>
+  </Form>
+</FDL>

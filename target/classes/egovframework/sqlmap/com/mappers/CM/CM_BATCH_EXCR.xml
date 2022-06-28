@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CM_BATCH_ROOM
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2021-09-30  |  SOOIM    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH_EXCR">
+	<select id="NS_EXCR_DATA_YN_S" resultType="java.lang.String">
+		<![CDATA[	
+			SELECT IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+        	  FROM sct_excrea 
+       		 WHERE sicode = (SELECT CC.REF_SYS_COMP_CD
+       		 				   FROM T_CM_COMPANY CC
+       		 				  WHERE CC.COMPANY_CD = #{COMPANY_CD})
+       		   AND cr_code = (SELECT NR.REF_SYS_RES_ID
+       		   				   	FROM T_NU_RESIDENT NR
+       		   				   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+       		   				  	 AND NR.RES_ID = #{RES_ID})
+       		   AND DATE_FORMAT(cr_nalja,'%Y%m%d') = #{EXC_DT}
+		]]>
+	</select>
+	
+	
+	<select id="NU_REF_YN_S" parameterType="java.util.HashMap" resultType="java.lang.String">
+		    	SELECT IF(COUNT(*) = 1, 'Y', 'N') AS REF_YN
+				  FROM T_CM_COMPANY CC
+			INNER JOIN sct_base SB
+					ON CC.REF_SYS_COMP_CD = SB.sicode
+			INNER JOIN T_NU_RESIDENT NR
+					ON CC.COMPANY_CD = NR.COMPANY_CD
+			INNER JOIN sct_mate SM
+					ON NR.REF_SYS_RES_ID = SM.m_code
+				   AND CC.REF_SYS_COMP_CD = SM.sicode
+				 WHERE CC.COMPANY_CD = #{COMPANY_CD}
+				   AND NR.RES_ID = #{RES_ID}
+    </select>
+    <select id="NS_RES_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,(SELECT CC.REF_SYS_COMP_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = A.COMPANY_CD) AS REF_SYS_COMP_CD  
+					,A.EXC_DT
+					,A.RES_ID
+					,(SELECT NR.REF_SYS_RES_ID
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS REF_SYS_RES_ID
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,A.DAY_MANAGER_ID
+					,A.DAY_MANAGER_NM
+					,A.NIG_MANAGER_ID
+					,A.NIG_MANAGER_NM
+					,A.EXC_TIME
+					,A.URIN_OBS
+					,A.URIN_QTY
+					,A.FECES_OBS
+					,A.DIAPER_CHG
+					,A.CLOTH_CHG
+					,A.REMARK
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,A.DAW_MANAGER_ID
+					,A.DAW_MANAGER_NM
+					,IFNULL(NULLIF(A.IR_INPUT_FLAG,''),'000000000000000000000000') AS IR_INPUT_FLAG
+              	FROM T_NU_EXCRETION A
+               WHERE 1=1
+    	 		 AND A.COMPANY_CD = #{COMPANY_CD}
+    	 		 AND A.EXC_DT = #{EXC_DT}
+    	 		 AND A.RES_ID = #{RES_ID}
+            ]]>              
+    </select>
+    <insert id="NS_EXCR_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO sct_excrea (                                                                                                                                                                                 
+					         sicode
+							,cr_nalja
+							,cr_name
+							,cr_code
+							,새벽담당
+							,새벽코드
+							,주간담당
+							,주간코드
+							,야간담당
+							,야간코드
+							,관찰분
+							,소변관찰
+							,배변관찰
+							,기저귀교환
+							,옷교환
+							,소변량
+							,입력구분
+							,ir_time -- now
+							,ir_type  -- I U
+							,ir_comp  -- S S
+							,ir_status -- 0 2
+							,ir_receive -- 0 0
+				) VALUES (
+							 (SELECT CC.REF_SYS_COMP_CD
+							 	FROM T_CM_COMPANY CC
+							   WHERE CC.COMPANY_CD = #{COMPANY_CD})
+							,IFNULL(#{EXC_DT}, NOW())
+							,IFNULL((SELECT NR.NAME
+									   FROM T_NU_RESIDENT NR
+							   		  WHERE NR.COMPANY_CD = #{COMPANY_CD}
+							   	 		AND NR.RES_ID = #{RES_ID}), '')
+							,IFNULL((SELECT NR.REF_SYS_RES_ID
+									   FROM T_NU_RESIDENT NR
+							   		  WHERE NR.COMPANY_CD = #{COMPANY_CD}
+							   	 		AND NR.RES_ID = #{RES_ID}), '')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+									ELSE (SELECT CU.USER_NM_KOR
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  		 AND CU.USER_ID = #{DAW_MANAGER_ID})
+							   		 END,'')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+		    						ELSE (SELECT CU.REF_USER_ID
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  				 AND CU.USER_ID = #{DAW_MANAGER_ID})
+							   	 	 END,'')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+									ELSE (SELECT CU.USER_NM_KOR
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  		 AND CU.USER_ID = #{DAY_MANAGER_ID})
+							   		 END,'')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+		    						ELSE (SELECT CU.REF_USER_ID
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  				 AND CU.USER_ID = #{DAY_MANAGER_ID})
+							   	 	 END,'')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+									ELSE (SELECT CU.USER_NM_KOR
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  		 AND CU.USER_ID = #{NIG_MANAGER_ID})
+							   		 END,'')
+							,IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+		    						ELSE (SELECT CU.REF_USER_ID
+											FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC 
+											  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+											  ON CC.REF_SYS_COMP_CD = SE.sicode
+											 AND CU.REF_USER_ID = SE.c_staffid
+										   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  				 AND CU.USER_ID = #{NIG_MANAGER_ID})
+							   	 	 END,'')
+							,#{EXC_TIME}
+							,#{URIN_OBS}
+							,#{FECES_OBS}
+							,#{DIAPER_CHG}
+							,#{CLOTH_CHG}
+							,#{URIN_QTY}
+							,#{IR_INPUT_FLAG}
+							,NOW()
+							,'I'
+							,'S'
+							,'0'
+							,'0'
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+     <update id="NS_EXCR_DATA_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			  UPDATE sct_excrea                                                                                                                                                                                              
+				 SET 새벽담당 	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+									    ELSE (SELECT CU.USER_NM_KOR
+											    FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+											  	  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+ 						   	 			  		 AND CU.USER_ID = #{DAW_MANAGER_ID})
+								   		 END,'')
+					,새벽코드	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAW_MANAGER_ID})
+								   	 	 END,'')
+					,주간담당	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.USER_NM_KOR
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAY_MANAGER_ID})
+								   	 	 END,'')
+					,주간코드       = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAY_MANAGER_ID})
+								   	 	 END,'')
+					,야간담당	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.USER_NM_KOR
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{NIG_MANAGER_ID})
+								   	 	 END,'')
+					,야간코드		= IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{NIG_MANAGER_ID})
+								   	 	 END,'')
+					,관찰분     	=   #{EXC_TIME}		
+					,소변관찰     	=   #{URIN_OBS}		  
+					,배변관찰     	=   #{FECES_OBS}	
+					,기저귀교환    	=   #{DIAPER_CHG}	
+					,옷교환      	=   #{CLOTH_CHG}	
+					,소변량      	=   #{URIN_QTY}		
+					,입력구분    	=   #{IR_INPUT_FLAG}
+					,ir_time    =  NOW()
+					,ir_type    =  'U'
+					,ir_comp    =  'S'
+					,ir_status  =  '2'
+					,ir_receive =  '0'
+				WHERE 1=1
+	        	   AND sicode  =  #{REF_SYS_COMP_CD}
+                   AND DATE_FORMAT(cr_nalja, '%Y%m%d') = #{EXC_DT}
+                   AND cr_code  = #{REF_SYS_RES_ID}
+                                              
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <update id="NS_EXCR_DATA2_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+			  UPDATE sct_excrea                                                                                                                                                                                              
+				 SET 새벽담당 	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+									    ELSE (SELECT CU.USER_NM_KOR
+											    FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+											  	  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+ 						   	 			  		 AND CU.USER_ID = #{DAW_MANAGER_ID})
+								   		 END,'')
+					,새벽코드	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAW_MANAGER_ID})
+								   	 	 END,'')
+					,주간담당	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.USER_NM_KOR
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAY_MANAGER_ID})
+								   	 	 END,'')
+					,주간코드       = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{DAY_MANAGER_ID})
+								   	 	 END,'')
+					,야간담당	   = IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.USER_NM_KOR
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{NIG_MANAGER_ID})
+								   	 	 END,'')
+					,야간코드		= IFNULL(CASE WHEN #{MANAGER_ID} = NULL THEN NULL
+			    						ELSE (SELECT CU.REF_USER_ID
+												FROM T_CM_USER CU
+										  INNER JOIN T_CM_COMPANY CC 
+												  ON CC.COMPANY_CD = CU.COMPANY_CD
+										  INNER JOIN sct_emp SE
+												  ON CC.REF_SYS_COMP_CD = SE.sicode
+												 AND CU.REF_USER_ID = SE.c_staffid
+											   WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  				 AND CU.USER_ID = #{NIG_MANAGER_ID})
+								   	 	 END,'')
+					,관찰분     	=   #{EXC_TIME}		     
+					,소변관찰     	=   #{URIN_OBS}		     
+					,배변관찰     	=   #{FECES_OBS}	     
+					,기저귀교환    	=   #{DIAPER_CHG}	     
+					,옷교환      	=   #{CLOTH_CHG}	     
+					,소변량      	=   #{URIN_QTY}		     
+					,입력구분    	=   #{IR_INPUT_FLAG}     
+					,ir_time    =  NOW()
+					,ir_type    =  'U'
+					,ir_comp    =  'S'
+					,ir_status  =  '2'
+					,ir_receive =  '0'
+				WHERE 1=1
+	        	   AND sicode  =  #{REF_SYS_COMP_CD}
+                   AND DATE_FORMAT(cr_nalja, '%Y%m%d') = #{EXC_DT}
+                   AND cr_code  = #{REF_SYS_RES_ID}
+                                              
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <update id="NS_HEALTH_D" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_excrea
+					 SET ir_status = '2'
+					 	,ir_type = 'D'
+					 	,ir_comp = 'S'
+					 	,ir_receive = '0'            
+		           WHERE sicode     = #{REF_SYS_COMP_CD}
+		           	 AND cr_code = #{REF_SYS_RES_ID}
+		           	 AND DATE_FORMAT(cr_nalja, '%Y%m%d') = #{EXC_DT}
+    ]]>
+	</update>
+</mapper>

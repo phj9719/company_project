@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC101QR                                                         
+     * 프로그램 명     	: 생활현황                                                  
+     * Description 	: 모바일에서 입소자의 생활현황을 조회 
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-08 09:30     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        NUC101QR_DS_MEAL_S				식사 조회
+        NUC101QR_DS_COMPOSITION_S		체성분 조회                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC101QR">
+	<!-- 식사 조회 -->
+	<select id="NUC101QR_DS_MEAL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC101QR_DS_MEAL_S */
+		SELECT
+				NM.COMPANY_CD
+			,	NM.MEA_DT
+			,	NM.RES_ID
+			,	IFNULL((SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_MEAL_AMT'
+				 AND CC.COMPANY_CD = NM.COMPANY_CD
+				 AND CC.CMCD = NM.BRE_QTY
+				), 'X') AS BRE_QTY
+			,	IFNULL((SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_MEAL_AMT'
+				 AND CC.COMPANY_CD = NM.COMPANY_CD
+				 AND CC.CMCD = NM.LUN_QTY
+				), 'X') AS LUN_QTY
+			,	IFNULL((SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_MEAL_AMT'
+				 AND CC.COMPANY_CD = NM.COMPANY_CD
+				 AND CC.CMCD = NM.DIN_QTY
+				), 'X') AS DIN_QTY
+			,	IFNULL((SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_MEAL_AMT'
+				 AND CC.COMPANY_CD = NM.COMPANY_CD
+				 AND CC.CMCD = NM.MOR_SNACK_QTY
+				), 'X') AS MOR_SNACK_QTY
+			,	IFNULL((SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_MEAL_AMT'
+				 AND CC.COMPANY_CD = NM.COMPANY_CD
+				 AND CC.CMCD = NM.AFT_SNACK_QTY
+				), 'X') AS AFT_SNACK_QTY
+		FROM	T_NU_MEAL NM
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		MEA_DT = #{DATE}
+	</select>
+	
+	<!-- 체성분 조회 -->
+	<select id="NUC101QR_DS_COMPOSITION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC101QR_DS_COMPOSITION_S */
+		SELECT
+				COMPANY_CD
+			,	RES_ID
+			,	COM_DT	/* 일자 */
+			,	HEIGHT	/* 신장 */
+			,	WEIGHT	/* 체중 */
+			,	SMM		/* 골격근량 */
+			,	BFM 	/* 체지방량 */
+			,	PBF 	/* 체지방율 */
+		FROM 	T_NU_COMPOSITION
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY COM_DT DESC LIMIT 1
+	</select>
+	
+	<!-- 로봇 훈련 점수 조회 -->
+	<select id="NUC101QR_DS_BOMI_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC101QR_DS_BOMI_S */
+		SELECT
+				NB.COMPANY_CD
+			,	NB.RES_ID
+			,	CONCAT(
+						'('
+					,	SUBSTRING(BOM_DT, 1, 4)
+					,	'.'
+					,	SUBSTRING(BOM_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(BOM_DT, 7, 2)
+					,	')'
+				) AS BOM_DT
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_BOMI_CONT'
+				 AND   NB.COMPANY_CD = CC.COMPANY_CD
+				 AND   NB.PROGRAM_NM = CC.CMCD
+				) AS CONTENT_ID_VAL	/* 프로그램 */	
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_BOMI_LEVEL'
+				 AND   NB.COMPANY_CD = CC.COMPANY_CD
+				 AND   NB.CONT_LVL = CC.CMCD
+				) AS CONT_LVL_VAL	/* 단계 */
+			,	CONCAT(
+						TRUNCATE(NB.CONT_PT, 0)
+					,	'/100점'
+				) AS SCORE	/* 점수 표시 */
+		FROM 	T_NU_BOMI NB
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY BOM_DT DESC LIMIT 1
+	</select>
+	
+	<!-- CIST 검사 조회 -->
+	<select id="NUC101QR_DS_CIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC101QR_DS_CIST_S */
+		SELECT
+				NC.COMPANY_CD
+			,	NC.RES_ID
+			,	CONCAT(
+						'('
+					,	SUBSTRING(NC.CIS_DT, 1, 4)
+					,	'.'
+					,	SUBSTRING(NC.CIS_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(NC.CIS_DT, 7, 2)
+					,	')'
+				) AS CIS_DT
+			,	CONCAT(
+						NC.PT7
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '70'
+						 AND CC.USEYN = 'Y'
+						)
+					,	'점'
+				) AS PT7_VAL
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_CIST_GRADE'
+				 AND CC.COMPANY_CD = NC.COMPANY_CD
+				 AND CC.CMCD = NC.CIS_GRADE
+				) AS CIS_GRADE_VAL
+		FROM 	T_NU_CIST NC
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY CIS_DT DESC LIMIT 1
+	</select>
+	
+	<!-- 우울 검사 조회 -->
+	<select id="NUC101QR_DS_SGDS_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC101QR_DS_SGDS_S */
+		SELECT
+				NS.COMPANY_CD
+			,	NS.RES_ID
+			,	CONCAT(
+						'('
+					,	SUBSTRING(NS.SGD_DT, 1, 4)
+					,	'.'
+					,	SUBSTRING(NS.SGD_DT, 5, 2)
+					,	'.'
+					,	SUBSTRING(NS.SGD_DT, 7, 2)
+					,	')'
+				) AS SGD_DT
+			,	CONCAT(
+						NS.PT
+					,	'/15점'
+				) AS PT
+		FROM	T_NU_SGDS NS
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		ORDER BY SGD_DT DESC LIMIT 1
+	</select>                                                                                                                                                                                
+</mapper>                                                                                                                                                                                                          

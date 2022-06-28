@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COMMON_CODE" width="450" height="500" titletext="입소자 팝업" onload="COMMON_CODE_onload">
+    <Layouts>
+      <Layout width="450" height="500">
+        <Static id="Static60" taborder="2" text="검색조건" cssclass="lb01" left="0" top="7" width="120" height="22"/>
+        <Div id="div_search" taborder="0" left="0" top="30" height="130" dragscrolltype="vert" cssclass="s01" right="0">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="6" top="10" width="80" height="24" text="조회" onclick="div_search_btn_search_onclick" left="277"/>
+              <Button id="btn_all_search" taborder="7" text="전체조회" top="10" width="80" height="24" left="360" onclick="div_search_btn_all_search_onclick"/>
+              <Static id="sta_user_nm" taborder="8" text="입소자성명" left="5" top="11" width="110" height="23" textAlign="right" cssclass="sta_WF_SearchLabel" onclick="div_search_sta_user_nm_onclick"/>
+              <Edit id="edt_user_nm" taborder="0" left="120" top="12" width="130" height="21" autoselect="true"/>
+              <Static id="sta_area" taborder="9" text="층" cssclass="sta_WF_SearchLabel" left="5" top="41" width="110" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle" onclick="div_search_sta_area_onclick"/>
+              <Static id="sta_location" taborder="10" text="생활실" cssclass="sta_WF_SearchLabel" left="215" top="41" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_location" taborder="2" left="310" top="41" width="130" height="21" onitemchanged="fn_search" codecolumn="LOC_CD" datacolumn="LOC_NM" type="filterlike" autoselect="true" innerdataset="ds_location"/>
+              <Combo id="cmb_area" taborder="1" left="120" top="41" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_area" onitemchanged="fn_search"/>
+              <Static id="sta_area00" taborder="11" text="날짜별 입력 유무" cssclass="sta_WF_SearchLabel" left="5" top="71" width="110" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle" onclick="div_search_sta_area_onclick"/>
+              <Radio id="rdo_yn" taborder="3" left="120" top="71" width="130" height="21" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" value="A" text="ALL" index="2" canitemchange="div_search_rdo_yn_canitemchange" onitemchanged="fn_search">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">Y</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">N</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">A</Col>
+                      <Col id="datacolumn">ALL</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Calendar id="cal_edate" taborder="4" left="265" top="71" width="110" height="21" onchanged="fn_search"/>
+              <Static id="sta_age00" taborder="12" text="조회구분" cssclass="sta_WF_SearchLabel" left="5" top="101" width="110" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle" onclick="div_search_sta_age00_onclick"/>
+              <Combo id="cmb_enter_gb" taborder="5" left="120" top="101" width="130" height="21" codecolumn="CODE" datacolumn="CODE_NM" type="filterlike" autoselect="true" innerdataset="ds_enter_gb" text="" onitemchanged="div_search_cmb_enter_gb_onitemchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0" top="160" right="0%" bottom="0%" text="">
+          <Layouts>
+            <Layout>
+              <Static id="Static_mid_label" taborder="3" text="입소자 리스트" cssclass="lb01" left="0" top="7" width="149" height="22"/>
+              <Grid id="grd_list" taborder="2" autofittype="col" left="0" top="30" binddataset="ds_list" right="0" bottom="0" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="48"/>
+                      <Column size="48"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell edittype="checkbox" displaytype="checkboxcontrol"/>
+                      <Cell col="1" text="이름"/>
+                      <Cell col="2" text="입력유무"/>
+                      <Cell col="3" text="성별"/>
+                      <Cell col="4" text="나이"/>
+                      <Cell col="5" text="층"/>
+                      <Cell col="6" text="생활실"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK"/>
+                      <Cell col="1" text="bind:NAME" textAlign="center"/>
+                      <Cell col="2" text="bind:INPUT_YN"/>
+                      <Cell col="3" displaytype="combotext" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="bind:SEX"/>
+                      <Cell col="4" text="bind:AGE"/>
+                      <Cell col="5" text="bind:AREA" displaytype="combotext" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM"/>
+                      <Cell col="6" displaytype="combotext" text="bind:LOCATION" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="SEX" type="STRING" size="256"/>
+          <Column id="AGE" type="INT" size="256"/>
+          <Column id="JUMIN" type="STRING" size="256"/>
+          <Column id="LONG_TERM_CARE_NO" type="STRING" size="256"/>
+          <Column id="BIRTHDAY" type="STRING" size="256"/>
+          <Column id="MEAL1" type="STRING" size="256"/>
+          <Column id="MEAL2" type="STRING" size="256"/>
+          <Column id="MEAL3" type="STRING" size="256"/>
+          <Column id="MEAL4" type="STRING" size="256"/>
+          <Column id="MEAL5" type="STRING" size="256"/>
+          <Column id="MEAL6" type="STRING" size="256"/>
+          <Column id="FUNC1" type="STRING" size="256"/>
+          <Column id="FUNC2" type="STRING" size="256"/>
+          <Column id="FUNC3" type="STRING" size="256"/>
+          <Column id="FUNC4" type="STRING" size="256"/>
+          <Column id="FUNC5" type="STRING" size="256"/>
+          <Column id="FUNC6" type="STRING" size="256"/>
+          <Column id="DIET1" type="STRING" size="256"/>
+          <Column id="DIET2" type="STRING" size="256"/>
+          <Column id="DIET3" type="STRING" size="256"/>
+          <Column id="DIET4" type="STRING" size="256"/>
+          <Column id="DIET5" type="STRING" size="256"/>
+          <Column id="DIET6" type="STRING" size="256"/>
+          <Column id="BRE_TIME" type="STRING" size="256"/>
+          <Column id="LUN_TIME" type="STRING" size="256"/>
+          <Column id="DIN_TIME" type="STRING" size="256"/>
+          <Column id="MOR_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="AFT_SNACK_TIME" type="STRING" size="256"/>
+          <Column id="REF_SYS_COMP_CD" type="STRING" size="256"/>
+          <Column id="INPUT_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_sex">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_temp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_room">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="INPUT_YN" type="STRING" size="256"/>
+          <Column id="TABLE_NM" type="STRING" size="256"/>
+          <Column id="ENTER_GB" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_all">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_enter_gb">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="CODE_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">A</Col>
+            <Col id="CODE_NM">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">E</Col>
+            <Col id="CODE_NM">입소자</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">R</Col>
+            <Col id="CODE_NM">퇴소자</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+
+//Multi 선택 여부
+this.fv_multiYn = false;
+var fv_companyCd = this.parent.COMPANY_CD;
+var fv_location = this.parent.LOCATION;
+var fv_area = this.parent.AREA;
+var fv_tableNm = this.parent.TABLE_NM;	
+this.COMMON_CODE_onload = function (obj:Form, e:nexacro.LoadEventInfo) {
+	
+	this.form_onload_com(obj, e, false);
+	//Multi 선택 여부 파라미터 : MULTI_YN
+	if(this.parent.MULTI_YN == "Y") this.fv_multiYn = true;
+	else							this.div_cont.form.grd_list.setFormatColProperty(0, "size", 0);	//Single 선택인경우 체크박스 숨김
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	this.ds_search.setColumn(0,"TABLE_NM",fv_tableNm);
+	this.ds_search.setColumn(0,"INPUT_YN","A");
+	this.ds_search.setColumn(0,"DATE",Sct.Util.getToday());
+	this.fn_setComboDs(obj);
+	
+	this.ds_search.setColumn(0,"ENTER_GB","E");
+	
+// 	this.ds_search.setColumn(0, "AREA", fv_area);
+// 	this.ds_search.setColumn(0, "LOCATION", fv_location);
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫번째 항목에 커서 이동
+	this.div_search.form.edt_user_nm.setFocus();
+};
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+this.fn_search = function (obj:Button, e:nexacro.ClickEventInfo) {
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		 + "sqlId=CM_RES_PP.CM_RES_PP_S ";
+	var callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{				
+			//multi체크가능한경우Dataset Column이 초기화되기떄문에 CHK컬럼 추가
+			//if(this.fv_multiYn)	this.ds_list.addColumn("CHK", "STRING", 1);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+this.fn_setData = function (obj:Button, e:nexacro.ClickEventInfo) {
+	this.ds_return.copyData(this.ds_list);
+	this.ds_return.clearData();
+	//Multi 선택인경우 체크한 ROW들 전체 return
+	if(this.fv_multiYn)
+	{
+		for(var i=0; i<this.ds_list.rowcount; i++)
+		{
+			if(this.ds_list.getColumn(i, "CHK") == "1")
+			{
+				var nRow = this.ds_return.addRow();
+				this.ds_return.copyRow(nRow, this.ds_list, i);
+			}
+		}
+	}
+	//Single 선택인경우 현재 rowposition인 row return
+	else
+	{
+		this.ds_return.addRow();
+		this.ds_return.copyRow(0, this.ds_list, this.ds_list.rowposition);
+	}
+
+	this.close(this.ds_return.saveXML());
+};
+
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo) {
+	this.fn_search();
+};
+
+this.div_search_btn_submit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo) {
+	this.fn_setData();
+};
+
+this.div_cont_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo){
+	//Single 선택인경우만 이벤트 on
+	if(!this.fv_multiYn)	this.fn_setData();
+};
+
+this.div_cont_grd_list_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//체크박스 헤더클릭시 이벤트
+	if(e.col == obj.getBindCellIndex("body", "CHK"))
+	{
+		var chkValue = obj.getCellProperty("head", e.col, "text");
+		var chk = "";
+		if(chkValue != "1")	chk = "1";
+		else				chk = "0";
+		
+		//체크박스 설정
+		obj.setCellProperty("head", e.col, "text", chk);
+		for(var i=0; i<this.ds_list.rowcount; i++) this.ds_list.setColumn(i, "CHK", chk);
+	}
+};
+
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+//                          { outDsName : "ds_location", sqlId : "NUA101CT.NUA101CT_DS_LOCATION_S", param : this.ds_search, bEmptyRow : true}
+//                        , { outDsName : "ds_room", sqlId : "NUA101CT.NUA101CT_DS_ROOM_S",param : this.ds_search, bEmptyRow : true}
+							{ outDsName : "ds_area", sqlId : "NUA101CT.NUA101CT_DS_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 층 조회
+						  , { outDsName : "ds_location_all", sqlId : "NUA101CT.NUA101CT_DS_LOCATION_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 생활실 전체 조회
+                    ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+
+//생활실 조회(outDatasets, 층 데이터)
+this.fn_location_search = function (outDs, col)
+{
+	var svcId = "location_search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = outDs+"=output1";
+	var argument = "method=getList "
+		+ "sqlId=NUA101CT.NUA101CT_DS_LOCATION_S "
+		+ " COMPANY_CD="+fv_companyCd
+		+ " AREA="+col;
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+//검색조건 층 콤보박스 변경 이벤트
+this.div_search_cmb_area_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var area = this.ds_search.getColumn(0, "AREA"); //층
+	
+	this.ds_search.setColumn(0, "LOCATION", ""); // 생활실 값 초기화
+	
+	if(!Sct.Util.isEmpty(area)){ //층에 해당되는 생활실 조회
+		this.fn_location_search("ds_location", area);
+		
+		var nInsertRow = this.ds_location.insertRow();
+		this.ds_location.setColumn(nInsertRow,"ARE_CD","");
+	}else{
+		this.ds_location.clearData();
+	}
+};
+
+this.fn_input_data_search = function()
+{
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		 + "sqlId=CM_RES_PP.CM_RES_PP_S "
+		 + " COMPANY_CD="+fv_companyCd
+		 + " TABLE_NM="+fv_tableNm
+		 + " INPUT_YN="+this.div_search.form.rdo_yn.value
+		 + " DATE="+this.div_search.form.cal_edate.value;
+	var callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.div_search_btn_all_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_search.setColumn(0,"INPUT_YN","A");
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		 + "sqlId=CM_RES_PP.CM_RES_PP_S "
+		 + " COMPANY_CD="+fv_companyCd
+		 + " TABLE_NM="+fv_tableNm
+		 + " INPUT_YN="+this.div_search.form.rdo_yn.value
+		 + " DATE="+this.div_search.form.cal_edate.value;
+	var callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.edt_user_nm" propid="value" datasetid="ds_search" columnid="NAME"/>
+      <BindItem id="item2" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="AREA"/>
+      <BindItem id="item3" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="LOCATION"/>
+      <BindItem id="item0" compid="div_search.form.cal_edate" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item4" compid="div_search.form.rdo_yn" propid="value" datasetid="ds_search" columnid="INPUT_YN"/>
+      <BindItem id="item5" compid="div_search.form.cmb_enter_gb" propid="value" datasetid="ds_search" columnid="ENTER_GB"/>
+    </Bind>
+  </Form>
+</FDL>

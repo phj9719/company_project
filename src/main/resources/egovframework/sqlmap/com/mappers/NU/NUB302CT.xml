@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB301CT                                                         
+     * 프로그램 명     	: 요양일지                                                     
+     * Description 	: 태블릿 입소자별 요양일지 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-08-11 17:21        		|  조기종       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	NUB302CT_DS_LIST_TEMP_S			태블릿 집중배설관찰일지 검색 
+     	NUB302CT_DS_LIST_TEMP_I			태블릿 집중배설관찰 삽입
+     	NUB302CT_DS_LIST_TEMP_U			태블릿 집중배설관찰 수정
+     	NUB302CT_DS_LIST_TEMP_D			태블릿 집중배설관찰 삭제
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB302CT">
+	<!-- 검색 -->
+	<select id="NUB302CT_DS_LIST_TEMP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 태블릿 집중배설관찰일지 검색 : NUB302CT_DS_LIST_TEMP_S */
+		SELECT
+				NE.COMPANY_CD			/* 시설코드 */
+			,	NE.EXC_DT				/* 배설관찰일 */
+			,	NE.RES_ID				/* 입소자코드 */
+			,	NE.DAY_MANAGER_ID		/* 주간담당자ID */
+			,	NE.DAY_MANAGER_NM		/* 주간담당자명 */
+			,	NE.NIG_MANAGER_ID		/* 야간담당자ID */
+			,	NE.NIG_MANAGER_NM		/* 야간담당자명 */
+			,	NE.DAW_MANAGER_ID		/* 새벽담당자ID */
+			,	NE.DAW_MANAGER_NM		/* 새벽담당자명 */
+			,	NE.EXC_TIME				/* 관찰분 */
+			,	NE.URIN_OBS				/* 소변관찰 */
+			,	NE.FECES_OBS			/* 배변관찰 */
+			,	NE.DIAPER_CHG			/* 기저귀교환 */
+			,	NE.CLOTH_CHG			/* 옷교환 */
+			,	NE.URIN_QTY				/* 소변량 */
+			,	NE.REMARK				/* 비고 */
+			,	NE.IR_INPUT_FLAG		/* 너싱홈 연동 플래그 */
+			,	NE.REG_PGM_ID
+			,	NE.REG_USER
+			,	NE.REG_DT
+			,	NE.REG_DT_CURR
+			,	NE.REG_DT_LOC
+			,	NE.REG_IP
+			,	NE.MOD_PGM_ID
+			,	NE.MOD_USER
+			,	NE.MOD_DT
+			,	NE.MOD_DT_CURR
+			,	NE.MOD_DT_LOC
+			,	NE.MOD_IP
+			,	NR.REF_SYS_RES_ID
+			,	CC.REF_SYS_COMP_CD
+		FROM
+				T_NU_EXCRETION NE
+			,	T_NU_RESIDENT NR
+			,	T_CM_COMPANY CC
+		WHERE	NE.COMPANY_CD = NR.COMPANY_CD
+		AND		NE.RES_ID = NR.RES_ID
+		AND		NE.COMPANY_CD = CC.COMPANY_CD
+		AND		NE.COMPANY_CD = #{COMPANY_CD}
+		AND		NE.EXC_DT = #{DATE}
+		AND		NR.AREA = #{AREA}
+		AND		NR.LOCATION = #{LOCATION}
+		AND		NE.RES_ID = #{RES_ID}
+	</select>
+	
+	<select id="NUB302CT_DS_NIG_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 집중배설관찰 새벽관찰자 검색 : NUB302CT_DS_NIG_MANAGER_S */
+		SELECT 	NIG_MANAGER_ID
+		FROM	T_NU_EXCRETION
+		WHERE	EXC_DT = DATE_FORMAT(DATE_SUB(#{DATE}, INTERVAL 1 DAY), '%Y%m%d')
+		AND		RES_ID = #{RES_ID}
+	</select>
+	
+	<select id="NUB302CT_DS_REF_SYS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 집중배설관찰 입소자 연동 아이디 확인 : NUB302CT_DS_REF_SYS_DATA_S */
+		SELECT	NR.REF_SYS_RES_ID
+			,	CC.REF_SYS_COMP_CD
+		FROM	T_NU_RESIDENT NR
+			,	T_CM_COMPANY CC
+		WHERE	NR.COMPANY_CD = CC.COMPANY_CD
+		AND		NR.COMPANY_CD = #{COMPANY_CD}
+		AND		NR.LOCATION = #{LOCATION}
+		AND		NR.AREA = #{AREA}
+		AND		NR.RES_ID = #{RES_ID}
+	</select>
+	
+	<!-- 집중배설관찰 삽입 -->
+	<insert id="NUB302CT_DS_LIST_TEMP_I" parameterType="java.util.HashMap">
+	/* 태블릿 집중배설관찰 삽입 : NUB302CT_DS_LIST_TEMP_I */
+		INSERT INTO
+			T_NU_EXCRETION
+		(
+				COMPANY_CD
+			,	EXC_DT
+			,	RES_ID
+			,	DAY_MANAGER_ID
+			,	DAY_MANAGER_NM
+			,	NIG_MANAGER_ID
+			,	NIG_MANAGER_NM
+			,	DAW_MANAGER_ID
+			,	DAW_MANAGER_NM
+			,	EXC_TIME
+			,	URIN_OBS
+			,	FECES_OBS
+			,	DIAPER_CHG
+			,	CLOTH_CHG
+			,	URIN_QTY
+			,	REMARK
+			,	IR_INPUT_FLAG
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	#{EXC_DT}
+			,	#{RES_ID}
+			,	#{DAY_MANAGER_ID}
+			,	#{DAY_MANAGER_NM}
+			,	#{NIG_MANAGER_ID}
+			,	#{NIG_MANAGER_NM}
+			,	#{DAW_MANAGER_ID}
+			,	#{DAW_MANAGER_NM}
+			,	#{EXC_TIME}
+			,	#{URIN_OBS}
+			,	#{FECES_OBS}
+			,	#{DIAPER_CHG}
+			,	#{CLOTH_CHG}
+			,	#{URIN_QTY}
+			,	#{REMARK}
+			,	#{IR_INPUT_FLAG}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 집중배설관찰 수정 -->
+	<update id="NUB302CT_DS_LIST_TEMP_U" parameterType="java.util.HashMap">
+	/* 태블릿 집중배설관찰 수정 : NUB302CT_DS_LIST_TEMP_U */
+		UPDATE
+			T_NU_EXCRETION
+		SET
+				DAY_MANAGER_ID = #{DAY_MANAGER_ID}
+			,	DAY_MANAGER_NM = #{DAY_MANAGER_NM}
+			,	NIG_MANAGER_ID = #{NIG_MANAGER_ID}
+			,	NIG_MANAGER_NM = #{NIG_MANAGER_NM}
+			,	DAW_MANAGER_ID = #{DAW_MANAGER_ID}
+			,	DAW_MANAGER_NM = #{DAW_MANAGER_NM}
+			,	EXC_TIME = #{EXC_TIME}
+			,	URIN_OBS = #{URIN_OBS}
+			,	FECES_OBS = #{FECES_OBS}
+			,	DIAPER_CHG = #{DIAPER_CHG}
+			,	CLOTH_CHG = #{CLOTH_CHG}
+			,	URIN_QTY = #{URIN_QTY}
+			,	REMARK = #{REMARK}
+			,	IR_INPUT_FLAG = #{IR_INPUT_FLAG}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		EXC_DT = #{EXC_DT}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 집중배설관찰 삭제 -->
+	<delete id="NUB302CT_DS_LIST_TEMP_D" parameterType="java.util.HashMap">
+	/* 태블릿 집중배설관찰 삭제 : NUB302CT_DS_EXCRETION_D */
+		DELETE FROM
+			T_NU_EXCRETION
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		EXC_DT = #{EXC_DT}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+	
+	<!-- sct_excrea 테이블에 데이터 확인 -->
+    <select id="NUB302CT_SCT_EXCREA_DATA_YN_S" parameterType="java.util.HashMap" resultType="java.lang.String">
+    /* 너싱홈 sct_excrea 테이블에 데이터 확인 : NUB_COMMON_SCT_EXCREA_DATA_YN_S */
+    	SELECT 
+    		IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+      	FROM
+      		sct_excrea 
+     	WHERE sicode = (SELECT CC.REF_SYS_COMP_CD
+     				    FROM T_CM_COMPANY CC
+     				    WHERE CC.COMPANY_CD = #{COMPANY_CD})
+     	AND cr_code = (SELECT NR.REF_SYS_RES_ID
+     			   	  FROM T_NU_RESIDENT NR
+     			  	  WHERE NR.COMPANY_CD = #{COMPANY_CD}
+     		  		  AND NR.RES_ID = #{RES_ID})
+     	AND cr_nalja = #{EXC_DT}
+    </select>
+    
+    <!-- sct_excrea 테이블에 데이터 삽입 -->
+    <insert id="NUB302CT_SCT_EXCREA_I" parameterType="java.util.HashMap">
+    /* 너싱홈 sct_excrea 테이블에 데이터 삽입 : NUB302CT_SCT_EXCREA_I */
+    	INSERT INTO sct_excrea 
+		(
+				sicode
+			,	cr_nalja
+			,	cr_name
+			,	cr_code
+			,	새벽담당
+			,	새벽코드
+			,	주간담당
+			,	주간코드
+			,	야간담당
+			,	야간코드
+			,	관찰분
+			,	소변관찰
+			,	배변관찰
+			,	기저귀교환
+			,	옷교환
+			,	소변량
+			,	입력구분
+			,	ir_time
+			,	ir_type
+			,	ir_comp
+			,	ir_status
+		)
+		VALUES
+		(
+				(SELECT CC.REF_SYS_COMP_CD
+	 		 	 FROM T_CM_COMPANY CC
+		   	 	 WHERE CC.COMPANY_CD = '001')
+		   	,	IFNULL(#{EXC_DT}, NOW())
+		   	,	IFNULL((SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   	WHERE NR.COMPANY_CD = #{COMPANY_CD}
+					   	AND NR.RES_ID = #{RES_ID}), '')
+		   	,	IFNULL((SELECT NR.REF_SYS_RES_ID
+						FROM T_NU_RESIDENT NR
+						WHERE NR.COMPANY_CD = #{COMPANY_CD}
+						AND NR.RES_ID = #{RES_ID}), '')
+			,	IFNULL(CASE
+						WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.USER_NM_KOR
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  AND CU.USER_ID = #{DAW_MANAGER_ID})
+		   	 		   END, '')
+		   	,	IFNULL(CASE
+						WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.REF_USER_ID
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+		   	 			  	  AND CU.USER_ID = #{DAW_MANAGER_ID})
+		   	 		  END, '')
+			,	IFNULL(CASE
+						WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.USER_NM_KOR
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  AND CU.USER_ID = #{DAY_MANAGER_ID})
+		   	 		   END, '')
+		   	,	IFNULL(CASE
+						WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.REF_USER_ID
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+		   	 			  	  AND CU.USER_ID = #{DAY_MANAGER_ID})
+		   	 		  END, '')
+		  	,	IFNULL(CASE
+						WHEN #{NIG_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.USER_NM_KOR
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+			   	 			  AND CU.USER_ID = #{NIG_MANAGER_ID})
+		   	 		   END, '')
+		   	,	IFNULL(CASE
+						WHEN #{NIG_MANAGER_ID} = NULL THEN NULL
+						ELSE (SELECT CU.REF_USER_ID
+							  FROM T_CM_USER CU
+							  INNER JOIN T_CM_COMPANY CC
+							  ON CC.COMPANY_CD = CU.COMPANY_CD
+							  INNER JOIN sct_emp SE
+							  ON CC.REF_SYS_COMP_CD = SE.sicode
+							  AND CU.REF_USER_ID = SE.c_staffid
+			   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+		   	 			  	  AND CU.USER_ID = #{NIG_MANAGER_ID})
+		   	 		  END, '')
+		   	,	IFNULL(#{EXC_TIME}, '000000000000000000000000000000000000000000000000')
+		   	,	IFNULL(#{URIN_OBS}, '000000000000000000000000')
+		   	,	IFNULL(#{FECES_OBS}, '000000000000000000000000')
+		   	,	IFNULL(#{DIAPER_CHG}, '000000000000000000000000')
+		   	,	IFNULL(#{CLOTH_CHG}, '000000000000000000000000')
+		   	,	IFNULL(#{URIN_QTY}, '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000')
+		   	,	IFNULL(#{IR_INPUT_FLAG}, '000000000000000000000000')
+		   	,	NOW()
+		   	,	'I'
+		   	,	'S'
+		   	,	'0'
+		)
+    </insert>
+    
+    <update id="NUB302CT_SCT_EXCREA_U" parameterType="java.util.HashMap">
+    /* 너싱홈 sct_excrea 테이블 데이터 수정 : NUB302CT_SCT_EXCREA_U */
+    	UPDATE 	sct_excrea
+    	SET		새벽담당 = IFNULL(CASE
+								WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.USER_NM_KOR
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  AND CU.USER_ID = #{DAW_MANAGER_ID})
+				   	 		   END, '')
+			,	새벽코드 = IFNULL(CASE
+								WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.REF_USER_ID
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  	  AND CU.USER_ID = #{DAW_MANAGER_ID})
+				   	 		   END, '')
+    		,	주간담당 = IFNULL(CASE
+								WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.USER_NM_KOR
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  AND CU.USER_ID = #{DAY_MANAGER_ID})
+				   	 		   END, '')
+			,	주간코드 = IFNULL(CASE
+								WHEN #{DAY_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.REF_USER_ID
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  	  AND CU.USER_ID = #{DAY_MANAGER_ID})
+				   	 		   END, '')
+			,	야간담당 = IFNULL(CASE
+								WHEN #{NIG_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.USER_NM_KOR
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+					   	 			  AND CU.USER_ID = #{NIG_MANAGER_ID})
+				   	 		   END, '')
+			,	야간코드 = IFNULL(CASE
+								WHEN #{NIG_MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.REF_USER_ID
+									  FROM T_CM_USER CU
+									  INNER JOIN T_CM_COMPANY CC
+									  ON CC.COMPANY_CD = CU.COMPANY_CD
+									  INNER JOIN sct_emp SE
+									  ON CC.REF_SYS_COMP_CD = SE.sicode
+									  AND CU.REF_USER_ID = SE.c_staffid
+					   				  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  	  AND CU.USER_ID = #{NIG_MANAGER_ID})
+				   	 		  END, '')
+			,	관찰분 = IFNULL(#{EXC_TIME}, '000000000000000000000000000000000000000000000000')
+			,	소변관찰 = IFNULL(#{URIN_OBS}, '000000000000000000000000')
+			,	배변관찰 = IFNULL(#{FECES_OBS}, '000000000000000000000000')
+			,	기저귀교환 = IFNULL(#{DIAPER_CHG}, '000000000000000000000000')
+			,	옷교환 = IFNULL(#{CLOTH_CHG}, '000000000000000000000000')
+			,	소변량 = IFNULL(#{URIN_QTY}, '000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000')
+			,	입력구분 = IFNULL(#{IR_INPUT_FLAG}, '000000000000000000000000')
+			,	ir_time = NOW()
+			,	ir_type = 'U'
+			,	ir_comp = 'S'
+			,	ir_status = '2'
+			,	ir_receive = '0'
+		WHERE 	sicode = #{REF_SYS_COMP_CD}
+		AND		DATE_FORMAT(cr_nalja, '%Y%m%d') = #{EXC_DT}
+		AND		cr_code = #{REF_SYS_RES_ID}
+    </update>
+    
+    <update id="NUB302CT_SCT_EXCREA_UD" parameterType="java.util.HashMap">
+    /* 너싱홈 sct_excrea 테이블 플래그 D로 수정(삭제표시) : NUB302CT_SCT_EXCREA_UD */
+    	UPDATE
+    		sct_excrea
+    	SET
+    			ir_status = '2'
+    		,	ir_type = 'D'
+    		,	ir_time = NOW()
+    		,	ir_comp = 'S'
+    		,	ir_receive = '0'
+    	WHERE 	sicode = #{REF_SYS_COMP_CD}
+		AND		DATE_FORMAT(cr_nalja, '%Y%m%d') = #{EXC_DT}
+		AND		cr_code = #{REF_SYS_RES_ID}    
+    </update>
+    
+</mapper>                                                                                                                                                                                                          

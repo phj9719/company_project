@@ -1,0 +1,1461 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-03 10:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA020CT                                                         
+     * 프로그램 명  		: 내부결재                                                      
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-02-03 10:00     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->	
+<mapper namespace="CMA020CT">
+	<!-- SELECT -->
+	<select id="CMA020CT_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT GAC.COMPANY_CD
+			 , GAC.PLANT_CD
+			 , GAC.PK_DOC_NO
+			 , GAC.GRP_DOC_NO
+			 , GAC.DOC_NM
+			 , GAC.DOC_DATE
+			 , (SELECT TCU.USER_NO
+				  FROM T_CM_USER TCU WITH(NOLOCK)
+				 WHERE TCU.COMPANY_CD  = GAC.COMPANY_CD
+				   AND TCU.USER_NM_KOR = GAC.DOC_WRITER
+				   AND TCU.DEPT_CD     = GAC.DOC_DEPT) AS DOC_WRITER_NO
+			 , GAC.DOC_WRITER
+			 , GAC.DOC_DEPT
+			 , (SELECT THD.DEPT_NAME 
+				  FROM T_HR_DEPARTMENT THD WITH(NOLOCK)
+				 WHERE THD.COMPANY_CD = GAC.COMPANY_CD
+				   AND THD.DEPT_CODE  = GAC.DOC_DEPT) AS DOC_DEPT_NM
+			 , GAC.URGENT
+			 , GAC.ACC_SUB_SYS
+			 , GAC.APPL_DOC_SBJT
+			 , GAC.GRP_DOC_KIND
+			 , GAC.USE_DOC_NO
+			 , GAC.RPT_DOC_NO
+			 , GAC.RPT_SUBJECT
+			 , GAC.RPT_DOC_DT
+			 , GAC.RPT_CNT
+			 , GAC.APV_PGM_ID
+			 , GAC.APV_SP_ID
+			 , GAC.UBI_VEW
+			 , GAC.UBI_VEW_PARM
+			 , GAC.MDFY_YN
+			 , CONVERT(CHAR(16), GAC.FIRST_RPT_DT, 20) AS FIRST_RPT_DT
+			 , GAC.RPT_WRITE
+			 , CONVERT(CHAR(16), GAC.APPL_RPT_DT, 20) AS APPL_RPT_DT
+			 , CONVERT(CHAR(16), GAC.APPVL_PRC_DT, 20) AS APPVL_PRC_DT
+			 , GAC.APPVL_PRC_CHARGE
+			 , CONVERT(CHAR(16), GAC.FNL_APPVL_DT, 20) AS FNL_APPVL_DT
+			 , GAC.FNL_APPVL_CHARGE
+			 , GAC.APPVL_PRC_FLAG
+			 , GAC.DOC_PRC_RVW
+			 , GAC.DOC_SND_DT
+			 , GAC.DOC_RCV_DT
+			 , GAC.FRST_READ_DT
+			 , GAC.FRST_READ_STS
+			 , GAC.ATTACH_FILE_YN
+			 , GAC.ATTACH_FILE_NM
+			 , GAC.ATTACH_GRP_ID
+			 , GAC.WK_FLAG
+			 , GAC.WK_FIELD
+			 , GAC.TRANS_JOB_ID
+			 , GAC.TRANS_ST
+			 , GAC.TRANS_RST_STS
+			 , GAC.SND_RCV_CD
+			 , GAC.REF_USER_KEY
+			 , GAC.REG_PGM_ID
+			 , GAC.REG_USER
+			 , GAC.REG_DT
+			 , GAC.REG_DT_CURR
+			 , GAC.REG_DT_LOC
+			 , GAC.REG_IP
+			 , GAC.MOD_PGM_ID
+			 , GAC.MOD_USER
+			 , GAC.MOD_DT
+			 , GAC.MOD_DT_CURR
+			 , GAC.MOD_DT_LOC
+			 , GAC.MOD_IP
+			 , (SELECT COUNT(*)
+			      FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+			     WHERE GAL.COMPANY_CD = GAC.COMPANY_CD
+			       AND GAL.PLANT_CD   = GAC.PLANT_CD
+			       AND GAL.PK_DOC_NO  = GAC.PK_DOC_NO
+			       AND GAL.PK_APPL_TYPE = '10') AS SUM_GRP_LINE_SEQ
+		  FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+		 WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+		   AND GAC.PLANT_CD   = #{PLANT_CD}
+		   AND GAC.PK_DOC_NO  = #{PK_DOC_NO}
+	</select>
+	
+	<select id="CMA020CT_GRPLINE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT GAL.COMPANY_CD
+		     , GAL.PLANT_CD
+		     , GAL.PK_DOC_NO
+		     , GAL.PK_APPL_TYPE
+		     , GAL.GRP_LINE_SEQ
+		     , GAL.LINE_SORT
+		     , GAL.GRP_DOC_NO
+		     , GAL.APPL_LINE_CHRG
+		     , GAL.APPL_LINE_PSTN
+		     , GAL.APPL_DEP_NM
+		     , GAL.WRITE_CD
+		     , GAL.APPL_YN
+		     , GAL.APPVL_PRC_FLAG
+		     , CONVERT(CHAR(16), GAL.APPL_PRC_DT, 20) AS APPL_PRC_DT
+		     , GAL.APPL_CMT
+		     , CONVERT(CHAR(16), GAL.STRT_APPVL_DT, 20) AS STRT_APPVL_DT
+		     , CONVERT(CHAR(16), GAL.FNL_APPVL_DT, 20) AS FNL_APPVL_DT
+		     , GAL.FNL_APPVL_CHARGE
+		     , GAL.ATTACH_FILE_YN
+		     , GAL.ATTACH_FILE_NM
+		     , GAL.ATTACH_GRP_ID
+		     , GAL.DOC_PRC_RVW
+		     , GAL.DOC_SND_DT
+		     , GAL.DOC_RCV_DT
+		     , GAL.FRST_READ_DT
+		     , GAL.FRST_READ_STS
+		     , GAL.WK_FLAG
+		     , GAL.WK_FIELD
+		     , GAL.TRANS_JOB_ID
+		     , GAL.TRANS_ST
+		     , GAL.TRANS_RST_STS
+		     , GAL.SND_RCV_CD
+		     , GAL.REG_PGM_ID
+		     , GAL.REG_USER
+		     , GAL.REG_DT
+		     , GAL.REG_DT_CURR
+		     , GAL.REG_DT_LOC
+		     , GAL.REG_IP
+		     , GAL.MOD_PGM_ID
+		     , GAL.MOD_USER
+		     , GAL.MOD_DT
+		     , GAL.MOD_DT_CURR
+		     , GAL.MOD_DT_LOC
+		     , GAL.MOD_IP
+			 , (SELECT COUNT(*)
+			      FROM T_GR_APPL_LINE GAL1 WITH(NOLOCK)
+			     WHERE GAL1.COMPANY_CD = GAL.COMPANY_CD
+			       AND GAL1.PLANT_CD   = GAL.PLANT_CD
+			       AND GAL1.PK_DOC_NO  = GAL.PK_DOC_NO
+			       AND GAL1.PK_APPL_TYPE = '10') AS SUM_GRP_LINE_SEQ
+		  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+		 WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+		   AND GAL.PLANT_CD   = #{PLANT_CD}
+		   AND GAL.PK_DOC_NO  = #{PK_DOC_NO}
+		 ORDER
+		    BY GAL.GRP_LINE_SEQ
+	</select>
+	
+	<select id="CMA020CT_REF_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT GAF.COMPANY_CD
+			 , GAF.PLANT_CD
+			 , GAF.PK_DOC_NO
+			 , GAF.REF_DOC_SEQ
+			 , GAF.PK_GRP_DOC_NO
+			 , GAF.GRP_DOC_KIND
+			 , GAF.GRP_DOC_NO
+			 , GAF.GRP_DOC_DT
+			 , GAF.GRP_DOC_PIC
+			 , GAF.GRP_DOC_DEPT
+			 , GAF.GRP_DOC_SUBJT
+			 , GAF.APV_PGM_ID
+			 , GAF.APV_SP_ID
+			 , GAF.UBI_VEW
+			 , GAF.UBI_VEW_PARM
+			 , GAF.ACC_SUB_SYS
+			 , GAF.VESSEL_CD
+			 , GAF.AUTO_ADD_YN
+			 , GAF.ADD_ATT_DT
+			 , GAF.RPT_WRITE
+			 , GAF.FNL_APPVL_DT
+			 , GAF.FNL_APPVL_CHARGE
+			 , GAF.APPVL_PRC_FLAG
+			 , GAF.ATTACH_FILE_YN
+			 , GAF.ATTACH_FILE_NM
+			 , GAF.ATTACH_GRP_ID
+			 , GAF.WK_FLAG
+			 , GAF.WK_FIELD
+			 , GAF.TRANS_JOB_ID
+			 , GAF.TRANS_ST
+			 , GAF.TRANS_RST_STS
+			 , GAF.SND_RCV_CD
+			 , GAF.REF_USER_KEY
+			 , GAF.REG_PGM_ID
+			 , GAF.REG_USER
+			 , GAF.REG_DT
+			 , GAF.REG_DT_CURR
+			 , GAF.REG_DT_LOC
+			 , GAF.REG_IP
+			 , GAF.MOD_PGM_ID
+			 , GAF.MOD_USER
+			 , GAF.MOD_DT
+			 , GAF.MOD_DT_CURR
+			 , GAF.MOD_DT_LOC
+			 , GAF.MOD_IP
+		  FROM T_GR_APPL_REF GAF WITH(NOLOCK)
+		 WHERE GAF.COMPANY_CD = #{COMPANY_CD}
+		   AND GAF.PLANT_CD   = #{PLANT_CD}
+		   AND GAF.PK_DOC_NO  = #{PK_DOC_NO}
+	</select>
+	
+	<select id="CMA020CT_RPT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT GAT.COMPANY_CD
+			 , GAT.PLANT_CD
+			 , GAT.PK_DOC_NO
+			 , GAT.RPT_DOC_SEQ
+			 , GAT.GRP_DOC_KIND
+			 , GAT.GRP_DOC_NO
+			 , GAT.GRP_DOC_DT
+			 , GAT.GRP_DOC_PIC
+			 , GAT.GRP_DOC_DEPT
+			 , GAT.GRP_DOC_SUBJT
+			 , GAT.UBI_VEW
+			 , GAT.UBI_VEW_PARM
+			 , GAT.VESSEL_CD
+			 , GAT.AUTO_ADD_YN
+			 , GAT.ADD_ATT_DT
+			 , GAT.RPT_WRITE
+			 , GAT.FNL_APPVL_DT
+			 , GAT.FNL_APPVL_CHARGE
+			 , GAT.APPVL_PRC_FLAG
+			 , GAT.ATTACH_FILE_YN
+			 , GAT.ATTACH_FILE_NM
+			 , GAT.ATTACH_GRP_ID
+			 , GAT.WK_FLAG
+			 , GAT.WK_FIELD
+			 , GAT.TRANS_JOB_ID
+			 , GAT.TRANS_ST
+			 , GAT.TRANS_RST_STS
+			 , GAT.SND_RCV_CD
+			 , GAT.REF_USER_KEY
+			 , GAT.REG_PGM_ID
+			 , GAT.REG_USER
+			 , GAT.REG_DT
+			 , GAT.REG_DT_CURR
+			 , GAT.REG_DT_LOC
+			 , GAT.REG_IP
+			 , GAT.MOD_PGM_ID
+			 , GAT.MOD_USER
+			 , GAT.MOD_DT
+			 , GAT.MOD_DT_CURR
+			 , GAT.MOD_DT_LOC
+			 , GAT.MOD_IP
+		  FROM T_GR_APPLED_RPT GAT WITH(NOLOCK)
+		 WHERE GAT.COMPANY_CD = #{COMPANY_CD}
+		   AND GAT.PLANT_CD   = #{PLANT_CD}
+		   AND GAT.PK_DOC_NO  = #{PK_DOC_NO}
+	</select>
+	
+	<select id="CMA020CT_ATT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT GFA.COMPANY_CD
+		     , GFA.PLANT_CD
+		     , GFA.PK_DOC_NO
+		     , GFA.FILE_GROUP_ID
+		     , GFA.FILE_ID
+		     , GFA.ATT_FILE_YN
+		     , GFA.ATT_FILE_NM
+		     , GFA.ATT_FILE_PATH
+		     , GFA.FILE_SIZE
+		     , GFA.USE_YN
+		     , GFA.WK_FLAG
+		     , GFA.WK_FIELD
+		     , GFA.TRANS_JOB_ID
+		     , GFA.TRANS_ST
+		     , GFA.TRANS_RST_STS
+		     , GFA.SND_RCV_CD
+		     , GFA.REF_USER_KEY
+		     , GFA.REG_PGM_ID
+		     , GFA.REG_USER
+		     , GFA.REG_DT
+		     , GFA.REG_DT_CURR
+		     , GFA.REG_DT_LOC
+		     , GFA.REG_IP
+		     , GFA.MOD_PGM_ID
+		     , GFA.MOD_USER
+		     , GFA.MOD_DT
+		     , GFA.MOD_DT_CURR
+		     , GFA.MOD_DT_LOC
+		     , GFA.MOD_IP
+		  FROM T_GR_FILE_ATT GFA WITH(NOLOCK)
+		 WHERE GFA.COMPANY_CD    = #{COMPANY_CD}
+		 --AND GFA.PLANT_CD      = {PLANT_CD]
+		 --AND GFA.PK_DOC_NO     = {PK_DOC_NO}
+		   AND GFA.FILE_GROUP_ID = #{FILE_GROUP_ID}
+		 --AND GFA.FILE_ID       = {FILE_ID}
+		   AND GFA.USE_YN		 = 'Y'
+	</select>
+	
+	<select id="CMA020CT_DOC_GRADE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT A.CMNM
+    	  FROM T_CM_CODE A WITH(NOLOCK)
+    	 WHERE A.COMPANY_CD = #{COMPANY_CD}
+    	<if test='AUTH.equals("10")'>
+    	   AND A.GRP_CD     = 'HR_EMP_DUTY'
+		</if>
+		<if test='AUTH.equals("20")'>
+    	   AND A.GRP_CD     = 'HR_CREW'
+		</if>
+           AND A.USEYN      = 'Y'
+           AND A.CMCD       = #{GRADE_CD}
+	</select>
+	
+	<select id="CMA020CT_DOC_DEPT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT A.DEPT_NAME
+    	  FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+    	 WHERE A.COMPANY_CD = #{COMPANY_CD}
+           AND A.USE_YN     = 'Y'
+           AND A.DEPT_CODE  = #{DEPT_CD}
+	</select>
+	
+	<select id="CMA020CT_NEW_PK_DOC_NO" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CONCAT(
+					  <if test='AUTH.equals("10")'>
+					  (SELECT DEPT_CODE_NAME
+                         FROM T_HR_DEPARTMENT WITH(NOLOCK)
+                        WHERE USE_YN = 'Y'
+                          AND DEPT_CODE = #{DOC_DEPT})
+					  </if>
+					  <if test='AUTH.equals("20")'>
+					  #{PLANT_CD}
+					  </if>
+					  ,
+					  CONVERT(CHAR(8), SYSDATETIME(), 112),
+					  (SELECT CASE WHEN GAC.COUNT = 0 
+					  		       THEN '001'
+					  		       ELSE GAC.SEQ END AS SEQ
+					  	 FROM (SELECT COUNT(GAC.PK_DOC_NO) AS COUNT
+					  	 			, FORMAT(MAX(RIGHT(ISNULL(GAC.PK_DOC_NO, ''), 3))+1, '000') AS SEQ
+					  	 	     FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+					  	 	    WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+					  	 	      AND GAC.PLANT_CD   = #{PLANT_CD}
+					  	 	      AND GAC.PK_DOC_NO LIKE CONCAT ( <if test='AUTH.equals("10")'>
+																  (SELECT DEPT_CODE_NAME
+											                         FROM T_HR_DEPARTMENT WITH(NOLOCK)
+											                        WHERE USE_YN = 'Y'
+											                          AND DEPT_CODE = #{DOC_DEPT})
+																  </if>
+																  <if test='AUTH.equals("20")'>
+																  #{PLANT_CD}
+																  </if>
+					  	 	      								 , CONVERT(CHAR(8), SYSDATETIME(), 112), '%')
+					  	 	  ) GAC
+					  )) AS PK_DOC_NO
+	</select>
+	
+	<select id="CMA020CT_NEW_GRP_DOC_NO" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT --CONCAT(
+				--	  <if test='AUTH.equals("10")'>
+				--	  (SELECT DEPT_CODE_NAME
+                --         FROM T_HR_DEPARTMENT WITH(NOLOCK)
+                --        WHERE USE_YN = 'Y'
+                --          AND DEPT_CODE = {DOC_DEPT})
+				--	  </if>
+				--	  <if test='AUTH.equals("20")'>
+				--	  {PLANT_CD}
+				--	  </if>
+				--	  ,
+					  #{PK_DOC_NO}
+				--	 ) 
+					 AS GRP_DOC_NO
+	</select>
+	
+	<select id="CMA020CT_PRC_DT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CONVERT(CHAR(16), GAL.APPL_PRC_DT, 20) AS APPL_PRC_DT
+		  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+		 WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+		   AND GAL.PLANT_CD   = #{PLANT_CD}
+		   AND GAL.PK_DOC_NO  = #{PK_DOC_NO}
+		   AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ} -- 작성자
+	</select>
+	
+	<!-- ACA105CT(회계전표)에서 상신 시 invoice 검색 -->
+	<select id="CMA020CT_MM_INVOICE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.COMPANY_CD	AS COMPANY_CD
+			 , A.PLANT_CD	AS PLANT_CD
+			 --, A.PK_INV_NO	AS GRP_DOC_NO
+			 , A.INV_DOC_NO	AS GRP_DOC_NO
+			 , A.DOC_DATE	AS GRP_DOC_DT
+		     , A.SUBJECT	AS GRP_DOC_SUBJT
+		     , A.V_CD		AS VESSEL_CD
+		     , A.DOC_PIC	AS GRP_DOC_PIC
+		     , A.DPET 		AS GRP_DOC_DEPT
+		     , (SELECT B.DEPT_NAME
+		     	  FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+		     	 WHERE A.COMPANY_CD = B.COMPANY_CD
+		     	   AND A.DPET		 = B.DEPT_CODE) AS GRP_DOC_DEPT_NM 
+		     , CASE WHEN (SELECT COUNT(*)
+						  FROM   T_SM_FILE B WITH(NOLOCK)
+						  WHERE  B.USE_YN = 'Y'
+						  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+						  AND    B.COMPANY_CD    = A.COMPANY_CD) = 0    -- 파일이 없는 경우
+					 THEN NULL
+					 WHEN (SELECT COUNT(*)
+						   FROM   T_SM_FILE B WITH(NOLOCK)
+						   WHERE  B.USE_YN = 'Y'
+						   AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+						   AND    B.COMPANY_CD    = A.COMPANY_CD) = 1   -- 파일이 1개인 경우
+					 THEN (SELECT MAX(B.FILE_NAME)
+						   FROM   T_SM_FILE B WITH(NOLOCK)
+						   WHERE  B.USE_YN = 'Y'
+						   AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+						   AND    B.COMPANY_CD    = A.COMPANY_CD)
+					 ELSE CONCAT((SELECT MAX(B.FILE_NAME)               -- 그 외의 경우
+								  FROM   T_SM_FILE B WITH(NOLOCK)
+								  WHERE  B.USE_YN = 'Y'
+								  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+								  AND    B.COMPANY_CD    = A.COMPANY_CD)
+								,'외 '
+								,(SELECT COUNT(*)
+								  FROM   T_SM_FILE B WITH(NOLOCK)
+								  WHERE  B.USE_YN = 'Y'
+								  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+								  AND    B.COMPANY_CD    = A.COMPANY_CD)-1
+								,'건') END           AS ATTACH_FILE_NM
+			 , A.ATTACH_GRP_ID
+			 , '0' 	AS ROW_LV
+			 , '30' AS ACC_SUB_SYS
+		  FROM T_MM_INV_HEAD A WITH(NOLOCK)
+		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+		   AND A.PK_INV_NO  = #{PK_INV_NO}
+	</select>
+	
+	<select id="CMA020CT_RM_INVOICE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.COMPANY_CD		AS COMPANY_CD
+		     , A.PLANT_CD		AS PLANT_CD
+		     , A.DOC_DATE 		AS GRP_DOC_DT
+		     --, A.PK_INV_NO 		AS GRP_DOC_NO
+		     , A.INV_DOC_NO 	AS GRP_DOC_NO
+		     , A.INV_SUBJECT 	AS GRP_DOC_SUBJT
+		     , A.V_CD 			AS VESSEL_CD
+			 , A.DOC_PIC 		AS GRP_DOC_PIC
+			 , CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE B WITH(NOLOCK)
+                          WHERE  B.USE_YN = 'Y'
+                          AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                          AND    B.COMPANY_CD    = A.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD) = 1   -- 파일이 1개인 경우
+                     THEN (SELECT MAX(B.FILE_NAME)
+               			   FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(B.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+			 , A.ATTACH_GRP_ID
+			 , '0' 	AS ROW_LV
+			 , '10' AS ACC_SUB_SYS
+		  FROM T_RM_INV_HEAD A WITH(NOLOCK)
+		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+		   AND A.PK_INV_NO  = #{PK_INV_NO}
+	</select>
+	
+	<select id="CMA020CT_FILEDOWNLOAD_PP_GET" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT SF.COMPANY_CD
+		     , SF.FILE_GROUP_ID
+		     , SF.FILE_ID
+		     , SF.FILE_NAME
+		     , SF.FILE_REAL_NAME
+		     , SF.FILE_SIZE
+		     , SF.USE_YN
+		     , SF.WK_FLAG
+		     , SF.TRANS_ST
+		     , SF.TRANS_RST_STS
+		     , SF.HD_OFFICE
+		     , SF.SHIP_ST1
+		     , SF.SHIP_ST2
+		     , SF.SHIP_ST3
+		     , SF.SHIP_ST4
+		     , SF.SHIP_ST5
+		     , SF.SHIP_ST6
+		     , SF.SHIP_ST7
+		     , SF.SHIP_ST8
+		     , SF.SHIP_ST9
+		     , SF.SHIP_ST10
+		     , SF.REG_PGM_ID
+		     , SF.REG_USER
+		     , SF.REG_DT
+		     , SF.REG_DT_CURR
+		     , SF.REG_DT_LOC
+		     , SF.REG_IP
+		     , SF.MOD_PGM_ID
+		     , SF.MOD_USER
+		     , SF.MOD_DT
+		     , SF.MOD_DT_CURR
+		     , SF.MOD_DT_LOC
+		     , SF.MOD_IP
+		  FROM T_SM_FILE SF WITH(NOLOCK)
+		 WHERE SF.COMPANY_CD    = #{COMPANY_CD}
+		   AND SF.FILE_GROUP_ID = #{ATTACH_GRP_ID}
+		   AND SF.USE_YN        = 'Y'
+	</select>
+	
+	<!-- INSERT -->
+	<insert id="CMA020CT_CNT_I" parameterType="java.util.HashMap">
+		INSERT INTO T_GR_APPL_CNT
+		( COMPANY_CD
+		, PLANT_CD
+		, PK_DOC_NO
+		, GRP_DOC_NO
+		, DOC_NM
+		, DOC_DATE
+		, DOC_WRITER
+		, DOC_DEPT
+		, URGENT
+		, ACC_SUB_SYS
+		, APPL_DOC_SBJT
+		, GRP_DOC_KIND
+		, USE_DOC_NO
+		, RPT_DOC_NO
+		, RPT_SUBJECT
+		, RPT_DOC_DT
+		, RPT_CNT
+		, APV_PGM_ID
+		, APV_SP_ID
+		, UBI_VEW
+		, UBI_VEW_PARM
+		, MDFY_YN
+		, FIRST_RPT_DT
+		, RPT_WRITE
+		, APPL_RPT_DT
+		, APPVL_PRC_DT
+		, APPVL_PRC_CHARGE
+		, FNL_APPVL_DT
+		, FNL_APPVL_CHARGE
+		, APPVL_PRC_FLAG
+	    , DOC_PRC_RVW
+	    , DOC_SND_DT
+	    , DOC_RCV_DT
+	    , FRST_READ_DT
+	    , FRST_READ_STS
+		, ATTACH_FILE_YN
+		, ATTACH_FILE_NM
+		, ATTACH_GRP_ID
+		, WK_FLAG
+		, WK_FIELD
+		, TRANS_JOB_ID
+		, TRANS_ST
+		, TRANS_RST_STS
+		, SND_RCV_CD
+		, REF_USER_KEY
+		, REG_PGM_ID
+		, REG_USER
+		, REG_DT
+		, REG_DT_CURR
+		, REG_DT_LOC
+		, REG_IP
+		, MOD_PGM_ID
+		, MOD_USER
+		, MOD_DT
+		, MOD_DT_CURR
+		, MOD_DT_LOC
+		, MOD_IP
+		) VALUES
+		( #{COMPANY_CD}
+		, #{PLANT_CD}
+		, #{PK_DOC_NO}
+		, #{GRP_DOC_NO}
+		, #{DOC_NM}
+		, #{DOC_DATE}
+		, #{DOC_WRITER}
+		, #{DOC_DEPT}
+		, ISNULL(#{URGENT}, '0')
+		, #{ACC_SUB_SYS}
+		, #{APPL_DOC_SBJT}
+		, #{GRP_DOC_KIND}
+		, #{USE_DOC_NO}
+		, #{RPT_DOC_NO}
+		, #{RPT_SUBJECT}
+		, #{RPT_DOC_DT}
+		, #{RPT_CNT}
+		, #{APV_PGM_ID}
+		, #{APV_SP_ID}
+		, #{UBI_VEW}
+		, #{UBI_VEW_PARM}
+		, 'N' 		-- MDFY_YN
+		, #{FIRST_RPT_DT}
+		, #{RPT_WRITE}
+		, #{APPL_RPT_DT}
+		, #{APPVL_PRC_DT}
+		, #{APPVL_PRC_CHARGE}
+		, #{FNL_APPVL_DT}
+		, #{FNL_APPVL_CHARGE}
+		, #{APPVL_PRC_FLAG}
+	    , #{DOC_PRC_RVW}
+	    , #{DOC_SND_DT}
+	    , #{DOC_RCV_DT}
+	    , #{FRST_READ_DT}
+	    , #{FRST_READ_STS}
+		, #{ATTACH_FILE_YN}
+		, (SELECT CASE WHEN ( SELECT COUNT(*)
+					            FROM T_GR_FILE_ATT A WITH(NOLOCK)
+					           WHERE A.USE_YN        = 'Y'
+                                 AND A.COMPANY_CD    = #{COMPANY_CD}
+					             AND A.FILE_GROUP_ID = #{ATTACH_GRP_ID}) = 0 	-- 파일이 없는 경우 
+					   THEN NULL
+    				   WHEN ( SELECT COUNT(*)
+					  		    FROM T_GR_FILE_ATT A WITH(NOLOCK)
+					  		   WHERE A.USE_YN        = 'Y'
+                                 AND A.COMPANY_CD    = #{COMPANY_CD}
+					  		     AND A.FILE_GROUP_ID = #{ATTACH_GRP_ID}) = 1 	-- 파일이 1개인 경우
+					   THEN ( SELECT MAX(A.ATT_FILE_NM)
+					  	        FROM T_GR_FILE_ATT A WITH(NOLOCK)
+					  	       WHERE A.USE_YN        = 'Y'
+                                 AND A.COMPANY_CD    = #{COMPANY_CD}
+					  	         AND A.FILE_GROUP_ID = #{ATTACH_GRP_ID})
+				  	   ELSE CONCAT((SELECT MAX(A.ATT_FILE_NM)					-- 그 외의 경우
+					  			      FROM T_GR_FILE_ATT A WITH(NOLOCK)
+					  			     WHERE A.USE_YN        = 'Y'
+                              	       AND A.COMPANY_CD    = #{COMPANY_CD}
+					  			       AND A.FILE_GROUP_ID = #{ATTACH_GRP_ID}) 
+					  			     , '외 '
+					  			     , (SELECT COUNT(*) AS COUNT
+					  			          FROM T_GR_FILE_ATT A WITH(NOLOCK)
+					  			         WHERE A.USE_YN        = 'Y'
+                              	           AND A.COMPANY_CD    = #{COMPANY_CD}
+					  			           AND A.FILE_GROUP_ID = #{ATTACH_GRP_ID}) -1
+					  			     , '건')
+					   END AS ATTACH_FILE_NM)
+		, #{ATTACH_GRP_ID}
+		, 'I' 		-- WK_FLAG
+		, #{WK_FIELD}
+		, #{TRANS_JOB_ID}
+		, #{TRANS_ST}
+		, #{TRANS_RST_STS}
+		, #{SND_RCV_CD}
+		, #{REF_USER_KEY}
+		, #{REG_PGM_ID}
+		, #{REG_USER}
+		, #{REG_DT}
+		, #{REG_DT_CURR}
+		, #{REG_DT_LOC}
+		, #{REG_IP}
+		, null 		-- MOD_PGM_ID
+		, null 		-- MOD_USER
+		, null 		-- MOD_DT
+		, null 		-- MOD_DT_CURR
+		, null 		-- MOD_DT_LOC
+		, null 		-- MOD_IP
+		)
+	</insert>
+	
+	<insert id="CMA020CT_GRPLINE_I" parameterType="java.util.HashMap">
+		INSERT INTO T_GR_APPL_LINE
+		( COMPANY_CD
+		, PLANT_CD
+		, PK_DOC_NO
+		, PK_APPL_TYPE
+		, GRP_LINE_SEQ
+		, LINE_SORT
+		, GRP_DOC_NO
+		, APPL_LINE_CHRG
+		, APPL_LINE_PSTN
+		, APPL_DEP_NM
+		, WRITE_CD
+		, APPL_YN
+		, APPVL_PRC_FLAG
+		, APPL_PRC_DT
+		, APPL_CMT
+		, STRT_APPVL_DT
+		, FNL_APPVL_DT
+		, FNL_APPVL_CHARGE
+		, ATTACH_FILE_YN
+		, ATTACH_FILE_NM
+		, ATTACH_GRP_ID
+	    , DOC_PRC_RVW
+	    , DOC_SND_DT
+	    , DOC_RCV_DT
+	    , FRST_READ_DT
+	    , FRST_READ_STS
+		, WK_FLAG
+		, WK_FIELD
+		, TRANS_JOB_ID
+		, TRANS_ST
+		, TRANS_RST_STS
+		, SND_RCV_CD
+		, REG_PGM_ID
+		, REG_USER
+		, REG_DT
+		, REG_DT_CURR
+		, REG_DT_LOC
+		, REG_IP
+		, MOD_PGM_ID
+		, MOD_USER
+		, MOD_DT
+		, MOD_DT_CURR
+		, MOD_DT_LOC
+		, MOD_IP
+		) VALUES
+		( #{COMPANY_CD}
+		, #{PLANT_CD}
+		, #{PK_DOC_NO}
+		, #{PK_APPL_TYPE}
+		, #{GRP_LINE_SEQ}
+		, #{LINE_SORT}
+		, #{GRP_DOC_NO}
+		, #{APPL_LINE_CHRG}
+		, #{APPL_LINE_PSTN}
+		, #{APPL_DEP_NM}
+		, #{WRITE_CD}
+		, #{APPL_YN}
+		, #{APPVL_PRC_FLAG}
+		, #{APPL_PRC_DT}
+		, #{APPL_CMT}
+		, #{STRT_APPVL_DT}
+		, #{FNL_APPVL_DT}
+		, #{FNL_APPVL_CHARGE}
+		, #{ATTACH_FILE_YN}
+		, #{ATTACH_FILE_NM}
+		, #{ATTACH_GRP_ID}
+		, #{DOC_PRC_RVW}
+		, #{DOC_SND_DT}
+		, #{DOC_RCV_DT}
+		, #{FRST_READ_DT}
+		, #{FRST_READ_STS}
+		, 'I'		-- WK_FLAG
+		, #{WK_FIELD}
+		, #{TRANS_JOB_ID}
+		, #{TRANS_ST}
+		, #{TRANS_RST_STS}
+		, #{SND_RCV_CD}
+		, #{REG_PGM_ID}
+		, #{REG_USER}
+		, #{REG_DT}
+		, #{REG_DT_CURR}
+		, #{REG_DT_LOC}
+		, #{REG_IP}
+		, null 		-- MOD_PGM_ID
+		, null 		-- MOD_USER
+		, null 		-- MOD_DT
+		, null 		-- MOD_DT_CURR
+		, null 		-- MOD_DT_LOC
+		, null 		-- MOD_IP
+		)
+    </insert>
+    
+    <insert id="CMA020CT_REF_I" parameterType="java.util.HashMap">
+		INSERT INTO T_GR_APPL_REF
+		( COMPANY_CD
+		, PLANT_CD
+		, PK_DOC_NO
+		, REF_DOC_SEQ
+		, PK_GRP_DOC_NO
+		, GRP_DOC_KIND
+		, GRP_DOC_NO
+		, GRP_DOC_DT
+		, GRP_DOC_PIC
+		, GRP_DOC_DEPT
+		, GRP_DOC_SUBJT
+		, APV_PGM_ID
+		, APV_SP_ID
+		, UBI_VEW
+		, UBI_VEW_PARM
+		, ACC_SUB_SYS
+		, VESSEL_CD
+		, AUTO_ADD_YN
+		, ADD_ATT_DT
+		, RPT_WRITE
+		, FNL_APPVL_DT
+		, FNL_APPVL_CHARGE
+		, APPVL_PRC_FLAG
+		, ATTACH_FILE_YN
+		, ATTACH_FILE_NM
+		, ATTACH_GRP_ID
+		, WK_FLAG
+		, WK_FIELD
+		, TRANS_JOB_ID
+		, TRANS_ST
+		, TRANS_RST_STS
+		, SND_RCV_CD
+		, REF_USER_KEY
+		, REG_PGM_ID
+		, REG_USER
+		, REG_DT
+		, REG_DT_CURR
+		, REG_DT_LOC
+		, REG_IP
+		, MOD_PGM_ID
+		, MOD_USER
+		, MOD_DT
+		, MOD_DT_CURR
+		, MOD_DT_LOC
+		, MOD_IP
+		) VALUES 
+		( #{COMPANY_CD}
+		, #{PLANT_CD}
+		, #{PK_DOC_NO}
+		, #{REF_DOC_SEQ}
+		, #{PK_GRP_DOC_NO}
+		, #{GRP_DOC_KIND}
+		, #{GRP_DOC_NO}
+		, #{GRP_DOC_DT}
+		, #{GRP_DOC_PIC}
+		, #{GRP_DOC_DEPT}
+		, #{GRP_DOC_SUBJT}
+		, #{APV_PGM_ID}
+		, #{APV_SP_ID}
+		, #{UBI_VEW}
+		, #{UBI_VEW_PARM}
+		, #{ACC_SUB_SYS}
+		, #{VESSEL_CD}
+		, #{AUTO_ADD_YN}
+		, #{ADD_ATT_DT}
+		, #{RPT_WRITE}
+		, #{FNL_APPVL_DT}
+		, #{FNL_APPVL_CHARGE}
+		, #{APPVL_PRC_FLAG}
+		, #{ATTACH_FILE_YN}
+		, #{ATTACH_FILE_NM}
+		, #{ATTACH_GRP_ID}
+		, 'I' 		-- WK_FLAG
+		, #{WK_FIELD}
+		, #{TRANS_JOB_ID}
+		, #{TRANS_ST}
+		, #{TRANS_RST_STS}
+		, #{SND_RCV_CD}
+		, #{REF_USER_KEY}
+		, #{REG_PGM_ID}
+		, #{REG_USER}
+		, #{REG_DT}
+		, #{REG_DT_CURR}
+		, #{REG_DT_LOC}
+		, #{REG_IP}
+		, null 		-- MOD_PGM_ID
+		, null 		-- MOD_USER
+		, null 		-- MOD_DT
+		, null 		-- MOD_DT_CURR
+		, null 		-- MOD_DT_LOC
+		, null 		-- MOD_IP
+		)
+    </insert>
+    
+    <insert id="CMA020CT_RPT_I" parameterType="java.util.HashMap">
+		INSERT INTO T_GR_APPLED_RPT
+		( COMPANY_CD
+		, PLANT_CD
+		, PK_DOC_NO
+		, RPT_DOC_SEQ
+		, GRP_DOC_KIND
+		, GRP_DOC_NO
+		, GRP_DOC_DT
+		, GRP_DOC_PIC
+		, GRP_DOC_DEPT
+		, GRP_DOC_SUBJT
+		, UBI_VEW
+		, UBI_VEW_PARM
+		, VESSEL_CD
+		, AUTO_ADD_YN
+		, ADD_ATT_DT
+		, RPT_WRITE
+		, FNL_APPVL_DT
+		, FNL_APPVL_CHARGE
+		, APPVL_PRC_FLAG
+		, ATTACH_FILE_YN
+		, ATTACH_FILE_NM
+		, ATTACH_GRP_ID
+		, WK_FLAG
+		, WK_FIELD
+		, TRANS_JOB_ID
+		, TRANS_ST
+		, TRANS_RST_STS
+		, SND_RCV_CD
+		, REF_USER_KEY
+		, REG_PGM_ID
+		, REG_USER
+		, REG_DT
+		, REG_DT_CURR
+		, REG_DT_LOC
+		, REG_IP
+		, MOD_PGM_ID
+		, MOD_USER
+		, MOD_DT
+		, MOD_DT_CURR
+		, MOD_DT_LOC
+		, MOD_IP
+		) VALUES 
+		( #{COMPANY_CD}
+		, #{PLANT_CD}
+		, #{PK_DOC_NO}
+		, #{RPT_DOC_SEQ}
+		, #{GRP_DOC_KIND}
+		, #{GRP_DOC_NO}
+		, #{GRP_DOC_DT}
+		, #{GRP_DOC_PIC}
+		, #{GRP_DOC_DEPT}
+		, #{GRP_DOC_SUBJT}
+		, #{UBI_VEW}
+		, #{UBI_VEW_PARM}
+		, #{VESSEL_CD}
+		, #{AUTO_ADD_YN}
+		, #{ADD_ATT_DT}
+		, #{RPT_WRITE}
+		, #{FNL_APPVL_DT}
+		, #{FNL_APPVL_CHARGE}
+		, #{APPVL_PRC_FLAG}
+		, #{ATTACH_FILE_YN}
+		, #{ATTACH_FILE_NM}
+		, #{ATTACH_GRP_ID}
+		, 'I' -- WK_FLAG
+		, #{WK_FIELD}
+		, #{TRANS_JOB_ID}
+		, #{TRANS_ST}
+		, #{TRANS_RST_STS}
+		, #{SND_RCV_CD}
+		, #{REF_USER_KEY}
+		, #{REG_PGM_ID}
+		, #{REG_USER}
+		, #{REG_DT}
+		, #{REG_DT_CURR}
+		, #{REG_DT_LOC}
+		, #{REG_IP}
+		, null -- MOD_PGM_ID
+		, null -- MOD_USER
+		, null -- MOD_DT
+		, null -- MOD_DT_CURR
+		, null -- MOD_DT_LOC
+		, null -- MOD_IP
+		)
+    </insert>
+	
+	<!-- UPDATE -->
+	<update id="CMA020CT_CNT_U" parameterType="java.util.HashMap">
+		UPDATE T_GR_APPL_CNT
+		   SET COMPANY_CD       = #{COMPANY_CD}
+		     , PLANT_CD         = #{PLANT_CD}
+		     , PK_DOC_NO        = #{PK_DOC_NO}
+		     , GRP_DOC_NO       = #{GRP_DOC_NO}
+		     , DOC_NM           = #{DOC_NM}
+		     , DOC_DATE         = #{DOC_DATE}
+		     , DOC_WRITER       = #{DOC_WRITER}
+		     , DOC_DEPT         = #{DOC_DEPT}
+		     , URGENT           = ISNULL(#{URGENT}, 0)
+		     , ACC_SUB_SYS      = #{ACC_SUB_SYS}
+		     , APPL_DOC_SBJT    = #{APPL_DOC_SBJT}
+		     , GRP_DOC_KIND     = #{GRP_DOC_KIND}
+		     , USE_DOC_NO       = #{USE_DOC_NO}
+		     , RPT_DOC_NO       = #{RPT_DOC_NO}
+		     , RPT_SUBJECT      = #{RPT_SUBJECT}
+		     , RPT_DOC_DT       = #{RPT_DOC_DT}
+		     , RPT_CNT          = #{RPT_CNT}
+		     , APV_PGM_ID       = #{APV_PGM_ID}
+		     , APV_SP_ID        = #{APV_SP_ID}
+		     , UBI_VEW          = #{UBI_VEW}
+		     , UBI_VEW_PARM     = #{UBI_VEW_PARM}
+		     , MDFY_YN          = 'N'
+		     --, FIRST_RPT_DT     = {FIRST_RPT_DT}
+		     , RPT_WRITE        = #{RPT_WRITE}
+		     , APPL_RPT_DT      = #{APPL_RPT_DT}
+		     , APPVL_PRC_DT     = #{APPVL_PRC_DT}
+		     , APPVL_PRC_CHARGE = #{APPVL_PRC_CHARGE}
+		     , FNL_APPVL_DT     = #{FNL_APPVL_DT}
+		     , FNL_APPVL_CHARGE = #{FNL_APPVL_CHARGE}
+		     , APPVL_PRC_FLAG   = #{APPVL_PRC_FLAG}
+			 , DOC_PRC_RVW      = #{DOC_PRC_RVW}
+			 , DOC_SND_DT       = #{DOC_SND_DT}
+			 , DOC_RCV_DT       = #{DOC_RCV_DT}
+			 , FRST_READ_DT     = #{FRST_READ_DT}
+			 , FRST_READ_STS    = #{FRST_READ_STS}
+		     , ATTACH_FILE_YN   = #{ATTACH_FILE_YN}
+		     , ATTACH_FILE_NM   = #{ATTACH_FILE_NM}
+		     , ATTACH_GRP_ID    = #{ATTACH_GRP_ID}
+		     , WK_FLAG          = 'U'
+		     , WK_FIELD         = #{WK_FIELD}
+		     , TRANS_JOB_ID     = #{TRANS_JOB_ID}
+		     , TRANS_ST         = #{TRANS_ST}
+		     , TRANS_RST_STS    = #{TRANS_RST_STS}
+		     , SND_RCV_CD       = #{SND_RCV_CD}
+		     , REF_USER_KEY     = #{REF_USER_KEY}
+		     , MOD_PGM_ID       = #{MOD_PGM_ID}
+		     , MOD_USER         = #{MOD_USER}
+		     , MOD_DT           = #{MOD_DT}
+		     , MOD_DT_CURR      = #{MOD_DT_CURR}
+		     , MOD_DT_LOC       = #{MOD_DT_LOC}
+		     , MOD_IP           = #{MOD_IP}
+		 WHERE COMPANY_CD       = #{COMPANY_CD}
+		   AND PLANT_CD         = #{PLANT_CD}
+		   AND PK_DOC_NO        = #{PK_DOC_NO}
+	</update>
+	
+	<update id="CMA020CT_ATT_U" parameterType="java.util.HashMap">
+		UPDATE T_GR_FILE_ATT
+		   SET PK_DOC_NO     = #{PK_DOC_NO}
+		 WHERE COMPANY_CD    = #{COMPANY_CD}
+		   AND FILE_GROUP_ID = #{ATTACH_GRP_ID}
+	</update>
+	
+	<!-- 작성자 결재상신 -->
+	<update id="CMA020CT_SUBMIT_W" parameterType="java.util.HashMap">
+		BEGIN
+
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET FIRST_RPT_DT 	= CASE WHEN (SELECT GAC.FIRST_RPT_DT
+		   									   FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+		   									  WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+		   									    AND GAC.PLANT_CD   = #{PLANT_CD}
+		   									    AND GAC.PK_DOC_NO  = #{PK_DOC_NO}) IS NOT NULL
+		   							   THEN (SELECT GAC.FIRST_RPT_DT
+		   									   FROM T_GR_APPL_CNT GAC WITH(NOLOCK)
+		   									  WHERE GAC.COMPANY_CD = #{COMPANY_CD}
+		   									    AND GAC.PLANT_CD   = #{PLANT_CD}
+		   									    AND GAC.PK_DOC_NO  = #{PK_DOC_NO})
+		   							   ELSE CONVERT(CHAR(19), SYSDATETIME(), 20) -- yyyy-MM-dd hh:mm:ss
+		   						  END
+			 , APPL_RPT_DT  	= CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , APPVL_PRC_DT 	= CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , APPVL_PRC_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+								     FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = '2') -- 첫 결재자
+		     , APPVL_PRC_FLAG = 'WT' -- 상신
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 작성자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'N'		-- 결재진행여부 - 종료
+		     , APPVL_PRC_FLAG = '20' 	-- 결재진행상태 - 승인
+			 , APPL_PRC_DT 	  = CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , STRT_APPVL_DT  = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = '1' ; -- 작성자
+		
+		-- 첫 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN        = 'Y'		-- 결재진행여부 - 진행
+		     , APPVL_PRC_FLAG = '10'	-- 결재진행상태 - 미결
+			 , STRT_APPVL_DT  = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = '2' ; -- 첫 결재자
+		
+		END
+	</update>
+	
+	<!-- 결재자 결재승인(중간결재자) -->
+	<update id="CMA020CT_SUBMIT_A" parameterType="java.util.HashMap">
+		BEGIN
+
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET APPVL_PRC_DT 	= CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , APPVL_PRC_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+								     FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+								    WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+								      AND GAL.PLANT_CD     = #{PLANT_CD}
+								      AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+								      AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ_NEXT}) -- 상위 결재자
+			 , APPVL_PRC_FLAG = 'PC' -- 진행
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 현재 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'N'		-- 결재진행여부 - 종료
+		     , APPVL_PRC_FLAG = '20' 	-- 결재진행상태 - 승인
+			 , APPL_PRC_DT 	  = CONVERT(CHAR(19), SYSDATETIME(), 20) -- yyyy-MM-dd hh:mm:ss
+			 , APPL_CMT       = #{APPL_CMT}
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ}; -- 현재 결재자
+		
+		-- 상위 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN        = 'Y'		-- 결재진행여부 - 진행
+		     , APPVL_PRC_FLAG = '10'	-- 결재진행상태 - 미결
+		     , APPL_PRC_DT 	  = NULL
+			 , STRT_APPVL_DT  = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ_NEXT}; -- 상위 결재자
+		
+		END
+	</update>
+	
+	<!-- 결재자 결재보류 -->
+	<update id="CMA020CT_SUBMIT_WITHHELD" parameterType="java.util.HashMap">
+		BEGIN
+		
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET APPVL_PRC_FLAG = 'PD'    -- 결재진행상태 - 보류
+		 WHERE COMPANY_CD     = #{COMPANY_CD}
+		   AND PLANT_CD       = #{PLANT_CD}
+		   AND PK_DOC_NO      = #{PK_DOC_NO};
+		
+		-- 현재 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'Y'		-- 결재진행여부 - 진행
+		     , APPVL_PRC_FLAG = '30' 	-- 결재진행상태 - 보류
+			 , APPL_CMT       = #{APPL_CMT}
+		 WHERE COMPANY_CD 	  = #{COMPANY_CD}
+		   AND PLANT_CD   	  = #{PLANT_CD}
+		   AND PK_DOC_NO  	  = #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ   = #{GRP_LINE_SEQ}; -- 현재 결재자
+		
+		END
+	</update>
+	
+	<!-- 결재자 결재반려 -->
+	<update id="CMA020CT_SUBMIT_REFUSAL" parameterType="java.util.HashMap">
+		BEGIN
+
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET APPVL_PRC_DT     = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		     , APPVL_PRC_FLAG   = 'RT' -- 반려
+		     , FNL_APPVL_DT     = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		     , FNL_APPVL_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+									 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ})
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 현재 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'N'		-- 결재진행여부 - 종료
+		     , APPVL_PRC_FLAG = '40' 	-- 결재진행상태 - 반려
+			 , APPL_PRC_DT 	  = CONVERT(CHAR(19), SYSDATETIME(), 20) -- yyyy-MM-dd hh:mm:ss
+			 , APPL_CMT       = #{APPL_CMT}
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ}; -- 현재 결재자
+		
+		-- 결재라인 최종반려
+		UPDATE T_GR_APPL_LINE
+		   SET FNL_APPVL_DT     = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		     , FNL_APPVL_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+									 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ})
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO};
+		   
+		END
+	</update>
+	
+	<!-- 결재자 결재취소 -->
+	<update id="CMA020CT_SUBMIT_CANCEL" parameterType="java.util.HashMap">
+		BEGIN
+
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET APPVL_PRC_DT 	= CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , APPVL_PRC_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+								     FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+								    WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+								      AND GAL.PLANT_CD     = #{PLANT_CD}
+								      AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+								      AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ_PRE}) -- 이전 결재자
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 현재 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'N'		-- 결재진행여부 -- 종료
+		     , APPVL_PRC_FLAG = '50' 	-- 결재진행상태 -- 취소
+			 , APPL_PRC_DT 	  = CONVERT(CHAR(19), SYSDATETIME(), 20) -- yyyy-MM-dd hh:mm:ss
+			 , APPL_CMT       = #{APPL_CMT}
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ}; -- 현재 결재자
+		
+		-- 이전 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN        = 'Y'		-- 결재진행여부 - 진행
+		     , APPVL_PRC_FLAG = '10'	-- 결재진행상태 - 미결
+		     , APPL_PRC_DT    = NULL
+		     , APPL_CMT       = NULL
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ_PRE}; -- 이전 결재자
+		
+		END
+	</update>
+	
+	<!-- 결재자 결재승인(최종결재자) -->
+	<update id="CMA020CT_SUBMIT_F" parameterType="java.util.HashMap">
+		BEGIN
+
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET APPVL_PRC_DT 	= CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , APPVL_PRC_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+									 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ})
+			 , FNL_APPVL_DT     = CONVERT(CHAR(19), SYSDATETIME(), 20)
+			 , FNL_APPVL_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+									 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ})
+			 , APPVL_PRC_FLAG   = 'AV' -- 승인
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 현재 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = 'N'		-- 결재진행여부 - 종료
+		     , APPVL_PRC_FLAG = '20' 	-- 결재진행상태 - 승인
+			 , APPL_PRC_DT 	  = CONVERT(CHAR(19), SYSDATETIME(), 20) -- yyyy-MM-dd hh:mm:ss
+			 , APPL_CMT       = #{APPL_CMT}
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = #{GRP_LINE_SEQ} ; -- 현재 결재자
+		
+		-- 결재라인 최종승인
+		UPDATE T_GR_APPL_LINE
+		   SET FNL_APPVL_DT     = CONVERT(CHAR(19), SYSDATETIME(), 20)
+		     , FNL_APPVL_CHARGE = (SELECT GAL.APPL_LINE_CHRG
+									 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+									WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+									  AND GAL.PLANT_CD     = #{PLANT_CD}
+									  AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+									  AND GAL.GRP_LINE_SEQ = #{GRP_LINE_SEQ})
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO};
+		
+		END
+	</update>
+	
+	<!-- 작성자 결재취소 -->
+	<update id="CMA020CT_CNT_CANCEL" parameterType="java.util.HashMap">
+		BEGIN
+		
+		-- 결재문서
+		UPDATE T_GR_APPL_CNT
+		   SET GRP_DOC_NO       = NULL
+		     , APPL_RPT_DT  	= NULL
+			 , APPVL_PRC_DT 	= NULL
+			 , APPVL_PRC_CHARGE = NULL
+		     , APPVL_PRC_FLAG   = NULL
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		-- 작성자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN 		  = NULL
+		     , APPVL_PRC_FLAG = NULL
+			 , APPL_PRC_DT 	  = NULL
+			 , APPL_CMT       = NULL
+			 , STRT_APPVL_DT  = NULL
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = '1' ; -- 작성자
+		
+		-- 첫 결재자
+		UPDATE T_GR_APPL_LINE
+		   SET APPL_YN        = NULL
+		     , APPVL_PRC_FLAG = NULL
+			 , STRT_APPVL_DT  = NULL
+		 WHERE COMPANY_CD 	= #{COMPANY_CD}
+		   AND PLANT_CD   	= #{PLANT_CD}
+		   AND PK_DOC_NO  	= #{PK_DOC_NO}
+		   AND GRP_LINE_SEQ = '2' ; -- 첫 결재자
+		
+		-- 작성자, 결재자 모두
+		UPDATE T_GR_APPL_LINE
+		   SET GRP_DOC_NO = NULL
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO};
+		
+		END
+	</update>
+			
+	<!-- DELETE -->
+	<delete id="CMA020CT_GRPLINE_D" parameterType="java.util.HashMap">
+		DELETE FROM T_GR_APPL_LINE
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO}
+	</delete>
+	
+	<delete id="CMA020CT_REF_D" parameterType="java.util.HashMap">
+		DELETE FROM T_GR_APPL_REF
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO}
+	</delete>
+	
+	<delete id="CMA020CT_RPT_D" parameterType="java.util.HashMap">
+		DELETE FROM T_GR_APPLED_RPT
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND PK_DOC_NO  = #{PK_DOC_NO}
+	</delete>
+	
+	<!-- 메세지전송 최종결재일 경우 -->
+	<select id="CMA020CT_GET_EMAIL_F" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT CU.USER_ID 
+	,		CU.USER_NM_KOR
+	,       CU.EMAIL
+	,       CU.VESSEL_CD
+	FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	INNER
+	JOIN T_CM_USER CU WITH(NOLOCK)
+	ON CU.COMPANY_CD = GAL.COMPANY_CD
+	AND CU.PLANT_CD = GAL.PLANT_CD
+	AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+	WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+	AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+	AND GAL.COMPANY_CD = #{COMPANY_CD}
+	AND GAL.PLANT_CD = #{PLANT_CD}
+	AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+	AND GAL.GRP_LINE_SEQ = 
+						  (SELECT MIN(GRP_LINE_SEQ)
+							FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+							INNER
+							JOIN T_CM_USER CU WITH(NOLOCK)
+							ON CU.COMPANY_CD = GAL.COMPANY_CD
+							AND CU.PLANT_CD = GAL.PLANT_CD
+							AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+							WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+							AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+							AND GAL.COMPANY_CD = #{COMPANY_CD}
+							AND GAL.PLANT_CD = #{PLANT_CD}
+							AND GAL.PK_DOC_NO = #{PK_DOC_NO})
+	</select>
+	<!-- 메세지전송 중간결재자 -->
+	<select id="CMA020CT_GET_EMAIL_A" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT CU.USER_ID 
+	,		CU.USER_NM_KOR
+	,       CU.EMAIL
+	,       CU.VESSEL_CD
+	FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	INNER
+	JOIN T_CM_USER CU WITH(NOLOCK)
+	ON CU.COMPANY_CD = GAL.COMPANY_CD
+	AND CU.PLANT_CD = GAL.PLANT_CD
+	AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+	WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+	AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+	AND GAL.COMPANY_CD = #{COMPANY_CD}
+	AND GAL.PLANT_CD = #{PLANT_CD}
+	AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+	AND GAL.GRP_LINE_SEQ = 
+						  (SELECT GRP_LINE_SEQ+1
+							FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+							INNER
+							JOIN T_CM_USER CU WITH(NOLOCK)
+							ON CU.COMPANY_CD = GAL.COMPANY_CD
+							AND CU.PLANT_CD = GAL.PLANT_CD
+							AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+							WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+							AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+							AND GAL.COMPANY_CD = #{COMPANY_CD}
+							AND GAL.PLANT_CD = #{PLANT_CD}
+							AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+							AND GAL.APPL_LINE_CHRG = #{USER_NM_KOR})
+	</select>
+	<!-- 메세지전송 보류 반려 취소 -->
+	<select id="CMA020CT_GET_EMAIL_C" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT CU.USER_ID 
+	,		CU.USER_NM_KOR
+	,       CU.EMAIL
+	,       CU.VESSEL_CD
+	FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	INNER
+	JOIN T_CM_USER CU WITH(NOLOCK)
+	ON CU.COMPANY_CD = GAL.COMPANY_CD
+	AND CU.PLANT_CD = GAL.PLANT_CD
+	AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+	WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+	AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+	AND GAL.COMPANY_CD = #{COMPANY_CD}
+	AND GAL.PLANT_CD = #{PLANT_CD}
+	AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+	AND GAL.GRP_LINE_SEQ = 
+						  (SELECT GRP_LINE_SEQ-1
+							FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+							INNER
+							JOIN T_CM_USER CU WITH(NOLOCK)
+							ON CU.COMPANY_CD = GAL.COMPANY_CD
+							AND CU.PLANT_CD = GAL.PLANT_CD
+							AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+							WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+							AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+							AND GAL.COMPANY_CD = #{COMPANY_CD}
+							AND GAL.PLANT_CD = #{PLANT_CD}
+							AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+							AND GAL.APPL_LINE_CHRG = #{USER_NM_KOR})
+	</select>
+	
+	<!-- 메세지전송 최초상신 -->
+	<select id="CMA020CT_GET_EMAIL_FA" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT CU.USER_ID 
+	,		CU.USER_NM_KOR
+	,       CU.EMAIL
+	,       CU.VESSEL_CD
+	FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+	INNER
+	JOIN T_CM_USER CU WITH(NOLOCK)
+	ON CU.COMPANY_CD = GAL.COMPANY_CD
+	AND CU.PLANT_CD = GAL.PLANT_CD
+	AND CU.USER_NM_KOR = GAL.APPL_LINE_CHRG
+	WHERE GAL.GRP_DOC_NO IS NOT NULL -- 임시저장 제외
+	AND GAL.APPVL_PRC_FLAG NOT IN ('RT', 'AV') -- 반려, 승인완료 문서 제외
+	AND GAL.COMPANY_CD = #{COMPANY_CD}
+	AND GAL.PLANT_CD = #{PLANT_CD}
+	AND GAL.PK_DOC_NO = #{PK_DOC_NO}
+	AND GAL.GRP_LINE_SEQ = '2'
+	</select>
+</mapper>

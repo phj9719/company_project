@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NU_CHART_PP" width="1200" height="800" titletext="차트 상세보기" onload="NU_CHART_PP_onload">
+    <Layouts>
+      <Layout width="1200" height="800">
+        <BasicChart id="cha_chart" taborder="0" left="0" top="0" right="0" bottom="0" boardspacing="0px 20px 0px 0px"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NU_CHART_PP
+ * 화면명   	: 차트 상세보기
+ * 화면설명 	: 부모창으로부터 데이터셋(ds)과 
+				  차트 하위컨트롤 JSON(contents)과
+				  카테고리컬럼(cateCol)을 받아와서 차트 세팅
+ * 작성일   	: 2021-08-26 13:49
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *  수정일				수정자			내용
+ *	
+ ***********************************************************************
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NU_CHART_PP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const fv_ds = this.parent.ds;	// 차트에 바인딩할 데이터셋
+	const contents = this.parent.contents;	// 차트 하위컨트롤들 JSON
+	const cateCol = this.parent.cateCol;	// 차트 카테고리컬럼
+	
+	this.cha_chart.updateContents(contents);
+	this.cha_chart.set_categorycolumn(cateCol);
+	this.cha_chart.set_binddataset(fv_ds);
+};
+]]></Script>
+  </Form>
+</FDL>

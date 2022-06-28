@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00602_P02                                                    
+     * 프로그램 명  :                                                      
+     * Description 	: 
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+      20220624       	|  이동관		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                 
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00602_P02">
+	<!-- 조회 -->
+    <select id="DAY00602_P02_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P02 LIST 조회 */
+	SELECT pro.sicode
+	     , pro.prg_name
+	     , pro.pr영역
+	     , pro.prg_number
+	     , substring(replace(pro.주제명,'\n',''),1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,1)-1) AS 주제01
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,1)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,2) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,1)-1) AS 주제02
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,2)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,3) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,2)-1) AS 주제03
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,3)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,4) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,3)-1) AS 주제04
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,4)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,5) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,4)-1) AS 주제05
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,5)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,6) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,5)-1) AS 주제06
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,6)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,7) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,6)-1) AS 주제07
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,7)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,8) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,7)-1) AS 주제08
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,8)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,9) -fn_instr(replace(pro.주제명,'\n',''),'\r',1,8)-1) AS 주제09
+	     , SUBSTRING(replace(pro.주제명,'\n',''),fn_instr(replace(pro.주제명,'\n',''),'\r',1,9)+1,fn_instr(replace(pro.주제명,'\n',''),'\r',1,10)-fn_instr(replace(pro.주제명,'\n',''),'\r',1,9)-1) AS 주제10
+	     , pro.주과정01
+	     , pro.주과정02
+	     , pro.주과정03
+	     , pro.주과정04
+	     , pro.주과정05
+	     , pro.주과정06
+	     , pro.주과정07
+	     , pro.주과정08
+	     , pro.주과정09
+	     , pro.주과정10
+	  FROM base_program pro
+ 	 WHERE pro.sicode = #{sicode}
+	   AND pro.prg_number = #{prg_number}
+	</select>
+</mapper>

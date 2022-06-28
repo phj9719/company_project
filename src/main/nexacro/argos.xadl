@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="argos" version="" onload="application_onload" screenid="">
+    <Layout>
+      <MainFrame id="mainframe" resizable="true" showtitlebar="true" showstatusbar="true" width="1916" height="930" openstatus="maximize" titletext="스마트 안심요양 서비스" showcascadetitletext="false" showcascadestatustext="false">
+        <VFrameSet id="VFrameSet0" separatesize="84,*,0">
+          <Frames>
+            <ChildFrame id="topFrame" showtitlebar="false" dragmovetype="none"/>
+            <HFrameSet id="HFrameSet0" separatesize="250,*">
+              <Frames>
+                <ChildFrame id="menuFrame" showtitlebar="false" dragmovetype="none"/>
+                <VFrameSet id="VFrameSet1" separatesize="50,*">
+                  <Frames>
+                    <ChildFrame id="mdiFrame" showtitlebar="false" formurl="Frame::frameMDI.xfdl" dragmovetype="none"/>
+                    <FrameSet id="workFrameSet">
+                      <Frames>
+                        <ChildFrame id="homeFrame" showtitlebar="false"/>
+                      </Frames>
+                    </FrameSet>
+                  </Frames>
+                </VFrameSet>
+              </Frames>
+            </HFrameSet>
+            <ChildFrame id="loginFrame" showtitlebar="false" formurl="Frame::frameLogin.xfdl" dragmovetype="none"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+    <Style url="xcssrc::Frame.xcss"/>
+    <Style url="xcssrc::Work.xcss"/>
+    <Style url="xcssrc::MainFrame.xcss"/>
+    <Style url="xcssrc::Common.xcss"/>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[// Frame 변수 정의
+// ==> Form을 Quick View로 볼 경우에는 아래 -시작- 부터 -끝- 까지 Comment 해야 함.
+// -시작-
+this.av_mainFrame = nexacro.getApplication().mainframe;
+this.av_vFrameSet0 = nexacro.getApplication().mainframe.VFrameSet0;
+this.av_hFrameSet0 = nexacro.getApplication().mainframe.VFrameSet0.HFrameSet0;
+this.av_vFrameSet1 = nexacro.getApplication().mainframe.VFrameSet0.HFrameSet0.VFrameSet1;
+this.av_workFrameSet = nexacro.getApplication().mainframe.VFrameSet0.HFrameSet0.VFrameSet1.workFrameSet;
+
+this.av_topFrame = this.av_vFrameSet0.topFrame;
+this.av_menuFrame = this.av_hFrameSet0.menuFrame;
+this.av_mdiFrame = this.av_vFrameSet1.mdiFrame;
+this.av_homeFrame = this.av_workFrameSet.homeFrame;
+
+this.av_loginFrame = this.av_vFrameSet0.loginFrame;
+// -끝-
+
+// Frame Size Mode 정의
+this.av_loginModeSize = "0,0,*";
+this.av_mainModeSize = "75,*,0";
+
+// TOP Frame을 숨겼을 때 / 보여질 때 사이즈 정의
+this.av_showTopModeSize = "75,*,0"; //Top Frame 보여질 때
+this.av_hideTopModeSize = "0,*,0"; //Top Frame 숨겼을 때
+
+// 왼쪽 메뉴를 숨겼을 때 / 보여질 때 사이즈 정의
+this.av_showMenuModeSize = "250,*"; //왼쪽 메뉴가 보여질 때
+this.av_hideMenuModeSize = "0,*"; //왼쪽 메뉴를 숨겼을 때
+
+
+// Size 정의
+this.av_fullSize = {
+	h : 900,
+	w : 1366
+};
+this.av_ieFrameSize = { // 전체 프레임 사이즈에서 빼주는 값 (Web Browser가 차지하는 사이즈)
+	h : 150,
+	w : 4
+};
+this.av_fullFrameSize = { // 전체 프레임 영역 사이즈 (FullSize - IEFrameSize)
+	h : this.av_fullSize.h - this.av_ieFrameSize.h,
+	w : this.av_fullSize.w - this.av_ieFrameSize.w
+};
+this.av_mainFormSize = { // 업무(메뉴)화면 전체 영역 사이즈
+	h : 570,
+	w : 1112
+};
+
+this.application_onload = function (obj:Application, e:nexacro.LoadEventInfo)
+{
+	// 개발서버에서 svcurl 맵핑시키기
+	let objSrv = nexacro.getEnvironment().services["svcurl"];
+	//const sIp = "http://14.42.209.174:2004";
+	const sIp = "http://localhost:8080";
+	if(e.url == sIp + "/Argos/argos.xadl.js") {
+		objSrv.url = sIp;
+	}
+	
+	nexacro.getApplication().gv_canGridCopyPaste = true; //Grid의 Copy & Paste 기능의 동작 여부를 결정
+	nexacro.getApplication().gv_isBookmark = false; //즐겨찾기 값 초기화 (=false)
+	this.av_vFrameSet0.set_separatesize(this.av_loginModeSize);
+};
+]]></Script>
+</ADL>

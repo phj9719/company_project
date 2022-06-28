@@ -1,0 +1,751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00401_P01" width="785" height="540" titletext="송영기록 수정" onload="form_onload">
+    <Layouts>
+      <Layout width="785" height="540">
+        <Div id="div_main" taborder="1" left="10" top="35" text="" background="#ffffff" border="1px solid black" bottom="10" width="765">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Static id="sta_subTitle" taborder="28" text="송영기록조회수정" left="11" top="9" width="260" height="24" cssclass="lb01"/>
+              <Div id="div_line" taborder="29" left="10" top="40" height="2" background="#000000" right="10">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="sta_head1" taborder="30" text="송영일자" left="9" top="77" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1" taborder="31" left="91" top="77" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head2" taborder="32" left="9" top="110" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="시작차량"/>
+              <Static id="sta_body2" taborder="33" left="91" top="110" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head3" taborder="34" left="9" top="143" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body3" taborder="35" left="91" top="143" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head4" taborder="36" left="9" top="176" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="실거주지"/>
+              <Static id="sta_body4" taborder="37" left="91" top="176" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_date_value" taborder="38" text="2022.04.07" left="99" top="85" width="119" height="19"/>
+              <Static id="sta_head5" taborder="39" left="9" top="209" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="시작시간"/>
+              <Static id="sta_body5" taborder="40" left="91" top="209" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head2_1" taborder="41" left="389" top="110" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종료차량"/>
+              <Static id="sta_head3_1" taborder="42" left="389" top="143" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_head6" taborder="43" left="9" top="242" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body6" taborder="44" left="91" top="242" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head7" taborder="45" left="9" top="275" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="시작거리"/>
+              <Static id="sta_body7" taborder="46" left="91" top="275" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head8" taborder="47" left="9" top="308" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="시작장소"/>
+              <Static id="sta_body8" taborder="48" left="91" top="308" width="660" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_1" taborder="49" left="389" top="77" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="수급자명"/>
+              <Static id="sta_head4_1" taborder="50" left="389" top="176" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="실거주지"/>
+              <Static id="sta_head5_1" taborder="51" left="389" top="209" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종료시간"/>
+              <Static id="sta_head6_1" taborder="52" left="389" top="242" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_head7_1" taborder="53" left="389" top="275" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종료거리"/>
+              <Static id="sta_head8_1" taborder="54" left="389" top="308" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종료장소"/>
+              <Static id="sta_scar_gubun" taborder="55" text="01" left="99" top="118" width="19" height="19"/>
+              <Combo id="cmb_scar_select" taborder="1" text="cmb_00" left="250" top="114" width="121" height="25" innerdataset="ds_car_combo" codecolumn="combocode" datacolumn="comboname" onlbuttondown="cmb_car_select_onlbuttondown"/>
+              <Button id="btn_sDriver" taborder="2" text="운전자" left="14" top="147" width="73" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+              <Button id="btn_eDriver" taborder="13" text="운전자" left="394" top="147" width="73" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+              <Button id="btn_eHelper" taborder="17" text="동승자" left="394" top="246" width="73" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+              <Button id="btn_sHelper" taborder="6" text="동승자" left="14" top="246" width="73" height="26" onclick="btn_driver_select" cssclass="btn_worker"/>
+              <Static id="sta_scar_code" taborder="56" text="72도1079" left="139" top="118" width="79" height="19"/>
+              <Static id="sta_ecar_gubun" taborder="57" text="01" left="479" top="118" width="19" height="19"/>
+              <Static id="sta_ecar_code" taborder="58" text="72도1079" left="519" top="118" width="79" height="19"/>
+              <Combo id="cmb_ecar_select" taborder="12" text="cmb_00" left="613" top="114" width="121" height="25" innerdataset="ds_car_combo" codecolumn="combocode" datacolumn="comboname" onlbuttondown="cmb_car_select_onlbuttondown"/>
+              <Combo id="cmb_slive" taborder="3" left="97" top="181" width="48" height="25" innerdataset="ds_use_yn" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Combo id="cmb_elive" taborder="14" left="477" top="181" width="48" height="25" innerdataset="ds_use_yn" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Edit id="edt_start_hour" taborder="4" left="97" top="213" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" value="00"/>
+              <Static id="sta_timeColon1" taborder="59" text=":" left="130" top="214" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_start_min" taborder="5" left="140" top="213" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분" value="00"/>
+              <Edit id="edt_end_hour00" taborder="15" left="477" top="213" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" value="00"/>
+              <Static id="sta_timeColon2" taborder="60" text=":" left="510" top="214" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_end_min" taborder="16" left="520" top="213" width="35" height="26" value="00" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+              <Static id="sta_sdriver_name" taborder="61" text="이동철" left="99" top="151" width="69" height="19"/>
+              <Static id="sta_sdriver_code" taborder="62" text="20210004" left="179" top="151" width="79" height="19"/>
+              <Static id="sta_edriver_name" taborder="63" text="이동철" left="479" top="151" width="69" height="19"/>
+              <Static id="sta_edriver_code" taborder="64" text="20210004" left="559" top="151" width="79" height="19"/>
+              <Static id="sta_mname" taborder="65" text="이동철" left="479" top="85" width="69" height="19"/>
+              <Static id="sta_mcode" taborder="66" text="20210004" left="559" top="85" width="79" height="19"/>
+              <Combo id="cmb_sdist_select" taborder="8" left="250" top="280" width="121" height="25" innerdataset="ds_dist" codecolumn="combocode" datacolumn="comboname" text="" index="-1" onitemchanged="cmb_dist_select_onitemchanged"/>
+              <Combo id="cmb_edist_select" taborder="19" left="613" top="280" width="121" height="25" innerdataset="ds_dist" codecolumn="combocode" datacolumn="comboname" text="" index="-1" onitemchanged="cmb_dist_select_onitemchanged"/>
+              <Edit id="edt_shelper" taborder="7" left="97" top="247" width="79" height="25"/>
+              <Edit id="edt_ehelper" taborder="18" left="477" top="247" width="79" height="25"/>
+              <Edit id="edt_splace" taborder="10" left="97" top="313" width="189" height="25"/>
+              <Edit id="edt_eplace" taborder="21" left="477" top="313" width="189" height="25"/>
+              <Static id="sta_no" taborder="67" text="기록번호 : " left="14" top="50" width="58" height="26"/>
+              <Static id="sta_no_value" taborder="68" text="00000000" left="77" top="50" width="60" height="26"/>
+              <Button id="btn_startErase" taborder="0" text="시작송영지움" left="276" top="51" width="112" height="25" cssclass="btn_eraser" onclick="btn_erase_onclick"/>
+              <Button id="btn_endErase" taborder="11" text="종료송영지움" left="638" top="51" width="112" height="25" cssclass="btn_eraser" onclick="btn_erase_onclick"/>
+              <Static id="sta_subTitle2" taborder="69" text="단기보호" left="11" top="369" width="260" height="24" cssclass="lb01"/>
+              <Div id="div_line00" taborder="70" left="10" top="400" height="2" background="#000000" right="10">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="sta_head9" taborder="71" left="9" top="408" width="83" height="64" cssclass="sta_WF_DetailLabel01" textAlign="center" text="단기보호&#13;&#10;야간시간"/>
+              <Static id="sta_body9" taborder="72" left="91" top="408" width="660" height="64" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head9_1" taborder="73" left="389" top="408" width="83" height="64" cssclass="sta_WF_DetailLabel01" textAlign="center" text="이용사유"/>
+              <Edit id="edt_from_hour" taborder="22" left="97" top="418" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" displaynulltext="00" value="00"/>
+              <Static id="sta_timeColon3" taborder="74" text=":" left="130" top="419" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_from_min" taborder="23" left="140" top="418" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분" displaynulltext="00" value="00"/>
+              <Static id="sta_no02" taborder="75" text="▲ 단기보호 야간시간 익일까지 표시 예시) 22:00 - 08:00" left="98" top="450" width="279" height="19" font="normal 8pt/normal &quot;Arial&quot;"/>
+              <Static id="sta_timeColon1_01_00" taborder="76" text="-" left="180" top="419" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_to_hour" taborder="24" left="197" top="418" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" displaynulltext="00" value="00"/>
+              <Static id="sta_timeColon1_01_01" taborder="77" text=":" left="230" top="419" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_to_min" taborder="25" left="240" top="418" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분" displaynulltext="00" value="00"/>
+              <Combo id="cmb_remark_select" taborder="27" left="613" top="419" width="121" height="25" innerdataset="ds_remark" codecolumn="CMCD" datacolumn="CMNM" text="보호자의휴식" index="0" onitemchanged="div_main_cmb_remark_select_onitemchanged"/>
+              <Edit id="edt_remark" taborder="26" left="477" top="419" width="129" height="25"/>
+              <MaskEdit id="mae_sdist" taborder="9" left="97" top="280" width="40" height="25" format="#0.#" limitbymask="both"/>
+              <MaskEdit id="mae_edist" taborder="20" left="477" top="280" width="40" height="25" format="#0.#" limitbymask="both"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="0" left="10" top="0" height="35" formscrollbartype="none" right="10">
+          <Layouts>
+            <Layout>
+              <Button id="btn_refresh" taborder="0" text="새로고침" left="0" top="5" width="90" height="25" cssclass="btn_refresh" onclick="div_func_btn_refresh_onclick"/>
+              <Button id="btn_set" taborder="1" text="확인" top="5" width="70" height="25" right="0" onclick="div_func_btn_set_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <PopupDiv id="pdiv_car_combo" left="-340" top="71" width="321" height="255" background="#ffffff">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_carList" taborder="0" left="0" top="0" binddataset="ds_car" right="0" bottom="0" autofittype="col" oncellclick="pdiv_car_combo_grd_carList_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="48"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:차구분"/>
+                      <Cell col="1" text="bind:차종"/>
+                      <Cell col="2" text="bind:차번호"/>
+                      <Cell col="3" text="bind:운전자"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="K_NUMBER" type="STRING" size="256"/>
+          <Column id="M_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="date" type="STRING" size="256"/>
+          <Column id="시작코스" type="STRING" size="256"/>
+          <Column id="시작차번호" type="STRING" size="256"/>
+          <Column id="시작기사" type="STRING" size="256"/>
+          <Column id="시작기코드" type="STRING" size="256"/>
+          <Column id="시작거주지" type="STRING" size="256"/>
+          <Column id="시작시간" type="STRING" size="256"/>
+          <Column id="시작시" type="STRING" size="256"/>
+          <Column id="시작분" type="STRING" size="256"/>
+          <Column id="시작동승" type="STRING" size="256"/>
+          <Column id="오전거리" type="STRING" size="256"/>
+          <Column id="오전장소" type="STRING" size="256"/>
+          <Column id="종료코스" type="STRING" size="256"/>
+          <Column id="종료차번호" type="STRING" size="256"/>
+          <Column id="종료기사" type="STRING" size="256"/>
+          <Column id="종료기코드" type="STRING" size="256"/>
+          <Column id="종료거주지" type="STRING" size="256"/>
+          <Column id="종료시간" type="STRING" size="256"/>
+          <Column id="종료시" type="STRING" size="256"/>
+          <Column id="종료분" type="STRING" size="256"/>
+          <Column id="종료동승" type="STRING" size="256"/>
+          <Column id="오후거리" type="STRING" size="256"/>
+          <Column id="오후장소" type="STRING" size="256"/>
+          <Column id="단기시간" type="STRING" size="256"/>
+          <Column id="단기시작시" type="STRING" size="256"/>
+          <Column id="단기시작분" type="STRING" size="256"/>
+          <Column id="단기종료시" type="STRING" size="256"/>
+          <Column id="단기종료분" type="STRING" size="256"/>
+          <Column id="단기사유" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_use_yn">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">Y</Col>
+            <Col id="CMNM">Y</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">N</Col>
+            <Col id="CMNM">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_remark">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">01</Col>
+            <Col id="CMNM">보호자의휴식</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">02</Col>
+            <Col id="CMNM">사망</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">03</Col>
+            <Col id="CMNM">휴식</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">04</Col>
+            <Col id="CMNM">서비스거부</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">05</Col>
+            <Col id="CMNM">전월연계</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">06</Col>
+            <Col id="CMNM">익월연계</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_dist">
+        <ColumnInfo>
+          <Column id="combocode" type="STRING" size="256"/>
+          <Column id="comboname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_car">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="차구분" type="STRING" size="256"/>
+          <Column id="차종" type="STRING" size="256"/>
+          <Column id="차번호" type="STRING" size="256"/>
+          <Column id="운전자" type="STRING" size="256"/>
+          <Column id="운전코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_car_combo">
+        <ColumnInfo>
+          <Column id="combocode" type="STRING" size="256"/>
+          <Column id="comboname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00401_P01
+ * 화면명   	: 송영기록 수정
+ * 화면설명 	: 이동서비스 송영기록에서 송영기록을 수정하는 팝업
+ * 작성일   	: 2022-04-27
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ 비고 : - 좌표계에 차량선택 콤보용 popupdiv 컴포넌트 배치중
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+const fv_knumber = this.parent.K_NUMBER;
+const fv_mcode = this.parent.M_CODE;
+const fv_mname = this.parent.M_NAME;
+const fv_date = this.parent.DATE;
+this.carFlag = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 저장을 위한 gv_curWinKey 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00401_P01";
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "K_NUMBER", fv_knumber);
+	this.ds_search.setColumn(0, "M_CODE", fv_mcode);
+	
+	// 콤보
+ 	this.fn_setComboDs(obj);
+	this.fn_set_car_combo();
+	
+	// 오픈시 조회
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_data=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00401_P01.DAY00401_P01_DS_DATA_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 차량 조회
+this.fn_car_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_car=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00401_P01.DAY00401_P01_DS_CAR_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			if (this.ds_data.rowcount == 0)
+			{
+				const nRow = this.ds_data.addRow();
+				this.ds_data.setColumn(nRow, "sicode", fv_sicode);
+				const date = fv_date.getFullYear() + "." + ((fv_date.getMonth() + 1) + "").padStart(2, '0') + "." + (fv_date.getDate() + "").padStart(2, '0');
+				this.ds_data.setColumn(nRow, "date", date);
+				this.ds_data.setColumn(nRow, "k_nalja", fv_date);
+				this.ds_data.setColumn(nRow, "k_code", fv_mcode);
+				this.ds_data.setColumn(nRow, "k_name", fv_mname);
+				this.ds_data.setColumn(nRow, "시작시", "00");
+				this.ds_data.setColumn(nRow, "시작분", "00");
+				this.ds_data.setColumn(nRow, "종료시", "00");
+				this.ds_data.setColumn(nRow, "종료분", "00");
+				this.ds_data.setColumn(nRow, "단기시작시", "00");
+				this.ds_data.setColumn(nRow, "단기시작분", "00");
+				this.ds_data.setColumn(nRow, "단기종료시", "00");
+				this.ds_data.setColumn(nRow, "단기종료분", "00");
+			}
+			else
+			{
+				
+			}
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+// 콤보 세팅
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+		{ outDsName : "ds_dist", sqlId : "DAY00401_P01.DAY00401_P01_DS_DIST_S", param : this.ds_search, bEmptyRow : false }
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 차량 콤보 세팅
+this.fn_set_car_combo = function()
+{
+	this.ds_car_combo.clearData();
+
+	this.fn_car_search();
+	
+	if (this.ds_car.rowcount > 0)
+	{
+		for (let i = 0; i < this.ds_car.rowcount; i++)
+		{
+			let combonameStr = "";
+			const nRow = this.ds_car_combo.addRow();
+			const gubun = this.ds_car.getColumn(i, "차구분");
+			
+			this.ds_car_combo.setColumn(nRow, "combocode", gubun);
+			this.ds_car_combo.setColumn(nRow, "comboname", gubun);
+		}
+	}
+};
+
+// 데이터 세팅
+this.fn_setData = function () {
+	let sHour = this.ds_data.getColumn(0, "시작시");
+	let sMin = this.ds_data.getColumn(0, "시작분");
+	let eHour = this.ds_data.getColumn(0, "종료시");
+	let eMin = this.ds_data.getColumn(0, "종료분");
+	let nsHour = this.ds_data.getColumn(0, "단기시작시");
+	let nsMin = this.ds_data.getColumn(0, "단기시작분");
+	let neHour = this.ds_data.getColumn(0, "단기종료시");
+	let neMin = this.ds_data.getColumn(0, "단기종료분");
+	
+	if (Sct.Util.isEmpty(sHour))
+		sHour = "00";
+	if (Sct.Util.isEmpty(sMin))
+		sMin = "00";
+	if (Sct.Util.isEmpty(eHour))
+		eHour = "00";
+	if (Sct.Util.isEmpty(eMin))
+		eMin = "00";
+	if (Sct.Util.isEmpty(nsHour.trim()))
+		nsHour = "00";
+	if (Sct.Util.isEmpty(nsMin.trim()))
+		nsMin = "00";
+	if (Sct.Util.isEmpty(neHour.trim()))
+		neHour = "00";
+	if (Sct.Util.isEmpty(neMin.trim()))
+		neMin = "00";
+	
+	if (nsHour < "18" && nsHour > "00")
+	{
+		this.alert("야간시간을 확인 하세요.");
+		return false;
+	}	
+	
+	if (neHour > "08")
+	{
+		this.alert("야간시간을 확인 하세요.");
+		return false;
+	}
+	
+	if (nsHour == "00" && neHour == "00")
+	{
+		nsMin = "00";
+		neMin = "00";
+	}
+	
+	this.ds_data.setColumn(0, "시작시간", sHour + ":" + sMin);
+	this.ds_data.setColumn(0, "종료시간", eHour + ":" + eMin);
+	this.ds_data.setColumn(0, "단기시간", nsHour + ":" + nsMin + "-" + neHour + ":" + neMin);
+
+	this.ds_return.clear();
+	
+	this.ds_return.copyData(this.ds_data);
+
+	this.close(this.ds_return.saveXML());
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 운전자 선택 팝업
+this.btn_driver_select = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let svcId = "";
+	
+	switch(obj.id) {
+		case "btn_sDriver" :	// 시작운전자
+			svcId = "sDriver";
+			break;
+		case "btn_sHelper" :	// 시작동승자
+			svcId = "sHelper";
+			break;
+		case "btn_eDriver" :	// 종료운전자
+			svcId = "eDriver";
+			break;
+		case "btn_eHelper" :	// 종료동승자
+			svcId = "eHelper";
+			break;
+		default:
+	}
+	
+	const param = {
+		SICODE : fv_sicode
+	,	DATE : this.ds_data.getColumn(0, "k_nalja")
+	};
+
+	Sct.popup(this, svcId, 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "sDriver" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "시작기사", nexacro.trim(objDs.getColumn(0, "c_name")));
+				this.ds_data.setColumn(0, "시작기코드", objDs.getColumn(0, "c_staffid"));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "시작기사", "");
+				this.ds_data.setColumn(0, "시작기코드", "");
+			}
+			break;
+		case "sHelper" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "시작동승", nexacro.trim(objDs.getColumn(0, "c_name")));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "시작동승", "");
+			}
+			break;
+		case "eDriver" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "종료기사", nexacro.trim(objDs.getColumn(0, "c_name")));
+				this.ds_data.setColumn(0, "종료기코드", objDs.getColumn(0, "c_staffid"));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "종료기사", "");
+				this.ds_data.setColumn(0, "종료기코드", "");
+			}
+			break;
+		case "eHelper" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				this.ds_data.setColumn(0, "종료동승", nexacro.trim(objDs.getColumn(0, "c_name")));
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "종료동승", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 송영지움
+this.btn_erase_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+
+	let str = "";
+	let str2 = "";
+	let cmbStr = "";
+	
+	switch(obj.id) {
+		case "btn_startErase" :
+			str = "시작";
+			str2 = "오전";
+			cmbStr = "cmb_scar_select";
+			break;
+		case "btn_endErase" :
+			str = "종료";
+			str2 = "오후";
+			cmbStr = "cmb_ecar_select";
+			break;
+		default:
+	}
+	
+	this.ds_data.setColumn(0, str + "코스", "");
+	this.ds_data.setColumn(0, str + "차번호", "");
+	this.ds_data.setColumn(0, str + "기사", "");
+	this.ds_data.setColumn(0, str + "기코드", "");
+	this.ds_data.setColumn(0, str + "거주지", "");
+	this.ds_data.setColumn(0, str + "시", "00");
+	this.ds_data.setColumn(0, str + "분", "00");
+	this.ds_data.setColumn(0, str + "동승", "");
+	this.ds_data.setColumn(0, str2 + "거리", "");
+	this.ds_data.setColumn(0, str2 + "장소", "");
+	this.div_main.form.components[cmbStr].set_value("");
+};
+
+// 새로고침 버튼
+this.div_func_btn_refresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 차량선택 콤보 클릭 이벤트
+this.cmb_car_select_onlbuttondown = function(obj:nexacro.Combo,e:nexacro.MouseEventInfo)
+{
+	e.preventDefault();
+	
+	switch(obj.id) {
+		case "cmb_scar_select" :
+			this.carFlag = "1";
+			break;
+		case "cmb_ecar_select" :
+			this.carFlag = "2";
+			break;
+		default:
+	}
+	
+	this.pdiv_car_combo.trackPopupByComponent(obj, 0, obj.height);
+};
+
+// 차량 콤보 아이템(그리드) 셀 클릭 이벤트
+this.pdiv_car_combo_grd_carList_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const gubun = this.ds_car.getColumn(e.row, "차구분");
+	const no = this.ds_car.getColumn(e.row, "차번호");
+	const driver = this.ds_car.getColumn(e.row, "운전자");
+	const driverCode = this.ds_car.getColumn(e.row, "운전코드");
+	
+	let live = "";
+	if (no.indexOf("미차량") > -1)
+		live = "N";
+	else
+		live = "Y";
+	
+	switch(this.carFlag) {
+		case "1":
+			this.ds_data.setColumn(0, "시작코스", gubun);
+			this.ds_data.setColumn(0, "시작차번호", no);
+			this.ds_data.setColumn(0, "시작기사", driver);
+			this.ds_data.setColumn(0, "시작기코드", driverCode);
+			this.ds_data.setColumn(0, "시작거주지", live);
+			this.div_main.form.cmb_scar_select.set_value(gubun);
+			break;
+		case "2":
+			this.ds_data.setColumn(0, "종료코스", gubun);
+			this.ds_data.setColumn(0, "종료차번호", no);
+			this.ds_data.setColumn(0, "종료기사", driver);
+			this.ds_data.setColumn(0, "종료기코드", driverCode);
+			this.ds_data.setColumn(0, "종료거주지", live);
+			this.div_main.form.cmb_ecar_select.set_value(gubun);
+			break;
+		default:
+	}
+	
+	this.pdiv_car_combo.closePopup();
+};
+
+// 거리 콤보 아이템변경 이벤트
+this.cmb_dist_select_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	let str = "";
+	
+	switch(obj.id) {
+		case "cmb_sdist_select" :
+			str = "오전";
+			break;
+		case "cmb_edist_select" :
+			str = "오후";
+			break;
+		default:
+	}
+	
+	const textArr = e.posttext.split("-");
+	this.ds_data.setColumn(0, str + "거리", textArr[0]);
+	this.ds_data.setColumn(0, str + "장소", textArr[1]);
+};
+
+// 이용사유 콤보 아이템변경 이벤트
+this.div_main_cmb_remark_select_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_data.setColumn(0, "단기사유", e.posttext);
+};
+
+// 시 변경 이벤트
+this.edt_hour_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "23" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+};
+
+// 분 변경 이벤트
+this.edt_min_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "59" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+};
+
+// 확인 버튼
+this.div_func_btn_set_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_setData();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="k_number"/>
+      <BindItem id="item1" compid="div_main.form.sta_date_value" propid="text" datasetid="ds_data" columnid="date"/>
+      <BindItem id="item2" compid="div_main.form.sta_scar_gubun" propid="text" datasetid="ds_data" columnid="시작코스"/>
+      <BindItem id="item3" compid="div_main.form.sta_scar_code" propid="text" datasetid="ds_data" columnid="시작차번호"/>
+      <BindItem id="item4" compid="div_main.form.sta_sdriver_name" propid="text" datasetid="ds_data" columnid="시작기사"/>
+      <BindItem id="item5" compid="div_main.form.sta_sdriver_code" propid="text" datasetid="ds_data" columnid="시작기코드"/>
+      <BindItem id="item6" compid="div_main.form.cmb_slive" propid="value" datasetid="ds_data" columnid="시작거주지"/>
+      <BindItem id="item7" compid="div_main.form.edt_start_hour" propid="value" datasetid="ds_data" columnid="시작시"/>
+      <BindItem id="item8" compid="div_main.form.edt_start_min" propid="value" datasetid="ds_data" columnid="시작분"/>
+      <BindItem id="item9" compid="div_main.form.edt_shelper" propid="value" datasetid="ds_data" columnid="시작동승"/>
+      <BindItem id="item11" compid="div_main.form.edt_splace" propid="value" datasetid="ds_data" columnid="오전장소"/>
+      <BindItem id="item12" compid="div_main.form.sta_mname" propid="text" datasetid="ds_data" columnid="k_name"/>
+      <BindItem id="item13" compid="div_main.form.sta_mcode" propid="text" datasetid="ds_data" columnid="k_code"/>
+      <BindItem id="item14" compid="div_main.form.sta_ecar_gubun" propid="text" datasetid="ds_data" columnid="종료코스"/>
+      <BindItem id="item15" compid="div_main.form.sta_ecar_code" propid="text" datasetid="ds_data" columnid="종료차번호"/>
+      <BindItem id="item16" compid="div_main.form.sta_edriver_name" propid="text" datasetid="ds_data" columnid="종료기사"/>
+      <BindItem id="item17" compid="div_main.form.sta_edriver_code" propid="text" datasetid="ds_data" columnid="종료기코드"/>
+      <BindItem id="item18" compid="div_main.form.cmb_elive" propid="value" datasetid="ds_data" columnid="종료거주지"/>
+      <BindItem id="item19" compid="div_main.form.edt_end_hour00" propid="value" datasetid="ds_data" columnid="종료시"/>
+      <BindItem id="item20" compid="div_main.form.edt_end_min" propid="value" datasetid="ds_data" columnid="종료분"/>
+      <BindItem id="item21" compid="div_main.form.edt_ehelper" propid="value" datasetid="ds_data" columnid="종료동승"/>
+      <BindItem id="item23" compid="div_main.form.edt_eplace" propid="value" datasetid="ds_data" columnid="오후장소"/>
+      <BindItem id="item24" compid="div_main.form.edt_from_hour" propid="value" datasetid="ds_data" columnid="단기시작시"/>
+      <BindItem id="item25" compid="div_main.form.edt_from_min" propid="value" datasetid="ds_data" columnid="단기시작분"/>
+      <BindItem id="item26" compid="div_main.form.edt_to_hour" propid="value" datasetid="ds_data" columnid="단기종료시"/>
+      <BindItem id="item27" compid="div_main.form.edt_to_min" propid="value" datasetid="ds_data" columnid="단기종료분"/>
+      <BindItem id="item28" compid="div_main.form.edt_remark" propid="value" datasetid="ds_data" columnid="단기사유"/>
+      <BindItem id="item29" compid="div_main.form.mae_sdist" propid="value" datasetid="ds_data" columnid="오전거리"/>
+      <BindItem id="item30" compid="div_main.form.mae_edist" propid="value" datasetid="ds_data" columnid="오후거리"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC001CT" width="460" height="700" titletext="이용약관 개인정보취급방침 동의" onload="NUC001CT_onload" ondevicebuttonup="NUC001CT_ondevicebuttonup">
+    <Layouts>
+      <Layout width="460" height="700" screenid="Mobile">
+        <Button id="btn_agree" taborder="0" text="동의하기" top="33" height="43" cssclass="btn_basic" right="35" width="120" onclick="btn_agree_onclick"/>
+        <Div id="div_popMain" taborder="1" left="25" top="90" bottom="25" right="25" borderRadius="10px">
+          <Layouts>
+            <Layout>
+              <Div id="div_terms" taborder="0" left="10" top="20" right="10" bottom="20">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_warning" taborder="0" text="※스마트 안심요양원 이용을 위해 서비스이용약관 및 개인정보 취급방침에 동의해 주세요.(동의하지 않으실 경우 서비스 이용이 불가합니다.)" left="20" top="0" height="69" wordWrap="char" cssclass="sta_pop_title" font="normal 12pt/normal 'Noto Sans KR'" right="20"/>
+                    <Static id="sta_main" taborder="1" text="서비스이용약관 및 개인정보취급방침" left="20" top="74" height="36" right="20" font="normal 900 16pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ImageViewer id="imv_close" taborder="2" left="27" top="25" width="68" height="58" image="url('theme://images/btn_close.png')" background="transparent" onclick="imv_close_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="TOS_TP" type="STRING" size="256"/>
+          <Column id="TOS_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_SUB_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_SUB_DATA_TITLE" type="STRING" size="256"/>
+          <Column id="TOS_DATA" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_input">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="FAM_ID" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="RES_NAME" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="CELLPHONE" type="STRING" size="256"/>
+          <Column id="ZIP_CODE" type="STRING" size="256"/>
+          <Column id="ADDR1" type="STRING" size="256"/>
+          <Column id="ADDR2" type="STRING" size="256"/>
+          <Column id="ADDR3" type="STRING" size="256"/>
+          <Column id="ADDR4" type="STRING" size="256"/>
+          <Column id="REF_SYS_FAM_ID" type="STRING" size="256"/>
+          <Column id="TOS_YN" type="STRING" size="256"/>
+          <Column id="NOTICE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUC001CT
+ * 화면명   	: 이용약관 개인정보취급방침 동의(팝업)
+ * 화면설명 	: 모바일 로그인시 이용약관 및 개인정보취급방침 
+				  동의를 요구하는 팝업이다.
+ * 작성일   	: 2021-09-02
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC001CT_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//obj.addEventHandler("onkeyup", this.fn_openDebugPopup, this);
+
+	// 배경을 투명하게 하기 위하여 childFrame의 배경을 없앤 cssclass적용
+	//this.getOwnerFrame().set_cssclass("mpop");
+	
+	// 업데이트를 위해 gv_curWinKey에 화면아이디 세팅
+	nexacro.getApplication().gv_curWinKey = "NUC001CT";
+	
+	// 업데이트를 위한 데이터셋 복사
+	this.ds_input.copyData(nexacro.getApplication().gds_mUserInfo);
+	
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 이용약관 및 개인정보취급방침 내용 조회
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_list=output1";
+	let argument = "method=getList ";
+		argument += "sqlId=NUC001CT.NUC001CT_DS_LIST_S ";
+		argument += "COMPANY_CD=" + nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD") + " "; 
+		
+	const callbackFunc = "fn_callback";
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+// 동의하기
+this.fn_update = function()
+{
+ 	const svcId = "update";
+	const inDs = "ds_input";
+	
+	this.fn_save_com(svcId, inDs);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.fn_drawData();
+			this.div_popMain.form.div_terms.form.resetScroll();
+		}
+		else if(strSvcID == "update")
+		{
+			nexacro.getApplication().av_loginFrame.set_formurl("MobileFrame::mAgreeSuccess.xfdl");
+			nexacro.getApplication().av_topFrame.form.sta_top.set_text("회원가입");
+			this.close();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 이용약관 및 개인정보취급방침 내용 그리기
+this.fn_drawData = function()
+{
+	const left = 20;
+	const right = 20;
+	let top = 150;
+	let height;
+	let gap;	// 간격
+	
+	for(let i = 0; i < this.ds_list.rowcount; i++)
+	{
+		let staId;		// static id
+		let text;		// 내용
+		let objSize;	// 내용 사이즈 구하기
+		let font;		// 폰트
+		let align;		// 정렬
+		let color;		// 색
+		
+		// 제목
+		staId = "sta_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_TITLE");
+		font = "normal bold 15pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font);
+		align = "center";
+		color = "#082c71";
+		gap = 10;
+		top = top + (i == 0 ? 0 : height) + (i == 0 ? 0 : gap);
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 부제목
+		staId = "sta_sub_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_SUB_TITLE");
+		font = "normal 500 12pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font);
+		align = "center";
+		color = "#7d7f97";
+		top = top + height + gap;
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 보조내용제목
+		staId = "sta_sub_data_title" + i;
+		text = this.ds_list.getColumn(i, "TOS_SUB_DATA_TITLE");
+		font = "normal bold 15pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font, 340, "char");
+		align = "left";
+		color = "#000000";
+		top = top + height + gap;
+		height = objSize.ny + gap;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+		
+		// 내용
+		staId = "sta_data" + i;
+		text = this.ds_list.getColumn(i, "TOS_DATA");
+		font = "normal 500 12pt/normal 'Noto Sans KR'";
+		objSize = nexacro.getTextSize(text, font, 340, "char");
+		align = "left";
+		color = "#000000";
+		top = top + height + gap;
+		height = objSize.ny;
+		this.fn_makeStatic(staId, text, left, top, height, right, font, align, color);
+	}
+};
+
+// 스태틱 생성
+this.fn_makeStatic = function(id, text, left, top, height, right, font, align, color)
+{
+	const objStatic = new Static();
+	objStatic.init(id, left, top, null, height, right, null);
+	objStatic.set_text(text);
+	objStatic.set_color(color);
+	objStatic.set_font(font);
+	objStatic.set_usedecorate(true);
+	objStatic.set_wordWrap("char");
+	objStatic.set_letterSpacing("-1px");
+	objStatic.set_verticalAlign("top");
+	objStatic.set_textAlign(align);
+	
+	this.div_popMain.form.div_terms.addChild(id, objStatic);
+	
+	objStatic.show();
+};
+
+// 동의하기 버튼 클릭
+this.btn_agree_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 업데이트를 위한 데이터셋 상태 바꾸기
+	this.ds_input.set_updatecontrol(false);
+	this.ds_input.setRowType(this.ds_input.rowposition, Dataset.ROWTYPE_UPDATE);
+	this.ds_input.set_updatecontrol(true);
+	this.fn_update();
+};
+
+// 취소
+this.imv_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.getApplication().av_loginFrame.set_formurl("MobileFrame::mAgreeFail.xfdl");
+	nexacro.getApplication().av_topFrame.form.sta_top.set_text("회원가입");
+	this.close();
+};
+
+
+this.NUC001CT_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_loginFrame.set_formurl("MobileFrame::mAgreeFail.xfdl");
+		nexacro.getApplication().av_topFrame.form.sta_top.set_text("회원가입");
+		this.close();
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00208_P01                                                         
+     * 프로그램 명     	: 보호자동행                                                   
+     * Description 	: 보호자 조회
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-16 17:00        	|  성재영		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00208_P01_DS_GUARD_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00208_P01">
+	<!-- 조회 -->
+    <select id="DAY00208_P01_DS_GUARD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-8 P01 조회 */
+		SELECT 
+			 sicode
+		     , m_code
+		     , m_name
+		     , m_group
+		     , m_grade
+		     , 등급
+		     , 성별
+		     , m_conname
+		     , m_conrele
+		     , m_contel11
+		     , m_contel12
+		     , m_name1
+		     , m_connect1
+		     , m_phone11
+		     , m_phone12
+		     , m_name2
+		     , m_connect2
+		     , m_phone21
+		     , m_phone22
+		 FROM base_mate
+		 WHERE sicode = #{SICODE}
+		 AND m_code = #{M_CODE}
+    </select>
+</mapper>                                                                                                                                                                                                          

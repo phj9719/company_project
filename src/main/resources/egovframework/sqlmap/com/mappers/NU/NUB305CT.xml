@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB305CT                                                         
+     * 프로그램 명     	: 요양/관찰일지                                                     
+     * Description 	: 태블릿 입소자별 요양/관찰일지 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-11-18 10:10        		|  이승규       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB305CT">
+	<!-- 검색 -->
+	<select id="NUB305CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 태블릿 요양/관찰일지 검색 : NUB305CT_DS_LIST_S */
+		SELECT
+				NO.COMPANY_CD
+			,	NO.OBS_SEQ
+			,	NO.RES_ID
+			,	NR.NAME
+			,	NR.AREA
+			,	NR.LOCATION
+			,	NO.OBS_DT
+			,	NO.NOTE
+			,	NO.REMARK
+			,	NO.MANAGER_ID
+			,	NO.REG_PGM_ID
+			,	NO.REG_USER
+			,	NO.REG_DT
+			,	NO.REG_DT_CURR
+			,	NO.REG_DT_LOC
+			,	NO.REG_IP
+			,	NO.MOD_PGM_ID
+			,	NO.MOD_USER
+			,	NO.MOD_DT
+			,	NO.MOD_DT_CURR
+			,	NO.MOD_DT_LOC
+			,	NO.MOD_IP
+		FROM
+				T_NU_OBSERVE NO
+			,	T_NU_RESIDENT NR
+		WHERE
+				NO.COMPANY_CD = NR.COMPANY_CD
+		AND		NO.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+		AND		NO.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+		AND		NO.OBS_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+		AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+		AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+		AND		NO.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	
+	<!-- 삽입 -->
+	<insert id="NUB305CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* 태블릿 요양/관찰일지 삽입 : NUB305CT_DS_LIST_I */
+		INSERT INTO
+			T_NU_OBSERVE
+		(
+				COMPANY_CD
+			,	OBS_SEQ
+			,	RES_ID
+			,	OBS_DT
+			,	NOTE
+			,	REMARK
+			,	MANAGER_ID
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_OBSERVE ),12,0)))
+			,	#{RES_ID}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{NOTE}
+			,	#{REMARK}
+			,	#{MANAGER_ID}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="NUB305CT_DS_LIST_U" parameterType="java.util.HashMap">
+		UPDATE
+			T_NU_OBSERVE
+		SET
+				NOTE = #{NOTE}
+			,	REMARK = #{REMARK}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		OBS_SEQ = #{OBS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="NUB305CT_DS_LIST_D" parameterType="java.util.HashMap">
+	/* 태블릿 요양/관찰일지 삭제 : NUB305CT_DS_LIST_D */
+		DELETE FROM
+			T_NU_OBSERVE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		OBS_SEQ = #{OBS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+</mapper>                                                                                                                                                                                                          

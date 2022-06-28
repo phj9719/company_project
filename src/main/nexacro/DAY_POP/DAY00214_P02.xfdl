@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00214_P02" width="1000" height="700" titletext="월간 감염예방일지" onload="form_onload" onclose="DAY00214_P02_onclose">
+    <Layouts>
+      <Layout width="1000" height="700">
+        <Div id="div_func" taborder="0" left="0" top="0" height="35" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_subTitle" taborder="0" text="감염예방일지" left="20" top="9" width="230" height="26" cssclass="lb01"/>
+              <Static id="sta_예방일자" taborder="1" text="예방기간" left="675" top="11" width="55" height="25"/>
+              <Calendar id="cal_예방일" taborder="2" left="733" width="110" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" top="9"/>
+              <Static id="sta_00" taborder="3" text="~" left="846" top="11" width="10" height="25" textAlign="center"/>
+              <Calendar id="cal_예방일00" taborder="4" left="863" width="110" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" top="9"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="10" top="40" bottom="10" text="" right="10">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_main" taborder="1" left="10" top="0" background="#ffffff" border="1px solid #e2e2e2" text="" cssclass="chk_s1" bottom="5" right="10">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="1" left="0" top="0" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" bottom="0" right="0" onexpandup="div_cont_div_main_grd_list_onexpandup" autofittype="col">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="100"/>
+                            <Column size="40"/>
+                            <Column size="299"/>
+                            <Column size="299"/>
+                            <Column size="80"/>
+                            <Column size="60"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="40"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="예방일"/>
+                            <Cell col="1" text="요일"/>
+                            <Cell col="2" text="환기시행"/>
+                            <Cell col="3" text="방역여부"/>
+                            <Cell col="4" text="관리자"/>
+                            <Cell col="5" text="조회"/>
+                            <Cell col="6" text="기록"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:예방일" displaytype="date" expandchar="dot"/>
+                            <Cell col="1" text="bind:예방요일"/>
+                            <Cell col="2" text="bind:환기시행" displaytype="textareacontrol" edittype="readonly" textareaacceptsenter="true" textareascrolltype="vertical" textareascrollbartype="default"/>
+                            <Cell col="3" text="bind:방역여부" wordWrap="char" textAlign="left" displaytype="textareacontrol" edittype="readonly"/>
+                            <Cell col="4" text="bind:예방자명" textAlign="left"/>
+                            <Cell col="5" expandshow="show" expandsize="60" expandimage="url('theme://images/ico_search.png')" cursor="pointer"/>
+                            <Cell col="6" text="bind:예방번호"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="예방번호" type="STRING" size="256"/>
+          <Column id="예방일" type="DATE" size="256"/>
+          <Column id="wd" type="STRING" size="256"/>
+          <Column id="예방요일" type="STRING" size="256"/>
+          <Column id="환기시행" type="STRING" size="256"/>
+          <Column id="방역여부" type="STRING" size="256"/>
+          <Column id="미비사항1" type="STRING" size="256"/>
+          <Column id="조치사항1" type="STRING" size="200"/>
+          <Column id="조치여부1" type="STRING" size="256"/>
+          <Column id="미비사항2" type="STRING" size="256"/>
+          <Column id="조치사항2" type="STRING" size="256"/>
+          <Column id="조치여부2" type="STRING" size="256"/>
+          <Column id="예방자명" type="STRING" size="256"/>
+          <Column id="예방직종" type="STRING" size="256"/>
+          <Column id="예방코드" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date_from" type="DATE" size="256"/>
+          <Column id="date_to" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00214_P01
+ * 화면명   	: 월별 감염예방일지
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-24
+ * 작성자   	: 이동관
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_main.form.grd_list;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00214_P02";
+	
+	// 그리드 세팅
+	this.initCssGrid(this.div_cont.form.div_main.form.grd_list);
+	
+	this.fv_sicode = this.parent.SICODE;
+	this.fv_date_from = this.parent.DATE_FROM;
+	this.fv_date_to = this.parent.DATE_TO;
+	
+	this.ds_search.setColumn(0, "sicode", this.fv_sicode);		
+	this.ds_search.setColumn(0, "date_from", this.fv_date_from);
+	this.ds_search.setColumn(0, "date_to", this.fv_date_to);
+	
+	this.fn_search();
+};
+
+//그리드 head 버튼, body 토요일 파란색 일요일 빨간색
+this.initCssGrid = function(grid){
+
+	const monIdx = grid.getBindCellIndex("body", "예방일");
+	const monIdx2 = grid.getBindCellIndex("body", "예방요일");
+	const monCss = "expr:dataset.getColumn(currow, 'wd') == '6' ? 'BlueFontCell' : "
+				 + "dataset.getColumn(currow, 'wd') == '0' ? 'RedFontCell' : ''";
+	
+	grid.setCellProperty("body", monIdx, "cssclass", monCss);
+	grid.setCellProperty("body", monIdx2, "cssclass", monCss);
+};	
+	
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00214_P02.DAY00214_P02_DS_LIST_S' ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "record" :
+			if (objDs.getColumn(0, "REFRESH") == "Y"){
+				this.fn_search();
+			}	
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+this.div_cont_div_main_grd_list_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	const param = {
+			SICODE : this.fv_sicode
+		,	DATE : this.ds_list.getColumn(this.ds_list.rowposition, "예방일")
+	};
+	Sct.popup(this, "record", 450, 400, "", param, "DAY_POP::DAY00214_P01.xfdl", "fn_popCallback");
+};
+
+this.DAY00214_P02_onclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addColumn("REFRESH", "STRING");
+	var nRow = this.ds_return.addRow();
+	this.ds_return.setColumn(nRow, "REFRESH", "Y");
+		
+	this.close(this.ds_return.saveXML());
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_func.form.cal_예방일" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item1" compid="div_func.form.cal_예방일00" propid="value" datasetid="ds_search" columnid="date_to"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00702_P04" width="1222" height="770" titletext="주간식단 불러오기" onload="form_onload">
+    <Layouts>
+      <Layout width="1222" height="770">
+        <Div id="div_func" taborder="0" left="0" top="0" height="40" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_refresh" taborder="0" text="조회" left="180" top="7" width="70" height="26" onclick="btn_refresh_onclick"/>
+              <Static id="sta_00" taborder="1" text="기준일" left="7" top="7" width="48" height="26" textAlign="center"/>
+              <Button id="btn_call" taborder="2" text="주간 식단 적용하기" left="255" top="7" width="146" height="26" onclick="div_func_btn_call_onclick"/>
+              <Calendar id="cal_date_pic" taborder="3" left="150" top="7" width="25" height="26" onchanged="div_func_cal_date_from_pic_onchanged"/>
+              <Calendar id="cal_date" taborder="4" left="61" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" onchanged="div_func_cal_date_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_conf" taborder="1" left="10" top="40" background="#ffffff" border="1px solid black" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_main" taborder="1" left="20" top="0" right="20" bottom="10" text="">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_head" taborder="0" left="0" top="39" width="107" height="655" autofittype="col" cellclickbound="cell" enableevent="false" enable="false">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="70"/>
+                            <Column size="35"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                            <Row size="21" band="head"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="구분" background="#ffffff" border="1px solid #cccccc,1px solid #cccccc,1px solid #696969"/>
+                            <Cell col="1" text="행" background="#ffffff" border="1px solid #cccccc,1px solid #cccccc,1px solid #696969"/>
+                            <Cell row="1" rowspan="6" text="아침식단" background="#ffffff"/>
+                            <Cell row="1" col="1" text="1" background="#ffffff"/>
+                            <Cell row="2" col="1" text="2" background="#ffffff"/>
+                            <Cell row="3" col="1" text="3" background="#ffffff"/>
+                            <Cell row="4" col="1" text="4" background="#ffffff"/>
+                            <Cell row="5" col="1" text="5" background="#ffffff"/>
+                            <Cell row="6" col="1" text="6" background="#ffffff"/>
+                            <Cell row="7" rowspan="6" text="점심식단" background="#e6e6fa"/>
+                            <Cell row="7" col="1" text="1" background="#e6e6fa"/>
+                            <Cell row="8" col="1" text="2" background="#e6e6fa"/>
+                            <Cell row="9" col="1" text="3" background="#e6e6fa"/>
+                            <Cell row="10" col="1" text="4" background="#e6e6fa"/>
+                            <Cell row="11" col="1" text="5" background="#e6e6fa"/>
+                            <Cell row="12" col="1" text="6" background="#e6e6fa"/>
+                            <Cell row="13" rowspan="6" text="저녁식단" background="#ffffff"/>
+                            <Cell row="13" col="1" text="1" background="#ffffff"/>
+                            <Cell row="14" col="1" text="2" background="#ffffff"/>
+                            <Cell row="15" col="1" text="3" background="#ffffff"/>
+                            <Cell row="16" col="1" text="4" background="#ffffff"/>
+                            <Cell row="17" col="1" text="5" background="#ffffff"/>
+                            <Cell row="18" col="1" text="6" background="#ffffff"/>
+                            <Cell row="19" rowspan="3" text="오전간식" background="#e6e6fa"/>
+                            <Cell row="19" col="1" text="1" background="#e6e6fa"/>
+                            <Cell row="20" col="1" text="2" background="#e6e6fa"/>
+                            <Cell row="21" col="1" text="3" background="#e6e6fa"/>
+                            <Cell row="22" rowspan="3" text="오후간식" background="#ffffff"/>
+                            <Cell row="22" col="1" text="1" background="#ffffff"/>
+                            <Cell row="23" col="1" text="2" background="#ffffff"/>
+                            <Cell row="24" col="1" text="3" background="#ffffff"/>
+                            <Cell row="25" rowspan="3" text="기능식이" background="#e6e6fa"/>
+                            <Cell row="25" col="1" text="1" background="#e6e6fa"/>
+                            <Cell row="26" col="1" text="2" background="#e6e6fa"/>
+                            <Cell row="27" col="1" text="3" background="#e6e6fa"/>
+                            <Cell row="28" text="당뇨" background="#ffffff"/>
+                            <Cell row="28" col="1" text="1" background="#ffffff"/>
+                            <Cell row="29" text="유동" background="#ffffff"/>
+                            <Cell row="29" col="1" text="1" background="#ffffff"/>
+                            <Cell row="30" text="저염" background="#ffffff"/>
+                            <Cell row="30" col="1" text="1" background="#ffffff"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Grid id="grd_list" taborder="2" left="106" top="60" autoenter="select" binddataset="ds_list" width="1053" autofittype="col" height="634">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="21"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:DAY1"/>
+                            <Cell col="1" text="bind:DAY2"/>
+                            <Cell col="2" text="bind:DAY3"/>
+                            <Cell col="3" text="bind:DAY4"/>
+                            <Cell col="4" text="bind:DAY5"/>
+                            <Cell col="5" text="bind:DAY6"/>
+                            <Cell col="6" text="bind:DAY7"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta_date" taborder="3" text="주간식단일" left="0" top="7" width="68" height="26" textAlign="center"/>
+                    <Calendar id="cal_date_from" taborder="4" left="77" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0"/>
+                    <Calendar id="cal_date_to" taborder="5" left="183" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0"/>
+                    <Static id="sta_00" taborder="6" text="~" left="170" top="12" width="8" height="17" textAlign="center"/>
+                    <Static id="sta_diet" taborder="7" text="식단제공처" left="290" top="7" width="68" height="26" textAlign="center"/>
+                    <Edit id="edt_diet" taborder="8" left="370" top="7" width="150" height="26" enable="false"/>
+                    <Static id="sta_subTitle" taborder="9" text="주간식단표" left="575" top="7" width="117" height="26" cssclass="lb01"/>
+                    <Grid id="grd_week" taborder="1" left="106" top="39" width="1053" height="24" binddataset="ds_week" enableevent="false" enable="false">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                            <Column size="150"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="21"/>
+                          </Rows>
+                          <Band id="body">
+                            <Cell text="bind:SUN" color="red"/>
+                            <Cell col="1" text="bind:MON"/>
+                            <Cell col="2" text="bind:TUE"/>
+                            <Cell col="3" text="bind:WED"/>
+                            <Cell col="4" text="bind:THU"/>
+                            <Cell col="5" text="bind:FRI"/>
+                            <Cell col="6" text="bind:SAT"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="rnum" type="STRING" size="256"/>
+          <Column id="color" type="STRING" size="256"/>
+          <Column id="식단제공" type="STRING" size="256"/>
+          <Column id="DAY1" type="STRING" size="256"/>
+          <Column id="DAY2" type="STRING" size="256"/>
+          <Column id="DAY3" type="STRING" size="256"/>
+          <Column id="DAY4" type="STRING" size="256"/>
+          <Column id="DAY5" type="STRING" size="256"/>
+          <Column id="DAY6" type="STRING" size="256"/>
+          <Column id="DAY7" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_week">
+        <ColumnInfo>
+          <Column id="SUN" type="STRING" size="256"/>
+          <Column id="MON" type="STRING" size="256"/>
+          <Column id="TUE" type="STRING" size="256"/>
+          <Column id="WED" type="STRING" size="256"/>
+          <Column id="THU" type="STRING" size="256"/>
+          <Column id="FRI" type="STRING" size="256"/>
+          <Column id="SAT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00702_P04
+ * 화면명   	: 주간식단 간편입력
+ * 화면설명 	: 주간식단 간편입력
+ * 작성일   	: 2022-03-31
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+const fv_date = this.parent.DATE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00702_P04";
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);	
+	this.ds_search.setColumn(0, "DATE", fv_date);
+	
+	this.fn_search();
+};
+
+// 그리드 css 적용
+this.initGrid = function(grid)
+{	
+	// 점심식단, 오전간식, 기능식이 background - ligtblue
+	
+	const monArr = ["DAY1", "DAY2", "DAY3", "DAY4", "DAY5", "DAY6", "DAY7"];
+	for (let i = 0; i < monArr.length; i++)
+	{
+		const monIdx = grid.getBindCellIndex("body", monArr[i]);
+		const monCss = "expr:dataset.getColumn(currow, 'color') == '1' ? 'liteBlue' : ''";
+					 
+		grid.setCellProperty("body", monIdx, "cssclass", monCss);
+	}
+	
+	// #e6e6fa
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+// 	if (this.ds_list.rowcount == 0)
+// 	{
+// 		this.alert("저장할 항목이 없습니다.");
+// 		return false;
+// 	}
+	// 저장전 ds_data에 데이터 담기
+	//this.ds_data.clear();
+// 	this.ds_data.clearData();
+// 	for(var i=1; i<=10; i++){
+// 		var aRow = this.ds_data.addRow();
+// 		this.ds_data.copyRow(aRow, this.all["ds_temp"+i], 0); 
+// 
+// 		if(this.ds_datalist.getColumn(i-1,"temp_id") == this.ds_data.getColumn(i-1,"temp_id")){
+// 			this.ds_data.set_updatecontrol(false);
+// 			this.ds_data.setRowType(i-1, Dataset.ROWTYPE_UPDATE);
+// 			this.ds_data.set_updatecontrol(true);
+// 		}
+// 	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{	
+	// 템플릿, 그리드 데이터 조회
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search ";
+	const outDatasets = "ds_list=output1 ds_week=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00702_P04.DAY00702_P04_DS_LIST_S DAY00702_P04.DAY00702_P04_DS_WEEK_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const inDs = "ds_data";
+	
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 주간식단일 시작일, 종료일, 식사제공 세팅
+			var sday = this.ds_week.getColumn(0, "SUN");
+			var eday = this.ds_week.getColumn(0, "SAT");
+						
+			this.div_conf.form.div_main.form.cal_date_from.set_value(sday);
+			this.div_conf.form.div_main.form.cal_date_to.set_value(eday);
+			this.div_conf.form.div_main.form.edt_diet.set_value(this.ds_list.getColumn(0,"식단제공"));			
+			this.ds_list.set_rowposition(-1);
+			
+			// 그리드 css 적용
+			this.initGrid(this.div_conf.form.div_main.form.grd_list);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("");
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+/**
+ * DB입력용 String 만들기
+ * 
+ * @param cRow 바꿀 문자 index
+ * @param str1 원본 문자열
+ * @param col 데이터셋 컬럼명
+ * @param value 바꿀 문자값
+ * @param offset 문자 간격
+ * @ds dataset 데이터셋
+ */
+this.fn_valueSet = function(cRow, str1, col, value, offset, ds)
+{
+	let index;
+	if(offset == null || offset == 0)
+	{
+		str1 = this.stringReplaceAt(str1, value, cRow);
+		ds.setColumn(0, col, str1);
+	}
+	else
+	{
+		index = cRow * offset;
+		str1 = this.stringReplaceAt(str1, value, index);
+		ds.setColumn(0, col, str1);
+	}
+};
+
+/*
+this.fn_setData = function(ds, row) 
+{
+	this.ds_return.copyData(ds);
+	this.ds_return.clearData();
+	
+	this.ds_return.addRow();
+	this.ds_return.copyRow(0, ds, row);
+
+	this.close(this.ds_return.saveXML());
+};
+*/
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 저장 버튼
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+// 새로고침, 조회 기능
+this.btn_refresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.ds_search.clearData(); // 검색창 클리어
+	this.ds_search.setColumn(0, "GUBUN", "");
+	this.ds_search.setColumn(0, "NAME", "");
+	this.fn_search();
+};
+
+// 캘린더 변경 이벤트
+this.div_func_cal_date_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.ds_search.setColumn(0,"DATE",e.postvalue);
+	//조회
+	this.fn_search();
+};
+
+// 주간식단 적용하기 이벤트
+this.div_func_btn_call_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+ 	this.ds_return.clearData();
+	this.ds_return.copyData(this.ds_list);
+	
+ 	this.close(this.ds_return.saveXML());
+	
+// 	this.ds_return.clearData();
+// 	this.ds_return.addColumn("DEL", "STRING");
+// 	const nRow = this.ds_return.addRow();
+// 	this.ds_return.setColumn(nRow, "DEL", 1);
+// 	
+// 	this.close(this.ds_return.saveXML());
+};
+
+// 캘린더 변경 이벤트
+this.div_func_cal_date_from_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.ds_search.setColumn(0,"DATE",e.postvalue);
+	//조회
+	this.fn_search();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_search.form.cal_date_from_pic" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item0" compid="div_func.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_func.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+    </Bind>
+  </Form>
+</FDL>

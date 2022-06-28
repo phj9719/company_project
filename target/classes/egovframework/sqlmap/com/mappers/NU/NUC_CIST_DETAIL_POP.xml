@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC_CIST_DETAIL_POP                                                         
+     * 프로그램 명     	: CIST 그리드 상세결과 팝업                                                 
+     * Description 	: 모바일에서 입소자의 CIST검사 결과그리드에서 상세를 누를경우 팝업에 상세결과 조회 
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-10 10:24     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================
+        NUC_CIST_DETAIL_DS_CIST_S				상세 결과 조회                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC_CIST_DETAIL_POP">
+	<!-- 마지막 검사 정보 조회 -->
+	<select id="NUC_CIST_DETAIL_POP_DS_CIST_S" parameterType="HashMap" resultType="HashMap">
+	/* NUC_CIST_DETAIL_POP_DS_CIST_S */
+		SELECT
+				NC.COMPANY_CD
+			,	NC.RES_ID
+			,	NC.CIS_DT
+			,	CONCAT(
+						NC.PT1
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '10'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT1_VAL
+			,	CONCAT(
+						NC.PT2
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '20'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT2_VAL
+			,	CONCAT(
+						NC.PT3
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '30'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT3_VAL
+			,	CONCAT(
+						NC.PT4
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '40'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT4_VAL
+			,	CONCAT(
+						NC.PT5
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '50'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT5_VAL
+			,	CONCAT(
+						NC.PT6
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '60'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT6_VAL
+			,	CONCAT(
+						NC.PT7
+					,	'/'
+					,	(SELECT CC.STR1
+						 FROM T_CM_CODE CC
+						 WHERE CC.GRP_CD = 'NU_CIST_PT'
+						 AND CC.COMPANY_CD = NC.COMPANY_CD
+						 AND CC.CMCD = '70'
+						 AND CC.USEYN = 'Y'
+						)
+				) AS PT7_VAL
+			,	(SELECT CC.CMNM
+				 FROM T_CM_CODE CC
+				 WHERE CC.GRP_CD = 'NU_CIST_GRADE'
+				 AND CC.COMPANY_CD = NC.COMPANY_CD
+				 AND CC.CMCD = NC.CIS_GRADE
+				) AS CIS_GRADE_VAL
+		FROM 	T_NU_CIST NC
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		CIS_DT = #{CIS_DT}
+	</select>                                                                                                                                                                           
+</mapper>                                                                                                                                                                                                          

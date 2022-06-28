@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00601" width="1920" height="800" titletext="6-1 프로그램 의견수렴현황 화면설계서" onload="form_onload">
+    <Layouts>
+      <Layout height="800" mobileorientation="landscape" width="1920">
+        <Div id="div_cont" taborder="1" left="0" top="48" width="1881" height="750" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_01" taborder="2" left="11" top="1" width="1852" height="37" border="1px solid darkgray"/>
+              <Div id="div_grid" taborder="0" left="0" top="29" width="1874" height="721" text="">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_00" taborder="0" left="11" top="9" width="1852" height="708" autofittype="col" autoenter="select" binddataset="ds_list" oncellclick="div_cont_div_grid_grd_00_oncellclick" scrolltype="both" selecttype="row">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="13"/>
+                            <Column size="20"/>
+                            <Column size="64"/>
+                            <Column size="56"/>
+                            <Column size="53"/>
+                            <Column size="599"/>
+                            <Column size="424"/>
+                            <Column size="50"/>
+                            <Column size="57"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="61"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell colspan="2" checkboxfalsevalue="0" checkboxtruevalue="1" displaytype="checkboxcontrol" edittype="checkbox">
+                              <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                              <Cell col="1" text="출력"/>
+                            </Cell>
+                            <Cell col="2" text="의견수렴일"/>
+                            <Cell col="3" text="수급자명"/>
+                            <Cell col="4" text="영역구분"/>
+                            <Cell col="5" text="의견수렴"/>
+                            <Cell col="6" text="반영내용"/>
+                            <Cell col="7" text="작성자명"/>
+                            <Cell col="8" text="조회"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell colspan="2" displaytype="checkboxcontrol" edittype="none" checkboxfalsevalue="0" checkboxtruevalue="1" text="bind:chk" textAlign="left" cursor="pointer"/>
+                            <Cell col="2" displaytype="mask" text="bind:수렴일" calendardateformat="yyyy.MM.dd" calendareditformat="yyyy-MM-dd" cssclass="essential" maskeditformat="####.##.##" maskedittype="string" maskeditmaskchar=" "/>
+                            <Cell col="3" displaytype="text" text="bind:수급자명" textAlign="left"/>
+                            <Cell col="4" displaytype="text" text="bind:영역구분명"/>
+                            <Cell col="5" displaytype="textareacontrol" textareascrolltype="vertical" textareamaxlength="500" text="bind:수렴내용" verticalAlign="top" textAlign="left" textareascrollbartype="auto fixed" autosizerow="default" controlautosizingtype="both" edittype="readonly"/>
+                            <Cell col="6" displaytype="textareacontrol" textareascrolltype="vertical" textareamaxlength="200" text="bind:반영내용" verticalAlign="top" textAlign="left" edittype="readonly" textareascrollbartype="auto fixed"/>
+                            <Cell col="7" displaytype="text" text="bind:작성자명" textAlign="left"/>
+                            <Cell col="8" displaytype="buttoncontrol" edittype="button" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="92" autosizecol="limitmax"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="sta_00" taborder="1" text=" 건강개선프로그램 의견수렴" left="832" top="7" width="225" height="27" cssclass="lb01"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="90" text="" width="530">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="0" text="조회" top="12" height="26" onclick="fn_searchBtn" cssclass="btn_search" width="70" right="100"/>
+              <Combo id="cmb_year" taborder="1" left="10" top="12" width="90" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Calendar id="cal_date_from" taborder="2" left="112" top="12" width="110" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_to" taborder="3" left="240" top="12" width="110" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+              <Static id="sta_00" taborder="4" text="~" left="226" top="12" width="10" height="25" textAlign="center"/>
+              <Static id="sta_search" taborder="5" text="수급자 검색 :" left="11" top="57" width="89" height="27"/>
+              <Edit id="edt_00" taborder="6" left="112" top="55" width="110" height="27" oneditclick="div_search_edt_00_oneditclick"/>
+              <Button id="btn_01" taborder="7" text="1분기" left="240" top="55" width="55" height="27" onclick="div_search_btn_01_onclick" background="orchid"/>
+              <Button id="btn_02" taborder="8" text="2분기" left="298" top="55" width="55" height="27" onclick="div_search_btn_02_onclick" background="orchid"/>
+              <Button id="btn_03" taborder="9" text="3분기" left="356" top="55" width="55" height="27" onclick="div_search_btn_03_onclick" background="orchid"/>
+              <Button id="btn_04" taborder="10" text="4분기" left="413" top="55" width="55" height="27" onclick="div_search_btn_04_onclick" background="orchid"/>
+              <Button id="btn_00" taborder="11" text="1년" left="470" top="55" width="55" height="27" onclick="div_search_btn_00_onclick" background="orchid"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="433" top="0" width="1435" height="44">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report" taborder="0" text="의견수렴 리스트" left="101" top="12" width="141" height="27" cssclass="btn_print" onclick="div_func_btn_report_onclick"/>
+              <Button id="btn_new" taborder="1" text="새로작성" left="4" top="12" width="88" height="27" cssclass="btn_newdoc" onclick="div_func_btn_new_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_year" propid="value" datasetid="ds_search" columnid="year"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="date_to"/>
+      <BindItem id="item3" compid="div_search.form.edt_00" propid="value" datasetid="ds_search" columnid="name"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="year" type="STRING" size="256"/>
+          <Column id="date_from" type="DATE" size="256"/>
+          <Column id="date_to" type="DATE" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="chk" type="STRING" size="256"/>
+          <Column id="기록번호" type="STRING" size="256"/>
+          <Column id="수렴일" type="DATE" size="256"/>
+          <Column id="수급코드" type="STRING" size="256"/>
+          <Column id="수급자명" type="STRING" size="256"/>
+          <Column id="영역구분" type="STRING" size="256"/>
+          <Column id="영역구분명" type="STRING" size="256"/>
+          <Column id="수렴내용" type="STRING" size="256"/>
+          <Column id="반영내용" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00601
+ * 화면명   	: 6-1 프로그램 의견수렴현황
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-23
+ * 작성자   	: 성재영
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.getApplication().gds_userInfo.getColumn(0, "c_name").trim();
+this.fv_staff_dutyname = nexacro.getApplication().gds_userInfo.getColumn(0, "c_dutyname");
+this.bpNum = "";
+this.value = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const thisYear = date.getFullYear();
+	
+ 	// 년도 콤보박스 세팅 
+ 	this.ds_year.clearData();
+  	let nRow;
+ 		for (let i = 10; i > 0; i--) {
+ 			nRow = this.ds_year.addRow();
+ 			this.ds_year.setColumn(nRow, "CMCD", thisYear - i);
+  		this.ds_year.setColumn(nRow, "CMNM", (thisYear - i) + "년");
+ 		}
+  	for (let i = 0; i < 11; i++) {
+  		nRow = this.ds_year.addRow();
+  		this.ds_year.setColumn(nRow, "CMCD", thisYear + i);
+  		this.ds_year.setColumn(nRow, "CMNM", (thisYear + i) + "년");
+  	}
+
+ 	this.ds_search.setColumn(0, "sicode", this.fv_sicode);
+ 	this.ds_search.setColumn(0, "year", thisYear);
+	this.ds_search.setColumn(0, "date_from", thisYear + "0101");
+	this.ds_search.setColumn(0, "date_to", thisYear +"1231");
+	this.ds_search.setColumn(0, "name", "");
+	
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00601.DAY00601_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+// 조회버튼 클릭
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{	
+			this.value = "새로작성 버튼 활성화";
+			this.ds_list.set_rowposition(-1);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 수급자 검색창 클릭
+this.div_search_edt_00_oneditclick = function(obj:nexacro.Edit,e:nexacro.EditClickEventInfo)
+{
+	this.ds_search.setColumn(0 ,"name", "");
+};
+// 1분기
+this.div_search_btn_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let year = this.div_search.form.cmb_year.value;
+	this.ds_search.setColumn(0, "date_from", year + "0101");
+	this.ds_search.setColumn(0, "date_to", year + "0331");
+	
+	this.fn_search();
+};
+// 2분기
+this.div_search_btn_02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let year = this.div_search.form.cmb_year.value;
+	this.ds_search.setColumn(0, "date_from", year + "0401");
+	this.ds_search.setColumn(0, "date_to", year + "0630");
+	
+	this.fn_search();
+};
+// 3분기
+this.div_search_btn_03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let year = this.div_search.form.cmb_year.value;
+	this.ds_search.setColumn(0, "date_from", year + "0701");
+	this.ds_search.setColumn(0, "date_to", year + "0931");
+	
+	this.fn_search();
+};
+// 4분기
+this.div_search_btn_04_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let year = this.div_search.form.cmb_year.value;
+	this.ds_search.setColumn(0, "date_from", year + "1001");
+	this.ds_search.setColumn(0, "date_to", year + "1231");
+	
+	this.fn_search();
+};
+// 1년
+this.div_search_btn_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let year = this.div_search.form.cmb_year.value;
+	this.ds_search.setColumn(0, "date_from", year + "0101");
+	this.ds_search.setColumn(0, "date_to", year + "1231");
+	
+	this.fn_search();
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 그리드 셀 클릭(체크, 팝업)
+this.div_cont_div_grid_grd_00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (e.col == 0) {
+		if (this.ds_list.getColumn(e.row, "chk") != 1) {
+			this.ds_list.setColumn(e.row, "chk", 1);
+		} else {
+			this.ds_list.setColumn(e.row, "chk", 0);
+		}
+	}
+	
+	if (e.col == 8) {	
+	const param = {
+			SICODE : this.ds_list.getColumn(e.row, "sicode")
+		,	BPNUM : this.ds_list.getColumn(e.row, "기록번호")
+	};
+	Sct.popup(this, "popup", 450, 400, "", param, "DAY_POP::DAY00601_P01.xfdl", "fn_popCallback");
+	}
+};
+// 새로작성 버튼 클릭 팝업
+this.div_func_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (Sct.Util.isEmpty(this.value)) return;
+	
+	const param = {
+			SICODE : this.fv_sicode
+		,	BPNUM : ""
+	};
+	Sct.popup(this, "popup", 450, 400, "", param, "DAY_POP::DAY00601_P01.xfdl", "fn_popCallback");
+	
+};
+// 리포트 버튼 클릭
+this.div_func_btn_report_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	for (let i = 0; i < this.ds_list.getRowCount(); i++) {
+		if(this.ds_list.getColumn(i, "chk") == 1) {
+			this.bpNum += this.ds_list.getColumn(i, "기록번호") + ",";
+		}
+	}
+	let number = this.bpNum.substr(0, this.bpNum.length-1);
+
+	if (Sct.Util.isEmpty(number)) return;
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00601_R01.xfdl";
+	const popupName = "의견수렴 리스트";
+	
+	params = {
+		SICODE : this.fv_sicode
+	,	BPNUM : number
+	,	DATE_FROM : this.ds_search.getColumn(0, "date_from")
+	,	DATE_TO : this.ds_search.getColumn(0, "date_to")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+	
+	this.bpNum = "";
+};
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "popup" :
+				this.fn_search();
+			break;
+	}
+}]]></Script>
+  </Form>
+</FDL>

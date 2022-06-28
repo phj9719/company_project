@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00401_P02" width="775" height="540" titletext="미이용 수정" onload="form_onload">
+    <Layouts>
+      <Layout width="775" height="540">
+        <Div id="div_main" taborder="1" left="10" top="35" text="" background="#ffffff" border="1px solid black" width="755" height="495">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Static id="sta_subTitle" taborder="11" text="미이용일 지정" left="11" top="9" width="260" height="24" cssclass="lb01"/>
+              <Div id="div_line" taborder="12" left="10" top="40" height="2" background="#000000" right="10">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="sta_head1" taborder="13" text="미이용일" left="9" top="47" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_body1" taborder="14" left="91" top="47" width="651" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head2" taborder="15" left="9" top="80" width="245" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="시작시간"/>
+              <Static id="sta_body2" taborder="16" left="9" top="113" width="245" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_date_value" taborder="17" text="2022.04.07" left="99" top="55" width="119" height="19"/>
+              <Static id="sta_body5" taborder="18" left="9" top="146" width="733" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head5" taborder="19" left="9" top="248" width="245" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="미이용일 지정사유"/>
+              <Static id="sta_body6" taborder="20" left="253" top="248" width="488" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_head1_1" taborder="21" left="253" top="47" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="수급자명"/>
+              <Edit id="edt_start_hour" taborder="0" left="87" top="117" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" value="00" displaynulltext="00"/>
+              <Static id="sta_timeColon1" taborder="22" text=":" left="126" top="118" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_start_min" taborder="1" left="140" top="117" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분" value="00" displaynulltext="00"/>
+              <Static id="sta_sdriver_name" taborder="23" text="남" left="439" top="55" width="29" height="19"/>
+              <Static id="sta_mname" taborder="24" text="이동철" left="343" top="55" width="89" height="19"/>
+              <Static id="sta_mcode" taborder="25" text="20210004" left="483" top="55" width="79" height="19"/>
+              <Edit id="edt_why" taborder="9" left="268" top="253" width="459" height="25" maxlength="2000" cssclass="essential"/>
+              <Static id="sta_subTitle2" taborder="26" text="코로나-19 특례 적용시 표시" left="11" top="319" width="260" height="24" cssclass="lb01"/>
+              <Div id="div_line00" taborder="27" left="10" top="350" height="2" background="#000000" right="10">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="sta_head3" taborder="28" left="253" top="80" width="245" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="종료시간"/>
+              <Static id="sta_head4" taborder="29" left="497" top="80" width="245" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center" text="산정시간"/>
+              <Static id="sta_body3" taborder="30" left="253" top="113" width="245" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_body4" taborder="31" left="497" top="113" width="245" height="34" cssclass="sta_WF_DetailLabel02"/>
+              <Edit id="edt_end_hour" taborder="2" left="332" top="117" width="35" height="26" text="00" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간" value="00" displaynulltext="00"/>
+              <Static id="sta_timeColon1_00" taborder="32" text=":" left="370" top="118" width="10" height="25" textAlign="center"/>
+              <Edit id="edt_end_min" taborder="3" left="385" top="117" width="35" height="26" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분" value="00" displaynulltext="00"/>
+              <Static id="sta_00" taborder="33" text="▶ 평일기준 09:00 부터 17:00 까지 예정된 송영시간 입력 (일 최대 8시간)&#13;&#10;    수급자의 해당일 등급기준으로 일수가의 50% 산정&#13;&#10;    월기준 5일까지 지정할 수 있습니다." left="10" top="185" width="719" height="56"/>
+              <Div id="div_covid" taborder="10" left="11" top="365" right="11" height="125">
+                <Layouts>
+                  <Layout>
+                    <CheckBox id="chk_covid1" taborder="0" text="60%(본인부담금포함) 정원 30% 이하" left="0" top="0" width="300" height="20" onchanged="chk_covid_onchanged" falsevalue="0" truevalue="1"/>
+                    <CheckBox id="chk_covid2" taborder="1" text="50%(본인부담금제외) 정원 30% 초과" left="0" top="25" width="300" height="20" falsevalue="0" truevalue="2" onchanged="chk_covid_onchanged"/>
+                    <CheckBox id="chk_covid3" taborder="2" text="40%(본인부담금제외) 정원 30% 초과 50% 이하" left="0" top="50" width="300" height="20" falsevalue="0" truevalue="3" onchanged="chk_covid_onchanged"/>
+                    <CheckBox id="chk_covid4" taborder="3" text="20%(본인부담금제외) 정원 50% 초과 70% 이하" left="0" top="75" width="300" height="20" falsevalue="0" truevalue="4" onchanged="chk_covid_onchanged"/>
+                    <CheckBox id="chk_covid5" taborder="4" text="60%(본인부담금제외) 확진자·자가격리(21.07.01)" left="0" top="100" width="350" height="20" falsevalue="0" truevalue="5" onchanged="chk_covid_onchanged"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Button id="btn_3hour_under" taborder="5" text="3시간미만" left="148" top="151" width="110" height="25" onclick="btn_hour_onclick"/>
+              <Button id="btn_3hour_over" taborder="6" text="3시간이상" left="266" top="151" width="110" height="25" onclick="btn_hour_onclick"/>
+              <Button id="btn_6hour" taborder="7" text="6시간기준" left="384" top="151" width="110" height="25" onclick="btn_hour_onclick"/>
+              <Button id="btn_8hour" taborder="8" text="8시간기준" left="502" top="151" width="110" height="25" onclick="btn_hour_onclick"/>
+              <Edit id="edt_total_hour" taborder="4" left="580" top="118" width="78" height="25" readonly="true" cssclass="readonly" value="00:00" text="00:00" textAlign="center" displaynulltext="00:00"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="0" left="10" top="0" height="35" formscrollbartype="none" right="10">
+          <Layouts>
+            <Layout>
+              <Button id="btn_refresh" taborder="0" text="새로고침" left="0" top="5" width="90" height="25" cssclass="btn_refresh" onclick="div_func_btn_refresh_onclick"/>
+              <Button id="btn_save" taborder="2" text="저장" top="5" width="70" height="25" right="0" cssclass="btn_save" onclick="btn_save_onclick"/>
+              <Button id="btn_cancel" taborder="1" text="미이용 취소" top="5" width="90" height="25" right="75" onclick="div_func_btn_cancel_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="K_NUMBER" type="STRING" size="256"/>
+          <Column id="M_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="날짜" type="STRING" size="256"/>
+          <Column id="시작시간" type="STRING" size="256"/>
+          <Column id="시작시" type="STRING" size="256"/>
+          <Column id="시작분" type="STRING" size="256"/>
+          <Column id="종료시간" type="STRING" size="256"/>
+          <Column id="종료시" type="STRING" size="256"/>
+          <Column id="종료분" type="STRING" size="256"/>
+          <Column id="총시간" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+          <Column id="미이용" type="STRING" size="256"/>
+          <Column id="covid" type="STRING" size="256"/>
+          <Column id="covid1" type="STRING" size="256"/>
+          <Column id="covid2" type="STRING" size="256"/>
+          <Column id="covid3" type="STRING" size="256"/>
+          <Column id="covid4" type="STRING" size="256"/>
+          <Column id="covid5" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00401_P02
+ * 화면명   	: 미이용 수정
+ * 화면설명 	: 이동서비스 송영기록에서 미이용을 수정하는 팝업
+ * 작성일   	: 2022-04-28
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ * 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+const fv_knumber = this.parent.K_NUMBER;
+const fv_mcode = this.parent.M_CODE;
+const fv_mname = this.parent.M_NAME;
+const fv_date = this.parent.DATE;
+const fv_sex = this.parent.SEX;
+this.carFlag = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 저장을 위한 gv_curWinKey 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00401_P02";
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "K_NUMBER", fv_knumber);
+	this.ds_search.setColumn(0, "M_CODE", fv_mcode);
+	
+	// 오픈시 조회
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "요양일지")))
+	{
+		this.alert("미이용일 지정 사유를 기록해야 합니다.");
+		this.div_main.form.edt_why.setFocus();
+		return false;
+	}
+
+	if (this.ds_data.getColumn(0, "총시간") < "01:00")
+	{
+		this.alert("예정된 입퇴소 시간을 기록해야 합니다.");
+		this.div_main.form.edt_start_hour.setFocus();
+		return false;
+	}
+	
+	const sHour = this.ds_data.getColumn(0, "시작시");
+	const sMin = this.ds_data.getColumn(0, "시작분");
+	const eHour = this.ds_data.getColumn(0, "종료시");
+	const eMin = this.ds_data.getColumn(0, "종료분");
+	let sFullTime = sHour + ":" + sMin;
+	let eFullTime = eHour + ":" + eMin;
+	
+	if (sFullTime == "00:00")
+		sFullTime = "";
+	
+	if (eFullTime == "00:00")
+		eFullTime = "";
+	
+	this.ds_data.setColumn(0, "시작시간", sFullTime);
+	this.ds_data.setColumn(0, "종료시간", eFullTime);
+	
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_data=output1";
+	const argument = "method=getList"
+				   + " sqlId=DAY00401_P02.DAY00401_P02_DS_DATA_S";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+	
+	const svcId = "save";
+	const inDs = "ds_data";
+	
+	this.fn_save_com(svcId, inDs);
+};
+
+// 미이용 취소
+this.fn_notIn_cancel = function()
+{
+	const sTime = this.ds_data.getColumn(0, "시작시간");
+	const eTime = this.ds_data.getColumn(0, "종료시간");
+	if ((sTime == undefined || nexacro.trim(sTime) == "") 
+		&& (eTime == undefined || nexacro.trim(eTime) == ""))
+		this.close();
+	else
+	{
+		if (!this.confirm("미이용 취소시 요양기록도 함께 삭제됩니다.\n 확인 후 처리하세요!")) return;
+		
+		const svcId = "cancel";
+		const params = "/commonController.do";
+		const inDatasets = "input1=ds_data:U";
+		const outDatasets = "";
+		const argument = "method=update"
+					   + " sqlId=DAY00401_P02.DAY00401_P02_DS_DATA_CANCEL_U";
+
+		const callbackFunc = "fn_callback";
+		Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+	}
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			const day = fv_date.getDay();
+			const dayList = ["(일)", "(월)", "(화)", "(수)", "(목)", "(금)", "(토)"];
+			const ddd = dayList[day];
+			const date = fv_date.getFullYear() + "." + ((fv_date.getMonth() + 1) + "").padStart(2, '0') + "." + (fv_date.getDate() + "").padStart(2, '0') + " " + ddd;
+			if (this.ds_data.rowcount == 0)
+			{
+				const nRow = this.ds_data.addRow();
+				this.ds_data.setColumn(nRow, "sicode", fv_sicode);
+				this.ds_data.setColumn(nRow, "k_code", fv_mcode);
+				this.ds_data.setColumn(nRow, "k_name", fv_mname);
+				this.ds_data.setColumn(nRow, "k_nalja", fv_date);
+				this.ds_data.setColumn(nRow, "성별", fv_sex);
+				this.ds_data.setColumn(nRow, "날짜", date);
+				this.ds_data.setColumn(nRow, "시작시", "00");
+				this.ds_data.setColumn(nRow, "시작분", "00");
+				this.ds_data.setColumn(nRow, "종료시", "00");
+				this.ds_data.setColumn(nRow, "종료분", "00");
+				this.ds_data.setColumn(nRow, "총시간", "00:00");
+				this.ds_data.setColumn(nRow, "요양일지", "");
+				this.ds_data.setColumn(nRow, "미이용", "0");
+				this.ds_data.setColumn(nRow, "covid", "0");
+			}
+			else
+			{
+				const startTime = this.ds_data.getColumn(0, "시작시간");
+				const endTime = this.ds_data.getColumn(0, "종료시간");
+				const number = this.ds_data.getColumn(0, "k_number");
+				const covid = this.ds_data.getColumn(0, "covid");
+				//trace("startTime : " + startTime);
+				//trace("endTime : " + endTime);
+				
+				if (startTime == undefined || nexacro.trim(startTime) == "")
+				{
+					this.ds_data.setColumn(0, "시작시", "00");
+					this.ds_data.setColumn(0, "시작분", "00");
+				}
+				
+				if (endTime == undefined || nexacro.trim(endTime) == "")
+				{
+					this.ds_data.setColumn(0, "종료시", "00");
+					this.ds_data.setColumn(0, "종료분", "00");
+				}
+				
+				if ((startTime == undefined || nexacro.trim(startTime) == "")
+					&& (endTime == undefined || nexacro.trim(endTime) == ""))
+				{
+					this.ds_data.setColumn(0, "총시간", "00:00");
+				}
+				
+				switch(covid) 
+				{
+					case "1" :
+						this.ds_data.setColumn(0, "covid1", 1);
+						break;
+					case "2" :
+						this.ds_data.setColumn(0, "covid2", 2);
+						break;
+					case "3" :
+						this.ds_data.setColumn(0, "covid3", 3);
+						break;
+					case "4" :
+						this.ds_data.setColumn(0, "covid4", 4);
+						break;
+					case "5" :
+						this.ds_data.setColumn(0, "covid5", 5);
+						break;
+					default:
+				}
+				
+				if (Sct.Util.isEmpty(number))
+					this.ds_data.setRowType(0, Dataset.ROWTYPE_INSERT);
+				else
+					this.ds_data.setRowType(0, Dataset.ROWTYPE_UPDATE);
+			}
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("미이용일 지정완료!");
+			this.close();
+		}
+		else if (strSvcID == "cancel")
+		{
+			this.alert("미이용일 지정취소!");
+			this.close();
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* 함수 명 : fn_timeDiff
+ * 시간 차이 구하기
+ * 입력 : 	time1	비교 시작일자 ex)19901010115000
+ *			time2	비교 종료일자
+ * 반환 :  HH:MM 형식의 시간 차이 (단 8시간 이상 차이나면 08:00으로만 표현한다.)
+ */
+this.fn_timeDiff = function(time1, time2) 
+{
+	let diffTime = "";
+	// 문자열 날짜를 Date타입으로 변환
+	const date1 = Sct.Util.stringToDate(time1);
+	const date2 = Sct.Util.stringToDate(time2);
+	
+	// 두 날짜의 간격을 구함(초단위)
+	const diff = (date2 - date1) / 1000;
+	
+	// 간격 값을 시간 추출
+	let hour = diff / 3600;
+	// 시간의 자리수가 1자리일때 앞에 0 붙이기
+	if (0 <= hour && hour < 9) hour = "0" + Math.floor(hour);
+	// 시간이 음수일때 00으로 
+	else if (hour < 0) hour = "00";
+	else if (hour > 8) hour = "08";
+	else hour = Math.floor(hour);
+	
+	// 간격 값에서 분 추출
+	let minute = (diff % 3600) / 60;
+	if (hour > 7) minute = "00";
+	else if(0 <= minute && minute < 10) minute = "0" + Math.floor(minute);
+	else if(minute < 0) minute = "00";
+	else minute = Math.floor(minute);
+	
+	// 간격 값에서 초 추출
+	let second = (diff % 3600) % 60;
+	if (0 <= second && second < 10) second = "0" + Math.floor(second);
+	else if (second < 0) second = "00";
+	else second = Math.floor(second);
+	
+	// 간격 값이 음수일때
+	if (diff <= 0) diffTime = "00:00";
+	
+	// HHMM 형식으로 붙임
+	diffTime = hour + ":" + minute;
+	
+	return diffTime;
+};
+
+// 시간 변경시 총시간 세팅
+this.fn_time_set = function()
+{
+	const sHour = this.ds_data.getColumn(0, "시작시");
+	const sMin = this.ds_data.getColumn(0, "시작분");
+	const eHour = this.ds_data.getColumn(0, "종료시");
+	const eMin = this.ds_data.getColumn(0, "종료분");
+	const sFullTime = Sct.Util.getToday() + sHour + sMin + "00";
+	const eFullTime = Sct.Util.getToday() + eHour + eMin + "00";
+	
+	const diffTime = this.fn_timeDiff(sFullTime, eFullTime);
+	
+	return diffTime;
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 새로고침 버튼
+this.div_func_btn_refresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 시 변경 이벤트
+this.edt_hour_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	let rtnVal = "";
+	if (e.postvalue > "23" || e.postvalue == "")
+	{
+		rtnVal = "00";
+		obj.set_value(rtnVal);
+	}
+	else if (e.postvalue.length == 1)
+	{
+		rtnVal = "0" + e.postvalue;
+		obj.set_value(rtnVal);
+	}
+	
+	const diffTime = this.fn_time_set();
+	const notIn = parseInt(diffTime.substr(0, 2)) + "";
+	this.ds_data.setColumn(0, "총시간", diffTime);
+	this.ds_data.setColumn(0, "미이용", notIn);
+};
+
+// 분 변경 이벤트
+this.edt_min_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	let rtnVal = "";
+	if (e.postvalue > "59" || e.postvalue == "")
+	{
+		rtnVal = "00";
+		obj.set_value(rtnVal);
+	}
+	else if (e.postvalue.length == 1)
+	{
+		rtnVal = "0" + e.postvalue;
+		obj.set_value(rtnVal);
+	}
+	
+	const diffTime = this.fn_time_set();
+	const notIn = parseInt(diffTime.substr(0, 2)) + "";
+	this.ds_data.setColumn(0, "총시간", diffTime);
+	this.ds_data.setColumn(0, "미이용", notIn);
+};
+
+// 시간 버튼 선택
+this.btn_hour_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let str = "";
+	let str2 = "";
+	let str3 = "";
+	
+	switch(obj.id) {
+		case "btn_3hour_under" :
+			str = "11";
+			str2 = "02";
+			str3 = "2";
+			break;
+		case "btn_3hour_over" :
+			str = "13";
+			str2 = "04";
+			str3 = "4";
+			break;
+		case "btn_6hour" :
+			str = "15";
+			str2 = "06";
+			str3 = "6";
+			break;
+		case "btn_8hour" :
+			str = "17";
+			str2 = "08";
+			str3 = "8";
+			break;
+		default:
+	}
+
+	const why = this.ds_data.getColumn(0, "요양일지");
+	this.ds_data.setColumn(0, "시작시간", "09:00");
+	this.ds_data.setColumn(0, "시작시", "09");
+	this.ds_data.setColumn(0, "시작분", "00");
+	this.ds_data.setColumn(0, "종료시간", str + ":00");
+	this.ds_data.setColumn(0, "종료시", str);
+	this.ds_data.setColumn(0, "종료분", "00");
+	this.ds_data.setColumn(0, "총시간", str2 + ":00");
+	this.ds_data.setColumn(0, "미이용", str3);
+	
+	if (Sct.Util.isEmpty(nexacro.trim(why)))
+		this.ds_data.setColumn(0, "요양일지", "개인사정");
+};
+
+// 코로나 특례 체크박스 체인지 이벤트
+this.chk_covid_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) 
+	{
+		case "0" :
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		case "1" :
+			this.ds_data.setColumn(0, "covid2", 0);
+			this.ds_data.setColumn(0, "covid3", 0);
+			this.ds_data.setColumn(0, "covid4", 0);
+			this.ds_data.setColumn(0, "covid5", 0);
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "covid1", 0);
+			this.ds_data.setColumn(0, "covid3", 0);
+			this.ds_data.setColumn(0, "covid4", 0);
+			this.ds_data.setColumn(0, "covid5", 0);
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		case "3" :
+			this.ds_data.setColumn(0, "covid1", 0);
+			this.ds_data.setColumn(0, "covid2", 0);
+			this.ds_data.setColumn(0, "covid4", 0);
+			this.ds_data.setColumn(0, "covid5", 0);
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		case "4" :
+			this.ds_data.setColumn(0, "covid1", 0);
+			this.ds_data.setColumn(0, "covid2", 0);
+			this.ds_data.setColumn(0, "covid3", 0);
+			this.ds_data.setColumn(0, "covid5", 0);
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		case "5" :
+			this.ds_data.setColumn(0, "covid1", 0);
+			this.ds_data.setColumn(0, "covid2", 0);
+			this.ds_data.setColumn(0, "covid3", 0);
+			this.ds_data.setColumn(0, "covid4", 0);
+			this.ds_data.setColumn(0, "covid", e.postvalue);
+			break;
+		default:
+	}
+};
+
+// 저장 버튼
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+// 미이용 취소
+this.div_func_btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_notIn_cancel();
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_main.form.sta_date_value" propid="text" datasetid="ds_data" columnid="날짜"/>
+      <BindItem id="item1" compid="div_main.form.sta_mname" propid="text" datasetid="ds_data" columnid="k_name"/>
+      <BindItem id="item2" compid="div_main.form.sta_sdriver_name" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item3" compid="div_main.form.sta_mcode" propid="text" datasetid="ds_data" columnid="k_code"/>
+      <BindItem id="item4" compid="div_main.form.edt_start_hour" propid="value" datasetid="ds_data" columnid="시작시"/>
+      <BindItem id="item5" compid="div_main.form.edt_start_min" propid="value" datasetid="ds_data" columnid="시작분"/>
+      <BindItem id="item6" compid="div_main.form.edt_end_hour" propid="value" datasetid="ds_data" columnid="종료시"/>
+      <BindItem id="item7" compid="div_main.form.edt_end_min" propid="value" datasetid="ds_data" columnid="종료분"/>
+      <BindItem id="item8" compid="div_main.form.edt_total_hour" propid="value" datasetid="ds_data" columnid="총시간"/>
+      <BindItem id="item9" compid="div_main.form.edt_why" propid="value" datasetid="ds_data" columnid="요양일지"/>
+      <BindItem id="item10" compid="div_main.form.div_covid.form.chk_covid1" propid="value" datasetid="ds_data" columnid="covid1"/>
+      <BindItem id="item11" compid="div_main.form.div_covid.form.chk_covid2" propid="value" datasetid="ds_data" columnid="covid2"/>
+      <BindItem id="item12" compid="div_main.form.div_covid.form.chk_covid3" propid="value" datasetid="ds_data" columnid="covid3"/>
+      <BindItem id="item13" compid="div_main.form.div_covid.form.chk_covid4" propid="value" datasetid="ds_data" columnid="covid4"/>
+      <BindItem id="item14" compid="div_main.form.div_covid.form.chk_covid5" propid="value" datasetid="ds_data" columnid="covid5"/>
+    </Bind>
+  </Form>
+</FDL>

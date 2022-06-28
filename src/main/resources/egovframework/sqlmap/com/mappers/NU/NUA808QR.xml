@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA808QR                                                         
+     * 프로그램 명     	: 이상상태현황모니터링조회                                                   
+     * Description 	: 이상상태가 있는 공기질, 기저귀, 맥박 모니터링
+     *================================================================                  
+                작성일자         		   |  작성자         |  	비고                                    
+     *================================================================                  
+       2021-12-14 11:20        |  조기종         | 	최초작성                         
+       
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA808QR">
+	<!-- 공기질 이상상태 모니터링 -->
+	<select id="NUA808QR_DS_AIR_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 공기질 이상상태 모니터링 : NUA808QR_DS_AIR_LIST_S */
+	<![CDATA[
+		SELECT
+			MAIN.COMPANY_CD
+		,	CONCAT(MAIN.ARE_NM, '/', MAIN.LOC_NM) AS LOCATION
+		,	CONCAT_WS(
+					', '
+				,	CASE WHEN MAIN.TEMP_STATUS >= BAD_L.STR1 THEN CONCAT('온도(', MAIN.TEMP_C, ')') ELSE NULL END
+				,	CASE WHEN MAIN.HUMI_STATUS >= BAD_L.STR1 THEN CONCAT('습도(', MAIN.HUMI, ')') ELSE NULL END
+				,	CASE WHEN MAIN.PM10_STATUS >= BAD_L.STR1 THEN CONCAT('미세먼지(', MAIN.PM_10_0, ')') ELSE NULL END
+				,	CASE WHEN MAIN.PM2_STATUS >= BAD_L.STR1 THEN CONCAT('초미세먼지(', MAIN.PM_2_5, ')') ELSE NULL END
+				,	CASE WHEN MAIN.VOC_STATUS >= BAD_L.STR1 THEN CONCAT('VOC(', MAIN.TVOC, ')') ELSE NULL END
+				,	CASE WHEN MAIN.CO2_STATUS >= BAD_L.STR1 THEN CONCAT('이산화탄소(', MAIN.CO_2, ')') ELSE NULL END
+			) AS AIR_NOW
+		,	CONCAT_WS(
+					', '
+				,	CASE WHEN MAIN.TEMP_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.TEMP_STATUS) ELSE NULL END
+				,	CASE WHEN MAIN.HUMI_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.HUMI_STATUS) ELSE NULL END
+				,	CASE WHEN MAIN.PM10_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.PM10_STATUS) ELSE NULL END
+				,	CASE WHEN MAIN.PM2_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.PM2_STATUS) ELSE NULL END
+				,	CASE WHEN MAIN.VOC_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.VOC_STATUS) ELSE NULL END
+				,	CASE WHEN MAIN.CO2_STATUS >= BAD_L.STR1 THEN (SELECT CC.CMNM FROM T_CM_CODE CC WHERE CC.COMPANY_CD = MAIN.COMPANY_CD AND CC.GRP_CD = 'NU_AIR_STATUS' AND CC.CMCD = MAIN.CO2_STATUS) ELSE NULL END
+			) AS AIR_STATUS
+		,	GREATEST(MAIN.TEMP_STATUS, MAIN.HUMI_STATUS, MAIN.PM10_STATUS, MAIN.PM2_STATUS, MAIN.VOC_STATUS, MAIN.CO2_STATUS) AS AIR_GREATEST_STATUS
+		FROM
+		(
+			SELECT
+				AIR.COMPANY_CD
+			,	AIR.ARE_NM
+			,	AIR.ARE_CD
+			,	AIR.LOC_NM
+			,	AIR.LOC_CD
+			,	AIR.PM_2_5
+			,	AIR.PM_10_0
+			,	AIR.TEMP_C
+			,	AIR.HUMI
+			,	AIR.TVOC
+			,	AIR.CO_2
+			,	CASE
+					WHEN AIR.TEMP_C >= TEMP_UP.STR1 THEN
+						CASE
+							WHEN AIR.TEMP_C >= TEMP_UP.STR1 && AIR.TEMP_C <= TEMP_UP.STR2 THEN '100'
+							WHEN AIR.TEMP_C >= TEMP_UP.STR3 && AIR.TEMP_C <= TEMP_UP.STR4 THEN '200'
+							WHEN AIR.TEMP_C >= TEMP_UP.STR5 && AIR.TEMP_C <= TEMP_UP.STR6 THEN '300'
+							WHEN AIR.TEMP_C >= TEMP_UP.STR7 && AIR.TEMP_C <= TEMP_UP.STR8 THEN '400'
+							WHEN AIR.TEMP_C > TEMP_UP.STR8 THEN '400'
+						END
+					ELSE
+						CASE
+							WHEN AIR.TEMP_C <= TEMP_UN.STR1 && AIR.TEMP_C >= TEMP_UN.STR2 THEN '100'
+							WHEN AIR.TEMP_C <= TEMP_UN.STR3 && AIR.TEMP_C >= TEMP_UN.STR4 THEN '200'
+							WHEN AIR.TEMP_C <= TEMP_UN.STR5 && AIR.TEMP_C >= TEMP_UN.STR6 THEN '300'
+							WHEN AIR.TEMP_C <= TEMP_UN.STR7 && AIR.TEMP_C >= TEMP_UN.STR8 THEN '400'
+							WHEN AIR.TEMP_C < TEMP_UN.STR8 THEN '400'
+						END
+				END AS TEMP_STATUS
+			,	CASE
+					WHEN AIR.HUMI >= HUMI_UP.STR1 THEN
+						CASE
+							WHEN AIR.HUMI >= HUMI_UP.STR1 && AIR.HUMI <= HUMI_UP.STR2 THEN '100'
+							WHEN AIR.HUMI >= HUMI_UP.STR3 && AIR.HUMI <= HUMI_UP.STR4 THEN '200'
+							WHEN AIR.HUMI >= HUMI_UP.STR5 && AIR.HUMI <= HUMI_UP.STR6 THEN '300'
+							WHEN AIR.HUMI >= HUMI_UP.STR7 && AIR.HUMI <= HUMI_UP.STR8 THEN '400'
+							WHEN AIR.HUMI > HUMI_UP.STR8 THEN '400'
+						END
+					ELSE
+						CASE
+							WHEN AIR.HUMI <= HUMI_UN.STR1 && AIR.HUMI >= HUMI_UN.STR2 THEN '100'
+							WHEN AIR.HUMI <= HUMI_UN.STR3 && AIR.HUMI >= HUMI_UN.STR4 THEN '200'
+							WHEN AIR.HUMI <= HUMI_UN.STR5 && AIR.HUMI >= HUMI_UN.STR6 THEN '300'
+							WHEN AIR.HUMI <= HUMI_UN.STR7 && AIR.HUMI >= HUMI_UN.STR8 THEN '400'
+							WHEN AIR.HUMI < HUMI_UN.STR8 THEN '400'
+						END
+				END AS HUMI_STATUS
+			,	CASE
+					WHEN AIR.PM_10_0 >= PM_10L.STR1 && AIR.PM_10_0 <= PM_10L.STR2 THEN '100'
+					WHEN AIR.PM_10_0 >= PM_10L.STR3 && AIR.PM_10_0 <= PM_10L.STR4 THEN '200'
+					WHEN AIR.PM_10_0 >= PM_10L.STR5 && AIR.PM_10_0 <= PM_10L.STR6 THEN '300'
+					WHEN AIR.PM_10_0 >= PM_10L.STR7 && AIR.PM_10_0 <= PM_10L.STR8 THEN '400'
+					WHEN AIR.PM_10_0 > PM_10L.STR8 THEN '400'
+				END AS PM10_STATUS
+			,	CASE
+					WHEN AIR.PM_2_5 >= PM_2L.STR1 && AIR.PM_2_5 <= PM_2L.STR2 THEN '100'
+					WHEN AIR.PM_2_5 >= PM_2L.STR3 && AIR.PM_2_5 <= PM_2L.STR4 THEN '200'
+					WHEN AIR.PM_2_5 >= PM_2L.STR5 && AIR.PM_2_5 <= PM_2L.STR6 THEN '300'
+					WHEN AIR.PM_2_5 >= PM_2L.STR7 && AIR.PM_2_5 <= PM_2L.STR8 THEN '400'
+					WHEN AIR.PM_2_5 > PM_2L.STR8 THEN '400'
+				END AS PM2_STATUS
+			,	CASE
+					WHEN AIR.TVOC >= VOC_L.STR1 && AIR.TVOC <= VOC_L.STR2 THEN '100'
+					WHEN AIR.TVOC >= VOC_L.STR3 && AIR.TVOC <= VOC_L.STR4 THEN '200'
+					WHEN AIR.TVOC >= VOC_L.STR5 && AIR.TVOC <= VOC_L.STR6 THEN '300'
+					WHEN AIR.TVOC >= VOC_L.STR7 && AIR.TVOC <= VOC_L.STR8 THEN '400'
+					WHEN AIR.TVOC > VOC_L.STR8 THEN '400'
+				END AS VOC_STATUS
+			,	CASE
+					WHEN AIR.CO_2 >= CO2_L.STR1 && AIR.CO_2 <= CO2_L.STR2 THEN '100'
+					WHEN AIR.CO_2 >= CO2_L.STR3 && AIR.CO_2 <= CO2_L.STR4 THEN '200'
+					WHEN AIR.CO_2 >= CO2_L.STR5 && AIR.CO_2 <= CO2_L.STR6 THEN '300'
+					WHEN AIR.CO_2 >= CO2_L.STR7 && AIR.CO_2 <= CO2_L.STR8 THEN '400'
+					WHEN AIR.CO_2 > CO2_L.STR8 THEN '400'
+				END AS CO2_STATUS
+			FROM
+			(
+				SELECT
+					JT.COMPANY_CD
+				,	SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS AIR_TIME
+				,	JT.MAC_ADD
+				,	CM.MAC_SEQ
+				,	NL.LOC_SEQ
+				,	NL.ARE_CD
+				,	NA.ARE_NM
+				,	NL.LOC_CD
+				,	NL.LOC_NM
+				,	JT.PM_1_0
+				,	JT.PM_2_5
+				,	JT.PM_10_0
+				,	ROUND(JT.TEMP_C, 1) AS TEMP_C
+				,	JT.TEMP_F
+				,	ROUND(JT.HUMI, 1) AS HUMI
+				,	JT.TVOC
+				,	JT.CO_2
+				,	JT.SCORE
+				,	JT.BLE_RSSI
+				,	ROW_NUMBER() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE DESC) AS RNUM
+				FROM	JSON_TABLE(#{AIR_JSON}, '$.datas[*]'
+							COLUMNS(
+								DATE VARCHAR(1000) PATH '$.time',
+								TVOC DOUBLE PATH '$.values.tvoc',
+								BLE_RSSI DOUBLE PATH '$.values.rssi',
+								PM_1_0 DOUBLE PATH '$.values.pm_1_0',
+								PM_2_5 DOUBLE PATH '$.values.pm_2_5',
+								PM_10_0 DOUBLE PATH '$.values.pm_10_0',
+								COMPANY_CD VARCHAR(50) PATH '$.values.service_identifier',
+								TEMP_C DOUBLE PATH '$.values.temp_c',
+								TEMP_F DOUBLE PATH '$.values.temp_f',
+								CO_2 DOUBLE PATH '$.values.co_2',
+								SCORE DOUBLE PATH '$.values.score',
+								HUMI DOUBLE PATH '$.values.humi',
+								MAC_ADD VARCHAR(1000) PATH '$.values.device_identifier'
+							)
+						) AS JT
+				INNER JOIN	T_CM_MACHINE CM
+				ON	JT.COMPANY_CD = CM.COMPANY_CD
+				AND	JT.MAC_ADD = CM.MAC_ADD
+				INNER JOIN	T_NU_MACH_USE NMU
+				ON	CM.COMPANY_CD = NMU.COMPANY_CD
+				AND	CM.MAC_SEQ = NMU.MAC_SEQ
+				INNER JOIN	T_NU_LOCATION NL
+				ON	NMU.COMPANY_CD = NL.COMPANY_CD
+				AND	NMU.USE_ID = NL.LOC_SEQ
+				INNER JOIN	T_NU_AREA NA
+				ON	NL.COMPANY_CD = NA.COMPANY_CD
+				AND	NL.ARE_CD = NA.ARE_CD
+			) AS AIR
+			LEFT JOIN	T_CM_CODE TEMP_UP
+			ON	AIR.COMPANY_CD = TEMP_UP.COMPANY_CD
+			AND	TEMP_UP.GRP_CD = 'NU_AIR_QUALITY'
+			AND	TEMP_UP.CMCD = '50'
+			LEFT JOIN	T_CM_CODE TEMP_UN
+			ON	AIR.COMPANY_CD = TEMP_UN.COMPANY_CD
+			AND	TEMP_UN.GRP_CD = 'NU_AIR_QUALITY'
+			AND	TEMP_UN.CMCD = '60'
+			LEFT JOIN	T_CM_CODE HUMI_UP
+			ON	AIR.COMPANY_CD = HUMI_UP.COMPANY_CD
+			AND	HUMI_UP.GRP_CD = 'NU_AIR_QUALITY'
+			AND	HUMI_UP.CMCD = '70'
+			LEFT JOIN	T_CM_CODE HUMI_UN
+			ON	AIR.COMPANY_CD = HUMI_UN.COMPANY_CD
+			AND	HUMI_UN.GRP_CD = 'NU_AIR_QUALITY'
+			AND	HUMI_UN.CMCD = '80'
+			LEFT JOIN	T_CM_CODE PM_10L
+			ON	AIR.COMPANY_CD = PM_10L.COMPANY_CD
+			AND	PM_10L.GRP_CD = 'NU_AIR_QUALITY'
+			AND	PM_10L.CMCD = '10'
+			LEFT JOIN	T_CM_CODE PM_2L
+			ON	AIR.COMPANY_CD = PM_2L.COMPANY_CD
+			AND	PM_2L.GRP_CD = 'NU_AIR_QUALITY'
+			AND	PM_2L.CMCD = '20'
+			LEFT JOIN	T_CM_CODE VOC_L
+			ON	AIR.COMPANY_CD = VOC_L.COMPANY_CD
+			AND	VOC_L.GRP_CD = 'NU_AIR_QUALITY'
+			AND	VOC_L.CMCD = '40'
+			LEFT JOIN	T_CM_CODE CO2_L
+			ON	AIR.COMPANY_CD = CO2_L.COMPANY_CD
+			AND	CO2_L.GRP_CD = 'NU_AIR_QUALITY'
+			AND	CO2_L.CMCD = '30'
+			WHERE AIR.RNUM = 1
+		) AS MAIN
+		LEFT JOIN	T_CM_CODE BAD_L
+		ON	MAIN.COMPANY_CD = BAD_L.COMPANY_CD
+		AND	BAD_L.GRP_CD = 'NU_AIR_IOT'
+		AND	BAD_L.CMCD = 'BTIAQ02'
+		WHERE	(MAIN.TEMP_STATUS >= BAD_L.STR1
+				OR	MAIN.HUMI_STATUS >= BAD_L.STR1
+				OR	MAIN.PM10_STATUS >= BAD_L.STR1
+				OR	MAIN.PM2_STATUS >= BAD_L.STR1
+				OR	MAIN.VOC_STATUS >= BAD_L.STR1
+				OR	MAIN.CO2_STATUS >= BAD_L.STR1)
+	]]>
+		<if test="AREA != '' and AREA != null">
+		AND	MAIN.ARE_CD = #{AREA}
+		</if>
+		<if test="MON_AREA != '' and MON_AREA != null">
+		AND MAIN.LOC_CD IN (SELECT NL.LOC_CD
+          				 	  FROM T_NU_MON_LOCATION NML
+							 	  ,T_NU_MON_AREA NMA
+							 	  ,T_NU_LOCATION NL
+							 	  ,T_NU_AREA NA
+							 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+							   AND NML.ARE_CD = NMA.ARE_CD
+							   AND NML.COMPANY_CD = NL.COMPANY_CD
+						  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+							   AND NL.COMPANY_CD = NA.COMPANY_CD
+							   AND NL.ARE_CD = NA.ARE_CD
+							   AND NML.USE_YN = 'Y'
+							   AND NML.COMPANY_CD = #{COMPANY_CD}
+							   AND NML.ARE_CD = #{MON_AREA})
+		</if>
+		ORDER BY LOCATION
+	</select>
+	
+	<!-- 기저귀 이상상태 모니터링 -->
+	<select id="NUA808QR_DS_DIAPER_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 기저귀 이상상태 모니터링 : NUA808QR_DS_DIAPER_LIST_S */
+	<![CDATA[
+		SELECT
+			MAIN.COMPANY_CD
+		,	CONCAT(MAIN.NAME, '(', MAIN.AGE, ')') AS RESIDENT
+		,	CONCAT(MAIN.ARE_NM, '/', MAIN.LOC_NM) AS LOCATION
+		,	CONCAT(
+					CASE 
+						WHEN MAIN.HUMI_RATE >= 100 THEN '100' 
+						WHEN MAIN.HUMI_RATE <= 0 THEN '0'
+						ELSE MAIN.HUMI_RATE
+					END
+				, 	'%'
+				, 	CASE
+						WHEN MAIN.B_HUMI_RATE IS NOT NULL THEN
+							CONCAT(
+									'('
+								,	CASE
+										WHEN MAIN.B_HUMI_RATE >= 100 THEN '100'
+										WHEN MAIN.B_HUMI_RATE <= 0 THEN '0'
+										ELSE MAIN.B_HUMI_RATE
+									END
+								, 	'%)'
+							)
+						ELSE
+							''
+					END
+			) AS DIAPER_NOW
+		,	CONCAT(
+					CASE
+						WHEN MAIN.BAT_RATE >= 100 THEN '100'
+						WHEN MAIN.BAT_RATE <= 0 THEN '0'
+						ELSE MAIN.BAT_RATE
+					END
+				, 	'%'
+			) AS BATTERY
+		,	MAIN.HUMI_RATE
+		,	MAIN.B_HUMI_RATE
+		,	MAIN.BAT_RATE
+		FROM
+		(
+			SELECT
+				NR.COMPANY_CD
+			,	NR.NAME
+			,	NR.RES_ID
+			,	FLOOR((CAST(REPLACE(CURRENT_DATE, '-', '') AS UNSIGNED) - CAST(REPLACE(NR.BIRTHDAY, '-', '') AS UNSIGNED)) / 10000) AS AGE
+			,	NR.LOCATION
+			,	DIAPER.CONN_ST
+			,	TRUNCATE(DIAPER.HUMI, 0) AS HUMI
+			,	TRUNCATE(DIAPER.HUMI2, 0) AS B_HUMI
+			,	TRUNCATE(ROUND(((DIAPER.HUMI - CC2.STR2) / (CC2.STR2 - CC2.STR1)) * -100), 0) AS HUMI_RATE
+			,	TRUNCATE(ROUND(((DIAPER.HUMI2 - CC2.STR2) / (CC2.STR2 - CC2.STR1)) * -100), 0) AS B_HUMI_RATE
+			,	DIAPER.BAT_QTY
+			,	TRUNCATE(ROUND(((DIAPER.BAT_QTY - CC2.STR4) / (CC2.STR3 - CC2.STR4)) * 100), 0) AS BAT_RATE
+			,	CASE WHEN NMU2.USE_ID IS NOT NULL THEN 'Y' ELSE 'N' END AS DIAPER_YN
+			,	CC2.STR5 AS HUMI_ALERT
+			,	CC2.STR6 AS BATTERY_ALERT
+			,	NL.LOC_NM
+			,	NA.ARE_NM
+			,	NR.AREA
+			FROM T_NU_RESIDENT NR
+			LEFT JOIN
+			(
+				SELECT
+					C.*
+				,	NMU.USE_ID
+				FROM
+				(
+					SELECT
+						B.TIME
+					,	B.FALL
+					,	B.HUMI
+					,	B.COMPANY_CD
+					,	B.MAC_ADD
+					,	B.BAT_QTY
+					,	B.CONN_ST
+					,	B.HUMI2
+					FROM
+					(
+						SELECT
+							A.*
+						,	CASE
+								WHEN (CASE WHEN A.RANK_1 = 1 THEN SUBSTRING(A.TIME, 1, 12) END) - SUBSTRING(LEAD(A.TIME) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1), 1, 12) >= 4 
+									THEN LEAD(A.HUMI) OVER(PARTITION BY A.MAC_ADD ORDER BY RANK_1)
+								ELSE
+									NULL
+							END AS HUMI2
+						FROM
+						(
+							SELECT
+								SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17) AS TIME
+							,	JT.FALL
+							,	JT.HUMI
+							,	JT.COMPANY_CD
+							,	JT.MAC_ADD
+							,	JT.BAT_QTY
+							,	JT.CONN_ST
+							,	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE DESC) AS RANK_1
+							,	RANK() OVER(PARTITION BY JT.MAC_ADD ORDER BY JT.DATE ASC) AS RANK_5
+							FROM JSON_TABLE(#{DIAPER_JSON}, '$.datas[*]'
+								COLUMNS(
+							      DATE VARCHAR(1000) PATH '$.time',
+							      fall INT PATH '$.values.fall',
+							      HUMI DOUBLE PATH '$.values.wetness',
+							      COMPANY_CD VARCHAR(50) PATH '$.values.service_identifier',
+							      MAC_ADD VARCHAR(20) PATH '$.values.device_identifier',
+							      BAT_QTY DOUBLE PATH '$.values.battery',
+							      CONN_ST DOUBLE PATH '$.values.connecting_status'
+							    )
+							) AS JT
+						) AS A
+						WHERE (A.RANK_1 = 1 OR A.RANK_5 = 1)
+					) AS B
+					WHERE B.RANK_1 = 1
+				) AS C
+				INNER JOIN T_CM_MACHINE CM
+				ON	C.COMPANY_CD = CM.COMPANY_CD
+				AND	C.MAC_ADD = CM.MAC_ADD
+				AND	CM.MACH_TP = '0200'
+				INNER JOIN T_NU_MACH_USE NMU
+				ON	CM.COMPANY_CD = NMU.COMPANY_CD
+				AND	CM.MAC_SEQ = NMU.MAC_SEQ
+				AND	NMU.USE_TP = '10'
+			) AS DIAPER
+			ON	NR.COMPANY_CD = DIAPER.COMPANY_CD
+			AND	NR.RES_ID = DIAPER.USE_ID
+			LEFT JOIN T_CM_CODE CC2
+			ON	NR.COMPANY_CD = CC2.COMPANY_CD
+			AND	CC2.GRP_CD = 'NU_DIAPER_IOT'
+			AND CC2.CMCD = 'SWL-009c'
+			LEFT JOIN
+			(
+				SELECT
+					NMU.COMPANY_CD
+				,	NMU.USE_ID
+				FROM T_NU_MACH_USE NMU
+				INNER JOIN T_CM_MACHINE CM
+				ON	NMU.COMPANY_CD = CM.COMPANY_CD
+				AND	NMU.MAC_SEQ = CM.MAC_SEQ
+				WHERE CM.MACH_TP = '0200'
+				AND NMU.USE_TP = '10'
+			) AS NMU2
+			ON NR.COMPANY_CD = NMU2.COMPANY_CD
+			AND NR.RES_ID = NMU2.USE_ID
+			LEFT JOIN T_NU_LOCATION NL
+			ON NR.COMPANY_CD = NL.COMPANY_CD
+			AND NR.LOCATION = NL.LOC_CD
+			LEFT JOIN T_NU_AREA NA
+			ON NL.COMPANY_CD = NA.COMPANY_CD
+			AND NL.ARE_CD = NA.ARE_CD
+			WHERE NR.COMPANY_CD = #{COMPANY_CD}
+			AND (NR.RETIRE_DT IS NULL OR NR.RETIRE_DT > DATE_FORMAT(NOW(), '%Y%m%d'))
+		) AS MAIN
+		WHERE MAIN.DIAPER_YN = 'Y'
+		AND ((MAIN.B_HUMI_RATE >= MAIN.HUMI_ALERT AND MAIN.HUMI_RATE >= MAIN.HUMI_ALERT) OR MAIN.BAT_RATE < MAIN.BATTERY_ALERT)
+	]]>
+		<if test="AREA != '' and AREA != null">
+		AND	MAIN.AREA = #{AREA}
+		</if>
+		<if test="MON_AREA != '' and MON_AREA != null">
+		AND MAIN.LOCATION IN (SELECT NL.LOC_CD
+          				 	  	FROM T_NU_MON_LOCATION NML
+								 	  ,T_NU_MON_AREA NMA
+								 	  ,T_NU_LOCATION NL
+								 	  ,T_NU_AREA NA
+								 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+								   AND NML.ARE_CD = NMA.ARE_CD
+								   AND NML.COMPANY_CD = NL.COMPANY_CD
+							  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+								   AND NL.COMPANY_CD = NA.COMPANY_CD
+								   AND NL.ARE_CD = NA.ARE_CD
+								   AND NML.USE_YN = 'Y'
+								   AND NML.COMPANY_CD = #{COMPANY_CD}
+								   AND NML.ARE_CD = #{MON_AREA})
+		</if>
+		ORDER BY LOCATION, RESIDENT
+	</select>
+	
+	<!-- 맥박 이상상태 모니터링 -->
+	<select id="NUA808QR_DS_BAND_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 맥박 이상상태 모니터링 : NUA808QR_DS_BAND_LIST_S */
+	<![CDATA[
+		SELECT
+			MAIN.COMPANY_CD
+		,	CONCAT(MAIN.ARE_NM, '/', MAIN.LOC_NM) AS LOCATION
+		,	CONCAT(MAIN.NAME, '(', MAIN.AGE, ')') AS RESIDENT
+		,	MAIN.BAN_TIME
+		,	MAIN.RES_ID
+		,	MAIN.NAME
+		,	MAIN.AREA
+		,	MAIN.SEX
+		,	DATE_FORMAT(MAIN.BAN_TIME, '%Y-%m-%d %H:%i:%s') AS BAN_DT
+		,	CONCAT(MAIN.AGE, '세/', CASE WHEN MAIN.SEX = 'M' THEN '남' ELSE '여' END) AS AGE_SEX
+		FROM
+		(
+			SELECT
+				BE.COMPANY_CD
+			,	BE.RES_ID
+			,	BE.BAN_TIME
+			,	BE.CLEAR_YN
+			,	NL.LOC_NM
+			,	NA.ARE_NM
+			,	NR.AREA
+			,	NR.NAME
+			,	NR.SEX
+			,   FLOOR((CAST(REPLACE(CURRENT_DATE, '-', '') AS UNSIGNED) - CAST(REPLACE(NR.BIRTHDAY, '-', '') AS UNSIGNED)) / 10000) AS AGE
+			FROM T_NU_BAND_EVENT BE
+			INNER JOIN T_NU_RESIDENT NR
+			ON BE.COMPANY_CD = NR.COMPANY_CD
+			AND BE.RES_ID = NR.RES_ID
+			INNER JOIN T_NU_LOCATION NL
+			ON NR.COMPANY_CD = NL.COMPANY_CD
+			AND NR.LOCATION = NL.LOC_CD
+			INNER JOIN T_NU_AREA NA
+			ON NR.COMPANY_CD = NA.COMPANY_CD
+			AND NR.AREA = NA.ARE_CD
+			WHERE BE.CLEAR_YN = 'N'
+			AND BE.COMPANY_CD = #{COMPANY_CD}
+			AND DATE_FORMAT(BE.BAN_TIME,'%Y%m%d%H%i%s%f') BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 DAY),'%Y%m%d%H%i%s%f') AND DATE_FORMAT(NOW(),'%Y%m%d%H%i%s%f')
+		) AS MAIN
+		ORDER BY LOCATION, RESIDENT
+	]]>
+	</select>
+	
+	<!-- 기기 총 개수 등 기타 정보 -->
+	<select id="NUA808QR_DS_ETC_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 기기 총 개수 등 기타 정보 : NUA808QR_DS_ETC_LIST_S */
+		SELECT
+			CC.COMPANY_CD
+		,	CC.COMPANY_NM
+		,	BC.COUNT AS BAND_ALL_COUNT
+		,	AC.COUNT AS AIR_ALL_COUNT
+		,	DC.COUNT AS DIAPER_ALL_COUNT
+		,	CC1.STR5 AS HUMI_LINE
+		,	CC1.STR6 AS BAT_LINE
+		,	CC2.STR1 AS PULSE_LINE
+		,	CC3.STR1 AS AIR_LINE
+		,	CC4.CMNM AS AIR_LINE_TEXT
+		, 	AIR6.STR4 AS TEMP_MIN
+		, 	AIR5.STR4 AS TEMP_HIGH
+		, 	AIR8.STR4 AS HUMI_MIN
+		, 	AIR7.STR4 AS HUMI_HIGH
+		, 	AIR1.STR4 AS FD_LINE
+		, 	AIR2.STR4 AS UFD_LINE
+		, 	AIR3.STR4 AS CARB_LINE
+		, 	AIR4.STR4 AS VOC_LINE
+		FROM T_CM_COMPANY CC
+		LEFT JOIN
+		(
+			SELECT
+				COUNT(*) AS COUNT
+			,	NR.COMPANY_CD
+			FROM T_NU_RESIDENT NR
+			INNER JOIN T_NU_MACH_USE NMU
+			ON NR.COMPANY_CD = NMU.COMPANY_CD
+			AND NR.RES_ID = NMU.USE_ID
+			INNER JOIN T_CM_MACHINE CM
+			ON NMU.COMPANY_CD = CM.COMPANY_CD
+			AND NMU.MAC_SEQ = CM.MAC_SEQ
+			AND CM.MACH_TP = '0100'
+			GROUP BY NR.COMPANY_CD
+		) AS BC
+		ON CC.COMPANY_CD = BC.COMPANY_CD
+		LEFT JOIN
+		(
+			SELECT
+				COUNT(*) AS COUNT
+			,	NL.COMPANY_CD
+			FROM T_NU_LOCATION NL
+			INNER JOIN T_NU_MACH_USE NMU
+			ON NL.COMPANY_CD = NMU.COMPANY_CD
+			AND NL.LOC_SEQ = NMU.USE_ID
+			INNER JOIN T_CM_MACHINE CM
+			ON NMU.COMPANY_CD = CM.COMPANY_CD
+			AND NMU.MAC_SEQ = CM.MAC_SEQ
+			AND CM.MACH_TP = '0800'
+			<where>
+			<if test="AREA != '' and AREA != null">
+			AND NL.ARE_CD = #{AREA}
+			</if>
+			<if test="MON_AREA != '' and MON_AREA != null">
+			AND NL.LOC_CD IN (SELECT NL.LOC_CD
+          				 	  	FROM T_NU_MON_LOCATION NML
+								 	  ,T_NU_MON_AREA NMA
+								 	  ,T_NU_LOCATION NL
+								 	  ,T_NU_AREA NA
+								 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+								   AND NML.ARE_CD = NMA.ARE_CD
+								   AND NML.COMPANY_CD = NL.COMPANY_CD
+							  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+								   AND NL.COMPANY_CD = NA.COMPANY_CD
+								   AND NL.ARE_CD = NA.ARE_CD
+								   AND NML.USE_YN = 'Y'
+								   AND NML.COMPANY_CD = #{COMPANY_CD}
+								   AND NML.ARE_CD = #{MON_AREA})
+			</if>
+			</where>
+			GROUP BY NL.COMPANY_CD
+		) AS AC
+		ON CC.COMPANY_CD = AC.COMPANY_CD
+		LEFT JOIN
+		(
+			SELECT
+				COUNT(*) AS COUNT
+			,	NR.COMPANY_CD
+			FROM T_NU_RESIDENT NR
+			INNER JOIN T_NU_MACH_USE NMU
+			ON NR.COMPANY_CD = NMU.COMPANY_CD
+			AND NR.RES_ID = NMU.USE_ID
+			INNER JOIN T_CM_MACHINE CM
+			ON NMU.COMPANY_CD = CM.COMPANY_CD
+			AND NMU.MAC_SEQ = CM.MAC_SEQ
+			AND CM.MACH_TP = '0200'
+			<where>
+			AND (NR.RETIRE_DT IS NULL OR NR.RETIRE_DT > DATE_FORMAT(NOW(), '%Y%m%d'))
+			<if test="AREA != '' and AREA != null">
+			AND NR.AREA = #{AREA}
+			</if>
+			<if test="MON_AREA != '' and MON_AREA != null">
+			AND NR.LOCATION IN (SELECT NL.LOC_CD
+          				 	  	FROM T_NU_MON_LOCATION NML
+								 	  ,T_NU_MON_AREA NMA
+								 	  ,T_NU_LOCATION NL
+								 	  ,T_NU_AREA NA
+								 WHERE NML.COMPANY_CD = NMA.COMPANY_CD
+								   AND NML.ARE_CD = NMA.ARE_CD
+								   AND NML.COMPANY_CD = NL.COMPANY_CD
+							  	   AND NML.LOC_SEQ = NL.LOC_SEQ
+								   AND NL.COMPANY_CD = NA.COMPANY_CD
+								   AND NL.ARE_CD = NA.ARE_CD
+								   AND NML.USE_YN = 'Y'
+								   AND NML.COMPANY_CD = #{COMPANY_CD}
+								   AND NML.ARE_CD = #{MON_AREA})
+			</if>
+			</where>
+			GROUP BY NR.COMPANY_CD
+		) AS DC
+		ON CC.COMPANY_CD = DC.COMPANY_CD
+		LEFT JOIN T_CM_CODE CC1
+		ON CC.COMPANY_CD = CC1.COMPANY_CD
+		AND CC1.GRP_CD = 'NU_DIAPER_IOT'
+		AND CC1.CMCD = 'SWL-009c'
+		LEFT JOIN T_CM_CODE CC2
+		ON CC.COMPANY_CD = CC2.COMPANY_CD
+		AND CC2.GRP_CD = 'NU_BAND_IOT'
+		AND CC2.CMCD = 'H709'
+		LEFT JOIN T_CM_CODE CC3
+		ON CC.COMPANY_CD = CC3.COMPANY_CD
+		AND CC3.GRP_CD = 'NU_AIR_IOT'
+		AND CC3.CMCD = 'BTIAQ02'
+		LEFT JOIN T_CM_CODE CC4
+		ON CC3.COMPANY_CD = CC4.COMPANY_CD
+		AND CC4.GRP_CD = 'NU_AIR_STATUS'
+		AND CC3.STR1 = CC4.CMCD
+		LEFT JOIN T_CM_CODE AIR1
+		ON CC.COMPANY_CD = AIR1.COMPANY_CD
+		AND AIR1.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR1.CMCD = '10'
+		LEFT JOIN T_CM_CODE AIR2
+		ON CC.COMPANY_CD = AIR2.COMPANY_CD
+		AND AIR2.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR2.CMCD = '20'
+		LEFT JOIN T_CM_CODE AIR3
+		ON CC.COMPANY_CD = AIR3.COMPANY_CD
+		AND AIR3.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR3.CMCD = '30'
+		LEFT JOIN T_CM_CODE AIR4
+		ON CC.COMPANY_CD = AIR4.COMPANY_CD
+		AND AIR4.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR4.CMCD = '40'
+		LEFT JOIN T_CM_CODE AIR5
+		ON CC.COMPANY_CD = AIR5.COMPANY_CD
+		AND AIR5.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR5.CMCD = '50'
+		LEFT JOIN T_CM_CODE AIR6
+		ON CC.COMPANY_CD = AIR6.COMPANY_CD
+		AND AIR6.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR6.CMCD = '60'
+		LEFT JOIN T_CM_CODE AIR7
+		ON CC.COMPANY_CD = AIR7.COMPANY_CD
+		AND AIR7.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR7.CMCD = '70'
+		LEFT JOIN T_CM_CODE AIR8
+		ON CC.COMPANY_CD = AIR8.COMPANY_CD
+		AND AIR8.GRP_CD = 'NU_AIR_QUALITY'
+		AND AIR8.CMCD = '80'
+		WHERE CC.COMPANY_CD = #{COMPANY_CD}
+	</select>
+</mapper>                                                                                                                                                                                                          

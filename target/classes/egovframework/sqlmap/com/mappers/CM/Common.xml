@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create : Tue Jul 07 11:48:58 KST 2009                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+-->																											  
+<mapper namespace="Common">                                                                                                                            
+	<select id="getLang" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            <![CDATA[ 
+                 SELECT A.LANG_CD   
+                 ,      A.PROPERTY_CD
+                 ,      A.PROPERTY_NM
+                 ,      A.LANG_FULL0
+                 ,      A.LANG_SHORT0
+                 ,      A.REMARK      
+                 ,      A.REG_PGM_ID  
+                 ,      A.REG_USER    
+                 ,      A.REG_DT
+                 ,      A.REG_DT_CURR 
+                 ,      A.REG_DT_LOC  
+                 ,      A.REG_IP      
+                 ,      A.MOD_PGM_ID  
+                 ,      A.MOD_USER    
+                 ,      A.MOD_DT
+                 ,      A.MOD_DT_CURR 
+                 ,      A.MOD_DT_LOC  
+                 ,      A.MOD_IP      
+                 FROM   T_CM_LANG A
+                 WHERE  A.LANG_CD     = IFNULL(#{LANG_CD}, (SELECT C.CMCD FROM T_CM_CODE C WHERE C.GRP_CD = 'LOCALE' AND STR1 = 'Y'))
+                 AND    A.COMPANY_CD = #{COMPANY_CD}                                                                                                                                                       
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <select id="getCMCODE" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            <![CDATA[
+            SELECT A.CMCD
+            ,	   A.CMNM
+            ,      A.STR1
+            ,      A.STR2
+            ,      A.STR3
+            ,      A.STR4
+            ,      A.STR5
+            ,      A.STR6
+            ,      A.STR7
+            ,      A.STR8
+            ,      A.STR9
+            ,      A.STR10
+            FROM   T_CM_CODE A
+            WHERE  A.COMPANY_CD = #{COMPANY_CD}
+            AND	   A.SERVICE_TP = #{SERVICE_TP}
+            AND    A.GRP_CD     = #{VAR}
+            AND    A.USEYN      = 'Y'
+            ORDER
+            BY     CAST(A.CMCD AS SIGNED INTEGER) ASC
+     ]]>                                                                                                                                                                                                              
+    </select>
+    
+    <select id="CM_MENU_SET" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            <![CDATA[ 
+            SELECT MENU_CD
+            	  ,MENU_NM
+            FROM T_CM_MENU
+            WHERE 1=1
+            	AND MENU_LEVEL = '0'
+                                                                                                                                                                                                      
+     ]]>                                                                                                                                                                                                              
+    </select>
+    <!-- MultiCombo Test -->
+    <select id="multicombo" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            <![CDATA[ 
+            SELECT DISTINCT GRP_CD
+            FROM T_CM_CODE                                                                                                                                                                                      
+     ]]>                                                                                                                                                                                                              
+    </select>
+
+    <select id="multicombo2" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                           
+            SELECT GRP_CD
+            	  ,CMCD
+            	  ,CMNM
+            FROM T_CM_CODE
+           WHERE 1=1
+            AND GRP_CD IN
+        	<foreach item="item" index="index" collection="multicon" open="(" close=")" separator=",">
+            	#{item}
+    		</foreach>
+    </select>
+    <!-- 사용자별 메인프레임 레이아웃 가져오기 --> <!-- 삭제 -->
+    <select id="getMainLayout" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+          <![CDATA[
+          		SELECT 
+          				  COMPANY_CD   
+						, USER_ID     
+						, LAYOUT_TYPE 
+						, DIVSEQ
+						, DIV_1
+						, DIV_1_WIDGET
+						, DIV_1_LEFT
+						, DIV_1_TOP
+						, DIV_1_WIDTH
+						, DIV_1_HEIGHT       
+						, DIV_2
+						, DIV_2_WIDGET
+						, DIV_2_LEFT
+						, DIV_2_TOP
+						, DIV_2_WIDTH
+						, DIV_2_HEIGHT       
+						, DIV_3
+						, DIV_3_WIDGET
+						, DIV_3_LEFT
+						, DIV_3_TOP
+						, DIV_3_WIDTH
+						, DIV_3_HEIGHT       
+						, DIV_4
+						, DIV_4_WIDGET
+						, DIV_4_LEFT
+						, DIV_4_TOP
+						, DIV_4_WIDTH
+						, DIV_4_HEIGHT       
+						, DIV_5
+						, DIV_5_WIDGET
+						, DIV_5_LEFT
+						, DIV_5_TOP
+						, DIV_5_WIDTH
+						, DIV_5_HEIGHT       
+						, DIV_6
+						, DIV_6_WIDGET
+						, DIV_6_LEFT
+						, DIV_6_TOP
+						, DIV_6_WIDTH
+						, DIV_6_HEIGHT       
+						, DIV_7
+						, DIV_7_WIDGET
+						, DIV_7_LEFT
+						, DIV_7_TOP
+						, DIV_7_WIDTH
+						, DIV_7_HEIGHT       
+						, DIV_8
+						, DIV_8_WIDGET
+						, DIV_8_LEFT
+						, DIV_8_TOP
+						, DIV_8_WIDTH
+						, DIV_8_HEIGHT       
+						, DIV_9
+						, DIV_9_WIDGET
+						, DIV_9_LEFT
+						, DIV_9_TOP
+						, DIV_9_WIDTH
+						, DIV_9_HEIGHT       
+						, DIV_10
+						, DIV_10_WIDGET
+						, DIV_10_LEFT
+						, DIV_10_TOP
+						, DIV_10_WIDTH
+						, DIV_10_HEIGHT      
+          		 FROM T_MAIN_LAYOUT
+          		WHERE USER_ID = #{USERID}	        		
+			]]>                                                                                                                                                                 
+    </select>
+    <!-- Main Layout INSERT  -->         <!-- 삭제 -->                                                                                                                                                                                          
+	<insert id="setMainLayout_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			INSERT INTO T_MAIN_LAYOUT (                                                                                                                                                                                 
+							  NO             
+							, COMPANY_CD   
+							, USER_ID      
+							, LAYOUT_TYPE 
+							, DIVSEQ 
+							, DIV_1
+							, DIV_1_WIDGET        
+							, DIV_1_LEFT   
+							, DIV_1_TOP    
+							, DIV_1_WIDTH  
+							, DIV_1_HEIGHT 
+							, DIV_2     
+							, DIV_2_WIDGET   
+							, DIV_2_LEFT   
+							, DIV_2_TOP    
+							, DIV_2_WIDTH  
+							, DIV_2_HEIGHT 
+							, DIV_3
+							, DIV_3_WIDGET        
+							, DIV_3_LEFT   
+							, DIV_3_TOP    
+							, DIV_3_WIDTH  
+							, DIV_3_HEIGHT 
+							, DIV_4
+							, DIV_4_WIDGET        
+							, DIV_4_LEFT   
+							, DIV_4_TOP    
+							, DIV_4_WIDTH  
+							, DIV_4_HEIGHT 
+							, DIV_5
+							, DIV_5_WIDGET        
+							, DIV_5_LEFT   
+							, DIV_5_TOP    
+							, DIV_5_WIDTH  
+							, DIV_5_HEIGHT 
+							, DIV_6
+							, DIV_6_WIDGET        
+							, DIV_6_LEFT   
+							, DIV_6_TOP    
+							, DIV_6_WIDTH  
+							, DIV_6_HEIGHT 
+							, DIV_7
+							, DIV_7_WIDGET        
+							, DIV_7_LEFT   
+							, DIV_7_TOP    
+							, DIV_7_WIDTH  
+							, DIV_7_HEIGHT 
+							, DIV_8
+							, DIV_8_WIDGET        
+							, DIV_8_LEFT   
+							, DIV_8_TOP    
+							, DIV_8_WIDTH  
+							, DIV_8_HEIGHT 
+							, DIV_9
+							, DIV_9_WIDGET        
+							, DIV_9_LEFT   
+							, DIV_9_TOP    
+							, DIV_9_WIDTH  
+							, DIV_9_HEIGHT 
+							, DIV_10
+							, DIV_10_WIDGET       
+							, DIV_10_LEFT  
+							, DIV_10_TOP   
+							, DIV_10_WIDTH 
+							, DIV_10_HEIGHT					      
+			) VALUES (                                                                                                                                                                               
+							  (SELECT ISNULL(MAX(NO),1) FROM T_MAIN_LAYOUT ML WITH(NOLOCK))  
+							, #{COMPANY_CD}
+							, #{USER_ID}
+							, #{LAYOUT_TYPE}
+							, #{DIVSEQ}
+							, #{DIV_1}
+							, #{DIV_1_WIDGET}
+							, #{DIV_1_LEFT}
+							, #{DIV_1_TOP}
+							, #{DIV_1_WIDTH}
+							, #{DIV_1_HEIGHT}
+							, #{DIV_2}
+							, #{DIV_2_WIDGET}
+							, #{DIV_2_LEFT}
+							, #{DIV_2_TOP}
+							, #{DIV_2_WIDTH}
+							, #{DIV_2_HEIGHT}
+							, #{DIV_3}
+							, #{DIV_3_WIDGET}
+							, #{DIV_3_LEFT}
+							, #{DIV_3_TOP}
+							, #{DIV_3_WIDTH}
+							, #{DIV_3_HEIGHT}
+							, #{DIV_4}
+							, #{DIV_4_WIDGET}
+							, #{DIV_4_LEFT}
+							, #{DIV_4_TOP}
+							, #{DIV_4_WIDTH}
+							, #{DIV_4_HEIGHT}
+							, #{DIV_5}
+							, #{DIV_5_WIDGET}
+							, #{DIV_5_LEFT}
+							, #{DIV_5_TOP}
+							, #{DIV_5_WIDTH}
+							, #{DIV_5_HEIGHT}
+							, #{DIV_6}
+							, #{DIV_6_WIDGET}
+							, #{DIV_6_LEFT}
+							, #{DIV_6_TOP}
+							, #{DIV_6_WIDTH}
+							, #{DIV_6_HEIGHT}
+							, #{DIV_7}
+							, #{DIV_7_WIDGET}
+							, #{DIV_7_LEFT}
+							, #{DIV_7_TOP}
+							, #{DIV_7_WIDTH}
+							, #{DIV_7_HEIGHT}
+							, #{DIV_8}
+							, #{DIV_8_WIDGET}
+							, #{DIV_8_LEFT}
+							, #{DIV_8_TOP}
+							, #{DIV_8_WIDTH}
+							, #{DIV_8_HEIGHT}
+							, #{DIV_9}
+							, #{DIV_9_WIDGET}
+							, #{DIV_9_LEFT}
+							, #{DIV_9_TOP}
+							, #{DIV_9_WIDTH}
+							, #{DIV_9_HEIGHT}
+							, #{DIV_10}
+							, #{DIV_10_WIDGET}
+							, #{DIV_10_LEFT}
+							, #{DIV_10_TOP}
+							, #{DIV_10_WIDTH}
+							, #{DIV_10_HEIGHT}		      
+			)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+    <!-- Main Layout UPDATE  --><!-- 삭제 -->                                                                                                                                                                                                   
+	<update id="setMainLayout_U" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			UPDATE T_MAIN_LAYOUT SET                                                                                                                                                                                 
+							  LAYOUT_TYPE   = #{LAYOUT_TYPE} 
+							, DIVSEQ        = #{DIVSEQ}      
+							, DIV_1         = #{DIV_1}       
+							, DIV_1_WIDGET  = #{DIV_1_WIDGET}     
+							, DIV_1_LEFT    = #{DIV_1_LEFT}  
+							, DIV_1_TOP     = #{DIV_1_TOP}   
+							, DIV_1_WIDTH   = #{DIV_1_WIDTH} 
+							, DIV_1_HEIGHT  = #{DIV_1_HEIGHT}
+							, DIV_2         = #{DIV_2}       
+							, DIV_2_WIDGET  = #{DIV_2_WIDGET}
+							, DIV_2_LEFT    = #{DIV_2_LEFT}  
+							, DIV_2_TOP     = #{DIV_2_TOP}   
+							, DIV_2_WIDTH   = #{DIV_2_WIDTH} 
+							, DIV_2_HEIGHT  = #{DIV_2_HEIGHT}
+							, DIV_3         = #{DIV_3}       
+							, DIV_3_WIDGET  = #{DIV_3_WIDGET}     
+							, DIV_3_LEFT    = #{DIV_3_LEFT}  
+							, DIV_3_TOP     = #{DIV_3_TOP}   
+							, DIV_3_WIDTH   = #{DIV_3_WIDTH} 
+							, DIV_3_HEIGHT  = #{DIV_3_HEIGHT}
+							, DIV_4         = #{DIV_4}       
+							, DIV_4_WIDGET  = #{DIV_4_WIDGET}     
+							, DIV_4_LEFT    = #{DIV_4_LEFT}  
+							, DIV_4_TOP     = #{DIV_4_TOP}   
+							, DIV_4_WIDTH   = #{DIV_4_WIDTH} 
+							, DIV_4_HEIGHT  = #{DIV_4_HEIGHT}
+							, DIV_5         = #{DIV_5}       
+							, DIV_5_WIDGET  = #{DIV_5_WIDGET}     
+							, DIV_5_LEFT    = #{DIV_5_LEFT}  
+							, DIV_5_TOP     = #{DIV_5_TOP}   
+							, DIV_5_WIDTH   = #{DIV_5_WIDTH} 
+							, DIV_5_HEIGHT  = #{DIV_5_HEIGHT}
+							, DIV_6         = #{DIV_6}       
+							, DIV_6_WIDGET  = #{DIV_6_WIDGET}     
+							, DIV_6_LEFT    = #{DIV_6_LEFT}  
+							, DIV_6_TOP     = #{DIV_6_TOP}   
+							, DIV_6_WIDTH   = #{DIV_6_WIDTH} 
+							, DIV_6_HEIGHT  = #{DIV_6_HEIGHT}
+							, DIV_7         = #{DIV_7}       
+							, DIV_7_WIDGET  = #{DIV_7_WIDGET}     
+							, DIV_7_LEFT    = #{DIV_7_LEFT}  
+							, DIV_7_TOP     = #{DIV_7_TOP}   
+							, DIV_7_WIDTH   = #{DIV_7_WIDTH} 
+							, DIV_7_HEIGHT  = #{DIV_7_HEIGHT}
+							, DIV_8         = #{DIV_8}       
+							, DIV_8_WIDGET  = #{DIV_8_WIDGET}     
+							, DIV_8_LEFT    = #{DIV_8_LEFT}  
+							, DIV_8_TOP     = #{DIV_8_TOP}   
+							, DIV_8_WIDTH   = #{DIV_8_WIDTH} 
+							, DIV_8_HEIGHT  = #{DIV_8_HEIGHT}
+							, DIV_9         = #{DIV_9}       
+							, DIV_9_WIDGET  = #{DIV_9_WIDGET}     
+							, DIV_9_LEFT    = #{DIV_9_LEFT}  
+							, DIV_9_TOP     = #{DIV_9_TOP}   
+							, DIV_9_WIDTH   = #{DIV_9_WIDTH} 
+							, DIV_9_HEIGHT  = #{DIV_9_HEIGHT}
+							, DIV_10        = #{DIV_10}      
+							, DIV_10_WIDGET = #{DIV_10_WIDGET}     
+							, DIV_10_LEFT   = #{DIV_10_LEFT} 
+							, DIV_10_TOP    = #{DIV_10_TOP}  
+							, DIV_10_WIDTH  = #{DIV_10_WIDTH}
+							, DIV_10_HEIGHT	= #{DIV_10_HEIGHT}
+					WHERE USER_ID = #{USER_ID}			      
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <!-- 공통코드 팝업 온로드시 공통코드 들고오는 쿼리 -->
+    <select id="getPopupCodeList" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+          <![CDATA[
+				SELECT 
+						CMCD
+					  , CMNM
+				 FROM T_CM_CODE
+				WHERE GRP_CD = #{GRP_CD}
+				AND COMPANY_CD = #{COMPANY_CD}S 
+			]]>                                                                                                                                                                 
+    </select>
+    <!-- 공통코드 그리드 onchar 이벤트 -->
+    <!-- MPS,MRP System Property 값 가져오기. -->
+    <select id="getSystemProperty" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+          <![CDATA[
+         	SELECT 
+         	       COMPANY_CD
+				 , CODE
+				 , CODE_NAME
+				 -- , MODULE_TP
+				 , SET_VALUE
+				 , USE_YN
+				 , DATE_FR
+				 , DATE_TO
+			  FROM T_CM_PROFILE
+			 WHERE COMPANY_CD = #{COMPANY_CD}
+			   AND USE_YN = 'Y'
+			]]>                                                                                                                                                                 
+    </select>
+    <!-- 삭제 -->
+    <select id="getExchangeRate" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+          <![CDATA[ 
+			      SELECT CAD.CURRENCY_RATE
+			        FROM T_CM_CURRENCY_APPLY_DATE CAD
+			       WHERE CAD.COMPANY_CD = #{COMPANY_CD}
+			         AND CAD.CURRENCY_CD = #{CURRENCY_CD}
+			         AND CAD.CURRENCY_DATE_FROM =
+			             (SELECT MAX(CAD2.CURRENCY_DATE_FROM)
+			                FROM T_CM_CURRENCY_APPLY_DATE CAD2
+			               WHERE CAD2.COMPANY_CD = CAD.COMPANY_CD
+			                 AND CAD2.CURRENCY_CD = CAD.CURRENCY_CD
+			                 AND CAD2.CURRENCY_DATE_FROM <= #{DATE})                                                                                                                                                                                                                   
+           ]]>                                                                                                                                   
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+	<select id="getCmSequence" statementType="CALLABLE" parameterType="java.util.Map">
+          <![CDATA[ 
+           	{ CALL SP_GET_SEQ (
+			  #{RETURN_VAL, mode=OUT, jdbcType=VARCHAR, javaType=string}
+			, #{ERR_CODE, mode=OUT, jdbcType=VARCHAR, javaType=string}
+			, #{COMPANY_CD}
+			, #{BIZ_CD}
+			, #{SHIP_CD}
+			, #{KEY_CD}
+			, #{SEQ_DATE}
+			, #{ISSUE_CODE}
+			  )
+            }
+                                                                                                                                                                                                             
+           ]]>                                                                                                                                   
+    </select>
+    <select id="getCmSequenceNo" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+		<![CDATA[ 
+		SELECT CONCAT( ISNULL(A.PREFIX, '')
+		             , ISNULL(A.PREFIX_SIGN, '')
+		             , ISNULL(#{ISSUE_CODE}, '')
+		             , CASE A.FORMAT_DATE WHEN 'YYYYMMDD'   THEN #{SEQ_DATE}
+		                                  WHEN 'YYMMDD'     THEN SUBSTRING(#{SEQ_DATE}, 3, 6)
+		                                  WHEN 'YYYYMM'     THEN SUBSTRING(#{SEQ_DATE}, 1, 6)
+		                                  WHEN 'YYYY-MM-DD' THEN SUBSTRING(#{SEQ_DATE}, 1, 4) + '-' + SUBSTRING(#{SEQ_DATE}, 5, 2) + '-' + SUBSTRING(#{SEQ_DATE}, 7, 2)
+		                                  WHEN 'YY-MM-DD'   THEN SUBSTRING(#{SEQ_DATE}, 3, 2) + '-' + SUBSTRING(#{SEQ_DATE}, 5, 2) + '-' + SUBSTRING(#{SEQ_DATE}, 7, 2)
+		                                  WHEN 'YYYY-MM'    THEN SUBSTRING(#{SEQ_DATE}, 1, 4) + '-' + SUBSTRING(#{SEQ_DATE}, 5, 2)
+		                                  WHEN 'YY'         THEN SUBSTRING(#{SEQ_DATE}, 3, 2)
+		                                  ELSE ''
+		               END
+		             , ISNULL(A.POST_SIGN, '')
+		             , ISNULL(A.POSTFIX, '')
+		             , REPLICATE(0, A.LENGTH_NUM - LEN(ISNULL(B.SEQ_NO, 0) + A.INCREASE_NUM))
+		             , ISNULL(B.SEQ_NO, 0) + A.INCREASE_NUM
+		       )      AS RETURN_VAL
+		FROM   T_CM_SEQ_ROLE A
+		LEFT
+		JOIN   T_CM_SEQUENCE B
+		ON     B.COMPANY_CD = A.COMPANY_CD
+		AND    B.KEY_CD     = A.KEY_CD
+		AND    B.BIZ_CD     = #{BIZ_CD}
+		AND    B.SHIP_CD    = #{SHIP_CD}
+		AND    B.SEQ_DATE   = #{SEQ_DATE}
+		WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.KEY_CD     = #{KEY_CD}
+		]]>
+    </select>
+    <update id="setCmSequenceNo" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+		MERGE INTO T_CM_SEQUENCE AS A
+		USING
+		( SELECT START_NUM
+		  ,      INCREASE_NUM
+		  FROM   T_CM_SEQ_ROLE
+		  WHERE  COMPANY_CD = #{COMPANY_CD}
+		  AND    KEY_CD     = #{KEY_CD}
+		) B
+		ON
+		(   A.COMPANY_CD = #{COMPANY_CD}
+		AND A.BIZ_CD     = #{BIZ_CD}
+		AND A.SHIP_CD    = #{SHIP_CD}
+		AND A.SEQ_DATE   = #{SEQ_DATE}
+		)
+		WHEN MATCHED THEN
+		UPDATE SET A.SEQ_NO = A.SEQ_NO + B.INCREASE_NUM
+		WHEN NOT MATCHED THEN
+		INSERT
+		( COMPANY_CD
+		, BIZ_CD
+		, SHIP_CD
+		, KEY_CD
+		, SEQ_DATE
+		, SEQ_NO
+		) VALUES
+		( #{COMPANY_CD}
+		, #{BIZ_CD}
+		, #{SHIP_CD}
+		, #{KEY_CD}
+		, #{SEQ_DATE}
+		, B.START_NUM
+		);
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <select id="getSalesUnitPrice" parameterType="java.util.Map" resultType="java.util.Map">                                                                                                            
+          <![CDATA[ 
+			      SELECT ISNULL(UP.UNIT_PRICE, 0) AS UNIT_PRICE
+			        FROM (SELECT UPD.UNIT_PRICE
+			                FROM T_SD_UNIT_PRICE_HEAD UPH
+			               INNER JOIN T_SD_UNIT_PRICE_DETAIL UPD
+			                  ON (UPH.COMPANY_CD = UPD.COMPANY_CD AND
+			                     UPH.UNIT_PRICE_NO = UPD.UNIT_PRICE_NO)
+			               WHERE UPD.COMPANY_CD = #{COMPANY_CD}
+			                 AND UPH.BIZ_CD = #{BIZ_CD}
+			                 AND UPH.CUST_CD = #{CUST_CD}
+			                 AND UPD.ITEM_CD = #{ITEM_CD}
+			               ORDER BY UPD.MOD_DT_CURR DESC) UP
+			       LIMIT 1
+           ]]>
+    </select>
+    <!--  메세지조회 -->
+    <select id="getMessageDescription" parameterType="java.util.Map" resultType="java.lang.String">
+     <![CDATA[
+                SELECT B.DESCRIPTION
+                FROM   T_CM_MESSAGE A
+                INNER
+                JOIN   T_CM_MESSAGE_DETAIL B
+                ON     B.MSG_ID   = A.MSG_ID
+                AND	   B.COMPANY_CD = A.COMPANY_CD
+                WHERE  B.MSG_ID   = #{MSG_ID}
+                AND	   B.COMPANY_CD = #{M_COMPANY_CD}
+                AND    B.LANG_CD  = #{LANG_CD}
+     ]]>
+    </select>
+</mapper>                                                                                                                                                                                                          

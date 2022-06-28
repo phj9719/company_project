@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00103_P01_P01                                                        
+     * 프로그램 명     	: 1-3 식사도움 관찰기록 팝업                                              
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-02 14:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00103_P01_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00103_P01">
+	<!-- 조회 -->
+    <select id="DAY00103_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT kr.sicode 
+			, kr.k_nalja
+			, DATE_FORMAT(kr.k_nalja, '%Y.%m.%d') AS nalja
+			, kr.k_number
+			, kr.k_name
+			, bm.성별
+			, bm.m_group
+			, kr.k_code
+			, bm.식사종류
+			, CASE WHEN bm.식사종류 = '1' THEN '일반식'
+				WHEN bm.식사종류 = '2' THEN '죽식'
+				WHEN bm.식사종류 = '3' THEN '유동식(미음)'
+				ELSE ''
+				END 식사종류명
+			, kr.아침양
+			, kr.아침종류
+			, kr.점심양
+			, kr.점심종류
+			, kr.저녁양
+			, kr.저녁종류
+			, kr.오전간식
+			, kr.오후간식
+			, CONCAT(LPAD(kr.아침시,2,'0'),':',LPAD(kr.아침분,2,'0')) AS 아침시간
+			, CONCAT(LPAD(kr.점심시,2,'0'),':',LPAD(kr.점심분,2,'0')) AS 점심시간
+			, CONCAT(LPAD(kr.저녁시,2,'0'),':',LPAD(kr.저녁분,2,'0')) AS 저녁시간
+			, kr.아침시
+			, kr.아침분
+			, kr.점심시
+			, kr.점심분
+			, kr.저녁시
+			, kr.저녁분
+			, kr.요양일지
+			, kr.일지담당
+			, kr.일지코드
+			, kr.구강담당
+			, kr.구강코드
+			, kr.구강상태
+			, kr.구강내용
+			, SUBSTRING(bi.아침식사,1,5) AS b_time
+			, SUBSTRING(bi.아침식사,1,2) AS b_time1
+			, SUBSTRING(bi.아침식사,4,2) AS b_time2
+			, SUBSTRING(bi.점심식사,1,5) AS l_time
+			, SUBSTRING(bi.점심식사,1,2) AS l_time1
+			, SUBSTRING(bi.점심식사,4,2) AS l_time2
+			, SUBSTRING(bi.저녁식사,1,5) AS d_time
+			, SUBSTRING(bi.저녁식사,1,2) AS d_time1
+			, SUBSTRING(bi.저녁식사,4,2) AS d_time2
+			, bi.오전간식 AS am_time
+			, bi.오후간식 AS pm_time
+			, bi.구강메모
+			, '' AS VIEW_MANAGER1
+			, '' AS VIEW_MANAGER2
+		FROM kmrecord kr
+		  JOIN base_mate bm
+			ON kr.sicode = bm.sicode
+			AND kr.k_code = bm.m_code
+		  LEFT JOIN base_info bi
+		    ON kr.sicode = bi.sicode
+		WHERE kr.sicode = #{sicode}
+		  AND kr.k_nalja = #{date}
+		  AND kr.k_code = #{m_code}						
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00103_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+    	UPDATE kmrecord
+		SET 아침양 = #{아침양}
+			, 아침종류 = #{아침종류}
+			, 점심양  = #{점심양}  
+			, 점심종류 = #{점심종류}
+			, 저녁양  = #{저녁양}  
+			, 저녁종류 = #{저녁종류}
+			, 오전간식 = #{오전간식}
+			, 오후간식 = #{오후간식}
+			, 요양일지 = #{요양일지}
+			, 일지담당 = #{일지담당}
+			, 일지코드 = #{일지코드}
+			, 구강담당 = #{구강담당}
+			, 구강코드 = #{구강코드}
+			, 구강상태 = #{구강상태}
+			, 구강내용 = #{구강내용}
+		WHERE sicode = #{sicode}
+		AND k_nalja = #{nalja}
+		AND k_code = #{k_code}
+    </update>
+    
+    <select id="DAY00103_P01_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+		SELECT sicode			
+			, k_nalja
+			, k_code
+			, k_name
+			, 요양일지
+			 FROM kmrecord
+		WHERE sicode = #{sicode}
+			AND k_code = #{k_code}			
+			AND k_nalja BETWEEN DATE_SUB(#{k_nalja}, INTERVAL 4 DAY) AND DATE_SUB(#{k_nalja}, INTERVAL 1 DAY)
+			AND REPLACE(요양일지,' ','') != ''
+		ORDER BY k_nalja DESC
+		LIMIT 1
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,640 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00205" width="1920" height="800" titletext="2-06 의료페기물대장" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" right="0" text="" bottom="0">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0" text="">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" autofittype="col" right="0" oncellclick="div_cont_div_left_grd_list_oncellclick" bottom="0">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                            <Column size="40"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="작성일자"/>
+                            <Cell col="1" text="폐기물종류"/>
+                            <Cell col="2" text="성상"/>
+                            <Cell col="3" text="배출중량"/>
+                            <Cell col="4" text="수량"/>
+                            <Cell col="5" text="작성자"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:w_date" displaytype="date" expandchar="dot"/>
+                            <Cell col="1" text="bind:폐기물종류" textAlign="left"/>
+                            <Cell col="2" text="bind:성상" textAlign="left"/>
+                            <Cell col="3" text="bind:배출중량" textAlign="left"/>
+                            <Cell col="4" text="bind:배출수량"/>
+                            <Cell col="5" text="bind:확인자" textAlign="left"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="450" top="0" bottom="0" width="1230">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_up" taborder="0" left="20" top="0" right="0" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_body1" taborder="1" left="0" top="0" height="34" cssclass="sta_WF_DetailLabel02" width="1210" text=""/>
+                          <Static id="sta_head1" taborder="0" text="점검일" left="0" top="0" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Button id="btn_manager" taborder="2" text="점검자" left="657" top="0" width="100" height="34" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager_value" taborder="3" left="767" top="5" width="198" height="25"/>
+                          <Calendar id="cal_date_pic" taborder="4" left="199" top="5" width="25" height="25" initvalueid="iv_cal_dot" tabstop="false" readonly="true"/>
+                          <Calendar id="cal_date" taborder="5" left="110" top="5" width="90" height="25" initvalueid="iv_cal_dot" buttonsize="0 0" readonly="true" tabstop="false"/>
+                          <Static id="sta_body1_00" taborder="6" left="0" top="33" height="34" cssclass="sta_WF_DetailLabel02" width="1210" text=""/>
+                          <Static id="sta_body1_00_00" taborder="7" left="0" top="66" height="34" cssclass="sta_WF_DetailLabel02" width="1210" text=""/>
+                          <Static id="sta_body1_00_00_00" taborder="8" left="0" top="99" height="34" cssclass="sta_WF_DetailLabel02" width="1210" text=""/>
+                          <Static id="sta_head1_00" taborder="9" text="폐기물 종류" left="0" top="33" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_00" taborder="10" text="배출중량" left="0" top="66" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_00_00" taborder="11" text="비고" left="0" top="99" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01" taborder="12" text="성상" left="658" top="33" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00" taborder="13" text="배출수량" left="658" top="66" width="100" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Edit id="edt_00_01" taborder="14" left="110" top="37" width="250" height="25" text="[01]" textAlign="left" maxlength="20"/>
+                          <Edit id="edt_00_01_00" taborder="15" left="110" top="70" width="150" height="25" text="[01]" textAlign="left" maxlength="10"/>
+                          <Edit id="edt_00_01_00_00" taborder="16" left="110" top="103" width="548" height="25" text="[01]" textAlign="left" maxlength="40"/>
+                          <Edit id="edt_00_01_00_01_00" taborder="17" left="767" top="37" width="150" height="25" text="[01]" textAlign="left" maxlength="8"/>
+                          <Combo id="cmb_00" taborder="18" left="367" top="37" width="150" height="25" innerdataset="ds_kind" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_cont_div_right_div_down_cmb_00_onitemchanged"/>
+                          <Spin id="spn_00" taborder="19" left="767" top="71" width="150" height="25" max="99" min="0" value=""/>
+                          <Static id="sta_manager_value00" taborder="20" left="924" top="38" width="130" height="25" text="◀ 고상, 액상" color="red"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="580">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="1" text="조회" top="7" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" left="508"/>
+              <Static id="sta_00" taborder="0" text="~" left="227" top="12" width="8" height="17" textAlign="center"/>
+              <Combo id="cmb_year" taborder="2" left="10" top="7" width="90" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_search_cmb_year_onitemchanged"/>
+              <Calendar id="cal_date_from" taborder="3" left="108" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_from_pic" taborder="4" left="197" top="7" width="25" height="26"/>
+              <Calendar id="cal_date_to" taborder="5" left="238" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_to_pic" taborder="6" left="327" top="7" width="25" height="26"/>
+              <Button id="btn_firstHalf" taborder="7" text="전반기" top="7" width="70" height="26" left="360" onclick="div_search_btn_firstHalf_onclick" background="orchid"/>
+              <Button id="btn_secondHalf" taborder="8" text="후반기" top="7" width="70" height="26" left="434" onclick="div_search_btn_secondHalf_onclick" background="orchid"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="580" top="0" height="40" formscrollbartype="none" width="1230">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란" left="445" top="7" width="65" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_report1" taborder="1" text="의료폐기 관리대장" left="510" top="7" width="150" height="26" cssclass="btn_print" onclick="div_func_btn_report1_onclick"/>
+              <Static id="sta_no_value" taborder="2" left="75" top="8" width="80" height="25"/>
+              <Static id="sta_no" taborder="3" text="기록번호 : " left="10" top="8" width="58" height="25"/>
+              <Button id="btn_save" taborder="4" text="저장" top="7" width="70" height="25" onclick="fn_saveBtn" cssclass="btn_save" left="955"/>
+              <Button id="btn_delete" taborder="5" text="삭제" top="7" width="70" height="25" onclick="fn_deleteBtn" cssclass="btn_delete" left="1030"/>
+              <Button id="btn_new" taborder="6" text="새로작성" top="7" height="26" cssclass="btn_newdoc" width="95" left="855" onclick="div_func_btn_new_onclick"/>
+              <Button id="btn_report2" taborder="7" text="의료폐기 관리대장(월간)" left="665" top="7" width="185" height="26" cssclass="btn_print" onclick="div_func_btn_report2_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="chk" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="w_number" type="STRING" size="256"/>
+          <Column id="w_date" type="DATE" size="256"/>
+          <Column id="폐기물종류" type="STRING" size="256"/>
+          <Column id="성상" type="STRING" size="256"/>
+          <Column id="배출중량" type="STRING" size="256"/>
+          <Column id="배출수량" type="STRING" size="256"/>
+          <Column id="확인자" type="STRING" size="256"/>
+          <Column id="확인코드" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+          <Column id="org_기록번호" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="year" type="STRING" size="256"/>
+          <Column id="date_from" type="DATE" size="256"/>
+          <Column id="date_to" type="DATE" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_kind" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">일반의료폐기물</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">손상성폐기물</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true" oncolumnchanged="ds_data_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="기록번호" type="STRING" size="256"/>
+          <Column id="배출일" type="DATE" size="256"/>
+          <Column id="폐기물종류" type="STRING" size="256"/>
+          <Column id="성상" type="STRING" size="256"/>
+          <Column id="배출중량" type="STRING" size="256"/>
+          <Column id="배출수량" type="STRING" size="256"/>
+          <Column id="확인자" type="STRING" size="256"/>
+          <Column id="확인코드" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+          <Column id="org_기록번호" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_data_chk">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="소독일" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_year" propid="value" datasetid="ds_search" columnid="year"/>
+      <BindItem id="item3" compid="div_func.form.sta_no_value" propid="text" datasetid="ds_data" columnid="기록번호"/>
+      <BindItem id="item4" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_name" propid="text" datasetid="ds_data" columnid="수급자명"/>
+      <BindItem id="item5" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_code" propid="text" datasetid="ds_data" columnid="수급코드"/>
+      <BindItem id="item6" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_group" propid="text" datasetid="ds_data" columnid="m_group"/>
+      <BindItem id="item7" compid="div_cont.form.div_up.form.div_right.form.sta_body1_sex_nm" propid="text" datasetid="ds_list_copy" columnid="sex_nm"/>
+      <BindItem id="item8" compid="div_cont.form.div_up.form.div_right.form.sta_body1_age" propid="text" datasetid="ds_data" columnid="성별"/>
+      <BindItem id="item9" compid="div_cont.form.div_up.form.div_right.form.sta_body1_grade_nm" propid="text" datasetid="ds_data" columnid="grade_nm"/>
+      <BindItem id="item10" compid="div_cont.form.div_up.form.div_right.form.sta_body1_m_enday" propid="text" datasetid="ds_data" columnid="입소일"/>
+      <BindItem id="item11" compid="div_cont.form.div_up.form.div_right.form.sta_body1_age00" propid="text" datasetid="ds_data" columnid="생일"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_up.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER"/>
+      <BindItem id="item93" compid="div_cont.form.div_right.form.div_up.form.cal_date_pic" propid="value" datasetid="ds_data" columnid="배출일"/>
+      <BindItem id="item94" compid="div_cont.form.div_right.form.div_up.form.cal_date" propid="value" datasetid="ds_data" columnid="배출일"/>
+      <BindItem id="item95" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_from_pic" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item28" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="date_to"/>
+      <BindItem id="item29" compid="div_search.form.cal_date_to_pic" propid="value" datasetid="ds_search" columnid="date_to"/>
+      <BindItem id="item36" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병08_1"/>
+      <BindItem id="item37" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병08_4"/>
+      <BindItem id="item38" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병09_1"/>
+      <BindItem id="item39" compid="div_cont.form.div_down.form.tab.tab_page1.form.div_main.form.chk_cr1_o8_01_00_00_01_01_00_01_00_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="질병09_4"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00" propid="value" datasetid="ds_data" columnid="기기명02"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00" propid="value" datasetid="ds_data" columnid="기기명03"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00" propid="value" datasetid="ds_data" columnid="기기명04"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명05"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명06"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명07"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명08"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명09"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명10"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명11"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명12"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명13"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명14"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명15"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명16"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명17"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명18"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명19"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="기기명20"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_down.form.edt_00_01_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00_00" propid="value" datasetid="ds_data" columnid="점검비고"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_up.form.edt_00_01" propid="value" datasetid="ds_data" columnid="폐기물종류"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_up.form.edt_00_01_00" propid="value" datasetid="ds_data" columnid="배출중량"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_up.form.edt_00_01_00_00" propid="value" datasetid="ds_data" columnid="비고"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_up.form.edt_00_01_00_01_00" propid="value" datasetid="ds_data" columnid="성상"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_up.form.spn_00" propid="value" datasetid="ds_data" columnid="배출수량"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00205
+ * 화면명   	: 2-06 의료기기점검
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-22
+ * 작성자   	: 이동관
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name"));
+this.fv_staff_dutyname = nexacro.getApplication().gds_userInfo.getColumn(0, "c_dutyname");
+this.row = 0;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const year = 2012; 
+	const thisYear = date.getFullYear();
+	
+	// 년도 콤보박스 세팅 (현재년 기준 ~ 19?20?년 후까지)
+	this.ds_year.set_enableevent(false);
+	this.ds_year.clearData();
+	let nRow;
+	for (let i = 0; i <= (thisYear-year) + 9; i++){
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year + i);
+		this.ds_year.setColumn(nRow, "CMNM", (year + i) + "년");
+	}
+	this.ds_year.set_enableevent(true);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "year", thisYear);
+	this.ds_search.setColumn(0, "date_from", thisYear + '0101');
+	this.ds_search.setColumn(0, "date_to", thisYear + '1231');
+	
+	// 오픈시 조회
+	this.fn_search();
+	
+};
+
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+this.fn_deleteBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_delete();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+this.fn_save_pre = function (){
+
+	if(Sct.Util.isEmpty(this.ds_data.getColumn(this.ds_data.rowposition, "배출일"))){
+		alert("작성일은 필수사항입니다!");
+		return false;
+	}
+	if(Sct.Util.isEmpty(this.ds_data.getColumn(this.ds_data.rowposition, "확인자"))){
+		alert("점검자는 필수사항입니다!");
+		return false;
+	}
+	
+	if(this.ds_data.getRowType(this.ds_data.rowposition) == 2){
+		const svcId = "searchChk";
+		const params = "/commonController.do";
+		const inDatasets = "";
+		const outDatasets = "ds_data_chk=output1";
+		const argument = "method=getList "
+					   + "sqlId=DAY00206.DAY00206_DS_DATA_CHK "
+					   + "sicode=" + this.ds_data.getColumn(0, "sicode") + " "
+					   + "w_date=" + this.ds_data.getColumn(0, "배출일") + " ";
+						
+		const callbackFunc = "fn_callback";
+		Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+		
+		if(this.ds_data_chk.rowcount > 0){
+			alert("기록되어있습니다. 배출일을 수정하세요!");
+			return false;
+		}
+	}	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function(){
+
+	// 소독번호 없을 시
+	if(Sct.Util.isEmpty(this.ds_data.getColumn(0,"점검번호"))){
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+
+	if(!this.confirm("삭제 하시겠습니까?")) return false;
+			
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_data.set_updatecontrol(true);
+		
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00206.DAY00206_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_searchDetail = function (row){
+
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_data=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00206.DAY00206_DS_DATA_S' "
+				   + "sicode=" + this.ds_list.getColumn(row, "sicode") + " "
+				   + "w_number=" + this.ds_list.getColumn(row, "w_number") + " "
+				   + "w_date=" + this.ds_list.getColumn(row, "w_date") + " ";
+				   
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_save = function(){
+	
+	// validation
+	if(!this.fn_save_pre()) return;
+	
+	const svcId = "save";
+ 	const inDs = "ds_data";
+	this.fn_save_com(svcId, inDs);
+	
+}
+
+// 삭제
+this.fn_delete = function(){
+
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+				   + "sqlId=DAY00206.DAY00206_DS_DATA_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search"){
+			this.div_cont.form.div_right.form.div_up.form.cal_date_pic.set_readonly(true);
+			this.fn_searchDetail(this.row);
+			this.row = 0;
+		}else if (strSvcID == "searchDetail"){
+			const name = this.ds_data.getColumn(0, "확인자");
+			const id = this.ds_data.getColumn(0, "확인코드");
+			//const dutyname = this.ds_data.getColumn(0, "점검직종");
+			this.ds_data.setColumn(0, "VIEW_MANAGER", name + "/" + id);
+		}else if(strSvcID == "save"){
+			this.div_cont.form.div_right.form.div_up.form.cal_date_pic.set_readonly(true);
+			this.fn_search();
+			this.row = 0;
+		}else if(strSvcID == "delete"){
+			this.fn_search();
+		}	
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "employee" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name1 = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid1 = objDs.getColumn(0, "c_staffid");
+				const dutyname1 = objDs.getColumn(0, "담당직종");
+				this.ds_data.setColumn(0, "확인자", name1);
+				this.ds_data.setColumn(0, "확인코드", staffid1);
+				//this.ds_data.setColumn(0, "점검직종", dutyname1);
+				this.ds_data.setColumn(0, "VIEW_MANAGER", name1 + "/" + staffid1);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "확인자", "");
+				this.ds_data.setColumn(0, "확인코드", "");
+				//this.ds_data.setColumn(0, "점검직종", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+ this.div_search_cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "date_from", e.postvalue + '0101');
+	this.ds_search.setColumn(0, "date_to", e.postvalue + '1231');
+	this.ds_list.clearData();
+	
+	this.fn_search();
+};
+
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(this.ds_data.getRowType(this.ds_data.rowposition) == 2){
+		return;
+	}
+	this.fn_searchDetail(e.row);
+	this.row = e.row;
+};
+
+this.div_func_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_data.clearData();
+	this.div_cont.form.div_right.form.div_up.form.cal_date_pic.set_readonly(false);
+	const aRow = this.ds_data.addRow();
+	this.ds_data.setColumn(aRow, "sicode", fv_sicode);
+	this.ds_data.setColumn(aRow, "배출일", Sct.Util.getToday());
+	this.ds_data.setColumn(aRow, "확인자", this.fv_staff_name);
+	this.ds_data.setColumn(aRow, "확인코드", this.fv_staff_id);
+	this.ds_data.setColumn(aRow, "VIEW_MANAGER", this.fv_staff_name + "/" + this.fv_staff_id);
+
+};
+
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+
+	if(this.ds_data.rowcount < 1){
+		return;
+	}
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "소독일")
+	};
+
+	Sct.popup(this, "employee", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+
+};
+
+this.div_func_btn_report1_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00205_R01.xfdl";
+	const popupName = "의료기기 점검일지l";
+	
+	params = {
+		sicode : fv_sicode
+	,	sign : this.div_func.form.chk_sign.value
+	,	chknum : this.ds_data.getColumn(0, "점검번호")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+};
+
+
+this.div_search_btn_firstHalf_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const date = new Date();
+	const thisYear = date.getFullYear();
+	
+	this.ds_search.setColumn(0, "date_from", thisYear + '0101');
+	this.ds_search.setColumn(0, "date_to", thisYear + '0630');
+	this.ds_list.clearData();
+	
+	this.fn_search();
+};
+
+this.div_search_btn_secondHalf_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const date = new Date();
+	const thisYear = date.getFullYear();
+	
+	this.ds_search.setColumn(0, "date_from", thisYear + '0701');
+	this.ds_search.setColumn(0, "date_to", thisYear + '1231');
+	this.ds_list.clearData();
+	
+	this.fn_search();
+};
+
+this.div_cont_div_right_div_down_cmb_00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_data.setColumn(0, "폐기물종류", String(e.posttext))
+};
+
+// 의료폐기물 관리대장
+this.div_func_btn_report1_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00206_R01.xfdl";
+	const popupName = "의료페기 관리대장";
+	
+	params = {
+		sicode : fv_sicode
+	,	sign : this.div_func.form.chk_sign.value
+	,	date_from : this.ds_search.getColumn(0, "date_from")
+	,	date_to : this.ds_search.getColumn(0, "date_to")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+};
+
+// 의료폐기물 관리대장(월간)
+this.div_func_btn_report2_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.getRowCount() < 1) return;
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00206_R02.xfdl";
+	const popupName = "의료페기 관리대장(월간)";
+	
+	params = {
+		sicode : fv_sicode
+	,	sign : this.div_func.form.chk_sign.value
+	,	date : this.ds_data.getColumn(0, "배출일")
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+
+};]]></Script>
+  </Form>
+</FDL>

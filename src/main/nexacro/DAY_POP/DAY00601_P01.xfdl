@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00601_P01" width="488" height="490" titletext="프로그램 의견수렴" onload="DAY00601_P01_onload">
+    <Layouts>
+      <Layout height="490" mobileorientation="landscape" width="488">
+        <Div id="div_cont" taborder="0" left="0" top="40" width="479" height="447" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_00" taborder="0" text="기록번호 :" left="26" top="1" width="60" height="33"/>
+              <Static id="sta_00_00" taborder="1" left="98" top="1" width="84" height="33"/>
+              <Static id="sta_00_01" taborder="3" text="프로그램 의견수렴" left="200" top="1" width="152" height="33" cssclass="lb01"/>
+              <Static id="sta_01" taborder="4" text="수급자명" left="9" top="30" width="85" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_01_00" taborder="5" left="9" top="59" width="85" height="30" cssclass="sta_WF_DetailLabel01" text="수렴일" textAlign="center"/>
+              <Static id="sta_01_01" taborder="6" text="영역구분" left="9" top="88" width="85" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_01_02" taborder="7" text="수렴내용" left="9" top="117" width="85" height="180" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_01_03" taborder="8" text="반영내용" left="9" top="296" width="85" height="120" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Static id="sta_01_04" taborder="9" left="9" top="415" width="85" height="30" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+              <Static id="sta_01_05" taborder="10" left="93" top="30" width="386" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_01_05_00" taborder="11" left="93" top="59" width="386" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_01_05_00_00" taborder="12" left="93" top="88" width="386" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_01_05_00_01" taborder="13" left="93" top="117" width="386" height="180" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_01_05_00_02" taborder="14" left="93" top="296" width="386" height="120" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_01_05_00_03" taborder="15" left="93" top="415" width="386" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <Static id="sta_name" taborder="16" left="93" top="30" width="85" height="30" textAlign="left" padding="0px 0px 0px 5px"/>
+              <Static id="sta_code" taborder="17" left="183" top="30" width="85" height="30" textAlign="center"/>
+              <Button id="btn_00_00" taborder="18" text="수급자조회" left="281" top="34" width="103" height="23" cssclass="btn_worker" onclick="div_cont_btn_00_00_onclick"/>
+              <Combo id="cmb_00" taborder="19" left="96" top="90" width="115" height="26" innerdataset="ds_combo" codecolumn="s_code" datacolumn="s_value"/>
+              <TextArea id="txt_00" taborder="20" left="96" top="120" width="380" height="174" maxlength="500" scrolltype="vertical" onchanged="div_cont_txt_00_onchanged" wordWrap="char"/>
+              <TextArea id="txt_01" taborder="21" left="96" top="299" width="380" height="114" maxlength="200" wordWrap="char" scrolltype="vertical"/>
+              <Button id="btn_00_01" taborder="22" text="작성자" left="12" top="418" width="79" height="24" cssclass="btn_worker" onclick="div_cont_btn_00_01_onclick"/>
+              <Calendar id="cal_date" taborder="23" left="96" top="62" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" tabstop="false"/>
+              <Static id="sta_00_02" taborder="2" left="9" top="2" width="470" height="29" border="1px solid darkgray" text=""/>
+              <Calendar id="cal_date_pic" taborder="24" left="185" top="62" width="25" height="26" enable="false"/>
+              <Static id="sta_writer" taborder="25" left="99" top="417" width="161" height="26"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="3" top="2" width="481" height="43" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="0" text="저장" top="4" width="70" height="26" onclick="fn_save" cssclass="btn_save" left="333"/>
+              <Button id="btn_delete" taborder="1" text="삭제" top="4" width="70" height="26" cssclass="btn_delete" left="406" onclick="div_func_btn_delete_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="chk" type="STRING" size="256"/>
+          <Column id="기록번호" type="STRING" size="256"/>
+          <Column id="수렴일" type="DATE" size="256"/>
+          <Column id="수급코드" type="STRING" size="256"/>
+          <Column id="수급자명" type="STRING" size="256"/>
+          <Column id="영역구분" type="STRING" size="256"/>
+          <Column id="영역구분명" type="STRING" size="256"/>
+          <Column id="수렴내용" type="STRING" size="256"/>
+          <Column id="반영내용" type="STRING" size="256"/>
+          <Column id="작성코드" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+          <Column id="writer" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_combo">
+        <ColumnInfo>
+          <Column id="s_code" type="STRING" size="256"/>
+          <Column id="s_value" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="s_code">SC20</Col>
+            <Col id="s_value">신체기능</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC21</Col>
+            <Col id="s_value">인지기능</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC26</Col>
+            <Col id="s_value">여가활동</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC27</Col>
+            <Col id="s_value">가족지지</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC28</Col>
+            <Col id="s_value">특화프로</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC29</Col>
+            <Col id="s_value">사회적응</Col>
+          </Row>
+          <Row>
+            <Col id="s_code">SC30</Col>
+            <Col id="s_value">맞춤형</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="bpnum" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="copy_text" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.cal_date" propid="value" datasetid="ds_list" columnid="수렴일"/>
+      <BindItem id="item1" compid="div_cont.form.div_right.form.div_main.form.cal_date_pic" propid="value" datasetid="ds_data" columnid="점검일"/>
+      <BindItem id="item2" compid="div_cont.form.cal_date_pic" propid="value" datasetid="ds_list" columnid="수렴일"/>
+      <BindItem id="item3" compid="div_cont.form.sta_00_00" propid="text" datasetid="ds_list" columnid="기록번호"/>
+      <BindItem id="item4" compid="div_cont.form.sta_name" propid="text" datasetid="ds_list" columnid="수급자명"/>
+      <BindItem id="item5" compid="div_cont.form.sta_code" propid="text" datasetid="ds_list" columnid="수급코드"/>
+      <BindItem id="item6" compid="div_cont.form.cmb_00" propid="value" datasetid="ds_list" columnid="영역구분"/>
+      <BindItem id="item7" compid="div_cont.form.txt_00" propid="value" datasetid="ds_list" columnid="수렴내용"/>
+      <BindItem id="item8" compid="div_cont.form.txt_01" propid="value" datasetid="ds_list" columnid="반영내용"/>
+      <BindItem id="item9" compid="div_cont.form.sta_writer" propid="text" datasetid="ds_list" columnid="writer"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00601_P01
+ * 화면명   	: 상비약품목록조회팝업
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-23
+ * 작성자   	: 성재영
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+ const fv_sicode = this.parent.SICODE;
+ const fv_bpnum = this.parent.BPNUM;
+ this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+ this.fv_staff_name = nexacro.getApplication().gds_userInfo.getColumn(0, "c_name").trim();
+ this.value = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.DAY00601_P01_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00601_P01";
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "bpnum", fv_bpnum);
+	
+	if (!Sct.Util.isEmpty(fv_bpnum)) {
+		this.fn_search();
+	} else {
+		let nRow = this.ds_list.addRow();
+		let today = Sct.Util.today();
+		
+		this.div_cont.form.cal_date_pic.set_enable(true);
+		
+		this.ds_list.setColumn(nRow, "sicode", fv_sicode);
+		this.ds_list.setColumn(nRow, "수렴일", today);
+		this.ds_list.setColumn(0, "작성자명", this.fv_staff_name);
+		this.ds_list.setColumn(0, "작성코드", this.fv_staff_id);
+		this.ds_list.setColumn(nRow, "writer", this.fv_staff_name + "/" + this.fv_staff_id);	
+	}
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+//저장 전 validation
+this.fn_save_pre = function () {
+
+	if (Sct.Util.isEmpty(this.ds_list.getColumn(0, "수급자명"))) {
+		this.alert("수급자를 선택해주세요.");
+		return false;
+	} 
+	
+	else if (Sct.Util.isEmpty(this.ds_list.getColumn(0, "영역구분"))) {
+		this.alert("영역구분을 선택해주세요.");
+		return false;
+	}
+	
+	else if (!this.value) {
+		this.alert("수렴내용을 최소 2글자 이상 입력을 해주세요.");
+		return false;
+	}
+	
+	else if (Sct.Util.isEmpty(this.ds_list.getColumn(0, "작성자명"))) {
+		this.alert("작성자를 선택해주세요.");
+		return false;
+	} 
+
+	if (Sct.Util.isEmpty(this.ds_list.getColumn(0, "반영내용"))) {
+		this.ds_list.setColumn(0, "반영내용", "");
+	
+	}
+	
+	return true;
+};
+// 삭제 전 Validation
+this.fn_delete_pre = function ()
+{
+	if (Sct.Util.isEmpty(this.ds_list.getColumn(0, "기록번호"))) return false;
+	if (!confirm("삭제하시겠습니까?")) return false;
+		
+	this.ds_list.set_updatecontrol(false);
+	this.ds_list.setRowType(0,8); 
+	this.ds_list.set_updatecontrol(true);
+
+	return true;
+};
+// 조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00601_P01.DAY00601_P01_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+// 저장
+this.fn_save = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+	
+	const svcId = "save";
+ 	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+};
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_list:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+				   + "sqlId=DAY00601_P01.DAY00601_P01_DS_LIST_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search"){
+			let name = this.ds_list.getColumn(0, "작성자명");
+			let id = this.ds_list.getColumn(0, "작성코드");
+			
+			this.ds_list.setColumn(0, "writer", name + "/" + id);
+		} else if (strSvcID == "save") {
+			this.alert("저장되었습니다.");
+			this.close(this.ds_return.saveXML());
+		} 
+		else if (strSvcID == "delete") {
+			this.alert("삭제되었습니다.");
+			this.close(this.ds_return.saveXML());
+		}
+	}
+	
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+ // 수렴내용 최소 바이트 제한 설정
+this.div_cont_txt_00_onchanged = function(obj:nexacro.TextArea,e:nexacro.ChangeEventInfo)
+{
+		let edit_value = obj.value;
+		let edit_value_byte_length = edit_value.byteLength();
+		let byte_value = 3;
+	
+		if(edit_value_byte_length <= byte_value){
+			this.value = false;
+		}else {
+			this.value = true;
+		}
+};
+// 삭제 버튼 클릭
+this.div_func_btn_delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_delete();
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 수급자 선택 팝업
+this.div_cont_btn_00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!Sct.Util.isEmpty(this.ds_list.getColumn(0, "기록번호"))) return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_list.getColumn(0, "수렴일")
+	};
+	Sct.popup(this, "matechk", 450, 400, "", param, "DAY_POP::DAYMATE_PP.xfdl", "fn_popCallback");
+	
+};
+// 작성자 팝업
+this.div_cont_btn_00_01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_list.getColumn(0, "수렴일")
+		,	FLAG : ""
+	};
+
+	Sct.popup(this, "employee", 450, 400, "", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "employee" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_list.setColumn(0, "작성자명", name);
+				this.ds_list.setColumn(0, "작성코드", staffid);
+				this.ds_list.setColumn(0, "writer", name + "/" + staffid);
+			}
+			else
+			{
+				this.ds_list.setColumn(0, "작성자명", "");
+				this.ds_list.setColumn(0, "작성코드", "");
+				this.ds_list.setColumn(0, "writer", "");
+			}
+			break;
+ 		case "matechk" :
+  			const m_name = nexacro.trim(objDs.getColumn(0, "m_name"));
+  			const m_code = objDs.getColumn(0, "m_code");
+  			
+  			this.ds_list.setColumn(0, "수급자명", m_name);
+  			this.ds_list.setColumn(0, "수급코드", m_code);
+ 			break;
+ 	}
+}]]></Script>
+  </Form>
+</FDL>

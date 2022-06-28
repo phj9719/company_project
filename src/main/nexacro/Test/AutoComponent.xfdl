@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="AutoComponent" width="1112" height="570" titletext="컴포넌트 자동생성" onload="AutoComponent_onload">
+    <Layouts>
+      <Layout width="1112" height="570">
+        <Button id="bnt_exe" taborder="14" text="EXCUTE" left="916" top="3" width="162" height="58" onclick="bnt_exe_onclick" background="aqua" border="2px solid rgba(170,170,170,1)" color="black" font="11pt &quot;Malgun Gothic&quot;"/>
+        <Div id="div_input" taborder="15" left="6" top="5" width="902" height="83" border="2px solid crimson">
+          <Layouts>
+            <Layout>
+              <Edit id="edt_rowCnt" taborder="0" left="470" top="5" width="47" height="25"/>
+              <Static id="sta_tableName00" taborder="1" text="row에 표시할 라벨 수(static)" cssclass="sta_WF_SearchLabel" left="302" top="7" width="170" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_height" taborder="2" left="546" top="38" width="77" height="25"/>
+              <Static id="sta_tableName04" taborder="3" text="Height" cssclass="sta_WF_SearchLabel" left="487" top="38" width="57" height="25" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_width" taborder="4" left="387" top="38" width="72" height="25"/>
+              <Edit id="edt_left" taborder="5" left="217" top="38" width="72" height="25"/>
+              <Static id="sta_tableName03" taborder="6" text="Width" cssclass="sta_WF_SearchLabel" left="336" top="40" width="52" height="21" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_tableName" taborder="7" innerdataset="ds_tbnm" codecolumn="TNM" datacolumn="TNM" left="98" top="5" width="190" height="25"/>
+              <Static id="sta_tableName" taborder="8" text="Table Name" cssclass="sta_WF_SearchLabel" left="6" top="7" width="87" height="21" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_tableName01" taborder="9" text="Top" cssclass="sta_WF_SearchLabel" left="9" top="40" width="42" height="21" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_top" taborder="10" left="55" top="38" width="72" height="25"/>
+              <Static id="sta_tableName02" taborder="11" text="Left" cssclass="sta_WF_SearchLabel" left="173" top="40" width="42" height="21" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_tableName05" taborder="12" text="compid" cssclass="sta_WF_SearchLabel" left="630" top="38" width="67" height="25" textAlign="right" verticalAlign="middle"/>
+              <Edit id="edt_compid" taborder="13" left="698" top="40" width="193" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_top" taborder="16" left="6" top="572" width="150" height="82" binddataset="ds_top" onheadclick="grd_top_onheadclick" onkeyup="grd_top_onkeyup" visible="false" nodatatext="No Data (ds_top)">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="1086"/>
+                <Column size="0"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="GB"/>
+                <Cell col="1" text="RN"/>
+                <Cell col="2" text="STATIC 백그라운드"/>
+                <Cell col="3" text="NOTSTATIC"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:GB"/>
+                <Cell col="1" text="bind:RN"/>
+                <Cell col="2" text="bind:STATICCOMP" textAlign="left" verticalAlign="middle"/>
+                <Cell col="3" text="bind:NOTSTATIC"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_mid" taborder="17" left="314" top="585" width="153" height="57" binddataset="ds_mid" cellclickbound="cell" selecttype="row" nodatatext="No Data (ds_mid)" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="1090"/>
+                <Column size="0"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="GB"/>
+                <Cell col="1" text="RN"/>
+                <Cell col="2" text="STATIC라벨"/>
+                <Cell col="3" text="NOTSTATIC"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:GB"/>
+                <Cell col="1" text="bind:RN"/>
+                <Cell col="2" text="bind:STATICCOMP" textAlign="left" verticalAlign="middle"/>
+                <Cell col="3" text="bind:NOTSTATIC"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_bottom" taborder="18" binddataset="ds_bottom" left="164" top="585" width="153" height="57" cellclickbound="cell" selecttype="row" nodatatext="No Data(ds_bottom)" visible="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="0"/>
+                <Column size="1090"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="GB"/>
+                <Cell col="1" text="RN"/>
+                <Cell col="2" text="STATICCOMP"/>
+                <Cell col="3" text="EDIT,COMBO,RADIOBUTTON 등등.."/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:GB"/>
+                <Cell col="1" text="bind:RN"/>
+                <Cell col="2" text="bind:STATICCOMP"/>
+                <Cell col="3" text="bind:NOTSTATIC" textAlign="left" verticalAlign="middle"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <TextArea id="textarea_top" taborder="19" left="6" top="131" height="433" oneditclick="textarea_top_oneditclick" width="250"/>
+        <TextArea id="textarea_mid" taborder="20" left="266" top="131" height="433" width="250"/>
+        <TextArea id="textarea_bottom" taborder="21" left="526" top="131" height="433" width="250"/>
+        <TextArea id="textarea_bind" taborder="22" left="786" top="131" width="250" height="433"/>
+        <Static id="Static00" taborder="23" text="컴포넌트 백그라운드 레이아웃" left="10" top="100" width="240" height="28"/>
+        <Static id="Static01" taborder="24" text="static 속성" left="268" top="100" width="240" height="28"/>
+        <Static id="Static02" taborder="25" text="combo,edit 등등" left="528" top="100" width="240" height="28"/>
+        <Static id="Static03" taborder="26" text="bind info" left="789" top="100" width="240" height="28"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_tbnm">
+        <ColumnInfo>
+          <Column id="TNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_top" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="GB" type="STRING" size="256"/>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="NO" type="STRING" size="256"/>
+          <Column id="STATICCOMP" type="STRING" size="256"/>
+          <Column id="NOTSTATIC" type="STRING" size="256"/>
+          <Column id="CHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mid">
+        <ColumnInfo>
+          <Column id="GB" type="STRING" size="256"/>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="NO" type="STRING" size="256"/>
+          <Column id="STATICCOMP" type="STRING" size="256"/>
+          <Column id="NOTSTATIC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bottom">
+        <ColumnInfo>
+          <Column id="GB" type="STRING" size="256"/>
+          <Column id="RN" type="STRING" size="256"/>
+          <Column id="NO" type="STRING" size="256"/>
+          <Column id="STATICCOMP" type="STRING" size="256"/>
+          <Column id="NOTSTATIC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_bind">
+        <ColumnInfo>
+          <Column id="BIND" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+
+this.AutoComponent_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fn_search();
+
+	this.div_input.form.edt_top.set_value('89');
+	this.div_input.form.edt_left.set_value('41');
+	this.div_input.form.edt_width.set_value('120');
+	this.div_input.form.edt_height.set_value('29');
+	this.div_input.form.edt_rowCnt.set_value('2');
+
+	var copyPaste = new Link.CellDataCopy(this, true, true);
+
+	copyPaste.addGrid(this.grd_top);
+};
+
+this.fn_search = function (pGubun)
+{
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_tbnm=output1";
+	var argument = "method=getList "
+		 + "sqlId=SEARCH_TABLE ";
+	var callbackFunc = "";
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+this.bnt_exe_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	var flag = true;
+
+	if (this.div_input.form.cmb_tableName.value == null || this.div_input.form.cmb_tableName.value == "") 
+	{
+		alert("TableName을 입력하세요");
+		flag = false;
+	}
+	else if (this.div_input.form.edt_rowCnt.value == null || this.div_input.form.edt_rowCnt.value == "") 
+	{
+		alert("row에 표시할 라벨 수(static)을 입력하세요");
+		flag = false;
+	}
+	else if (this.div_input.form.edt_top.value == null || this.div_input.form.edt_top.value == "") 
+	{
+		alert("top을 입력하세요");
+		flag = false;
+	}
+	else if (this.div_input.form.edt_left.value == null || this.div_input.form.edt_left.value == "") 
+	{
+		alert("left를 입력하세요");
+		flag = false;
+	}
+	else if (this.div_input.form.edt_width.value == null || this.div_input.form.edt_width.value == "") 
+	{
+		alert("width를 입력하세요");
+		flag = false;
+	}
+	else if (this.div_input.form.edt_height.value == null || this.div_input.form.edt_height.value == "") 
+	{
+		alert("height를 입력하세요");
+		flag = false;
+	}
+
+	if (flag == true) 
+	{
+		this.textarea_top.set_value("");
+		this.textarea_mid.set_value("");
+		this.textarea_bottom.set_value("");
+		this.textarea_bind.set_value("");
+
+		var TableName = this.div_input.form.cmb_tableName.value;
+		var left = this.div_input.form.edt_left.value;
+		var top = this.div_input.form.edt_top.value;
+		var width = this.div_input.form.edt_width.value;
+		var height = this.div_input.form.edt_height.value;
+		var cnt = this.div_input.form.edt_rowCnt.value;
+		var compid = this.div_input.form.edt_compid.value;
+
+		if (compid == null || compid == "") 
+		{
+			compid = "";
+		}
+
+
+		var svcId = "search";
+		var params = "/commonController.do";
+		var inDatasets = "";
+		var outDatasets = "ds_top=output1 ds_mid=output2 ds_bottom=output3 ds_bind=output4";
+		var argument = "method=getList "
+			 + "sqlId='TEST_AUTOCOMPONENTS01 TEST_AUTOCOMPONENTS02 TEST_AUTOCOMPONENTS02 TEST_AUTOCOMPONENTSBIND' "
+			 + "TABLENAME=" + TableName + " "
+			 + "AS_TOP=" + top + " "
+			 + "AS_LEFT=" + left + " "
+			 + "AS_WIDTH=" + width + " "
+			 + "AS_HEIGHT=" + height + " "
+			 + "AS_CNT=" + cnt + " "
+			 + "AS_COMPID=" + compid + " ";
+		var callbackFunc = "fn_callback";
+		this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+	}
+};
+this.fn_callback = function ()
+{
+	var textArea_TOP = "";
+	var textArea_MID = "";
+	var textArea_BOTTOM = "";
+	var textArea_BIND = "";
+	var topRowcount = 0;
+	var midRowcount = 0;
+	var bottomRowcount = 0;
+	var bindRowcount = 0;
+	topRowcount = this.ds_top.rowcount;
+	midRowcount = this.ds_mid.rowcount;
+	bottomRowcount = this.ds_bottom.rowcount;
+	bindRowcount = this.ds_bind.rowcount;
+	// static라벨 뒤의 background static
+	if (topRowcount > 0) 
+	{
+		for (var i = 0; i < topRowcount; i++) 
+		{
+			textArea_TOP += this.ds_top.getColumn(i, "STATICCOMP") + "\n";
+		}
+		this.textarea_top.insertText(textArea_TOP);
+	}
+	// static라벨
+	if (midRowcount > 0) 
+	{
+		for (var i = 0; i < midRowcount; i++) 
+		{
+			textArea_MID += this.ds_mid.getColumn(i, "STATICCOMP") + "\n";
+		}
+		this.textarea_mid.insertText(textArea_MID);
+	}
+	// static 라벨 옆에 edit,combo,radio 등등의 컴포넌트
+	if (bottomRowcount > 0) 
+	{
+		for (var i = 0; i < bottomRowcount; i++) 
+		{
+			textArea_BOTTOM += this.ds_bottom.getColumn(i, "NOTSTATIC") + "\n";
+		}
+		this.textarea_bottom.insertText(textArea_BOTTOM);
+	}
+	// bind info
+	if (bindRowcount > 0) 
+	{
+		for (var i = 0; i < bindRowcount; i++) 
+		{
+			textArea_BIND += this.ds_bind.getColumn(i, "BIND") + "\n";
+		}
+		this.textarea_bind.insertText(textArea_BIND);
+	}
+}
+;
+]]></Script>
+  </Form>
+</FDL>

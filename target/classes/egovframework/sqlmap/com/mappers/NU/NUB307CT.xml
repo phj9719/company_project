@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB307CT                                                         
+     * 프로그램 명     	: 수면상태                                                     
+     * Description 	: 태블릿 입소자별 수면상태 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-11-18 10:20        		|  이승규       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB307CT">
+	<!-- 검색 -->
+	<select id="NUB307CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 태블릿 수면상태 검색 : NUB307CT_DS_LIST_S */
+			SELECT
+					NS.COMPANY_CD
+				,	NS.SLE_SEQ
+				,	NS.RES_ID
+				,	NR.NAME
+				,	NR.AREA
+				,	NR.LOCATION
+				,	NS.SLE_DT
+				,	NS.SLE_TIME
+				,	NS.SLEEP_TP
+				,	NS.MANAGER_ID
+				,	NS.REMARK
+				,	NS.REG_PGM_ID
+				,	NS.REG_USER
+				,	NS.REG_DT
+				,	NS.REG_DT_CURR
+				,	NS.REG_DT_LOC
+				,	NS.REG_IP
+				,	NS.MOD_PGM_ID
+				,	NS.MOD_USER
+				,	NS.MOD_DT
+				,	NS.MOD_DT_CURR
+				,	NS.MOD_DT_LOC
+				,	NS.MOD_IP
+			FROM
+					T_NU_SLEEP NS
+				,	T_NU_RESIDENT NR
+			WHERE	NS.COMPANY_CD = NR.COMPANY_CD
+			AND		NS.RES_ID = NR.RES_ID
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NS.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NS.SLE_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NS.RES_ID = #{RES_ID}
+		</if>
+			ORDER BY NS.SLE_TIME DESC
+	</select>
+	
+	<!-- 삽입 -->
+	<insert id="NUB307CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* 태블릿 수면상태 삽입 : NUB307CT_DS_LIST_I */
+		INSERT INTO
+			T_NU_SLEEP
+		(
+				COMPANY_CD
+			,	SLE_SEQ
+			,	RES_ID
+			,	SLE_DT
+			,	SLE_TIME
+			,	SLEEP_TP
+			,	MANAGER_ID
+			,	REMARK
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_SLEEP ),12,0)))
+			,	#{RES_ID}
+			,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+			,	#{SLE_TIME}
+			,	#{SLEEP_TP}
+			,	#{MANAGER_ID}
+			,	#{REMARK}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="NUB307CT_DS_LIST_U" parameterType="java.util.HashMap">
+		UPDATE
+			T_NU_SLEEP
+		SET
+				SLE_TIME = #{SLE_TIME}
+			,	SLEEP_TP = #{SLEEP_TP}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SLE_SEQ = #{SLE_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="NUB307CT_DS_LIST_D" parameterType="java.util.HashMap">
+	/* 태블릿 수면상태 삭제 : NUB307CT_DS_LIST_D */
+		DELETE FROM
+			T_NU_SLEEP
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SLE_SEQ = #{SLE_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+</mapper>                                                                                                                                                                                                          

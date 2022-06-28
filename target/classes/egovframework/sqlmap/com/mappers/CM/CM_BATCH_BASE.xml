@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CM_BATCH_ROOM
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2021-09-30  |  SOOIM    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH_BASE">
+	<select id="SCT_BASE_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SB.SICODE AS REF_SYS_COMP_CD
+			  		,'100' AS SERVICE_TP
+					,SB.B_OFFNUM 
+					,SB.B_OFFNAME AS COMPANY_NM
+					,SB.B_TAXCODE AS REG_NO
+					,SB.B_MANAGER
+					,SB.B_PERSON AS PRESIDENT_NM
+					,SB.B_OFFTEL AS TEL_NO
+					,SB.B_OFFFAX AS FAX_NO
+					,CONCAT(SB.B_OFFJUSO1,' ',SB.B_OFFJUSO2) AS ADDRESS
+					,SB.B_OFFPOST AS ZIP_CODE
+					,LEFT(SB.아침식사,2) AS BRE_FR_HOUR   -- 아침식사 시간 fr
+					,RIGHT(LEFT(SB.아침식사,5),2) AS BRE_FR_MINUTE -- 아침식사 분 fr
+					,LEFT(RIGHT(SB.아침식사,5),2) AS BRE_TO_HOUR
+					,RIGHT(SB.아침식사,2) AS BRE_TO_MINUTE
+					,LEFT(SB.점심식사,2) AS LUN_FR_HOUR
+					,RIGHT(LEFT(SB.점심식사,5),2) AS LUN_FR_MINUTE
+					,LEFT(RIGHT(SB.점심식사,5),2) AS LUN_TO_HOUR
+					,RIGHT(SB.점심식사,2) AS LUN_TO_MINUTE
+					,LEFT(SB.저녁식사,2) AS DIN_FR_HOUR
+					,RIGHT(LEFT(SB.저녁식사,5),2) AS DIN_FR_MINUTE
+					,LEFT(RIGHT(SB.저녁식사,5),2) AS DIN_TO_HOUR
+					,RIGHT(SB.저녁식사,2) AS DIN_TO_MINUTE
+					,CONCAT(LEFT(SB.오전간식,2),RIGHT(SB.오전간식,2)) AS MOR_SNACK_TIME
+					,CONCAT(LEFT(SB.오후간식,2),RIGHT(SB.오후간식,2)) AS AFT_SNACK_TIME
+					,SB.IR_TIME
+					,SB.IR_TYPE
+					,SB.IR_COMP
+					,SB.IR_STATUS
+			  FROM sct_base SB
+			 WHERE SB.IR_STATUS != '1'
+		]]>
+	</select>
+	<update id="SCT_BASE_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE T_CM_COMPANY  CC
+			  INNER JOIN sct_base SB
+			  		  ON(CC.REF_SYS_COMP_CD = SB.sicode)
+					 SET CC.COMPANY_NM          = SB.b_offname
+						,CC.PRESIDENT_NM        = SB.b_person
+						,CC.TEL_NO              = SB.b_offtel
+						,CC.TEL_NO2             = SB.b_offtel
+						,CC.FAX_NO              = SB.b_offfax
+						,CC.REG_NO              = SB.b_taxcode
+						,CC.ZIP_CODE            = SB.b_offpost
+						,CC.ADDRESS             = CONCAT(SB.b_offjuso1,' ',SB.b_offjuso2)
+						,CC.BRE_FR_TIME         = CONCAT(IFNULL(LEFT(SB.아침식사,2),'00'),IFNULL(RIGHT(LEFT(SB.아침식사,5),2),'00'))
+						,CC.BRE_TO_TIME         = CONCAT(IFNULL(LEFT(RIGHT(SB.아침식사,5),2),'00'),IFNULL(RIGHT(SB.아침식사,2),'00'))
+						,CC.LUN_FR_TIME         = CONCAT(IFNULL(LEFT(SB.점심식사,2),'00'),IFNULL(RIGHT(LEFT(SB.점심식사,5),2),'00'))
+						,CC.LUN_TO_TIME         = CONCAT(IFNULL(LEFT(RIGHT(SB.점심식사,5),2),'00'),IFNULL(RIGHT(SB.점심식사,2),'00'))
+						,CC.DIN_FR_TIME         = CONCAT(IFNULL(LEFT(SB.저녁식사,2),'00'),IFNULL(RIGHT(LEFT(SB.저녁식사,5),2),'00'))
+						,CC.DIN_TO_TIME         = CONCAT(IFNULL(LEFT(RIGHT(SB.저녁식사,5),2),'00'),IFNULL(RIGHT(SB.저녁식사,2),'00'))
+						,CC.MOR_SNACK_TIME      = IFNULL(CONCAT(LEFT(SB.오전간식,2),RIGHT(SB.오전간식,2)),'0000')
+						,CC.AFT_SNACK_TIME      = IFNULL(CONCAT(LEFT(SB.오후간식,2),RIGHT(SB.오후간식,2)),'0000')          
+		           WHERE SB.ir_status != '1'
+    ]]>
+	</update>
+	<update id="NS_BASE_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_base sb
+			  INNER JOIN T_CM_COMPANY CC
+			  		  ON(sb.sicode = CC.REF_SYS_COMP_CD)
+					 SET ir_status = '1'            
+		           WHERE ir_status!= '1'
+    ]]>
+	</update>
+</mapper>

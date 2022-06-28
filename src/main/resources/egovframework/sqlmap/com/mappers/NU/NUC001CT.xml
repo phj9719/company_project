@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC001CT                                                         
+     * 프로그램 명     	: 이용약관 개인정보취급방치 동의                                                   
+     * Description 	: 모바일 로그인시 이용약관 및 개인정보취급방침을 조회하고
+     				   동의여부를 업데이트
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-08-27 14:38     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        NUC001CT_DS_LIST_S		약관 및 개인정보취급방침 조회
+        NUC001CT_DS_INPUT_U		동의하기                                                                                    
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC001CT">
+	<!-- 약관 및 개인정보취급방침 조회 -->
+	<select id="NUC001CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC001CT_DS_LIST_S */
+		SELECT
+				COMPANY_CD
+			,	TOS_TP
+			,	TOS_TITLE
+			,	TOS_SUB_TITLE
+			,	TOS_SUB_DATA_TITLE
+			,	TOS_DATA
+		FROM
+				T_NU_TOS
+		WHERE
+				COMPANY_CD = #{COMPANY_CD}
+		ORDER BY
+				TOS_TP
+	</select>
+	
+	<!-- 동의하기 -->
+	<update id="NUC001CT_DS_INPUT_U" parameterType="java.util.HashMap">
+	/* NUC001CT_TOS_YN_Y_U */
+		UPDATE
+				T_NU_RESIDENT
+		SET
+				TOS_YN = 'Y'
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+	</update>	                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

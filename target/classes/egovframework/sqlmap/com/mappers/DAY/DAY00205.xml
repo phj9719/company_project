@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00205                                                         
+     * 프로그램 명     	: 2-05  간호기록소독일지                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-21 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00205">
+	<!-- 조회 -->
+    <select id="DAY00205_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00205_DS_LIST_S */
+	SELECT 0 AS chk
+	     , sicode
+         , 점검번호 AS e_number
+         , 점검일 AS e_date
+         , 점검담당
+         , 점검코드
+         , 점검직종
+      FROM base_equip e
+     WHERE 1=1
+       AND sicode = #{sicode}
+       AND 점검일  BETWEEN #{date_from} AND #{date_to}
+     ORDER 
+        BY 점검일 DESC
+	</select>
+	
+	<!-- 조회 -->
+    <select id="DAY00205_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00205_DS_DATA_S */
+	SELECT be.sicode
+		 , be.점검번호
+		 , be.점검일
+		 , be.점검담당
+		 , be.점검코드
+		 , be.점검직종
+		 , be.점검비고
+		 , be.점검30 AS 점검
+		 , SUBSTRING(be.점검30, 1, 1) AS 점검01
+		 , SUBSTRING(be.점검30, 2, 1) AS 점검02
+		 , SUBSTRING(be.점검30, 3, 1) AS 점검03
+		 , SUBSTRING(be.점검30, 4, 1) AS 점검04
+		 , SUBSTRING(be.점검30, 5, 1) AS 점검05
+		 , SUBSTRING(be.점검30, 6, 1) AS 점검06
+		 , SUBSTRING(be.점검30, 7, 1) AS 점검07
+		 , SUBSTRING(be.점검30, 8, 1) AS 점검08
+		 , SUBSTRING(be.점검30, 9, 1) AS 점검09
+		 , SUBSTRING(be.점검30, 10, 1) AS 점검10
+		 , SUBSTRING(be.점검30, 11, 1) AS 점검11
+		 , SUBSTRING(be.점검30, 12, 1) AS 점검12
+		 , SUBSTRING(be.점검30, 13, 1) AS 점검13
+		 , SUBSTRING(be.점검30, 14, 1) AS 점검14
+		 , SUBSTRING(be.점검30, 15, 1) AS 점검15
+		 , SUBSTRING(be.점검30, 16, 1) AS 점검16
+		 , SUBSTRING(be.점검30, 17, 1) AS 점검17
+		 , SUBSTRING(be.점검30, 18, 1) AS 점검18
+		 , SUBSTRING(be.점검30, 19, 1) AS 점검19
+		 , SUBSTRING(be.점검30, 20, 1) AS 점검20
+		 , SUBSTRING(be.점검30, 21, 1) AS 점검21
+		 , SUBSTRING(be.점검30, 22, 1) AS 점검22
+		 , SUBSTRING(be.점검30, 23, 1) AS 점검23
+		 , SUBSTRING(be.점검30, 24, 1) AS 점검24
+		 , SUBSTRING(be.점검30, 25, 1) AS 점검25
+		 , SUBSTRING(be.점검30, 26, 1) AS 점검26
+		 , SUBSTRING(be.점검30, 27, 1) AS 점검27
+		 , SUBSTRING(be.점검30, 28, 1) AS 점검28
+		 , SUBSTRING(be.점검30, 29, 1) AS 점검29
+		 , SUBSTRING(be.점검30, 30, 1) AS 점검30
+		 , be.수량10 AS 수량1
+		 , SUBSTRING(be.수량10, 1, 3) AS 수량01
+		 , SUBSTRING(be.수량10, 4, 3) AS 수량02
+		 , SUBSTRING(be.수량10, 7, 3) AS 수량03
+		 , SUBSTRING(be.수량10, 10, 3) AS 수량04
+		 , SUBSTRING(be.수량10, 13, 3) AS 수량05
+		 , SUBSTRING(be.수량10, 16, 3) AS 수량06
+		 , SUBSTRING(be.수량10, 19, 3) AS 수량07
+		 , SUBSTRING(be.수량10, 22, 3) AS 수량08
+		 , SUBSTRING(be.수량10, 25, 3) AS 수량09
+		 , SUBSTRING(be.수량10, 28, 3) AS 수량10
+		 , be.수량20 AS 수량2
+		 , SUBSTRING(be.수량20, 1, 3) AS 수량11
+		 , SUBSTRING(be.수량20, 4, 3) AS 수량12
+		 , SUBSTRING(be.수량20, 7, 3) AS 수량13
+		 , SUBSTRING(be.수량20, 10, 3) AS 수량14
+		 , SUBSTRING(be.수량20, 13, 3) AS 수량15
+		 , SUBSTRING(be.수량20, 16, 3) AS 수량16
+		 , SUBSTRING(be.수량20, 19, 3) AS 수량17
+		 , SUBSTRING(be.수량20, 22, 3) AS 수량18
+		 , SUBSTRING(be.수량20, 25, 3) AS 수량19
+		 , SUBSTRING(be.수량20, 28, 3) AS 수량20
+		 , be.수량30 AS 수량3
+		 , SUBSTRING(be.수량30, 1, 3) AS 수량21
+		 , SUBSTRING(be.수량30, 4, 3) AS 수량22
+		 , SUBSTRING(be.수량30, 7, 3) AS 수량23
+		 , SUBSTRING(be.수량30, 10, 3) AS 수량24
+		 , SUBSTRING(be.수량30, 13, 3) AS 수량25
+		 , SUBSTRING(be.수량30, 16, 3) AS 수량26
+		 , SUBSTRING(be.수량30, 19, 3) AS 수량27
+		 , SUBSTRING(be.수량30, 22, 3) AS 수량28
+		 , SUBSTRING(be.수량30, 25, 3) AS 수량29
+		 , SUBSTRING(be.수량30, 28, 3) AS 수량30
+		 , be.기기명01
+		 , be.기기명02
+		 , be.기기명03
+		 , be.기기명04
+		 , be.기기명05
+		 , be.기기명06
+		 , be.기기명07
+		 , be.기기명08
+		 , be.기기명09
+		 , be.기기명10
+		 , be.기기명11
+		 , be.기기명12
+		 , be.기기명13
+		 , be.기기명14
+		 , be.기기명15
+		 , be.기기명16
+		 , be.기기명17
+		 , be.기기명18
+		 , be.기기명19
+		 , be.기기명20
+		 , be.기기명21
+		 , be.기기명22
+		 , be.기기명23
+		 , be.기기명24
+		 , be.기기명25
+		 , be.기기명26
+		 , be.기기명27
+		 , be.기기명28
+		 , be.기기명29
+		 , be.기기명30
+		 , be.org_점검번호
+	  FROM base_equip be
+	 WHERE be.sicode = #{sicode}
+	   AND be.점검번호 = #{e_number}
+	   AND be.점검일 = #{e_date}
+	</select>
+	
+	<!-- 삽입 -->
+    <insert id="DAY00205_DS_DATA_I" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="n_number">
+    /* 2-05 삽입 */
+    INSERT INTO base_equip
+    (
+	  sicode
+	, 점검번호
+	, 점검일
+	, 점검담당
+	, 점검코드
+	, 점검직종
+	, 점검비고
+	, 점검30
+	, 수량10
+	, 수량20
+	, 수량30
+	, 기기명01
+	, 기기명02
+	, 기기명03
+	, 기기명04
+	, 기기명05
+	, 기기명06
+	, 기기명07
+	, 기기명08
+	, 기기명09
+	, 기기명10
+	, 기기명11
+	, 기기명12
+	, 기기명13
+	, 기기명14
+	, 기기명15
+	, 기기명16
+	, 기기명17
+	, 기기명18
+	, 기기명19
+	, 기기명20
+	, 기기명21
+	, 기기명22
+	, 기기명23
+	, 기기명24
+	, 기기명25
+	, 기기명26
+	, 기기명27
+	, 기기명28
+	, 기기명29
+	, 기기명30
+	, org_점검번호
+    )
+    VALUES
+    (
+	  #{sicode}
+	, #{점검번호}
+	, #{점검일}
+	, #{점검담당}
+	, #{점검코드}
+	, #{점검직종}
+	, #{점검비고}
+	, CONCAT(
+  		      IFNULL(#{점검01}, 0)
+            , IFNULL(#{점검02}, 0)
+            , IFNULL(#{점검03}, 0)
+            , IFNULL(#{점검04}, 0)
+            , IFNULL(#{점검05}, 0)
+            , IFNULL(#{점검06}, 0)
+            , IFNULL(#{점검07}, 0)
+            , IFNULL(#{점검08}, 0)
+            , IFNULL(#{점검09}, 0)
+            , IFNULL(#{점검10}, 0)
+            , IFNULL(#{점검11}, 0)
+            , IFNULL(#{점검12}, 0)
+            , IFNULL(#{점검13}, 0)
+            , IFNULL(#{점검14}, 0)
+            , IFNULL(#{점검15}, 0)
+            , IFNULL(#{점검16}, 0)
+            , IFNULL(#{점검17}, 0)
+            , IFNULL(#{점검18}, 0)
+            , IFNULL(#{점검19}, 0)
+            , IFNULL(#{점검20}, 0)         
+            )
+	, CONCAT(
+	  		  LPAD(IFNULL(#{수량01}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량02}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량03}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량04}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량05}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량06}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량07}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량08}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량09}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량10}, 0), 3, ' ')	          
+         	)	
+	, CONCAT(
+	  		  LPAD(IFNULL(#{수량11}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량12}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량13}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량14}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량15}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량16}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량17}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량18}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량19}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량20}, 0), 3, ' ')	          
+         	)
+	, CONCAT(
+	  		  LPAD(IFNULL(#{수량21}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량22}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량23}, 0), 3, ' ') 
+	        , LPAD(IFNULL(#{수량24}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량25}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량26}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량27}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량28}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량29}, 0), 3, ' ')
+	        , LPAD(IFNULL(#{수량30}, 0), 3, ' ')	          
+         	)
+	, #{기기명01}
+	, #{기기명02}
+	, #{기기명03}
+	, #{기기명04}
+	, #{기기명05}
+	, #{기기명06}
+	, #{기기명07}
+	, #{기기명08}
+	, #{기기명09}
+	, #{기기명10}
+	, #{기기명11}
+	, #{기기명12}
+	, #{기기명13}
+	, #{기기명14}
+	, #{기기명15}
+	, #{기기명16}
+	, #{기기명17}
+	, #{기기명18}
+	, #{기기명19}
+	, #{기기명20}
+	, #{기기명21}
+	, #{기기명22}
+	, #{기기명23}
+	, #{기기명24}
+	, #{기기명25}
+	, #{기기명26}
+	, #{기기명27}
+	, #{기기명28}
+	, #{기기명29}
+	, #{기기명30}
+	, #{org_점검번호}
+    ) 
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00205_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 2-05 수정 */
+    UPDATE base_equip
+	   SET 점검담당     = #{점검담당}
+	     , 점검코드     = #{점검코드}
+	     , 점검직종     = #{점검직종}
+	     , 점검비고     = #{점검비고}
+	     , 점검30    = CONCAT(
+				  		      IFNULL(#{점검01}, 0)
+				            , IFNULL(#{점검02}, 0)
+				            , IFNULL(#{점검03}, 0)
+				            , IFNULL(#{점검04}, 0)
+				            , IFNULL(#{점검05}, 0)
+				            , IFNULL(#{점검06}, 0)
+				            , IFNULL(#{점검07}, 0)
+				            , IFNULL(#{점검08}, 0)
+				            , IFNULL(#{점검09}, 0)
+				            , IFNULL(#{점검10}, 0)
+				            , IFNULL(#{점검11}, 0)
+				            , IFNULL(#{점검12}, 0)
+				            , IFNULL(#{점검13}, 0)
+				            , IFNULL(#{점검14}, 0)
+				            , IFNULL(#{점검15}, 0)
+				            , IFNULL(#{점검16}, 0)
+				            , IFNULL(#{점검17}, 0)
+				            , IFNULL(#{점검18}, 0)
+				            , IFNULL(#{점검19}, 0)
+				            , IFNULL(#{점검20}, 0)         
+				            )
+	     , 수량10    = CONCAT(
+					  		  LPAD(IFNULL(#{수량01}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량02}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량03}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량04}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량05}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량06}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량07}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량08}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량09}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량10}, 0), 3, ' ')	          
+				         	)
+	     , 수량20    = CONCAT(
+					  		  LPAD(IFNULL(#{수량11}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량12}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량13}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량14}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량15}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량16}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량17}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량18}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량19}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량20}, 0), 3, ' ')	          
+				         	)
+	     , 수량30    = CONCAT(
+					  		  LPAD(IFNULL(#{수량21}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량22}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량23}, 0), 3, ' ') 
+					        , LPAD(IFNULL(#{수량24}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량25}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량26}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량27}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량28}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량29}, 0), 3, ' ')
+					        , LPAD(IFNULL(#{수량30}, 0), 3, ' ')	          
+				         	) 
+	     , 기기명01   = #{기기명01}
+	     , 기기명02   = #{기기명02}
+	     , 기기명03   = #{기기명03}
+	     , 기기명04   = #{기기명04}
+	     , 기기명05   = #{기기명05}
+	     , 기기명06   = #{기기명06}
+	     , 기기명07   = #{기기명07}
+	     , 기기명08   = #{기기명08}
+	     , 기기명09   = #{기기명09}
+	     , 기기명10   = #{기기명10}
+	     , 기기명11   = #{기기명11}
+	     , 기기명12   = #{기기명12}
+	     , 기기명13   = #{기기명13}
+	     , 기기명14   = #{기기명14}
+	     , 기기명15   = #{기기명15}
+	     , 기기명16   = #{기기명16}
+	     , 기기명17   = #{기기명17}
+	     , 기기명18   = #{기기명18}
+	     , 기기명19   = #{기기명19}
+	     , 기기명20   = #{기기명20}
+	     , 기기명21   = #{기기명21}
+	     , 기기명22   = #{기기명22}
+	     , 기기명23   = #{기기명23}
+	     , 기기명24   = #{기기명24}
+	     , 기기명25   = #{기기명25}
+	     , 기기명26   = #{기기명26}
+	     , 기기명27   = #{기기명27}
+	     , 기기명28   = #{기기명28}
+	     , 기기명29   = #{기기명29}
+	     , 기기명30   = #{기기명30}
+	     , org_점검번호 = #{org_점검번호}           
+     WHERE sicode = #{sicode}
+       AND 점검번호 = #{점검번호}
+       AND 점검일 = #{점검일}
+    </update>
+	
+    <!-- 삭제 -->
+    <delete id="DAY00205_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 2-05 삭제 */
+	DELETE FROM base_equip
+	 WHERE sicode = #{sicode}
+       AND 점검번호  = #{점검번호}
+       AND 점검일   = #{점검일}
+    </delete>
+    
+    <select id="DAY00205_DS_DATA_CHK" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-05 CHK */
+	SELECT sicode
+	     , 점검일
+	  FROM base_equip
+	 WHERE sicode = #{sicode}
+	   AND 점검일 = #{e_date}
+	</select>
+	
+	<select id="DAY00205_DS_EQUIPCODE_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-05 EQUIPCODE 조회 */
+	SELECT sicode
+	     , 기기번호
+	     , 기기명
+	     , 수량
+	     , 구입일
+	  FROM base_equipcode 
+	 WHERE sicode = #{sicode}
+	   AND 수량 > 0
+	 ORDER
+	    BY 기기번호 
+	</select>
+	
+    
+</mapper>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="testCalendar" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <Calendar id="Calendar00" taborder="0" left="16" top="14" width="163" height="26" datecolumn="DATECOLUMN" textcolorcolumn="TEXTCOLORCOLUMN" backgroundcolumn="BACKGROUNDCOLUMN" bordercolumn="BORDERCOLUMN" innerdataset="@gds_calendar" value="null" dateformat="SHORTDATE" locale="en_US" editformat="SHORTDATE"/>
+        <Button id="Button00" taborder="1" text="Button00" left="144" top="104" width="200" height="58"/>
+        <MaskEdit id="MaskEdit00" taborder="2" left="200" top="23" width="201" height="24" value="1000000000" locale="ko_KR"/>
+        <Grid id="Grid00" taborder="3" left="80" top="220" width="377" height="166" binddataset="Dataset00" locale="ko_KR">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="165"/>
+                <Column size="178"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="Column0"/>
+                <Cell col="1" text="Column1"/>
+              </Band>
+              <Band id="body">
+                <Cell celltype="none" displaytype="date" edittype="date" text="bind:Column0" mask="SHORTDATE" locale="ko_KR"/>
+                <Cell col="1" displaytype="currency" text="bind:Column1" locale="ko_KR"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid01" taborder="4" left="516" top="100" width="182" height="28" binddataset="Dataset00" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="143"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell displaytype="currency" edittype="masknumber" text="bind:Column1" locale="en_US" textAlign="right" verticalAlign="middle"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Dataset00">
+        <ColumnInfo>
+          <Column id="Column0" type="DATE" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column0">20170414</Col>
+            <Col id="Column1">1000000000</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

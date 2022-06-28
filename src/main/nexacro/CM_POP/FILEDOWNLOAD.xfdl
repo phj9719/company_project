@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="fileupdown" width="540" height="280" titletext="File Download" onload="form_onload">
+    <Layouts>
+      <Layout height="280" mobileorientation="landscape" width="540">
+        <Grid id="Grid01" taborder="0" left="28" top="55" width="480" height="201" binddataset="dsDownload" autofittype="col" oncelldblclick="Grid01_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="300"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="FILE_NAME"/>
+                <Cell col="1" text="SIZE"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:FILE_NAME" displaytype="normal" edittype="none" treelevel="bind:DEPTH"/>
+                <Cell col="1" treelevel="bind:DEPTH" text="bind:FILE_SIZE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnDonwload" taborder="1" text="Download" left="408" top="17" width="100" height="31" onclick="btnDonwload_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDownload" onrowposchanged="dsDownload_onrowposchanged">
+        <ColumnInfo>
+          <Column id="CHK" type="INT" size="1"/>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="FILE_REAL_NAME" type="STRING" size="256"/>
+          <Column id="FiLE_SIZE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+
+/* service url : 사용경로 지정 */
+this.saveUrl = nexacro.getEnvironment().services["svcurl"].url + "/common/";
+this.folderName = "";	//file directory
+
+this.fullFilesize = 0;
+
+var fileDownTrans = new nexacro.FileDownTransfer( "fileDownTrans", this ); 
+var fileGroupId = "";
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	if (this.gfn_isNull(this.opener.fileGroupId)) {
+		this.close();
+		return;
+	} else { 
+		fileGroupId = this.opener.fileGroupId;
+	}
+	if (!Sct.Util.isEmpty(this.parent.folderName)) {
+		this.folderName = this.parent.folderName;
+	}
+	fileDownTrans.addEventHandler("onerror", this.fileDownTrans_onerror, this);
+	fileDownTrans.addEventHandler("onsuccess", this.fileDownTrans_onsuccess, this);
+	this.search();
+};
+
+//리스트 불러오기
+this.btnSearch_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo) {
+	this.search();
+}
+
+this.search = function () {
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "dsDownload=output1";
+	var argument = "method=getList "
+		 + "sqlId=CM_FILE.SEARCH_FILE "
+		 + "FILE_GRP_ID=" + fileGroupId;
+	var callbackFunc = "fn_searchCallback";
+
+	this.dsDownload.clearData();
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+
+	//this.transaction("list", this.saveUrl + "fileDownload_servlet_list_XML.jsp", "", "dsDownload=dsList", "filefolder="+this.folderName, "callback_transaction", "false", "0")
+};
+
+// 조회 콜백함수
+this.fn_searchCallback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) {
+		if (strSvcID == "search") {
+			//alert("success");
+		}
+	} else {
+		alert("error");
+	}
+};
+
+// 다운로드
+this.btnDonwload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.downloadfile(this.dsDownload.rowposition);
+};
+
+//upload Grid oncelldbclick
+this.Grid00_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//단건 처리 필요 시 추가구현 : playnexacro 참조
+};
+
+//download Grid oncelldbclick
+this.Grid01_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	this.downloadfile(e.row);
+};
+
+this.callback_transaction = function(svcId, errCode, errMsg) {
+	if(svcId == "list")
+	{
+		this.dsDownload.set_enableevent(false);
+		for(var i=0; i<this.dsDownload.getRowCount(); i++)
+		{
+			this.dsDownload.setColumn(i,"FiLE_SIZE",this.cutFileSize(this.dsDownload.getColumn(i,"FiLE_SIZE")));
+		}
+		this.dsDownload.set_enableevent(true);
+	}
+};
+
+this.fileDownTrans_onerror = function(obj:nexacro.FileDownTransfer,e:nexacro.FileDownTransferErrorEventInfo)
+{
+	trace("error : " + e.errormsg);
+};
+
+this.fileDownTrans_onsuccess = function(obj:nexacro.FileDownTransfer,e:nexacro.FileDownTransferEventInfo)
+{
+	trace(e.targetfullpath);
+};
+
+this.cutFileSize = function(filesize)
+{
+	var sOutput = filesize + " bytes";
+	for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+	{
+		sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+	}
+	return sOutput;
+};
+
+this.downloadfile = function(i) {
+
+	if (this.dsDownload.getRowCount() == 0) {
+		// TODO MSG Code
+		this.alert("파일이 없습니다.");
+		return;
+	}
+	//var i = this.dsDownload.rowposition;
+	fileDownTrans.clearPostDataList();
+	fileDownTrans.setPostData("fileRealName", this.dsDownload.getColumn(i, "FILE_REAL_NAME"));
+	fileDownTrans.setPostData("fileName", this.dsDownload.getColumn(i, "FILE_NAME"));
+	fileDownTrans.download(this.saveUrl+"fileDownload_postdatatestAll.jsp");
+}
+
+this.dsDownload_onrowposchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSRowPosChangeEventInfo) {
+
+};
+
+/**************************************************************************
+*  공통 함수 처리 영역
+   해당 함수의 경우 프로젝트 사용 시 프로젝트 공통함수로 전환을 권장 드립니다.
+**************************************************************************/
+/**
+* @description 파리미터 값이 Null 인지 체크하는 함수
+* @param {All} val – 체크할 문자열
+* @return {boolean} Val이 undefined, null, NaN, "", Array.length=0 인 경우 = true 
+															  이 외의 경우 = false
+*/
+this.gfnIsNull = function (Val)
+{
+	if (new String(Val).valueOf() == "undefined") return true;
+	if (Val == null) return true;
+	if (("x" + Val == "xNaN") && (new String(Val.length).valueOf() == "undefined")) return true;
+	if (Val.length == 0) return true;
+
+	return false;
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_SEND_BATCH
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-16  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH">
+	<select id="SCT_BASE_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SB.SICODE AS REF_SYS_COMP_CD
+			  		,'100' AS SERVICE_TP
+					,SB.B_OFFNUM 
+					,SB.B_OFFNAME AS COMPANY_NM
+					,SB.B_TAXCODE AS REG_NO
+					,SB.B_MANAGER
+					,SB.B_PERSON AS PRESIDENT_NM
+					,SB.B_OFFTEL AS TEL_NO
+					,SB.B_OFFFAX AS FAX_NO
+					,CONCAT(SB.B_OFFJUSO1,' ',SB.B_OFFJUSO2) AS ADDRESS
+					,SB.B_OFFPOST AS ZIP_CODE
+					,LEFT(SB.아침식사,2) AS BRE_FR_HOUR   -- 아침식사 시간 fr
+					,RIGHT(LEFT(SB.아침식사,5),2) AS BRE_FR_MINUTE -- 아침식사 분 fr
+					,LEFT(RIGHT(SB.아침식사,5),2) AS BRE_TO_HOUR
+					,RIGHT(SB.아침식사,2) AS BRE_TO_MINUTE
+					,LEFT(SB.점심식사,2) AS LUN_FR_HOUR
+					,RIGHT(LEFT(SB.점심식사,5),2) AS LUN_FR_MINUTE
+					,LEFT(RIGHT(SB.점심식사,5),2) AS LUN_TO_HOUR
+					,RIGHT(SB.점심식사,2) AS LUN_TO_MINUTE
+					,LEFT(SB.저녁식사,2) AS DIN_FR_HOUR
+					,RIGHT(LEFT(SB.저녁식사,5),2) AS DIN_FR_MINUTE
+					,LEFT(RIGHT(SB.저녁식사,5),2) AS DIN_TO_HOUR
+					,RIGHT(SB.저녁식사,2) AS DIN_TO_MINUTE
+					,CONCAT(LEFT(SB.오전간식,2),RIGHT(SB.오전간식,2)) AS MOR_SNACK_TIME
+					,CONCAT(LEFT(SB.오후간식,2),RIGHT(SB.오후간식,2)) AS AFT_SNACK_TIME
+					,SB.IR_TIME
+					,SB.IR_TYPE
+					,SB.IR_COMP
+					,SB.IR_STATUS
+			  FROM nshome.sct_base SB
+			 WHERE SB.IR_STATUS != '1'
+		]]>
+	</select>
+	<update id="SCT_BASE_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+				  UPDATE T_CM_COMPANY  
+					 SET COMPANY_NM          = #{COMPANY_NM}
+						,PRESIDENT_NM        = #{PRESIDENT_NM}
+						,TEL_NO              = #{TEL_NO}
+						,TEL_NO2             = #{TEL_NO2}
+						,FAX_NO              = #{FAX_NO}
+						,REG_NO              = #{REG_NO}
+						,CORP_NO             = #{CORP_NO}
+						,ZIP_CODE            = #{ZIP_CODE}
+						,ADDRESS             = #{ADDRESS}
+						,REF_SYS_TP          = #{REF_SYS_TP}
+						,BRE_FR_TIME         = CONCAT(IFNULL(#{BRE_FR_HOUR},'00'),IFNULL(#{BRE_FR_MINUTE},'00'))
+						,BRE_TO_TIME         = CONCAT(IFNULL(#{BRE_TO_HOUR},'00'),IFNULL(#{BRE_TO_MINUTE},'00'))
+						,LUN_FR_TIME         = CONCAT(IFNULL(#{LUN_FR_HOUR},'00'),IFNULL(#{LUN_FR_MINUTE},'00'))
+						,LUN_TO_TIME         = CONCAT(IFNULL(#{LUN_TO_HOUR},'00'),IFNULL(#{LUN_TO_MINUTE},'00'))
+						,DIN_FR_TIME         = CONCAT(IFNULL(#{DIN_FR_HOUR},'00'),IFNULL(#{DIN_FR_MINUTE},'00'))
+						,DIN_TO_TIME         = CONCAT(IFNULL(#{DIN_TO_HOUR},'00'),IFNULL(#{DIN_TO_MINUTE},'00'))
+						,MOR_SNACK_TIME      = IFNULL(#{MOR_SNACK_TIME},'0000')
+						,AFT_SNACK_TIME      = IFNULL(#{AFT_SNACK_TIME},'0000')          
+		           WHERE REF_SYS_COMP_CD     = #{REF_SYS_COMP_CD}
+    ]]>
+	</update>
+	<update id="NS_BASE_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+				  UPDATE nshome.sct_base
+					 SET ir_status = '1'            
+		           WHERE sicode     = #{REF_SYS_COMP_CD}
+    ]]>
+	</update>
+	<select id="SCT_EMP_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SE.sicode		AS REF_SYS_COMP_CD
+					,SE.c_staffid	AS REF_USER_ID
+					,SE.c_group		AS CARE_GRP
+					,SE.c_name		AS USER_NM_KOR
+					,CONCAT(IF(LEFT(c_jumin2,1)>=3 ,'20','19'),SE.c_jumin1) AS BIRTH_DT
+					,SE.성별
+					,SE.근무현황
+					,SE.c_become	AS HIRE_DT
+					,SE.c_retire	AS RETIRE_DT
+					,SE.c_dutyno	AS RANK_CD
+					,SE.c_dutyname
+					,SE.c_post		AS ZIP_CODE
+					,CONCAT(SE.c_juso1,' ', SE.c_juso2)		AS ADDRESS
+					,SE.c_phone1	AS TEL_NO
+					,SE.c_phone2	AS TEL_NO2
+					,SE.ir_time
+					,SE.ir_type
+					,SE.ir_comp
+					,SE.ir_status
+			  FROM nshome.sct_emp SE
+			 WHERE SE.IR_STATUS != '1'
+		]]>
+	</select>
+	<update id="SCT_EMP_U" parameterType="java.util.Map">
+    <![CDATA[  
+           UPDATE T_CM_USER CU
+              SET CU.RANK_CD         =#{RANK_CD}
+				 ,CU.USER_NM_KOR     =#{USER_NM_KOR}
+				 ,CU.ZIP_CODE        =#{ZIP_CODE}
+				 ,CU.ADDRESS         =#{ADDRESS}
+				 ,CU.TEL_NO          =HEX(AES_ENCRYPT(#{TEL_NO}, (SELECT CC.STR1
+																	FROM T_CM_CODE CC
+													   		 	   WHERE GRP_CD = 'CM_AES_KEY')))
+				 ,CU.TEL_NO2         =HEX(AES_ENCRYPT(#{TEL_NO2}, (SELECT CC.STR1
+																	 FROM T_CM_CODE CC
+																	WHERE GRP_CD = 'CM_AES_KEY')))
+					
+				 ,CU.BIRTH_DT        =#{BIRTH_DT}
+				 ,CU.HIRE_DT         =#{HIRE_DT}
+				 ,CU.RETIRE_DT       =#{RETIRE_DT}
+				 ,CU.REF_USER_ID     =#{REF_USER_ID}
+				 ,CU.CARE_GRP		 =#{CARE_GRP}
+            WHERE CU.COMPANY_CD = (SELECT CC.COMPANY_CD
+            						 FROM T_CM_COMPANY CC
+            						WHERE CC.REF_SYS_COMP_CD = #{REF_SYS_COMP_CD})
+              AND CU.REF_USER_ID = #{REF_USER_ID} 
+           ]]>
+	</update>
+	<update id="NS_EMP_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+				  UPDATE nshome.sct_emp
+					 SET ir_status = '1'            
+		           WHERE sicode     = #{REF_SYS_COMP_CD}
+    ]]>
+	</update>
+	<select id="SCT_MATE_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT SM.sicode		AS REF_SYS_COMP_CD
+					,(SELECT CC.COMPANY_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.REF_SYS_COMP_CD = SM.sicode) AS COMPANY_CD
+					,SM.m_code		AS REF_SYS_RES_ID
+					,SM.m_name		AS NAME
+					,SM.m_enday		AS ENTER_DT
+					,SM.m_ensigan	
+					,SM.m_enbun		
+					,SM.m_reday		AS RETIRE_DT
+					,SM.m_resigan
+					,SM.m_rebun
+					,SM.거주현황
+					,SM.성별			AS SEX
+					,SM.m_group		AS CARE_GRP
+					,SM.m_grade		AS GRADE
+					,SM.등급
+					,SM.m_level
+					,SM.수급
+					,SM.m_regist	AS LONG_TERM_CARE_NO
+					,SM.m_roomno
+					,SM.m_step		AS AREA
+					,SM.m_roomname	AS LOCATION
+					,SM.m_history	AS DISEASE
+					,SM.식사종류		AS FOOD_TP
+					,SM.기능장애		AS FUNC_DIS
+					,SM.치료식이		AS DIETARY_CURE
+					,SM.m_jumin1	AS JU1
+					,SM.m_jumin2	AS JU2
+					,CONCAT(IF(LEFT(SM.m_jumin2,1)>=3 ,'20','19'),SM.m_jumin1) AS BIRTH_DT
+					,SM.m_post		AS ZIP_CODE
+					,SM.m_juso1		AS ADDR1
+					,SM.m_juso2		AS ADDR4
+					,SM.m_conname	AS FAM_NM1
+					,SM.m_conrele	AS FAM_CON1
+					,SM.m_contel11	AS FAM_TEL11
+					,SM.m_contel12	AS FAM_TEL12
+					,SM.m_name1		AS FAM_NM2
+					,SM.m_connect1	AS FAM_CON2
+					,SM.m_phone11	AS FAM_TEL21
+					,SM.m_phone12	AS FAM_TEL22
+					,SM.m_name2		AS FAM_NM3
+					,SM.m_connect2	AS FAM_CON3
+					,SM.m_phone21	AS FAM_TEL31
+					,SM.m_phone22	AS FAM_TEL32
+					,SM.m_name3		AS FAM_NM4
+					,SM.m_connect3	AS FAM_CON4
+					,SM.m_phone31	AS FAM_TEL41
+					,SM.m_phone32	AS FAM_TEL42
+					,SM.ir_time
+					,SM.ir_type
+					,SM.ir_comp
+					,SM.ir_status
+			  FROM nshome.sct_mate SM
+			 WHERE SM.IR_STATUS != '1'
+		]]>
+	</select>
+	<insert id="SCT_MATE_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_RESIDENT (                                                                                                                                                                                 
+					         COMPANY_CD
+							,RES_ID
+							,NAME
+							,SEX
+							,BIRTHDAY
+							,AGE
+							,BIRTHDAY2
+							,CELLPHONE
+							,GRADE
+							,DEMENTIA_YN
+							,FALL_YN
+							,BEDSORE_YN
+							,AREA
+							,LOCATION
+							,ENTER_DT
+							,RETIRE_DT
+							,ZIP_CODE
+							,ADDR1
+							,ADDR2
+							,ADDR3
+							,ADDR4
+							,REF_SYS_RES_ID
+							,LONG_TERM_CARE_NO
+							,CARE_GRP
+							,FOOD_TP
+							,FUNC_DIS
+							,DIETARY_CURE
+							,JU1
+							,JU2
+							,FAM_NM
+							,FAM_CON
+							,FAM_TEL1
+							,FAM_TEL2
+							,FAM_NM1
+							,FAM_CON1
+							,FAM_TEL11
+							,FAM_TEL12
+							,FAM_NM2
+							,FAM_CON2
+							,FAM_TEL21
+							,FAM_TEL22
+							,FAM_NM3
+							,FAM_CON3
+							,FAM_TEL31
+							,FAM_TEL32
+							,APP_PW
+							,TOS_YN
+							,FILE_GRP_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,SCH_GRADE
+							,POSTURE_YN
+							,DISEASE
+				) VALUES (                                                                                                                                                                               
+					       #{COMPANY_CD}
+							,(SELECT CONCAT('R',( SELECT IFNULL(MAX(CAST(REPLACE(NR.RES_ID,'R','0') AS INTEGER)),0)+1 AS RES_ID
+										   			FROM T_NU_RESIDENT NR
+										  		   WHERE NR.COMPANY_CD = #{COMPANY_CD})) AS RES_ID)
+							,#{NAME          }
+							,#{SEX           }
+							,#{BIRTH_DT      }
+							,#{AGE           }
+							,#{BIRTH_DT      }
+							,HEX(AES_ENCRYPT(#{CELLPHONE}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{GRADE         }
+							,#{DEMENTIA_YN   }
+							,#{FALL_YN       }
+							,#{BEDSORE_YN    }
+							,#{AREA     	 }
+							,#{LOCATION      }
+							,#{ENTER_DT      }
+							,#{RETIRE_DT     }
+							,#{ZIP_CODE      }
+							,#{ADDR1         }
+							,#{ADDR2         }
+							,#{ADDR3         }
+							,#{ADDR4         }
+							,#{REF_SYS_RES_ID}
+							,#{LONG_TERM_CARE_NO}
+							,#{CARE_GRP      }
+							,#{FOOD_TP}
+							,#{FUNC_DIS}
+							,#{DIETARY_CURE}
+							,#{JU1           }
+							,HEX(AES_ENCRYPT(#{JU2}, (SELECT CC.STR1
+														FROM T_CM_CODE CC
+													   WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{FAM_NM        }
+							,#{FAM_CON       }
+							,HEX(AES_ENCRYPT(#{FAM_TEL1}, (SELECT CC.STR1
+															 FROM T_CM_CODE CC
+													   		WHERE GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(#{FAM_TEL2}, (SELECT CC.STR1
+															 FROM T_CM_CODE CC
+													   		WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{FAM_NM1       }
+							,#{FAM_CON1      }
+							,HEX(AES_ENCRYPT(#{FAM_TEL11}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(#{FAM_TEL12}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{FAM_NM2       }
+							,#{FAM_CON2      }
+							,HEX(AES_ENCRYPT(#{FAM_TEL21}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(#{FAM_TEL22}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{FAM_NM3       }
+							,#{FAM_CON3      }
+							,HEX(AES_ENCRYPT(#{FAM_TEL31}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,HEX(AES_ENCRYPT(#{FAM_TEL32}, (SELECT CC.STR1
+															  FROM T_CM_CODE CC
+													   		 WHERE GRP_CD = 'CM_AES_KEY')))
+							,#{APP_PW        }
+							,#{TOS_YN        }
+							,#{FILE_GRP_ID   }
+							,#{REG_PGM_ID    }
+							,#{REG_USER      }
+							,#{REG_DT        }
+							,#{REG_DT_CURR   }
+							,#{REG_DT_LOC    }
+							,#{REG_IP        }
+							,#{SCH_GRADE	 }
+							,#{POSTURE_YN    }
+							,#{DISEASE       }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="SCT_MATE_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_RESIDENT                                                                                                                                                                                              
+						 SET NAME           =#{NAME           }
+							,SEX            =#{SEX            }
+							,BIRTHDAY       =#{BIRTH_DT       }
+							,AGE            =#{AGE            }
+							,BIRTHDAY2      =#{BIRTH_DT      }
+							,CELLPHONE      =HEX(AES_ENCRYPT(#{CELLPHONE}, (SELECT CC.STR1
+															  				  FROM T_CM_CODE CC
+													   		 				 WHERE GRP_CD = 'CM_AES_KEY')))
+							,GRADE          =#{GRADE          }
+							,DEMENTIA_YN    =#{DEMENTIA_YN    }
+							,FALL_YN        =#{FALL_YN        }
+							,BEDSORE_YN     =#{BEDSORE_YN     }
+							,AREA           =#{AREA           }
+							,LOCATION       =#{LOCATION       } 
+							,ENTER_DT       =#{ENTER_DT       }
+							,RETIRE_DT      =NULLIF(#{RETIRE_DT},'')
+							,ZIP_CODE       =#{ZIP_CODE       }
+							,ADDR1          =#{ADDR1          }
+							,ADDR2          =#{ADDR2          }
+							,ADDR3          =#{ADDR3          }
+							,ADDR4          =#{ADDR4          }
+							,LONG_TERM_CARE_NO=#{LONG_TERM_CARE_NO}
+							,CARE_GRP		=#{CARE_GRP}
+							,FOOD_TP		=#{FOOD_TP}
+							,FUNC_DIS		=#{FUNC_DIS}
+							,DIETARY_CURE	=#{DIETARY_CURE}
+							,JU1            =#{JU1        }
+							,JU2            =HEX(AES_ENCRYPT(#{JU2}, (SELECT CC.STR1
+																		FROM T_CM_CODE CC
+													   				   WHERE CC.GRP_CD = 'CM_AES_KEY')))
+							,FAM_NM         =#{FAM_NM     }
+							,FAM_CON        =#{FAM_CON    }
+							,FAM_TEL1       =HEX(AES_ENCRYPT(#{FAM_TEL1}, (SELECT CC.STR1
+															 				 FROM T_CM_CODE CC
+													   						WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_TEL2       =HEX(AES_ENCRYPT(#{FAM_TEL2}, (SELECT CC.STR1
+															 				 FROM T_CM_CODE CC
+													   						WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_NM1        =#{FAM_NM1    }
+							,FAM_CON1       =#{FAM_CON1   }
+							,FAM_TEL11      =HEX(AES_ENCRYPT(#{FAM_TEL11}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_TEL12      =HEX(AES_ENCRYPT(#{FAM_TEL12}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_NM2        =#{FAM_NM2    }
+							,FAM_CON2       =#{FAM_CON2   }
+							,FAM_TEL21      =HEX(AES_ENCRYPT(#{FAM_TEL21}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_TEL22      =HEX(AES_ENCRYPT(#{FAM_TEL22}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_NM3        =#{FAM_NM3    }
+							,FAM_CON3       =#{FAM_CON3   }
+							,FAM_TEL31      =HEX(AES_ENCRYPT(#{FAM_TEL31}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,FAM_TEL32      =HEX(AES_ENCRYPT(#{FAM_TEL32}, (SELECT CC.STR1
+															 				  FROM T_CM_CODE CC
+													   						 WHERE GRP_CD = 'CM_AES_KEY')))
+							,DISEASE        =#{DISEASE   }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND REF_SYS_RES_ID =#{REF_SYS_RES_ID }
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                 
+	<!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="SCT_MATE_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[
+           DELETE FROM T_NU_RESIDENT
+                 WHERE COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                   AND REF_SYS_RES_ID =#{REF_SYS_RES_ID }
+
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    <select id="SCT_RES_DATA_YN_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			SELECT IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+        	  FROM T_NU_RESIDENT NR
+       		 WHERE REF_SYS_RES_ID = #{REF_SYS_RES_ID}
+		]]>
+	</select>
+    	<update id="NS_MATE_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+				  UPDATE nshome.sct_mate
+					 SET ir_status = '1'            
+		           WHERE sicode     = #{REF_SYS_COMP_CD}
+    ]]>
+	</update>
+</mapper>

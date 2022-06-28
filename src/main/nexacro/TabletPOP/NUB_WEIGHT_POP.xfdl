@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_WEIGHT_POP" width="350" height="350" titletext="체성분 측정 팝업" onload="NUB_WEIGHT_POP_onload" onclick="formClick" ondevicebuttonup="NUB_WEIGHT_POP_ondevicebuttonup">
+    <Layouts>
+      <Layout width="350" height="350" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" background="#FFFFFF" borderRadius="20px" text="" onclick="formClick" right="0" bottom="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta_popTitle" taborder="0" text="체성분측정" left="110" top="26" width="135" height="44" textAlign="center" cssclass="sta_tPopupTitle" onclick="formClick"/>
+              <Static id="sta_text" taborder="4" text="측정시작 버튼을 눌러주세요." left="50" top="215" width="250" height="45" textAlign="center" wordWrap="char" onclick="formClick" usedecorate="true" font="normal 13pt/normal &quot;Arial&quot;"/>
+              <Div id="div_cont" taborder="5" left="60" top="90" width="230" height="120" onclick="formClick" background="url('theme://images/ico_measuring.png') no-repeat center center">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Div id="div_btn" taborder="1" text="Div00" left="30" top="280" height="50" right="30" visible="true">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_cancel" taborder="0" text="취소" left="5" top="5" width="140" height="40" cssclass="btn_tDefaultGray" onclick="div_pop_main_btn_cancel_onclick"/>
+                    <Button id="btn_value" taborder="1" text="측정시작" left="150" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_div_btn_btn_value_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_cont_fail" taborder="6" left="60" top="90" width="230" height="120" background="url('theme://images/ico_fail.png') no-repeat center center" visible="false" text="">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Div id="div_btn_fail" taborder="3" text="Div00" left="30" top="280" height="50" right="30" visible="false">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="종료" left="5" top="5" width="140" height="40" cssclass="btn_tDefaultGray" onclick="div_pop_main_btn_cancel_onclick"/>
+                    <Button id="btn_restart" taborder="1" text="재시작" left="150" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_div_btn_fail_btn_restart_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_btn_complete" taborder="2" text="Div00" left="30" top="280" height="50" right="30" visible="false">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="취소" left="5" top="5" width="140" height="40" cssclass="btn_tDefaultGray" onclick="div_pop_main_btn_cancel_onclick" visible="true"/>
+                    <Button id="btn_save" taborder="1" text="저장하기" left="150" top="5" width="140" height="40" cssclass="btn_tDefaultSkyblue" onclick="div_pop_main_btn_cancel_onclick" visible="true"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="HEIGHT" type="STRING" size="256"/>
+          <Column id="WEIGHT" type="STRING" size="256"/>
+          <Column id="PBF" type="STRING" size="256"/>
+          <Column id="SMM" type="STRING" size="256"/>
+          <Column id="FAT_LVL" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_mac = this.parent.mac; // 맥어드레스
+this.NUB_WEIGHT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	const standard = this.makeStandardObject();
+	if(!standard)
+	{
+		this.close();
+	}
+	else
+	{
+		this.div_pop_main.form.div_btn.form.btn_value.setFocus();		
+	}
+};
+
+// 앱에서 _oncallback의 callback 호출시
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	let flag;
+	let json;
+
+	if(e.svcid == "bluetooth_inbody")
+	{
+		if(e.reason == 0)
+		{
+			trace("this.on_callback ::: return : " + JSON.stringify(e.returnvalue));
+			json = e.returnvalue;
+			flag = json.flag;
+			const height = json.scaleHeight;	// 키
+			const weight = json.scaleWeight;	// 몸무게
+			const bfb = json.scaleBFB;			// 체지방율
+			const smm = json.scaleSMM;			// 골격근량
+			const vfat = json.scaleVFAT;		// 내장지방레벨
+			const heightFix = height.toFixed(1); // 소수점 둘째자리에서 반올림
+			const weightFix = weight.toFixed(1); // 소수점 둘째자리에서 반올림
+			const bfbFix = bfb.toFixed(1); // 소수점 둘째자리에서 반올림
+			const smmFix = smm.toFixed(1); // 소수점 둘째자리에서 반올림
+			
+			this.ds_return.setColumn(0, "HEIGHT", heightFix);	
+			this.ds_return.setColumn(0, "WEIGHT", weightFix);	
+			this.ds_return.setColumn(0, "PBF", bfbFix);			
+			this.ds_return.setColumn(0, "SMM", smmFix);			
+			this.ds_return.setColumn(0, "FAT_LVL", vfat);		
+			
+			this.fn_setData();
+		}
+		else if(e.reason == -1)
+		{
+			trace("this.on_callback ::: return : " + JSON.stringify(e.returnvalue));
+			json = e.returnvalue;
+			flag = json.flag;
+			
+			if (json.err == "2") 
+			{
+				
+			}
+			else 
+			{
+				this.div_pop_main.form.sta_popTitle.set_text("측정실패");
+				this.div_pop_main.form.sta_text.set_text("측정에 실패하였거나 측정기기와 연결된 기기가 일치하지 않습니다.");
+				this.div_pop_main.form.div_cont.set_visible(false);
+				this.div_pop_main.form.div_btn.set_visible(false);
+				this.div_pop_main.form.div_cont_fail.set_visible(true);
+				this.div_pop_main.form.div_btn_fail.set_visible(true);
+			}
+		}
+		else if(e.reason == 1)
+		{
+			this.div_pop_main.form.sta_text.set_text("<fc v='green'>기기와 <b v='true'>연결되었습니다.</b> 체성분측정기 위에 올라가 측정을 진행하세요.</fc>");
+		}
+	}
+};
+
+// 앱에서 _onresume 의 callback 호출시
+this.on_standardPlugin_resume = function(obj, e)
+{
+	let str = "";
+	str += "\nthis.on_resume svcid ::: " + e.svcid;
+	str += "\nthis.on_resume reason ::: " + e.reason;
+	str += "\nthis.on_resume returnvalue ::: " + e.returnvalue;
+	
+};
+
+// 앱에서 _onpermissionresult 의 callback 호출시
+this.on_standardPlugin_permission_result = function(obj, e)
+{
+	let str = "";
+	str += "\nthis.on_permission_result svcid ::: " + e.svcid;
+	str += "\nthis.on_permission_result reason ::: " + e.reason;
+	str += "\nthis.on_permission_result returnvalue ::: " + e.returnvalue;
+	
+};
+
+// 팝업을 닫으면서 부모 화면으로 데이터 전송
+this.fn_setData = function (obj:Button, e:nexacro.ClickEventInfo) 
+{
+	//this.ds_return.clearData();
+	//Multi 선택인경우 체크한 ROW들 전체 return
+	
+	this.close(this.ds_return.saveXML());
+};
+
+// 취소, 종료, 창닫기 버튼
+this.div_pop_main_btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(obj.text == "취소")
+	{
+ 		const param = {};
+ 		this.standardPlugin.callMethod("bluetooth_cancel", param);
+		this.close();
+	}
+	else if(obj.text == "종료")
+	{
+		this.close();
+	}
+	else if(obj.text == "저장하기")
+	{
+		this.fn_setData();
+	}
+};
+
+// 재측정 버튼
+this.div_pop_main_div_btn_fail_btn_restart_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.div_pop_main.form.div_btn_fail.set_visible(false);
+	this.div_pop_main.form.div_cont_fail.set_visible(false);
+	this.div_pop_main.form.div_btn.set_visible(true);
+	this.div_pop_main.form.div_cont.set_visible(true);
+	this.div_pop_main.form.div_btn.form.btn_value.set_visible(true);
+	this.div_pop_main.form.div_btn.form.btn_cancel.set_cssclass("btn_tDefaultGray");
+	this.div_pop_main.form.div_btn.form.btn_cancel.set_left(5);
+	
+	this.div_pop_main.form.sta_popTitle.set_text("체성분측정");
+	this.div_pop_main.form.sta_text.set_text("측정시작 버튼을 눌러주세요.");
+	
+	this.div_pop_main.form.div_btn.form.btn_value.click();
+	
+	//this.div_pop_main.form.div_btn.form.btn_cancel.setFocus();
+};
+
+// 측정시작 버튼
+this.div_pop_main_div_btn_btn_value_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {mac : fv_mac, byuser : false};
+	this.standardPlugin.callMethod("bluetooth_inbody", param);
+	this.div_pop_main.form.sta_text.set_text("<fc v='orange'>기기와 연결을 <b v='true'>진행합니다.</b></fc>");
+	this.div_pop_main.form.div_btn.form.btn_value.set_visible(false);
+	this.div_pop_main.form.div_btn.form.btn_cancel.set_cssclass("btn_tDefaultSkyblue");
+	this.div_pop_main.form.div_btn.form.btn_cancel.set_left(80);
+};
+
+this.NUB_WEIGHT_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		this.close();
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

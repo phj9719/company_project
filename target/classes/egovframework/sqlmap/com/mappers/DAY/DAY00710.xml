@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00710                                                        
+     * 프로그램 명     	: 7-10 자원봉사활동일지
+     * Description 	: 자원봉사활동 내역 관리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-14 11:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00710_DS_LIST_S		조회
+        DAY00710_DS_VOL_S		봉사자 조회  
+        DAY00710_DS_DATA_I		삽입  
+        DAY00710_DS_DATA_U		수정  
+        DAY00710_DS_DATA_D		삭제                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00710">
+	<!-- 조회 -->
+    <select id="DAY00710_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-10 조회 */
+    SELECT
+      kj.sicode
+    , kj.활동번호
+    , kj.봉사자명
+    , kj.봉사자번호
+    , kj.성별
+    , kj.소속
+    , kj.활동일
+    , kj.활동시간
+    , kj.활동내용
+    , kj.작성자명
+    , kj.작성자코드
+    , (SELECT CF.FILE_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = kj.sicode
+       AND CF.FILE_GRP_ID = kj.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS bongsajin
+    , kj.FILE_GRP_ID
+    , (SELECT CF.FILE_REAL_NAME
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = kj.sicode
+       AND CF.FILE_GRP_ID = kj.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_REAL_NAME
+    , (SELECT CF.FILE_ID
+       FROM T_CM_FILE CF
+       WHERE CF.COMPANY_CD = kj.sicode
+       AND CF.FILE_GRP_ID = kj.FILE_GRP_ID
+       AND CF.DELETE_YN = 'N'
+       LIMIT 1) AS FILE_ID
+    FROM km_jawon kj
+    WHERE kj.sicode = #{SICODE}
+    AND kj.활동일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY
+      kj.활동일 DESC
+    , kj.활동번호 ASC
+    </select>
+    
+    <!-- 봉사자조회 -->
+    <select id="DAY00710_DS_VOL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-9 봉사자 조회 */
+    SELECT
+      bj.sicode
+    , LPAD(bj.봉사자번호, 7, '0') AS 봉사자번호
+    , bj.봉사자명
+    , bj.소속
+    FROM base_jawon bj
+    WHERE bj.sicode = #{SICODE}
+    ORDER BY bj.봉사자명
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00710_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-10 삽입 */
+    INSERT INTO km_jawon
+    (
+      sicode
+    , 봉사자명
+    , 봉사자번호
+    , 소속
+    , 활동일
+    , 활동시간
+    , 활동내용
+    , 작성자명
+    , 작성자코드
+    , FILE_GRP_ID
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{봉사자명}
+    , #{봉사자번호}
+    , #{소속}
+    , #{활동일}
+    , #{활동시간}
+    , #{활동내용}
+    , #{작성자명}
+    , #{작성자코드}
+    , #{FILE_GRP_ID}
+    )   	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00710_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-10 수정 */
+    UPDATE km_jawon
+    SET
+      봉사자명 = #{봉사자명}
+    , 봉사자번호 = #{봉사자번호}
+    , 소속 = #{소속}
+    , 활동일 = #{활동일}
+    , 활동시간 = #{활동시간}
+    , 활동내용 = #{활동내용}
+    , 작성자명 = #{작성자명}
+    , 작성자코드 = #{작성자코드}
+    , FILE_GRP_ID = #{FILE_GRP_ID}
+    WHERE sicode = #{sicode}
+    AND 활동번호 = #{활동번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00710_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-10 삭제 */
+    DELETE FROM km_jawon
+    WHERE sicode = #{sicode}
+    AND 활동번호 = #{활동번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

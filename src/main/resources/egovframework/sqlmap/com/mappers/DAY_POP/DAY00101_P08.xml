@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P08                                                        
+     * 프로그램 명     	: 1-1 요양일지 내용검색                                  
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-19 10:30        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P08_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P08">
+	<!-- 조회 -->
+    <select id="DAY00101_P08_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+   	 	<![CDATA[
+		SELECT kr.sicode 
+			, kr.k_nalja
+			, kr.k_code
+			, kr.k_name
+			, kr.요양일지
+			, kr.일지담당
+			, kr.일지코드
+		FROM kmrecord kr
+			WHERE kr.sicode = #{sicode}
+			AND kr.k_nalja BETWEEN #{sdate} AND #{edate}		
+		]]>
+		<choose>
+			<!-- 검색어1만 입력했을때 -->
+			<when test="value1 != '' and value1 != null and value2 == '' or value2 == null " >
+				AND (kr.요양일지 LIKE CONCAT('%',IFNULL(#{value1},''),'%'))
+			</when>
+			<!-- 검색어2만 입력했을때 -->
+			<when test="value1 == '' or value1 == null and value2 != '' and value2 != null " >
+				AND (kr.요양일지 LIKE CONCAT('%',IFNULL(#{value2},''),'%'))
+			</when>
+			<!-- 검색어1, 2 둘 다 입력했을때 -->
+			<when test="value1 != '' and value1 != null and value2 != '' and value2 != null " >
+				AND (kr.요양일지 LIKE CONCAT('%',IFNULL(#{value1},''),'%') OR kr.요양일지 LIKE CONCAT('%',IFNULL(#{value2},''),'%'))
+			</when>
+		</choose>
+		
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

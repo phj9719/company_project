@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-01 19:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA020CT_GRPLINE_PP                                                         
+     * 프로그램 명  		: 결재라인 팝업                                                      
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-02-01 19:00     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->		
+
+<mapper namespace="CMA020CT_GRPLINE_PP">
+	<!-- SELECT -->
+	<!-- 결재라인설정 팝업 (본사 사용자) -->
+	<select id="CMA020CT_GRPLINE_PP_S1" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * 
+		FROM 	(
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , ''				AS VESSEL_CD
+					  , '1000001'		AS DEPT_CD		-- '상지해운'
+					  , ''				AS DEPT_NM
+					  , ''				AS USER_NM_KOR
+					  ,	''				AS GRADE_CD
+					  , ''				AS GRADE_NM
+					  , ''				AS SORT
+					  , '0'				AS T_LEVEL
+					  ,	'상지해운'			AS APPL_LINE
+					  
+				UNION ALL
+				
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , ''				AS VESSEL_CD
+					  , A.DEPT_CODE		AS DEPT_CD
+					  , A.DEPT_NAME		AS DEPT_NM
+					  , ''				AS USER_NM_KOR
+					  ,	''				AS GRADE_CD
+					  ,	''				AS GRADE_NM
+					  , A.DEPT_CODE		AS SORT
+					  , '1'				AS T_LEVEL
+					  ,	A.DEPT_NAME		AS APPL_LINE
+				FROM	T_HR_DEPARTMENT A WITH(NOLOCK)
+				WHERE	A.COMPANY_CD = #{COMPANY_CD}
+				AND		A.DEPT_NAME NOT IN ('', '상지해운')
+				AND		A.P_DEPT_CODE = '1000001'
+				
+				UNION ALL
+				
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , ''				AS VESSEL_CD
+					  , A.DEPT_CODE		AS DEPT_CD
+					  , A.DEPT_NAME		AS DEPT_NM
+					  , ''				AS USER_NM_KOR
+					  ,	''				AS GRADE_CD
+					  ,	''				AS GRADE_NM
+					  , CONCAT(A.P_DEPT_CODE, A.DEPT_CODE) AS SORT
+					  , '2'				AS T_LEVEL
+					  ,	A.DEPT_NAME		AS APPL_LINE
+				FROM	T_HR_DEPARTMENT A WITH(NOLOCK)
+				WHERE	A.COMPANY_CD = #{COMPANY_CD}
+				AND		A.DEPT_NAME NOT IN ('', '상지해운')
+				AND		A.P_DEPT_CODE NOT IN ('1000001')
+				
+				UNION ALL
+
+				SELECT	A.COMPANY_CD		AS COMPANY_CD
+					  , A.VESSEL_CD			AS VESSEL_CD
+					  , A.DEPT_CD			AS DEPT_CD
+					  , B.DEPT_NAME			AS DEPT_NM
+					  , A.USER_NM_KOR		AS USER_NM_KOR
+					  ,	A.GRADE_CD			AS GRADE_CD
+					  , (SELECT C.CMNM
+						 FROM	T_CM_CODE C WITH(NOLOCK) 
+						 WHERE	C.COMPANY_CD = A.COMPANY_CD
+						 AND	C.GRP_CD	 = 'HR_EMP_DUTY'
+						 AND	C.CMCD		 = A.GRADE_CD
+					    ) AS GRADE_NM
+					  --, CONCAT(B.P_DEPT_CODE,B.DEPT_CODE, A.GRADE_CD) AS SORT
+					  , CASE WHEN A.DEPT_CD = '1000020' -- 사장
+						     THEN CONCAT(B.DEPT_CODE, A.GRADE_CD)
+							 ELSE CONCAT(B.P_DEPT_CODE,B.DEPT_CODE, A.GRADE_CD) END AS SORT
+					  , '3' 				AS T_LEVEL
+					  ,	CONCAT(A.USER_NM_KOR, '(', (SELECT C.CMNM
+												    FROM   T_CM_CODE C WITH(NOLOCK) 
+												    WHERE  C.COMPANY_CD = A.COMPANY_CD
+												    AND	   C.GRP_CD	    = 'HR_EMP_DUTY'
+												    AND	   C.CMCD	    = A.GRADE_CD
+											       ), ')') AS APPL_LINE
+				FROM	T_CM_USER A WITH(NOLOCK)
+				LEFT
+				JOIN	T_HR_DEPARTMENT B WITH(NOLOCK)
+				ON		A.COMPANY_CD = B.COMPANY_CD
+				AND		A.DEPT_CD 	 = B.DEPT_CODE
+				WHERE	A.COMPANY_CD = #{COMPANY_CD}
+				AND		A.VESSEL_CD  = 'HDO'
+				AND		A.SRM_TP     = 'N'
+				AND		A.INOUT_USER_TP IN ('HD', 'SA')
+				AND     A.USER_NM_KOR != #{USER_NM}
+				) T
+		
+		ORDER BY T.SORT
+	</select>
+	
+	<!-- 결재라인설정 팝업 (선박 사용자) -->
+	<select id="CMA020CT_GRPLINE_PP_S2" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT	*
+		FROM	(
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , ''				AS VESSEL_CD
+					  , '1000001'		AS DEPT_CD		-- '상지해운'
+					  , ''				AS DEPT_NM
+					  , ''				AS USER_NM_KOR
+					  , ''				AS GRADE_CD
+					  , ''				AS GRADE_NM
+					  , '00'			AS SORT
+					  , '0'				AS T_LEVEL
+					  , '상지해운'			AS APPL_LINE
+					  
+				UNION ALL
+				
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , A.V_CD			AS VESSEL_CD
+					  , ''				AS DEPT_CD
+					  , ''				AS DEPT_NM
+					  , ''				AS USER_NM_KOR
+					  , ''				AS GRADE_CD
+					  , ''				AS GRADE_NM
+					  , DBO.F_RPAD(A.V_CD, 6, '0')	AS SORT
+					  , '1'				AS T_LEVEL
+					  , A.V_CD			AS APPL_LINE
+				FROM	T_MM_VESSEL A WITH(NOLOCK)
+				WHERE	A.COMPANY_CD = #{COMPANY_CD}
+				AND		A.SYS_USE_GB = 'Y'
+				
+				UNION ALL
+				
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+					  , A.VESSEL_CD		AS VESSEL_CD
+					  , A.DEPT_CD		AS DEPT_CD
+					  , B.DEPT_NAME		AS DEPT_NM
+					  , A.USER_NM_KOR	AS USER_NM_KOR
+					  , A.GRADE_CD		AS GRADE_CD
+					  , (SELECT C.CMNM
+					     FROM	T_CM_CODE C WITH(NOLOCK) 
+					     WHERE	C.COMPANY_CD = A.COMPANY_CD
+					     AND	C.GRP_CD	 = 'HR_CREW'
+					     AND	C.CMCD		 = A.GRADE_CD
+					    ) AS GRADE_NM
+					  , CONCAT(DBO.F_RPAD(A.VESSEL_CD, 6, '0'), 
+					    	   DBO.F_LPAD(ISNULL((SELECT C.SORT
+					    						  FROM	 T_CM_CODE C WITH(NOLOCK) 
+					    						  WHERE	 C.COMPANY_CD = A.COMPANY_CD
+					    						  AND	 C.GRP_CD	  = 'HR_CREW'
+					    						  AND	 C.CMCD		  = A.GRADE_CD), '')
+					    				  , 2, '0')
+					    	    ) AS SORT
+					  , '2'				AS T_LEVEL
+					  , CONCAT(A.USER_NM_KOR, '(', (SELECT C.CMNM
+					    							FROM	T_CM_CODE C WITH(NOLOCK) 
+					    							WHERE	C.COMPANY_CD = A.COMPANY_CD
+					    							AND		C.GRP_CD	 = 'HR_CREW'
+					    							AND		C.CMCD		 = A.GRADE_CD
+					    						   ), ')')	AS APPL_LINE
+				FROM	T_CM_USER A WITH(NOLOCK)
+				LEFT
+				JOIN	T_HR_DEPARTMENT B WITH(NOLOCK)
+				ON		A.COMPANY_CD = B.COMPANY_CD
+				AND		A.DEPT_CD	 = B.DEPT_CODE
+				WHERE	A.COMPANY_CD = #{COMPANY_CD}
+				AND		A.SRM_TP	 = 'N'
+				AND		A.INOUT_USER_TP IN ('VS')
+				AND     A.USER_NM_KOR != #{USER_NM}
+				) T
+		WHERE (T.VESSEL_CD = '' OR T.VESSEL_CD = #{V_CD})
+		ORDER BY T.SORT
+	</select>
+	
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00713                                                         
+     * 프로그램 명     	: 7-13 가스안전관리 점검표                                                     
+     * Description 	: 가스안전관리 점검 내역 관리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-02-28 11:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00712_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00713">
+	<!-- 조회 -->
+    <select id="DAY00713_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-13 조회 */
+    SELECT
+      kc.sicode
+    , kc.가스번호
+    , kc.점검일
+    , kc.점검시간
+    , kc.점검자
+    , kc.점검코드
+    , kc.점검직종
+    , kc.점검항목
+    , kc.조치사항
+    , kc.특이사항
+    FROM km_citygas kc
+    WHERE kc.sicode = #{SICODE}
+    AND kc.점검일 BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    ORDER BY kc.점검일 DESC
+    </select>
+    
+    <!-- 삽입전 점검일 중복 확인 -->
+    <select id="DAY00713_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-13 삽입전 중복 확인 */
+    SELECT
+      kc.sicode
+    , kc.가스번호
+    , kc.점검일
+    FROM km_citygas kc
+    WHERE kc.sicode = #{sicode}
+    AND kc.점검일 = #{점검일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00713_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-13 삽입 */
+    INSERT INTO km_citygas
+    (
+      sicode
+    , 점검일
+    , 점검시간
+    , 점검자
+    , 점검코드
+    , 점검직종
+    , 점검항목
+    , 조치사항
+    , 특이사항
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{점검일}
+    , #{점검시간}
+    , #{점검자}
+    , #{점검코드}
+    , #{점검직종}
+    , #{점검항목}
+    , #{조치사항}
+    , #{특이사항}
+    )   	
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00713_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-13 수정 */
+    UPDATE km_citygas
+    SET
+      점검시간 = #{점검시간}
+    , 점검자 = #{점검자}
+    , 점검코드 = #{점검코드}
+    , 점검직종 = #{점검직종}
+    , 점검항목 = #{점검항목}
+    , 조치사항 = #{조치사항}
+    , 특이사항 = #{특이사항}
+    WHERE sicode = #{sicode}
+    AND 가스번호 = #{가스번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00713_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-13 삭제 */
+    DELETE FROM km_citygas
+    WHERE sicode = #{sicode}
+    AND	가스번호 = #{가스번호}
+    </delete>
+</mapper>                                                                                                                                                                                                          

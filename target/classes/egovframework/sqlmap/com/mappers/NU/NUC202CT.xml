@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC202CT                                                         
+     * 프로그램 명     	: 영상통화예약                                                  
+     * Description 	: 모바일에서 보호자가 영상토화 예약을 진행
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-06 17:32     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        NUC202CT_DS_LIST_S			영상통화 예약 조회
+        NUC202CT_DS_LIST_I  		영상통화 예약 등록 
+        NUC202CT_DS_LIST_U			영상통화 예약 수정                                                                                 
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC202CT">
+	<!-- 영상통화 예약 조회 -->
+	<select id="NUC202CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC202CT_DS_LIST_S */
+		SELECT
+				COMPANY_CD
+			,	VIS_SEQ
+			,	VIS_TP
+			,	FAM_ID
+			,	RES_ID
+			,	VIS_DT
+			,	VIS_TIME
+			,	VIS_RELATION
+			,	VIS_CNT
+			,	VIS_APPLY
+			,	VIS_YN
+			,	COLLECT_YN
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+			,	MOD_PGM_ID
+			,	MOD_USER
+			,	MOD_DT
+			,	MOD_DT_CURR
+			,	MOD_DT_LOC
+			,	MOD_IP
+		FROM	T_NU_VISIT
+		WHERE	VIS_TP = '20'
+		AND		COMPANY_CD = #{COMPANY_CD}
+		AND		RES_ID = #{RES_ID}
+		AND		VIS_DT = #{VIS_DT}
+	</select>
+
+	<!-- 영상통화 예약 등록 -->
+	<insert id="NUC202CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* NUC202CT_DS_INPUT_I */
+		INSERT INTO
+			T_NU_VISIT
+		(
+				COMPANY_CD
+			,	VIS_SEQ
+			,	VIS_TP
+			,	FAM_ID
+			,	RES_ID
+			,	VIS_DT
+			,	VIS_TIME
+			,	VIS_RELATION
+			,	VIS_CNT
+			,	VIS_APPLY
+			,	VIS_YN
+			,	COLLECT_YN
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), LPAD(NEXTVAL(SQ_NU_VISIT), 12, 0)))
+			,	'20'
+			,	CONCAT(#{COMPANY_CD},'G',(SELECT IFNULL(MAX(CAST(REPLACE(NV.FAM_ID,CONCAT(#{COMPANY_CD},'G'),'0') AS INTEGER)),0)+1 AS FAM_ID
+										   				 FROM T_NU_VISIT NV
+										  			    WHERE NV.COMPANY_CD = #{COMPANY_CD}))
+			,	#{RES_ID}
+			,	#{VIS_DT}
+			,	#{VIS_TIME}
+			,	#{VIS_RELATION}
+			,	'1'
+			,	'10'
+			,	'N'
+			,	#{COLLECT_YN}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 영상통화 예약 수정 -->
+	<update id="NUC202CT_DS_LIST_U" parameterType="java.util.HashMap">
+	/* NUC202CT_DS_LIST_U */
+		UPDATE
+			T_NU_VISIT
+		SET
+				VIS_TIME = #{VIS_TIME}
+			,	VIS_RELATION = #{VIS_RELATION}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			, 	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		VIS_SEQ = #{VIS_SEQ}
+	</update>                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	:                                                          
+     * 프로그램 명     	: 로그인                                                     
+     * Description 	: 로그인 관련 쿼리 모음
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-02-09 10:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NSH_LOGIN">
+	<!-- 사용자 아이디 확인 -->
+    <select id="loginCheck" parameterType="java.lang.String" resultType="java.util.Map">
+    /* 로그인 아이디 확인 */
+    SELECT
+      c_staffid
+    , c_systempa
+    FROM base_employee
+    WHERE c_staffid = #{USER_ID}
+    AND sicode = #{COMPANY_CD}
+    AND c_retire &gt;= CURDATE()
+    </select>
+    
+    <!-- 로그인한 사용자 정보 들고오기 -->
+    <select id="getuserInfo" parameterType="java.lang.String" resultType="java.util.Map">
+    /* 로그인 사용자 정보 가져오기 */
+    SELECT
+      bi.sicode
+    , bi.b_offname
+    , bi.b_offpost
+    , bi.b_offjuso1
+    , bi.b_offjuso2
+    , bi.b_doctype
+    , bi.b_manager
+    , bi.b_person
+    , bi.xxx_b_beginday
+    , bi.종별코드
+    , bi.b_kod02
+    , bi.b_offtel
+    , bi.b_offfax
+    , bi.b_taxcode
+    , bi.납부안내1
+    , bi.납부안내2
+    , bi.예금주명
+    , bi.b_sajin01
+    , bi.b_sajin02
+    , bi.아침식사
+    , bi.점심식사
+    , bi.저녁식사
+    , bi.오전간식
+    , bi.오후간식
+    , bi.소독온도조
+    , bi.소독온도중
+    , bi.소독온도석
+    , bi.냉동온도
+    , bi.냉장온도
+    , bi.원산지안내
+    , bi.월정산일
+    , bi.월통보일
+    , bi.월납부일
+    , bi.제공시분
+    , bi.식단제공
+    , be.c_autoid
+    , be.c_staffid
+    , be.c_group
+    , be.c_name
+    , be.c_jumin1
+    , be.c_jumin2
+    , be.성별
+    , be.근무현황
+    , be.c_become
+    , be.c_retire
+    , be.c_dutyno
+    , be.c_dutyname
+    , be.p관리자
+    FROM base_info AS bi
+    JOIN base_employee AS be
+    ON bi.sicode = be.sicode
+    WHERE be.sicode = #{COMPANY_CD}
+    AND be.c_staffid = #{USER_ID}
+    </select>
+</mapper>                                                                                                                                                                                                          

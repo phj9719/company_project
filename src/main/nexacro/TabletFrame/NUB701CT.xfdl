@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="1180" height="700" onload="form_onload" titletext="챗봇에게 질문하기" onkeyup="fn_openDebugPopup" background="#f4f9fc" onclose="form_onclose">
+    <Layouts>
+      <Layout width="1180" height="700" screenid="Tablet">
+        <Static id="sta_menuTitle" taborder="0" text="메뉴명" left="2.5%" top="10" height="30" onclick="formClick" right="3.5%" cssclass="sta_tMenuTitle"/>
+        <Tab id="Tab00" taborder="1" tabindex="0" left="2.46%" top="62" right="40" bottom="5%" tabbuttonheight="50" tabbuttonwidth="150" onchanged="Tab00_onchanged" showextrabutton="false">
+          <Tabpages>
+            <Tabpage id="Tabpage0" text="요양보호사">
+              <Layouts>
+                <Layout>
+                  <Webbrowser id="web_bot" taborder="0" left="0%" top="0%" height="100%" right="3.5%" url="http://192.168.100.172:8080/common/index.html"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage1" text="간호사">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage2" text="물리치료사">
+              <Layouts>
+                <Layout/>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_test1">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
+          <Column id="P1" type="STRING" size="256"/>
+          <Column id="BP" type="STRING" size="256"/>
+          <Column id="PULSE" type="STRING" size="256"/>
+          <Column id="P2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_input">
+        <ColumnInfo>
+          <Column id="TIME" type="STRING" size="256"/>
+          <Column id="TYPE" type="STRING" size="256"/>
+          <Column id="P2" type="STRING" size="256"/>
+          <Column id="DES" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: CMA001CT
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2020-07-08
+ * 작성자   	: 배영걸
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	this.sta_menuTitle.set_text(this.getOwnerFrame().arguments["menuTitle"]);
+	
+	let botName = this.Tab00.Tabpage0.text;
+	let userName = nexacro.getApplication().gds_userInfo.getColumn(0, "USER_NM_KOR");
+	
+// 	const urlMain = "http://192.168.100.61:8081/"
+// 	const param = "?botName=" + botName + "&userName=" + userName;
+// 	this.Tab00.Tabpage0.form.web_bot.set_url(urlMain + param);
+};
+
+/***********************************************************************
+ * Common Button Functions
+ ************************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function ()
+{
+	//this.fn_search(this.fv_currentDS);
+};
+
+// 저장 버튼
+this.fn_saveBtn = function ()
+{	
+	//this.fn_save(this.fv_currentDS);
+};
+
+//삭제 버튼
+this.fn_deleteBtn = function ()
+{
+	//this.fn_delete(this.fv_currentDS);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+// 검색 전 validation
+this.fn_search_pre = function()
+{
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function(ds)
+{
+	if(!this.fn_search_pre()) return;
+
+	let outDs = "";
+	let sqlId = "";
+	if(ds != null && ds != "")
+	{
+		if(ds.name == "ds_test1") 
+		{
+			outDs = ds.name + "=output1";
+			sqlId = "sqlId='TEST3.TEST3_DS_TEST_S' ";
+		}
+	}
+
+	let svcId = "search";
+	let params = "/commonController.do";
+	let inDatasets = "input1=ds_search";
+	let outDatasets = outDs;
+	let argument = "method=getList ";
+		argument += sqlId;
+		
+	let callbackFunc = "fn_callback";
+	//Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function(ds)
+{
+	if(!this.fn_save_pre()) return;
+	
+	let inDs = "";
+	if(ds != null && ds != "")
+	{
+		if(ds.name == "ds_test1")
+		{
+			let nRow = ds.addRow();
+			ds.setColumn(nRow, "", "");
+			inDs = ds.name;
+		}
+	}
+	
+	let svcId = "save";
+	//this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function(ds)
+{
+	if(!this.fn_delete_pre()) return;
+	
+	let sqlId = "";
+	let inDs = "";
+	if(ds != null && ds != "")
+	{
+		if(ds.name == "ds_test1")
+		{
+			inDs = ds.name;
+			sqlId = "sqlId='TEST3.TEST3_DS_TEST_D' ";
+		}
+	}
+	
+	let svcId = "delete";
+	let params = "/commonController.do";
+	let inDatasets = "input1=" + inDs + ":U";
+	let outDatasets = "";
+	let argument = "method=delete ";
+		argument += sqlId;
+		
+	let callbackFunc = "fn_callback";
+	//Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+		else if(strSvcID == "save" || strSvcID == "delete")
+		{
+			//this.fn_search();
+		}
+	}
+	else
+	{
+		
+	}
+};
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 탭 변경시 fv_currentGrid, fv_currentDS 바꾸기(div_cont에 그리드가 있는경우)
+// this.Tab00_onchanged = function(obj:nexacro.Tab,e:nexacro.TabIndexChangeEventInfo)
+// {
+// 	let i = e.postindex;
+// 	
+// 	for(let j = 0; j < obj.tabpages[i].form.div_cont.form.components.length; j++) 
+// 	{
+// 		if(obj.tabpages[i].form.div_cont.form.components[j] == "[object Grid]") 
+// 		{
+// 			this.fv_currentGrid = obj.tabpages[i].form.div_cont.form.components[j];
+// 			if(this.fv_currentGrid.getBindDataset() != undefined) 
+// 			{
+// 				this.fv_currentDS = this.fv_currentGrid.getBindDataset();
+// 			}
+// 		}
+// 	}
+// };
+]]></Script>
+  </Form>
+</FDL>

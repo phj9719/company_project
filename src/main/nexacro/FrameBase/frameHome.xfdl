@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frameHome" width="1600" height="700" titletext="보호자 및 서비스 공지 리스트" background="white" visible="true" onload="form_onload" ontimer="frameHome_ontimer">
+    <Layouts>
+      <Layout width="1600" height="700" screenid="">
+        <Div id="div_left" taborder="0" left="20" top="40" text="" width="700" bottom="20">
+          <Layouts>
+            <Layout>
+              <Static id="Static_mid_label_left01" taborder="1" text="센터 일일알림" cssclass="lb01" left="0" top="0" width="194" height="22"/>
+              <TextArea id="txt_00" taborder="1" left="0" top="23" right="0" bottom="20" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_right" taborder="1" left="758" top="40" text="" width="700" bottom="20">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_service_notice" taborder="0" left="0" top="23" right="0" binddataset="ds_service_notice" autosizebandtype="body" autoenter="select" autofittype="col" oncellclick="div_right_grd_service_notice_oncellclick" bottom="20">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="0"/>
+                      <Column size="0"/>
+                      <Column size="80"/>
+                      <Column size="500"/>
+                      <Column size="60"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="순번"/>
+                      <Cell col="1" text="사업장"/>
+                      <Cell col="2" displaytype="normal" text="공장"/>
+                      <Cell col="3" text="작성일" cursor="pointer"/>
+                      <Cell col="4" text="제목"/>
+                      <Cell col="5" text="등록자명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="expr:currow + 1"/>
+                      <Cell col="1" displaytype="combotext" text="bind:BIZ_CD" combodataset="gds_biz" combocodecol="BIZ_CD" combodatacol="BIZ_NM" combotype="filterlike"/>
+                      <Cell col="2" displaytype="combotext" text="bind:PLANT_CD" combodataset="gds_plant" combocodecol="PLANT_CD" combodatacol="PLANT_NM" combotype="filterlike"/>
+                      <Cell col="3"/>
+                      <Cell col="4" displaytype="normal" textAlign="left"/>
+                      <Cell col="5" text="bind:REG_USER_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="Static_mid_label_left01" taborder="1" text="너싱홈 공지사항 및 자료실" cssclass="lb01" left="0" top="0" width="250" height="22"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return">
+        <ColumnInfo>
+          <Column id="DEPT_CD" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="AUTH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_notice" useclientlayout="true" oncolumnchanged="ds_list_oncolumnchanged" onrowposchanged="ds_list_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="NOT_SEQ" type="STRING" size="256"/>
+          <Column id="NOT_DT" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="256"/>
+          <Column id="FILE_GROUP_ID" type="STRING" size="256"/>
+          <Column id="REF_USER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="REAL_USER_ID" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_service_notice" useclientlayout="true" oncolumnchanged="ds_list_oncolumnchanged" onrowposchanged="ds_list_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="NOT_SEQ" type="STRING" size="256"/>
+          <Column id="NOT_DT" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="256"/>
+          <Column id="FILE_GROUP_ID" type="STRING" size="256"/>
+          <Column id="REF_USER_ID" type="STRING" size="256"/>
+          <Column id="REG_PGM_ID" type="STRING" size="256"/>
+          <Column id="REG_USER" type="STRING" size="256"/>
+          <Column id="REG_DT" type="STRING" size="256"/>
+          <Column id="REG_DT_CURR" type="STRING" size="256"/>
+          <Column id="REG_DT_LOC" type="STRING" size="256"/>
+          <Column id="REG_IP" type="STRING" size="256"/>
+          <Column id="MOD_PGM_ID" type="STRING" size="256"/>
+          <Column id="MOD_USER" type="STRING" size="256"/>
+          <Column id="MOD_DT" type="STRING" size="256"/>
+          <Column id="MOD_DT_CURR" type="STRING" size="256"/>
+          <Column id="MOD_DT_LOC" type="STRING" size="256"/>
+          <Column id="MOD_IP" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="MOD_USER_NM" type="STRING" size="256"/>
+          <Column id="REAL_USER_ID" type="STRING" size="256"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+          <Column id="USER_NM_KOR" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="REG_USER_NM" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="DT_FROM" type="STRING" size="256"/>
+          <Column id="DT_TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************                                                                                                                                                                                                                
+ * 화면ID 	 	: frameHome
+ * 화면명   	: 보호자 및 서비스 공지 리스트
+ * 화면설명 	: 보호자 및 서비스 공지 리스트
+ * 작성일 	 	: 2021-07-05 11:30
+ * 작성자   	: SOOIM
+ * 수정이력 	:
+ ***********************************************************************
+ *    	수정일     	수정자   	내용
+ *		2022-02-10		조기종		너싱홈 컨셉으로 수정
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::cur_com.xjs";
+include "lib::sct_util.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_foldHeadYn = false;
+this.fv_foldInnerYn = false;
+
+var fv_Company = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+var fv_ServiceTp = nexacro.getApplication().gds_userInfo.getColumn(0,"SERVICE_TP");
+var fv_appTp = nexacro.getApplication().gv_applicationTp;
+
+this.fv_isOpen = true;
+this.auth;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+// 	this.ds_search.setColumn(0,"COMPANY_CD",fv_Company);
+// 	this.ds_search.setColumn(0,"SERVICE_TP",fv_ServiceTp);
+// 	this.ds_search.setColumn(0,"APPLICATION_TP",fv_appTp);
+	
+	//this.fn_search();
+	
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search input2=ds_search";
+	var outDatasets = "ds_service_notice=output1 ds_notice=output2";
+	var argument = "method=getList "
+		+ "sqlId='CM_HOME.CM_HOME_DS_SERVICE_NOTICE_S CM_HOME.CM_HOME_DS_NOTICE_S' ";		
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+this.div_right_grd_service_notice_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var param = {
+		NOT_SEQ : this.ds_service_notice.getColumn(this.ds_service_notice.rowposition,"NOT_SEQ")
+	};
+	Sct.popup(this, "SRV_NOT_PP", 400, 400, "", param, "CM_POP::HOME_SERVICE_NOTICE_PP.xfdl", "fn_popCallback");
+};
+
+this.div_left_grd_notice_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var param = {
+		NOT_SEQ : this.ds_notice.getColumn(this.ds_notice.rowposition,"NOT_SEQ")
+	};
+	Sct.popup(this, "NOT_PP", 400, 400, "", param, "CM_POP::HOME_NOTICE_PP.xfdl", "fn_popCallback");
+};
+
+/**	
+ * 설명 	: 메뉴 프레임을 닫는다.
+ * params  	: None
+ * return Type 	: None
+ */
+this.fn_closeFrame = function ()
+{
+	nexacro.getApplication().av_hFrameSet0.set_separatesize(nexacro.getApplication().av_hideMenuModeSize);
+	//this.sta_hideBar.set_visible(true);
+	//this.btn_closeFrame.set_text(">");1
+	nexacro.getApplication().av_hFrameSet0.menuFrame.form.sta_hideBar.set_visible(true);
+	this.div_head.form.btn_closeFrame.set_background("url('imagerc::menubtn_open.png') no-repeat right center transparent");
+	//this.btn_closeFrame.style.set_background_image("url('imagerc::menubtn_open.png')");
+};
+
+/**	
+ * 설명 	: 메뉴 프레임을 연다.
+ * params  	: None
+ * return Type 	: None
+ */
+this.fn_openFrame = function ()
+{
+	nexacro.getApplication().av_hFrameSet0.set_separatesize(nexacro.getApplication().av_showMenuModeSize);
+	//this.sta_hideBar.set_visible(false);
+	//this.btn_closeFrame.set_text("<");
+	nexacro.getApplication().av_hFrameSet0.menuFrame.form.sta_hideBar.set_visible(false);
+	this.div_head.form.btn_closeFrame.set_background("url('imagerc::menubtn_close.png') no-repeat right center transparent");
+	//this.btn_closeFrame.style.set_background_image("url('imagerc::menubtn_close.png')");
+};
+
+this.btn_closeFrame_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (this.fv_isOpen) 
+	{
+		this.fn_closeFrame();
+		this.fv_isOpen = false;
+	}
+	else 
+	{
+		this.fn_openFrame();
+		this.fv_isOpen = true;
+	}
+};]]></Script>
+  </Form>
+</FDL>

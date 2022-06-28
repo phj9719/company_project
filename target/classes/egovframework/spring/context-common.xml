@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 20210223 이동관 팝빌연동으로인한 xmlns:util xmlns:beans 2줄 추가 및 xsi:schemaLocation 2줄 추가 -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:component-scan base-package="egovframework">
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/egovframework/message/message-common</value>
+				<value>classpath:/egovframework/rte/fdl/idgnr/messages/idgnr</value>
+				<value>classpath:/egovframework/rte/fdl/property/messages/properties</value>
+			</list>
+		</property>
+		<property name="cacheSeconds">
+			<value>60</value>
+		</property>
+	</bean>
+	
+	<bean id="leaveaTrace" class="egovframework.rte.fdl.cmmn.trace.LeaveaTrace">
+		<property name="traceHandlerServices">
+			<list>
+				<ref bean="traceHandlerService" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="traceHandlerService" class="egovframework.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="defaultTraceHandler" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
+	<bean id="defaultTraceHandler" class="egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
+
+	<!-- 팝빌연동 시작 -->
+    <context:component-scan base-package="com.popbill.example"/>
+
+    <util:properties id="EXAMPLE_CONFIG">
+        <!-- 링크아이디 -->
+        <beans:prop key="LinkID">SANGJISHIP</beans:prop>
+        <!-- 비밀키 -->
+        <beans:prop key="SecretKey">R1D4P4OZNMLK6GASIXa0YKfQj9MZI13BrBdMTqYcw9o=</beans:prop>
+        <!-- 연동환경 설정값 true(개발용), false(상업용) -->
+        <beans:prop key="IsTest">true</beans:prop>
+        <!-- 인증토큰 아이피 제한 기능 사용여부 권장(true) -->
+        <beans:prop key="IsIPRestrictOnOff">true</beans:prop>
+        <!-- 팝빌 API 서비스 고정 IP 사용여부(GA), true-사용, false-미사용, 기본값(false) -->
+        <beans:prop key="UseStaticIP">false</beans:prop>
+        <!-- 로컬서버 시간 사용여부 true-사용(기본값-권장), false-미사용 -->
+        <beans:prop key="UseLocalTimeYN">true</beans:prop>
+    </util:properties>	 
+     
+    <beans:beans>
+        <!-- 홈택스 전자세금계산서 Service Implementation Bean registration.  -->
+        <beans:bean id="htTaxinvoiceService" class="com.popbill.api.hometax.HTTaxinvoiceServiceImp">
+    
+            <beans:property name="linkID" value="#{EXAMPLE_CONFIG.LinkID}"/>
+            <beans:property name="secretKey" value="#{EXAMPLE_CONFIG.SecretKey}"/>
+            <beans:property name="test" value="#{EXAMPLE_CONFIG.IsTest}"/>
+            <beans:property name="IPRestrictOnOff" value="#{EXAMPLE_CONFIG.IsIPRestrictOnOff}"/>
+            <beans:property name="useStaticIP" value="#{EXAMPLE_CONFIG.UseStaticIP}"/>
+            <beans:property name="useLocalTimeYN" value="#{EXAMPLE_CONFIG.UseLocalTimeYN}"/>
+        </beans:bean>
+    </beans:beans>
+    
+</beans>

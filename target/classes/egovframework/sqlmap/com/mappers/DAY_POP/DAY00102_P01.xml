@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00102_P01                                                      
+     * 프로그램 명     	: 요양.간호일지 조회                                               
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-04-24 16:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00102_P01_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00102_P01">
+	<select id="DAY00102_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT kr.sicode
+		     , DATE_FORMAT(kr.k_nalja,'%Y.%m.%d') AS k_nalja 
+		     , kr.k_code
+		     , kr.k_name
+		     , kr.요양일지 AS kr_contents
+		     , kn.간호일지 AS kn_contents
+		FROM kmrecord kr
+		LEFT OUTER JOIN kmnurse kn
+			ON kr.sicode = kn.sicode
+			AND kr.k_nalja = kn.n_nalja			
+			AND kr.k_code = kn.n_code
+		WHERE kr.sicode = #{sicode} 
+		  AND kr.k_code = #{m_code}
+		  AND kr.k_nalja >= DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL -1 MONTH), INTERVAL -DAY(DATE_ADD(NOW(), INTERVAL -1 MONTH)) + 1 DAY), '%Y%m%d')		-- 전달 1일
+		  AND kr.k_nalja <![CDATA[ <= ]]> NOW()		  
+		  AND IFNULL(TRIM(kr.요양일지),'') != ''		       
+		ORDER BY sicode
+	   , k_nalja desc	
+	</select>
+
+	<select id="DAY00102_P01_DS_LIST_S 바뀌기 전" parameterType="java.util.HashMap">
+		SELECT m.sicode
+		     , m.k_nalja
+		     , m.k_code
+		     , m.k_name
+		     , MAX(m.kr_contents) AS kr_contents
+		     , MAX(m.kn_contents) AS kn_contents
+		FROM (
+			SELECT kr.sicode
+			     , kr.k_nalja 
+			     , kr.k_code
+			     , kr.k_name
+			     , kr.요양일지 AS kr_contents
+			     , null AS kn_contents
+			  FROM kmrecord kr
+			WHERE kr.sicode = #{sicode}
+			  AND IFNULL(TRIM(kr.요양일지),'') != '' 
+			  AND kr.k_code = #{m_code}
+			  AND kr.k_nalja >= #{date_from}
+			  AND kr.k_nalja <![CDATA[ <= ]]> #{date_to}
+			UNION ALL
+			SELECT kn.sicode
+			     , kn.n_nalja
+			     , kn.n_code
+			     , kn.n_name
+			     , null AS kr_contents
+			     , kn.간호일지 AS kn_contents
+			  FROM kmnurse kn
+			 WHERE kn.sicode = #{sicode}
+			  AND IFNULL(TRIM(kn.간호일지),'') != '' 
+			  AND kn.n_code = #{m_code}
+			  AND kn.n_nalja >= #{date_from}
+			  AND kn.n_nalja <![CDATA[ <= ]]> #{date_to}			  
+		  ) m
+		GROUP BY m.sicode
+		     , m.k_nalja
+		     , m.k_code
+		     , m.k_name
+		ORDER BY m.sicode
+		     , m.k_nalja desc
+	</select>
+	
+	<select id="DAY00102_P01_DS_LIST_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+			COUNT(*) AS CNT
+		FROM kmrecord kr
+		LEFT OUTER JOIN kmnurse kn
+			ON kr.sicode = kn.sicode
+			AND kr.k_nalja = kn.n_nalja			
+			AND kr.k_code = kn.n_code
+		WHERE kr.sicode = #{sicode} 
+		  AND kr.k_code = #{m_code}
+		  AND kr.k_nalja >= DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL -1 MONTH), INTERVAL -DAY(DATE_ADD(NOW(), INTERVAL -1 MONTH)) + 1 DAY), '%Y%m%d')
+		  AND kr.k_nalja <![CDATA[ <= ]]> NOW()		  
+		  AND IFNULL(TRIM(kr.요양일지),'') != ''		       
+	</select>
+</mapper>

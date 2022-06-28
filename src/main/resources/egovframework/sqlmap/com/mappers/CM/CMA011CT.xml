@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-08-02 05:23                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA011CT                                                         
+     * 프로그램 명  :                                                       
+     * Description :                                                            
+     *================================================================                  
+                작성일자         |  작성자    |  비고                                    
+     *================================================================                  
+       2017-08-02 05:23        |           | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CMA011CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+    <select id="CMA011CT_DS_LIST_S" parameterType="java.lang.String" resultType="java.util.Map">                                                                                                           
+            <![CDATA[
+           	  SELECT A.COMPANY_CD
+					,A.SERVICE_TP
+					,A.APPLICATION_TP
+					,A.USER_ID
+					,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.SERVICE_TP = CU.SERVICE_TP
+							     AND A.USER_ID = CU.USER_ID) AS USER_NM
+					,A.MENU_CD
+					,A.MENU_NM
+					,A.MENU_ORDER
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.SERVICE_TP = CU.SERVICE_TP
+							     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+								FROM T_CM_USER CU
+							   WHERE A.COMPANY_CD = CU.COMPANY_CD
+							     AND A.SERVICE_TP = CU.SERVICE_TP
+							     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+           	  FROM T_CM_FVR_MENU A
+           	 WHERE 1=1
+     ]]>              
+     		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+               AND A.COMPANY_CD = #{COMPANY_CD}
+            </if>
+            <if test="SERVICE_TP != '' and SERVICE_TP != null">
+               AND A.SERVICE_TP = #{SERVICE_TP}
+            </if>
+            <if test="APPLICATION_TP != '' and APPLICATION_TP != null">
+               AND A.APPLICATION_TP = #{APPLICATION_TP}
+            </if>
+            <if test="USER_ID != '' and USER_ID != null">
+               AND A.USER_ID = #{USER_ID}
+            </if>
+            <if test="USER_NM != '' and USER_NM != null">
+               AND A.USER_ID IN (SELECT CU.USER_ID
+               					   FROM T_CM_USER CU
+               					  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+               					    AND CU.SERVICE_TP = #{SERVICE_TP}
+               					    AND CU.USER_NM_KOR LIKE CONCAT('%',#{USER_NM},'%'))
+            </if>
+            <if test="MENU_CD != '' and MENU_CD != null">
+               AND A.MENU_CD LIKE CONCAT('%', #{MENU_CD},'%')
+            </if>
+            <if test="MENU_NM != '' and MENU_NM != null">
+               AND A.MENU_NM LIKE CONCAT('%', #{MENU_NM},'%')
+            </if>                                                                                                                                                                                                   
+    </select>
+    <insert id="CMA011CT_DS_LIST_I" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+           INSERT INTO T_CM_FVR_MENU( 
+              		   	 COMPANY_CD
+						,SERVICE_TP
+						,APPLICATION_TP
+						,USER_ID
+						,MENU_CD
+						,MENU_NM
+						,MENU_ORDER
+						,REG_PGM_ID
+						,REG_USER
+						,REG_DT
+						,REG_DT_CURR
+						,REG_DT_LOC
+						,REG_IP
+						,MOD_PGM_ID
+						,MOD_USER
+						,MOD_DT
+						,MOD_DT_CURR
+						,MOD_DT_LOC
+						,MOD_IP
+
+		  	) VALUES (
+			  		  	 #{COMPANY_CD     }
+						,#{SERVICE_TP     }
+						,#{APPLICATION_TP }
+						,#{USER_ID        }
+						,#{MENU_CD        }
+						,#{MENU_NM        }
+						,(SELECT IFNULL(MAX(MENU_ORDER), 0) + 1
+              		    	FROM T_CM_FVR_MENU
+              		       WHERE COMPANY_CD = #{COMPANY_CD}
+              		    	 AND SERVICE_TP = #{SERVICE_TP}
+              		    	 AND APPLICATION_TP = #{APPLICATION_TP})
+						,#{REG_PGM_ID     }
+						,#{REG_USER       }
+						,#{REG_DT         }
+						,#{REG_DT_CURR    }
+						,#{REG_DT_LOC     }
+						,#{REG_IP         }
+						,#{MOD_PGM_ID     }
+						,#{MOD_USER       }
+						,#{MOD_DT         }
+						,#{MOD_DT_CURR    }
+						,#{MOD_DT_LOC     }
+						,#{MOD_IP         }
+		  	)          
+			                                                                                                                                                                                  
+     ]]>                                                                                                                                                                                                              
+    </insert>
+    <delete id="CMA011CT_DS_LIST_D" parameterType="java.util.Map">                                                                                                           
+            <![CDATA[
+            
+           	DELETE FROM T_CM_FVR_MENU
+		 	 WHERE MENU_CD = #{MENU_CD}
+		 	   AND USER_ID = #{USER_ID}
+		 	   AND SERVICE_TP = #{SERVICE_TP}
+		 	   AND COMPANY_CD = #{COMPANY_CD}
+                                                                                                                                                                             
+     ]]>                                                                                                                                                                                                              
+    </delete>
+</mapper>                                                                                                                                                                                                          

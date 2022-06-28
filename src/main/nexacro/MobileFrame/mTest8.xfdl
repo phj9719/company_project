@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="1000" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="예약하기" onclick="formClick">
+    <Layouts>
+      <Layout width="480" height="1000" screenid="Mobile" stepcount="0">
+        <Static id="Static00" taborder="0" text="비대면 예약 서비스" left="5.00%" top="20" height="40" cssclass="sta_title" right="5.00%" onclick="formClick"/>
+        <Static id="Static01" taborder="1" text="요양원 직접방문 / 영상통화 예약 및 예약상태 확인" left="5.00%" top="62" height="30" cssclass="sta_txt" right="5.00%" onclick="formClick"/>
+        <Tab id="Tab00" taborder="2" tabindex="0" left="0" top="105" right="0" bottom="0" tabjustify="true" tabbuttonheight="45">
+          <Tabpages>
+            <Tabpage id="Tabpage1" text="직접방문" ontouchend="formClick">
+              <Layouts>
+                <Layout>
+                  <Static id="Static00" taborder="0" text="방문정보" left="5%" top="20" height="40" cssclass="sta_title" right="5%" onclick="formClick"/>
+                  <Static id="Static01" taborder="1" text="방문일시 선택" left="5%" top="73" height="35" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#7d7f97" right="5%" onclick="formClick"/>
+                  <Calendar id="Calendar00" taborder="2" left="5.00%" top="110" width="43.5%" height="35" displaynulltext="방문일자" cssclass="calendar2"/>
+                  <Static id="Static01_00" taborder="3" text="신청자명" left="5%" top="160" height="35" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#7d7f97" right="5%" onclick="formClick"/>
+                  <Edit id="Edit00" taborder="4" left="5.00%" top="195" width="20%" height="35" displaynulltext="신청자명"/>
+                  <Combo id="Combo01" taborder="5" left="28%" top="195" width="40%" height="35" displaynulltext="어르신과의 관계" text="" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+                    <Dataset id="innerdataset">
+                      <ColumnInfo>
+                        <Column id="codecolumn" size="256"/>
+                        <Column id="datacolumn" size="256"/>
+                      </ColumnInfo>
+                      <Rows>
+                        <Row>
+                          <Col id="codecolumn">01</Col>
+                          <Col id="datacolumn">가나다</Col>
+                        </Row>
+                        <Row>
+                          <Col id="codecolumn">02</Col>
+                          <Col id="datacolumn">나아라ㅏㄷ</Col>
+                        </Row>
+                      </Rows>
+                    </Dataset>
+                  </Combo>
+                  <Combo id="Combo02" taborder="6" left="71%" top="195" height="35" displaynulltext="동반인원" width="24%"/>
+                  <Static id="Static02" taborder="7" text="※ 신청자 포함 최대 4명까지 동시에 방문 가능합니다." left="5%" top="242" height="30" cssclass="sta_txt" right="5%" onclick="formClick" font="15pt/normal &quot;Noto Sans CJK KR Regular&quot;"/>
+                  <Static id="Static02_00" taborder="8" left="5%" top="264" height="70" cssclass="sta_txt" text="※ 현재 코로나 19 집단감염 예방을 위해 방문 시&#13;&#10;비대면 면회신청서를 방문객별로 작성하고 있습니다." right="5%" onclick="formClick" font="15pt/normal &quot;Noto Sans CJK KR Regular&quot;"/>
+                  <CheckBox id="CheckBox00" taborder="9" text="(필수) 수집항목 및 이용 목적" left="5%" top="327" height="35" right="5%"/>
+                  <Button id="Button00" taborder="10" text="방문예약신청" left="5.00%" top="649" height="54" cssclass="btn_basic" right="5.00%" onclick="Tab00_Tabpage1_Button00_onclick"/>
+                  <Div id="Div00" taborder="11" text="Div00" left="5%" top="368" height="250" right="5%" background="#ffffff">
+                    <Layouts>
+                      <Layout>
+                        <Div id="Div00" taborder="0" text="Div00" left="0%" top="0" width="27%" height="40" cssclass="divsta2_mDataHForm1">
+                          <Layouts>
+                            <Layout>
+                              <Div id="Div00" taborder="0" top="0" height="40" background="#ffffff" right="0" width="1"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Div id="Div01" taborder="1" text="Div01" left="0" top="200" width="26.96%" height="50" cssclass="divsta2_mDataBForm1">
+                          <Layouts>
+                            <Layout>
+                              <Static id="Static00" taborder="0" text="CCTV 영상정보" left="0" top="0" width="100%" height="50" cssclass="sta2_mDataBForm3" wordWrap="char" padding="5px 4px" onclick="formClick"/>
+                              <Div id="Div00" taborder="1" top="0" height="50" background="#cccccc" width="1" right="0"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="Static00" taborder="2" text="항목" left="0%" top="0" width="27%" height="40" cssclass="sta2_mDataHForm1" onclick="formClick"/>
+                        <Static id="Static01" taborder="3" text="이용목적" left="27%" top="0" width="52%" height="40" cssclass="sta2_mDataHForm2" onclick="formClick"/>
+                        <Static id="Static02" taborder="4" text="보유기간" left="79%" top="0" width="21%" height="40" cssclass="sta2_mDataHForm3" onclick="formClick"/>
+                        <Static id="Static03" taborder="5" text="이름" left="0" top="40" width="27%" height="40" cssclass="sta2_mDataBForm1" wordWrap="char" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static04" taborder="6" text="방문 예약 및 재방문 확인 등 출입관리, 제한구역 출입허가 및 등록" left="27%" top="40" width="52%" height="80" cssclass="sta2_mDataBForm1" wordWrap="char" textAlign="left" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static06" taborder="7" text="시설안전 및 범죄예방" left="27%" top="200" width="52%" height="50" cssclass="sta2_mDataBForm4" wordWrap="char" textAlign="left" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static07" taborder="8" text="최종 방문일로부터 1년" left="79%" top="40" width="21%" height="210" cssclass="sta2_mDataBForm5" wordWrap="char" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static03_00" taborder="9" text="소속회사" left="0" top="80" width="27%" height="40" cssclass="sta2_mDataBForm1" wordWrap="char" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static03_00_00" taborder="10" text="휴대전화번호" left="0" top="120" width="27%" height="80" cssclass="sta2_mDataBForm1" wordWrap="char" padding="5px 4px" onclick="formClick"/>
+                        <Static id="Static04_00" taborder="11" text="출입증 분실, 방문 확인 등을 위한 연락(방문 예약 SMS 발송)" left="27%" top="120" width="52%" height="80" cssclass="sta2_mDataBForm1" wordWrap="char" textAlign="left" padding="5px 4px" onclick="formClick"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="Div01" taborder="12" left="34" top="748" width="418" height="10"/>
+                  <MaskEdit id="medt_visit_time" taborder="13" left="53.50%" top="110" width="43.50%" height="35" format="## : ##" type="string" displaynulltext="방문시간" readonly="true" oneditclick="medt_oneditclick"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage2" text="영상통화" ontouchend="formClick">
+              <Layouts>
+                <Layout>
+                  <Static id="Static00" taborder="0" text="영상통화정보" left="5.00%" top="20" height="40" cssclass="sta_title" right="5.00%" onclick="formClick"/>
+                  <Static id="Static01" taborder="1" text="영상통화일시 선택" left="5.00%" top="73" height="35" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#7d7f97" right="5.00%" onclick="formClick"/>
+                  <Calendar id="Calendar00" taborder="2" left="5.00%" top="110" width="43.13%" height="35" displaynulltext="통화예정일" cssclass="calendar2" font="16pt &quot;Noto Sans CJK KR Medium&quot;" color="#7d7f97"/>
+                  <Static id="Static02" taborder="3" text="신청자명" left="5%" top="160" height="35" font="bold 17pt/normal &quot;Noto Sans CJK KR Bold&quot;" color="#7d7f97" right="5%" onclick="formClick"/>
+                  <Edit id="Edit00" taborder="4" left="5.00%" top="195" width="43.5%" height="35" displaynulltext="신청자명"/>
+                  <Combo id="Combo01" taborder="5" top="195" height="35" displaynulltext="어르신과의 관계" right="5%" width="43.5%"/>
+                  <Edit id="Edit01" taborder="6" left="5.00%" top="245" height="35" displaynulltext="신청자연락처" right="5.00%"/>
+                  <Static id="Static03" taborder="7" text="※ 요양원으로 영상통화를 거실 날짜와 시간을 선택해 주시기&#13;&#10;    바랍니다." left="29" top="280" width="431" height="70" cssclass="sta_txt" onclick="formClick" font="15pt/normal &quot;Noto Sans CJK KR Regular&quot;"/>
+                  <Static id="Static03_00" taborder="8" text="※ 신청자 연락처에는 영상통화를 거실 휴대폰번호를 입력해&#13;&#10;    주시기 바랍니다." left="29" top="332" width="431" height="70" cssclass="sta_txt" onclick="formClick" font="15pt/normal &quot;Noto Sans CJK KR Regular&quot;"/>
+                  <Button id="Button00" taborder="9" text="영상통화 예약신청" left="5.00%" top="419" height="54" cssclass="btn_basic" right="5.00%" onclick="Tab00_Tabpage2_Button00_onclick"/>
+                  <MaskEdit id="medt_video_time" taborder="10" left="53.33%" top="110" width="43.33%" height="35" format="## : ##" type="string" displaynulltext="방문시간" readonly="true" oneditclick="medt_oneditclick"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="Tabpage3" text="예약목록">
+              <Layouts>
+                <Layout>
+                  <Grid id="Grid00" taborder="0" left="5.00%" top="30" right="5.00%" bottom="20" autofittype="col" cssclass="grid2">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="200"/>
+                          <Column size="100"/>
+                          <Column size="100"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="40" band="head"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="일시"/>
+                          <Cell col="1" text="신청내역"/>
+                          <Cell col="2" text="상태"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NOT_SEQ" type="STRING" size="256"/>
+          <Column id="NOT_DT" type="STRING" size="256"/>
+          <Column id="TITLE" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_LIST" type="STRING" size="256"/>
+          <Column id="FILE_REAL_LIST" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	this.makeStandardObject();
+	
+	//조회조건
+	//this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	
+	//조회
+	//this.fn_search();
+	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		+ "sqlId=mTest7.mTest7_DS_LIST_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	var objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "NUC_VISIT_SUCCESS_POP" :
+			break;
+		case "NUC_LOGIN_AGREE_POP" :
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+this.Tab00_Tabpage1_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var param = {};
+	
+	Sct.tPopup(this, "NUC_VISIT_SUCCESS_POP", 350, 400, param, "MobilePOP::NUC_VISIT_SUCCESS_POP.xfdl", "fn_popCallback");
+};
+
+this.Tab00_Tabpage2_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var param = {};
+	
+	Sct.tPopup(this, "NUC_LOGIN_AGREE_POP", 460, 700, param, "MobilePOP::NUC_LOGIN_AGREE_POP.xfdl", "fn_popCallback");
+};
+
+this.medt_oneditclick = function(obj:nexacro.MaskEdit,e:nexacro.EditClickEventInfo)
+{
+	let param;
+	
+	if(obj.id == "medt_visit_time")
+	{
+		param = {arg1 : "1"};
+	}
+	else if(obj.id == "medt_video_time")
+	{
+		param = {arg1 : "2"};
+	}
+	
+	this.standardPlugin.callMethod("TIMEPICKER", param);
+};
+
+// 앱에서 _oncallback의 callback 호출시
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+	if(e.svcid == "TIMEPICKER1")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage1.form.medt_visit_time.set_value(e.returnvalue);
+		}
+	}
+	else if(e.svcid == "TIMEPICKER2")
+	{
+		if(e.reason == 0)
+		{
+			this.Tab00.Tabpage2.form.medt_video_time.set_value(e.returnvalue);
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

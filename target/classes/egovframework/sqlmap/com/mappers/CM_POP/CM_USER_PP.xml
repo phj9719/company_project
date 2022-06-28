@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2020-07-08 13:22                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CM_USER_PP                                                         
+     * 프로그램 명  : 사용자팝업                                                
+     * Description :                                                            
+     *================================================================                  
+                작성일자         |  작성자    |  비고                                    
+     *================================================================                  
+       2020-07-08 17:42        |           | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_USER_PP"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CM_USER_PP_GET_USER" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		            SELECT A.COMPANY_CD
+		            ,      A.BIZ_CD
+		            ,      A.PLANT_CD
+		            ,      A.USER_ID
+		            ,      A.USER_NO
+		            ,      A.USER_PASSWD
+		            ,      A.USER_NM_KOR
+		            ,      A.USER_NM_ENG
+		            ,      A.USER_NM_CHI
+		            ,      A.USE_YN
+		            ,      A.WORK_YN
+		            ,      A.DEPT_CD
+					,      (SELECT Z.DEPT_NAME
+		        			FROM T_HR_DEPARTMENT Z WITH(NOLOCK)
+							WHERE A.DEPT_CD = Z.DEPT_CODE) AS DEPT_NM			
+		            ,      A.GRADE_CD
+		            ,      A.GRADE_NM
+		            ,      A.INOUT_USER_TP
+		            ,      A.SRM_TP
+		            ,      A.TEL_NO
+		            ,      A.CELL_NO
+		            ,      A.FAX_NO
+		            ,      A.EMAIL
+		            ,      A.DEF_LANG
+		            ,      A.AUTH1
+		            ,      A.AUTH2
+		            ,      A.AUTH3
+		            ,      A.AUTH4
+		            ,      A.AUTH5
+		            ,      A.VALID_PERIOD_FR
+		            ,      A.VALID_PERIOD_TO
+		            ,      A.VALID_PASSWD_DT
+		            ,      A.BLUEPRINT_YN
+		            ,      A.USER_NM
+		            ,      A.HIRE_DT
+		            ,      A.FILE_GRP_ID1
+		            ,      A.PROC_WORKER_YN
+		            ,      A.QC_YN
+		            ,      A.WCENTER_CD
+		            ,      A.WC_GROUP_CD
+		            FROM   T_CM_USER A WITH(NOLOCK)
+		            WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		            <if test="USER_ID != '' and USER_ID != null">
+		            AND    A.USER_ID = #{USER_ID}
+		            </if>
+		            <if test="USER_NM != '' and USER_NM != null">
+		            AND    ( A.USER_NM_KOR LIKE '%' + #{USER_NM} + '%' OR A.USER_NM_ENG LIKE '%' + #{USER_NM} + '%' OR A.USER_NM_CHI LIKE '%' + #{USER_NM} + '%' )
+		            </if>
+		            <if test="DEPT_CD != '' and DEPT_CD != null">
+		            AND    A.DEPT_CD = #{DEPT_CD}
+		            </if>
+		            ORDER
+		            BY     A.USER_ID
+    </select>
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00220                                                         
+     * 프로그램 명     	: 2-10 투약전달기록                                                      
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-25 00:00        	|  이동관		| 최초작성                         
+       2022-06-20 00:00         |  이동관        | 10에서 20으로 변경
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00210_DS_LIST_S		조회
+        DAY00210_DS_DATA_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00220">
+	<!-- 조회 -->
+    <select id="DAY00220_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 LIST */     
+  	SELECT 0 AS chk
+	     , bm.sicode
+	     , bm.kmmark
+	     , bm.m_code
+	     , bm.m_group
+	     , bm.m_autoid
+	     , bm.m_name
+	     , bm.성별
+	     , bm.m_grade
+	     , bm.등급
+	     , bm.m_level
+	     , bm.거주현황
+	     , bm.m_roomname
+	  FROM base_mate bm
+	     , (SELECT DISTINCT
+				   sicode
+    			 , docode 
+	         FROM kmdosagea
+	        WHERE donalja BETWEEN #{date_from} AND #{date_to}) AS ds 
+	 WHERE bm.sicode = ds.sicode
+	   AND bm.m_code = ds.docode
+	   AND bm.sicode = #{sicode}
+	 <if test="m_group != '전체'">
+	   AND bm.m_group = #{m_group} /* A,B,C,D,E 중 하나인 경우 */
+	</if>
+	 ORDER
+	    BY bm.m_name   			
+    </select>
+    
+    <select id="DAY00220_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 DATA */     
+  	SELECT sicode
+	     , donumber
+	     , docode
+	     , doname
+	     , donalja
+	     , 투약명
+	     , 투약량
+	     , 투약증상
+	     , 투약방법
+	     , 투약담당
+	     , 담당코드
+	     , IF(아침전 = '1','●','') AS b_01
+	     , IF(아침후 = '1','●','') AS b_02
+	     , IF(점심전 = '1','●','') AS l_01
+	     , IF(점심후 = '1','●','') AS l_02
+	     , IF(저녁전 = '1','●','') AS d_01
+	     , IF(저녁후 = '1','●','') AS d_02
+	     , IF(취침전 = '1','●','') AS e_01
+	     , IF(필요시 = '1','●','') AS e_02              
+	  FROM kmdosagea
+	 WHERE donalja BETWEEN #{date_from} AND #{date_to}
+	   AND sicode = #{sicode}
+	 ORDER 
+	    BY donalja
+	     , doname
+	     , 투약명
+	     , 투약량
+	     , 투약증상 
+	</select>
+	
+	<select id="DAY00220_DS_LIST_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 LIST_CHK */     
+  	SELECT 0 AS CHK
+	     , bm.sicode
+	     , bm.kmmark
+	     , bm.m_code
+	     , bm.m_group
+	     , bm.m_autoid
+	     , bm.m_name
+	     , bm.성별
+	     , bm.m_grade
+	     , bm.등급
+	     , bm.m_level
+	     , bm.거주현황
+	     , bm.m_roomname
+	  FROM base_mate bm
+	     , (SELECT DISTINCT
+				   sicode
+    			 , docode 
+	         FROM kmdosagea
+	        WHERE donalja BETWEEN #{date_week_from} AND #{date_week_to}) AS ds 
+	 WHERE bm.sicode = ds.sicode
+	   AND bm.m_code = ds.docode
+	   AND bm.sicode = #{sicode}
+	 <if test="m_group != '전체'">
+	   AND bm.m_group = #{m_group} /* A,B,C,D,E 중 하나인 경우 */
+	</if>
+	 ORDER
+	    BY bm.sicode
+	     , bm.거주현황
+	     , bm.m_group
+	     , bm.m_name
+	     , bm.성별
+	     , bm.m_roomname  
+	</select>
+	
+	<select id="DAY00220_DS_DATA_CHK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 2-10 DATA */     
+  	SELECT sicode
+	     , donumber
+	     , docode
+	     , doname
+	     , donalja
+	     , 투약명
+	     , 투약량
+	     , 투약증상
+	     , 투약방법
+	     , 투약담당
+	     , 담당코드
+	     , IF(아침전 = '1','●','') AS b_01
+	     , IF(아침후 = '1','●','') AS b_02
+	     , IF(점심전 = '1','●','') AS l_01
+	     , IF(점심후 = '1','●','') AS l_02
+	     , IF(저녁전 = '1','●','') AS d_01
+	     , IF(저녁후 = '1','●','') AS d_02
+	     , IF(취침전 = '1','●','') AS e_01
+	     , IF(필요시 = '1','●','') AS e_02              
+	  FROM kmdosagea
+	 WHERE donalja = #{date}
+	   AND sicode = #{sicode}
+	 ORDER 
+	    BY donalja
+	     , doname
+	     , 투약명
+	     , 투약량
+	     , 투약증상 
+	</select>
+</mapper>                                                                                                                                                                                                          

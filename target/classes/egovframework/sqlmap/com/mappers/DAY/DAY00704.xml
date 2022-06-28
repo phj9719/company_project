@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00704                                                         
+     * 프로그램 명     	: 7-4 급식운영일지                                                     
+     * Description 	: 급식운영일지 내역
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-11 17:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00704_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00704">
+	<!-- 조회 -->
+    <select id="DAY00704_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    	with recursive line as (
+		    select last_day(STR_TO_DATE(#{DATE_FROM}, '%Y-%m-%d') - interval 1 month) + interval 1 day as startDate
+		    , 1 AS row
+		    , #{SICODE} AS sicode
+		    union all
+		    select startDate + interval 1 day 
+		    , row + 1 AS row
+		    , sicode AS sicode
+			 from line 
+			 where startDate < last_day(STR_TO_DATE(#{DATE_TO}, '%Y-%m-%d'))
+		)
+		SELECT 
+			LI.sicode
+			, LI.startDate
+			, KM.sicode AS KM_sicode
+			, KM.급식번호
+			, IF(IFNULL(KM.급식번호,'') != '', 'O', '') AS 작성
+			, IFNULL(KM.급식일, LI.startDate) AS 급식일
+			, CASE DATE_FORMAT(LI.StartDate, '%w') 
+					WHEN 0 THEN '(일)'
+					WHEN 1 THEN '(월)'
+					WHEN 2 THEN '(화)'
+					WHEN 3 THEN '(수)'
+					WHEN 4 THEN '(목)'
+					WHEN 5 THEN '(금)'
+					WHEN 6 THEN '(토)'
+				END 급식요일
+			, KM.작성자명
+			, KM.작성코드
+			, KD.mor01
+			, KD.mor02
+			, KD.mor03
+			, KD.mor04
+			, KD.mor05
+			, KD.mor06
+			, KD.lun01
+			, KD.lun02
+			, KD.lun03
+			, KD.lun04
+			, KD.lun05
+			, KD.lun06
+			, KD.din01
+			, KD.din02
+			, KD.din03
+			, KD.din04
+			, KD.din05
+			, KD.din06
+			, KD.sna01
+			, KD.sna02
+			, KD.sna03
+			, KD.sna04
+			, KD.sna05
+			, KD.sna06
+			, KM.조식거주
+			, KM.조식직원
+			, KM.조식일반
+			, KM.xxx_조식다진
+			, KM.조식죽식
+			, KM.xxx_조식당뇨
+			, KM.조식경관
+			, KM.xxx_조식저염
+			, KM.중식거주
+			, KM.중식직원
+			, KM.중식일반
+			, KM.xxx_중식다진
+			, KM.중식죽식
+			, KM.xxx_중식당뇨
+			, KM.중식경관
+			, KM.xxx_중식저염
+			, KM.석식거주
+			, KM.석식직원
+			, KM.석식일반
+			, KM.xxx_석식다진
+			, KM.석식죽식
+			, KM.xxx_석식당뇨
+			, KM.석식경관
+			, KM.xxx_석식저염
+			, KM.조식열량
+			, KM.중식열량
+			, KM.석식열량
+			, KM.근무자
+			, KM.휴무자
+			, KM.업무내용
+			, KM.폐기일
+			, KM.조치사항
+			, KM.org_급식번호
+			, '0' AS CHK
+			FROM line LI
+			LEFT JOIN kmmeal KM
+			ON LI.sicode = KM.sicode
+			AND LI.startDate = KM.급식일
+			LEFT JOIN kmdiet KD
+			ON KD.sicode = LI.sicode
+			AND KD.f_nalja = LI.startDate
+		WHERE LI.sicode = #{SICODE}
+		]]>
+    </select>    
+    
+    <!-- 삽입전 점검일 중복 확인 -->
+    <select id="DAY00704_DS_DUPL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT
+    		KM.sicode
+    	,	KM.급식번호
+    	,	KH.급식일
+    	FROM kmmeal KM
+    	WHERE KM.sicode = #{sicode}
+    	AND	KM.급식일 = #{급식일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00704_DS_DATA_I" parameterType="java.util.HashMap">
+    	INSERT INTO kmmeal
+		(
+			  sicode
+			, 급식일
+			, 작성자명
+			, 작성코드
+			, 조식거주
+			, 조식직원
+			, 조식일반
+			, xxx_조식다진
+			, 조식죽식
+			, xxx_조식당뇨
+			, 조식경관
+			, xxx_조식저염
+			, 중식거주
+			, 중식직원
+			, 중식일반
+			, xxx_중식다진
+			, 중식죽식
+			, xxx_중식당뇨
+			, 중식경관
+			, xxx_중식저염
+			, 석식거주
+			, 석식직원
+			, 석식일반
+			, xxx_석식다진
+			, 석식죽식
+			, xxx_석식당뇨
+			, 석식경관
+			, xxx_석식저염
+			, 조식열량
+			, 중식열량
+			, 석식열량
+			, 근무자
+			, 휴무자
+			, 업무내용
+			, 폐기일
+			, 조치사항
+			, org_급식번호
+		)
+		VALUES
+		(
+			  #{sicode}
+			, #{급식일}
+			, #{작성자명}
+			, #{작성코드}
+			, #{조식거주}
+			, #{조식직원}
+			, #{조식일반}
+			, #{xxx_조식다진}
+			, #{조식죽식}
+			, #{xxx_조식당뇨}
+			, #{조식경관}
+			, #{xxx_조식저염}
+			, #{중식거주}
+			, #{중식직원}
+			, #{중식일반}
+			, #{xxx_중식다진}
+			, #{중식죽식}
+			, #{xxx_중식당뇨}
+			, #{중식경관}
+			, #{xxx_중식저염}
+			, #{석식거주}
+			, #{석식직원}
+			, #{석식일반}
+			, #{xxx_석식다진}
+			, #{석식죽식}
+			, #{xxx_석식당뇨}
+			, #{석식경관}
+			, #{xxx_석식저염}
+			, #{조식열량}
+			, #{중식열량}
+			, #{석식열량}
+			, #{근무자}
+			, #{휴무자}
+			, #{업무내용}
+			, #{폐기일}
+			, #{조치사항}
+			, #{org_급식번호}
+		)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00704_DS_DATA_U" parameterType="java.util.HashMap">
+    	UPDATE kmmeal
+    	SET	작성자명     =  #{작성자명} 
+			, 작성코드    	 =  #{작성코드} 
+			, 조식거주    	 =  #{조식거주} 
+			, 조식직원      	 =  #{조식직원} 
+			, 조식일반         =  #{조식일반} 
+			, xxx_조식다진  =  #{xxx_조식다진} 
+			, 조식죽식     	 =  #{조식죽식} 
+			, xxx_조식당뇨  =  #{xxx_조식당뇨} 
+			, 조식경관     	 =  #{조식경관} 
+			, xxx_조식저염	 =  #{xxx_조식저염} 
+			, 중식거주     	 =  #{중식거주} 
+			, 중식직원     	 =  #{중식직원} 
+			, 중식일반     	 =  #{중식일반} 
+			, xxx_중식다진  =  #{xxx_중식다진} 
+			, 중식죽식     	 =  #{중식죽식} 
+			, xxx_중식당뇨	 =  #{xxx_중식당뇨} 
+			, 중식경관     	 =  #{중식경관} 
+			, xxx_중식저염  =  #{xxx_중식저염} 
+			, 석식거주     	 =  #{석식거주} 
+			, 석식직원     	 =  #{석식직원} 
+			, 석식일반      	 =  #{석식일반} 
+			, xxx_석식다진  =  #{xxx_석식다진} 
+			, 석식죽식     	 =  #{석식죽식} 
+			, xxx_석식당뇨  =  #{xxx_석식당뇨} 
+			, 석식경관     	 =  #{석식경관} 
+			, xxx_석식저염  =  #{xxx_석식저염} 
+			, 조식열량     	 =  #{조식열량} 
+			, 중식열량     	 =  #{중식열량} 
+			, 석식열량     	 =  #{석식열량} 
+			, 근무자      	 =  #{근무자} 
+			, 휴무자      	 =  #{휴무자} 
+			, 업무내용     	 =  #{업무내용} 
+			, 폐기일      	 =  #{폐기일} 
+			, 조치사항         =  #{조치사항} 
+			, org_급식번호  =  #{org_급식번호} 
+    	WHERE sicode = #{sicode}
+    	AND	급식번호 = #{급식번호}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00704_DS_DATA_D" parameterType="java.util.HashMap">
+    	DELETE FROM kmmeal
+    	WHERE sicode = #{sicode}
+    	AND	급식번호 = #{급식번호}
+    </delete>
+    
+    <!-- 식사기록적용 -->
+	<select id="DAY00704_DS_MEAL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    		SELECT 
+				COUNT(CASE WHEN 아침종류 = 1 THEN 1 END) AS 조식일반식
+				, COUNT(CASE WHEN 아침종류 = 2 THEN 2 END) AS 조식죽식
+				, COUNT(CASE WHEN 아침종류 = 3 THEN 3 END) AS 조식유동식
+				, COUNT(CASE WHEN 점심종류 = 1 THEN 1 END) AS 중식일반식
+				, COUNT(CASE WHEN 점심종류 = 2 THEN 2 END) AS 중식죽식
+				, COUNT(CASE WHEN 점심종류 = 3 THEN 3 END) AS 중식유동식
+				, COUNT(CASE WHEN 저녁종류 = 1 THEN 1 END) AS 석식일반식
+				, COUNT(CASE WHEN 저녁종류 = 2 THEN 2 END) AS 석식죽식
+				, COUNT(CASE WHEN 저녁종류 = 3 THEN 3 END) AS 석식유동식
+			FROM kmrecord
+			WHERE sicode = #{SICODE}
+			AND k_nalja = #{NALJA}
+		]]>
+    </select>   
+    
+     <!-- 근무기록적용 -->
+	<select id="DAY00704_DS_WORK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    		SELECT 
+				sum(case when CHAR_LENGTH(inf.아침식사) > 0 then            
+		                 case when ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,7,5)),'%Y%m%d%H:%i')))
+		                    OR ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.아침식사,7,5)),'%Y%m%d%H:%i'))) then
+		                        1
+		              ELSE 0 end
+		       ELSE 0 END) AS mor_cnt
+		      ,sum(case when CHAR_LENGTH(inf.점심식사) > 0 then            
+		                 case when ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,7,5)),'%Y%m%d%H:%i')))
+		                    OR ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.점심식사,7,5)),'%Y%m%d%H:%i'))) then
+		                        1
+		              ELSE 0 end
+		       ELSE 0 END) AS lun_cnt
+		      ,sum(case when CHAR_LENGTH(inf.저녁식사) > 0 then            
+		                 case when ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근01,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,7,5)),'%Y%m%d%H:%i')))
+		                    OR ((str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        <= str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,1,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,1,5)),'%Y%m%d%H:%i'))
+		                    OR (str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,1,5)),'%Y%m%d%H:%i')
+		                        < str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,7,5)),'%Y%m%d%H:%i')
+		                    AND str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(wor.출퇴근02,7,5)),'%Y%m%d%H:%i')
+		                        > str_to_date(concat(DATE_FORMAT(wor.출근일,'%Y%m%d'),substring(inf.저녁식사,7,5)),'%Y%m%d%H:%i'))) then
+		                        1
+		              ELSE 0 end
+		       ELSE 0 END) AS din_cnt
+			  FROM base_work wor
+			 INNER JOIN base_info inf
+			    ON inf.sicode = wor.sicode
+			     WHERE wor.sicode = #{SICODE}
+			   AND wor.출근일 = STR_TO_DATE(#{WORKDATE},'%Y%m%d')
+		]]>
+    </select>   
+</mapper>                                                                                                                                                                                                          

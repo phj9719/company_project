@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="testDisplay" width="1024" height="768" titletext="New Form" onload="testDisplay_onload">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <Div id="Div00" taborder="0" text="Div00" left="17" top="22" width="1146" height="57" border="1px solid rgba(128,128,128,1)">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="업무구분" left="10" top="11" width="113" height="28" font="12pt &quot;Malgun Gothic&quot;"/>
+              <Combo id="Combo00" taborder="1" text="Combo00" left="136" top="11" width="142" height="28"/>
+              <Static id="Static01" taborder="2" text="화면코드" left="291" top="11" width="113" height="28" font="12pt &quot;Malgun Gothic&quot;"/>
+              <Static id="Static02" taborder="3" text="화면명" left="624" top="11" width="113" height="28" font="12pt &quot;Malgun Gothic&quot;"/>
+              <Edit id="Edit00" taborder="4" left="417" top="11" width="194" height="28"/>
+              <Edit id="Edit01" taborder="5" left="750" top="11" width="194" height="28"/>
+              <Button id="Button00" taborder="6" text="조회" left="1047" top="11" width="85" height="28" onclick="Div00_Button00_onclick" background="lightblue"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="화면별 테이블 컴포넌트 목록" left="13" top="84" width="183" height="30" font="10pt &quot;Malgun Gothic&quot;"/>
+        <Grid id="Grid00" taborder="2" left="17" top="119" width="1146" height="619" binddataset="ds_list" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="화면코드"/>
+                <Cell col="1" text="화면명"/>
+                <Cell col="2" displaytype="normal" edittype="none" text="업무구분"/>
+                <Cell col="3" text="초기화 권한"/>
+                <Cell col="4" text="조회 권한"/>
+                <Cell col="5" text="행추가 권한"/>
+                <Cell col="6" text="삭제 권한"/>
+                <Cell col="7" text="엑셀 권한"/>
+                <Cell col="8" text="저장 권한"/>
+                <Cell col="9" text="발행 권한"/>
+                <Cell col="10" text="승인 권한"/>
+                <Cell col="11" text="MENU_PARAM"/>
+                <Cell col="12" text="메뉴 상태"/>
+                <Cell col="13" text="화면 설명"/>
+                <Cell col="14" text="사용 여부"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="normal" edittype="normal" text="bind:MENU_ID"/>
+                <Cell col="1" displaytype="normal" edittype="normal" text="bind:MENU_ID_NM"/>
+                <Cell col="2" displaytype="combo" edittype="combo" text="bind:MENU_TP" combodataset="MenuTP" combocodecol="CMCD" combodatacol="CMNM"/>
+                <Cell col="3" displaytype="checkbox" edittype="checkbox" text="bind:CLS_AUTH"/>
+                <Cell col="4" displaytype="checkbox" edittype="checkbox" text="bind:SEAR_AUTH"/>
+                <Cell col="5" displaytype="checkbox" edittype="checkbox" text="bind:ADD_AUTH"/>
+                <Cell col="6" displaytype="checkbox" edittype="checkbox" text="bind:DEL_AUTH"/>
+                <Cell col="7" displaytype="checkbox" edittype="checkbox" text="bind:XLS_AUTH"/>
+                <Cell col="8" displaytype="checkbox" edittype="checkbox" text="bind:SAVE_AUTH"/>
+                <Cell col="9" displaytype="checkbox" edittype="checkbox" text="bind:PRN_AUTH"/>
+                <Cell col="10" displaytype="checkbox" edittype="checkbox" text="bind:APPV_AUTH"/>
+                <Cell col="11" displaytype="normal" edittype="normal" text="bind:MENU_PARAM"/>
+                <Cell col="12" displaytype="normal" edittype="normal" text="bind:MENU_STATUS"/>
+                <Cell col="13" displaytype="normal" edittype="normal" text="bind:DESCRIPTION"/>
+                <Cell col="14" displaytype="combo" edittype="combo" text="bind:USE_YN" combodataset="USEYN" combocodecol="CMCD" combodatacol="CMNM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="3" text="행복사" left="753" top="90" width="98" height="24" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="4" text="행추가" left="857" top="90" width="98" height="24" onclick="Button01_onclick"/>
+        <Button id="Button02" taborder="5" text="저장" left="1065" top="90" width="98" height="24" onclick="Button02_onclick"/>
+        <Button id="Button03" taborder="6" text="행삭제" onclick="fn_deleteRow" left="961" top="90" width="98" height="24"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_ID_NM" type="STRING" size="256"/>
+          <Column id="MENU_TP" type="STRING" size="256"/>
+          <Column id="CLS_AUTH" type="STRING" size="256"/>
+          <Column id="SEAR_AUTH" type="STRING" size="256"/>
+          <Column id="ADD_AUTH" type="STRING" size="256"/>
+          <Column id="DEL_AUTH" type="STRING" size="256"/>
+          <Column id="XLS_AUTH" type="STRING" size="256"/>
+          <Column id="SAVE_AUTH" type="STRING" size="256"/>
+          <Column id="PRN_AUTH" type="STRING" size="256"/>
+          <Column id="APPV_AUTH" type="STRING" size="256"/>
+          <Column id="MENU_PARAM" type="STRING" size="256"/>
+          <Column id="MENU_STATUS" type="STRING" size="256"/>
+          <Column id="DESCRIPTION" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="USEYN">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="MenuTP">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[// 조회버튼클
+this.Div00_Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 조회
+this.fn_search = function ()
+{
+	var con1 = this.Div00.form.Combo00.value;
+	var con2 = this.Div00.form.Edit00.value;
+	var con3 = this.Div00.form.Edit01.value;
+
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		 + "sqlId=getMENUID ";
+	var callbackFunc = "";
+
+	if (con1 != null || con2 != null || con3 != null) 
+	{
+		argument += "MENU_ID=" + con2 + " "
+			 + "MENU_ID_NM=" + con3;
+	}
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_save = function ()
+{
+	alert(this.ds_list.getColumn(0, 3));
+	var svcId = "save";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_list:U";
+	var outDatasets = "";
+	var argument = "method=save "
+		 + "sqlId=saveMENUID "
+		 + "forceSqlFlag=N "
+		 + "REG_PGM_ID=" + this.name + " ";
+	var callbackFunc = "";
+
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 행복사
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (this.ds_list.rowposition == -1) 
+	{
+		alert("복사할 행이 없습니다.");
+	}
+	else 
+	{
+		var rowidx = this.ds_list.rowposition + 1;
+		this.ds_list.insertRow(rowidx);
+		this.ds_list.copyRow(rowidx, this.ds_list, rowidx - 1);
+		this.ds_list.set_rowposition(rowidx - 1);
+	}
+};
+
+// 행추가
+this.Button01_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.ds_list.addRow();
+	// this.ds_list.setColumn(this.ds_list.rowposition,3,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,4,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,5,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,6,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,7,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,8,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,9,0);
+	// this.ds_list.setColumn(this.ds_list.rowposition,10,0);
+};
+
+this.Button02_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+
+
+this.testDisplay_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "MenuTP=output1 USEYN=output2";
+	var argument = "method=getList "
+		 + "sqlId='getMENUTP getUSEYN'";
+	var callbackFunc = "";
+
+	this.gfn_transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_deleteRow = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.ds_list.deleteRow(this.ds_list.rowposition);
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00201_P08" width="450" height="600" titletext="병·의원명 지정" onload="form_onload">
+    <Layouts>
+      <Layout height="600" mobileorientation="landscape" width="450">
+        <Div id="div_cont" taborder="0" left="1" top="0" width="447" height="600">
+          <Layouts>
+            <Layout>
+              <Static id="sta_00" taborder="0" text="■ 선택시 병·의원명을 더블클릭 하세요." left="5" top="8" width="345" height="22" onclick="div_cont_sta_00_onclick" color="purple"/>
+              <Grid id="grd_list" taborder="1" left="21" top="30" width="403" height="540" autofittype="col" oncelldblclick="div_cont_grd_list_oncelldblclick" binddataset="ds_list">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="59"/>
+                      <Column size="148"/>
+                      <Column size="89"/>
+                      <Column size="107"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="번호"/>
+                      <Cell col="1" text="병의원명"/>
+                      <Cell col="2" text="전화번호"/>
+                      <Cell col="3" text="주 소"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:병원번호"/>
+                      <Cell col="1" text="bind:병의원명" cssclass="cellBWoman" cursor="pointer" textAlign="left"/>
+                      <Cell col="2" text="bind:전화번호" textAlign="left"/>
+                      <Cell col="3" text="bind:주소" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00201_P08
+ * 화면명   	: 병·의원명 지정
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-09
+ * 작성자   	: 성재영
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ 
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+ const fv_sicode = this.parent.SICODE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.clearData();
+	this.ds_search.addRow();
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201_P08.DAY00201_P08_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+this.fn_setData = function(ds, row) 
+{
+	this.ds_return.copyData(ds);
+	this.ds_return.clearData();
+	
+	this.ds_return.addRow();
+	this.ds_return.copyRow(0, ds, row);
+
+	this.close(this.ds_return.saveXML());
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 그리드 셀 더블클릭 이벤트
+this.div_cont_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const nameIdx = obj.getBindCellIndex("body", "병의원명");
+	
+	// 직원성명
+	if (e.col == nameIdx)
+	{
+		this.fn_setData(this.ds_list, e.row);
+	}
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="병원번호" type="STRING" size="256"/>
+          <Column id="병의원명" type="STRING" size="256"/>
+          <Column id="주소" type="STRING" size="256"/>
+          <Column id="전화번호" type="STRING" size="256"/>
+          <Column id="비고" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC_COMPANY_SEARCH_POP" width="460" height="600" titletext="모바일 시설검색 팝업" onload="NUC_COMPANY_SEARCH_POP_onload" ondevicebuttonup="NUC_COMPANY_SEARCH_POP_ondevicebuttonup" onclick="formClick">
+    <Layouts>
+      <Layout width="460" height="600" screenid="Mobile">
+        <Div id="div_popMain" taborder="1" left="25" top="90" bottom="25" right="25" borderRadius="10px" onclick="formClick">
+          <Layouts>
+            <Layout>
+              <Edit id="edt_companyNm" taborder="0" left="6.10%" top="47" width="300" height="58" displaynulltext="시설이름을 입력해주세요" onkeyup="div_popMain_edt_companyNm_onkeyup"/>
+              <Grid id="grd_list" taborder="2" left="4.88%" top="120" right="4.88%" oncellclick="div_popMain_grd_list_oncellclick" height="341" binddataset="ds_list" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="시설이름"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:COMPANY_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <ImageViewer id="imv_search" taborder="1" top="54" height="50" onclick="div_popMain_imv_search_onclick" image="url('theme://images/btn_sear.png')" stretch="fit" right="4.15%" width="50"/>
+              <Static id="Static00" taborder="3" text="시설검색" left="-4" top="0" width="414" height="48" textAlign="center" borderRadius="10px 10px 0px 0px" background="#81a0da" color="#ffffff" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ImageViewer id="imv_close" taborder="0" left="27" top="25" width="68" height="58" image="url('theme://images/btn_close.png')" background="transparent" onclick="imv_close_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUC_COMPANY_SEARCH_POP
+ * 화면명   	: 모바일 시설검색 팝업
+ * 화면설명 	: 모바일 로그인 전에 시설을 선택하는 팝업
+ * 작성일   	: 2021-09-10
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC_COMPANY_SEARCH_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	obj.addEventHandler("onkeyup", this.fn_openDebugPopup, this);
+	
+	this.div_popMain.form.imv_search.setFocus(true);
+
+	// 배경을 투명하게 하기 위하여 childFrame의 배경을 없앤 cssclass적용
+	//this.getOwnerFrame().set_cssclass("mpop");
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 시설 검색
+this.fn_search = function()
+{
+	const svcId = "searchCompany";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "gds_company=output1";
+	let argument = "method=getList ";
+		argument += "sqlId=CM_USER_CHECK.getCompany ";
+		argument += "SERVICE_TP='100' ";
+		
+	if(this.div_popMain.form.edt_companyNm.value != undefined)
+	{
+		argument += "COMPANY_NM=" + this.div_popMain.form.edt_companyNm.value;
+	}
+		
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "searchCompany")
+		{
+			this.ds_list.copyData(nexacro.getApplication().gds_company);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 돋보기
+this.div_popMain_imv_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+}; 
+
+// 취소
+this.imv_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+this.NUC_COMPANY_SEARCH_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		this.close();
+	}
+};
+
+this.div_popMain_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0)
+	{
+		const rIdx = e.row;
+		const companyNm = this.ds_list.getColumn(rIdx, "COMPANY_NM");
+		let alertTxt = "시설이름 : \n";
+			alertTxt += companyNm + " \n";
+			alertTxt += "이 시설을 선택하시겠습니까?";
+		
+		if(confirm(alertTxt))
+		{
+			this.ds_return.copyRow(0, this.ds_list, rIdx);
+			this.close(this.ds_return.saveXML());
+		}
+	}
+};
+
+this.div_popMain_edt_companyNm_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13)
+	{
+		if(obj.id == "edt_companyNm")
+		{
+			this.div_popMain.form.imv_search.setFocus(true);
+			this.fn_search();
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

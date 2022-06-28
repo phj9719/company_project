@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00302                                                    
+     * 프로그램 명     	: 3-2 월간 물리(작업)치료 제공기록(삭제)
+     * Description 		: 수급자별 월간 물리(작업)치료 제공기록 조회
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-05-27 15:00        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00302_DS_HEAD_S		헤더 조회
+        DAY00302_DS_DETAIL_S	디테일 조회
+     *================================================================
+-->
+<mapper namespace="DAY00302">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00302_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-2 헤더 조회 */
+    SELECT
+      bm.sicode
+    , bm.거주현황
+    , bm.m_name
+    , bm.m_code
+    , bm.m_group
+    , bm.성별
+    , bm.m_grade
+    , bm.m_roomname
+    , TIMESTAMPDIFF(
+        YEAR
+      , STR_TO_DATE(
+          SUBSTRING(
+            CONCAT(
+              CASE
+                WHEN SUBSTRING(bm.m_jumin2, 1, 1) IN(1, 2, 5, 6) THEN 19
+                WHEN SUBSTRING(bm.m_jumin2, 1, 1) IN(3, 4, 7, 8) THEN 20
+              END
+            , bm.m_jumin1
+            )
+          , 1
+          , 8
+          )
+        , '%Y%m%d'
+        )
+      , NOW()
+      ) AS 나이
+    , bm.m_regist
+    , bm.m_enday
+    , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS 입소일
+    , bm.m_reday
+    , CASE WHEN bm.m_reday != '2100-01-01' THEN DATE_FORMAT(bm.m_reday, '%Y.%m.%d') ELSE NULL END AS 퇴소일
+    , bm.m_history
+    , bm.m_liday1
+    , DATE_FORMAT(bm.m_liday1, '%Y.%m.%d') AS 인정시작
+    , bm.m_liday2
+    , DATE_FORMAT(bm.m_liday2, '%Y.%m.%d') AS 인정종료
+    , FN_GRADE_NM(bha.sicode, bm.m_code, DATE_FORMAT(#{DATE_TO}, '%Y%m%d')) AS 등급
+    FROM base_habilit AS bha
+    JOIN base_mate AS bm
+    ON (bha.sicode = bm.sicode
+        AND bha.대상자코드 = bm.m_code)
+    WHERE bha.sicode = #{SICODE}
+    AND bha.계획종료 &gt;= #{DATE_FROM}
+    AND bha.계획시작 &lt;= #{DATE_TO}
+   <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(group)">AND bm.m_group = #{group}</if>
+    ORDER BY bm.m_name
+    </select>
+    
+    <!-- 디테일 조회 -->
+    <select id="DAY00302_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-2 디테일 조회 */
+    WITH RECURSIVE line_num
+    AS
+    (
+        SELECT 1 AS rnum
+        UNION ALL
+        SELECT rnum + 1 AS rnum
+        FROM line_num AS lin
+        WHERE lin.rnum &lt; DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE_FROM}, '%Y%m%d')), '%d')
+    )
+    SELECT
+      STR_TO_DATE(CONCAT(#{MON}, LPAD(lin.rnum, 2, '0')), '%Y%m%d') AS nalja
+    , hma.mulday
+    , hma.multime
+    , hma.endtime
+    , CONCAT(hma.multime, '-', hma.endtime) AS 치료시간
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 1) &gt; 0 THEN SUBSTRING(hma.치료, 1, FN_INSTR(hma.치료, ',', 1, 1) - 1) END AS 치료01
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 1) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 1) + 1, FN_INSTR(hma.치료, ',', 1, 2) - FN_INSTR(hma.치료, ',', 1, 1) -1) END AS 치료02
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 2) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 2) + 1, FN_INSTR(hma.치료, ',', 1, 3) - FN_INSTR(hma.치료, ',', 1, 2) -1) END AS 치료03
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 3) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 3) + 1, FN_INSTR(hma.치료, ',', 1, 4) - FN_INSTR(hma.치료, ',', 1, 3) -1) END AS 치료04
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 4) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 4) + 1, FN_INSTR(hma.치료, ',', 1, 5) - FN_INSTR(hma.치료, ',', 1, 4) -1) END AS 치료05
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 5) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 5) + 1, FN_INSTR(hma.치료, ',', 1, 6) - FN_INSTR(hma.치료, ',', 1, 5) -1) END AS 치료06
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 6) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 6) + 1, FN_INSTR(hma.치료, ',', 1, 7) - FN_INSTR(hma.치료, ',', 1, 6) -1) END AS 치료07
+    , CASE WHEN FN_INSTR(hma.치료, ',', 1, 7) &gt; 0 THEN SUBSTRING(hma.치료, FN_INSTR(hma.치료, ',', 1, 7) + 1, FN_INSTR(hma.치료, ',', 1, 8) - FN_INSTR(hma.치료, ',', 1, 7) -1) END AS 치료08
+    , hma.제공비고 AS 비고
+    , hma.작성자
+    , hma.mulnumber
+    FROM line_num AS lin
+    LEFT JOIN
+    (
+        SELECT
+          hea.mulname
+        , hea.mulnumber
+        , hea.mulday
+        , DATE_FORMAT(hea.mulday, '%d') AS day
+        , hea.multime
+        , hea.endtime
+        , CONCAT(
+            (CASE WHEN hea.참여01 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료01), ',') ELSE '' END)
+          , (CASE WHEN hea.참여02 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료02), ',') ELSE '' END)
+          , (CASE WHEN hea.참여03 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료03), ',') ELSE '' END)
+          , (CASE WHEN hea.참여04 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료04), ',') ELSE '' END)
+          , (CASE WHEN hea.참여05 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료05), ',') ELSE '' END)
+          , (CASE WHEN hea.참여06 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료06), ',') ELSE '' END)
+          , (CASE WHEN hea.참여07 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료07), ',') ELSE '' END)
+          , (CASE WHEN hea.참여08 = 1 THEN CONCAT((SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = hea.치료08), ',') ELSE '' END)
+          ) AS 치료
+        , hea.제공비고
+        , hea.작성코드
+        , hea.작성자
+        FROM heal_habilit AS hea
+        JOIN base_mate AS mat
+        ON (hea.sicode = mat.sicode
+            AND hea.mulcode = mat.m_code)
+        WHERE hea.sicode = #{SICODE}
+        AND hea.mulday &gt;= #{DATE_FROM}
+        AND hea.mulday &lt;= #{DATE_TO}
+        AND hea.mulcode = #{CODE}
+        AND 0 &lt; hea.참여01 + hea.참여02 + hea.참여03 + hea.참여04 + hea.참여05 + hea.참여06 + hea.참여07 + hea.참여08 
+    ) AS hma
+    ON (lin.rnum = hma.day)
+    </select>
+</mapper>

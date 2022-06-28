@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA014CT                                                         
+     * 프로그램 명     : 옷교체일지                                                     
+     * Description :
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-22     10:11        |  SOOIM     | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CMA014CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="CMA014CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.NOT_SEQ
+					,A.SERVICE_TP
+					,A.NOT_DT
+					,A.TITLE
+					,A.CONTENT
+					,A.FILE_GRP_ID
+					,CASE WHEN CF.CNT IS NULL THEN NULL
+						  WHEN CF.CNT='1' THEN CF.FILE_NAME
+						  ELSE CONCAT(CF.FILE_NAME ,'(외 ',(CF.CNT-1),'건)') END FILE_NAME     
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+              	FROM T_CM_SERVICE_NOTICE A
+		   LEFT JOIN (SELECT CCF.*
+					    FROM (SELECT CF.COMPANY_CD
+					                ,CF.FILE_GRP_ID
+					                ,CF.FILE_REAL_NAME
+                                    ,CF.FILE_NAME
+					                ,COUNT(*) OVER(PARTITION BY CF.FILE_GRP_ID) CNT
+					                ,ROW_NUMBER() OVER(PARTITION BY CF.FILE_GRP_ID ORDER BY CF.FILE_ID) ROW_NUM
+					            FROM T_CM_FILE CF
+					           WHERE CF.COMPANY_CD = #{COMPANY_CD}
+					             AND CF.DELETE_YN = 'N') CCF
+					   WHERE CCF.ROW_NUM = 1) CF
+                  ON (A.FILE_GRP_ID = CF.FILE_GRP_ID
+                 AND A.COMPANY_CD = CF.COMPANY_CD)           	
+               WHERE  1=1
+                 AND (@ROWNUM:=0)=0
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="SERVICE_TP != '' and SERVICE_TP != null">
+                    AND A.SERVICE_TP = #{SERVICE_TP} 
+              </if>
+         		<if test="TITLE != '' and TITLE != null">                    
+                    AND A.TITLE LIKE CONCAT('%',#{TITLE},'%')								                    				    			  	
+              </if>
+              <if test="REG_USER_NM != '' and REG_USER_NM != null">                    
+                    AND A.REG_USER IN (SELECT CU.USER_ID
+                    					 FROM T_CM_USER CU
+                    					WHERE COMPANY_CD = #{COMPANY_CD}
+                    					  AND CU.USER_NM_KOR LIKE CONCAT('%',#{REG_USER_NM},'%'))
+              </if>		
+              <if test="DT_FROM != '' and DT_FROM != null">                    
+                    AND A.NOT_DT >= #{DT_FROM}								                    				    			  	
+              </if>
+              <if test="DT_TO != '' and DT_TO != null">                    
+                    AND A.NOT_DT  <![CDATA[  <= ]]> #{DT_TO}								                    				    			  	
+              </if>
+               ORDER BY A.NOT_DT DESC, REG_USER_NM ASC                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="CMA014CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_CM_SERVICE_NOTICE(
+			   				COMPANY_CD
+							,NOT_SEQ
+							,SERVICE_TP
+							,NOT_DT
+							,TITLE
+							,CONTENT
+							,FILE_GRP_ID
+							,REG_PGM_ID
+							,REG_USER
+							,REG_DT
+							,REG_DT_CURR
+							,REG_DT_LOC
+							,REG_IP
+							,MOD_PGM_ID
+							,MOD_USER
+							,MOD_DT
+							,MOD_DT_CURR
+							,MOD_DT_LOC
+							,MOD_IP
+				) VALUES (                                                                                                                                                                               
+					      	 #{COMPANY_CD   }
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_CM_SERVICE_NOTICE ),12,0)))
+							,#{SERVICE_TP	}
+							,#{NOT_DT       }
+							,#{TITLE        }
+							,#{CONTENT      }
+							,#{FILE_GRP_ID}
+							,#{REG_PGM_ID   }
+							,#{REG_USER     }
+							,#{REG_DT       }
+							,#{REG_DT_CURR  }
+							,#{REG_DT_LOC   }
+							,#{REG_IP       }
+							,#{MOD_PGM_ID   }
+							,#{MOD_USER     }
+							,#{MOD_DT       }
+							,#{MOD_DT_CURR  }
+							,#{MOD_DT_LOC   }
+							,#{MOD_IP       }
+				)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="CMA014CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_CM_SERVICE_NOTICE                                                                                                                                                                                              
+						 SET NOT_DT        =#{NOT_DT      }
+						 	,TITLE         =#{TITLE        }
+							,CONTENT       =#{CONTENT      }
+							,FILE_GRP_ID =#{FILE_GRP_ID}
+							,MOD_PGM_ID    =#{MOD_PGM_ID  }
+							,MOD_USER      =#{MOD_USER    }
+							,MOD_DT        =#{MOD_DT      }
+							,MOD_DT_CURR   =#{MOD_DT_CURR }
+							,MOD_DT_LOC    =#{MOD_DT_LOC  }
+							,MOD_IP        =#{MOD_IP      }
+			         WHERE 1=1
+			           AND COMPANY_CD = #{COMPANY_CD}
+                       AND NOT_SEQ = #{NOT_SEQ}
+    ]]>                                                                                                                                                                                                            
+    </update> 
+    <!--DELECT  -->                                                                                                                                                                                                   
+     <delete id="CMA014CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+	BEGIN NOT ATOMIC
+           DELETE FROM T_CM_SERVICE_NOTICE
+                 WHERE COMPANY_CD = #{COMPANY_CD}
+                   AND NOT_SEQ = #{NOT_SEQ};
+	END ;
+    ]]>                                                                                                                                                                                                            
+    </delete>
+
+                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

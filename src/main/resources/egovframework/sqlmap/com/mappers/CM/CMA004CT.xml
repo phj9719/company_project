@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- /** * * WARNING: Auto create * Template File Version : 1.0 * Create 
+	:2020-07-08 13:22 * **/ *================================================================ 
+	* 프로그램 ID : CMA001CT * 프로그램 명 : 전자게시판 * Description : *================================================================ 
+	작성일자 | 작성자 | 비고 *================================================================ 
+	2020-07-08 13:22 | | 최초작성 *================================================================ 
+	* Statement List *================================================================ 
+	*================================================================ -->
+<mapper namespace="CMA004CT">
+	<select id="CMA004CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            		SELECT A.COMPANY_CD 
+					      ,A.SERVICE_TP
+					      ,A.APPLICATION_TP 
+					      ,A.MENU_ID 
+					      ,A.MENU_ID_NM 
+					      ,A.MENU_TP 
+					      ,A.DESCRIPTION 
+					      ,A.CLS_AUTH 
+					      ,A.SEAR_AUTH 
+					      ,A.ADD_AUTH
+					      ,A.DEL_AUTH
+					      ,A.SAVE_AUTH 
+					      ,A.PRN_AUTH
+					      ,A.APPV_AUTH 
+					      ,A.MENU_PARAM 
+					      ,A.MENU_STATUS 
+					      ,A.USE_YN 
+					      ,A.REG_PGM_ID 
+					      ,A.REG_USER
+					      ,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					     ,A.REG_DT
+					     ,A.REG_DT_CURR 
+					     ,A.REG_DT_LOC
+					     ,A.REG_IP 
+					     ,A.MOD_PGM_ID 
+					     ,A.MOD_USER
+					     ,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM 
+					     ,A.MOD_DT 
+					     ,A.MOD_DT_CURR 
+					     ,A.MOD_DT_LOC
+					     ,A.MOD_IP       
+              		 FROM T_CM_MENU_ID A
+             ]]>
+        <where>
+        	<if test="COMPANY_CD != '' and COMPANY_CD != null">
+        		AND A.COMPANY_CD = #{COMPANY_CD}
+	        </if>
+			<if test="SERVICE_TP != '' and SERVICE_TP != null">
+				AND A.SERVICE_TP = #{SERVICE_TP}
+			</if>
+			<if test="APPLICATION_TP != '' and APPLICATION_TP != null">
+				AND A.APPLICATION_TP = #{APPLICATION_TP}
+			</if>
+			<if test="USE_YN != '' and USE_YN != null">
+				AND A.USE_YN = #{USE_YN}
+			</if>
+			<if test="MENU_ID != '' and MENU_ID != null">
+				AND A.MENU_ID LIKE CONCAT('%' , #{MENU_ID} , '%')
+			</if>
+			<if test="MENU_ID_NM != '' and MENU_ID_NM != null">
+				AND A.MENU_ID_NM LIKE CONCAT('%' , #{MENU_ID_NM} , '%')
+			</if>
+        </where> 
+		ORDER BY MENU_ID
+	</select>
+
+	<!--INSERT -->
+	<insert id="CMA004CT_DS_LIST_I"
+		parameterType="java.util.HashMap">                                                                                            
+	    <![CDATA[                                                                                                                                                                                                      
+			INSERT INTO T_CM_MENU_ID
+			(
+			COMPANY_CD,
+			SERVICE_TP,
+			APPLICATION_TP,
+			MENU_ID,
+			MENU_ID_NM,
+			DESCRIPTION,
+	        CLS_AUTH, 
+	        SEAR_AUTH, 
+	        ADD_AUTH, 
+	        DEL_AUTH, 
+	        SAVE_AUTH, 
+	        PRN_AUTH, 
+	        APPV_AUTH, 
+			MENU_PARAM,
+			MENU_STATUS,
+			USE_YN,
+			REG_USER,
+			REG_DT,
+			REG_DT_CURR,
+			REG_DT_LOC,
+			REG_IP,
+			MOD_PGM_ID,
+			MOD_USER,
+			MOD_DT,
+			MOD_DT_CURR,
+			MOD_DT_LOC,
+			MOD_IP
+			)
+			VALUES (
+			#{COMPANY_CD},
+			#{SERVICE_TP},
+			#{APPLICATION_TP},
+			#{MENU_ID},
+			#{MENU_ID_NM},
+			#{DESCRIPTION},
+			#{CLS_AUTH},
+			#{SEAR_AUTH},
+			#{ADD_AUTH},
+			#{DEL_AUTH},
+			#{SAVE_AUTH},
+			#{PRN_AUTH},
+			#{APPV_AUTH},
+			#{MENU_PARAM},
+			#{MENU_STATUS},
+			#{USE_YN},
+			#{REG_USER},
+			#{REG_DT},
+			#{REG_DT_CURR},
+			#{REG_DT_LOC},
+			#{REG_IP},
+			'',
+			'',
+			'',
+			'',
+			'',
+			''
+			)
+	    ]]>
+	</insert>
+
+	<!--UPDATE -->
+	<update id="CMA004CT_DS_LIST_U"
+		parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[
+		            UPDATE T_CM_MENU_ID  
+		            SET    COMPANY_CD          = #{COMPANY_CD}
+		            ,      SERVICE_TP          = #{SERVICE_TP}
+		            ,      APPLICATION_TP      = #{APPLICATION_TP}
+		            ,      MENU_ID             = #{MENU_ID}
+		            ,      MENU_ID_NM          = #{MENU_ID_NM}
+		            ,      DESCRIPTION         = #{DESCRIPTION}
+		            ,      CLS_AUTH            = #{CLS_AUTH}
+		            ,      SEAR_AUTH           = #{SEAR_AUTH}
+		            ,      ADD_AUTH            = #{ADD_AUTH}
+		            ,      SAVE_AUTH           = #{SAVE_AUTH}
+		            ,      PRN_AUTH            = #{PRN_AUTH}
+                	,      APPV_AUTH           = #{APPV_AUTH}
+		            ,      MENU_PARAM          = #{MENU_PARAM}
+                	,      USE_YN              = #{USE_YN}
+                	,      MENU_STATUS         = #{MENU_STATUS} 
+					,      MOD_PGM_ID          = #{MOD_PGM_ID}  
+					,      MOD_USER            = #{MOD_USER}  
+					,      MOD_DT              = #{MOD_DT}  
+					,      MOD_DT_CURR         = #{MOD_DT_CURR}  
+					,      MOD_DT_LOC          = #{MOD_DT_LOC}  
+					,      MOD_IP              = #{MOD_IP}            
+		            WHERE  MENU_ID    = #{MENU_ID}
+    ]]>
+	</update>
+
+	<delete id="CMA004CT_DS_LIST_D"
+		parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[
+	BEGIN NOT ATOMIC
+			 DELETE FROM T_CM_MENU_ID                                                                                                                                                                                         
+			 WHERE  MENU_ID = #{MENU_ID} ;
+			   
+			 UPDATE T_CM_MENU
+			 SET    MENU_ID = NULL
+			 WHERE  COMPANY_CD = #{COMPANY_CD}
+			 AND    MENU_ID    = #{MENU_ID} ;
+	END ;
+    ]]>
+	</delete>
+
+</mapper>                                                                                                                                                                                                          

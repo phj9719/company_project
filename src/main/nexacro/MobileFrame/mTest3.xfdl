@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="768" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="작업치료" color="#082c71">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Static id="Static00" taborder="0" text="작업치료 내역" left="5%" top="250" height="40" right="5%" cssclass="sta_title"/>
+        <Static id="Static01" taborder="1" text="최근 30일간 홍길동님의 작업치료 정보입니다." left="5.00%" top="291" height="30" textAlign="left" right="5.00%" cssclass="sta_txt"/>
+        <Grid id="Grid00" taborder="2" left="5.00%" top="331" height="368" autofittype="col" binddataset="ds_list" right="5.00%">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="130"/>
+                <Column size="90"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="30"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜"/>
+                <Cell col="1" text="부위"/>
+                <Cell col="2" text="시간"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DATE"/>
+                <Cell col="1" text="bind:A"/>
+                <Cell col="2" text="bind:TIME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div id="Div00" taborder="3" text="Div00" left="5%" top="20" height="210" background="#eef3fa" borderRadius="6px" right="5%" formscrollbartype="indicator">
+          <Layouts>
+            <Layout>
+              <BasicChart id="BasicChart00" taborder="0" left="0" top="10" width="1000" height="190" categorycolumn="bind:DATE" binddataset="ds_chart" boardspacing="0px 30px 0px 0px" minwidth="">
+                <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#082c71",
+		"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #afc3e8",
+		"visible": true,
+		"axistype": "normal",
+		"labelgap": "",
+		"titletextalign": "high"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "series",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#082c71",
+			"itemtextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"valuecolumn": "bind:TIME",
+			"linevisible": "true",
+			"pointvisible": "true",
+			"pointitemtextposition": "centertop",
+			"pointitemtextgap": "10",
+			"barfillstyle": "#082c71",
+			"barlinestyle": "1px solid #082c71",
+			"lineareafillstyle": "#082c71",
+			"linestyle": "1px solid #082c71",
+			"pointfillstyle": "#082c71",
+			"pointlinestyle": "2px solid #082c71",
+			"pointsize": "8",
+			"selectbarfillstyle": "#082c71",
+			"selectlineareafillstyle": "#082c71",
+			"selectpointfillstyle": "#082c71"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"titletextcolor": "#082c71",
+			"titletextfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"tickmax": "80",
+			"autotickscale": "",
+			"titletextalign": "high",
+			"titlerotate": "0",
+			"visible": "true",
+			"titletext": "시간(분)",
+			"tickmin": "0",
+			"titlegap": "10",
+			"ticks": "4"
+		}
+	],
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "14pt/normal \"Noto Sans CJK KR Regular\"",
+		"padding": "5px"
+	}
+}]]></Contents>
+              </BasicChart>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true" onrowposchanged="ds_notice_onrowposchanged">
+        <ColumnInfo>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="PRESIDENT_NM" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="START_DT" type="STRING" size="256"/>
+          <Column id="END_DT" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="A" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_chart">
+        <ColumnInfo>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	//조회조건
+	//this.div_search.form.cmb_use_yn.set_value("Y")
+	
+	//조회
+	//this.fn_search();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	//조회전 그리드에 변경된 데이터가 있을경우 ..
+	if(Sct.Grid.isUpdate(this.ds_notice) || Sct.Grid.isUpdate(this.ds_read_user)){
+		if(!Sct.confirm(this,"000171","")){ //변경된 데이터가 있습니다. 무시하겠습니까?
+			return;
+		}
+	}
+	
+	//조회조건 필수여부확인
+	if(!this.gfn_findSnull(this.div_search)) return false;
+
+	return true;
+};
+
+//추가 전 validation
+this.fn_insert_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasInsertedRow(this.ds_notice))
+	{
+		Sct.alert(this, "000240"); //추가한 데이터가 없습니다.
+		return false;
+	}
+	
+	//다른상태값 존재여부
+	if(!Sct.Grid.hasDifferentRowType(this.ds_notice, Dataset.ROWTYPE_INSERT))
+	{
+		Sct.alert(this, "000237"); //추가작업 외 다른 작업상태가 존재합니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_findSnull(this.div_cont.form.div_edit)) return false;
+	
+	//수신인 저장시 validation
+	if(!this.fn_readUserValidation()) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+
+	return true;
+};
+
+// 수정 전 validation
+this.fn_update_pre = function ()
+{
+	//변경여부
+	if (!Sct.Grid.hasUpdatedRow(this.ds_notice) && !Sct.Grid.isUpdate(this.ds_read_user))
+	{
+		Sct.alert(this, "000118"); //변경된 데이터가 없습니다.
+		return false;
+	}
+	
+	//입력 필수여부체크
+	if(!this.gfn_findSnull(this.div_cont.form.div_edit)) return false;
+	
+	//수신인 저장시 validation
+	if(!this.fn_readUserValidation()) return false;
+	
+	//저장하시겠습니까?
+	if(!Sct.confirm(this, "000038", "")) return false;
+
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_head=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_HEAD_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//detail 조회
+this.fn_searchDetail = function ()
+{
+	var companyCd = this.ds_head.getColumn(this.ds_head.rowposition, "COMPANY_CD");
+
+	var svcId = "searchDetail";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = "ds_detail=output1";
+	var argument = "method=getList "
+		+ "sqlId=CMA001CT.CMA001CT_DS_DETAIL_S ";
+	
+	if(!Sct.Util.isEmpty(companyCd)) argument += "COMPANY_CD=" + companyCd + " ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false);
+};
+
+//저장
+this.fn_save = function ()
+{
+	//입력 필수여부체크
+	if(!this.gfn_chkGridEssential(this.fv_currentGrid)) return false;
+	
+	let svcId = "save";
+	let inDs = "ds_head"
+	this.fn_save_com(svcId, inDs);
+};
+
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			var count = this.ds_head.rowcount;
+			Sct.alert(this, "000175", count + "|");
+		}
+		else if(strSvcID == "insert" || strSvcID == "update" || strSvcID == "delete")
+		{
+			this.fn_search();
+		}
+		else if(strSvcID == "readUserInfoUpdate")
+		{
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+]]></Script>
+  </Form>
+</FDL>

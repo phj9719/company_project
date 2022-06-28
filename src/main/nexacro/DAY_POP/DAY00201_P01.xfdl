@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00201_P01" width="649" height="820" titletext="간호일지내용검색" onload="form_onload">
+    <Layouts>
+      <Layout width="649" height="820">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10" text="">
+          <Layouts>
+            <Layout>
+              <Static id="sta_border" taborder="2" left="0" top="1" height="34" cssclass="sta_WF_DetailLabel02" width="629"/>
+              <Grid id="grd_list" taborder="0" left="0" top="75" width="629" binddataset="ds_list" height="725">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                      <Column size="350"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="230"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="작성일"/>
+                      <Cell col="1" text="수급자명"/>
+                      <Cell col="2" text="간호일지"/>
+                      <Cell col="3" text="작성자명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:n_nalja"/>
+                      <Cell col="1" text="bind:n_name" textAlign="left"/>
+                      <Cell col="2" displaytype="textareacontrol" edittype="readonly" textareascrollbarsize="15" textareascrollbartype="default" textareascrolltype="vertical" text="bind:간호일지"/>
+                      <Cell col="3" text="bind:담당자" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_title" taborder="1" left="5" top="5" width="340" height="25" cssclass="lb01" text="간호일지 내용검색" onclick="div_cont_sta_title_onclick"/>
+              <Static id="sta_border00" taborder="3" left="0" top="38" width="629" height="34" cssclass="sta_WF_DetailLabel02" text=""/>
+              <Static id="sta_keyword1" taborder="4" left="10" top="40" width="74" height="25" padding="0px 0px 0px 5px" text="■ 검색어1"/>
+              <Static id="sta_keyword2" taborder="5" left="245" top="43" width="74" height="25" padding="0px 0px 0px 5px" text="■ 검색어2"/>
+              <Edit id="edt_keyword1" taborder="6" left="96" top="42" width="134" height="26"/>
+              <Edit id="edt_keyword2" taborder="7" left="331" top="42" height="26" width="134"/>
+              <Combo id="cmb_operator" taborder="8" left="469" top="42" width="80" height="26" innerdataset="ds_op" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Button id="btn_search" taborder="9" text="검색" top="42" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" right="5"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="copy_text" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date" type="DATE" size="256"/>
+          <Column id="s_date" type="STRING" size="256"/>
+          <Column id="keyword1" type="STRING" size="256"/>
+          <Column id="keyword2" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="n_number" type="STRING" size="256"/>
+          <Column id="n_nalja" type="STRING" size="256"/>
+          <Column id="n_code" type="STRING" size="256"/>
+          <Column id="n_name" type="STRING" size="256"/>
+          <Column id="간호일지" type="STRING" size="256"/>
+          <Column id="담당자" type="STRING" size="256"/>
+          <Column id="담당코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_op">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">또는</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_interval" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="gigan" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00201_P01
+ * 화면명   	: 간호일지내용검색
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-21
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+//const fv_flag = this.parent.FLAG;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+
+	this.ds_search.set_enableevent(false);
+	this.ds_search.setColumn(0, "sicode", this.parent.SICODE);
+	this.ds_search.setColumn(0, "s_date", this.parent.S_DATE);
+	this.ds_search.set_enableevent(true);
+	
+	this.fn_searchInterval();
+	//this.fn_setTitleInterval();
+};
+
+// Javascript로 계산시 가령 2022-01-31 기준일 때
+// date_from 2021-10-31
+// date_to 2022-03-03 로 나옴
+// 너싱홈 as-is 시스템과 MariaDB로는 각각 2021-10-31, 2022-02-28로 나옴
+// => 쿼리로 가져오는 걸로
+this.fn_setTitleInterval = function()
+{	// 문자열(s_date)로부터 Date 객체(date) 생성
+	var s_date = this.ds_search.getColumn(0, "s_date");
+
+	var y = s_date.substring(0,4);
+	var m = s_date.substring(4,6);
+	var m_i = parseInt(m, 10);
+	var d = s_date.substring(6,8);
+	var date_from = new Date(y, (m_i-1)+'', d);
+	var date_to = new Date(y, (m_i-1)+'', d);
+	
+	// 3달 전과 1달 후 계산
+	date_from.setMonth(date_from.getMonth()-3);
+	trace(date_from);
+	date_to.setMonth(date_to.getMonth()+1);
+	trace(date_to);
+}
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search_pre = function()
+{
+	return true;
+}
+
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201_P01.DAY00201_P01_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+this.fn_searchInterval = function() 
+{
+	const svcId = "search_interval";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_interval=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201_P01.DAY00201_P01_DS_INTERVAL_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+		}
+		else if(strSvcID == "search_interval")
+		{
+			var title = "간호일지 내용검색 ( "
+					+ this.ds_interval.getColumn(0,"gigan")
+					+ " )";
+			this.div_cont.form.sta_title.set_text(title);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+this.fn_searchBtn = function()
+{
+	this.fn_search();
+}
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.edt_keyword1" propid="value" datasetid="ds_search" columnid="keyword1"/>
+      <BindItem id="item1" compid="div_cont.form.edt_keyword2" propid="value" datasetid="ds_search" columnid="keyword2"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Sample_RD_Runtime" width="1024" height="768" titletext="RD Runtime 실행" onload="form_onload">
+    <Layouts>
+      <Layout width="1024" height="768">
+        <Plugin id="pln_CxViewer" left="10" top="71" right="104" taborder="0" classid="{04931AA4-5D13-442f-AEE8-0F1184002BDD}" bottom="10"/>
+        <Static id="Static00" taborder="2" text="Report View Sample for Runtime" onclick="Static00_onclick" left="178" top="17" width="633" height="37" textAlign="center" font="bold 18pt &quot;arial&quot;"/>
+        <Button id="Button01" taborder="3" text="리포트 보기" onclick="Button00_onclick" left="779" top="30" width="105" height="21"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	// 필수
+	// RD 설치확인 후 Cab파일 설치
+	this.pln_CxViewer.set_codebase(nexacro.getApplication().gv_RdCodebase);
+	this.pln_CxViewer.install();
+};
+
+
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	// 라이센스
+	this.pln_CxViewer.callMethod("ApplyLicense", nexacro.getApplication().gv_RdSvc);
+
+	// 보고서 미리보기.
+	this.pln_CxViewer.callMethod("Fileopen", nexacro.getApplication().gv_RdMrd + "/bs/cf/cm/emdv3_sample.mrd", "/rfn [" + nexacro.getApplication().gv_RdSvc + "] /rsn [sis_oracle] /rp [test][test1] /rv param1[test]param2[test1]");
+
+	// 직접 출력
+	// this.pln_CxViewer.callMethod ("CMPrint");
+}
+;
+]]></Script>
+  </Form>
+</FDL>

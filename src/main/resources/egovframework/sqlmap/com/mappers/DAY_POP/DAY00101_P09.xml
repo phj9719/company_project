@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P09                                                        
+     * 프로그램 명     	: 1-3 기능회복훈련 급여제공기록                                       
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-03 16:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P09_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P09">
+	<!-- 조회 -->
+    <select id="DAY00101_P09_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT kr.sicode
+			, kr.k_nalja
+			, DATE_FORMAT(kr.k_nalja, '%Y.%m.%d') AS nalja
+			, kr.k_number
+			, kr.k_code
+			, kr.k_name
+			, kr.기능훈련a
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,1,1) = '1' THEN 1 ELSE 0 END) AS a1
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,8,1) = '1' THEN 1 ELSE 0 END) AS a2
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,2,1) = '1' THEN 1 ELSE 0 END) AS a3
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,3,1) = '1' THEN 1 ELSE 0 END) AS a4 
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,4,1) = '1' THEN 1 ELSE 0 END) AS a5
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,5,1) = '1' THEN 1 ELSE 0 END) AS a6
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,6,1) = '1' THEN 1 ELSE 0 END) AS a7
+			, (CASE WHEN SUBSTRING(kr.기능훈련a,7,1) = '1' THEN 1 ELSE 0 END) AS a8
+			, kr.기능훈련b
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,1,1) = '1' THEN 1 ELSE 0 END) AS b1
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,2,1) = '1' THEN 1 ELSE 0 END) AS b2
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,3,1) = '1' THEN 1 ELSE 0 END) AS b3
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,4,1) = '1' THEN 1 ELSE 0 END) AS b4 
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,5,1) = '1' THEN 1 ELSE 0 END) AS b5
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,6,1) = '1' THEN 1 ELSE 0 END) AS b6
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,7,1) = '1' THEN 1 ELSE 0 END) AS b7
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,8,1) = '1' THEN 1 ELSE 0 END) AS b8
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,9,1) = '1' THEN 1 ELSE 0 END) AS b9
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,10,1) = '1' THEN 1 ELSE 0 END) AS b10
+			, (CASE WHEN SUBSTRING(kr.기능훈련b,11,1) = '1' THEN 1 ELSE 0 END) AS b11
+			, kr.기능훈련c
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,1,1) = '1' THEN 1 ELSE 0 END) AS c1
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,2,1) = '1' THEN 1 ELSE 0 END) AS c2
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,3,1) = '1' THEN 1 ELSE 0 END) AS c3
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,4,1) = '1' THEN 1 ELSE 0 END) AS c4 
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,5,1) = '1' THEN 1 ELSE 0 END) AS c5
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,6,1) = '1' THEN 1 ELSE 0 END) AS c6
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,7,1) = '1' THEN 1 ELSE 0 END) AS c7
+			, (CASE WHEN SUBSTRING(kr.기능훈련c,8,1) = '1' THEN 1 ELSE 0 END) AS c8
+			, kr.훈련시a
+			, SUBSTRING(kr.훈련시a,1,2) AS sh1
+			, SUBSTRING(kr.훈련시a,4,2) AS sm1
+			, SUBSTRING(kr.훈련시a,7,2) AS eh1
+			, SUBSTRING(kr.훈련시a,10,2) AS em1
+			, kr.훈련시b
+			, SUBSTRING(kr.훈련시b,1,2) AS sh2
+			, SUBSTRING(kr.훈련시b,4,2) AS sm2
+			, SUBSTRING(kr.훈련시b,7,2) AS eh2
+			, SUBSTRING(kr.훈련시b,10,2) AS em2
+			, kr.훈련시c
+			, SUBSTRING(kr.훈련시c,1,2) AS sh3
+			, SUBSTRING(kr.훈련시c,4,2) AS sm3
+			, SUBSTRING(kr.훈련시c,7,2) AS eh3
+			, SUBSTRING(kr.훈련시c,10,2) AS em3
+			, kr.훈련담당
+			, kr.훈련코드
+			, '' AS VIEW_MANAGER
+			FROM kmrecord kr
+		WHERE kr.sicode = #{sicode}
+		  AND kr.k_nalja = STR_TO_DATE(#{date}, '%Y%m%d')
+		  AND kr.k_code = #{m_code}						
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P09_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+    	UPDATE kmrecord
+		  SET 기능훈련a = #{기능훈련a}
+			, 기능훈련b = #{기능훈련b}
+			, 기능훈련c = #{기능훈련c}
+			, 훈련시a = CONCAT(IF(#{sh1}='','  ',#{sh1}), ':', IF(#{sm1}='','  ',#{sm1}), '-', IF(#{eh1}='','  ',#{eh1}), ':', IF(#{em1}='','  ',#{em1}))
+			, 훈련시b = CONCAT(IF(#{sh2}='','  ',#{sh2}), ':', IF(#{sm2}='','  ',#{sm2}), '-', IF(#{eh2}='','  ',#{eh2}), ':', IF(#{em2}='','  ',#{em2}))
+			, 훈련시c = CONCAT(IF(#{sh3}='','  ',#{sh3}), ':', IF(#{sm3}='','  ',#{sm3}), '-', IF(#{eh3}='','  ',#{eh3}), ':', IF(#{em3}='','  ',#{em3}))
+			, 훈련담당= #{훈련담당}
+			, 훈련코드= #{훈련코드}
+		WHERE sicode = #{sicode}
+		  AND k_number = #{k_number}
+    </update>
+    
+    <!-- 전날 일지 조회 -->
+    <select id="DAY00101_P09_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        SELECT sicode			
+			, k_nalja
+			, k_code
+			, k_name
+			, 기능훈련a
+			, (CASE WHEN SUBSTRING(기능훈련a,1,1) = '1' THEN 1 ELSE 0 END) AS a1
+			, (CASE WHEN SUBSTRING(기능훈련a,8,1) = '1' THEN 1 ELSE 0 END) AS a2
+			, (CASE WHEN SUBSTRING(기능훈련a,2,1) = '1' THEN 1 ELSE 0 END) AS a3
+			, (CASE WHEN SUBSTRING(기능훈련a,3,1) = '1' THEN 1 ELSE 0 END) AS a4 
+			, (CASE WHEN SUBSTRING(기능훈련a,4,1) = '1' THEN 1 ELSE 0 END) AS a5
+			, (CASE WHEN SUBSTRING(기능훈련a,5,1) = '1' THEN 1 ELSE 0 END) AS a6
+			, (CASE WHEN SUBSTRING(기능훈련a,6,1) = '1' THEN 1 ELSE 0 END) AS a7
+			, (CASE WHEN SUBSTRING(기능훈련a,7,1) = '1' THEN 1 ELSE 0 END) AS a8
+			, 기능훈련b
+			, (CASE WHEN SUBSTRING(기능훈련b,1,1) = '1' THEN 1 ELSE 0 END) AS b1
+			, (CASE WHEN SUBSTRING(기능훈련b,2,1) = '1' THEN 1 ELSE 0 END) AS b2
+			, (CASE WHEN SUBSTRING(기능훈련b,3,1) = '1' THEN 1 ELSE 0 END) AS b3
+			, (CASE WHEN SUBSTRING(기능훈련b,4,1) = '1' THEN 1 ELSE 0 END) AS b4 
+			, (CASE WHEN SUBSTRING(기능훈련b,5,1) = '1' THEN 1 ELSE 0 END) AS b5
+			, (CASE WHEN SUBSTRING(기능훈련b,6,1) = '1' THEN 1 ELSE 0 END) AS b6
+			, (CASE WHEN SUBSTRING(기능훈련b,7,1) = '1' THEN 1 ELSE 0 END) AS b7
+			, (CASE WHEN SUBSTRING(기능훈련b,8,1) = '1' THEN 1 ELSE 0 END) AS b8
+			, (CASE WHEN SUBSTRING(기능훈련b,9,1) = '1' THEN 1 ELSE 0 END) AS b9
+			, (CASE WHEN SUBSTRING(기능훈련b,10,1) = '1' THEN 1 ELSE 0 END) AS b10
+			, (CASE WHEN SUBSTRING(기능훈련b,11,1) = '1' THEN 1 ELSE 0 END) AS b11
+			, 기능훈련c
+			, (CASE WHEN SUBSTRING(기능훈련c,1,1) = '1' THEN 1 ELSE 0 END) AS c1
+			, (CASE WHEN SUBSTRING(기능훈련c,2,1) = '1' THEN 1 ELSE 0 END) AS c2
+			, (CASE WHEN SUBSTRING(기능훈련c,3,1) = '1' THEN 1 ELSE 0 END) AS c3
+			, (CASE WHEN SUBSTRING(기능훈련c,4,1) = '1' THEN 1 ELSE 0 END) AS c4 
+			, (CASE WHEN SUBSTRING(기능훈련c,5,1) = '1' THEN 1 ELSE 0 END) AS c5
+			, (CASE WHEN SUBSTRING(기능훈련c,6,1) = '1' THEN 1 ELSE 0 END) AS c6
+			, (CASE WHEN SUBSTRING(기능훈련c,7,1) = '1' THEN 1 ELSE 0 END) AS c7
+			, (CASE WHEN SUBSTRING(기능훈련c,8,1) = '1' THEN 1 ELSE 0 END) AS c8  
+			, 훈련시a
+			, SUBSTRING(훈련시a,1,2) AS sh1
+			, SUBSTRING(훈련시a,4,2) AS sm1
+			, SUBSTRING(훈련시a,7,2) AS eh1
+			, SUBSTRING(훈련시a,10,2) AS em1
+			, 훈련시b
+			, SUBSTRING(훈련시b,1,2) AS sh2
+			, SUBSTRING(훈련시b,4,2) AS sm2
+			, SUBSTRING(훈련시b,7,2) AS eh2
+			, SUBSTRING(훈련시b,10,2) AS em2
+			, 훈련시c
+			, SUBSTRING(훈련시c,1,2) AS sh3
+			, SUBSTRING(훈련시c,4,2) AS sm3
+			, SUBSTRING(훈련시c,7,2) AS eh3
+			, SUBSTRING(훈련시c,10,2) AS em3
+		FROM kmrecord
+		WHERE sicode = #{sicode}
+			AND k_code = #{k_code}
+			AND k_nalja BETWEEN DATE_SUB(#{k_nalja}, INTERVAL 5 DAY)  AND DATE_SUB(#{k_nalja}, INTERVAL 1 DAY) 
+			AND (기능훈련a != '' && 기능훈련b != '' && 기능훈련c != '') 
+			AND (기능훈련a != '00000000' || 기능훈련B != '00000000000' || 기능훈련c != '00000000')
+		ORDER BY k_nalja DESC
+		LIMIT 1
+	]]>
+    </select>
+    
+    <!-- 기능회복훈련계획 불러오기 -->
+    <select id="DAY00101_P09_DS_PLAN_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        SELECT 
+			sicode
+			, 평가일 AS k_nalja
+			, 대상자코드 AS k_code
+			, 대상자명 AS k_name
+			, 기능훈련a
+			, (CASE WHEN SUBSTRING(기능훈련a,1,1) = '1' THEN 1 ELSE 0 END) AS a1
+			, (CASE WHEN SUBSTRING(기능훈련a,8,1) = '1' THEN 1 ELSE 0 END) AS a2
+			, (CASE WHEN SUBSTRING(기능훈련a,2,1) = '1' THEN 1 ELSE 0 END) AS a3
+			, (CASE WHEN SUBSTRING(기능훈련a,3,1) = '1' THEN 1 ELSE 0 END) AS a4 
+			, (CASE WHEN SUBSTRING(기능훈련a,4,1) = '1' THEN 1 ELSE 0 END) AS a5
+			, (CASE WHEN SUBSTRING(기능훈련a,5,1) = '1' THEN 1 ELSE 0 END) AS a6
+			, (CASE WHEN SUBSTRING(기능훈련a,6,1) = '1' THEN 1 ELSE 0 END) AS a7
+			, (CASE WHEN SUBSTRING(기능훈련a,7,1) = '1' THEN 1 ELSE 0 END) AS a8
+			, 기능훈련b
+			, (CASE WHEN SUBSTRING(기능훈련b,1,1) = '1' THEN 1 ELSE 0 END) AS b1
+			, (CASE WHEN SUBSTRING(기능훈련b,2,1) = '1' THEN 1 ELSE 0 END) AS b2
+			, (CASE WHEN SUBSTRING(기능훈련b,3,1) = '1' THEN 1 ELSE 0 END) AS b3
+			, (CASE WHEN SUBSTRING(기능훈련b,4,1) = '1' THEN 1 ELSE 0 END) AS b4 
+			, (CASE WHEN SUBSTRING(기능훈련b,5,1) = '1' THEN 1 ELSE 0 END) AS b5
+			, (CASE WHEN SUBSTRING(기능훈련b,6,1) = '1' THEN 1 ELSE 0 END) AS b6
+			, (CASE WHEN SUBSTRING(기능훈련b,7,1) = '1' THEN 1 ELSE 0 END) AS b7
+			, (CASE WHEN SUBSTRING(기능훈련b,8,1) = '1' THEN 1 ELSE 0 END) AS b8
+			, (CASE WHEN SUBSTRING(기능훈련b,9,1) = '1' THEN 1 ELSE 0 END) AS b9
+			, (CASE WHEN SUBSTRING(기능훈련b,10,1) = '1' THEN 1 ELSE 0 END) AS b10
+			, (CASE WHEN SUBSTRING(기능훈련b,11,1) = '1' THEN 1 ELSE 0 END) AS b11
+			, 기능훈련c
+			, (CASE WHEN SUBSTRING(기능훈련c,1,1) = '1' THEN 1 ELSE 0 END) AS c1
+			, (CASE WHEN SUBSTRING(기능훈련c,2,1) = '1' THEN 1 ELSE 0 END) AS c2
+			, (CASE WHEN SUBSTRING(기능훈련c,3,1) = '1' THEN 1 ELSE 0 END) AS c3
+			, (CASE WHEN SUBSTRING(기능훈련c,4,1) = '1' THEN 1 ELSE 0 END) AS c4 
+			, (CASE WHEN SUBSTRING(기능훈련c,5,1) = '1' THEN 1 ELSE 0 END) AS c5
+			, (CASE WHEN SUBSTRING(기능훈련c,6,1) = '1' THEN 1 ELSE 0 END) AS c6
+			, (CASE WHEN SUBSTRING(기능훈련c,7,1) = '1' THEN 1 ELSE 0 END) AS c7
+			, (CASE WHEN SUBSTRING(기능훈련c,8,1) = '1' THEN 1 ELSE 0 END) AS c8  
+			, 기능시a AS 훈련시a
+			, SUBSTRING(기능시a,1,2) AS sh1
+			, SUBSTRING(기능시a,4,2) AS sm1
+			, SUBSTRING(기능시a,7,2) AS eh1
+			, SUBSTRING(기능시a,10,2) AS em1
+			, 기능시b AS 훈련시b
+			, SUBSTRING(기능시b,1,2) AS sh2
+			, SUBSTRING(기능시b,4,2) AS sm2
+			, SUBSTRING(기능시b,7,2) AS eh2
+			, SUBSTRING(기능시b,10,2) AS em2
+			, 기능시c AS 훈련시c
+			, SUBSTRING(기능시c,1,2) AS sh3
+			, SUBSTRING(기능시c,4,2) AS sm3
+			, SUBSTRING(기능시c,7,2) AS eh3
+			, SUBSTRING(기능시c,10,2) AS em3
+		FROM base_habilit
+		WHERE sicode = #{sicode}
+			AND 대상자코드 = #{k_code}
+			AND (계획시작 <= #{k_nalja} AND 계획종료 >= #{k_nalja})
+			ORDER BY 평가일 DESC
+			LIMIT 1
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

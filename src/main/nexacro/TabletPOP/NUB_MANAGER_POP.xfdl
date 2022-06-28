@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_MANAGER_POP" width="800" height="600" titletext="처리자 조회 팝업" onload="NUB_MANAGER_POP_onload" onclick="formClick" ondevicebuttonup="NUB_MANAGER_POP_ondevicebuttonup" onkeyup="fn_openDebugPopup">
+    <Layouts>
+      <Layout width="800" height="600" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" width="800" height="600" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" text="">
+          <Layouts>
+            <Layout>
+              <Div id="div_manager" taborder="1" top="230" text="" bottom="5%" right="5.00%" left="50">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Edit id="edt_name" taborder="2" left="329" top="165" width="205" height="50" displaynulltext="이름 입력" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;"/>
+              <Button id="btn_search" taborder="3" text="조회" left="550" top="165" width="160" height="50" cssclass="btn_tDefaultSkyblue2" onclick="div_pop_main_btn_search_onclick"/>
+              <Button id="btn_all" taborder="4" text="전체" left="63" top="72" width="80" height="50" cssclass="btn_tDefaultSkyblue3" onclick="rank_search"/>
+              <Button id="btn_nur" taborder="5" text="간호(조무)사" left="148" top="72" width="150" height="50" cssclass="btn_tDefaultSkyblue3" onclick="rank_search" background=""/>
+              <Button id="btn_care" taborder="6" text="요양보호사" left="303" top="72" width="140" height="50" cssclass="btn_tDefaultSkyblue3" onclick="rank_search"/>
+              <Button id="btn_social" taborder="7" text="사회복지사" left="448" top="72" width="140" height="50" cssclass="btn_tDefaultSkyblue3" onclick="rank_search"/>
+              <Button id="btn_etc" taborder="8" text="그 외(기타)" left="593" top="72" width="140" height="50" cssclass="btn_tDefaultSkyblue3" onclick="rank_search"/>
+              <Div id="Div00_00" taborder="0" text="Div00" left="5.00%" top="142" height="3" background="#47afe1" right="5.00%"/>
+              <Button id="btn_close" taborder="9" top="4.33%" width="24" height="24" onclick="div_pop_main_btn_close_onclick" background="url('theme://images/ico_popclose.png') 0px 0px" right="6%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_popTitle" taborder="1" text="처리자 조회" left="330" top="16" width="150" height="44" textAlign="center" cssclass="sta_tPopupTitle" visible="true" onclick="formClick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_manager" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM_KOR" type="STRING" size="256"/>
+          <Column id="RANK_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="RANK_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+var fv_Company = this.parent.COMPANY_CD;
+
+// 온로드
+this.NUB_MANAGER_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{	
+	// 온로드시 전체 조회
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_Company);
+	this.div_pop_main.form.btn_all.click();
+};
+
+// 디바이스 버튼
+this.NUB_MANAGER_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	// 뒤로가기 버튼
+	if (e.button == 2)
+	{
+		this.close();
+	}
+};
+
+// 처리자 조회 전
+this.fn_search_pre = function()
+{
+	// 처리자 선택 버튼 모두 제거
+	for (let i = this.div_pop_main.form.div_manager.form.components.length - 1; i >= 0; i--)
+	{
+		const rmBtn = this.div_pop_main.form.div_manager.removeChild(this.div_pop_main.form.div_manager.form.components[i].id);
+		rmBtn.destroy();
+	}
+};
+
+// 처리자 조회
+this.fn_search = function()
+{
+	this.fn_search_pre();
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_manager=output1";
+	const argument = "method=getList "
+				   + "sqlId='NUB_MANAGER_PP.NUB_MANAGER_PP_DS_MANAGER_S' ";
+				   
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+// 콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.fn_manager_select();
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+// 처리자 선택 버튼 생성
+this.fn_manager_select = function()
+{
+	let top = 20;
+	const width = 140;
+	const height = 50;
+	const hgap = 20;		// 가로간격
+	let vgap = 0;		// 세로간격
+	let left = 40;
+	
+	for (let j = 0; j < this.ds_manager.rowcount; j++) 
+	{
+		const staId = "sta_btnName" + j;
+		const btnName = this.ds_manager.getColumn(j, "USER_NM_KOR");		// 버튼 성명
+		const btnId = this.ds_manager.getColumn(j, "USER_ID");		// 버튼 ID
+		//trace("manager left : " + left);
+		if (left > 450) // left 450 초과시 줄바꿈
+		{
+			left = 40;
+			vgap = 20;
+			top = top + height + vgap;
+		}else 
+		{
+			left = left + (j == 0 ? 0 : width) + (j == 0 ? 0 : hgap);
+		}
+		
+		//버튼 생성
+		this.fn_makeButton2(staId, btnId, btnName, left, top, width, height);
+	}
+	vgap = 50;
+	top = top + vgap;
+
+	
+	const objDummy = new Div();
+	objDummy.init("div_dummy", 50, top + 50, "80%", 5);
+	this.div_pop_main.form.div_manager.addChild("div_dummy", objDummy);
+	objDummy.show();
+	
+	this.div_pop_main.form.div_manager.form.resetScroll();
+};
+
+// 처리자선택 - 처리자 버튼 생성
+this.fn_makeButton2 = function(btnId, id, name, left, top, width, height)
+{
+	const objButton = new Button();
+	objButton.init(btnId, left, top, width, height);
+	objButton.set_text(name);
+	objButton.set_cssclass("btn_tSelectRoom");
+	objButton._idCode = id;
+	objButton._idName = name;
+	objButton.addEventHandler("onclick", this.btn_select_onclick, this);
+	
+	this.div_pop_main.form.div_manager.addChild(btnId, objButton);
+	
+	objButton.show();
+};
+
+// 처리자 버튼 선택 이벤트
+this.btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addRow();
+	this.ds_return.setColumn(0, "USER_ID", obj._idCode);
+	this.ds_return.setColumn(0, "NAME", obj._idName);
+	
+	this.close(this.ds_return.saveXML());
+};
+
+// 조회 버튼
+this.div_pop_main_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_search.setColumn(0, "RANK_CD", "");
+
+	this.fn_search();
+};
+
+// 상단 버튼
+this.rank_search = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 상단 버튼 비선택 상태로 만들기
+	this.fn_rankNonSelect();
+
+	if (obj.id == "btn_nur")
+	{
+		this.ds_search.setColumn(0, "RANK_CD", "7");
+		this.fn_searchShow(false);
+	}
+	else if (obj.id == "btn_care")
+	{
+		this.ds_search.setColumn(0, "RANK_CD", "8");
+		this.fn_searchShow(false);
+	}
+	else if (obj.id == "btn_social")
+	{
+		this.ds_search.setColumn(0, "RANK_CD", "4");
+		this.fn_searchShow(false);
+	}
+	else if (obj.id == "btn_etc")
+	{
+		this.ds_search.setColumn(0, "RANK_CD", "O");
+		this.fn_searchShow(false);
+	}
+	else if (obj.id == "btn_all")
+	{
+		this.ds_search.setColumn(0, "RANK_CD", "");
+		this.fn_searchShow(true);
+	}
+	
+	// 선택된 버튼 색 바꾸기
+	obj.set_background("#47afe1");
+	obj.set_color("#ffffff");
+	
+	this.ds_search.setColumn(0, "NAME", "");
+	
+	this.fn_search();
+};
+
+// X 버튼 (닫기)
+this.div_pop_main_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+// 상단 버튼 비선택 상태로 만들기
+this.fn_rankNonSelect = function()
+{
+	const rank = [
+			this.div_pop_main.form.btn_all
+		,	this.div_pop_main.form.btn_nur
+		,	this.div_pop_main.form.btn_care
+		,	this.div_pop_main.form.btn_social
+		,	this.div_pop_main.form.btn_etc
+	];
+	
+	for (let i = 0; i < rank.length; i++)
+	{
+		rank[i].set_background("transparent");
+		rank[i].set_color("#777777");
+	}
+};
+
+// 검색 영역 보이기/숨기기 flag값 : true, false
+this.fn_searchShow = function(flag)
+{
+	if (flag)
+	{
+		this.div_pop_main.form.edt_name.set_visible(true);
+		this.div_pop_main.form.btn_search.set_visible(true);
+		this.div_pop_main.form.div_manager.set_top(230);
+	}
+	else
+	{
+		this.div_pop_main.form.edt_name.set_visible(false);
+		this.div_pop_main.form.btn_search.set_visible(false);
+		this.div_pop_main.form.div_manager.set_top(165);
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_pop_main.form.edt_name" propid="value" datasetid="ds_search" columnid="NAME"/>
+    </Bind>
+  </Form>
+</FDL>

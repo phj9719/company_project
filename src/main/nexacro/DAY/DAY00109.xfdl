@@ -1,0 +1,818 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00109" width="1920" height="800" titletext="1-9 기능회복훈련 급여제공기록" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" bottom="0%" right="0.00%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="38" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" oncellclick="div_cont_div_left_grd_list_oncellclick" height="715">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="78"/>
+                            <Column size="50"/>
+                            <Column size="112"/>
+                            <Column size="48"/>
+                            <Column size="60"/>
+                            <Column size="84"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:s_nm"/>
+                            <Cell col="1" textAlign="center" text="bind:m_group" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="2" text="bind:m_name" textAlign="center" cssclass="cellBWoman" cursor="pointer" expandchar="dot"/>
+                            <Cell col="3" text="bind:sex_nm"/>
+                            <Cell col="4" text="bind:grade_nm"/>
+                            <Cell col="5" text="bind:m_roomname"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn_grp_a" taborder="1" text="A" left="56" top="3" width="35" height="26" onclick="btn_group_onclick"/>
+                    <Button id="btn_grp_b" taborder="2" text="B" left="96" top="3" width="35" height="26" onclick="btn_group_onclick"/>
+                    <Button id="btn_grp_c" taborder="3" text="C" left="136" top="3" width="35" height="26" onclick="btn_group_onclick"/>
+                    <Button id="btn_grp_d" taborder="4" text="D" left="176" top="3" width="35" height="26" onclick="btn_group_onclick"/>
+                    <Button id="btn_grp_e" taborder="5" text="E" left="216" top="3" width="35" height="26" onclick="btn_group_onclick"/>
+                    <Button id="btn_grp_all" taborder="6" text="전체" left="1" top="3" width="50" height="26" onclick="btn_group_onclick"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="460" top="35" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" width="1250" height="138" text="">
+                      <Layouts>
+                        <Layout>
+                          <ImageViewer id="imv_pic" taborder="0" left="20" top="3" width="100" height="100" tabstop="false"/>
+                          <Static id="sta_body1" taborder="1" left="122" top="3" width="1120" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body2" taborder="2" left="122" top="36" width="1120" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body3" taborder="3" left="122" top="69" width="1120" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body1_00" taborder="4" left="207" top="7" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00" taborder="5" left="308" top="7" width="81" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1" taborder="6" text="수급자명" left="120" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="7" text="생활실" left="120" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head3" taborder="8" text="주요질환" left="120" top="69" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00" taborder="9" text="성별 나이" left="422" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1_00_01" taborder="10" left="509" top="7" width="35" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_00_00" taborder="11" left="548" top="7" width="55" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_head1_00_00" taborder="12" text="케어그룹" left="422" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01" taborder="13" text="입소일" left="636" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_00_00" taborder="14" text="퇴소일" left="636" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00" taborder="15" text="인정번호" left="860" top="3" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00_00" taborder="16" text="인정기간" left="860" top="36" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head1_00_01_00_00_00" taborder="17" text="인정등급" left="860" top="69" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1_00_00_01_00_00_01_00" taborder="18" left="947" top="7" width="250" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_01_01" taborder="19" left="947" top="74" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_01_00" taborder="20" left="1043" top="41" width="15" height="25" text="-" textAlign="center" padding="0px" verticalAlign="middle"/>
+                          <Static id="sta_body1_00_02" taborder="21" left="207" top="41" width="212" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_02_00" taborder="22" left="207" top="74" width="416" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00" taborder="23" left="509" top="41" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00" taborder="24" left="723" top="7" width="114" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00_00" taborder="25" left="723" top="41" width="114" height="25" color="red" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00_01" taborder="26" left="947" top="41" width="84" height="25" padding="0px 0px 0px 5px"/>
+                          <Static id="sta_body1_00_00_01_00_00_00_00_00_01_00" taborder="27" left="1073" top="41" width="114" height="25" padding="0px 0px 0px 5px"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_down" taborder="1" left="0" top="111" width="1250" bottom="0">
+                      <Layouts>
+                        <Layout>
+                          <Grid id="grd_detail" taborder="0" left="20" top="28" binddataset="ds_detail" oncellclick="grd_detail_oncellclick" height="579" width="1222">
+                            <Formats>
+                              <Format id="default">
+                                <Columns>
+                                  <Column size="80"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="40"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="30"/>
+                                  <Column size="52"/>
+                                  <Column size="83"/>
+                                  <Column size="83"/>
+                                  <Column size="83"/>
+                                </Columns>
+                                <Rows>
+                                  <Row size="75" band="head"/>
+                                  <Row size="25"/>
+                                </Rows>
+                                <Band id="head">
+                                  <Cell text="훈련일"/>
+                                  <Cell col="1" text="관절&#13;&#10;운동&#13;&#10;평가" verticalAlign="top"/>
+                                  <Cell col="2" text="관절&#13;&#10;구축&#13;&#10;예방" verticalAlign="top"/>
+                                  <Cell col="3" text="근력&#13;&#10;증강&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="4" text="연하&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="5" text="손가&#13;&#10;락&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="6" text="조화&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="7" text="지구&#13;&#10;력&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="8" text="팔&#13;&#10;운동" verticalAlign="top"/>
+                                  <Cell col="9" text="뒤집&#13;&#10;기" verticalAlign="top"/>
+                                  <Cell col="10" text="일어&#13;&#10;나기" verticalAlign="top"/>
+                                  <Cell col="11" text="앉아&#13;&#10;있기&#13;&#10;일어&#13;&#10;서기" verticalAlign="top"/>
+                                  <Cell col="12" text="서&#13;&#10;있기" verticalAlign="top"/>
+                                  <Cell col="13" text="균형" verticalAlign="middle"/>
+                                  <Cell col="14" text="이동" verticalAlign="middle"/>
+                                  <Cell col="15" text="휠체&#13;&#10;어&#13;&#10;조작" verticalAlign="top"/>
+                                  <Cell col="16" text="보행" verticalAlign="middle"/>
+                                  <Cell col="17" text="보장&#13;&#10;구&#13;&#10;장착" verticalAlign="top"/>
+                                  <Cell col="18" text="도움&#13;&#10;제공" verticalAlign="top"/>
+                                  <Cell col="19" text="일어&#13;&#10;서기" verticalAlign="top"/>
+                                  <Cell col="20" text="식사&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="21" text="배설&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="22" text="옷갈아&#13;&#10;입기&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="23" text="목욕&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="24" text="몸&#13;&#10;단장" verticalAlign="top"/>
+                                  <Cell col="25" text="이동&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="26" text="요리&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="27" text="가사&#13;&#10;동작" verticalAlign="top"/>
+                                  <Cell col="28" text="담당자명" verticalAlign="middle"/>
+                                  <Cell col="29" text="신체기능&#13;&#10;훈련시간" verticalAlign="top"/>
+                                  <Cell col="30" text="기본동작&#13;&#10;훈련시간" verticalAlign="top"/>
+                                  <Cell col="31" text="일상생활&#13;&#10;훈련시간" verticalAlign="top"/>
+                                </Band>
+                                <Band id="body">
+                                  <Cell text="bind:m_all_day" calendardateformat="yyyy.MM.dd"/>
+                                  <Cell col="1" text="bind:tta_1"/>
+                                  <Cell col="2" text="bind:tta_2"/>
+                                  <Cell col="3" text="bind:tta_3"/>
+                                  <Cell col="4" text="bind:tta_4"/>
+                                  <Cell col="5" text="bind:tta_5"/>
+                                  <Cell col="6" text="bind:tta_6"/>
+                                  <Cell col="7" text="bind:tta_7"/>
+                                  <Cell col="8" text="bind:tta_8"/>
+                                  <Cell col="9" text="bind:ttb_1"/>
+                                  <Cell col="10" text="bind:ttb_2"/>
+                                  <Cell col="11" text="bind:ttb_3"/>
+                                  <Cell col="12" text="bind:ttb_4"/>
+                                  <Cell col="13" text="bind:ttb_5"/>
+                                  <Cell col="14" text="bind:ttb_6"/>
+                                  <Cell col="15" text="bind:ttb_7"/>
+                                  <Cell col="16" text="bind:ttb_8"/>
+                                  <Cell col="17" text="bind:ttb_9"/>
+                                  <Cell col="18" text="bind:ttb_10"/>
+                                  <Cell col="19" text="bind:ttb_11"/>
+                                  <Cell col="20" text="bind:ttc_1"/>
+                                  <Cell col="21" text="bind:ttc_2"/>
+                                  <Cell col="22" text="bind:ttc_3"/>
+                                  <Cell col="23" text="bind:ttc_4"/>
+                                  <Cell col="24" text="bind:ttc_5"/>
+                                  <Cell col="25" text="bind:ttc_6"/>
+                                  <Cell col="26" text="bind:ttc_7"/>
+                                  <Cell col="27" text="bind:ttc_8"/>
+                                  <Cell col="28" text="bind:훈련담당"/>
+                                  <Cell col="29" text="bind:훈련시a"/>
+                                  <Cell col="30" text="bind:훈련시b"/>
+                                  <Cell col="31" text="bind:훈련시c"/>
+                                </Band>
+                              </Format>
+                            </Formats>
+                          </Grid>
+                          <Static id="sta_subTitle" taborder="1" text="기능회복훈련 급여제공기록" left="20" top="2" width="250" height="26" cssclass="lb01"/>
+                          <Static id="sta_info" taborder="2" text="◎-신체기능훈련 ◈-기본동작훈련 ▣-일상생활동작훈련" left="933" top="2" width="300" height="26" font="normal 9pt/normal &quot;Arial&quot;" color="red"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="1" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Static id="sta_00" taborder="1" text="~" left="242" top="12" width="8" height="17" textAlign="center"/>
+              <Combo id="cmb_year" taborder="1" left="1" top="7" width="79" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="cmb_year_onitemchanged"/>
+              <Combo id="cmb_month" taborder="2" left="79" top="7" width="63" height="26" type="filterlike" autoselect="true" innerdataset="ds_month" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="cmb_month_onitemchanged"/>
+              <Calendar id="cal_date_from" taborder="3" left="147" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_to" taborder="4" left="255" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="460" top="35" height="40" formscrollbartype="none" width="1250">
+          <Layouts>
+            <Layout>
+              <CheckBox id="chk_sign" taborder="0" text="결재란표시" left="797" top="7" width="85" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_report1" taborder="1" text="기능회복훈련기록 서식" left="1067" top="7" height="26" cssclass="btn_print" onclick="fn_report1" width="175"/>
+              <Button id="btn_report2" taborder="2" text="월간 기능회복훈련기록" left="887" top="7" width="175" height="26" cssclass="btn_print" onclick="fn_report2"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="m_juso1" type="STRING" size="256"/>
+          <Column id="m_juso2" type="STRING" size="256"/>
+          <Column id="m_post" type="STRING" size="256"/>
+          <Column id="m_juso" type="STRING" size="256"/>
+          <Column id="m_conname1" type="STRING" size="256"/>
+          <Column id="m_conname2" type="STRING" size="256"/>
+          <Column id="m_conname3" type="STRING" size="256"/>
+          <Column id="age" type="INT" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="today" type="STRING" size="256"/>
+          <Column id="tel" type="STRING" size="256"/>
+          <Column id="phone" type="STRING" size="256"/>
+          <Column id="religion" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search" oncolumnchanged="ds_search_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date_from" type="STRING" size="256"/>
+          <Column id="date_to" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="sign" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_person" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="sex_nm" type="STRING" size="256"/>
+          <Column id="grade_nm" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="m_history" type="STRING" size="256"/>
+          <Column id="m_liday1" type="STRING" size="256"/>
+          <Column id="m_liday2" type="STRING" size="256"/>
+          <Column id="m_regist" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="m_conname" type="STRING" size="256"/>
+          <Column id="age" type="INT" size="256"/>
+          <Column id="b_date" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_detail">
+        <ColumnInfo>
+          <Column id="m_all_day" type="STRING" size="256"/>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_number" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="기능훈련a" type="STRING" size="256"/>
+          <Column id="tta_1" type="STRING" size="256"/>
+          <Column id="tta_2" type="STRING" size="256"/>
+          <Column id="tta_3" type="STRING" size="256"/>
+          <Column id="tta_4" type="STRING" size="256"/>
+          <Column id="tta_5" type="STRING" size="256"/>
+          <Column id="tta_6" type="STRING" size="256"/>
+          <Column id="tta_7" type="STRING" size="256"/>
+          <Column id="tta_8" type="STRING" size="256"/>
+          <Column id="기능훈련b" type="STRING" size="256"/>
+          <Column id="ttb_1" type="STRING" size="256"/>
+          <Column id="ttb_2" type="STRING" size="256"/>
+          <Column id="ttb_3" type="STRING" size="256"/>
+          <Column id="ttb_4" type="STRING" size="256"/>
+          <Column id="ttb_5" type="STRING" size="256"/>
+          <Column id="ttb_6" type="STRING" size="256"/>
+          <Column id="ttb_7" type="STRING" size="256"/>
+          <Column id="ttb_8" type="STRING" size="256"/>
+          <Column id="ttb_9" type="STRING" size="256"/>
+          <Column id="ttb_10" type="STRING" size="256"/>
+          <Column id="ttb_11" type="STRING" size="256"/>
+          <Column id="기능훈련c" type="STRING" size="256"/>
+          <Column id="ttc_1" type="STRING" size="256"/>
+          <Column id="ttc_2" type="STRING" size="256"/>
+          <Column id="ttc_3" type="STRING" size="256"/>
+          <Column id="ttc_4" type="STRING" size="256"/>
+          <Column id="ttc_5" type="STRING" size="256"/>
+          <Column id="ttc_6" type="STRING" size="256"/>
+          <Column id="ttc_7" type="STRING" size="256"/>
+          <Column id="ttc_8" type="STRING" size="256"/>
+          <Column id="훈련시a" type="STRING" size="256"/>
+          <Column id="훈련시b" type="STRING" size="256"/>
+          <Column id="훈련시c" type="STRING" size="256"/>
+          <Column id="훈련담당" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_month">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list_cnt">
+        <ColumnInfo>
+          <Column id="cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00" propid="text" datasetid="ds_person" columnid="m_name"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_person" columnid="m_code"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_person" columnid="sex_nm"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_person" columnid="m_roomname"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00" propid="text" datasetid="ds_person" columnid="m_history"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_01" propid="text" datasetid="ds_person" columnid="grade_nm"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_person" columnid="m_regist"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="date_from"/>
+      <BindItem id="item5" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="date_to"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00" propid="text" datasetid="ds_person" columnid="m_enday"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00" propid="text" datasetid="ds_person" columnid="m_group"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_person" columnid="m_reday"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01" propid="text" datasetid="ds_person" columnid="m_liday1"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01_00" propid="text" datasetid="ds_person" columnid="m_liday2"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_person" columnid="age"/>
+      <BindItem id="item1" compid="div_func.form.chk_sign" propid="value" datasetid="ds_report" columnid="sign"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00109
+ * 화면명   	: 1-9 기능회복훈련 급여제공기록
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-09
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+this.grp_btns = [];	// 그룹 버튼 A,B,C,D,E,전체 배열
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+
+	// 그리드 설정
+	this.fn_setMainGrid();
+	
+	// 리포트 출력 초기화
+	this.ds_report.setColumn(0, "sign", 1);
+	
+	// 콤보 세팅
+	this.fn_setComboDs(obj);
+	this.fn_setMonth();
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	var today = Sct.Util.getToday();
+	var ym = today.substring(0,6);
+	var date_from = ym + '01';
+	var date_to = Sct.Util.getLastDay(ym);
+	this.ds_search.setColumn(0,"date_from", date_from);
+	this.ds_search.setColumn(0,"date_to", date_to);
+	
+	// 콤보에 현재년, 현재월 세팅
+	this.div_search.form.cmb_year.set_value(today.substring(0,4));
+	this.div_search.form.cmb_month.set_value(parseInt(today.substring(4,6)));
+
+	// 그룹 버튼을 배열로 세팅
+	this.fn_make_grp_btns_array();
+	// '전체' 버튼 선택 상태로 세팅
+	this.btn_group_init();
+
+	// 오픈시 조회
+	this.fn_search();	
+};
+
+this.fn_setMainGrid = function()
+{
+	var grdMain = this.div_cont.form.div_left.form.grd_list;
+	
+	var nameIdx = grdMain.getBindCellIndex("body","m_name");
+	var snmIdx = grdMain.getBindCellIndex("body","s_nm");
+	
+	var nameCss = "expr:dataset.getColumn(currow,'sex_nm')=='남'?'cellBMan':'cellBWoman'";
+	var snmCss = "expr:dataset.getColumn(currow,'s_nm')=='퇴소자'?'cellBRetire':''";
+	
+	grdMain.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grdMain.setCellProperty("body", snmIdx, "cssclass", snmCss);
+}
+
+// 콤보에 값 세팅
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+                          { outDsName : "ds_year", sqlId : "DAY00109.DAY00109_DS_YEAR_S", param : '', bEmptyRow : false}
+                    ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+
+this.fn_setMonth = function()
+{
+	// 월 콤보박스 세팅 (1-12월)
+	this.ds_month.set_enableevent(false);
+	this.ds_month.clearData();
+	let nRow;
+	for (let i = 1; i <= 12; i++)
+	{
+		nRow = this.ds_month.addRow();
+		this.ds_month.setColumn(nRow, "CMCD", i);
+		this.ds_month.setColumn(nRow, "CMNM", i + "월");
+	}
+
+	this.ds_month.set_enableevent(true);
+}
+
+this.fn_make_grp_btns_array = function()
+{
+	var button_a = this.div_cont.form.div_left.form.btn_grp_a;
+	var button_b = this.div_cont.form.div_left.form.btn_grp_b;
+	var button_c = this.div_cont.form.div_left.form.btn_grp_c;
+	var button_d = this.div_cont.form.div_left.form.btn_grp_d;
+	var button_e = this.div_cont.form.div_left.form.btn_grp_e;
+	var button_all = this.div_cont.form.div_left.form.btn_grp_all;
+	
+	this.grp_btns = [button_all,button_a,button_b,button_c,button_d,button_e];
+}
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	const svcId = "search_pre";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list_cnt=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00109.DAY00109_DS_LIST_CNT_S ";
+
+	const callbackFunc = "fn_callback";
+	var async = false;
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, async);
+	
+	if (this.ds_list_cnt.getColumn(0,"cnt")<1) {
+		alert("수급자를 조회할 수 없습니다.");
+		return false;
+	}
+	
+	return true;
+};
+
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00109.DAY00109_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//
+this.fn_person = function ()
+{	
+	var hrow = this.ds_list.rowposition;
+	var m_code = this.ds_list.getColumn(hrow,"m_code");
+	var date_to= this.ds_search.getColumn(0,"date_to");
+	const svcId = "person";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_person=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00109.DAY00109_DS_PERSON_S "
+				   + "sicode=" + fv_sicode + " "
+				   + "m_code=" + m_code + " "
+				   + "date_to=" + date_to;
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+
+this.fn_searchDetail = function ()
+{	
+	var hrow = this.ds_list.rowposition;
+	var m_code = this.ds_list.getColumn(hrow,"m_code");
+	var date_from = this.ds_search.getColumn(0,"date_from");
+	var date_to = this.ds_search.getColumn(0,"date_to");
+	
+	const svcId = "searchDetail";
+	const params = "/commonController.do";
+	const inDatasets = "";
+	const outDatasets = "ds_detail=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00109.DAY00109_DS_DETAIL_S "
+				   + "sicode=" + fv_sicode + " "
+				   + "m_code=" + m_code + " "
+				   + "date_from=" + date_from + " "
+				   + "date_to=" + date_to + " ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "searchDetail")
+		{}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";		
+		imgUrl = webHost + path + fileGrp;
+	}
+	
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image(imgUrl);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report_pre = function()
+{
+	if (this.ds_person.rowcount != 1 || this.ds_person.getColumn(0,"m_code") == "") {
+		alert("먼저 수급자를 선택하세요");
+		return false;
+	}
+	return true;
+}
+
+// 기능회복훈련기록 서식 리포트
+this.fn_report1 = function()
+{
+	if(!this.fn_report_pre()) return;
+
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00109_R01.xfdl";
+	const popupName = "";
+	
+	var m_code = this.ds_person.getColumn(0,"m_code");
+	var sign = this.ds_report.getColumn(0,"sign");
+	
+	params = {
+		sicode : fv_sicode
+	,	m_code : m_code
+	,	sign : sign
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+}
+
+
+// 월간 기능회복훈련기록 리포트
+this.fn_report2 = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.fn_report_pre()) return;
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00109_R02.xfdl";
+	const popupName = "";
+	
+	var m_code = this.ds_person.getColumn(0,"m_code");
+	var sign = this.ds_report.getColumn(0,"sign");
+	var date_from = this.ds_search.getColumn(0,"date_from");
+	var date_to = this.ds_search.getColumn(0,"date_to");
+	
+	params = {
+		sicode : fv_sicode
+	,	m_code : m_code
+	,	sign : sign
+	,	date_from : date_from
+	,	date_to : date_to
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");	
+};
+
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const selIdx = obj.getBindCellIndex("body", "m_name");
+	
+	// 수급자명 컬럼인 경우
+	if (e.col == 2)
+	{
+		var selRow = this.ds_list.rowposition;
+		var m_code = this.ds_list.getColumn(selRow,"m_code");
+	
+		// 우상단 수급자 조회 div 내용표시
+		this.fn_person();
+		this.fn_searchDetail();
+	}
+};
+
+
+this.cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.div_search.form.cmb_month.set_value('');
+	this.ds_list.clearData();
+	this.ds_detail.clearData();
+	this.ds_person.clearData();
+	// 그룹버튼 선택 초기화
+	this.btn_group_init();
+};
+
+
+this.cmb_month_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_person.clearData();
+	this.ds_detail.clearData();
+	// 그룹버튼 선택 초기화
+	this.btn_group_init();
+	
+	var year = this.div_search.form.cmb_year.value;
+	var month = this.div_search.form.cmb_month.value;
+	month = month.padStart(2,'0');
+	var date_from_str = year + month + '01';
+	var date_to_str = Sct.Util.getLastDay(year+month);
+	this.div_search.form.cal_date_from.set_value(date_from_str);
+	this.div_search.form.cal_date_to.set_value(date_to_str);
+	
+	this.fn_search();
+};
+
+// A,B,C,D,E,전체 버튼 중 하나 클릭시
+this.btn_group_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 우측 화면의 데이터 초기화
+	this.ds_person.clearData();
+	this.ds_detail.clearData();
+
+	//  선택 버튼 빨간색으로, 그 외는 기본색으로
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (obj == this.grp_btns[i]) {
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+
+	// 선택된 버튼값 ds_search에 세팅
+	this.ds_search.setColumn(0,"m_group", obj.text);	// A,B,C,D,E,전체 중 하나
+	
+	this.fn_search();
+};
+
+
+// 그룹 버튼 초기화 ('전체' 버튼이 선택된 상태)
+this.btn_group_init = function()
+{
+	for(var i=0; i<this.grp_btns.length; i++) {
+		if (this.grp_btns[i].text == "전체") {
+			this.grp_btns[i].set_cssclass("btn_orange");
+		} else {
+			this.grp_btns[i].set_cssclass("btn_basic_gray");
+		}
+	}
+	
+	this.ds_search.setColumn(0,"m_group","전체");
+}]]></Script>
+  </Form>
+</FDL>

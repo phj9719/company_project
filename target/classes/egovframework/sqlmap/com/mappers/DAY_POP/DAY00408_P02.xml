@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00408_P02
+     * 프로그램 명     	: 송영차량일지 수정
+     * Description 		: 송영차량일지 조회, 수정, 삭제
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-16 13:00        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00408_P02_DS_LIST_S		조회
+        DAY00408_P02_DS_DATA_U		삽입
+        DAY00408_P02_DS_DATA_D		삭제
+     *================================================================
+-->
+<mapper namespace="DAY00408_P02">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00408_P02_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-8 P02 조회 */
+    SELECT
+      moc.sicode
+    , moc.monalja
+    , DATE_FORMAT(moc.monalja, '%Y.%m.%d') AS 운행일
+    , moc.mocode
+    , mot.차번호
+    , moc.mostart
+    , moc.molast
+    , moc.molast - moc.mostart AS distant
+    , TRIM(moc.코드1) AS 코드1
+    , moc.내역1
+    , moc.비용1
+    , moc.결제1
+    , TRIM(moc.코드2) AS 코드2
+    , moc.내역2
+    , moc.비용2
+    , moc.결제2
+    , TRIM(moc.코드3) AS 코드3
+    , moc.내역3
+    , moc.비용3
+    , moc.결제3
+    , moc.작성자
+    , moc.작성코드
+    FROM day_mocount moc
+    JOIN day_motor mot
+    ON (moc.sicode = mot.sicode
+        AND moc.mocode = mot.차구분)
+    WHERE moc.sicode = #{SICODE}
+    AND moc.monalja = #{DATE}
+    AND moc.mocode = #{CODE}
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00408_P02_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 4-8 P02 수정 */
+    UPDATE day_mocount
+    SET 
+      mostart = #{mostart}
+    , molast = #{molast}
+    , 코드1 = #{코드1}
+    , 내역1 = #{내역1}
+    , 비용1 = #{비용1}
+    , 결제1 = #{결제1}
+    , 코드2 = #{코드2}
+    , 내역2 = #{내역2}
+    , 비용2 = #{비용2}
+    , 결제2 = #{결제2}
+    , 코드3 = #{코드3}
+    , 내역3 = #{내역3}
+    , 비용3 = #{비용3}
+    , 결제3 = #{결제3}
+    WHERE sicode = #{sicode}
+    AND mocode = #{mocode}
+    AND monalja = #{monalja}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00408_P02_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 4-8 P02 삭제 */
+    DELETE FROM day_mocount
+    WHERE sicode = #{sicode}
+    AND mocode = #{mocode}
+    AND monalja = #{monalja}
+    </delete>
+</mapper>

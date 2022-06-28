@@ -1,0 +1,1083 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00713" width="1920" height="800" titletext="7-14 전기안전점검" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" height="748" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="110"/>
+                            <Column size="110"/>
+                            <Column size="100"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="점검일"/>
+                            <Cell col="1" text="점검시간"/>
+                            <Cell col="2" text="점검자"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:점검일" cursor="pointer" displaytype="date" expandchar="dot" cssclass="cellBWoman"/>
+                            <Cell col="1" text="bind:점검시간"/>
+                            <Cell col="2" text="bind:점검자"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="470" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" background="#ffffff" border="1px solid #e2e2e2" width="1130" height="748" text="">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="0" text="전기안전관리 점검표" left="493" top="7" width="145" height="26" cssclass="lb01"/>
+                          <Static id="sta_no" taborder="1" text="기록번호 : " left="24" top="10" width="58" height="26"/>
+                          <Static id="sta_no_value" taborder="2" text="00000000" left="87" top="10" width="60" height="26"/>
+                          <Div id="div_line" taborder="3" left="20" top="40" height="1" background="#e2e2e2" right="20"/>
+                          <Static id="sta_head1" taborder="20" text="항목" left="20" top="89" width="50" height="40" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head2" taborder="21" text="점 검 내 용" left="sta_head1:-1" top="89" width="328" height="40" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head3" taborder="22" text="적합" left="sta_head2:-1" top="89" width="70" height="40" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_head4" taborder="23" text="부적합" left="sta_head3:-1" top="89" width="70" height="40" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_num1" taborder="25" text="1." left="20" top="sta_head1:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body1" taborder="26" text="전기개폐기(차단기) 상태" left="sta_num1:-1" top="sta_head2:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o1" taborder="27" left="sta_body1:-1" top="sta_head3:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x1" taborder="29" left="sta_o1:-1" top="sta_head4:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o1" taborder="28" text="   O" left="sta_o1:-58" top="sta_o1:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x1" taborder="30" text="   X" left="sta_x1:-57" top="sta_x1:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num2" taborder="33" text="2." left="20" top="sta_num1:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body2" taborder="34" text="전기 누전차단기 상태" left="sta_num2:-1" top="sta_body1:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o2" taborder="35" left="sta_body2:-1" top="sta_o1:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x2" taborder="37" left="sta_o2:-1" top="sta_x1:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o2" taborder="36" text="   O" left="sta_o2:-58" top="sta_o2:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x2" taborder="38" text="   X" left="sta_x2:-57" top="sta_x2:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num3" taborder="41" text="3." left="20" top="sta_num2:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body3" taborder="42" left="sta_num3:-1" top="sta_body2:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02" text="전기분전함 이상 점검"/>
+                          <Static id="sta_o3" taborder="43" left="sta_body3:-1" top="sta_o2:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x3" taborder="45" left="sta_o3:-1" top="sta_x2:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o3" taborder="44" text="   O" left="sta_o3:-58" top="sta_o3:-31" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x3" taborder="46" text="   X" left="sta_x3:-57" top="sta_x3:-31" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num4" taborder="49" text="4." left="20" top="sta_num3:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body4" taborder="50" left="sta_num4:-1" top="sta_body3:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02" text="전선 배선 상태"/>
+                          <Static id="sta_o4" taborder="51" left="sta_body4:-1" top="sta_o3:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x4" taborder="53" left="sta_o4:-1" top="sta_x3:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o4" taborder="52" text="   O" left="sta_o4:-58" top="sta_o4:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x4" taborder="54" text="   X" left="sta_x4:-57" top="sta_x4:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num5" taborder="57" text="5." left="20" top="sta_num4:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body5" taborder="58" text="전선 노출 상태" left="sta_num5:-1" top="sta_body4:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o5" taborder="59" left="sta_body5:-1" top="sta_o4:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x5" taborder="61" left="sta_o5:-1" top="sta_x4:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o5" taborder="60" text="   O" left="sta_o5:-58" top="sta_o5:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x5" taborder="62" text="   X" left="sta_x5:-57" top="sta_x5:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num6" taborder="65" text="6." left="20" top="sta_num5:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body6" taborder="66" text="전기 합선 여부" left="sta_num6:-1" top="sta_body5:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o6" taborder="67" left="sta_body6:-1" top="sta_o5:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x6" taborder="69" left="sta_o6:-1" top="sta_x5:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o6" taborder="68" text="   O" left="sta_o6:-58" top="sta_o6:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x6" taborder="70" text="   X" left="sta_x6:-57" top="sta_x6:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num7" taborder="73" text="7." left="20" top="sta_num6:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body7" taborder="74" text="전기 누전(절연) 상태" left="sta_num7:-1" top="sta_body6:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o7" taborder="75" left="sta_body7:-1" top="sta_o6:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x7" taborder="77" left="sta_o7:-1" top="sta_x6:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o7" taborder="76" text="   O" left="sta_o7:-58" top="sta_o7:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x7" taborder="78" text="   X" left="sta_x7:-57" top="sta_x7:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num8" taborder="81" text="8." left="20" top="sta_num7:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body8" taborder="82" text="접지 상태" left="sta_num8:-1" top="sta_body7:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o8" taborder="83" left="sta_body8:-1" top="sta_o7:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x8" taborder="85" left="sta_o8:-1" top="sta_x7:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o8" taborder="84" text="   O" left="sta_o8:-58" top="sta_o8:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x8" taborder="86" text="   X" left="sta_x8:-57" top="sta_x8:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num9" taborder="89" text="9." left="20" top="sta_num8:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body9" taborder="90" text="전선의 피복 상태" left="sta_num9:-1" top="sta_body8:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o9" taborder="91" left="sta_body9:-1" top="sta_o8:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x9" taborder="93" left="sta_o9:-1" top="sta_x8:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o9" taborder="92" text="   O" left="sta_o9:-58" top="sta_o9:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x9" taborder="94" text="   X" left="sta_x9:-57" top="sta_x9:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_num10" taborder="97" text="10." left="20" top="sta_num9:-1" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body10" taborder="98" text="전선의 노출, 손상 상태" left="sta_num10:-1" top="sta_body9:-1" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o10" taborder="99" left="sta_body10:-1" top="sta_o9:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x10" taborder="101" left="sta_o10:-1" top="sta_x9:-1" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o10" taborder="100" text="   O" left="sta_o10:-58" top="sta_o10:-30" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x10" taborder="102" text="   X" left="sta_x10:-57" top="sta_x10:-30" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_head_rmk" taborder="129" text="특이사항" left="20" top="640" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center" width="1088"/>
+                          <TextArea id="txt_rmk" taborder="130" left="20" top="669" bottom="10" displaynulltext="내용을 입력하세요." onkeydown="txt_rmk_onkeydown" onchanged="div_cont_div_right_div_main_txt_rmk_onchanged" scrollbartype="fixed" scrolltype="vertical" wordWrap="char" width="1088" maxlength="2000"/>
+                          <Static id="sta_info1" taborder="4" left="20" top="44" width="182" height="48" cssclass="sta_SearchTxt"/>
+                          <Static id="sta_info2" taborder="8" left="201" top="44" width="332" height="48" cssclass="sta_SearchTxt" text=""/>
+                          <Static id="sta_info3" taborder="17" left="532" top="44" width="282" height="34" cssclass="sta_SearchTxt"/>
+                          <Static id="sta_date" taborder="5" text="점검일" left="24" top="52" width="36" height="26"/>
+                          <Calendar id="cal_date" taborder="6" left="70" top="52" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" tabstop="false"/>
+                          <Static id="sta_time" taborder="9" text="점검시간" left="214" top="52" width="48" height="26"/>
+                          <Edit id="edt_from_hour" taborder="10" left="272" top="52" width="35" height="26" value="10" text="10" textAlign="center" onchanged="edt_hour_onchanged" inputtype="digit" maxlength="2" tooltiptext="시작시간"/>
+                          <Static id="sta_timeColon1" taborder="131" text=":" left="308" top="52" width="10" height="26" textAlign="center"/>
+                          <Edit id="edt_from_min" taborder="11" left="318" top="52" width="35" height="26" value="00" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="시작분"/>
+                          <Static id="sta_time_from" taborder="12" text="부터" left="358" top="52" width="24" height="26" textAlign="center"/>
+                          <Edit id="edt_to_hour" taborder="13" left="392" top="52" width="35" height="26" value="10" text="10" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_hour_onchanged" tooltiptext="종료시간"/>
+                          <Static id="sta_timeColon2" taborder="14" text=":" left="428" top="52" width="10" height="26" textAlign="center"/>
+                          <Edit id="edt_to_min" taborder="15" left="438" top="52" width="35" height="26" value="00" text="00" textAlign="center" inputtype="digit" maxlength="2" onchanged="edt_min_onchanged" tooltiptext="종료분"/>
+                          <Static id="sta_time_to" taborder="16" text="까지" left="478" top="52" width="24" height="26" textAlign="center"/>
+                          <Button id="btn_manager" taborder="18" text="점검자" left="532" top="52" width="80" height="26" onclick="div_cont_div_right_div_main_btn_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager_value" taborder="19" text="너싱홈/ 요양보호사 / 20210007" left="623" top="52" width="174" height="26" textAlign="center" cssclass="sta_ManagerInfo"/>
+                          <Static id="sta_head5" taborder="24" text="조치사항" left="sta_head4:-1" top="89" height="40" cssclass="sta_WF_DetailLabel01" textAlign="center" width="574"/>
+                          <Static id="sta_etc1" taborder="31" left="sta_x1:-1" top="sta_head5:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" text="" width="574"/>
+                          <Edit id="edt_etc1" taborder="32" left="sta_etc1:-559" top="sta_etc1:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown" ondrag="div_cont_div_right_div_main_edt_etc1_ondrag"/>
+                          <Static id="sta_etc2" taborder="39" left="sta_x2:-1" top="sta_etc1:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc2" taborder="40" left="sta_etc2:-559" top="sta_etc2:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc3" taborder="47" left="sta_x3:-1" top="sta_etc2:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc3" taborder="48" left="sta_etc3:-559" top="sta_etc3:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc4" taborder="55" left="sta_x4:-1" top="sta_etc3:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc4" taborder="56" left="sta_etc4:-559" top="sta_etc4:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc5" taborder="63" left="sta_x5:-1" top="sta_etc4:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc5" taborder="64" left="sta_etc5:-559" top="sta_etc5:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc6" taborder="71" left="sta_x6:-1" top="sta_etc5:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc6" taborder="72" left="sta_etc6:-559" top="sta_etc6:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc7" taborder="79" left="sta_x7:-1" top="sta_etc6:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc7" taborder="80" left="sta_etc7:-559" top="sta_etc7:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc8" taborder="87" left="sta_x8:-1" top="sta_etc7:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc8" taborder="88" left="sta_etc8:-559" top="sta_etc8:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc9" taborder="95" left="sta_x9:-1" top="sta_etc8:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc9" taborder="96" left="sta_etc9:-559" top="sta_etc9:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_etc10" taborder="103" left="sta_x10:-1" top="sta_etc9:-1" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc10" taborder="104" left="sta_etc10:-559" top="sta_etc10:-33" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_num11" taborder="105" text="11." left="20" top="518" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body11" taborder="106" text="전기플러그, 콘센트 손상 상태" left="69" top="518" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o11" taborder="107" left="396" top="518" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x11" taborder="109" left="465" top="518" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o11" taborder="108" text="   O" left="408" top="528" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x11" taborder="110" text="   X" left="478" top="528" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_etc11" taborder="111" left="534" top="518" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc11" taborder="112" left="549" top="525" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_num12" taborder="113" text="12." left="20" top="557" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body12" taborder="114" text="전기콘센트 안전막음 점검" left="69" top="557" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o10_00_00" taborder="115" left="396" top="557" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x10_00_00" taborder="117" left="465" top="557" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o12" taborder="116" text="   O" left="408" top="567" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x12" taborder="118" text="   X" left="478" top="567" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_etc12" taborder="119" left="534" top="557" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc12" taborder="120" left="549" top="564" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Static id="sta_num13" taborder="121" text="13." left="20" top="596" width="50" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_body13" taborder="122" text="전기사용제품 점검" left="69" top="596" width="328" height="40" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_o13" taborder="123" left="396" top="596" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <Static id="sta_x13" taborder="125" left="465" top="596" width="70" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center"/>
+                          <CheckBox id="chk_o13" taborder="124" text="   O" left="408" top="606" width="45" height="22" cssclass="chk_o" truevalue="1" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <CheckBox id="chk_x13" taborder="126" text="   X" left="478" top="606" width="45" height="22" cssclass="chk_x" truevalue="2" falsevalue="0" onchanged="mainChk_onchanged"/>
+                          <Static id="sta_etc13" taborder="127" left="534" top="596" height="40" cssclass="sta_WF_DetailLabel02" textAlign="center" width="574"/>
+                          <Edit id="edt_etc13" taborder="128" left="549" top="603" width="545" height="26" displaynulltext="내용을 입력하세요." onkeyup="edt_etc_onkeyup" maxlength="41" onkeydown="edt_etc_onkeydown"/>
+                          <Calendar id="cal_date_pic" taborder="7" left="cal_date:-1" top="cal_date:-26" width="25" height="26" enable="false"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Combo id="cmb_year" taborder="0" left="23" top="7" width="90" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_search_cmb_year_onitemchanged"/>
+              <Button id="btn_search" taborder="6" text="조회" top="7" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" right="0"/>
+              <Calendar id="cal_date_from" taborder="1" left="123" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Static id="sta_00" taborder="3" text="~" left="241" top="12" width="8" height="17" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="4" left="256" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_from_pic" taborder="2" left="cal_date_from:-1" top="cal_date_from:-26" width="25" height="26" onchanged="cal_date_pic_onchanged"/>
+              <Calendar id="cal_date_to_pic" taborder="5" left="cal_date_to:-1" top="cal_date_to:-26" width="25" height="26" onchanged="cal_date_pic_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="470" top="0" height="40" formscrollbartype="none" width="1130">
+          <Layouts>
+            <Layout>
+              <Button id="btn_new" taborder="0" text="새로작성" left="0" top="7" width="90" height="26" onclick="div_func_btn_new_onclick" cssclass="btn_newdoc"/>
+              <CheckBox id="chk_sign" taborder="1" text="결재란" left="112" top="7" width="55" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_delete" taborder="4" text="삭제" top="7" width="70" height="26" onclick="fn_deleteBtn" right="0" cssclass="btn_delete"/>
+              <Button id="btn_save" taborder="3" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" right="btn_delete:5" cssclass="btn_save"/>
+              <Button id="btn_report" taborder="2" text="전기안전 점검표" left="170" top="7" width="140" height="26" onclick="fn_reportBtn" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="전기번호" type="INT" size="256"/>
+          <Column id="점검일" type="DATE" size="256"/>
+          <Column id="점검시간" type="STRING" size="256"/>
+          <Column id="점검자" type="STRING" size="256"/>
+          <Column id="점검코드" type="STRING" size="256"/>
+          <Column id="점검직종" type="STRING" size="256"/>
+          <Column id="점검항목" type="STRING" size="256"/>
+          <Column id="조치사항" type="STRING" size="2000"/>
+          <Column id="특이사항" type="STRING" size="2000"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="전기번호" type="INT" size="256"/>
+          <Column id="점검일" type="DATE" size="256"/>
+          <Column id="점검시간" type="STRING" size="256"/>
+          <Column id="FROM_HOUR" type="STRING" size="256"/>
+          <Column id="FROM_MIN" type="STRING" size="256"/>
+          <Column id="TO_HOUR" type="STRING" size="256"/>
+          <Column id="TO_MIN" type="STRING" size="256"/>
+          <Column id="점검자" type="STRING" size="256"/>
+          <Column id="점검코드" type="STRING" size="256"/>
+          <Column id="점검직종" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+          <Column id="점검항목" type="STRING" size="256"/>
+          <Column id="O1" type="STRING" size="256"/>
+          <Column id="X1" type="STRING" size="256"/>
+          <Column id="O2" type="STRING" size="256"/>
+          <Column id="X2" type="STRING" size="256"/>
+          <Column id="O3" type="STRING" size="256"/>
+          <Column id="X3" type="STRING" size="256"/>
+          <Column id="O4" type="STRING" size="256"/>
+          <Column id="X4" type="STRING" size="256"/>
+          <Column id="O5" type="STRING" size="256"/>
+          <Column id="X5" type="STRING" size="256"/>
+          <Column id="O6" type="STRING" size="256"/>
+          <Column id="X6" type="STRING" size="256"/>
+          <Column id="O7" type="STRING" size="256"/>
+          <Column id="X7" type="STRING" size="256"/>
+          <Column id="O8" type="STRING" size="256"/>
+          <Column id="X8" type="STRING" size="256"/>
+          <Column id="O9" type="STRING" size="256"/>
+          <Column id="X9" type="STRING" size="256"/>
+          <Column id="O10" type="STRING" size="256"/>
+          <Column id="X10" type="STRING" size="256"/>
+          <Column id="O11" type="STRING" size="256"/>
+          <Column id="X11" type="STRING" size="256"/>
+          <Column id="O12" type="STRING" size="256"/>
+          <Column id="X12" type="STRING" size="256"/>
+          <Column id="O13" type="STRING" size="256"/>
+          <Column id="X13" type="STRING" size="256"/>
+          <Column id="조치사항" type="STRING" size="2000"/>
+          <Column id="조치1" type="STRING" size="256"/>
+          <Column id="조치2" type="STRING" size="256"/>
+          <Column id="조치3" type="STRING" size="256"/>
+          <Column id="조치4" type="STRING" size="256"/>
+          <Column id="조치5" type="STRING" size="256"/>
+          <Column id="조치6" type="STRING" size="256"/>
+          <Column id="조치7" type="STRING" size="256"/>
+          <Column id="조치8" type="STRING" size="256"/>
+          <Column id="조치9" type="STRING" size="256"/>
+          <Column id="조치10" type="STRING" size="256"/>
+          <Column id="조치11" type="STRING" size="256"/>
+          <Column id="조치12" type="STRING" size="256"/>
+          <Column id="조치13" type="STRING" size="256"/>
+          <Column id="특이사항" type="STRING" size="2000"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dupl" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="전기번호" type="STRING" size="256"/>
+          <Column id="점검일" type="DATE" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_year" propid="value" datasetid="ds_search" columnid="YEAR"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="전기번호"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.cal_date" propid="value" datasetid="ds_data" columnid="점검일"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.edt_from_hour" propid="value" datasetid="ds_data" columnid="FROM_HOUR"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.edt_from_min" propid="value" datasetid="ds_data" columnid="FROM_MIN"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.edt_to_hour" propid="value" datasetid="ds_data" columnid="TO_HOUR"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.edt_to_min" propid="value" datasetid="ds_data" columnid="TO_MIN"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.chk_o1" propid="value" datasetid="ds_data" columnid="O1"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.chk_x1" propid="value" datasetid="ds_data" columnid="X1"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.chk_o2" propid="value" datasetid="ds_data" columnid="O2"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.chk_x2" propid="value" datasetid="ds_data" columnid="X2"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.chk_o3" propid="value" datasetid="ds_data" columnid="O3"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.chk_x3" propid="value" datasetid="ds_data" columnid="X3"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.chk_o4" propid="value" datasetid="ds_data" columnid="O4"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.chk_x4" propid="value" datasetid="ds_data" columnid="X4"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.chk_o5" propid="value" datasetid="ds_data" columnid="O5"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.chk_x5" propid="value" datasetid="ds_data" columnid="X5"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.chk_o6" propid="value" datasetid="ds_data" columnid="O6"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.chk_x6" propid="value" datasetid="ds_data" columnid="X6"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.chk_o7" propid="value" datasetid="ds_data" columnid="O7"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.chk_x7" propid="value" datasetid="ds_data" columnid="X7"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.chk_o8" propid="value" datasetid="ds_data" columnid="O8"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.chk_x8" propid="value" datasetid="ds_data" columnid="X8"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.chk_o9" propid="value" datasetid="ds_data" columnid="O9"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.chk_x9" propid="value" datasetid="ds_data" columnid="X9"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.chk_o10" propid="value" datasetid="ds_data" columnid="O10"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.chk_x10" propid="value" datasetid="ds_data" columnid="X10"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_main.form.txt_rmk" propid="value" datasetid="ds_data" columnid="특이사항"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.edt_etc1" propid="value" datasetid="ds_data" columnid="조치1"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_main.form.edt_etc2" propid="value" datasetid="ds_data" columnid="조치2"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.edt_etc3" propid="value" datasetid="ds_data" columnid="조치3"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_main.form.edt_etc4" propid="value" datasetid="ds_data" columnid="조치4"/>
+      <BindItem id="item35" compid="div_cont.form.div_right.form.div_main.form.edt_etc5" propid="value" datasetid="ds_data" columnid="조치5"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.edt_etc6" propid="value" datasetid="ds_data" columnid="조치6"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.edt_etc7" propid="value" datasetid="ds_data" columnid="조치7"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.edt_etc8" propid="value" datasetid="ds_data" columnid="조치8"/>
+      <BindItem id="item39" compid="div_cont.form.div_right.form.div_main.form.edt_etc9" propid="value" datasetid="ds_data" columnid="조치9"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.edt_etc10" propid="value" datasetid="ds_data" columnid="조치10"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.chk_o11" propid="value" datasetid="ds_data" columnid="O11"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.chk_x11" propid="value" datasetid="ds_data" columnid="X11"/>
+      <BindItem id="item43" compid="div_cont.form.div_right.form.div_main.form.edt_etc11" propid="value" datasetid="ds_data" columnid="조치11"/>
+      <BindItem id="item44" compid="div_cont.form.div_right.form.div_main.form.chk_o12" propid="value" datasetid="ds_data" columnid="O12"/>
+      <BindItem id="item45" compid="div_cont.form.div_right.form.div_main.form.chk_x12" propid="value" datasetid="ds_data" columnid="X12"/>
+      <BindItem id="item46" compid="div_cont.form.div_right.form.div_main.form.edt_etc12" propid="value" datasetid="ds_data" columnid="조치12"/>
+      <BindItem id="item47" compid="div_cont.form.div_right.form.div_main.form.chk_o13" propid="value" datasetid="ds_data" columnid="O13"/>
+      <BindItem id="item48" compid="div_cont.form.div_right.form.div_main.form.chk_x13" propid="value" datasetid="ds_data" columnid="X13"/>
+      <BindItem id="item49" compid="div_cont.form.div_right.form.div_main.form.edt_etc13" propid="value" datasetid="ds_data" columnid="조치13"/>
+      <BindItem id="item50" compid="div_search.form.cal_date_from_pic" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item51" compid="div_search.form.cal_date_to_pic" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item52" compid="div_cont.form.div_right.form.div_main.form.cal_date_pic" propid="value" datasetid="ds_data" columnid="점검일"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00714
+ * 화면명   	: 7-14 전기안전점검
+ * 화면설명 	: 전기안전점검 점검내역을 작성하는 화면
+ * 작성일   	: 2022-03-07
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-06-27		조기종		리포트출력 pdf출력으로 수정
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	
+	// 년도 콤보박스 세팅
+	this.ds_year.clearData();
+	let nRow;
+	for (let i = 10; i > 0; i--)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year - i);
+		this.ds_year.setColumn(nRow, "CMNM", (year - i) + "년");
+	}
+	for (let i = 0; i < 11; i++)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year + i);
+		this.ds_year.setColumn(nRow, "CMNM", (year + i) + "년");
+	}
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "YEAR", year);
+	this.ds_search.setColumn(0, "DATE_FROM", year + '0101');
+	this.ds_search.setColumn(0, "DATE_TO", year + '1231');
+	
+	// 리포트 출력 초기화
+	this.div_func.form.chk_sign.set_value(1);
+ 	
+	// 오픈시 조회
+	this.fn_search("search");
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	if (this.ds_data.rowcount > 0)
+		this.reSearchData = this.ds_data.getColumn(0, "점검일");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 저장 내용 체크
+	if (!Sct.Grid.hasInsertAndUpdateRow(this.ds_data))
+	{
+		this.alert("저장할 내용이 없습니다.");
+		return false;
+	}
+	
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "점검코드")))
+	{
+		this.alert("안전점검 관리자를 입력해야 합니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+		
+	let str2String = "";
+	for (let i = 0; i < 13; i++)
+	{
+		str2String += this.ds_data.getColumn(0, "조치" + (i + 1)) + "\r\n";
+	}
+	this.ds_data.setColumn(0, "조치사항", str2String);
+		
+	let cont = "";
+	for (let i = 0; i < 13; i++)
+	{
+		if (this.ds_data.getColumn(0, "O" + (i + 1)) == "1")
+			cont += "1";
+		else if (this.ds_data.getColumn(0, "X" + (i + 1)) == "2")
+			cont += "2";
+		else
+			cont += "0";
+	}
+	this.ds_data.setColumn(0, "점검항목", cont);
+	
+	this.reSearchData = this.ds_data.getColumn(0, "점검일");
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 데이터셋 상태가 추가상태이면 데이터셋 비우기
+	if(this.ds_data.getRowType(0) == 2)
+	{
+		this.ds_data.clearData();
+		this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(false);
+		return false;
+	}
+
+	if (!this.confirm("삭제 하시겠습니까?"))
+		return false;
+		
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_data.set_updatecontrol(true);
+		
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00714.DAY00714_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const params = "/DAY00714Controller.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=save ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/DAY00714Controller.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=delete ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_data.clearData();
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+		else if (strSvcID == "delete")
+		{
+			this.alert("삭제되었습니다.");
+			//this.ds_data.clearData();
+			this.fn_search("search");
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+/**
+ * 집중배설관찰 DB입력용 String 만들기
+ * 
+ * @param cRow 바꿀 문자 index
+ * @param str1 원본 문자열
+ * @param col 데이터셋 컬럼명
+ * @param value 바꿀 문자값
+ * @param offset 문자 간격
+ * @ds dataset 데이터셋
+ */
+this.fn_valueSet = function(cRow, str1, col, value, offset, ds)
+{
+	let index;
+	if(offset == null || offset == 0)
+	{
+		str1 = this.stringReplaceAt(str1, value, cRow);
+		ds.setColumn(0, col, str1);
+	}
+	else
+	{
+		index = cRow * offset;
+		str1 = this.stringReplaceAt(str1, value, index);
+		ds.setColumn(0, col, str1);
+	}
+};
+
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(false);
+	
+	const timeStr = this.ds_data.getColumn(nRow, "점검시간");
+	this.ds_data.setColumn(nRow, "FROM_HOUR", timeStr.substr(0, 2));
+	this.ds_data.setColumn(nRow, "FROM_MIN", timeStr.substr(3, 2));
+	this.ds_data.setColumn(nRow, "TO_HOUR", timeStr.substr(6, 2));
+	this.ds_data.setColumn(nRow, "TO_MIN", timeStr.substr(9, 2));
+	
+	const managerStr = this.ds_data.getColumn(nRow, "점검자")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "점검직종")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "점검코드");
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	const str1 = this.ds_data.getColumn(nRow, "점검항목");
+	for (let i = 0; i < 13; i++)
+	{
+		const val = str1.substr(i, 1);
+		if (val == 1 || val == 0)
+		{
+			this.ds_data.setColumn(nRow, "O" + (i + 1), 1);
+		}
+		else
+		{
+			this.ds_data.setColumn(nRow, "X" + (i + 1), 2);
+		}
+	}
+	
+	const str2 = this.ds_data.getColumn(nRow, "조치사항");
+	const str2Array = str2.split("\r");
+	for (let i = 0; i < 13; i++)
+	{
+		this.ds_data.setColumn(nRow, "조치" + (i + 1), nexacro.trim(str2Array[i], "\n"));
+	}
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo) {
+	trace("fv_saveRefNo : " + fv_saveRefNo);
+	const sFindRow = this.ds_list.findRow("점검일", fv_saveRefNo);
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 팝업
+this.fn_report = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("출력할 항목을 선택해주세요.");
+		return false;
+	}
+	
+	if (this.ds_data.getRowType(0) == 2)
+	{
+		return false;
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	const jrfFile = "DAY00714_R01.jrf";
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + this.ds_data.getColumn(0, "점검일") + "#"
+			  + "P_SIGN#" + this.div_func.form.chk_sign.value + "#";
+
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+// 점검자 선택 팝업
+this.div_cont_div_right_div_main_btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "점검일")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const dutyname = objDs.getColumn(0, "담당직종");
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "점검자", name);
+				this.ds_data.setColumn(0, "점검코드", staffid);
+				this.ds_data.setColumn(0, "점검직종", dutyname);
+				this.ds_data.setColumn(0, "VIEW_MANAGER", name + "/" + dutyname + "/" + staffid);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "점검자", "");
+				this.ds_data.setColumn(0, "점검코드", "");
+				this.ds_data.setColumn(0, "점검직종", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 리포트 버튼
+this.fn_reportBtn = function()
+{
+	this.fn_report();
+};
+
+// 조회조건 년도 값 변경 이벤트
+this.div_search_cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "DATE_FROM", e.postvalue + '0101');
+	this.ds_search.setColumn(0, "DATE_TO", e.postvalue + '1231');
+	
+	// 값 변경시 조회
+	this.fn_search("search");
+};
+
+// 검색조건 날짜 변경 이벤트
+this.cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 캘린더 범위가 콤보 박스의 년도를 넘지 못하도록 하기
+	const nYear = this.ds_search.getColumn(0, "YEAR");
+	switch(obj.id)
+	{
+		case "cal_date_from_pic" :
+			if (e.postvalue < nYear + "0101")
+			{
+				this.ds_search.setColumn(0, "DATE_FROM", nYear + '0101');
+			}
+			break;
+		case "cal_date_to_pic" :
+			if (e.postvalue > nYear + "1231")
+			{
+				this.ds_search.setColumn(0, "DATE_TO", nYear + '1231');
+			}
+			break;
+		default:
+	}
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const dateIdx = obj.getBindCellIndex("body", "점검일");
+	// 점검일 선택
+	if (e.col == dateIdx)
+	{
+		// 입력, 수정용 데이터셋에 데이터 복사
+		this.fn_dataCopy(e.row);
+	}
+};
+
+// 새로작성
+this.div_func_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_list.set_rowposition(-1);
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	
+	this.ds_data.setColumn(nRow, "sicode", fv_sicode);
+	
+	const today = Sct.Util.getToday();
+	this.ds_data.setColumn(nRow, "점검일", today);
+	this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(true);
+	
+	this.ds_data.setColumn(nRow, "점검시간", "10:00-11:00");
+	const timeStr = this.ds_data.getColumn(nRow, "점검시간");
+	this.ds_data.setColumn(nRow, "FROM_HOUR", timeStr.substr(0, 2));
+	this.ds_data.setColumn(nRow, "FROM_MIN", timeStr.substr(3, 2));
+	this.ds_data.setColumn(nRow, "TO_HOUR", timeStr.substr(6, 2));
+	this.ds_data.setColumn(nRow, "TO_MIN", timeStr.substr(9, 2));
+	
+	this.ds_data.setColumn(nRow, "점검자", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+	this.ds_data.setColumn(nRow, "점검코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+	this.ds_data.setColumn(nRow, "점검직종", nexacro.getApplication().gds_userInfo.getColumn(0, "c_dutyname"));
+	
+	const managerStr = this.ds_data.getColumn(nRow, "점검자")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "점검직종")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "점검코드");
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	this.ds_data.setColumn(nRow, "점검항목", "1111111111111");
+	const str1 = this.ds_data.getColumn(nRow, "점검항목");
+	for (let i = 0; i < 13; i++)
+	{
+		const val = str1.substr(i, 1);
+		trace("i : " + i + ' '+ val);
+		if (val == 1)
+		{
+			this.ds_data.setColumn(nRow, "O" + (i + 1), 1);
+		}
+		else
+		{
+			this.ds_data.setColumn(nRow, "X" + (i + 1), 2);
+		}
+	}
+	
+	for (let i = 0; i < 13; i++)
+	{
+		this.ds_data.setColumn(nRow, "조치" + (i + 1), "");
+	}
+	
+	this.ds_data.setColumn(nRow, "특이사항", "");
+	
+};
+
+// 시 변경 이벤트
+this.edt_hour_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "23" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+	
+	let cRow;
+	const offset = 0;
+	const value = obj.value;
+	const str1 = this.ds_data.getColumn(0, "점검시간");
+	
+	switch (obj.id) 
+	{
+		case "edt_from_hour":
+			cRow = 0;
+			break;
+		case "edt_to_hour":
+			cRow = 6;
+			break;
+	}
+	
+	this.fn_valueSet(cRow, str1, "점검시간", value, offset, this.ds_data);
+};
+
+// 분 변경 이벤트
+this.edt_min_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "59" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (e.postvalue.length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+	
+	let cRow;
+	const offset = 0;
+	const value = obj.value;
+	const str1 = this.ds_data.getColumn(0, "점검시간");
+	
+	switch (obj.id) 
+	{
+		case "edt_from_min":
+			cRow = 3;
+			break;
+		case "edt_to_min":
+			cRow = 9;
+			break;
+	}
+	
+	this.fn_valueSet(cRow, str1, "점검시간", value, offset, this.ds_data);
+};
+
+// 양호, 불량 체크박스 값 변경 이벤트
+this.mainChk_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	const num = obj.id.substr(5);
+	
+	const cRow = parseInt(num) - 1;
+	const offset = 0;
+	const value = e.postvalue;
+	const str1 = this.ds_data.getColumn(0, "점검항목");
+	
+	switch (obj.id) 
+	{
+		// 양호
+		case "chk_o" + num:
+			if (value == 1)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["chk_x" + num].set_value(0);
+				//this.fn_valueSet(cRow, str1, "점검항목", value, offset, this.ds_data);
+			}
+			break;
+		// 불량
+		case "chk_x" + num:
+			if (value == 2)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["chk_o" + num].set_value(0);
+				//this.fn_valueSet(cRow, str1, "점검항목", value, offset, this.ds_data);
+			}
+			break;
+	}
+};
+
+// 조치사항 키 업 이벤트
+this.edt_etc_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	const num = parseInt(obj.id.substr(7));
+
+	// Enter Key
+	if (e.keycode == 13)
+	{
+		if (num != 13)
+		{
+			this.div_cont.form.div_right.form.div_main.form.components["edt_etc" + (num + 1)].setFocus();
+		}
+		else if (num == 13)
+		{
+			this.div_cont.form.div_right.form.div_main.form.txt_rmk.setFocus();
+		}
+	}
+};
+
+// 조치사항 키 다운 이벤트
+this.edt_etc_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	const num = parseInt(obj.id.substr(7));
+	
+	// backspace
+	if (obj.getCaretPos() == 0)
+	{
+		if (e.keycode == 8)
+		{
+			if (num != 1)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["edt_etc" + (num - 1)].setFocus();
+			}
+		}
+	}
+	else
+	{
+		if (obj.value.length == obj.maxlength)
+		{
+			if (num != 13)
+			{
+				this.div_cont.form.div_right.form.div_main.form.components["edt_etc" + (num + 1)].setFocus();
+			}
+			else if (num == 13)
+			{
+				this.div_cont.form.div_right.form.div_main.form.txt_rmk.setFocus();
+			}
+		}
+	}
+};
+
+// 특이사항 키 다운 이벤트
+this.txt_rmk_onkeydown = function(obj:nexacro.TextArea,e:nexacro.KeyEventInfo)
+{
+	// backspace
+	if (e.keycode == 8)
+	{
+		if (obj.getCaretPos() == 0)
+		{
+			this.div_cont.form.div_right.form.div_main.form.edt_etc13.setFocus();
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

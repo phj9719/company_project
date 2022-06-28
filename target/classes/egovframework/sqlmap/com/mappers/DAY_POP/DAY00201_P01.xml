@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00201_P01                                                      
+     * 프로그램 명     	: 간호일지내용검색                                               
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-21 14:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00201_P01_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00201_P01">
+	<select id="DAY00201_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*	DAY00201_P01_DS_LIST_S	*/
+		SELECT sicode
+		     , n_number
+		  	 , DATE_FORMAT(n_nalja, '%Y.%m.%d') AS n_nalja
+		     , n_code
+		     , n_name
+		     , 간호일지
+		     , 담당자
+		     , 담당코드
+		FROM kmnurse
+		WHERE sicode = #{sicode}
+		  AND n_nalja BETWEEN  ADDDATE(#{s_date}, INTERVAL -3 MONTH) AND ADDDATE(#{s_date}, INTERVAL 1 MONTH)
+		  AND (간호일지 LIKE CONCAT('%',#{keyword1},'%') OR 간호일지 LIKE CONCAT('%',#{keyword2},'%'))
+		ORDER BY n_nalja DESC, n_name	
+	</select>
+
+	<select id="DAY00201_P01_DS_INTERVAL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/*	DAY00201_P01_DS_INTERVAL_S	*/
+		SELECT CONCAT(
+			 DATE_FORMAT(ADDDATE(#{s_date}, INTERVAL -3 MONTH), '%Y.%m.%d')
+			 , ' - '
+			 , DATE_FORMAT(ADDDATE(#{s_date}, INTERVAL 1 MONTH), '%Y.%m.%d')
+			 ) AS gigan
+	</select>
+</mapper>

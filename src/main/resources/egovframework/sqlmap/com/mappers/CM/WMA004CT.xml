@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-09-01 11:22                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : WMA004CT                                                         
+     * 프로그램 명  :  창고기준관리                                                    
+     * Description : 창고기준관리                                                           
+     *================================================================                  
+                작성일자         |  작성자    |  비고                                    
+     *================================================================                  
+       2017-09-01 11:22        | 배영걸          | 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="WMA004CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="WMA004CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            <![CDATA[ 
+            SELECT 
+					         COMPANY_CD 
+   					     , BIZ_CD 
+   					     , PLANT_CD
+   					     , WHOUSE_CD 
+   					     , WHOUSE_NM
+   					     , WHOUSE_TYPE
+   					     , WHOUSE_GROUP 
+   					     , START_DT 
+   					     , END_DT
+   					     , MRP_YN
+   					     , TAX_TYPE
+   					     , WHOUSE_USER 
+   					     , USE_YN 
+   					     , REG_PGM_ID 
+   					     , REG_USER 
+   					     , REG_DT 
+   					     , REG_DT_CURR 
+   					     , REG_DT_LOC 
+   					     , REG_IP 
+   					     , MOD_PGM_ID 
+   					     , MOD_USER 
+   					     , MOD_DT 
+   					     , MOD_DT_CURR 
+   					     , MOD_DT_LOC 
+   					     , MOD_IP 
+              FROM T_CM_WHOUSE WITH(NOLOCK)                                                                                                                                                                                        
+             WHERE 1=1 
+               AND COMPANY_CD LIKE ISNULL(#{COMPANY_CD},'%')
+         ]]>
+               <if test="BIZ_CD != '' and BIZ_CD != null">
+               AND BIZ_CD = #{BIZ_CD}
+               </if>
+               <if test="WHOUSE_CD != '' and WHOUSE_CD != null">
+               AND WHOUSE_CD = #{WHOUSE_CD}
+               </if>
+               <if test="USE_YN != '' and USE_YN != null">
+               AND USE_YN = #{USE_YN}
+               </if> 
+                                                                                                                                                                                                                   
+                                                                                                                                                                                                                   
+    </select>                                                                                                                                                                                                      
+                                                                                                                                                                                                                   
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="WMA004CT_DS_LIST_I" parameterType="java.util.HashMap">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+			INSERT INTO T_CM_WHOUSE (                                                                                                                                                                                 
+					         COMPANY_CD 
+   					     , BIZ_CD 
+   					     , PLANT_CD
+   					     , WHOUSE_CD 
+   					     , WHOUSE_NM
+   					     , WHOUSE_TYPE
+   					     , WHOUSE_GROUP 
+   					     , START_DT 
+   					     , END_DT
+   					     , MRP_YN
+   					     , TAX_TYPE
+   					     , WHOUSE_USER 
+   					     , USE_YN 
+   					     , REG_PGM_ID 
+   					     , REG_USER 
+   					     , REG_DT 
+   					     , REG_DT_CURR 
+   					     , REG_DT_LOC 
+   					     , REG_IP 
+   					     , MOD_PGM_ID 
+   					     , MOD_USER 
+   					     , MOD_DT 
+   					     , MOD_DT_CURR 
+   					     , MOD_DT_LOC 
+   					     , MOD_IP 
+			) VALUES (                                                                                                                                                                               
+					         #{COMPANY_CD} 
+   					     , #{BIZ_CD} 
+   					     , #{PLANT_CD}
+   					     , #{WHOUSE_CD} 
+   					     , #{WHOUSE_NM}
+   					     , #{WHOUSE_TYPE}
+   					     , #{WHOUSE_GROUP} 
+   					     , #{START_DT} 
+   					     , #{END_DT}
+   					     , #{MRP_YN}
+   					     , #{TAX_TYPE}
+   					     , #{WHOUSE_USER} 
+   					     , #{USE_YN} 
+   					     , #{REG_PGM_ID} 
+   					     , #{REG_USER} 
+   					     , #{REG_DT} 
+   					     , #{REG_DT_CURR} 
+   					     , #{REG_DT_LOC} 
+   					     , #{REG_IP} 
+   					     , '' 
+   					     , '' 
+   					     , '' 
+   					     , '' 
+   					     , '' 
+   					     , '' 
+			)                                                                                                                                                                                                            
+    ]]>                                                                                                                                                                                                            
+    </insert>                                                                                                                                                                                                   
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="WMA004CT_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    <![CDATA[                                                                                                                                                                                                      
+			        UPDATE T_CM_WHOUSE                                                                                                                                                                                              
+					         SET COMPANY_CD = #{COMPANY_CD} 
+       					     , BIZ_CD = #{BIZ_CD} 
+       					     , PLANT_CD = #{PLANT_CD}
+       					     , WHOUSE_CD = #{WHOUSE_CD} 
+       					     , WHOUSE_NM = #{WHOUSE_NM}
+       					     , WHOUSE_TYPE = #{WHOUSE_TYPE}
+       					     , WHOUSE_GROUP = #{WHOUSE_GROUP} 
+       					     , START_DT = #{START_DT} 
+       					     , END_DT = #{END_DT}
+       					     , MRP_YN = #{MRP_YN}
+       					     , TAX_TYPE = #{TAX_TYPE}
+       					     , WHOUSE_USER = #{WHOUSE_USER} 
+       					     , USE_YN = #{USE_YN} 
+       					     , MOD_PGM_ID = #{REG_PGM_ID} 
+       					     , MOD_USER = #{REG_USER} 
+       					     , MOD_DT = #{REG_DT} 
+       					     , MOD_DT_CURR = #{REG_DT_CURR} 
+       					     , MOD_DT_LOC = #{REG_DT_LOC} 
+       					     , MOD_IP = #{REG_IP} 
+			           WHERE 1=1                                                                                                                                                                                      
+                   AND COMPANY_CD  = #{COMPANY_CD}
+                   AND BIZ_CD  = #{BIZ_CD}
+                   AND WHOUSE_CD  = #{WHOUSE_CD}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                                   
+	<!--DELETE  -->                                                                                                                                                                                                   
+     <delete id="WMA004CT_DS_LIST_D" parameterType="java.util.HashMap">                                                                                         
+    <![CDATA[                                                                                                                                                                                                      
+			          DELETE FROM T_CM_WHOUSE                                                                                                                                                                                         
+			           WHERE 1=1                                                                                                                                                                                      
+                   AND COMPANY_CD  = #{COMPANY_CD}
+                   AND BIZ_CD  = #{BIZ_CD}
+                   AND WHOUSE_CD  = #{WHOUSE_CD}
+    ]]>                                                                                                                                                                                                            
+    </delete>
+    
+    <select id="WMA004CT_USER_SET" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+            SELECT CU.USER_ID     AS CMCD
+			,      CU.USER_NM_KOR AS CMNM
+			FROM   T_CM_USER CU WITH(NOLOCK)
+			WHERE  1=1                                                                                                                                                                                    
+    </select>                                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUB_LOGOUT_POP" width="450" height="350" titletext="앱종료 팝업" onclick="formClick" ondevicebuttonup="NUB_LOGOUT_POP_ondevicebuttonup" onload="NUB_LOGOUT_POP_onload">
+    <Layouts>
+      <Layout width="450" height="350" screenid="Tablet">
+        <Div id="div_pop_main" taborder="0" left="0" top="0" background="#FFFFFF" borderRadius="20px" visible="true" onclick="formClick" bottom="0" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta_popTitle" taborder="0" text="로그아웃" left="30" top="26" height="50" textAlign="center" visible="true" onclick="formClick" font="normal 700 30pt/normal &quot;Noto Sans KR&quot;" right="30"/>
+              <Div id="div_btn" taborder="1" left="30" top="220" height="100" right="30">
+                <Layouts>
+                  <Layout>
+                    <Button id="btn_close" taborder="0" text="아니오" left="25" top="15" width="160" height="70" cssclass="btn_tDefaultGray" visible="true" onclick="div_pop_main_div_btn_btn_close_onclick" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;"/>
+                    <Button id="btn_ok" taborder="1" text="네" left="210" top="15" width="160" height="70" cssclass="btn_tDefaultSkyblue" visible="true" onclick="div_pop_main_div_btn_btn_ok_onclick" font="normal 700 25pt/normal &quot;Noto Sans KR&quot;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Static id="sta_text" taborder="2" text="로그아웃 하시겠습니까?" left="56" top="145" width="345" height="50" textAlign="center" cssclass="sta_tPopupText" wordWrap="char" visible="true" onclick="formClick" font="normal 700 20pt/normal &quot;Noto Sans KR&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::tpgm_com.xjs";
+
+this.NUB_LOGOUT_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	
+};
+
+// 디바이스 버튼 이벤트
+this.NUB_LOGOUT_POP_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button ==2)
+	{
+		this.close();
+	}
+};
+
+// 네
+this.div_pop_main_div_btn_btn_ok_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+	this.tLogout();
+};
+
+// 아니오
+this.div_pop_main_div_btn_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+  </Form>
+</FDL>

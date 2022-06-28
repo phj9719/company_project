@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUB501CT                                                         
+     * 프로그램 명     : 로봇인지훈련                                                     
+     * Description : 
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-10-07 16:49        |  박한준         | 최초작성                         
+	  
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB501CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUB501CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">	
+            <![CDATA[ 
+              SELECT A.COMPANY_CD
+					,A.BOM_SEQ
+					,A.RES_ID
+					,A.BOM_DT
+					,(SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS RES_NM
+					,(SELECT NR.AREA
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS AREA
+					,(SELECT NR.LOCATION
+						FROM T_NU_RESIDENT NR
+					   WHERE A.COMPANY_CD = NR.COMPANY_CD
+					     AND A.RES_ID = NR.RES_ID) AS LOCATION          
+					,A.PROGRAM_ID
+					,A.PROGRAM_NM
+					,A.PROG_TIME_ID
+					,A.PROG_TIME_NM
+					,A.CONTENT_ID
+					,A.CONTENT_NM
+					,A.CONT_LVL
+					,FLOOR(A.CONT_PT) AS CONT_PT
+					,A.CORR_PT
+					,A.FRONTAL_PT
+					,A.PARIETAL_PT
+					,A.TEMPORAL_PT
+					,A.MANAGER_ID
+					,A.REG_PGM_ID
+					,A.REG_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+					,A.REG_DT
+					,A.REG_DT_CURR
+					,A.REG_DT_LOC
+					,A.REG_IP
+					,A.MOD_PGM_ID
+					,A.MOD_USER
+					,(SELECT CU.USER_NM_KOR
+						FROM T_CM_USER CU
+					   WHERE A.COMPANY_CD = CU.COMPANY_CD
+					     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+					,A.MOD_DT
+					,A.MOD_DT_CURR
+					,A.MOD_DT_LOC
+					,A.MOD_IP
+					,@ROWNUM:=@ROWNUM+1 AS ROWNUM
+					,CONCAT(A.COMPANY_CD,'_',A.RES_ID,'_', A.BOM_DT,'_', A.PROGRAM_NM) AS KEYVALUE
+              	FROM T_NU_BOMI A
+              		,(SELECT @ROWNUM:=0) ROWNUM                                                                                                                                                                              
+              WHERE 1=1
+            ]]>
+              <if test="COMPANY_CD != '' and COMPANY_CD != null">
+                    AND A.COMPANY_CD = #{COMPANY_CD} 
+              </if>
+              <if test="RES_ID != '' and RES_ID != null">
+					AND	A.RES_ID = #{RES_ID}
+			   </if>
+			  <if test="DATE != '' and DATE != null">                    
+                    AND A.BOM_DT = #{DATE}								                    				    			  	
+              </if>
+    </select>                                                                                                                                                                                                                                                                                                                                                                                                               
+
+	<insert id="NUB501CT_DS_BOMI_INPUT_I" parameterType="java.util.Map">                                                                                            
+	    <![CDATA[                                                                                                                                                                                                      
+			INSERT INTO T_NU_BOMI ( COMPANY_CD
+									,BOM_SEQ
+									,RES_ID
+									,BOM_DT
+									,PROGRAM_ID
+									,PROGRAM_NM
+									,PROG_TIME_ID
+									,PROG_TIME_NM
+									,CONTENT_ID
+									,CONTENT_NM
+									,CONT_LVL
+									,CONT_PT
+									,CORR_PT
+									,FRONTAL_PT
+									,PARIETAL_PT
+									,TEMPORAL_PT
+									,MANAGER_ID
+									,REG_PGM_ID
+									,REG_USER
+									,REG_DT
+									,REG_DT_CURR
+									,REG_DT_LOC
+									,REG_IP
+                                   )
+                            VALUES ( #{COMPANY_CD	}
+									,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_BOMI ),12,0)))
+									,#{RES_ID       }
+									,#{BOM_DT       }
+									,#{PROGRAM_ID   }
+									,#{PROGRAM_NM   }
+									,#{PROG_TIME_ID }
+									,#{PROG_TIME_NM }
+									,#{CONTENT_ID   }
+									,#{CONTENT_NM   }
+									,#{CONT_LVL     }
+									,#{CONT_PT      }
+									,#{CORR_PT      }
+									,#{FRONTAL_PT   }
+									,#{PARIETAL_PT  }
+									,#{TEMPORAL_PT  }
+									,#{MANAGER_ID   }
+									,#{REG_PGM_ID   }
+									,#{REG_USER     }
+									,#{REG_DT       }
+									,#{REG_DT_CURR  }
+									,#{REG_DT_LOC   }
+									,#{REG_IP       }
+                                   )                                                                                                                                                                                  
+    	]]>
+	</insert>
+	<update id="NUB501CT_DS_BOMI_INPUT_U" parameterType="java.util.Map">
+    	<![CDATA[  
+           	  UPDATE T_NU_BOMI
+              	 SET RES_ID       = #{RES_ID       }
+					,BOM_DT       = #{BOM_DT       }
+					,PROGRAM_ID   = #{PROGRAM_ID   }
+					,PROGRAM_NM   = #{PROGRAM_NM   }
+					,PROG_TIME_ID = #{PROG_TIME_ID }
+					,PROG_TIME_NM = #{PROG_TIME_NM }
+					,CONTENT_ID   = #{CONTENT_ID   }
+					,CONTENT_NM   = #{CONTENT_NM   }
+					,CONT_LVL     = #{CONT_LVL     }
+					,CONT_PT      = #{CONT_PT      }
+					,CORR_PT      = #{CORR_PT      }
+					,FRONTAL_PT   = #{FRONTAL_PT   }
+					,PARIETAL_PT  = #{PARIETAL_PT  }
+					,TEMPORAL_PT  = #{TEMPORAL_PT  }
+					,MANAGER_ID   = #{MANAGER_ID   }
+					,MOD_PGM_ID   = #{MOD_PGM_ID   }
+					,MOD_USER     = #{MOD_USER     }
+					,MOD_DT       = #{MOD_DT       }
+					,MOD_DT_CURR  = #{MOD_DT_CURR  }
+					,MOD_DT_LOC   = #{MOD_DT_LOC   }
+					,MOD_IP       = #{MOD_IP       }
+            WHERE COMPANY_CD = #{COMPANY_CD}
+              AND BOM_SEQ = #{BOM_SEQ} 
+           ]]>
+	</update>
+	<delete id="NUB501CT_DS_LIST_D" parameterType="java.util.Map">                                                                                         
+	    <![CDATA[                                                                                                                                                                                           
+		BEGIN NOT ATOMIC
+		        DELETE FROM T_NU_BOMI
+		         WHERE COMPANY_CD = #{COMPANY_CD}
+		           AND BOM_SEQ = #{BOM_SEQ};
+		END ;
+	    ]]>
+	</delete>
+ 
+     <select id="NUB501CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+	            SELECT USER_ID AS CMCD
+				      ,USER_NM_KOR AS CMNM
+				  FROM T_CM_USER
+				 WHERE COMPANY_CD = #{COMPANY_CD}
+				   AND RANK_CD IN ('4', '7', '8')
+				   AND USE_YN = 'Y'
+     ]]>                                                                                                                                                                 
+    </select>
+                                                                                                                                                                             
+</mapper>                                                                                                                                                                                                          

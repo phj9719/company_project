@@ -1,0 +1,1389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00711" width="1920" height="800" titletext="7-11 운영위원회·보호자회의록" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="450" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="0" autoenter="select" onsetfocus="grd_list_onsetfocus" binddataset="ds_list" width="450" autofittype="col" height="748" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="110"/>
+                            <Column size="50"/>
+                            <Column size="280"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="회의일자"/>
+                            <Cell col="1" text="구분"/>
+                            <Cell col="2" text="회의명"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell cursor="pointer" displaytype="date" expandchar="dot" cssclass="cellBWoman" text="bind:회의일자"/>
+                            <Cell col="1" textAlign="center" text="bind:회의구분" displaytype="combotext" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="2" text="bind:회의명" textAlign="left"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" left="div_left:20" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_main" taborder="0" left="0" top="0" background="#ffffff" border="1px solid #e2e2e2" width="1110" height="748" text="">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_subTitle" taborder="26" text="운영위원회·보호자 회의록" left="464" top="9" width="183" height="26" cssclass="lb01"/>
+                          <Static id="sta_no" taborder="27" text="기록번호 : " left="24" top="10" width="58" height="26"/>
+                          <Static id="sta_no_value" taborder="28" text="00000000" left="87" top="10" width="60" height="26"/>
+                          <Div id="div_line" taborder="29" left="20" top="40" height="1" background="#e2e2e2" right="20"/>
+                          <Static id="sta_head1" taborder="30" text="회의구분" left="20" top="52" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body1" taborder="31" left="sta_head1:-1" top="sta_head1:-34" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Button id="btn_reset" taborder="2" text="새로고침" left="576" top="56" width="90" height="25" onclick="btn_reset_onclick" cssclass="btn_refresh"/>
+                          <Static id="sta_head2" taborder="34" text="회의일" left="20" top="sta_head1:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body2" taborder="35" left="sta_head2:-1" top="sta_body1:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head3" taborder="36" text="회의명" left="20" top="sta_head2:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body3" taborder="37" left="sta_head3:-1" top="sta_body2:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head4" taborder="38" text="회의장소" left="20" top="sta_head3:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body4" taborder="39" left="sta_head4:-1" top="sta_body3:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head5" taborder="40" text="출석현황" left="20" top="sta_head4:-1" width="83" height="67" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body5" taborder="41" left="sta_head5:-1" top="sta_body4:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_body5_1" taborder="54" left="sta_head5:-1" top="sta_body5:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head6" taborder="56" text="출석위원" left="20" top="sta_head5:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body6" taborder="55" left="102" top="sta_body5_1:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head7" taborder="42" text="불참위원" left="20" top="283" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body7" taborder="43" left="sta_head7:-1" top="sta_body6:-1" width="570" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head8" taborder="44" left="20" top="sta_head7:-1" width="83" height="34" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+                          <Static id="sta_body8" taborder="45" left="sta_head8:-1" top="sta_body7:-1" width="980" height="34" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head9" taborder="46" left="20" top="sta_head8:-1" width="83" height="164" cssclass="sta_WF_DetailLabel01" textAlign="center" text="회의내용&#13;&#10;-안건"/>
+                          <Static id="sta_body9" taborder="47" left="sta_head9:-1" top="sta_body8:-1" width="980" height="164" cssclass="sta_WF_DetailLabel02"/>
+                          <Static id="sta_head10" taborder="48" left="20" top="sta_head9:-1" width="83" height="164" cssclass="sta_WF_DetailLabel01" textAlign="center" text="회의내용&#13;&#10;-결과"/>
+                          <Static id="sta_body10" taborder="49" left="sta_head10:-1" top="sta_body9:-1" width="980" height="164" cssclass="sta_WF_DetailLabel02"/>
+                          <Edit id="edt_con_name" taborder="13" left="sta_body3:-565" top="sta_body3:-30" width="559" height="25" cssclass="essential" maxlength="80"/>
+                          <Edit id="edt_place" taborder="14" left="sta_body4:-565" top="sta_body4:-30" width="559" height="25" cssclass="essential" maxlength="30"/>
+                          <CheckBox id="chk_meet_tp1" taborder="0" text="운영위원회" left="sta_body1:-565" top="sta_body1:-28" width="90" height="26" onchanged="chk_meet_tp_onchanged" truevalue="1" falsevalue="0"/>
+                          <CheckBox id="chk_meet_tp2" taborder="1" text="보호자회의" left="chk_meet_tp1:0" top="chk_meet_tp1:-26" width="90" height="26" onchanged="chk_meet_tp_onchanged" truevalue="2" falsevalue="0"/>
+                          <Button id="btn_manager" taborder="21" text="작성자" left="sta_head8:-78" top="sta_head8:-30" width="73" height="25" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                          <Static id="sta_manager_value" taborder="50" text="너싱홈/20220001" left="sta_body8:-970" top="sta_body8:-28" width="180" height="22"/>
+                          <TextArea id="txt_content1" taborder="22" left="sta_body9:-975" top="sta_body9:-160" width="970" height="155" maxlength="2000" scrollbartype="fixed" scrolltype="vertical" wordWrap="char"/>
+                          <Static id="sta_remark" taborder="51" text="▶ 회의내용(회의록)과 운영위/보호자 회의 참석자 본인의 자필서명된 참석자 서명부를 별도로 첨부해야 함." left="sta_body10:-975" top="sta_body10:4" width="700" height="20" cssclass="sta_comm"/>
+                          <ImageViewer id="imv_pic" taborder="52" left="681" top="52" width="400" height="230" tabstop="false"/>
+                          <Edit id="edt_pic" taborder="53" left="imv_pic:-400" top="imv_pic:3" width="210" height="25" readonly="true" tabstop="false"/>
+                          <Button id="btn_pic" taborder="24" text="사진첨부" left="edt_pic:5" top="imv_pic:3" width="90" height="25" onclick="div_cont_div_right_div_main_btn_pic_onclick" cssclass="btn_addimage"/>
+                          <Button id="btn_pic_del" taborder="25" text="사진지움" top="btn_pic:-25" width="90" height="25" onclick="div_cont_div_right_div_main_btn_pic_del_onclick" right="27" cssclass="btn_deleteimage"/>
+                          <Calendar id="cal_date" taborder="3" left="sta_body2:-565" top="sta_body2:-30" width="90" height="25" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" tabstop="false"/>
+                          <Calendar id="cal_date_pic" taborder="4" left="cal_date:0" top="cal_date:-25" width="25" height="25" enable="false"/>
+                          <MaskEdit id="mae_from_hour" taborder="5" left="cal_date_pic:5" top="cal_date:-25" width="40" height="25" format="##시" type="string" textAlign="center" value="00" onchanged="mae_hour_onchanged" onkeydown="mae_hour_onkeydown"/>
+                          <Spin id="spn_from_hour" taborder="6" left="mae_from_hour:-1" top="mae_from_hour:-25" width="23" height="25" increment="1" min="0" max="23" buttonposition="right" type="spinonly" onspin="spn_onspin" value=""/>
+                          <MaskEdit id="mae_from_min" taborder="7" left="spn_from_hour:2" top="cal_date:-25" width="40" height="25" format="##분" type="string" textAlign="center" value="00" onchanged="mae_min_onchanged" onkeydown="mae_min_onkeydown"/>
+                          <Spin id="spn_from_min" taborder="8" left="mae_from_min:-1" top="mae_from_min:-25" width="23" height="25" increment="1" min="0" max="59" buttonposition="right" type="spinonly" value="" onspin="spn_onspin"/>
+                          <Static id="sta_time_from" taborder="32" text="부터" left="spn_from_min:6" top="cal_date:-22" width="30" height="23" textAlign="center"/>
+                          <MaskEdit id="mae_to_hour" taborder="9" left="sta_time_from:6" top="cal_date:-25" width="40" height="25" format="##시" type="string" textAlign="center" value="00" onchanged="mae_hour_onchanged" onkeydown="mae_hour_onkeydown"/>
+                          <Spin id="spn_to_hour" taborder="10" left="mae_to_hour:-1" top="mae_to_hour:-25" width="23" height="25" increment="1" min="0" max="23" buttonposition="right" type="spinonly" onspin="spn_onspin" value=""/>
+                          <MaskEdit id="mae_to_min" taborder="11" left="spn_to_hour:2" top="cal_date:-25" width="40" height="25" format="##분" type="string" textAlign="center" value="00" onchanged="mae_min_onchanged" onkeydown="mae_min_onkeydown"/>
+                          <Spin id="spn_to_min" taborder="12" left="mae_to_min:-1" top="mae_to_min:-25" width="23" height="25" increment="1" min="0" max="59" buttonposition="right" type="spinonly" value="" onspin="spn_onspin"/>
+                          <Static id="sta_time_to" taborder="33" text="까지" left="spn_to_min:6" top="cal_date:-22" width="30" height="23" textAlign="center"/>
+                          <TextArea id="txt_content2" taborder="23" left="sta_body10:-975" top="sta_body10:-160" width="970" height="155" maxlength="2000" wordWrap="char" scrollbartype="fixed" scrolltype="vertical"/>
+                          <Static id="sta_enroll_count" taborder="57" text="재적위원 : " left="sta_body5_1:-562" top="sta_body5_1:-58" width="64" height="22"/>
+                          <Static id="sta_att_count" taborder="58" text="참석위원 : " left="sta_body5_1:-562" top="sta_body5_1:-26" width="64" height="22"/>
+                          <Edit id="edt_enroll_count" taborder="15" left="sta_enroll_count:6" top="sta_enroll_count:-26" width="40" height="25" inputtype="number" onkeydown="edt_count_onkeydown" cssclass="essential" maxlength="3"/>
+                          <Edit id="edt_att_count" taborder="17" left="sta_att_count:6" top="sta_att_count:-25" width="40" height="25" inputtype="number" onkeydown="edt_count_onkeydown" cssclass="essential" maxlength="3"/>
+                          <Spin id="spn_enroll_count" taborder="16" left="edt_enroll_count:-1" top="edt_enroll_count:-25" width="23" height="25" increment="1" min="0" max="999" buttonposition="right" type="spinonly" value="" onspin="spn_count_onspin"/>
+                          <Spin id="spn_att_count" taborder="18" left="edt_att_count:-1" top="edt_att_count:-25" width="23" height="25" increment="1" min="0" max="999" buttonposition="right" type="spinonly" value="" onspin="spn_count_onspin"/>
+                          <Static id="sta_unit1" taborder="59" text="명" left="spn_enroll_count:2" top="sta_enroll_count:-22" width="20" height="22"/>
+                          <Static id="sta_unit2" taborder="60" text="명" left="spn_att_count:2" top="sta_att_count:-22" width="20" height="22"/>
+                          <Edit id="edt_att" taborder="19" left="107" top="254" width="559" height="25" maxlength="80"/>
+                          <Edit id="edt_not_att" taborder="20" left="107" top="287" width="559" height="25" maxlength="80"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Combo id="cmb_year" taborder="0" left="16" top="7" width="90" height="26" type="filterlike" autoselect="true" innerdataset="ds_year" codecolumn="CMCD" datacolumn="CMNM" onitemchanged="div_search_cmb_year_onitemchanged"/>
+              <Button id="btn_search" taborder="6" text="조회" top="7" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" right="0"/>
+              <Calendar id="cal_date_from" taborder="1" left="116" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0 0" tabstop="false"/>
+              <Static id="sta_00" taborder="3" text="~" left="234" top="12" width="8" height="17" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="4" left="246" top="7" width="90" height="26" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0 0" tabstop="false"/>
+              <Calendar id="cal_date_from_pic" taborder="2" left="cal_date_from:-1" top="7" width="25" height="26" onchanged="cal_date_pic_onchanged"/>
+              <Calendar id="cal_date_to_pic" taborder="5" left="cal_date_to:-1" top="7" width="25" height="26" onchanged="cal_date_pic_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="470" top="0" height="40" formscrollbartype="none" width="1110">
+          <Layouts>
+            <Layout>
+              <Button id="btn_new" taborder="0" text="새로작성" left="0" top="7" width="90" height="26" onclick="div_func_btn_new_onclick" cssclass="btn_newdoc"/>
+              <CheckBox id="chk_sign" taborder="1" text="결재란" left="126" top="7" width="55" height="26" truevalue="1" falsevalue="0"/>
+              <Button id="btn_delete" taborder="11" text="삭제" top="7" width="70" height="26" onclick="fn_deleteBtn" right="0" cssclass="btn_delete"/>
+              <Button id="btn_save" taborder="10" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" right="btn_delete:5" cssclass="btn_save"/>
+              <Static id="sta_report_body" taborder="12" left="188" top="5" width="305" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <CheckBox id="chk_repo1" taborder="2" text="운영위(1)" left="191" top="7" width="75" height="26" truevalue="1" falsevalue="0" onchanged="chk_repo1_onchanged"/>
+              <CheckBox id="chk_repo1_1" taborder="3" text="운영위(2)" left="275" top="7" width="75" height="26" truevalue="2" falsevalue="0" onchanged="chk_repo1_onchanged"/>
+              <Button id="btn_report1" taborder="5" text="출력" left="420" top="7" width="70" height="26" onclick="fn_report1_btn" cssclass="btn_print"/>
+              <CheckBox id="chk_repo2" taborder="4" text="서명부" left="359" top="7" width="55" height="26" truevalue="1" falsevalue="0"/>
+              <Static id="sta_report_body2" taborder="13" left="520" top="5" width="305" height="30" cssclass="sta_WF_DetailLabel02"/>
+              <CheckBox id="chk_repo3" taborder="6" text="보호자(1)" left="524" top="7" width="75" height="26" truevalue="1" falsevalue="0" onchanged="chk_repo3_onchanged"/>
+              <CheckBox id="chk_repo3_1" taborder="7" text="보호자(2)" left="604" top="7" width="75" height="26" truevalue="2" falsevalue="0" onchanged="chk_repo3_onchanged"/>
+              <Button id="btn_report2" taborder="9" text="출력" left="752" top="7" width="70" height="26" cssclass="btn_print" onclick="fn_report2_btn"/>
+              <CheckBox id="chk_repo4" taborder="8" text="서명부" left="689" top="7" width="60" height="26" truevalue="2" falsevalue="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="회의번호" type="INT" size="256"/>
+          <Column id="회의일자" type="DATE" size="256"/>
+          <Column id="회의구분" type="INT" size="256"/>
+          <Column id="회의명" type="STRING" size="256"/>
+          <Column id="회의시간" type="STRING" size="256"/>
+          <Column id="회의장소" type="STRING" size="256"/>
+          <Column id="재적인원" type="INT" size="256"/>
+          <Column id="출석인원" type="INT" size="256"/>
+          <Column id="출석위원" type="STRING" size="256"/>
+          <Column id="불참위원" type="STRING" size="256"/>
+          <Column id="회의안건" type="STRING" size="256"/>
+          <Column id="회의결과" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+          <Column id="작성자코드" type="STRING" size="256"/>
+          <Column id="daysajin" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_REAL_NAME" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="YEAR" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_year">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">2021</Col>
+            <Col id="CMNM">2021년</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2022</Col>
+            <Col id="CMNM">2022년</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="회의번호" type="INT" size="256"/>
+          <Column id="회의일자" type="DATE" size="256"/>
+          <Column id="회의구분" type="INT" size="256"/>
+          <Column id="구분1" type="INT" size="256"/>
+          <Column id="구분2" type="INT" size="256"/>
+          <Column id="회의명" type="STRING" size="256"/>
+          <Column id="회의시간" type="STRING" size="256"/>
+          <Column id="FROM_HOUR" type="STRING" size="256"/>
+          <Column id="FROM_MIN" type="STRING" size="256"/>
+          <Column id="TO_HOUR" type="STRING" size="256"/>
+          <Column id="TO_MIN" type="STRING" size="256"/>
+          <Column id="회의장소" type="STRING" size="256"/>
+          <Column id="재적인원" type="INT" size="256"/>
+          <Column id="출석인원" type="INT" size="256"/>
+          <Column id="출석위원" type="STRING" size="256"/>
+          <Column id="불참위원" type="STRING" size="256"/>
+          <Column id="회의안건" type="STRING" size="256"/>
+          <Column id="회의결과" type="STRING" size="256"/>
+          <Column id="작성자명" type="STRING" size="256"/>
+          <Column id="작성자코드" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+          <Column id="daysajin" type="STRING" size="256"/>
+          <Column id="FILE_GRP_ID" type="STRING" size="256"/>
+          <Column id="FILE_GPR_ID_O" type="STRING" size="256"/>
+          <Column id="FILE_REAL_NAME" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report">
+        <ColumnInfo>
+          <Column id="REPO1" type="STRING" size="256"/>
+          <Column id="R1" type="STRING" size="256"/>
+          <Column id="R1_1" type="STRING" size="256"/>
+          <Column id="REPO2" type="STRING" size="256"/>
+          <Column id="REPO3" type="STRING" size="256"/>
+          <Column id="R3" type="STRING" size="256"/>
+          <Column id="R3_1" type="STRING" size="256"/>
+          <Column id="REPO4" type="STRING" size="256"/>
+          <Column id="SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_tp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">운영</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">보호</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cmb_year" propid="value" datasetid="ds_search" columnid="YEAR"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_no_value" propid="text" datasetid="ds_data" columnid="회의번호"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.cal_date" propid="value" datasetid="ds_data" columnid="회의일자"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.mae_from_hour" propid="value" datasetid="ds_data" columnid="FROM_HOUR"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.mae_from_min" propid="value" datasetid="ds_data" columnid="FROM_MIN"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.mae_to_hour" propid="value" datasetid="ds_data" columnid="TO_HOUR"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.mae_to_min" propid="value" datasetid="ds_data" columnid="TO_MIN"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.edt_con_name" propid="value" datasetid="ds_data" columnid="회의명"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.edt_place" propid="value" datasetid="ds_data" columnid="회의장소"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.chk_meet_tp1" propid="value" datasetid="ds_data" columnid="구분1"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.chk_meet_tp2" propid="value" datasetid="ds_data" columnid="구분2"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.sta_manager_value" propid="text" datasetid="ds_data" columnid="VIEW_MANAGER"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.txt_content1" propid="value" datasetid="ds_data" columnid="회의안건"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.edt_pic" propid="value" datasetid="ds_data" columnid="daysajin"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.txt_content2" propid="value" datasetid="ds_data" columnid="회의결과"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.edt_enroll_count" propid="value" datasetid="ds_data" columnid="재적인원"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.edt_att_count" propid="value" datasetid="ds_data" columnid="출석인원"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.edt_att" propid="value" datasetid="ds_data" columnid="출석위원"/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.edt_not_att" propid="value" datasetid="ds_data" columnid="불참위원"/>
+      <BindItem id="item21" compid="div_func.form.chk_sign" propid="value" datasetid="ds_report" columnid="SIGN"/>
+      <BindItem id="item22" compid="div_func.form.chk_repo1" propid="value" datasetid="ds_report" columnid="R1"/>
+      <BindItem id="item23" compid="div_func.form.chk_repo1_1" propid="value" datasetid="ds_report" columnid="R1_1"/>
+      <BindItem id="item24" compid="div_func.form.chk_repo2" propid="value" datasetid="ds_report" columnid="REPO2"/>
+      <BindItem id="item25" compid="div_func.form.chk_repo3" propid="value" datasetid="ds_report" columnid="R3"/>
+      <BindItem id="item26" compid="div_func.form.chk_repo3_1" propid="value" datasetid="ds_report" columnid="R3_1"/>
+      <BindItem id="item27" compid="div_func.form.chk_repo4" propid="value" datasetid="ds_report" columnid="REPO4"/>
+      <BindItem id="item28" compid="div_search.form.cal_date_from_pic" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item29" compid="div_search.form.cal_date_to_pic" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.cal_date_pic" propid="value" datasetid="ds_data" columnid="회의일자"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00711
+ * 화면명   	: 7-11 운영위원회·보호자 회의록
+ * 화면설명 	: 운영위원회·보호자 회의 내역을 기록하는 화면
+ * 작성일   	: 2022-03-15
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-04-05		조기종		단위테스트 오류 수정
+ *	2022-04-07		조기종		파일 관련 로직 수정
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	
+	// 년도 콤보박스 세팅
+	this.ds_year.set_enableevent(false);
+	this.ds_year.clearData();
+	let nRow;
+	for (let i = 10; i > 0; i--)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year - i);
+		this.ds_year.setColumn(nRow, "CMNM", (year - i) + "년");
+	}
+	for (let i = 0; i < 11; i++)
+	{
+		nRow = this.ds_year.addRow();
+		this.ds_year.setColumn(nRow, "CMCD", year + i);
+		this.ds_year.setColumn(nRow, "CMNM", (year + i) + "년");
+	}
+	this.ds_year.set_enableevent(true);
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "YEAR", year);
+	this.ds_search.setColumn(0, "DATE_FROM", year + '0101');
+	this.ds_search.setColumn(0, "DATE_TO", year + '1231');
+	
+	// 리포트 출력 초기화
+	this.ds_report.setColumn(0, "REPO1", 1);
+	this.ds_report.setColumn(0, "R1", 1);
+	this.ds_report.setColumn(0, "REPO2", 1);
+	this.ds_report.setColumn(0, "REPO3", 1);
+	this.ds_report.setColumn(0, "R3", 1);
+	this.ds_report.setColumn(0, "REPO4", 2);
+	this.ds_report.setColumn(0, "SIGN", 1);
+ 	
+	// 오픈시 조회
+	this.fn_search("search");
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	if (this.ds_data.rowcount > 0)
+		this.reSearchData = this.ds_data.getColumn(0, "회의번호");
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// validation
+	if (this.ds_data.getColumn(0, "회의명").length < 5)
+	{
+		this.alert("회의명은 5글자 이상이어야 합니다.");
+		return false;
+	}
+	
+	const valiArr = ["회의장소"];
+	for (let i = 0; i < valiArr.length; i++)
+	{
+		if (this.ds_data.getColumn(0, valiArr[i]).length < 2)
+		{
+			this.alert(valiArr[i] + "는 2글자 이상이어야 합니다.");
+			return false;
+		}
+	}
+	
+	if (parseInt(this.ds_data.getColumn(0, "재적인원")) < 1)
+	{
+		this.alert("재적위원은 1명 이상이어야 합니다.");
+		return false;
+	}
+	if (parseInt(this.ds_data.getColumn(0, "출석인원")) < 1)
+	{
+		this.alert("참석위원은 1명 이상이어야 합니다.");
+		return false;
+	}
+	
+	// 작성자가 지정되지 않은 경우
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "작성자코드")))
+	{
+		this.alert("작성직원을 지정해야합니다.");
+		return false;
+	}
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+		
+	
+	const fHour = this.ds_data.getColumn(0, "FROM_HOUR");
+	const fMin = this.ds_data.getColumn(0, "FROM_MIN");
+	const tHour = this.ds_data.getColumn(0, "TO_HOUR");
+	const tMin = this.ds_data.getColumn(0, "TO_MIN");
+	const timeStr = fHour + ":" + fMin + "-" + tHour + ":" + tMin;
+	this.ds_data.setColumn(0, "회의시간", timeStr);
+	
+	if (this.ds_data.getRowType(0) == 2)
+	{
+		this.searchFlag = "I";
+		this.reSearchData = "";
+	}
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 데이터셋 상태가 추가상태이면 데이터셋 비우기
+	if(this.ds_data.getRowType(0) == 2)
+	{
+		this.ds_data.clearData();
+		this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(false);
+		return false;
+	}
+
+	if (!this.confirm("삭제 하시겠습니까?"))
+		return false;
+		
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_data.set_updatecontrol(true);
+		
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function (flag)
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00711.DAY00711_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	// validation
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const params = "/DAY00711Controller.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=save";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/DAY00711Controller.do";
+	const inDatasets = "input1=ds_data:U";
+	const outDatasets = "";
+	const argument = "method=delete";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_data.clearData();
+			this.ds_list.set_rowposition(-1);
+		}
+		else if (strSvcID == "search_save")
+		{
+			const sRow = this.fn_findMstRow(this.reSearchData, this.searchFlag);
+			this.searchFlag = "";
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search_save");
+		}
+		else if (strSvcID == "delete")
+		{
+			this.alert("삭제되었습니다.");
+			this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image("");
+			this.ds_data.clearData();
+			this.ds_emp.clearData();
+			this.fn_search("search");
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/**
+ * 특정위치의 문자열 바꾸기
+ * 
+ * @param str 원본 문자열
+ * @param character 바꿀 문자값
+ * @param index 바꿀 위치
+ */
+this.stringReplaceAt = function(str, character, index)
+{
+	return str.substr(0, index) + character + str.substr(index + character.length);
+};
+
+/**
+ * 집중배설관찰 DB입력용 String 만들기
+ * 
+ * @param cRow 바꿀 문자 index
+ * @param str1 원본 문자열
+ * @param col 데이터셋 컬럼명
+ * @param value 바꿀 문자값
+ * @param offset 문자 간격
+ * @ds dataset 데이터셋
+ */
+this.fn_valueSet = function(cRow, str1, col, value, offset, ds)
+{
+	let index;
+	if(offset == null || offset == 0)
+	{
+		str1 = this.stringReplaceAt(str1, value, cRow);
+		ds.setColumn(0, col, str1);
+	}
+	else
+	{
+		index = cRow * offset;
+		str1 = this.stringReplaceAt(str1, value, index);
+		ds.setColumn(0, col, str1);
+	}
+};
+
+// 입력, 수정용 데이터셋에 데이터 복사
+this.fn_dataCopy = function(row)
+{
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	this.ds_data.copyRow(nRow, this.ds_list, row);
+	
+	// 회의구분
+	const tpStr = this.ds_data.getColumn(nRow, "회의구분");
+	if (tpStr == 1)
+		this.ds_data.setColumn(nRow, "구분1", 1);
+	else if (tpStr == 2)
+		this.ds_data.setColumn(nRow, "구분2", 2);
+	
+	// 회의일자
+	this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(false);
+	
+	// 회의시간
+	const timeStr = this.ds_data.getColumn(nRow, "회의시간");
+	this.ds_data.setColumn(nRow, "FROM_HOUR", timeStr.substr(0, 2));
+	this.ds_data.setColumn(nRow, "FROM_MIN", timeStr.substr(3, 2));
+	this.ds_data.setColumn(nRow, "TO_HOUR", timeStr.substr(6, 2));
+	this.ds_data.setColumn(nRow, "TO_MIN", timeStr.substr(9, 2));
+	// 스핀에도 값 세팅
+	this.div_cont.form.div_right.form.div_main.form.spn_from_hour.set_value(parseInt(timeStr.substr(0, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_from_min.set_value(parseInt(timeStr.substr(3, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_to_hour.set_value(parseInt(timeStr.substr(6, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_to_min.set_value(parseInt(timeStr.substr(9, 2)));
+	
+	// 재적인원 스핀
+	this.div_cont.form.div_right.form.div_main.form.spn_enroll_count.set_value(this.ds_data.getColumn(0, "재적인원"));
+	// 출석인원 스핀
+	this.div_cont.form.div_right.form.div_main.form.spn_att_count.set_value(this.ds_data.getColumn(0, "출석인원"));
+	
+	// 작성자
+	const managerStr = this.ds_data.getColumn(nRow, "작성자명")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "작성자코드");
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	// 사진
+	this.fn_getSignImage();
+	this.ds_data.setColumn(nRow, "FILE_GRP_ID_O", this.ds_data.getColumn(nRow, "FILE_GRP_ID"));
+	
+	this.ds_data.set_updatecontrol(false);
+	this.ds_data.setRowType(nRow, 1);
+	this.ds_data.set_updatecontrol(true);
+};
+
+// 작업후 작업 정보 조회
+this.fn_findMstRow = function(fv_saveRefNo, flag) {
+	let sFindRow = this.ds_list.findRow("회의번호", fv_saveRefNo);
+	
+	if (flag == "I")
+		sFindRow = this.ds_list.findRow("회의번호", this.ds_list.getMax("회의번호"));
+	
+	if (sFindRow > -1) {
+		this.ds_list.set_rowposition(sFindRow);
+		this.fn_dataCopy(sFindRow);
+	}
+	
+	return sFindRow;
+};
+
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";		
+		imgUrl = webHost + path + fileGrp;
+	}
+	
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image(imgUrl);
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report1 = function(tp)
+{
+	const fileGrp = this.ds_data.getColumn(0, "FILE_REAL_NAME");
+	let repo1 = "";
+	let repo2 = "";
+	// 운영위원회 회의록
+	if (tp == "1")
+	{
+		repo1 = this.ds_report.getColumn(0, "REPO1");
+		repo2 = this.ds_report.getColumn(0, "REPO2");
+	}
+	// 보호자 회의록
+	else if (tp == "2")
+	{
+		repo1 = this.ds_report.getColumn(0, "REPO3");
+		repo2 = this.ds_report.getColumn(0, "REPO4");
+	}
+	
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+	let jrfArr = [];
+	
+	if (repo1 == "1")
+		jrfArr.push("DAY00711_R01.jrf");
+	else if (repo1 == "2")
+		jrfArr.push("DAY00711_R02.jrf");
+		
+	if (repo2 == "1")
+		jrfArr.push("DAY00711_R03.jrf");
+	else if (repo2 == "2")
+		jrfArr.push("DAY00711_R04.jrf");
+		
+	for (let i = 0; i < jrfArr.length; i++)
+	{
+		if (i == 0)
+			jrfFile += jrfArr[i];
+		else
+			jrfFile += ","+jrfArr[i];
+	}
+	
+	let arg = "P_SICODE#" + fv_sicode + "#"
+			+ "P_NO#" + this.ds_data.getColumn(0, "회의번호") + "#"
+			+ "P_SIGN#" + this.ds_report.getColumn(0, "SIGN") + "#"
+			+ "P_PRO_TP#" + tp + "#";
+			
+	if (!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/FILES";
+		const imgUrl = webHost + path + fileGrp;
+		arg += "P_PATH#" + imgUrl.replace("/ /g", "%20") + "#";
+	}
+	
+	const mul = true;
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg, mul);
+};
+
+// 작성자 선택 팝업
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount < 1)
+		return;
+	
+	const param = {
+			SICODE : fv_sicode
+		,	DATE : this.ds_data.getColumn(0, "회의일자")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "작성자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 사진첨부
+this.div_cont_div_right_div_main_btn_pic_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount == 0)
+		return;
+
+	//fileGroupId 설정
+	this.fileGroupId = Sct.Util.isEmpty(this.ds_data.getColumn(0, "FILE_GRP_ID")) ? "" : this.ds_data.getColumn(0, "FILE_GRP_ID");
+	
+	const param = {
+		folderName:"DAY/DAY00711"
+	,	multiYn : "N"
+	,	extName : "image"
+	};
+	Sct.popup(this, "imgFILEUPLOAD", 326, 226, "", param, "CM_POP::FILEUPLOAD.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_data.setColumn(0, "작성자명", name);
+				this.ds_data.setColumn(0, "작성자코드", staffid);
+				this.ds_data.setColumn(0, "VIEW_MANAGER", name + "/" + staffid);
+			}
+			else
+			{
+				this.ds_data.setColumn(0, "작성자명", "");
+				this.ds_data.setColumn(0, "작성자코드", "");
+				this.ds_data.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		// 사진첨부
+		case "imgFILEUPLOAD" :
+			const dataGrpId = this.ds_data.getColumn(0, "FILE_GRP_ID");
+			
+			if (this.ds_data.getColumn(0, "FILE_REAL_NAME") != objDs.getColumn(0, "FILE_REAL_NAME")) 
+			{
+				this.ds_data.setColumn(0, "FILE_GRP_ID", objDs.getColumn(0, "FILE_GRP_ID"));
+				this.ds_data.setColumn(0, "FILE_REAL_NAME", objDs.getColumn(0, "FILE_REAL_NAME"));
+				this.ds_data.setColumn(0, "daysajin", Sct.Util.isEmpty(objDs.getColumn(0, "FILE_NAME")) ? "" : objDs.getColumn(0, "FILE_NAME"));
+				this.fn_getSignImage();
+			}
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search("search");
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 운영위 출력 버튼
+this.fn_report1_btn = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("출력할 항목을 선택해주세요.");
+		return false;
+	}
+	
+	if (this.ds_data.getRowType(0) == 2)
+	{
+		return false;
+	}
+	
+	if (this.ds_data.getColumn(0, "회의구분") == "2")
+	{
+		this.alert("해당 항목은 보호자 회의록입니다. 보호자 회의록 출력 버튼을 눌러주세요.");
+		return false;
+	}
+
+	const tp = "1";
+	this.fn_report1(tp);
+};
+
+// 보호자 출력 버튼
+this.fn_report2_btn = function()
+{
+	if (this.ds_data.rowcount == 0)
+	{
+		this.alert("출력할 항목을 선택해주세요.");
+		return false;
+	}
+	
+	if (this.ds_data.getRowType(0) == 2)
+	{
+		return false;
+	}
+	
+	if (this.ds_data.getColumn(0, "회의구분") == "1")
+	{
+		this.alert("해당 항목은 운영위원회 회의록입니다. 운영위원회 회의록 출력 버튼을 눌러주세요.");
+		return false;
+	}
+
+	const tp = "2";
+	this.fn_report1(tp);
+};
+
+
+// 조회조건 년도 값 변경 이벤트
+this.div_search_cmb_year_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "DATE_FROM", e.postvalue + '0101');
+	this.ds_search.setColumn(0, "DATE_TO", e.postvalue + '1231');
+	this.div_search.form.cal_date_from_pic.set_value(e.postvalue + "0101");
+	this.div_search.form.cal_date_to_pic.set_value(e.postvalue + "1231");
+	
+	// 값 변경시 조회
+	this.fn_search("search");
+};
+
+// 검색조건 날짜 변경 이벤트
+this.cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 캘린더 범위가 콤보 박스의 년도를 넘지 못하도록 하기
+	const nYear = this.ds_search.getColumn(0, "YEAR");
+	switch(obj.id)
+	{
+		case "cal_date_from_pic" :
+			if (e.postvalue < nYear + "0101")
+			{
+				this.ds_search.setColumn(0, "DATE_FROM", nYear + '0101');
+			}
+			break;
+		case "cal_date_to_pic" :
+			if (e.postvalue > nYear + "1231")
+			{
+				this.ds_search.setColumn(0, "DATE_TO", nYear + '1231');
+			}
+			break;
+		default:
+	}
+};
+
+// 운영위 체크박스 값 변경 이벤트
+this.chk_repo1_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) 
+	{
+		case "0" :
+			obj.set_value(e.prevalue);
+			break;
+		case "1" :
+			this.ds_report.setColumn(0, "R1_1", 0);
+			this.ds_report.setColumn(0, "REPO1", e.postvalue);
+			break;
+		case "2" :
+			this.ds_report.setColumn(0, "R1", 0);
+			this.ds_report.setColumn(0, "REPO1", e.postvalue);
+			break;
+		default:
+	}
+};
+
+// 보호자 체크박스 값 변경 이벤트
+this.chk_repo3_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) 
+	{
+		case "0" :
+			obj.set_value(e.prevalue);
+			break;
+		case "1" :
+			this.ds_report.setColumn(0, "R3_1", 0);
+			this.ds_report.setColumn(0, "REPO3", e.postvalue);
+			break;
+		case "2" :
+			this.ds_report.setColumn(0, "R3", 0);
+			this.ds_report.setColumn(0, "REPO3", e.postvalue);
+			break;
+		default:
+	}
+};
+
+// 그리드 셀클릭 이벤트
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const dateIdx = obj.getBindCellIndex("body", "회의일자");
+	// 교육일 선택
+	if (e.col == dateIdx)
+	{
+		// 입력, 수정용 데이터셋에 데이터 복사
+		this.fn_dataCopy(e.row);
+	}
+};
+
+// 새로작성
+this.div_func_btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_list.set_rowposition(-1);
+	this.ds_data.clearData();
+	const nRow = this.ds_data.addRow();
+	
+	// 시설코드
+	this.ds_data.setColumn(nRow, "sicode", fv_sicode);
+	
+	// 회의구분
+	this.ds_data.setColumn(nRow, "회의구분", 1);
+	this.ds_data.setColumn(nRow, "구분1", 1);
+	
+	// 회의일자
+	const today = Sct.Util.getToday();
+	this.ds_data.setColumn(nRow, "회의일자", today);
+	this.div_cont.form.div_right.form.div_main.form.cal_date_pic.set_enable(true);
+	
+	// 회의시간
+	this.ds_data.setColumn(nRow, "회의시간", "10:00-11:00");
+	const timeStr = this.ds_data.getColumn(nRow, "회의시간");
+	this.ds_data.setColumn(nRow, "FROM_HOUR", timeStr.substr(0, 2));
+	this.ds_data.setColumn(nRow, "FROM_MIN", timeStr.substr(3, 2));
+	this.ds_data.setColumn(nRow, "TO_HOUR", timeStr.substr(6, 2));
+	this.ds_data.setColumn(nRow, "TO_MIN", timeStr.substr(9, 2));
+	// 스핀에도 값 세팅
+	this.div_cont.form.div_right.form.div_main.form.spn_from_hour.set_value(parseInt(timeStr.substr(0, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_from_min.set_value(parseInt(timeStr.substr(3, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_to_hour.set_value(parseInt(timeStr.substr(6, 2)));
+	this.div_cont.form.div_right.form.div_main.form.spn_to_min.set_value(parseInt(timeStr.substr(9, 2)));
+	
+	this.ds_data.setColumn(nRow, "회의명", "OOOO년도 제O차 OO요양원 운영위원회 회의록");
+	this.ds_data.setColumn(nRow, "회의장소", "");
+	this.ds_data.setColumn(nRow, "재적인원", 0);
+	this.ds_data.setColumn(nRow, "출석인원", 0);
+	
+	// 재적위원 스핀
+	this.div_cont.form.div_right.form.div_main.form.spn_enroll_count.set_value(0);
+	// 참석위원 스핀
+	this.div_cont.form.div_right.form.div_main.form.spn_att_count.set_value(0);
+	
+	this.ds_data.setColumn(nRow, "출석위원", "");
+	this.ds_data.setColumn(nRow, "불참위원", "");
+	
+	// 작성자
+	this.ds_data.setColumn(nRow, "작성자명", nexacro.trim(nexacro.getApplication().gds_userInfo.getColumn(0, "c_name")));
+	this.ds_data.setColumn(nRow, "작성자코드", nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid"));
+	const managerStr = this.ds_data.getColumn(nRow, "작성자명")
+					 + "/"
+					 + this.ds_data.getColumn(nRow, "작성자코드");
+	this.ds_data.setColumn(nRow, "VIEW_MANAGER", managerStr);
+	
+	this.ds_data.setColumn(nRow, "회의안건", "");
+	this.ds_data.setColumn(nRow, "회의결과", "");
+	
+	// 사진 초기화
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image("");
+	this.ds_data.setColumn(nRow, "daysajin", "");
+	
+};
+
+// 시간 스핀 이벤트
+// 스핀의 id와 스핀의 값이 세팅될 컴포넌트의 id는 앞의 네글자 ex)mae_를 제외하고 같아야 한다.
+this.spn_onspin = function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	const value = "" + e.postvalue;
+	let rtnVal = "";
+	if (value.length == 1)
+	{
+		rtnVal = "0" + value;
+	}
+	else
+	{
+		rtnVal = value;
+	}
+	
+	this.div_cont.form.div_right.form.div_main.form.components["mae_" + idStr].set_value(rtnVal);
+	
+	let cRow;
+	const offset = 0;
+	const str1 = this.ds_data.getColumn(0, "회의시간");
+	
+	switch (idStr) 
+	{
+		case "from_hour":
+			cRow = 0;
+			break;
+		case "from_min":
+			cRow = 3;
+			break;
+		case "to_hour":
+			cRow = 6;
+			break;
+		case "to_min":
+			cRow = 9;
+			break;
+	}
+	
+	this.fn_valueSet(cRow, str1, "회의시간", rtnVal, offset, this.ds_data);
+};
+
+// 시 변경 이벤트
+this.mae_hour_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "23" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (nexacro.trim(e.postvalue).length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+	
+	const idStr = obj.id.substr(4);
+	this.div_cont.form.div_right.form.div_main.form.components["spn_" + idStr].set_value(e.postvalue);
+	
+	let cRow;
+	const offset = 0;
+	const value = obj.value;
+	const str1 = this.ds_data.getColumn(0, "회의시간");
+	
+	switch (obj.id) 
+	{
+		case "mae_from_hour":
+			cRow = 0;
+			break;
+		case "mae_to_hour":
+			cRow = 6;
+			break;
+	}
+	
+	this.fn_valueSet(cRow, str1, "회의시간", value, offset, this.ds_data);
+};
+
+// 시 키 다운 이벤트
+this.mae_hour_onkeydown = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	let rtnVal;
+	const idStr = obj.id.substr(4);
+	// ↑ ↓
+	if (e.keycode == 38 || e.keycode == 40)
+	{
+		// ↑
+		if (e.keycode == 38)
+		{
+			if (obj.value < "23")
+			{
+				rtnVal = "" + (parseInt(obj.value) + 1);
+			}
+			else if (obj.value == "23")
+			{
+				rtnVal = "23";
+			}
+		}
+		
+		// ↓
+		if (e.keycode == 40)
+		{
+			if (obj.value == "00")
+			{
+				rtnVal = "00";
+			}
+			else if (obj.value > "00" && obj.value < "24")
+			{
+				rtnVal = "" + (parseInt(obj.value) - 1);
+			}
+		}
+		
+		obj.set_value(rtnVal.padStart(2, '0'));
+			
+		this.div_cont.form.div_right.form.div_main.form.components["spn_" + idStr].set_value(rtnVal);
+		
+		let cRow;
+		const offset = 0;
+		const value = obj.value;
+		const str1 = this.ds_data.getColumn(0, "회의시간");
+		
+		switch (obj.id) 
+		{
+			case "mae_from_hour":
+				cRow = 0;
+				break;
+			case "mae_to_hour":
+				cRow = 6;
+				break;
+		}
+		
+		this.fn_valueSet(cRow, str1, "회의시간", value, offset, this.ds_data);
+	}
+};
+
+// 분 변경 이벤트
+this.mae_min_onchanged = function(obj:nexacro.MaskEdit,e:nexacro.ChangeEventInfo)
+{
+	if (e.postvalue > "59" || e.postvalue == "")
+	{
+		obj.set_value("00");
+	}
+	else if (nexacro.trim(e.postvalue).length == 1)
+	{
+		obj.set_value("0" + e.postvalue);
+	}
+	
+	const idStr = obj.id.substr(4);
+	this.div_cont.form.div_right.form.div_main.form.components["spn_" + idStr].set_value(e.postvalue);
+	
+	let cRow;
+	const offset = 0;
+	const value = obj.value;
+	const str1 = this.ds_data.getColumn(0, "회의시간");
+	
+	switch (obj.id) 
+	{
+		case "mae_from_min":
+			cRow = 3;
+			break;
+		case "mae_to_min":
+			cRow = 9;
+			break;
+	}
+	
+	this.fn_valueSet(cRow, str1, "회의시간", value, offset, this.ds_data);
+};
+
+// 분 키 다운 이벤트
+this.mae_min_onkeydown = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	let rtnVal;
+	const idStr = obj.id.substr(4);
+	// ↑ ↓
+	if (e.keycode == 38 || e.keycode == 40)
+	{
+		// ↑
+		if (e.keycode == 38)
+		{
+			if (obj.value < "59")
+			{
+				rtnVal = "" + (parseInt(obj.value) + 1);
+			}
+			else if (obj.value == "59")
+			{
+				rtnVal = "59";
+			}
+		}
+		
+		// ↓
+		if (e.keycode == 40)
+		{
+			if (obj.value == "00")
+			{
+				rtnVal = "00";
+			}
+			else if (obj.value > "00" && obj.value < "60")
+			{
+				rtnVal = "" + (parseInt(obj.value) - 1);
+			}
+		}
+		
+		obj.set_value(rtnVal.padStart(2, '0'));
+			
+		this.div_cont.form.div_right.form.div_main.form.components["spn_" + idStr].set_value(rtnVal);
+		
+		let cRow;
+		const offset = 0;
+		const value = obj.value;
+		const str1 = this.ds_data.getColumn(0, "회의시간");
+		
+		switch (obj.id) 
+		{
+			case "mae_from_min":
+				cRow = 3;
+				break;
+			case "mae_to_min":
+				cRow = 9;
+				break;
+		}
+		
+		this.fn_valueSet(cRow, str1, "회의시간", value, offset, this.ds_data);
+	}
+};
+
+// 새로고침 버튼
+this.btn_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount == 0)
+		return false;
+		
+	if (this.ds_data.getRowType(0) == 2)
+		this.div_func_btn_new_onclick();
+	else
+		this.fn_search("search_save");
+};
+
+// 교육방법 체크박스 값 변경 이벤트
+this.chk_meet_tp_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	switch(e.postvalue) {
+		case "0" :
+			obj.set_value(e.prevalue);
+			break;
+		case "1" :
+			this.ds_data.setColumn(0, "구분2", 0);
+			this.ds_data.setColumn(0, "회의구분", e.postvalue);
+			break;
+		case "2" :
+			this.ds_data.setColumn(0, "구분1", 0);
+			this.ds_data.setColumn(0, "회의구분", e.postvalue);
+			break;
+		default:
+	}
+};
+
+// 사진 지움
+this.div_cont_div_right_div_main_btn_pic_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_data.rowcount == 0)
+		return false;
+	
+	if (Sct.Util.isEmpty(this.ds_data.getColumn(0, "FILE_REAL_NAME")))
+	{
+		return false;
+	}
+	
+	if (!this.confirm("직원교육(훈련) 사진을 삭제하시겠습니까?"))
+		return;
+		
+	this.ds_data.setColumn(0, "FILE_GRP_ID", "");
+	this.ds_data.setColumn(0, "daysajin", "");
+	this.div_cont.form.div_right.form.div_main.form.imv_pic.set_image("");
+};
+
+// 재적위원 참석위원 스핀 이벤트
+this.spn_count_onspin = function(obj:nexacro.Spin,e:nexacro.SpinEventInfo)
+{
+	const idStr = obj.id.substr(4);
+	const value = e.postvalue;
+	
+	switch(idStr) {
+		case "enroll_count" :
+			this.ds_data.setColumn(0, "재적인원", value);
+			break;
+		case "att_count" :
+			this.ds_data.setColumn(0, "출석인원", value);
+			break;
+		default:
+	}
+};
+
+// 인원수 키 다운 이벤트
+this.edt_count_onkeydown = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	let rtnVal;
+	const idStr = obj.id.substr(4);
+	// ↑ ↓
+	if (e.keycode == 38 || e.keycode == 40)
+	{
+		// ↑
+		if (e.keycode == 38)
+		{
+			if (obj.value < 999)
+			{
+				rtnVal = obj.value + 1;
+			}
+			else if (obj.value == 999)
+			{
+				rtnVal = 999;
+			}
+		}
+		
+		// ↓
+		if (e.keycode == 40)
+		{
+			if (obj.value == 0)
+			{
+				rtnVal = 0;
+			}
+			else if (obj.value > 0 && obj.value < 1000)
+			{
+				rtnVal = obj.value - 1;
+			}
+		}
+			
+		this.div_cont.form.div_right.form.div_main.form.components["spn_" + idStr].set_value(rtnVal);
+		
+		switch (obj.id) 
+		{
+			case "edt_enroll_count":
+				this.ds_data.setColumn(0, "재적인원", rtnVal);
+				break;
+			case "edt_att_count":
+				this.ds_data.setColumn(0, "출석인원", rtnVal);
+				break;
+		}
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

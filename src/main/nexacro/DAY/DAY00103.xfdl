@@ -1,0 +1,642 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00103" width="1920" height="800" titletext="1-3 일별 요양서비스 제공현황" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="2" left="0" top="40" bottom="0%" right="0%" text="">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_left" taborder="0" left="0" top="0" width="1700" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Grid id="grd_list" taborder="0" left="0" top="38" autoenter="select" onsetfocus="grd_list_onsetfocus" autofittype="col" height="718" right="28" binddataset="ds_list" oncelldblclick="div_cont_div_left_grd_list_oncelldblclick" oncellclick="div_cont_div_left_grd_list_oncellclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="78"/>
+                            <Column size="50"/>
+                            <Column size="112"/>
+                            <Column size="50"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="60"/>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="송영시간"/>
+                            <Cell col="5" text="목욕시간"/>
+                            <Cell col="6" text="외출기록"/>
+                            <Cell col="7" text="일지"/>
+                            <Cell col="8" text="식사"/>
+                            <Cell col="9" text="간식"/>
+                            <Cell col="10" text="구강"/>
+                            <Cell col="11" text="배뇨"/>
+                            <Cell col="12" text="배변"/>
+                            <Cell col="13" text="일지조회"/>
+                            <Cell col="14" text="기능훈련"/>
+                            <Cell col="15" text="인.지"/>
+                            <Cell col="16" text="세면"/>
+                            <Cell col="17" text="구강"/>
+                            <Cell col="18" text="머리"/>
+                            <Cell col="19" text="몸단장"/>
+                            <Cell col="20" text="옷입기"/>
+                            <Cell col="21" text="식.도"/>
+                            <Cell col="22" text="자세"/>
+                            <Cell col="23" text="이동"/>
+                            <Cell col="24" text="신.유"/>
+                            <Cell col="25" text="산책"/>
+                            <Cell col="26" text="의사"/>
+                            <Cell col="27" text="상.변"/>
+                            <Cell col="28" text="신.보"/>
+                            <Cell col="29" text="배설기록"/>
+                            <Cell col="30" text="미이용"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:m_type"/>
+                            <Cell col="1" textAlign="center" text="bind:m_group" combodataset="ds_tp" combocodecol="CMCD" combodatacol="CMNM"/>
+                            <Cell col="2" text="bind:m_name" textAlign="center" expandchar="dot"/>
+                            <Cell col="3" text="bind:SEX_GB"/>
+                            <Cell col="4" text="bind:mr_move"/>
+                            <Cell col="5" text="bind:ba_time"/>
+                            <Cell col="6" text="bind:out_time"/>
+                            <Cell col="7" text="bind:kr_contents" cursor="pointer"/>
+                            <Cell col="8" text="bind:food_kind"/>
+                            <Cell col="9" text="bind:food_sub_kind"/>
+                            <Cell col="10" text="bind:kr_state"/>
+                            <Cell col="11" text="bind:cr_u_cnt"/>
+                            <Cell col="12" text="bind:cr_b_cnt"/>
+                            <Cell col="13" expandimage="url('theme://images/ico_search.png')" displaytype="buttoncontrol" expandshow="show" imagestretch="fixaspectratio" edittype="button" expandsize="60" cursor="pointer"/>
+                            <Cell col="14" text="bind:t_abc_contents" cursor="pointer"/>
+                            <Cell col="15" text="bind:ba_contents" cursor="pointer"/>
+                            <Cell col="16" text="bind:sc0100_cnt"/>
+                            <Cell col="17" text="bind:sc0200_cnt"/>
+                            <Cell col="18" text="bind:sc0300_cnt"/>
+                            <Cell col="19" text="bind:sc0400_cnt"/>
+                            <Cell col="20" text="bind:sc0500_cnt"/>
+                            <Cell col="21" text="bind:sc0700_cnt"/>
+                            <Cell col="22" text="bind:so_contents"/>
+                            <Cell col="23" text="bind:sc0900_cnt"/>
+                            <Cell col="24" text="bind:sc1000_cnt"/>
+                            <Cell col="25" text="bind:sc2400_cnt"/>
+                            <Cell col="26" text="bind:sc2500_cnt"/>
+                            <Cell col="27" text="bind:kmc_contents"/>
+                            <Cell col="28" text="bind:bi_contents"/>
+                            <Cell col="29" displaytype="buttoncontrol" edittype="button" text="배설기록" cursor="pointer"/>
+                            <Cell col="30" text="bind:move_contents" color="red"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Static id="sta_subTitle" taborder="1" text="일별 요양서비스 제공현황" left="10" top="3" width="230" height="26" cssclass="lb01"/>
+                    <Static id="sta_subdisc" taborder="2" text="일지, 기능훈련, 인.지 항목 더블클릭!" left="1442" top="3" width="230" height="26" color="red" textAlign="right"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="40" text="" width="450">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="1" text="조회" top="7" width="70" height="26" onclick="fn_searchBtn" cssclass="btn_search" left="320"/>
+              <Calendar id="cal_date_pic" taborder="0" left="205" top="7" width="25" height="26" onchanged="div_search_cal_date_pic_onchanged"/>
+              <Button id="btn_pre_dt" taborder="2" text="◀ 전날" top="7" width="80" height="26" visible="true" left="10" onclick="div_search_btn_pre_dt_onclick"/>
+              <Calendar id="cal_date" taborder="3" left="95" top="7" width="110" height="26" cssclass="essential" initvalueid="iv_cal_yyyyMMddddd" buttonsize="0 0" readonly="true" tabstop="false" onchanged="div_search_cal_date_onchanged"/>
+              <Button id="btn_next_dt" taborder="4" text="앞날 ▶" top="7" width="80" height="26" visible="true" left="235" onclick="div_search_btn_next_dt_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="1" left="470" top="0" height="40" formscrollbartype="none" width="1230">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report05" taborder="0" text="집중배설관찰기록" left="902" top="7" width="150" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report01" taborder="1" text="요양일지" left="347" top="7" width="100" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report02" taborder="2" text="요양일지(3단)" left="457" top="7" width="130" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report03" taborder="3" text="식사도움기록" left="597" top="7" width="125" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report04" taborder="4" text="식사.배설 관찰기록" left="732" top="7" width="160" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report06" taborder="5" text="기저귀 교체기록" left="1062" top="7" width="140" height="26" cssclass="btn_print" onclick="fn_report"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="date" type="DATE" size="256"/>
+          <Column id="s_nm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_type" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="SEX_GB" type="STRING" size="256"/>
+          <Column id="mr_move" type="STRING" size="256"/>
+          <Column id="ba_time" type="STRING" size="256"/>
+          <Column id="out_time" type="STRING" size="256"/>
+          <Column id="kr_contents" type="STRING" size="256"/>
+          <Column id="food_kind" type="STRING" size="256"/>
+          <Column id="food_sub_kind" type="STRING" size="256"/>
+          <Column id="kr_state" type="STRING" size="256"/>
+          <Column id="cr_u_cnt" type="STRING" size="256"/>
+          <Column id="cr_b_cnt" type="STRING" size="256"/>
+          <Column id="t_abc_contents" type="STRING" size="256"/>
+          <Column id="ba_contents" type="STRING" size="256"/>
+          <Column id="sc0100_cnt" type="STRING" size="256"/>
+          <Column id="sc0200_cnt" type="STRING" size="256"/>
+          <Column id="sc0300_cnt" type="STRING" size="256"/>
+          <Column id="sc0400_cnt" type="STRING" size="256"/>
+          <Column id="sc0500_cnt" type="STRING" size="256"/>
+          <Column id="sc0700_cnt" type="STRING" size="256"/>
+          <Column id="so_contents" type="STRING" size="256"/>
+          <Column id="sc0900_cnt" type="STRING" size="256"/>
+          <Column id="sc1000_cnt" type="STRING" size="256"/>
+          <Column id="sc2400_cnt" type="STRING" size="256"/>
+          <Column id="sc2500_cnt" type="STRING" size="256"/>
+          <Column id="kmc_contents" type="STRING" size="256"/>
+          <Column id="bi_contents" type="STRING" size="256"/>
+          <Column id="move_contents" type="STRING" size="256"/>
+          <Column id="move_yn" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_report_chk">
+        <ColumnInfo>
+          <Column id="cnt" type="STRING" size="256"/>
+          <Column id="cr_u_cnt" type="STRING" size="256"/>
+          <Column id="cr_b_cnt" type="STRING" size="256"/>
+          <Column id="cr_c_cnt" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="date"/>
+      <BindItem id="item1" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="date"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00103
+ * 화면명   	: 1-3 일별 요양서비스 제공현황
+ * 화면설명 	: 
+ * 작성일   	: 2022-04-27
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+this.fv_currentDS = this.ds_list;
+this.fv_currentGrid = this.div_cont.form.div_left.form.grd_list;
+this.fv_staff_id = nexacro.getApplication().gds_userInfo.getColumn(0, "c_staffid");
+this.fv_staff_name = nexacro.getApplication().gds_userInfo.getColumn(0, "b_manager");
+this.reSearchData = "";
+this.searchFlag = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 현재 년도 구하기
+	const date = new Date();
+	const year = date.getFullYear();
+	
+	// 검색조건 세팅
+	let today = Sct.Util.getToday();
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "date", today);
+
+	// 오픈시 조회
+	this.fn_search();
+};
+
+// 현황, 수급자, 미이용 백그라운드 설정
+this.initGrid = function(grid)
+{
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nowIdx = grid.getBindCellIndex("body", "m_type");
+	
+	const nameCss = "expr:dataset.getColumn(currow, 'SEX_GB') == '남' ? 'cellBMan' : 'cellBWoman'";
+	const nowCss = "expr:dataset.getColumn(currow, 'm_type') == '퇴소자' ? 'cellBRetire' : ''";
+
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+	
+ 	//미이용자 백그라운드 
+	const moveArr = ["m_group", "SEX_GB", "mr_move", "ba_time", "out_time", "kr_contents", "food_kind", "food_sub_kind", "kr_state", "cr_u_cnt", "cr_b_cnt", "t_abc_contents", "ba_contents", "sc0100_cnt", "sc0200_cnt", "sc0300_cnt", "sc0400_cnt", "sc0500_cnt", "sc0700_cnt", "so_contents", "sc0900_cnt", "sc1000_cnt", "sc2400_cnt", "sc2500_cnt", "kmc_contents", "bi_contents", "move_contents"];
+	for (let i = 0; i < moveArr.length; i++)
+	{
+		const moveIdx = grid.getBindCellIndex("body", moveArr[i]);
+		const moveCss = "expr:dataset.getColumn(currow, 'move_yn') == 'Y' ? 'cellBRetire' : ''";
+					 
+		grid.setCellProperty("body", moveIdx, "cssclass", moveCss);
+	}
+
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+//출력 전 validation
+this.fn_report_pre = function ()
+{
+	var cnt = this.ds_report_chk.getColumn(0, "cnt");
+	var ucnt = this.ds_report_chk.getColumn(0, "cr_u_cnt");
+	var bcnt = this.ds_report_chk.getColumn(0, "cr_b_cnt");
+	var ccnt = this.ds_report_chk.getColumn(0, "cr_c_cnt");	
+};
+
+// 레포트 데이터 유무 조회
+this.fn_report_chk = function (objid)
+{	
+	var sqlid = "";
+	
+	if(objid == "btn_report01" || objid == "btn_report02"){ // 요양일지, 요양일지(3단)
+		sqlid = "DAY00103_REPORT01_CHK_S";
+	}else if(objid == "btn_report03"){ // 식사도움기록
+		sqlid = "DAY00103_REPORT03_CHK_S";
+	}else if(objid == "btn_report04"){ // 식사.배설 관찰기록
+		sqlid = "DAY00103_REPORT04_CHK_S";
+	}else if(objid == "btn_report05"){ // 집중배설관찰기록
+		sqlid = "DAY00103_REPORT05_CHK_S";
+	}else if(objid == "btn_report06"){ // 기저귀 교체기록
+		sqlid = "DAY00103_REPORT06_CHK_S";
+	}
+	
+	const svcId = "report_chk";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_report_chk=output1";
+	const argument = "method=getList "
+				   + "sqlId=" + sqlid + " ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00103.DAY00103_DS_LIST_S ";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			this.ds_list.set_rowposition(-1);		
+			this.initGrid(this.div_cont.form.div_left.form.grd_list);
+		}else if (strSvcID == "report_chk")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	if (this.ds_list.rowcount == 0)
+	{
+		return false;
+	}
+	
+	var objid = obj.id;
+ 	var popupUrl = "";
+ 	var popupName = "";
+	
+	// 데이터 유무 조회
+	this.fn_report_chk(objid);
+	
+	var cnt = this.ds_report_chk.getColumn(0, "cnt");
+	var ucnt = this.ds_report_chk.getColumn(0, "cr_u_cnt");
+	var bcnt = this.ds_report_chk.getColumn(0, "cr_b_cnt");
+	var ccnt = this.ds_report_chk.getColumn(0, "cr_c_cnt");
+	
+	if(objid == "btn_report05"){
+		if(ucnt < 1 && bcnt < 1 && ccnt < 1){
+			this.alert("데이터가 존재하지 않습니다.");
+			return false;
+		}
+	}else{
+		if(cnt < 1){
+			this.alert("데이터가 존재하지 않습니다.");
+			return false;
+		}
+	}
+	
+	
+	if(objid == "btn_report01"){ // 요양일지
+		popupUrl = "DAY_POP::DAY00103_R01.xfdl";
+	}else if(objid == "btn_report02"){ // 요양일지(3단)
+		popupUrl = "DAY_POP::DAY00103_R02.xfdl";
+	}else if(objid == "btn_report03"){ // 식사도움기록
+		popupUrl = "DAY_POP::DAY00103_R03.xfdl";
+	}else if(objid == "btn_report04"){ // 식사.배설 관찰기록
+		popupUrl = "DAY_POP::DAY00103_R04.xfdl";
+	}else if(objid == "btn_report05"){ // 집중배설관찰기록
+		popupUrl = "DAY_POP::DAY00103_R05.xfdl";
+	}else if(objid == "btn_report06"){ // 기저귀 교체기록
+		popupUrl = "DAY_POP::DAY00103_R06.xfdl";
+	}
+ 	let params;
+ 	const dicompNm = " ";
+// 	const popupUrl = "DAY_POP::DAY00102_R01.xfdl";
+// 	const popupName = "상태변화 기록서식";
+// 	
+	params = {
+		sicode : fv_sicode
+	,	date : this.ds_search.getColumn(0,"date")
+	,   sign : "1"
+	};
+ 	
+ 	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+}
+
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 식사도움관찰기록(일지)
+		case "mealhelp" : 
+			this.fn_search();
+			break;
+		
+		// 기능훈련
+		case "training" : 
+			this.fn_search();
+			break;
+		
+		// 인지관리지원
+		case "observe" : 
+			this.fn_search();
+			break;	
+			
+		// 배설관찰일지
+		case "excretion" : 
+			this.fn_search();
+			break;	
+			
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+
+// 앞날
+this.div_search_btn_next_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "date");
+	searchDt.setDate(searchDt.getDate() + 1);
+	this.ds_search.setColumn(0, "date", searchDt);
+	this.ds_list.clearData();
+	this.fn_search();
+};
+
+// 전날
+this.div_search_btn_pre_dt_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const searchDt = this.ds_search.getColumn(0, "date");
+	searchDt.setDate(searchDt.getDate() - 1);
+	this.ds_search.setColumn(0, "date", searchDt);
+	this.ds_list.clearData();
+	this.fn_search();
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function()
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function()
+{
+	this.fn_delete();
+};
+
+// 일자 변경 시 데이터셋 클리어, 조회
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	this.ds_list.clearData();
+	this.fn_search();
+};
+
+// 셀 더블클릭
+this.div_cont_div_left_grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	/*
+	col7 일지팝업
+	col13 일지팝업
+	col14 기능훈련팝업
+	col15 인지팝업
+	col29 배설팝업
+	*/	
+	
+	// 미이용 시 팝업 호출 불가
+	if(this.ds_list.getColumn(e.row,"move_yn") == "Y"){
+		return false;
+	}
+	
+	//일지, 기능훈련 송영시간 유무 확인
+	if (e.col == "7" || e.col == "13" || e.col == "14"){
+		if(Sct.Util.isEmpty(this.ds_list.getColumn(e.row,"mr_move"))){
+			this.alert("송영 시작시간이 존재하지 않습니다.");
+			return false;	
+		}
+	}
+	
+	// 인지, 배설기록 kmrecord 유무 확인
+	if(e.col == "15"){
+		if(Sct.Util.isEmpty(this.ds_list.getColumn(e.row,"k_number"))){
+			this.alert("요양급여기록이 존재하지 않습니다.");
+			return false;
+		}
+	}
+	
+	// 식사도움관찰기록 팝업
+	if (e.col == "7" || e.col == "13")
+	{
+		var param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_search.getColumn(0,"date")
+			,   MCODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "mealhelp", 450, 400, "", param, "DAY_POP::DAY00103_P01.xfdl", "fn_popCallback");
+	}
+	
+	// 기능훈련 팝업
+	if (e.col == "14")
+	{
+		var param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_search.getColumn(0,"date")
+			,   MCODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "training", 450, 400, "", param, "DAY_POP::DAY00101_P09.xfdl", "fn_popCallback");
+	}
+	
+	// 인지관리지원, 인지활동지원 팝업
+	if (e.col == "15")
+	{
+		var param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_search.getColumn(0,"date")
+			,   NAME : this.ds_list.getColumn(e.row,"m_name")
+			,   MGROUP : this.ds_list.getColumn(e.row,"m_group")
+			,   MCODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "observe", 450, 400, "", param, "DAY_POP::DAY00101_P10.xfdl", "fn_popCallback");
+	}
+};
+
+
+// 일지조회, 배설기록 버튼 클릭
+this.div_cont_div_left_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//일지조회 송영시간 유무 확인
+	if (e.col == "13"){
+		if(Sct.Util.isEmpty(this.ds_list.getColumn(e.row,"mr_move"))){
+			this.alert("송영 시작시간이 존재하지 않습니다.");
+			return false;	
+		}
+	}
+	
+	// 인지, 배설기록 kmrecord 유무 확인
+	if(e.col == "29"){
+		if(Sct.Util.isEmpty(this.ds_list.getColumn(e.row,"k_number"))){
+			this.alert("요양급여기록이 존재하지 않습니다.");
+			return false;
+		}
+	}
+	
+	// 일지조회, 식사도움관찰기록 팝업
+	if (e.col == "13")
+	{
+		var param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_search.getColumn(0,"date")
+			,   MCODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "mealhelp", 450, 400, "", param, "DAY_POP::DAY00103_P01.xfdl", "fn_popCallback");
+	}
+	
+	// 배설관찰일지
+	if (e.col == "29")
+	{
+		var param = {
+				SICODE : fv_sicode
+			,	DATE : this.ds_search.getColumn(0,"date")
+			,   NAME : this.ds_list.getColumn(e.row,"m_name")
+			,   MJUMIN : this.ds_list.getColumn(e.row,"m_jumin1")
+			,   SEXGB : this.ds_list.getColumn(e.row,"SEX_GB")
+			,   MCODE : this.ds_list.getColumn(e.row, "m_code")
+		};
+
+		Sct.popup(this, "excretion", 450, 400, "", param, "DAY_POP::DAY00101_P02.xfdl", "fn_popCallback");
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

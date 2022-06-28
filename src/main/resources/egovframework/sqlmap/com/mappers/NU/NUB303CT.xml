@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB301CT                                                         
+     * 프로그램 명     	: 요양일지                                                     
+     * Description 	: 태블릿 입소자별 요양일지 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-08-11 17:21        		|  조기종       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB303CT">
+	<!-- 검색 -->
+	<select id="NUB303CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* 태블릿 체위변경 검색 : NUB303CT_DS_LIST_S */
+		SELECT
+				CC.COMPANY_CD
+			,	CAST(CC.CMCD AS SIGNED INTEGER) AS POS_HOUR
+			,	CC.CMNM
+			,	CONCAT(CC.STR1, ' : ') AS STR1
+			,	CONCAT('~ ', CC.STR2) AS STR2
+			,	CC.STR3
+			,	IF(CC.STR3 = 0, #{DATE}, DATE_FORMAT(DATE_ADD(#{DATE}, INTERVAL 1 DAY), '%Y%m%d')) AS POS_DT
+			,	#{RES_ID} AS RES_ID
+			,	NP.POS_SEQ
+			,	IF(NP.POS_SEQ IS NULL, 'I', 'U') AS STATUS
+			,	NP.POS_CD
+			,	IFNULL(NP.POS_MIN, '00') AS POS_MIN
+			,	NP.POSTURE
+			,	NP.MANAGER_ID
+			,	NP.REMARK
+			,	#{DATE} AS SEARCH_DT
+			,	NP.REG_PGM_ID
+			,	NP.REG_USER
+			,	NP.REG_DT
+			,	NP.REG_DT_CURR
+			,	NP.REG_DT_LOC
+			,	NP.REG_IP
+			,	NP.MOD_PGM_ID
+			,	NP.MOD_USER
+			,	NP.MOD_DT
+			,	NP.MOD_DT_CURR
+			,	NP.MOD_DT_LOC
+			,	NP.MOD_IP
+		FROM
+				T_CM_CODE CC
+		LEFT OUTER JOIN
+				T_NU_POSTURE NP
+		ON
+		(
+				CC.COMPANY_CD = NP.COMPANY_CD
+		AND		CC.CMCD = NP.POS_CD
+		AND		NP.COMPANY_CD = #{COMPANY_CD}
+		AND		NP.POS_DT = IF(CC.STR3 = 1, DATE_FORMAT(DATE_ADD(#{DATE}, INTERVAL 1 DAY), '%Y%m%d'), #{DATE})
+		AND		NP.RES_ID = (SELECT NR.RES_ID
+							 FROM	T_NU_RESIDENT NR
+							 WHERE	NR.COMPANY_CD = #{COMPANY_CD}
+							 AND    NR.RES_ID = #{RES_ID}
+							 AND	NR.AREA = #{AREA}
+							 AND	NR.LOCATION = #{LOCATION})
+		)
+		WHERE	CC.GRP_CD = 'NU_POSTURE_TIME'
+		AND		CC.COMPANY_CD = #{COMPANY_CD}
+		ORDER BY POS_HOUR
+	</select>
+	
+	<!-- 삽입 -->
+	<insert id="NUB303CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* 태블릿 체위변경 삽입 : NUB303CT_DS_LIST_I */
+		INSERT INTO
+			T_NU_POSTURE
+		(
+				COMPANY_CD
+			,	POS_SEQ
+			,	RES_ID
+			,	POS_DT
+			,	POS_CD
+			,	POS_HOUR
+			,	POS_MIN
+			,	POSTURE
+			,	MANAGER_ID
+			,	REMARK
+			,	SEARCH_DT
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_POSTURE ),12,0)))
+			,	#{RES_ID}
+			,	#{POS_DT}
+			,	#{POS_HOUR}
+			,	#{CMNM}
+			,	#{POS_MIN}
+			,	#{POSTURE}
+			,	#{MANAGER_ID}
+			,	#{REMARK}
+			,	#{SEARCH_DT}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="NUB303CT_DS_LIST_U" parameterType="java.util.HashMap">
+	/* 태블릿 체위변경 수정 : NUB303CT_DS_LIST_U */
+		UPDATE
+			T_NU_POSTURE
+		SET
+				POS_MIN = #{POS_MIN}
+			,	POSTURE = #{POSTURE}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		POS_SEQ = #{POS_SEQ}
+		AND		RES_ID = #{RES_ID}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="NUB303CT_DS_LIST_D" parameterType="java.util.HashMap">
+	/* 태블릿 체위변경 삭제 : NUB303CT_DS_LIST_D */
+		DELETE FROM
+			T_NU_POSTURE
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		SEARCH_DT = #{SEARCH_DT}
+		AND		RES_ID = #{RES_ID}
+	</delete>
+</mapper>                                                                                                                                                                                                          

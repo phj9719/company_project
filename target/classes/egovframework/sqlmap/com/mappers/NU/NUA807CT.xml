@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA807CT                                                         
+     * 프로그램 명     	: 맥박이상이력관리                                                    
+     * Description 	: 맥박이상 처리를 위한 화면
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-13 14:38     |  SOOIM      		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA807CT">
+	<!-- 낙상이력 조회 -->
+	<select id="NUA807CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA807CT_DS_LIST_S */
+		SELECT
+				BE.COMPANY_CD
+			, 	BE.BAN_TIME
+  			, 	NR.NAME
+		  	, 	NR.AREA
+		  	, 	NR.LOCATION
+		  	, 	BE.MAC_ADD
+		  	, 	BE.MAC_SEQ
+		  	, 	BE.RES_ID
+		  	, 	BE.HEART_RATE
+		  	,	BE.BLE_RSSI
+		  	, 	BE.IOT_NAME
+		  	, 	BE.BAND_TP
+		  	, 	BE.BAND_DESC
+		  	, 	BE.CLEAR_YN
+		  	, 	BE.CLEAR_TIME
+		  	,	LEFT(BE.CLEAR_TIME,8) AS CLEAR_DATE
+		  	,	LEFT(RIGHT(BE.CLEAR_TIME,4),2) AS HOUR
+		  	,	RIGHT(BE.CLEAR_TIME,2) AS MINUTE
+		  	, 	BE.MANAGER_ID
+		  	,	(SELECT CU.USER_NM_KOR
+				   FROM T_CM_USER CU
+				  WHERE BE.COMPANY_CD = CU.COMPANY_CD
+				    AND BE.MANAGER_ID = CU.USER_ID) AS MANAGER_NM
+		  	, 	BE.REG_PGM_ID
+		  	, 	BE.REG_USER
+		  	,	(SELECT 
+		  			CU.USER_NM_KOR
+				 FROM 
+				 	T_CM_USER CU
+				 WHERE 
+				 	 BE.COMPANY_CD = CU.COMPANY_CD
+				 AND BE.REG_USER = CU.USER_ID
+				 ) AS REG_USER_NM
+		  	, 	BE.REG_DT
+		  	, 	BE.REG_DT_CURR
+		  	, 	BE.REG_DT_LOC
+		  	, 	BE.REG_IP
+		  	, 	BE.MOD_PGM_ID
+		  	, 	BE.MOD_USER
+		  	,	(SELECT 
+		  			CU.USER_NM_KOR
+				 FROM T_CM_USER CU
+				 WHERE 
+				 	 BE.COMPANY_CD = CU.COMPANY_CD
+				 AND BE.MOD_USER = CU.USER_ID
+				 ) AS MOD_USER_NM
+		  	, 	BE.MOD_DT
+		  	, 	BE.MOD_DT_CURR
+		  	, 	BE.MOD_DT_LOC
+		  	, 	BE.MOD_IP
+		FROM
+    			T_NU_BAND_EVENT BE
+  			, 	T_NU_RESIDENT NR
+		WHERE	BE.COMPANY_CD = NR.COMPANY_CD
+		AND 	BE.RES_ID = NR.RES_ID
+		AND		BE.COMPANY_CD = #{COMPANY_CD}
+		AND		SUBSTRING(BE.BAN_TIME, 1, 8) <![CDATA[>=]]> #{DT_FROM}
+		AND		SUBSTRING(BE.BAN_TIME, 1, 8) <![CDATA[<=]]> #{DT_TO}
+		<if test="AREA != '' and AREA != null">
+		AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+		AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="NAME != '' and NAME != null">
+		AND		NR.NAME LIKE CONCAT ('%', #{NAME}, '%')
+		</if>
+		<if test="CLEAR_YN != '' and CLEAR_YN != null">
+		 <choose>
+		  <when test='CLEAR_YN.equals("N")'>
+		AND		(BE.CLEAR_YN = #{CLEAR_YN} OR BE.CLEAR_YN IS NULL)
+		  </when>
+		  <otherwise>
+		AND		BE.CLEAR_YN = #{CLEAR_YN}		
+		  </otherwise>
+		 </choose>
+		</if>
+		ORDER BY
+				BE.BAN_TIME DESC
+	</select>
+	
+	<!-- 낙상이력조회 수정 -->
+	<update id="NUA807CT_DS_LIST_U" parameterType="java.util.HashMap">
+	/* NUA807CT_DS_LIST_U */
+		UPDATE
+			T_NU_BAND_EVENT
+		SET
+				BAND_TP = #{BAND_TP}
+			,	BAND_DESC = #{BAND_DESC}
+			,	MANAGER_ID = #{MANAGER_ID}
+			,	CLEAR_YN = 'Y'
+			,	CLEAR_TIME = CONCAT(#{CLEAR_DATE},#{HOUR},#{MINUTE})
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		BAN_TIME = #{BAN_TIME}
+		AND		MAC_ADD = #{MAC_ADD}
+	</update>
+	
+	<!-- 층 조회 -->
+	<select id="NUA807CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA807CT_DS_AREA_S */
+		SELECT 
+				COMPANY_CD
+			,	ARE_CD
+			,	ARE_NM
+			,	ARE_TP
+			,	USE_YN
+		FROM	T_NU_AREA
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		ARE_TP = '10'
+	</select>
+	
+	<!-- 생활실 전체조회 -->
+	<select id="NUA807CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA807CT_DS_LOCATION_S */
+		SELECT 
+				COMPANY_CD
+			,	LOC_SEQ
+			,	ARE_CD
+			,	LOC_CD
+			,	LOC_NM
+			,	LOC_TP
+			,	USE_YN
+		FROM 	T_NU_LOCATION
+		WHERE	COMPANY_CD = #{COMPANY_CD}
+		AND		LOC_TP = '10'
+		<if test="AREA != '' and AREA != null">
+		AND		ARE_CD = #{AREA}
+		</if>
+	</select>
+	
+	<!-- 처리자 조회 -->
+	<select id="NUA807CT_DS_MANAGER_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA807CT_DS_MANAGER_S */
+		SELECT 
+				USER_ID AS CMCD
+			,	USER_NM_KOR AS CMNM
+		FROM 	T_CM_USER
+		WHERE 	COMPANY_CD = #{COMPANY_CD}
+		AND 	USE_YN = 'Y'
+		AND RANK_CD IN ('7','8')
+		
+	</select>	                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

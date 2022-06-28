@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : NUB001CT                                                         
+     * 프로그램 명     : 호실/입소자 선택                                                     
+     * Description : 고객사별 호실/입소자 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-07-21 14:35        |  박한준         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB001CT"> 
+	<!-- 입소자 조회 -->
+	<select id="NUB001CT_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.COMPANY_CD 
+			, A.RES_ID
+			, A.NAME
+			, A.AREA
+		    , (SELECT B.ARE_NM 
+			   FROM T_NU_AREA B
+		       WHERE B.COMPANY_CD = A.COMPANY_CD
+		         AND B.ARE_CD = A.AREA) AS AREA_NM
+			, A.LOCATION
+		    , (SELECT DISTINCT B.LOC_NM 
+		       FROM T_NU_LOCATION B
+		       WHERE B.COMPANY_CD = A.COMPANY_CD
+		       	 AND B.ARE_CD = A.AREA
+		         AND B.LOC_CD = A.LOCATION) AS LOCATION_NM
+			, A.REF_SYS_RES_ID
+			, A.FILE_GRP_ID
+		FROM T_NU_RESIDENT A
+		WHERE COMPANY_CD = #{COMPANY_CD}
+		  AND (RETIRE_DT IS NULL OR RETIRE_DT <![CDATA[>]]> DATE_FORMAT(NOW(), '%Y%m%d'))
+    	ORDER BY NAME ASC
+	</select>
+	
+	<!-- 층 조회  -->   
+	<select id="NUB001CT_DS_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+		<![CDATA[ 
+			SELECT COMPANY_CD
+			      ,ARE_CD
+			      ,ARE_NM
+			      ,ARE_TP
+			      ,USE_YN
+			FROM T_NU_AREA
+			WHERE COMPANY_CD = #{COMPANY_CD}
+			AND ARE_TP = '10'
+		]]>
+    </select> 
+    
+    <!-- 생활실 조회 -->
+    <select id="NUB001CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+    	<![CDATA[
+			SELECT A.COMPANY_CD
+			      ,A.LOC_SEQ
+			      ,A.ARE_CD
+			      ,(SELECT B.ARE_NM 
+		            FROM T_NU_AREA B
+		            WHERE B.COMPANY_CD = A.COMPANY_CD
+		            	AND B.ARE_CD = A.ARE_CD) AS ARE_NM
+			      ,A.LOC_CD
+			      ,A.LOC_NM
+			      ,A.LOC_TP
+			      ,A.USE_YN
+			FROM T_NU_LOCATION A
+			WHERE A.COMPANY_CD = #{COMPANY_CD}
+			AND A.LOC_TP = '10'
+    	]]>
+    	<if test="ARE_CD != '' and ARE_CD != null">
+			AND A.ARE_CD = #{ARE_CD}
+        </if>                                                                                                                                                                 
+    </select>  
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P04                                                        
+     * 프로그램 명     	: 수급자상태 설정
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-27 11:30        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                             
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P04">
+	<!-- 조회 -->
+    <select id="DAY00101_P04_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT sicode
+			, m_code
+			, m_group
+			, m_autoid
+			, m_name
+			, 성별
+			, 나이
+			, FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+				 - CAST(CONCAT((CASE WHEN SUBSTRING(m_jumin2,1,1) IN ('1','2') THEN '19'
+			                       WHEN SUBSTRING(m_jumin2,1,1) IN ('3','4') THEN '20'
+			                       WHEN SUBSTRING(m_jumin2,1,1) IN ('9','0') THEN '18'
+			                       ELSE '19' END),m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+			, 식사종류
+			, SUBSTRING(식사종류,1,1) AS meal
+			, 기능장애
+			, SUBSTRING(기능장애,1,1) AS st1
+			, SUBSTRING(기능장애,2,1) AS st2
+			, SUBSTRING(기능장애,3,1) AS st3
+			, SUBSTRING(기능장애,4,1) AS st4
+			, SUBSTRING(기능장애,5,1) AS st5			
+			, 배설조절
+			, 배설변의
+			, 배설뇨의
+			, 배설보조
+			, 침실사용
+			, drugtime
+			, 신장
+			, 체중
+			, TRIM(혈액형) AS 혈액형
+			, TRIM(종교) AS 종교
+			, 추가시분
+			, SUBSTRING(추가시분,1,2) AS nur_time1
+			, SUBSTRING(추가시분,3,2) AS nur_time2
+			, SUBSTRING(추가시분,5,2) AS nur_time3
+			, SUBSTRING(추가시분,7,2) AS nur_time4
+			, SUBSTRING(추가시분,9,2) AS nur_time5
+			, SUBSTRING(추가시분,11,2) AS nur_time6
+			, 제공시분
+			 FROM base_mate
+		WHERE sicode = #{sicode}
+			AND m_code = #{m_code}
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P04_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+		UPDATE base_mate
+		SET 식사종류 = #{meal}
+			, 기능장애 = #{기능장애}
+			, 배설조절 = #{배설조절}
+			, 배설변의 = #{배설변의}
+			, 배설뇨의 = #{배설뇨의}
+			, 배설보조 = #{배설보조}
+			, 침실사용 = #{침실사용}
+			, drugtime = #{drugtime}
+			, 신장   = #{신장}
+			, 체중   = #{체중}
+			, 혈액형  = #{혈액형}
+			, 종교   = #{종교}
+			, 추가시분 = #{추가시분}
+		WHERE sicode = #{sicode}
+		AND m_code = #{m_code}
+    </update>
+    
+    <!-- 설정값 가져오기 조회 -->
+    <select id="DAY00101_P04_DS_RECORD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+    <![CDATA[
+        SELECT sicode
+			, SUBSTRING(추가시분,1,2) AS nur_time1
+			, SUBSTRING(추가시분,3,2) AS nur_time2
+			, SUBSTRING(추가시분,5,2) AS nur_time3
+			, SUBSTRING(추가시분,7,2) AS nur_time4
+			, SUBSTRING(추가시분,9,2) AS nur_time5
+			, SUBSTRING(추가시분,11,2) AS nur_time6
+		FROM base_info
+		WHERE sicode = #{sicode}
+	]]>
+    </select>
+    
+
+
+</mapper>                                                                                                                                                                                                          

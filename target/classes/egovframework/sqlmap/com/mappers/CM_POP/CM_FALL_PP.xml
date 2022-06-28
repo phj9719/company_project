@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CM_RES_PP                                                         
+     * 프로그램 명     : 입소자팝업                                                     
+     * Description : 고객사별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   |  작성자         |  비고                                    
+     *================================================================                  
+       2021-06-18 10:11        |  SOOIM         | 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_FALL_PP"> 
+	<update id="CM_FALL_PP_DS_LIST_U" parameterType="java.util.HashMap">                                                                                          
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_FALL_EVENT                                                                                                                                                                                              
+						 SET FALL_TP      = #{FALL_TP    }
+							,FALL_DESC    = #{FALL_DESC  }
+							,CLEAR_YN     = 'Y'
+							,CLEAR_TIME	  = CONCAT(#{YYYYMMDD},#{HHMM})
+							,MANAGER_ID   = #{MANAGER_ID }
+							,MOD_PGM_ID   = #{MOD_PGM_ID }
+							,MOD_USER     = #{MOD_USER   }
+							,MOD_DT       = #{MOD_DT     }
+							,MOD_DT_CURR  = #{MOD_DT_CURR}
+							,MOD_DT_LOC   = #{MOD_DT_LOC }
+							,MOD_IP       = #{MOD_IP     }
+			           WHERE 1=1
+			           	 AND COMPANY_CD = #{COMPANY_CD}                                                                                                                                                                                      
+                       	 AND DIA_TIME  = #{DIA_TIME}
+					   	 AND RES_ID  = #{RES_ID}
+    ]]>                                                                                                                                                                                                            
+    </update>                                                                                                                                                                                                                                                                                                                                                                                                             
+	                                                                                                                                                                              
+</mapper>                                                                                                                                                                                                          

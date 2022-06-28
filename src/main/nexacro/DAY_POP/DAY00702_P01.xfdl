@@ -1,0 +1,1335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00702_P01" width="1074" height="900" titletext="주간식단표 템플릿 작성" onload="form_onload">
+    <Layouts>
+      <Layout width="1074" height="900">
+        <Div id="div_func" taborder="0" left="0" top="0" height="40" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="1" text="저장" top="7" width="70" height="26" onclick="fn_saveBtn" right="10" cssclass="btn_save"/>
+              <Static id="sta_desc" taborder="2" left="96" top="7" width="596" height="26" cssclass="sta_WF_DetailLabel02" text="※ 식단 템블릿을 먼저 클릭하시고 식단명을 더블클릭하시면 템플릿으로 식단이 복사됩니다."/>
+              <Button id="btn_refresh" taborder="0" text="새로고침" left="10" top="7" width="80" height="26" onclick="btn_refresh_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_main" taborder="1" left="10" top="40" background="#ffffff" border="1px solid black" right="10" height="850">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="1" left="0" top="0" width="320" bottom="3">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_foodsearch" taborder="0" text="" left="20" top="200" width="280" height="30">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_00" taborder="0" text="식단검색 : " left="0" top="2" width="60" height="26"/>
+                          <Edit id="edt_name" taborder="1" left="65" top="2" width="140" height="26" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" onkeyup="div_main_div_left_div_foodsearch_edt_name_onkeyup"/>
+                          <Button id="btn_search" taborder="2" text="조회" top="2" height="26" cssclass="btn_search" width="70" left="210" onclick="fn_search"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_foodselect" taborder="1" text="" left="20" top="233" width="280" height="30">
+                      <Layouts>
+                        <Layout>
+                          <Static id="sta_00" taborder="0" text="선택식단 :" left="0" top="0" width="60" height="26"/>
+                          <Edit id="edt_select" taborder="1" left="65" top="0" height="26" readonly="true" right="0"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Grid id="grd_foodlist" taborder="2" left="20" top="264" width="280" height="546" binddataset="ds_foodlist" autofittype="col" oncellclick="div_main_div_left_grd_00_oncellclick" oncelldblclick="div_main_div_left_grd_foodlist_oncelldblclick">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="180"/>
+                            <Column size="100"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="25" band="head"/>
+                            <Row size="25"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="식단명"/>
+                            <Cell col="1" text="식단구분"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:식단이름"/>
+                            <Cell col="1" text="bind:식단구분명"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                    <Button id="btn_menuadd" taborder="3" text="식단 추가" left="20" top="815" width="100" height="25" onclick="div_main_div_left_btn_menuadd_onclick"/>
+                    <Div id="div_btn" taborder="4" text="" left="20" top="5" width="280" height="190">
+                      <Layouts>
+                        <Layout>
+                          <Button id="btn_g01" taborder="0" text="간식류" left="143" top="129" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f07" taborder="1" text="기타" left="143" top="99" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f05" taborder="2" text="나물,무침" left="143" top="69" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f03" taborder="3" text="찜,조림,볶음" left="143" top="39" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f01" taborder="4" text="주식[밥,죽]" left="143" top="10" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f08" taborder="5" text="김치외 장류" left="0" top="129" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f04" taborder="6" text="전,부침,튀김" left="0" top="69" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f06" taborder="7" text="구이,젓갈" left="0" top="99" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_f02" taborder="8" text="국,탕,찌개" left="0" top="39" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_all" taborder="9" text="전체" left="0" top="10" width="137" height="26" onclick="btn_select_onclick"/>
+                          <Button id="btn_g02" taborder="10" text="과일,음료" left="0" top="159" width="137" height="26" onclick="btn_select_onclick"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="0" left="330" top="0" right="0" bottom="3">
+                <Layouts>
+                  <Layout>
+                    <Div id="div_temp1" taborder="0" text="" left="17" top="10" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num1_1" taborder="1" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center"/>
+                          <Edit id="edt_name1_1" taborder="2" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" color="#222222" enable="false"/>
+                          <Button id="btn_del1_1" taborder="4" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num1_2" taborder="5" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center"/>
+                          <Edit id="edt_name1_2" taborder="6" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff" color="#222222"/>
+                          <Button id="btn_del1_2" taborder="8" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num1_3" taborder="9" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center"/>
+                          <Edit id="edt_name1_3" taborder="10" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff" color="#222222"/>
+                          <Button id="btn_del1_3" taborder="12" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num1_4" taborder="13" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center"/>
+                          <Edit id="edt_name1_4" taborder="14" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff" color="#222222"/>
+                          <Edit id="edt_num1_5" taborder="17" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center"/>
+                          <Edit id="edt_num1_6" taborder="21" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center"/>
+                          <Edit id="edt_name1_6" taborder="22" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff" color="#222222"/>
+                          <Edit id="edt_name1_5" taborder="18" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff" color="#222222"/>
+                          <Button id="btn_del1_6" taborder="24" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del1_5" taborder="20" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del1_4" taborder="16" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp1" taborder="0" text="식단 템플릿1(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun1_1" taborder="3" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                          <Combo id="cmb_gubun1_2" taborder="7" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                          <Combo id="cmb_gubun1_3" taborder="11" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                          <Combo id="cmb_gubun1_4" taborder="15" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                          <Combo id="cmb_gubun1_5" taborder="19" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                          <Combo id="cmb_gubun1_6" taborder="23" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign" color="#222222" enable="false"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp2" taborder="1" text="" left="368" top="10" height="161" width="340">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num2_1" taborder="1" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name2_1" taborder="2" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del2_1" taborder="4" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num2_2" taborder="5" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name2_2" taborder="6" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del2_2" taborder="8" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num2_3" taborder="9" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name2_3" taborder="10" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del2_3" taborder="12" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num2_4" taborder="13" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name2_4" taborder="14" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num2_5" taborder="17" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center" color="#00000"/>
+                          <Edit id="edt_num2_6" taborder="21" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name2_6" taborder="22" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name2_5" taborder="18" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del2_6" taborder="24" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del2_5" taborder="20" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del2_4" taborder="16" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp2" taborder="0" text="식단 템플릿2(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun2_1" taborder="3" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun2_2" taborder="7" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun2_3" taborder="11" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun2_4" taborder="15" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun2_5" taborder="19" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun2_6" taborder="23" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp3" taborder="2" text="" left="17" top="174" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num3_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center"/>
+                          <Edit id="edt_name3_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Button id="btn_del3_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num3_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center"/>
+                          <Edit id="edt_name3_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Button id="btn_del3_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num3_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center"/>
+                          <Edit id="edt_name3_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Button id="btn_del3_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num3_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center"/>
+                          <Edit id="edt_name3_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Edit id="edt_num3_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center"/>
+                          <Edit id="edt_num3_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center"/>
+                          <Edit id="edt_name3_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Edit id="edt_name3_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" background="#ffffff" enable="false"/>
+                          <Button id="btn_del3_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del3_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del3_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp3" taborder="18" text="식단 템플릿3(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun3_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun3_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun3_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun3_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun3_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun3_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp4" taborder="3" text="" left="368" top="174" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num4_1" taborder="1" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name4_1" taborder="2" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del4_1" taborder="4" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num4_2" taborder="5" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name4_2" taborder="6" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del4_2" taborder="8" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num4_3" taborder="9" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name4_3" taborder="10" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del4_3" taborder="12" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num4_4" taborder="13" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name4_4" taborder="14" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num4_5" taborder="17" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center" color="#00000"/>
+                          <Edit id="edt_num4_6" taborder="21" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name4_6" taborder="22" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name4_5" taborder="18" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del4_6" taborder="24" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del4_5" taborder="20" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del4_4" taborder="16" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp4" taborder="0" text="식단 템플릿4(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun4_1" taborder="3" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun4_2" taborder="7" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun4_3" taborder="11" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun4_4" taborder="15" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun4_5" taborder="19" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun4_6" taborder="23" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp5" taborder="4" text="" left="17" top="338" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num5_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center"/>
+                          <Edit id="edt_name5_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del5_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num5_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center"/>
+                          <Edit id="edt_name5_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del5_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num5_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center"/>
+                          <Edit id="edt_name5_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del5_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num5_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center"/>
+                          <Edit id="edt_name5_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num5_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center"/>
+                          <Edit id="edt_num5_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center"/>
+                          <Edit id="edt_name5_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name5_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del5_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del5_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del5_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp5" taborder="18" text="식단 템플릿5(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun5_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun5_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun5_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun5_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun5_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun5_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp6" taborder="5" text="" left="368" top="338" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num6_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name6_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del6_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num6_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name6_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del6_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num6_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name6_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del6_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num6_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name6_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num6_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center" color="#00000"/>
+                          <Edit id="edt_num6_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name6_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name6_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del6_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del6_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del6_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp6" taborder="18" text="식단 템플릿6(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun6_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun6_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun6_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun6_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun6_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun6_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp7" taborder="6" text="" left="17" top="502" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num7_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center"/>
+                          <Edit id="edt_name7_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del7_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num7_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center"/>
+                          <Edit id="edt_name7_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del7_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num7_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center"/>
+                          <Edit id="edt_name7_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del7_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num7_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center"/>
+                          <Edit id="edt_name7_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num7_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center"/>
+                          <Edit id="edt_num7_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center"/>
+                          <Edit id="edt_name7_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name7_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del7_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del7_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del7_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp7" taborder="18" text="식단 템플릿7(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun7_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun7_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun7_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun7_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun7_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun7_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp8" taborder="7" text="" left="368" top="502" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num8_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name8_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del8_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num8_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name8_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del8_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num8_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name8_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del8_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num8_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name8_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num8_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center" color="#00000"/>
+                          <Edit id="edt_num8_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name8_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name8_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del8_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del8_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del8_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp8" taborder="18" text="식단 템플릿8(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun8_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun8_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun8_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun8_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun8_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun8_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp9" taborder="8" text="" left="17" top="666" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num9_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center"/>
+                          <Edit id="edt_name9_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del9_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num9_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center"/>
+                          <Edit id="edt_name9_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del9_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num9_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center"/>
+                          <Edit id="edt_name9_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del9_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num9_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center"/>
+                          <Edit id="edt_name9_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num9_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center"/>
+                          <Edit id="edt_num9_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center"/>
+                          <Edit id="edt_name9_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name9_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del9_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del9_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del9_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp9" taborder="18" text="식단 템플릿9(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun9_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun9_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun9_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun9_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun9_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun9_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                    <Div id="div_temp10" taborder="9" text="" left="368" top="666" width="340" height="161">
+                      <Layouts>
+                        <Layout>
+                          <Edit id="edt_num10_1" taborder="0" left="2" top="23" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="1" readonly="true" value="1" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name10_1" taborder="1" left="26" top="23" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del10_1" taborder="2" text="지움" left="274" top="23" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num10_2" taborder="3" left="2" top="45" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="2" readonly="true" value="2" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name10_2" taborder="4" left="26" top="45" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del10_2" taborder="5" text="지움" left="274" top="45" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num10_3" taborder="6" left="2" top="67" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="3" readonly="true" value="3" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name10_3" taborder="7" left="26" top="67" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del10_3" taborder="8" text="지움" left="274" top="67" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Edit id="edt_num10_4" taborder="9" left="2" top="89" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="4" readonly="true" value="4" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name10_4" taborder="10" left="26" top="89" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_num10_5" taborder="11" left="2" top="111" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="5" readonly="true" value="5" textAlign="center" color="#00000"/>
+                          <Edit id="edt_num10_6" taborder="12" left="2" top="133" width="25" height="23" oneditclick="div_main_div_left_div_foodsearch_edt_name_oneditclick" border="1px solid #000000" text="6" readonly="true" value="6" textAlign="center" color="#00000"/>
+                          <Edit id="edt_name10_6" taborder="13" left="26" top="133" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Edit id="edt_name10_5" taborder="14" left="26" top="111" width="150" height="23" border="1px solid #000000" text="1" textAlign="center" enable="false" background="#ffffff"/>
+                          <Button id="btn_del10_6" taborder="15" text="지움" left="274" top="133" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del10_5" taborder="16" text="지움" left="274" top="111" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_del10_4" taborder="17" text="지움" left="274" top="89" width="60" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="fn_del"/>
+                          <Button id="btn_temp10" taborder="18" text="식단 템플릿10(우선클릭)" left="2" top="1" width="332" height="23" border="1px solid #000000" background="#ffffff" color="#000000" onclick="btn_temp"/>
+                          <Combo id="cmb_gubun10_1" taborder="19" left="175" top="23" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun10_2" taborder="20" left="175" top="45" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun10_3" taborder="21" left="175" top="67" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun10_4" taborder="22" left="175" top="89" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun10_5" taborder="23" left="175" top="111" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                          <Combo id="cmb_gubun10_6" taborder="24" left="175" top="133" width="100" height="23" innerdataset="ds_gubun" enable="false" buttonsize="0 0" background="#ffffff" border="1px solid #000000" codecolumn="CMCD" datacolumn="CMNM" cssclass="comboalign"/>
+                        </Layout>
+                      </Layouts>
+                    </Div>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_foodlist">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="식단번호" type="STRING" size="256"/>
+          <Column id="식단구분" type="STRING" size="256"/>
+          <Column id="식단구분명" type="STRING" size="256"/>
+          <Column id="식단이름" type="STRING" size="256"/>
+          <Column id="일회제공" type="STRING" size="256"/>
+          <Column id="칼로리" type="STRING" size="256"/>
+          <Column id="재료구성" type="STRING" size="256"/>
+          <Column id="org_식단번호" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="GUBUN" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_temp1">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp2">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp3">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp4">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp5">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp6">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp7">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp8">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp9">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_temp10">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_datalist">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_gubun">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">F01</Col>
+            <Col id="CMNM">주식[밥,죽]</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F02</Col>
+            <Col id="CMNM">국,탕,찌개</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F03</Col>
+            <Col id="CMNM">찜,조림,볶음</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F04</Col>
+            <Col id="CMNM">전,부침,튀김</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F05</Col>
+            <Col id="CMNM">나물,무침</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F06</Col>
+            <Col id="CMNM">구이,젓갈</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F07</Col>
+            <Col id="CMNM">기타</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">F08</Col>
+            <Col id="CMNM">김치외 장류</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">G01</Col>
+            <Col id="CMNM">간식류</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">G02</Col>
+            <Col id="CMNM">과일,음료</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">G99</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food01" type="STRING" size="256"/>
+          <Column id="food02" type="STRING" size="256"/>
+          <Column id="food03" type="STRING" size="256"/>
+          <Column id="food04" type="STRING" size="256"/>
+          <Column id="food05" type="STRING" size="256"/>
+          <Column id="food06" type="STRING" size="256"/>
+          <Column id="gubun01" type="STRING" size="256"/>
+          <Column id="gubun02" type="STRING" size="256"/>
+          <Column id="gubun03" type="STRING" size="256"/>
+          <Column id="gubun04" type="STRING" size="256"/>
+          <Column id="gubun05" type="STRING" size="256"/>
+          <Column id="gubun06" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem1">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem2">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem3">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem4">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem5">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem6">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem7">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem8">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem9">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_tem10">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="t_number" type="STRING" size="256"/>
+          <Column id="temp_id" type="STRING" size="256"/>
+          <Column id="food" type="STRING" size="256"/>
+          <Column id="gubun" type="STRING" size="256"/>
+          <Column id="gnum" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00702_P01
+ * 화면명   	: 식단템플릿 등록
+ * 화면설명 	: 주간식단표 식단템플릿 등록
+ * 작성일   	: 2022-03-28
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+//const fv_date = this.parent.DATE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00702_P01";
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);	
+	
+	this.fn_search("search");
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	// 저장용 데이터셋 클리어
+	this.ds_data.clearData();
+	for(var i=1; i<=10; i++){
+		this.all["ds_tem"+i].clearData();
+	}
+	
+	// 저장전 ds_data에 데이터 담기
+	for(var i=1; i<=10; i++){
+		//데이터가 존재하면 데이터타입 업데이트로 변경
+		var dRow = this.ds_data.addRow();	
+
+		// 정렬저장을 위한 데이터셋 세팅
+		for(var j=1; j<=6; j++){
+			var aRow = this.all["ds_tem"+i].addRow();						
+ 			this.all["ds_tem"+i].setColumn(aRow, "sicode", this.ds_datalist.getColumn((i-1),"sicode"));
+ 			this.all["ds_tem"+i].setColumn(aRow, "t_number", this.ds_datalist.getColumn((i-1),"t_number"));
+ 			this.all["ds_tem"+i].setColumn(aRow, "temp_id", this.ds_datalist.getColumn((i-1),"temp_id"));
+			this.all["ds_tem"+i].setColumn(aRow, "food", this.all["ds_temp"+i].getColumn(0,"food0"+j));
+			this.all["ds_tem"+i].setColumn(aRow, "gubun", this.all["ds_temp"+i].getColumn(0,"gubun0"+j));
+			var gubun = this.all["ds_temp"+i].getColumn(0,"gubun0"+j);
+			
+			switch(gubun){ 
+				case "F01" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 1); break;				
+				case "F02" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 2); break;
+				case "F03" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 3); break;
+				case "F04" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 4); break;
+				case "F05" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 5); break;
+				case "F06" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 6); break;
+				case "F07" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 7); break;
+				case "F08" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 8); break;
+				case "G01" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 9); break;
+				case "G02" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 90); break; // sring으로 구분되어 90으로 설정함
+				case "G99" : this.all["ds_tem"+i].setColumn(aRow, "gnum", 91); break; // sring
+				default : this.all["ds_tem"+i].setColumn(aRow, "gnum", 92); break; // sring
+			}
+		}
+		
+		//구분값으로 정렬
+		this.all["ds_tem"+i].set_keystring("S:+gnum+food");
+		
+		// 키값 세팅
+		this.ds_data.setColumn(dRow,"sicode",fv_sicode);
+		this.ds_data.setColumn(dRow,"t_number",this.all["ds_temp"+i].getColumn(0,"t_number"));
+		this.ds_data.setColumn(dRow,"temp_id",this.all["ds_temp"+i].getColumn(0,"temp_id"));
+		
+		//저장 데이터셋에 담기
+		for(var k=1; k<=6; k++){
+			this.ds_data.setColumn(dRow,"food0"+k, this.all["ds_tem"+i].getColumn((k-1),"food"));
+			this.ds_data.setColumn(dRow,"gubun0"+k, this.all["ds_tem"+i].getColumn((k-1),"gubun"));
+		}
+		
+		// 데이터 저장시 insert, update 구분
+		if(this.ds_datalist.getColumn(i-1,"temp_id") == this.ds_data.getColumn(i-1,"temp_id")){
+			this.ds_data.set_updatecontrol(false);
+			this.ds_data.setRowType(i-1, Dataset.ROWTYPE_UPDATE);
+			this.ds_data.set_updatecontrol(true);
+		}
+	}	
+	
+	if (!this.confirm("저장 하시겠습니까?"))
+		return false;
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function(flag)
+{	
+	const svcId = flag;
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_foodlist=output1 ds_datalist=output2";
+	const argument = "method=getList "
+				   + "sqlId='DAY00702_P01.DAY00702_P01_DS_LIST_S DAY00702_P01.DAY00702_P01_DS_DATA_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+	const inDs = "ds_data";
+	
+	this.fn_save_com(svcId, inDs);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			//
+			this.div_main.form.div_left.form.div_foodselect.form.edt_select.set_value(""); // 
+			this.fn_tempsetboder(); // 테두리 제거
+			
+			for(var i=1; i<=10; i++){// temp1~10 로우 추가
+				var tempid = this.ds_datalist.getColumn(i-1, "temp_id"); // 템플릿 번호 1~10
+				this.all["ds_temp"+i].clearData() // temp 데이터셋 초기화 후 세팅
+				this.all["ds_tem"+i].clearData() // temp 데이터셋 초기화 후 세팅 테스트
+			
+				if(tempid == i){ // 데이터가 있으면 세팅
+					this.all["ds_temp"+i].copyRow(this.all["ds_temp"+i].addRow(), this.ds_datalist, i-1);
+				
+					// 구분값 자르기
+					this.all["ds_temp"+i].setColumn(0, "gubun01", this.all["ds_temp"+i].getColumn(0,"gubun").substr(0,3));
+					this.all["ds_temp"+i].setColumn(0, "gubun02", this.all["ds_temp"+i].getColumn(0,"gubun").substr(3,3));
+					this.all["ds_temp"+i].setColumn(0, "gubun03", this.all["ds_temp"+i].getColumn(0,"gubun").substr(6,3));
+					this.all["ds_temp"+i].setColumn(0, "gubun04", this.all["ds_temp"+i].getColumn(0,"gubun").substr(9,3));
+					this.all["ds_temp"+i].setColumn(0, "gubun05", this.all["ds_temp"+i].getColumn(0,"gubun").substr(12,3));
+					this.all["ds_temp"+i].setColumn(0, "gubun06", this.all["ds_temp"+i].getColumn(0,"gubun").substr(15,3));					
+					
+				}else{ // 없으면 추가
+					this.all["ds_temp"+i].setColumn(this.all["ds_temp"+i].addRow(), "sicode", fv_sicode);
+					this.all["ds_temp"+i].setColumn(0, "temp_id", i); // temp_id 세팅
+				}
+			}
+		}
+		else if (strSvcID == "menu_search") // 메뉴 구분선택시 테두리 제거 안함
+		{
+			this.div_main.form.div_left.form.div_foodselect.form.edt_select.set_value("");
+		}
+		else if (strSvcID == "save")
+		{
+			this.alert("저장되었습니다.");
+			this.fn_search("search");
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if (popid != "menuadd")
+	{
+		if(Sct.Util.isEmpty(strDs)) return;
+	}
+	
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "menuadd" :
+			nexacro.getApplication().gv_curWinKey = "DAY00702_P01"; // 팝업창 닫고 재조회 시 사용하기 위해 다시 세팅
+			this.fn_search("search");
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 저장 버튼
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+// 새로고침, 조회 기능
+this.btn_refresh_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.ds_search.clearData(); // 검색창 클리어
+	this.ds_search.setColumn(0, "GUBUN", "");
+	this.ds_search.setColumn(0, "NAME", "");
+	this.fn_search("search");
+};
+
+// 식단패널 선택 이벤트
+this.btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_search.setColumn(0, "NAME", "");	
+	var objid = obj.id.substr(4);
+	switch(objid)
+	{
+		case "all" : // 전체
+			this.ds_search.setColumn(0,"GUBUN","");
+			break;
+		case "f01" : // 주식[밥,죽]
+			this.ds_search.setColumn(0,"GUBUN","F01");
+			break;
+		case "f02" : // 국,탕,찌개
+			this.ds_search.setColumn(0,"GUBUN","F02");
+			break;
+		case "f03" : // 찜,조림,볶음
+			this.ds_search.setColumn(0,"GUBUN","F03");
+			break;
+		case "f04" : // 전,부침,튀김
+			this.ds_search.setColumn(0,"GUBUN","F04");
+			break;
+		case "f05" : // 나물,무침
+			this.ds_search.setColumn(0,"GUBUN","F05");
+			break;
+		case "f06" : // 구이,젓갈
+			this.ds_search.setColumn(0,"GUBUN","F06");
+			break;
+		case "f07" : // 기타
+			this.ds_search.setColumn(0,"GUBUN","F07");
+			break;
+		case "f08" : // 김치외 장류
+			this.ds_search.setColumn(0,"GUBUN","F08");
+			break;
+		case "g01" : // 간식류
+			this.ds_search.setColumn(0,"GUBUN","G01");
+			break;
+		case "g02" : // 과일,음료
+			this.ds_search.setColumn(0,"GUBUN","G02");
+			break;
+		default :
+			break;
+	}
+	// 조회
+	this.fn_search("menu_search");
+};
+
+
+// 그리드 클릭 이벤트
+this.div_main_div_left_grd_00_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var selectname = this.ds_foodlist.getColumn(this.ds_foodlist.rowposition, "식단이름");
+	this.div_main.form.div_left.form.div_foodselect.form.edt_select.set_value(selectname);
+};
+
+// 식단검색 시 구분값 초기화
+this.div_main_div_left_div_foodsearch_edt_name_oneditclick = function(obj:nexacro.Edit,e:nexacro.EditClickEventInfo)
+{
+	this.ds_search.setColumn(0, "GUBUN", "");
+};
+
+// 템플릿 우선클릭 이벤트
+this.btn_temp = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	var num = obj.id.substr(8); // btn_temp1 > 1 추출
+		
+	// 클릭상태에서 한번 더 클릭시 테두리 제거
+ 	if(this.div_main.form.div_right.form.components["div_temp" + num].border.length > 0) {
+		this.div_main.form.div_right.form.components["div_temp" + num].set_border("");
+		this.div_main.form.div_right.form.components["div_temp" + num].form.components["btn_temp" + num].set_background("#ffffff");
+		return false;
+	}
+	
+	switch(obj.id){
+		case "btn_temp" + num : 
+			this.fn_tempsetboder(); // 테두리 제거
+			this.div_main.form.div_right.form.components["div_temp" + num].set_border("2px solid #a3c7f0");
+			//this.div_main.form.div_right.form.div_temp1.form.btn_temp1.set_background("#a3c7f0")
+			this.div_main.form.div_right.form.components["div_temp" + num].form.components["btn_temp" + num].set_background("#a3c7f0");
+			break;
+	}
+};
+
+// 템플릿 테두리, 우선클릭 백그라운드 제거
+this.fn_tempsetboder = function(){
+	for(var i=1; i<11; i++){
+		this.div_main.form.div_right.form.components["div_temp" + i].set_border("");
+		this.div_main.form.div_right.form.components["div_temp" + i].form.components["btn_temp" + i].set_background("#ffffff");
+	}
+}
+
+// 그리드 더블클릭
+this.div_main_div_left_grd_foodlist_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+
+	// 선택된 템플릿 div id 찾기
+	for(var i=1; i<11; i++){	
+		// 선택된 템플릿 border 설정값으로 찾기
+		var blength = this.div_main.form.div_right.form.components["div_temp" + i].border.length; 
+		if(blength > 0){
+			var comp = "div_temp";
+			var num = i;
+		}
+	}
+	var compent = comp + num; // div_temp1
+	switch(compent){
+		case "div_temp" + num : 
+			//this.all["ds_temp"+num].setColumn(0, "temp_id", num); // temp_id 세팅
+			for(var i=1; i<=6; i++){ // food01 ~ food06 데이터 넣기
+				// 빈값 row에 데이터 입력
+				if(Sct.Util.isEmpty(this.all["ds_temp"+num].getColumn(0,"food0"+i))){
+					// 동일 식단명 중복등록 안되게
+					for(var y=1; y<=6; y++){
+						var fname = this.ds_foodlist.getColumn(this.ds_foodlist.rowposition, "식단이름"); // 선택식단
+						var sname = this.all["ds_temp"+num].getColumn(0,"food0"+y); // 템플릿 리스트 식단
+						if(fname == sname){ // 
+							return false;
+						}
+					}
+					this.all["ds_temp"+num].setColumn(0,"food0"+i,this.ds_foodlist.getColumn(this.ds_foodlist.rowposition, "식단이름"));
+					this.all["ds_temp"+num].setColumn(0,"gubun0"+i,this.ds_foodlist.getColumn(this.ds_foodlist.rowposition, "식단구분"));
+					//trace("식단구분 : "+this.ds_foodlist.getColumn(this.ds_foodlist.rowposition, "식단구분"));
+					return false;
+				}
+			}
+		break;
+	}
+	
+};
+
+// 템플릿 지움 이벤트
+this.fn_del = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var num = "";	
+	if(obj.id.substr(0,9) == "btn_del10"){
+		num = obj.id.substr(7,2);
+	}else{
+		num = obj.id.substr(7,1); // btn_del1_1 > 1 추출
+	}
+	var objid = obj.id.substr(7); // btn_del1_1 > 1_1 추출
+	this.div_main.form.div_right.form.components["div_temp" + num].form.components["edt_name" + objid].set_value(""); // 이름 빈값처리
+	this.div_main.form.div_right.form.components["div_temp" + num].form.components["cmb_gubun" + objid].set_value("   "); // 구분 빈값처리(3자리 공백)
+	
+};
+
+// 식단메뉴추가 팝업
+this.div_main_div_left_btn_menuadd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+				SICODE : fv_sicode
+		};
+	Sct.popup(this, "menuadd", 450, 400, "", param, "DAY_POP::DAY00702_P02.xfdl", "fn_popCallback");
+};
+
+// 검색창
+this.div_main_div_left_div_foodsearch_edt_name_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	// 엔터키 입력시 조회되게
+	if(e.keycode == "13"){
+		this.fn_search("menu_search");
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="div_main.form.div_left.form.div_foodsearch.form.edt_name" propid="value" datasetid="ds_search" columnid="NAME"/>
+      <BindItem id="item1" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_1" propid="value" datasetid="ds_temp1" columnid="food01"/>
+      <BindItem id="item2" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_2" propid="value" datasetid="ds_temp1" columnid="food02"/>
+      <BindItem id="item3" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_3" propid="value" datasetid="ds_temp1" columnid="food03"/>
+      <BindItem id="item4" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_4" propid="value" datasetid="ds_temp1" columnid="food04"/>
+      <BindItem id="item5" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_5" propid="value" datasetid="ds_temp1" columnid="food05"/>
+      <BindItem id="item6" compid="div_main.form.div_right.form.div_temp1.form.edt_name1_6" propid="value" datasetid="ds_temp1" columnid="food06"/>
+      <BindItem id="item13" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_1" propid="value" datasetid="ds_temp2" columnid="food01"/>
+      <BindItem id="item14" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_2" propid="value" datasetid="ds_temp2" columnid="food02"/>
+      <BindItem id="item15" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_3" propid="value" datasetid="ds_temp2" columnid="food03"/>
+      <BindItem id="item16" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_4" propid="value" datasetid="ds_temp2" columnid="food04"/>
+      <BindItem id="item17" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_5" propid="value" datasetid="ds_temp2" columnid="food05"/>
+      <BindItem id="item18" compid="div_main.form.div_right.form.div_temp2.form.edt_name2_6" propid="value" datasetid="ds_temp2" columnid="food06"/>
+      <BindItem id="item25" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_1" propid="value" datasetid="ds_temp3" columnid="food01"/>
+      <BindItem id="item26" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_2" propid="value" datasetid="ds_temp3" columnid="food02"/>
+      <BindItem id="item27" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_3" propid="value" datasetid="ds_temp3" columnid="food03"/>
+      <BindItem id="item28" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_4" propid="value" datasetid="ds_temp3" columnid="food04"/>
+      <BindItem id="item29" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_5" propid="value" datasetid="ds_temp3" columnid="food05"/>
+      <BindItem id="item30" compid="div_main.form.div_right.form.div_temp3.form.edt_name3_6" propid="value" datasetid="ds_temp3" columnid="food06"/>
+      <BindItem id="item37" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_1" propid="value" datasetid="ds_temp4" columnid="food01"/>
+      <BindItem id="item38" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_2" propid="value" datasetid="ds_temp4" columnid="food02"/>
+      <BindItem id="item39" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_3" propid="value" datasetid="ds_temp4" columnid="food03"/>
+      <BindItem id="item40" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_4" propid="value" datasetid="ds_temp4" columnid="food04"/>
+      <BindItem id="item41" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_5" propid="value" datasetid="ds_temp4" columnid="food05"/>
+      <BindItem id="item42" compid="div_main.form.div_right.form.div_temp4.form.edt_name4_6" propid="value" datasetid="ds_temp4" columnid="food06"/>
+      <BindItem id="item49" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_1" propid="value" datasetid="ds_temp5" columnid="food01"/>
+      <BindItem id="item50" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_2" propid="value" datasetid="ds_temp5" columnid="food02"/>
+      <BindItem id="item51" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_3" propid="value" datasetid="ds_temp5" columnid="food03"/>
+      <BindItem id="item52" compid="div_main.form.div_right.form.div_temp5.form.edt_name_4" propid="value" datasetid="ds_temp5" columnid="food04"/>
+      <BindItem id="item53" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_5" propid="value" datasetid="ds_temp5" columnid="food05"/>
+      <BindItem id="item54" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_6" propid="value" datasetid="ds_temp5" columnid="food06"/>
+      <BindItem id="item61" compid="div_main.form.div_right.form.div_temp5.form.edt_name5_4" propid="value" datasetid="ds_temp5" columnid="food04"/>
+      <BindItem id="item86" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_1" propid="value" datasetid="ds_temp6" columnid="food01"/>
+      <BindItem id="item87" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_2" propid="value" datasetid="ds_temp6" columnid="food02"/>
+      <BindItem id="item88" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_3" propid="value" datasetid="ds_temp6" columnid="food03"/>
+      <BindItem id="item89" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_4" propid="value" datasetid="ds_temp6" columnid="food04"/>
+      <BindItem id="item90" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_5" propid="value" datasetid="ds_temp6" columnid="food05"/>
+      <BindItem id="item91" compid="div_main.form.div_right.form.div_temp6.form.edt_name6_6" propid="value" datasetid="ds_temp6" columnid="food06"/>
+      <BindItem id="item98" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_1" propid="value" datasetid="ds_temp7" columnid="food01"/>
+      <BindItem id="item99" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_2" propid="value" datasetid="ds_temp7" columnid="food02"/>
+      <BindItem id="item100" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_3" propid="value" datasetid="ds_temp7" columnid="food03"/>
+      <BindItem id="item101" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_4" propid="value" datasetid="ds_temp7" columnid="food04"/>
+      <BindItem id="item102" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_5" propid="value" datasetid="ds_temp7" columnid="food05"/>
+      <BindItem id="item103" compid="div_main.form.div_right.form.div_temp7.form.edt_name7_6" propid="value" datasetid="ds_temp7" columnid="food06"/>
+      <BindItem id="item110" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_1" propid="value" datasetid="ds_temp8" columnid="food01"/>
+      <BindItem id="item111" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_2" propid="value" datasetid="ds_temp8" columnid="food02"/>
+      <BindItem id="item112" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_3" propid="value" datasetid="ds_temp8" columnid="food03"/>
+      <BindItem id="item113" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_4" propid="value" datasetid="ds_temp8" columnid="food04"/>
+      <BindItem id="item114" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_5" propid="value" datasetid="ds_temp8" columnid="food05"/>
+      <BindItem id="item115" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_6" propid="value" datasetid="ds_temp8" columnid="food06"/>
+      <BindItem id="item122" compid="div_main.form.div_right.form.div_temp8.form.edt_name8_4" propid="value" datasetid="ds_temp8" columnid="food04"/>
+      <BindItem id="item62" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_1" propid="value" datasetid="ds_temp9" columnid="food01"/>
+      <BindItem id="item63" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_2" propid="value" datasetid="ds_temp9" columnid="food02"/>
+      <BindItem id="item64" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_3" propid="value" datasetid="ds_temp9" columnid="food03"/>
+      <BindItem id="item65" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_4" propid="value" datasetid="ds_temp9" columnid="food04"/>
+      <BindItem id="item66" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_5" propid="value" datasetid="ds_temp9" columnid="food05"/>
+      <BindItem id="item67" compid="div_main.form.div_right.form.div_temp9.form.edt_name9_6" propid="value" datasetid="ds_temp9" columnid="food06"/>
+      <BindItem id="item74" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_1" propid="value" datasetid="ds_temp10" columnid="food01"/>
+      <BindItem id="item75" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_2" propid="value" datasetid="ds_temp10" columnid="food02"/>
+      <BindItem id="item76" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_3" propid="value" datasetid="ds_temp10" columnid="food03"/>
+      <BindItem id="item77" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_4" propid="value" datasetid="ds_temp10" columnid="food04"/>
+      <BindItem id="item78" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_5" propid="value" datasetid="ds_temp10" columnid="food05"/>
+      <BindItem id="item79" compid="div_main.form.div_right.form.div_temp10.form.edt_name10_6" propid="value" datasetid="ds_temp10" columnid="food06"/>
+      <BindItem id="item123" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_1" propid="value" datasetid="ds_temp1" columnid="gubun01"/>
+      <BindItem id="item124" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_2" propid="value" datasetid="ds_temp1" columnid="gubun02"/>
+      <BindItem id="item7" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_3" propid="value" datasetid="ds_temp1" columnid="gubun03"/>
+      <BindItem id="item8" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_4" propid="value" datasetid="ds_temp1" columnid="gubun04"/>
+      <BindItem id="item9" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_5" propid="value" datasetid="ds_temp1" columnid="gubun05"/>
+      <BindItem id="item10" compid="div_main.form.div_right.form.div_temp1.form.cmb_gubun1_6" propid="value" datasetid="ds_temp1" columnid="gubun06"/>
+      <BindItem id="item11" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_1" propid="value" datasetid="ds_temp2" columnid="gubun01"/>
+      <BindItem id="item12" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_2" propid="value" datasetid="ds_temp2" columnid="gubun02"/>
+      <BindItem id="item125" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_3" propid="value" datasetid="ds_temp2" columnid="gubun03"/>
+      <BindItem id="item126" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_4" propid="value" datasetid="ds_temp2" columnid="gubun04"/>
+      <BindItem id="item127" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_5" propid="value" datasetid="ds_temp2" columnid="gubun05"/>
+      <BindItem id="item128" compid="div_main.form.div_right.form.div_temp2.form.cmb_gubun2_6" propid="value" datasetid="ds_temp2" columnid="gubun06"/>
+      <BindItem id="item19" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_1" propid="value" datasetid="ds_temp3" columnid="gubun01"/>
+      <BindItem id="item20" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_2" propid="value" datasetid="ds_temp3" columnid="gubun02"/>
+      <BindItem id="item21" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_3" propid="value" datasetid="ds_temp3" columnid="gubun03"/>
+      <BindItem id="item22" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_4" propid="value" datasetid="ds_temp3" columnid="gubun04"/>
+      <BindItem id="item23" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_5" propid="value" datasetid="ds_temp3" columnid="gubun05"/>
+      <BindItem id="item24" compid="div_main.form.div_right.form.div_temp3.form.cmb_gubun3_6" propid="value" datasetid="ds_temp3" columnid="gubun06"/>
+      <BindItem id="item31" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_1" propid="value" datasetid="ds_temp4" columnid="gubun01"/>
+      <BindItem id="item32" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_2" propid="value" datasetid="ds_temp4" columnid="gubun02"/>
+      <BindItem id="item33" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_3" propid="value" datasetid="ds_temp4" columnid="gubun03"/>
+      <BindItem id="item34" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_4" propid="value" datasetid="ds_temp4" columnid="gubun04"/>
+      <BindItem id="item35" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_5" propid="value" datasetid="ds_temp4" columnid="gubun05"/>
+      <BindItem id="item36" compid="div_main.form.div_right.form.div_temp4.form.cmb_gubun4_6" propid="value" datasetid="ds_temp4" columnid="gubun06"/>
+      <BindItem id="item43" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_1" propid="value" datasetid="ds_temp5" columnid="gubun01"/>
+      <BindItem id="item44" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_2" propid="value" datasetid="ds_temp5" columnid="gubun02"/>
+      <BindItem id="item45" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_3" propid="value" datasetid="ds_temp5" columnid="gubun03"/>
+      <BindItem id="item46" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_4" propid="value" datasetid="ds_temp5" columnid="gubun04"/>
+      <BindItem id="item47" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_5" propid="value" datasetid="ds_temp5" columnid="gubun05"/>
+      <BindItem id="item48" compid="div_main.form.div_right.form.div_temp5.form.cmb_gubun5_6" propid="value" datasetid="ds_temp5" columnid="gubun06"/>
+      <BindItem id="item55" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_1" propid="value" datasetid="ds_temp6" columnid="gubun01"/>
+      <BindItem id="item56" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_2" propid="value" datasetid="ds_temp6" columnid="gubun02"/>
+      <BindItem id="item57" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_3" propid="value" datasetid="ds_temp6" columnid="gubun03"/>
+      <BindItem id="item58" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_4" propid="value" datasetid="ds_temp6" columnid="gubun04"/>
+      <BindItem id="item59" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_5" propid="value" datasetid="ds_temp6" columnid="gubun05"/>
+      <BindItem id="item60" compid="div_main.form.div_right.form.div_temp6.form.cmb_gubun6_6" propid="value" datasetid="ds_temp6" columnid="gubun06"/>
+      <BindItem id="item92" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_1" propid="value" datasetid="ds_temp7" columnid="gubun01"/>
+      <BindItem id="item93" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_2" propid="value" datasetid="ds_temp7" columnid="gubun02"/>
+      <BindItem id="item94" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_3" propid="value" datasetid="ds_temp7" columnid="gubun03"/>
+      <BindItem id="item95" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_4" propid="value" datasetid="ds_temp7" columnid="gubun04"/>
+      <BindItem id="item96" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_5" propid="value" datasetid="ds_temp7" columnid="gubun05"/>
+      <BindItem id="item97" compid="div_main.form.div_right.form.div_temp7.form.cmb_gubun7_6" propid="value" datasetid="ds_temp7" columnid="gubun06"/>
+      <BindItem id="item104" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_1" propid="value" datasetid="ds_temp8" columnid="gubun01"/>
+      <BindItem id="item105" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_2" propid="value" datasetid="ds_temp8" columnid="gubun02"/>
+      <BindItem id="item106" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_3" propid="value" datasetid="ds_temp8" columnid="gubun03"/>
+      <BindItem id="item107" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_4" propid="value" datasetid="ds_temp8" columnid="gubun04"/>
+      <BindItem id="item108" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_5" propid="value" datasetid="ds_temp8" columnid="gubun05"/>
+      <BindItem id="item109" compid="div_main.form.div_right.form.div_temp8.form.cmb_gubun8_6" propid="value" datasetid="ds_temp8" columnid="gubun06"/>
+      <BindItem id="item68" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_1" propid="value" datasetid="ds_temp9" columnid="gubun01"/>
+      <BindItem id="item69" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_2" propid="value" datasetid="ds_temp9" columnid="gubun02"/>
+      <BindItem id="item70" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_3" propid="value" datasetid="ds_temp9" columnid="gubun03"/>
+      <BindItem id="item71" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_4" propid="value" datasetid="ds_temp9" columnid="gubun04"/>
+      <BindItem id="item72" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_5" propid="value" datasetid="ds_temp9" columnid="gubun05"/>
+      <BindItem id="item73" compid="div_main.form.div_right.form.div_temp9.form.cmb_gubun9_6" propid="value" datasetid="ds_temp9" columnid="gubun06"/>
+      <BindItem id="item80" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_1" propid="value" datasetid="ds_temp10" columnid="gubun01"/>
+      <BindItem id="item81" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_2" propid="value" datasetid="ds_temp10" columnid="gubun02"/>
+      <BindItem id="item82" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_3" propid="value" datasetid="ds_temp10" columnid="gubun03"/>
+      <BindItem id="item83" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_4" propid="value" datasetid="ds_temp10" columnid="gubun04"/>
+      <BindItem id="item84" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_5" propid="value" datasetid="ds_temp10" columnid="gubun05"/>
+      <BindItem id="item85" compid="div_main.form.div_right.form.div_temp10.form.cmb_gubun10_6" propid="value" datasetid="ds_temp10" columnid="gubun06"/>
+    </Bind>
+  </Form>
+</FDL>

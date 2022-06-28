@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00602                                                         
+     * 프로그램 명     	: 6-02 월간 프로그램 제공현황                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-23 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00602">
+	<!-- 조회 -->
+    <select id="DAY00602_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00602_DS_LIST_S */
+	SELECT pro.pr영역
+	     , kpr.운영일
+		 , concat(lpad(kpr.운영시작시,2,'0'),':',lpad(kpr.운영시작분,2,'0'),'-',lpad(kpr.운영종료시,2,'0'),':',lpad(kpr.운영종료분,2,'0'))  AS 운영시간
+		 , kpr.주제
+		 , kpr.prg_name
+		 , kpr.il_number
+		 , (SELECT cod.grp_color 
+		      FROM vw_code_prog cod 
+		     WHERE cod.code = pro.pr바코드
+		   ) AS grp_color
+		 , (SELECT b_offname 
+		      FROM base_info bi
+		     WHERE bi.sicode = kpr.sicode ) AS b_offname
+	  FROM km_program   kpr
+	  JOIN base_program pro
+	    ON (   pro.sicode = kpr.sicode
+	   AND pro.prg_number = kpr.prg_number)
+	 WHERE 1=1
+	   AND kpr.운영일 BETWEEN STR_TO_DATE(CONCAT(#{yyyymm},'01'),'%Y%m%d') AND last_day(STR_TO_DATE(CONCAT(#{yyyymm},'01'),'%Y%m%d'))
+	 ORDER 
+	    BY kpr.운영일
+	     , concat(lpad(kpr.운영시작시,2,'0'),':',lpad(kpr.운영시작분,2,'0'),'-',lpad(kpr.운영종료시,2,'0'),':',lpad(kpr.운영종료분,2,'0'))
+	</select>
+	
+</mapper>

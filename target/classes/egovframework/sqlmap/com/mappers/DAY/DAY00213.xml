@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00213                                                         
+     * 프로그램 명     	: 2-13  간호.평가현황                                                    
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-10 10:00        	|  이동관		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                            
+     *================================================================                      
+-->
+<mapper namespace="DAY00213">
+	<!-- 조회 -->
+    <select id="DAY00213_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* DAY00213_DS_LIST_S */
+	SELECT "0" AS chk
+	     , bm.sicode
+         , bi.b_offname
+   		 , bm.거주현황 AS s_nm
+   		 , bm.m_group
+		 , bm.m_name
+		 , bm.m_code
+		 , bm.성별 AS sex_nm
+      	 , DATE_FORMAT(bm.m_enday, "%Y.%m.%d") AS m_enday
+      	 , (CASE WHEN bm.m_reday = '2100-01-01' THEN '' ELSE DATE_FORMAT(bm.m_reday, "%Y.%m.%d") END) AS m_reday
+     	 , bm.m_roomname
+      	 , bn1.n_number   AS n_number1 
+      	 , DATE_FORMAT(bn1.사정일, "%Y.%m.%d")            AS 사정일1
+      	 , bn1.사정시작         AS 사정시작1
+		 , bn1.사정종료         AS 사정종료1
+		 , CONCAT(DATE_FORMAT(bn1.사정시작, "%Y.%m.%d"), ' - ', DATE_FORMAT(bn1.사정종료, "%Y.%m.%d")) AS 적용기간1
+   		 , bn1.tot_point1 AS tot_point1
+		 , bn1.작성자            AS 작성자1 
+		 , bn2.n_number   AS n_number2
+         , DATE_FORMAT(bn2.사정일, "%Y.%m.%d")           AS 사정일2
+		 , bn2.사정시작         AS 사정시작2
+		 , bn2.사정종료         AS 사정종료2
+		 , CONCAT(DATE_FORMAT(bn2.사정시작, "%Y.%m.%d"), ' - ', DATE_FORMAT(bn2.사정종료, "%Y.%m.%d")) AS 적용기간2
+		 , bn2.tot_point2 AS tot_point2
+		 , bn2.작성자            AS 작성자2
+	  FROM base_mate bm
+      LEFT 
+      JOIN (SELECT aa.*
+              FROM ( SELECT ROW_NUMBER() OVER (  PARTITION BY sicode, 수급코드  ORDER BY sicode, 수급코드, 사정일) AS RNUM
+                          , sicode
+						  , 수급코드
+						  , n_number
+						  , 사정일
+						  , 사정시작 
+					 	  , 사정종료
+						  , 작성자
+						  , (시력점수 + 청력점수+ 구강점수+ 피부점수+ 수면점수+ 약물점수+ 질환점수) AS tot_point1
+					   FROM base_nurse 
+					  WHERE 사정일 BETWEEN #{date_from} AND #{date_to}
+ 				   ) aa
+             WHERE RNUM = '1') bn1
+        ON (bm.sicode = bn1.sicode AND bm.m_code = bn1.수급코드)
+      LEFT 
+      JOIN (SELECT aa.*
+              FROM ( SELECT ROW_NUMBER() OVER (  PARTITION BY sicode, 수급코드  ORDER BY sicode, 수급코드, 사정일) AS RNUM
+                          , sicode
+			              , 수급코드
+			              , n_number
+                          , 사정일
+     					  , 사정시작 
+						  , 사정종료
+						  , 작성자
+                          , (시력점수 + 청력점수+ 구강점수+ 피부점수+ 수면점수+ 약물점수+ 질환점수) AS tot_point2
+					   FROM base_nurse 
+				 	  WHERE 사정일 BETWEEN #{date_from} AND #{date_to}
+ 				   ) aa
+ 			 WHERE RNUM = '2') bn2
+        ON (bm.sicode = bn2.sicode AND bm.m_code = bn2.수급코드)
+         , base_info bi
+	 WHERE bm.sicode = bi.sicode
+	   AND bm.sicode = #{sicode}
+       AND bm.m_reday >= #{date_from}
+       AND bm.m_enday <![CDATA[ <= ]]>  #{date_to}
+     ORDER
+        BY bm.m_name
+		
+    </select>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00305                                                         
+     * 프로그램 명     	: 3-5 물리치료 운영일지 일괄출력
+     * Description 		: 물리치료 운영일지 조회
+     *================================================================                  
+       작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-05-31 09:30        	|  조기종		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00305_DS_HEAD_S		헤더 조회
+        DAY00305_DS_DETAIL_S	디테일 조회
+     *================================================================
+-->
+<mapper namespace="DAY00305">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 헤더 조회 -->
+    <select id="DAY00305_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-5 헤더 조회 */
+    SELECT
+      kh.sicode
+    , kh.제공일
+    , DATE_FORMAT(kh.제공일, '%Y.%m.%d') AS 운영일
+    , kh.제공그룹
+    , CONCAT(kh.제공그룹, ' 그룹') AS 치료그룹
+    , kh.담당자01
+    , kh.담당코드01
+    , kh.km_number
+    , LPAD(kh.km_number, 8, '0') AS 기록번호
+    , kh.근무내용
+    , kh.특이사항
+    FROM km_habilit AS kh
+    WHERE kh.sicode = #{SICODE} 
+    AND kh.제공일 &gt;= #{DATE_FROM}
+    AND kh.제공일 &lt;= #{DATE_TO}
+    </select>
+    
+    <!-- 디테일 조회 -->
+    <select id="DAY00305_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 3-5 디테일 조회 */
+    SELECT
+      hea.sicode
+    , hea.mulnumber
+    , hea.mulday
+    , bha.대상자명 AS 수급자명
+    , bha.대상자코드 AS 수급코드
+    , bha.성별
+    , CASE WHEN hea.multime IS NULL THEN SUBSTRING(bha.치료시간, 1, 5) ELSE hea.multime END AS 시작시간
+    , CASE WHEN hea.endtime IS NULL THEN SUBSTRING(bha.치료시간, 7, 5) ELSE hea.endtime END AS 종료시간
+    , IFNULL(NULLIF(hea.치료01, ''), bha.치료01) AS 치료01
+    , IFNULL(NULLIF(hea.치료02, ''), bha.치료02) AS 치료02
+    , IFNULL(NULLIF(hea.치료03, ''), bha.치료03) AS 치료03
+    , IFNULL(NULLIF(hea.치료04, ''), bha.치료04) AS 치료04
+    , IFNULL(NULLIF(hea.치료05, ''), bha.치료05) AS 치료05
+    , IFNULL(NULLIF(hea.치료06, ''), bha.치료06) AS 치료06
+    , IFNULL(NULLIF(hea.치료07, ''), bha.치료07) AS 치료07
+    , IFNULL(NULLIF(hea.치료08, ''), bha.치료08) AS 치료08
+    , IFNULL(NULLIF(hea.참여01, ''), 0) AS 참여01
+    , IFNULL(NULLIF(hea.참여02, ''), 0) AS 참여02
+    , IFNULL(NULLIF(hea.참여03, ''), 0) AS 참여03
+    , IFNULL(NULLIF(hea.참여04, ''), 0) AS 참여04
+    , IFNULL(NULLIF(hea.참여05, ''), 0) AS 참여05
+    , IFNULL(NULLIF(hea.참여06, ''), 0) AS 참여06
+    , IFNULL(NULLIF(hea.참여07, ''), 0) AS 참여07
+    , IFNULL(NULLIF(hea.참여08, ''), 0) AS 참여08
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료01, ''), bha.치료01)) AS 치료명01
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료02, ''), bha.치료02)) AS 치료명02
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료03, ''), bha.치료03)) AS 치료명03
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료04, ''), bha.치료04)) AS 치료명04
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료05, ''), bha.치료05)) AS 치료명05
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료06, ''), bha.치료06)) AS 치료명06
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료07, ''), bha.치료07)) AS 치료명07
+    , (SELECT cod.value FROM vw_code_habilit AS cod WHERE cod.code = IFNULL(NULLIF(hea.치료08, ''), bha.치료08)) AS 치료명08
+    , CASE WHEN hea.제공비고 IS NULL THEN '' ELSE hea.제공비고 END AS 제공비고
+    , bha.치료그룹 AS 그룹
+    , bha.ha_number
+    FROM base_mate AS mat
+    JOIN base_habilit AS bha
+    ON (mat.sicode = bha.sicode
+        AND mat.m_code = bha.대상자코드)
+    LEFT JOIN heal_habilit hea
+    ON (bha.sicode = hea.sicode
+        AND bha.대상자코드 = hea.mulcode
+        AND hea.mulday = #{DATE})
+    WHERE mat.sicode = #{SICODE}
+    AND #{DATE} BETWEEN mat.m_enday AND mat.m_reday
+    AND #{DATE} BETWEEN bha.계획시작 AND bha.계획종료
+    AND SUBSTRING(CONCAT(bha.일요일, bha.월요일, bha.화요일, bha.수요일, bha.목요일, bha.금요일, bha.토요일), DATE_FORMAT(#{DATE}, '%w') + 1, 1) = 1
+    AND bha.치료그룹 = #{GROUP}
+    AND #{DATE} NOT BETWEEN bha.중단시작 AND bha.중단종료
+    ORDER BY bha.대상자명
+    </select>
+</mapper>

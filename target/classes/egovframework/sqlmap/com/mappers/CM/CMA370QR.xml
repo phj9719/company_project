@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-01 19:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA370QR                                                         
+     * 프로그램 명  		: 발신문서함 조회
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-17 16:00     |   고준민      	| 최초작성                                                 
+       2021-03-24 10:00		|	이승규	| 1차 수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																									  
+<mapper namespace="CMA370QR">                                                                                                                                                                              
+	<select id="CMA370QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<![CDATA[                                                                                                      
+				SELECT 
+				              GAC.COMPANY_CD
+				            , GAC.PLANT_CD
+				            , GAC.PK_DOC_NO
+				            , GAC.GRP_DOC_KIND
+				            , CASE
+				                     WHEN GAC.URGENT = '1' THEN 'Urgent'
+				                     WHEN GAC.URGENT = '0' THEN 'Not Urgent'
+				              END           AS URGENT
+				            , GAC.APPL_DOC_SBJT
+				            , GAC.DOC_WRITER
+				            , GAC.DOC_DEPT
+				            , GAC.APV_PGM_ID
+				            , GAC.APPVL_PRC_FLAG
+				            , CONVERT(DATE,GAC.DOC_DATE)                AS DOC_DATE
+				            , CONVERT(CHAR(16),GAC.APPVL_PRC_DT,20)     AS APPVL_PRC_DT
+				            --, GAL.APPL_DEP_NM
+				            , CASE WHEN (SELECT COUNT(*)
+				                           FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				                          WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				                            AND GAC.PLANT_CD   = A.PLANT_CD
+				                            AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				                            AND A.PK_APPL_TYPE = '30') = 1
+				                   THEN (SELECT TOP 1 APPL_LINE_CHRG
+				                           FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				                          WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				                            AND GAC.PLANT_CD   = A.PLANT_CD
+				                            AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				                            AND A.PK_APPL_TYPE = '30')
+				                   ELSE CONCAT((SELECT TOP 1 APPL_LINE_CHRG
+				                                  FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				                                 WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				                                   AND GAC.PLANT_CD   = A.PLANT_CD
+				                                   AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				                                   AND A.PK_APPL_TYPE = '30')
+				                              , ' 외 '
+				                              ,(SELECT COUNT(*)
+				                                  FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				                                 WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				                                   AND GAC.PLANT_CD   = A.PLANT_CD
+				                                   AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				                                   AND A.PK_APPL_TYPE = '30')-1
+				                              , '건')
+				                   END AS APPL_LINE_CHRG
+				            , CASE
+				                     WHEN GAC.DOC_SND_DT IS NOT NULL THEN 'Y'
+				                     ELSE 'N'
+				              END                                       AS SEND
+			                --, CONCAT((SELECT COUNT(*)
+				            --   FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				            --   WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				            --   AND GAC.PLANT_CD   = A.PLANT_CD
+				            --   AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				            --   AND A.FNL_READ_DT IS NOT NULL
+				            --   AND A.PK_APPL_TYPE = '30') , '/', (SELECT COUNT(*)
+				            --                                          FROM T_GR_APPL_LINE B WITH(NOLOCK)
+				            --                                          WHERE GAC.COMPANY_CD = B.COMPANY_CD
+				            --                                          AND   GAC.PLANT_CD   = B.PLANT_CD
+				            --                                          AND   GAC.PK_DOC_NO  = B.PK_DOC_NO
+				            --                                          AND   B.PK_APPL_TYPE = '30'))			AS R_CNT				-- 열람자 수
+				            , (SELECT MAX(ISNULL(GAL.FRST_READ_STS, 0))
+				                 FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+				                WHERE GAL.COMPANY_CD   = GAC.COMPANY_CD
+				                  AND GAL.PLANT_CD     = GAC.PLANT_CD
+				                  AND GAL.PK_DOC_NO    = GAC.PK_DOC_NO
+				                  AND GAL.PK_APPL_TYPE = '30'
+		]]>					
+		<if test="AUTH != '' and AUTH != null">
+			<if test="AUTH.equals('10')">
+						          AND GAL.APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+						                                      FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+						                                     WHERE GAL.COMPANY_CD = A.COMPANY_CD
+						                                       AND A.DEPT_CODE    = #{USERINFO})
+			</if> 
+			<if test="AUTH.equals('20')">
+						          AND GAL.APPL_LINE_CHRG = #{USERINFO}
+			</if>
+		</if>
+		<![CDATA[					) AS R_CNT			              
+				            , CONVERT(CHAR(16),GAC.DOC_SND_DT,20)       AS DOC_SND_DT
+				            , CONVERT(CHAR(16),GAC.DOC_RCV_DT,20)       AS DOC_RCV_DT
+				            , GAC.TRANS_ST
+				            , GAC.TRANS_JOB_ID
+				FROM 		T_GR_APPL_CNT GAC WITH(NOLOCK)
+				--LEFT JOIN	T_GR_APPL_LINE GAL WITH(NOLOCK)
+				--ON ( 	GAC.COMPANY_CD = GAL.COMPANY_CD
+				--AND		GAC.PLANT_CD   = GAL.PLANT_CD
+				--AND		GAC.PK_DOC_NO  = GAL.PK_DOC_NO
+				--AND     GAL.PK_APPL_TYPE = '30')                  -- 수신처
+				WHERE     GAC.COMPANY_CD = #{COMPANY_CD}
+				AND       GAC.APPVL_PRC_FLAG = 'AV' -- 승인된 문서만 오도록 조건 추가 해야됨(AV)
+				--AND GAC.PLANT_CD = {PLANT_CD}
+				AND       (SELECT COUNT(*)
+				             FROM T_GR_APPL_LINE A WITH(NOLOCK)
+				            WHERE GAC.COMPANY_CD = A.COMPANY_CD
+				              AND GAC.PLANT_CD   = A.PLANT_CD
+				              AND GAC.PK_DOC_NO  = A.PK_DOC_NO
+				              AND A.PK_APPL_TYPE = '30') >= 1         -- 수신처가 존재하는 문서
+		]]>
+		<if test="USER_DEPT > '1000020' "> -- 해무/관리부문장, 해사부문장
+		   AND GAC.DOC_DEPT IN (SELECT A.DEPT_CODE
+		   						  FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+		   						 WHERE A.COMPANY_CD = GAC.COMPANY_CD
+		   						   AND A.P_DEPT_CODE = (SELECT B.P_DEPT_CODE
+		   						   						  FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+		   						   						 WHERE A.COMPANY_CD = B.COMPANY_CD
+		   						   						   AND B.DEPT_CODE  = #{USER_DEPT}))
+		</if>
+		<if test="USER_DEPT lt '1000020' "> -- 사장, 해무/관리부문장, 해사부문장 제외
+		   AND GAC.DOC_DEPT = #{USER_DEPT}
+		</if>			
+		<if test="APPL_DEP_NM != '' and APPL_DEP_NM != null">
+		    AND GAL.APPL_DEP_NM   = #{APPL_DEP_NM}
+		</if>
+		<if test="PK_DOC_NO != '' and PK_DOC_NO != null">
+		    AND GAC.PK_DOC_NO LIKE CONCAT ('%', #{PK_DOC_NO}, '%')
+		</if>
+		<if test="DOC_DATE != '' and DOC_DATE != null">
+		    AND GAC.DOC_DATE = #{DOC_DATE}
+		</if>
+		<if test="DOC_SUBJECT != '' and DOC_SUBJECT != null">
+		    AND GAC.APPL_DOC_SBJT LIKE CONCAT ('%', #{DOC_SUBJECT}, '%')
+		</if>
+		<if test="USER_NM != '' and USER_NM != null">
+		    AND GAC.DOC_WRITER  = #{USER_NM}
+		</if>
+		<if test='SEND_ST == "Y"'>
+			AND GAC.DOC_SND_DT IS NOT NULL
+		</if>
+		<if test='SEND_ST == "N"'>
+			AND GAC.DOC_SND_DT IS NULL
+		</if>		
+			ORDER BY GAC.URGENT DESC , GAC.DOC_DATE DESC
+    </select>
+        
+    <update id="CMA370QR_CLICK_U_CNT" parameterType="java.util.HashMap">
+        <![CDATA[
+            BEGIN
+            
+            UPDATE T_GR_APPL_CNT 
+               SET FRST_READ_DT = CONVERT(CHAR(19), SYSDATETIME(), 20)
+             WHERE COMPANY_CD   = #{COMPANY_CD}
+               AND PLANT_CD     = #{PLANT_CD}
+               AND PK_DOC_NO    = #{PK_DOC_NO}
+               AND FRST_READ_DT IS NULL;				  -- 최초읽은일자만 UPDATE
+               
+            UPDATE T_GR_APPL_CNT 
+               SET FRST_READ_STS = ISNULL(FRST_READ_STS,'0') + 1
+             WHERE COMPANY_CD    = #{COMPANY_CD}
+               AND PLANT_CD      = #{PLANT_CD}
+               AND PK_DOC_NO     = #{PK_DOC_NO};
+            
+            END
+		]]>
+    </update>
+    
+    <update id="CMA370QR_CLICK_U_LINE" parameterType="java.util.HashMap">
+        <![CDATA[
+        	BEGIN
+            
+            UPDATE T_GR_APPL_LINE 
+               SET APPVL_PRC_FLAG = '60'
+                 , FRST_READ_DT   = CONVERT(CHAR(19), SYSDATETIME(), 20)
+             WHERE COMPANY_CD     = #{COMPANY_CD}
+               AND PLANT_CD       = #{PLANT_CD}
+               AND PK_DOC_NO      = #{PK_DOC_NO}
+               AND PK_APPL_TYPE   = '30'
+		]]>
+		<if test="AUTH.equals('10')">
+	           AND APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+	                                   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+	                                  WHERE A.COMPANY_CD = #{COMPANY_CD}
+	                                    AND A.DEPT_CODE  = #{USER_DEPT})
+		</if> 
+		<if test="AUTH.equals('20')">
+			   AND APPL_LINE_CHRG = #{USER_DEPT}
+		</if>
+        <![CDATA[
+               AND FRST_READ_DT IS NULL;				  -- 최초읽은일자만 UPDATE
+			   
+			UPDATE T_GR_APPL_LINE
+			   SET FNL_READ_DT	  = CONVERT(CHAR(19), SYSDATETIME(), 20)      --마지막 읽은 날짜
+				 , FRST_READ_STS  = ISNULL(FRST_READ_STS,'0') + 1
+			 WHERE COMPANY_CD	  = #{COMPANY_CD}
+			   AND PLANT_CD		  = #{PLANT_CD}
+			   AND PK_DOC_NO	  = #{PK_DOC_NO}
+		]]>
+		<if test="AUTH.equals('10')">
+	           AND APPL_LINE_CHRG = (SELECT A.DEPT_NAME
+	                                   FROM T_HR_DEPARTMENT A WITH(NOLOCK)
+	                                  WHERE A.COMPANY_CD = #{COMPANY_CD}
+	                                    AND A.DEPT_CODE  = #{USER_DEPT})
+		</if> 
+		<if test="AUTH.equals('20')">
+			   AND APPL_LINE_CHRG = #{USER_DEPT}
+		</if>
+        <![CDATA[
+               AND PK_APPL_TYPE   = '30';
+			
+			END
+		]]>
+    </update>
+    
+    <select id="CMA370QR_RECV_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	SELECT GAL.COMPANY_CD						AS COMPANY_CD	-- 회사코드
+    		 , GAL.PLANT_CD							AS PLANT_CD		-- 송신(PLANT)
+    		 , GAL.APPL_DEP_NM						AS DESTINATION	-- 수신(PLANT)
+    		 , GAL.PLANT_CD							AS DEPARTURE	-- 송신(서버이름)
+    		 , 'CM'									AS TRANS_MD		-- 송신(모듈)
+    		 , 'CMA370QR'							AS TRANS_JOB	-- 송신(업무구분)
+    		 , 'SP_GR_APPL_SEND'					AS TNS_EXEC_ID	-- 프로시저명
+    		 , 'CMA370QR'							AS PROGRAM_ID	-- 송신(프로그램ID)
+    		 , CONVERT(CHAR(8), SYSDATETIME(), 112)	AS TRANS_DT		-- 전송일자
+    		 , GAL.PK_DOC_NO						AS PK_DOC_NO
+    	  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+    	 WHERE GAL.COMPANY_CD   = #{COMPANY_CD}
+    	   AND GAL.PLANT_CD     = #{PLANT_CD}
+    	   AND GAL.PK_DOC_NO    = #{PK_DOC_NO}
+    	   AND GAL.PK_APPL_TYPE = '30'
+    	 GROUP
+    	    BY GAL.COMPANY_CD
+    	     , GAL.PLANT_CD
+    	     , GAL.PK_DOC_NO
+    	     , GAL.PK_APPL_TYPE
+    	     , GAL.APPL_DEP_NM
+    </select>
+
+	<!-- 전송받을 대상 선박 조회 -->
+	<select id="CMA370QR_GET_DESTINATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT PLANT_CD AS DESTINATION_PLANT_CD
+	        FROM T_CM_PLANT WITH(NOLOCK)
+	       	WHERE COMPANY_CD = #{COMPANY_CD}
+	        AND USE_YN = 'Y'
+	       -- AND PLANT_MAIN_YN = 'N'
+	        AND PLANT_CD = #{DESTINATION}
+		]]>
+	</select>
+	
+    <!-- 전송 프로시저 -->
+	<select id="CMA370QR_SP_GR_APPL_SEND" statementType="CALLABLE" parameterType="java.util.Map" resultType="java.util.HashMap">
+		<![CDATA[
+			{
+				CALL SP_GR_APPL_SEND (
+						#{ERR_CODE, mode=OUT, jdbcType=VARCHAR, javaType=String}
+					,	#{ERR_MSG, mode=OUT, jdbcType=VARCHAR, javaType=String}
+					,	#{TRANS_ID, mode=OUT, jdbcType=VARCHAR, javaType=String}
+					, 	#{COMPANY_CD}
+					,	#{PLANT_CD}
+					,	#{DESTINATION}
+					,	#{DEPARTURE}
+					,	#{TRANS_MD}
+					,	#{TRANS_JOB}
+					,	#{TNS_EXEC_ID}
+					,	#{PROGRAM_ID}
+					,	#{TRANS_DT}
+					,	#{PK_DOC_NO}
+					,	#{REG_PGM_ID}
+					,	#{REG_USER}
+					,	#{REG_DT}
+					,	#{REG_DT_CURR}
+					,	#{REG_DT_LOC}
+					,	#{REG_IP}
+				)	
+			}
+		]]>
+	</select>
+	
+	<!-- 각 수신처 TRANS_ID update -->
+	<update id="CMA370QR_GR_APPL_LINE_U" parameterType="java.util.HashMap">
+		<![CDATA[
+			UPDATE T_GR_APPL_LINE
+			   SET TRANS_JOB_ID = #{TRANS_ID}
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND APPL_DEP_NM  = #{PLANT_CD}
+		]]>
+	</update>
+	
+	<!-- 전송후 결재관련 테이블 WK_FLAG값 NULL로 처리 -->
+	<update id="CMA370QR_GR_APPL_SEND_U" parameterType="java.util.HashMap">
+		<![CDATA[
+			BEGIN
+			
+			UPDATE T_GR_APPL_CNT
+			   SET WK_FLAG 	    = NULL
+			  	 , WK_FIELD     = #{TRANS_MD}
+			     , DOC_SND_DT   = CONVERT(CHAR(19), SYSDATETIME(), 20)
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND WK_FLAG IS NOT NULL;
+			
+			UPDATE T_GR_APPL_LINE
+			   SET WK_FLAG 	    = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND WK_FLAG IS NOT NULL;
+			   
+			UPDATE T_GR_APPL_REF
+			   SET WK_FLAG 	    = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND WK_FLAG IS NOT NULL;
+			
+			UPDATE T_GR_APPLED_RPT
+			   SET WK_FLAG 	    = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND WK_FLAG IS NOT NULL;
+			   
+			UPDATE T_GR_FILE_ATT
+			   SET WK_FLAG 	    = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD 	= #{COMPANY_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND WK_FLAG IS NOT NULL;
+			
+			END
+		]]>
+	</update>
+	
+	
+</mapper>                                                                                                                                                                                                                                        

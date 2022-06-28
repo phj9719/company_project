@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00700                                                         
+     * 프로그램 명     	: 7-0 수행,점검일지 현황                                                     
+     * Description 		: 수행, 점검일지 월별로 작성개수 확인
+     *================================================================                  
+           작성일자				|  작성자       |  비고                                    
+     *================================================================                  
+       2022-02-09 10:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00700_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00700">
+	<!-- 조회 -->
+    <select id="DAY00700_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-0 조회 */
+    SELECT
+      '7-1' AS 'no'
+    , '주야간운영일지' AS title
+    , '주간' AS cycle
+    , 'DAY00701' AS menu_cd
+    , 'DAY::DAY00701.xfdl' AS page_url
+    , 1 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '01' THEN bd.운영일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '02' THEN bd.운영일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '03' THEN bd.운영일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '04' THEN bd.운영일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '05' THEN bd.운영일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '06' THEN bd.운영일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '07' THEN bd.운영일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '08' THEN bd.운영일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '09' THEN bd.운영일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '10' THEN bd.운영일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '11' THEN bd.운영일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bd.운영일, '%Y%m%d'), 5, 2) = '12' THEN bd.운영일 END) AS 'dec'
+    FROM base_daily bd
+    WHERE bd.sicode = #{SICODE}
+    AND bd.운영일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-2' AS 'no'
+    , '주간식단표' AS title
+    , '주간' AS cycle
+    , 'DAY00702' AS menu_cd
+    , 'DAY::DAY00702.xfdl' AS page_url
+    , 2 AS sort
+    , 0 AS 'jan'
+    , 0 AS 'feb'
+    , 0 AS 'mar'
+    , 0 AS 'apr'
+    , 0 AS 'may'
+    , 0 AS 'jun'
+    , 0 AS 'jul'
+    , 0 AS 'aug'
+    , 0 AS 'sep'
+    , 0 AS 'oct'
+    , 0 AS 'nov'
+    , 0 AS 'dec'
+    FROM DUAL
+    UNION ALL
+    SELECT
+      '7-3' AS 'no'
+    , '위생점검일지' AS title
+    , '매일' AS cycle
+    , 'DAY00703' AS menu_cd
+    , 'DAY::DAY00703.xfdl' AS page_url
+    , 3 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '01' THEN kh.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '02' THEN kh.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '03' THEN kh.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '04' THEN kh.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '05' THEN kh.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '06' THEN kh.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '07' THEN kh.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '08' THEN kh.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '09' THEN kh.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '10' THEN kh.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '11' THEN kh.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kh.점검일, '%Y%m%d'), 5, 2) = '12' THEN kh.점검일 END) AS 'dec'
+    FROM km_hygiene kh
+    WHERE kh.sicode = #{SICODE}
+    AND kh.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-4' AS 'no'
+    , '급식운영일지' AS title
+    , '매일' AS cycle
+    , 'DAY00704' AS menu_cd
+    , 'DAY::DAY00704.xfdl' AS page_url
+    , 4 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '01' THEN km.급식일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '02' THEN km.급식일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '03' THEN km.급식일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '04' THEN km.급식일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '05' THEN km.급식일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '06' THEN km.급식일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '07' THEN km.급식일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '08' THEN km.급식일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '09' THEN km.급식일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '10' THEN km.급식일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '11' THEN km.급식일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km.급식일, '%Y%m%d'), 5, 2) = '12' THEN km.급식일 END) AS 'dec'
+    FROM kmmeal km
+    WHERE km.sicode = #{SICODE}
+    AND km.급식일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-5' AS 'no'
+    , '일일식사평가' AS title
+    , '매일' AS cycle
+    , 'DAY00705' AS menu_cd
+    , 'DAY::DAY00705.xfdl' AS page_url
+    , 5 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '01' THEN kv.식사일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '02' THEN kv.식사일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '03' THEN kv.식사일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '04' THEN kv.식사일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '05' THEN kv.식사일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '06' THEN kv.식사일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '07' THEN kv.식사일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '08' THEN kv.식사일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '09' THEN kv.식사일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '10' THEN kv.식사일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '11' THEN kv.식사일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kv.식사일, '%Y%m%d'), 5, 2) = '12' THEN kv.식사일 END) AS 'dec'
+    FROM kmvalue kv
+    WHERE kv.sicode = #{SICODE}
+    AND kv.식사일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-6' AS 'no'
+    , '위생점검일지' AS title
+    , '매일' AS cycle
+    , 'DAY00706' AS menu_cd
+    , 'DAY::DAY00706.xfdl' AS page_url
+    , 6 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '01' THEN kp.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '02' THEN kp.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '03' THEN kp.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '04' THEN kp.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '05' THEN kp.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '06' THEN kp.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '07' THEN kp.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '08' THEN kp.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '09' THEN kp.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '10' THEN kp.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '11' THEN kp.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp.점검일, '%Y%m%d'), 5, 2) = '12' THEN kp.점검일 END) AS 'dec'
+    FROM kmpoison kp
+    WHERE kp.sicode = #{SICODE}
+    AND kp.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-7' AS 'no'
+    , '직원교육(훈련)일지' AS title
+    , '매월' AS cycle
+    , 'DAY00707' AS menu_cd
+    , 'DAY::DAY00707.xfdl' AS page_url
+    , 7 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '01' THEN ke.교육일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '02' THEN ke.교육일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '03' THEN ke.교육일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '04' THEN ke.교육일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '05' THEN ke.교육일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '06' THEN ke.교육일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '07' THEN ke.교육일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '08' THEN ke.교육일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '09' THEN ke.교육일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '10' THEN ke.교육일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '11' THEN ke.교육일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke.교육일, '%Y%m%d'), 5, 2) = '12' THEN ke.교육일 END) AS 'dec'
+    FROM km_educate ke
+    WHERE ke.sicode = #{SICODE}
+    AND ke.교육일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-8' AS 'no'
+    , '직원회의록' AS title
+    , '수시' AS cycle
+    , 'DAY00708' AS menu_cd
+    , 'DAY::DAY00708.xfdl' AS page_url
+    , 8 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '01' THEN km2.회의일자 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '02' THEN km2.회의일자 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '03' THEN km2.회의일자 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '04' THEN km2.회의일자 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '05' THEN km2.회의일자 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '06' THEN km2.회의일자 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '07' THEN km2.회의일자 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '08' THEN km2.회의일자 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '09' THEN km2.회의일자 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '10' THEN km2.회의일자 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '11' THEN km2.회의일자 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(km2.회의일자, '%Y%m%d'), 5, 2) = '12' THEN km2.회의일자 END) AS 'dec'
+    FROM km_meeting km2
+    WHERE km2.sicode = #{SICODE}
+    AND km2.회의일자 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-9' AS 'no'
+    , '수급자교육(훈련)일지' AS title
+    , '수시' AS cycle
+    , 'DAY00709' AS menu_cd
+    , 'DAY::DAY00709.xfdl' AS page_url
+    , 9 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '01' THEN be.교육일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '02' THEN be.교육일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '03' THEN be.교육일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '04' THEN be.교육일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '05' THEN be.교육일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '06' THEN be.교육일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '07' THEN be.교육일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '08' THEN be.교육일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '09' THEN be.교육일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '10' THEN be.교육일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '11' THEN be.교육일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(be.교육일, '%Y%m%d'), 5, 2) = '12' THEN be.교육일 END) AS 'dec'
+    FROM base_educate be
+    WHERE be.sicode = #{SICODE}
+    AND be.교육일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-10' AS 'no'
+    , '자원봉사활동일지' AS title
+    , '수시' AS cycle
+    , 'DAY00710' AS menu_cd
+    , 'DAY::DAY00710.xfdl' AS page_url
+    , 10 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '01' THEN kj.활동일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '02' THEN kj.활동일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '03' THEN kj.활동일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '04' THEN kj.활동일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '05' THEN kj.활동일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '06' THEN kj.활동일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '07' THEN kj.활동일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '08' THEN kj.활동일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '09' THEN kj.활동일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '10' THEN kj.활동일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '11' THEN kj.활동일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kj.활동일, '%Y%m%d'), 5, 2) = '12' THEN kj.활동일 END) AS 'dec'
+    FROM km_jawon kj
+    WHERE kj.sicode = #{SICODE}
+    AND kj.활동일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-11' AS 'no'
+    , '운영위원회회의록' AS title
+    , '수시' AS cycle
+    , 'DAY00711' AS menu_cd
+    , 'DAY::DAY00711.xfdl' AS page_url
+    , 11 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '01' THEN kc.회의일자 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '02' THEN kc.회의일자 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '03' THEN kc.회의일자 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '04' THEN kc.회의일자 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '05' THEN kc.회의일자 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '06' THEN kc.회의일자 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '07' THEN kc.회의일자 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '08' THEN kc.회의일자 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '09' THEN kc.회의일자 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '10' THEN kc.회의일자 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '11' THEN kc.회의일자 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc.회의일자, '%Y%m%d'), 5, 2) = '12' THEN kc.회의일자 END) AS 'dec'
+    FROM km_conference kc
+    WHERE kc.sicode = #{SICODE}
+    AND kc.회의일자 LIKE CONCAT(#{YEAR}, '%')
+    AND kc.회의구분 = '1'
+    UNION ALL
+    SELECT
+      '7-11' AS 'no'
+    , '보호자회의록' AS title
+    , '수시' AS cycle
+    , 'DAY00711' AS menu_cd
+    , 'DAY::DAY00711.xfdl' AS page_url
+    , 12 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '01' THEN kc2.회의일자 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '02' THEN kc2.회의일자 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '03' THEN kc2.회의일자 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '04' THEN kc2.회의일자 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '05' THEN kc2.회의일자 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '06' THEN kc2.회의일자 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '07' THEN kc2.회의일자 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '08' THEN kc2.회의일자 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '09' THEN kc2.회의일자 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '10' THEN kc2.회의일자 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '11' THEN kc2.회의일자 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc2.회의일자, '%Y%m%d'), 5, 2) = '12' THEN kc2.회의일자 END) AS 'dec'
+    FROM km_conference kc2
+    WHERE kc2.sicode = #{SICODE}
+    AND kc2.회의일자 LIKE CONCAT(#{YEAR}, '%')
+    AND kc2.회의구분 = '2'
+    UNION ALL
+    SELECT
+      '7-12' AS 'no'
+    , '소화및경보설비점검(매월)' AS title
+    , '매월' AS cycle
+    , 'DAY00712' AS menu_cd
+    , 'DAY::DAY00712.xfdl' AS page_url
+    , 13 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '01' THEN ka.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '02' THEN ka.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '03' THEN ka.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '04' THEN ka.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '05' THEN ka.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '06' THEN ka.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '07' THEN ka.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '08' THEN ka.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '09' THEN ka.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '10' THEN ka.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '11' THEN ka.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ka.점검일, '%Y%m%d'), 5, 2) = '12' THEN ka.점검일 END) AS 'dec'
+    FROM km_arson ka
+    WHERE ka.sicode = #{SICODE}
+    AND ka.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-13' AS 'no'
+    , '가스안전점검(매월)' AS title
+    , '매월' AS cycle
+    , 'DAY00713' AS menu_cd
+    , 'DAY::DAY00713.xfdl' AS page_url
+    , 14 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '01' THEN kc3.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '02' THEN kc3.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '03' THEN kc3.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '04' THEN kc3.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '05' THEN kc3.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '06' THEN kc3.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '07' THEN kc3.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '08' THEN kc3.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '09' THEN kc3.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '10' THEN kc3.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '11' THEN kc3.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kc3.점검일, '%Y%m%d'), 5, 2) = '12' THEN kc3.점검일 END) AS 'dec'
+    FROM km_citygas kc3
+    WHERE kc3.sicode = #{SICODE}
+    AND kc3.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-14' AS 'no'
+    , '전기안전점검(매월)' AS title
+    , '매월' AS cycle
+    , 'DAY00714' AS menu_cd
+    , 'DAY::DAY00714.xfdl' AS page_url
+    , 15 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '01' THEN ke2.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '02' THEN ke2.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '03' THEN ke2.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '04' THEN ke2.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '05' THEN ke2.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '06' THEN ke2.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '07' THEN ke2.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '08' THEN ke2.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '09' THEN ke2.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '10' THEN ke2.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '11' THEN ke2.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(ke2.점검일, '%Y%m%d'), 5, 2) = '12' THEN ke2.점검일 END) AS 'dec'
+    FROM km_electric ke2
+    WHERE ke2.sicode = #{SICODE}
+    AND ke2.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-15' AS 'no'
+    , '미세먼지대응 현장점검(수시)' AS title
+    , '수시' AS cycle
+    , 'DAY00715' AS menu_cd
+    , 'DAY::DAY00715.xfdl' AS page_url
+    , 16 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '01' THEN kd.점검일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '02' THEN kd.점검일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '03' THEN kd.점검일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '04' THEN kd.점검일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '05' THEN kd.점검일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '06' THEN kd.점검일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '07' THEN kd.점검일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '08' THEN kd.점검일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '09' THEN kd.점검일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '10' THEN kd.점검일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '11' THEN kd.점검일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kd.점검일, '%Y%m%d'), 5, 2) = '12' THEN kd.점검일 END) AS 'dec'
+    FROM km_dust kd
+    WHERE kd.sicode = #{SICODE}
+    AND kd.점검일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-16' AS 'no'
+    , '비상구점검일지' AS title
+    , '매일' AS cycle
+    , 'DAY00716' AS menu_cd
+    , 'DAY::DAY00716.xfdl' AS page_url
+    , 17 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '01' THEN kp2.순찰일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '02' THEN kp2.순찰일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '03' THEN kp2.순찰일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '04' THEN kp2.순찰일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '05' THEN kp2.순찰일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '06' THEN kp2.순찰일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '07' THEN kp2.순찰일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '08' THEN kp2.순찰일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '09' THEN kp2.순찰일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '10' THEN kp2.순찰일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '11' THEN kp2.순찰일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(kp2.순찰일, '%Y%m%d'), 5, 2) = '12' THEN kp2.순찰일 END) AS 'dec'
+    FROM km_patrol kp2
+    WHERE kp2.sicode = #{SICODE}
+    AND kp2.순찰일 LIKE CONCAT(#{YEAR}, '%')
+    UNION ALL
+    SELECT
+      '7-17' AS 'no'
+    , '실내외 정기소독일지' AS title
+    , '수시' AS cycle
+    , 'DAY00717' AS menu_cd
+    , 'DAY::DAY00717.xfdl' AS page_url
+    , 18 AS sort
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '01' THEN bg.소독일 END) AS 'jan'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '02' THEN bg.소독일 END) AS 'feb'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '03' THEN bg.소독일 END) AS 'mar'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '04' THEN bg.소독일 END) AS 'apr'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '05' THEN bg.소독일 END) AS 'may'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '06' THEN bg.소독일 END) AS 'jun'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '07' THEN bg.소독일 END) AS 'jul'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '08' THEN bg.소독일 END) AS 'aug'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '09' THEN bg.소독일 END) AS 'sep'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '10' THEN bg.소독일 END) AS 'oct'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '11' THEN bg.소독일 END) AS 'nov'
+    , COUNT(CASE WHEN SUBSTRING(DATE_FORMAT(bg.소독일, '%Y%m%d'), 5, 2) = '12' THEN bg.소독일 END) AS 'dec'
+    FROM base_germ bg
+    WHERE bg.sicode = #{SICODE}
+    AND bg.소독일 LIKE CONCAT(#{YEAR}, '%')
+    ORDER BY SORT
+    </select>
+</mapper>                                                                                                                                                                                                          

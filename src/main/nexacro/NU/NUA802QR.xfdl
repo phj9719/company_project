@@ -1,0 +1,828 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="COMMON_CODE" width="1500" height="600" titletext="모니터링(4분할)" onload="COMMON_CODE_onload" ontimer="COMMON_CODE_ontimer">
+    <Layouts>
+      <Layout width="1500" height="600">
+        <Div id="div_search" taborder="0" left="0" top="0" height="44" dragscrolltype="vert" cssclass="s01" right="0">
+          <Layouts>
+            <Layout>
+              <Static id="sta_area" taborder="5" text="모니터링 지역" cssclass="sta_WF_SearchLabel" left="5" top="12" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Static id="sta_location" taborder="6" text="층" cssclass="sta_WF_SearchLabel" left="205" top="12" width="90" height="21" color="rgba(34,34,34,1)" textAlign="right" verticalAlign="middle"/>
+              <Button id="btn_close" taborder="4" text="닫기" top="10" width="80" height="24" onclick="div_search_btn_close_onclick" right="10"/>
+              <Combo id="cmb_location" taborder="1" left="300" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_area" onitemchanged="div_search_cmb_location_onitemchanged"/>
+              <Combo id="cmb_area" taborder="0" left="110" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_mon_area" onitemchanged="div_search_cmb_area_onitemchanged"/>
+              <Button id="btn_search" taborder="2" text="검색" top="10" width="80" height="24" left="438" onclick="div_search_btn_search_onclick"/>
+              <Button id="btn_2div" taborder="3" text="2분할" top="10" width="80" height="24" right="93" onclick="div_search_btn_2div_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0%" top="50" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="2" autofittype="none" left="430" top="510" binddataset="ds_list" right="152" bottom="-240" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick" visible="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell edittype="checkbox" displaytype="checkboxcontrol"/>
+                      <Cell col="1" text="층/호실"/>
+                      <Cell col="2" text="이름"/>
+                      <Cell col="3" text="기저귀 연결여부"/>
+                      <Cell col="4" text="기저귀 상태"/>
+                      <Cell col="5" text="기저귀 베터리"/>
+                      <Cell col="6" text="맥박"/>
+                      <Cell col="7" text="낙상여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK"/>
+                      <Cell col="1" text="bind:AREA" textAlign="center"/>
+                      <Cell col="2" displaytype="normal" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="bind:NAME"/>
+                      <Cell col="3" text="bind:CONN_ST" displaytype="normal"/>
+                      <Cell col="4" text="bind:HUMI_RATE" displaytype="normal" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM"/>
+                      <Cell col="5" displaytype="normal" text="bind:BAT_RATE" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM"/>
+                      <Cell col="6" text="bind:HEART_RATE" displaytype="normal"/>
+                      <Cell col="7" text="bind:FALL_YN"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_paging" taborder="0" height="30" bottom="0" url="CM_POP::CM_PAGING_DIV.xfdl" maxheight="" left="0" right="692" text="" onclick="div_cont_div_paging_onclick"/>
+              <Grid id="grd_list1" taborder="1" autofittype="col" left="0.00%" top="0" binddataset="ds_list1" bottom="40" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick" right="75.5%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" border="0" oncellclick="div_cont_grd_list1_oncellclick" cssclass="grd_monitor4">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="75"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="20"/>
+                      <Row size="20"/>
+                      <Row size="40"/>
+                      <Row size="5"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:AREA2" textAlign="left" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px"/>
+                      <Cell col="1" rowspan="2" displaytype="imagecontrol" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="expr:dataset.getColumn(currow,&quot;BAT_IMG&quot;)&lt;='0' ? 'imagerc::ico_battery_0.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='1' ? 'imagerc::ico_battery_1.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='2' ? 'imagerc::ico_battery_2.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='3' ? 'imagerc::ico_battery_3.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='4' ? 'imagerc::ico_battery_4.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='5' ? 'imagerc::ico_battery_5.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='6' ? 'imagerc::ico_battery_6.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='7' ? 'imagerc::ico_battery_7.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='8' ? 'imagerc::ico_battery_8.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='9' ? 'imagerc::ico_battery_9.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='10' ? 'imagerc::ico_battery_10.png' : null" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2" rowspan="2" displaytype="normal" text="expr:dataset.getColumn(currow,&quot;BAT_RATE&quot;)&gt;'100' ? '100%' : dataset.getColumn(currow, &quot;BAT_RATE&quot;) &lt; '0' ? '0%' : dataset.getColumn(currow,&quot;BAT_RATE&quot;) != null ?  dataset.getColumn(currow,&quot;BAT_RATE&quot;) +'%' : ''" expandshow="hide" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="3" rowspan="2" text="expr:dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='0' ? 'imagerc::ico_diaper_0.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='1' ? 'imagerc::ico_diaper_1.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='2'? 'imagerc::ico_diaper_2.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='3' ? 'imagerc::ico_diaper_3.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='4' ? 'imagerc::ico_diaper_4.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='5'? 'imagerc::ico_diaper_5.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='6'? 'imagerc::ico_diaper_6.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='7'? 'imagerc::ico_diaper_7.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='8'? 'imagerc::ico_diaper_8.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='9'? 'imagerc::ico_diaper_9.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)&gt;='10'? 'imagerc::ico_diaper_10.png' : ''" displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="4" rowspan="2" displaytype="normal" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM" border="1px solid #cccccc,1px solid #cccccc,0px solid #cccccc"/>
+                      <Cell col="5" rowspan="2" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;=dataset.getColumn(currow,&quot;LOW_HEART_RATE&quot;)&amp;&amp;dataset.getColumn(currow,&quot;HEART_RATE&quot;)&lt;=dataset.getColumn(currow,&quot;HIGH_HEART_RATE&quot;) ? 'imagerc::ico_pulse_y.png' : dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;0 ? 'imagerc::ico_pulse_n.png' : 'imagerc::ico_pulse_dis.png'" textAlign="left" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="7" rowspan="3" text="expr:dataset.getColumn(currow,&quot;BAND_CLEAR_YN&quot;)=='N' ? 'imagerc::btn_pulselowr.png' : 'imagerc::btn_pulselowg.png' " displaytype="imagecontrol" edittype="none" tooltiptext="맥박" padding="4px"/>
+                      <Cell row="1" text="bind:LOCATION" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left" padding="0px 0px 0px 10px"/>
+                      <Cell row="1" col="6" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" text="bind:NAME" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="left" padding="0px 0px 0px 10px"/>
+                      <Cell row="2" col="1" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? 'imagerc::ico_con_y.png' : 'imagerc::ico_con_n.png' " displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" col="2" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? '연결중' : '연결안됨' " border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell row="2" col="3" colspan="2" border="1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HUMI_RATE&quot;)&gt;'100' ? '100' : dataset.getColumn(currow, &quot;HUMI_RATE&quot;) &lt; '0' ? '0' : dataset.getColumn(currow,&quot;HUMI_RATE&quot;)" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="2" col="5" colspan="2" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" text="bind:HEART_RATE" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="3" colspan="8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_list2" taborder="3" autofittype="col" left="25.15%" top="0" binddataset="ds_list2" bottom="40" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick" right="50.3%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" border="0" oncellclick="div_cont_grd_list2_oncellclick" cssclass="grd_monitor4">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                      <Column size="60"/>
+                      <Column size="10"/>
+                      <Column size="60"/>
+                      <Column size="10"/>
+                      <Column size="75"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="20"/>
+                      <Row size="20"/>
+                      <Row size="40"/>
+                      <Row size="5"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:AREA2" textAlign="left" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px"/>
+                      <Cell col="1" rowspan="2" displaytype="imagecontrol" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="expr:dataset.getColumn(currow,&quot;BAT_IMG&quot;)&lt;='0' ? 'imagerc::ico_battery_0.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='1' ? 'imagerc::ico_battery_1.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='2' ? 'imagerc::ico_battery_2.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='3' ? 'imagerc::ico_battery_3.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='4' ? 'imagerc::ico_battery_4.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='5' ? 'imagerc::ico_battery_5.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='6' ? 'imagerc::ico_battery_6.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='7' ? 'imagerc::ico_battery_7.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='8' ? 'imagerc::ico_battery_8.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='9' ? 'imagerc::ico_battery_9.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='10' ? 'imagerc::ico_battery_10.png' : null" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2" rowspan="2" displaytype="normal" text="expr:dataset.getColumn(currow,&quot;BAT_RATE&quot;)&gt;'100' ? '100%' : dataset.getColumn(currow, &quot;BAT_RATE&quot;) &lt; '0' ? '0%' : dataset.getColumn(currow,&quot;BAT_RATE&quot;) != null ?  dataset.getColumn(currow,&quot;BAT_RATE&quot;) +'%' : ''" expandshow="hide" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="3" rowspan="2" text="expr:dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='0' ? 'imagerc::ico_diaper_0.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='1' ? 'imagerc::ico_diaper_1.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='2'? 'imagerc::ico_diaper_2.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='3' ? 'imagerc::ico_diaper_3.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='4' ? 'imagerc::ico_diaper_4.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='5'? 'imagerc::ico_diaper_5.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='6'? 'imagerc::ico_diaper_6.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='7'? 'imagerc::ico_diaper_7.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='8'? 'imagerc::ico_diaper_8.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='9'? 'imagerc::ico_diaper_9.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)&gt;='10'? 'imagerc::ico_diaper_10.png' : ''" displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="4" rowspan="2" displaytype="normal" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM" border="1px solid #cccccc,1px solid #cccccc,0px solid #cccccc"/>
+                      <Cell col="5" rowspan="2" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;=dataset.getColumn(currow,&quot;LOW_HEART_RATE&quot;)&amp;&amp;dataset.getColumn(currow,&quot;HEART_RATE&quot;)&lt;=dataset.getColumn(currow,&quot;HIGH_HEART_RATE&quot;) ? 'imagerc::ico_pulse_y.png' : dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;0 ? 'imagerc::ico_pulse_n.png' : 'imagerc::ico_pulse_dis.png'" textAlign="left" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="7" rowspan="3" text="expr:dataset.getColumn(currow,&quot;BAND_CLEAR_YN&quot;)=='N' ? 'imagerc::btn_pulselowr.png' : 'imagerc::btn_pulselowg.png' " displaytype="imagecontrol" edittype="none" padding="4px"/>
+                      <Cell row="1" text="bind:LOCATION" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px" textAlign="left"/>
+                      <Cell row="1" col="6" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" text="bind:NAME" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" padding="0px 0px 0px 10px" textAlign="left"/>
+                      <Cell row="2" col="1" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? 'imagerc::ico_con_y.png' : 'imagerc::ico_con_n.png' " displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" col="2" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? '연결중' : '연결안됨' " border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell row="2" col="3" colspan="2" border="1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HUMI_RATE&quot;)&gt;'100' ? '100' : dataset.getColumn(currow, &quot;HUMI_RATE&quot;) &lt; '0' ? '0' : dataset.getColumn(currow,&quot;HUMI_RATE&quot;)" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="2" col="5" colspan="2" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" text="bind:HEART_RATE" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="3" colspan="8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_list4" taborder="4" autofittype="col" left="75.5%" top="0" binddataset="ds_list4" bottom="40" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick" right="0%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" border="0" oncellclick="div_cont_grd_list4_oncellclick" cssclass="grd_monitor4">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="75"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="20"/>
+                      <Row size="20"/>
+                      <Row size="40"/>
+                      <Row size="5"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:AREA2" textAlign="left" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px"/>
+                      <Cell col="1" rowspan="2" displaytype="imagecontrol" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="expr:dataset.getColumn(currow,&quot;BAT_IMG&quot;)&lt;='0' ? 'imagerc::ico_battery_0.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='1' ? 'imagerc::ico_battery_1.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='2' ? 'imagerc::ico_battery_2.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='3' ? 'imagerc::ico_battery_3.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='4' ? 'imagerc::ico_battery_4.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='5' ? 'imagerc::ico_battery_5.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='6' ? 'imagerc::ico_battery_6.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='7' ? 'imagerc::ico_battery_7.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='8' ? 'imagerc::ico_battery_8.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='9' ? 'imagerc::ico_battery_9.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='10' ? 'imagerc::ico_battery_10.png' : null" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2" rowspan="2" displaytype="normal" text="expr:dataset.getColumn(currow,&quot;BAT_RATE&quot;)&gt;'100' ? '100%' : dataset.getColumn(currow, &quot;BAT_RATE&quot;) &lt; '0' ? '0%' : dataset.getColumn(currow,&quot;BAT_RATE&quot;) != null ?  dataset.getColumn(currow,&quot;BAT_RATE&quot;) +'%' : ''" expandshow="hide" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="3" rowspan="2" text="expr:dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='0' ? 'imagerc::ico_diaper_0.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='1' ? 'imagerc::ico_diaper_1.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='2'? 'imagerc::ico_diaper_2.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='3' ? 'imagerc::ico_diaper_3.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='4' ? 'imagerc::ico_diaper_4.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='5'? 'imagerc::ico_diaper_5.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='6'? 'imagerc::ico_diaper_6.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='7'? 'imagerc::ico_diaper_7.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='8'? 'imagerc::ico_diaper_8.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='9'? 'imagerc::ico_diaper_9.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)&gt;='10'? 'imagerc::ico_diaper_10.png' : ''" displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="4" rowspan="2" displaytype="normal" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM" border="1px solid #cccccc,1px solid #cccccc,0px solid #cccccc"/>
+                      <Cell col="5" rowspan="2" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;=dataset.getColumn(currow,&quot;LOW_HEART_RATE&quot;)&amp;&amp;dataset.getColumn(currow,&quot;HEART_RATE&quot;)&lt;=dataset.getColumn(currow,&quot;HIGH_HEART_RATE&quot;) ? 'imagerc::ico_pulse_y.png' : dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;0 ? 'imagerc::ico_pulse_n.png' : 'imagerc::ico_pulse_dis.png'" textAlign="left" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="7" rowspan="3" text="expr:dataset.getColumn(currow,&quot;BAND_CLEAR_YN&quot;)=='N' ? 'imagerc::btn_pulselowr.png' : 'imagerc::btn_pulselowg.png' " displaytype="imagecontrol" edittype="none" padding="4px"/>
+                      <Cell row="1" text="bind:LOCATION" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px" textAlign="left"/>
+                      <Cell row="1" col="6" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" text="bind:NAME" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" padding="0px 0px 0px 10px" textAlign="left"/>
+                      <Cell row="2" col="1" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? 'imagerc::ico_con_y.png' : 'imagerc::ico_con_n.png' " displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" col="2" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? '연결중' : '연결안됨' " border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell row="2" col="3" colspan="2" border="1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HUMI_RATE&quot;)&gt;'100' ? '100' : dataset.getColumn(currow, &quot;HUMI_RATE&quot;) &lt; '0' ? '0' : dataset.getColumn(currow,&quot;HUMI_RATE&quot;)" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="2" col="5" colspan="2" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" text="bind:HEART_RATE" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="3" colspan="8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_list3" taborder="5" autofittype="col" left="50.3%" top="0" binddataset="ds_list3" bottom="40" autosizingtype="none" oncelldblclick="div_cont_grd_list_oncelldblclick" onheadclick="div_cont_grd_list_onheadclick" right="25.15%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" border="0" oncellclick="div_cont_grd_list3_oncellclick" cssclass="grd_monitor4">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                      <Column size="50"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="60"/>
+                      <Column size="20"/>
+                      <Column size="75"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="20"/>
+                      <Row size="20"/>
+                      <Row size="40"/>
+                      <Row size="5"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="bind:AREA2" textAlign="left" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" padding="0px 0px 0px 10px"/>
+                      <Cell col="1" rowspan="2" displaytype="imagecontrol" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="expr:dataset.getColumn(currow,&quot;BAT_IMG&quot;)&lt;='0' ? 'imagerc::ico_battery_0.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='1' ? 'imagerc::ico_battery_1.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='2' ? 'imagerc::ico_battery_2.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='3' ? 'imagerc::ico_battery_3.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='4' ? 'imagerc::ico_battery_4.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='5' ? 'imagerc::ico_battery_5.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='6' ? 'imagerc::ico_battery_6.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='7' ? 'imagerc::ico_battery_7.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='8' ? 'imagerc::ico_battery_8.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='9' ? 'imagerc::ico_battery_9.png' : dataset.getColumn(currow,&quot;BAT_IMG&quot;)=='10' ? 'imagerc::ico_battery_10.png' : null" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2" rowspan="2" displaytype="normal" text="expr:dataset.getColumn(currow,&quot;BAT_RATE&quot;)&gt;'100' ? '100%' : dataset.getColumn(currow, &quot;BAT_RATE&quot;) &lt; '0' ? '0%' : dataset.getColumn(currow,&quot;BAT_RATE&quot;) != null ?  dataset.getColumn(currow,&quot;BAT_RATE&quot;) +'%' : ''" expandshow="hide" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="3" rowspan="2" text="expr:dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='0' ? 'imagerc::ico_diaper_0.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='1' ? 'imagerc::ico_diaper_1.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='2'? 'imagerc::ico_diaper_2.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='3' ? 'imagerc::ico_diaper_3.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='4' ? 'imagerc::ico_diaper_4.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='5'? 'imagerc::ico_diaper_5.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='6'? 'imagerc::ico_diaper_6.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='7'? 'imagerc::ico_diaper_7.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='8'? 'imagerc::ico_diaper_8.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)=='9'? 'imagerc::ico_diaper_9.png' : dataset.getColumn(currow,&quot;HUMI_IMG&quot;)&gt;='10'? 'imagerc::ico_diaper_10.png' : ''" displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell col="4" rowspan="2" displaytype="normal" combodataset="ds_area" combocodecol="ARE_CD" combodatacol="ARE_NM" border="1px solid #cccccc,1px solid #cccccc,0px solid #cccccc"/>
+                      <Cell col="5" rowspan="2" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;=dataset.getColumn(currow,&quot;LOW_HEART_RATE&quot;)&amp;&amp;dataset.getColumn(currow,&quot;HEART_RATE&quot;)&lt;=dataset.getColumn(currow,&quot;HIGH_HEART_RATE&quot;) ? 'imagerc::ico_pulse_y.png' : dataset.getColumn(currow,&quot;HEART_RATE&quot;)&gt;0 ? 'imagerc::ico_pulse_n.png' : 'imagerc::ico_pulse_dis.png'" textAlign="left" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" combodataset="ds_location_all" combocodecol="LOC_CD" combodatacol="LOC_NM" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="7" rowspan="3" text="expr:dataset.getColumn(currow,&quot;BAND_CLEAR_YN&quot;)=='N' ? 'imagerc::btn_pulselowr.png' : 'imagerc::btn_pulselowg.png' " displaytype="imagecontrol" edittype="none" padding="4px"/>
+                      <Cell row="1" text="bind:LOCATION" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc" textAlign="left" padding="0px 0px 0px 10px"/>
+                      <Cell row="1" col="6" border="1px solid #cccccc,0px solid #cccccc,0px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" text="bind:NAME" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" font="normal 700 15pt/normal &quot;Noto Sans KR&quot;" textAlign="left" padding="0px 0px 0px 10px"/>
+                      <Cell row="2" col="1" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? 'imagerc::ico_con_y.png' : 'imagerc::ico_con_n.png' " displaytype="imagecontrol" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell row="2" col="2" text="expr:dataset.getColumn(currow,&quot;CONN_ST&quot;)=='1.0' ? '연결중' : '연결안됨' " border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" textAlign="left"/>
+                      <Cell row="2" col="3" colspan="2" border="1px solid #cccccc" text="expr:dataset.getColumn(currow,&quot;HUMI_RATE&quot;)&gt;'100' ? '100' : dataset.getColumn(currow, &quot;HUMI_RATE&quot;) &lt; '0' ? '0' : dataset.getColumn(currow,&quot;HUMI_RATE&quot;)" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="2" col="5" colspan="2" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" text="bind:HEART_RATE" textAlign="right" font="normal 400 15pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell row="3" colspan="8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA2" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_IMG" type="INT" size="256"/>
+          <Column id="BAT_IMG" type="INT" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="HEART_RATE" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="DIA_TIME" type="STRING" size="256"/>
+          <Column id="FALL_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="FALL_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="BAND_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="LOW_HEART_RATE" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_NM" type="STRING" size="256"/>
+          <Column id="FAL_NM" type="STRING" size="256"/>
+          <Column id="HIGH_HEART_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_temp">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_room">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="MON_AREA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_location_all">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="LOC_SEQ" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="LOC_CD" type="STRING" size="256"/>
+          <Column id="LOC_NM" type="STRING" size="256"/>
+          <Column id="LOC_TP" type="STRING" size="256"/>
+          <Column id="UES_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list1" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA2" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONN_IMG" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_IMG" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_IMG" type="STRING" size="256"/>
+          <Column id="HEART_RATE" type="INT" size="256"/>
+          <Column id="HEART_IMG" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="FALL_IMG" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="DIA_TIME" type="STRING" size="256"/>
+          <Column id="FALL_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="FALL_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="BAND_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="LOW_HEART_RATE" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_NM" type="STRING" size="256"/>
+          <Column id="FAL_NM" type="STRING" size="256"/>
+          <Column id="HIGH_HEART_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE2" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list2" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA2" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONN_IMG" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_IMG" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_IMG" type="STRING" size="256"/>
+          <Column id="HEART_RATE" type="INT" size="256"/>
+          <Column id="HEART_IMG" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="FALL_IMG" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="DIA_TIME" type="STRING" size="256"/>
+          <Column id="FALL_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="FALL_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="BAND_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="LOW_HEART_RATE" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_NM" type="STRING" size="256"/>
+          <Column id="FAL_NM" type="STRING" size="256"/>
+          <Column id="HIGH_HEART_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE2" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mon_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list3" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA2" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONN_IMG" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_IMG" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_IMG" type="STRING" size="256"/>
+          <Column id="HEART_RATE" type="INT" size="256"/>
+          <Column id="HEART_IMG" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="FALL_IMG" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="DIA_TIME" type="STRING" size="256"/>
+          <Column id="FALL_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="FALL_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="BAND_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="LOW_HEART_RATE" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_NM" type="STRING" size="256"/>
+          <Column id="FAL_NM" type="STRING" size="256"/>
+          <Column id="HIGH_HEART_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE2" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list4" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="AREA2" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="CONN_IMG" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_IMG" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_IMG" type="STRING" size="256"/>
+          <Column id="HEART_RATE" type="INT" size="256"/>
+          <Column id="HEART_IMG" type="STRING" size="256"/>
+          <Column id="FALL_YN" type="STRING" size="256"/>
+          <Column id="FALL_IMG" type="STRING" size="256"/>
+          <Column id="AGE_SEX" type="STRING" size="256"/>
+          <Column id="DIA_TIME" type="STRING" size="256"/>
+          <Column id="FALL_DT" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="CLEAR_YN" type="STRING" size="256"/>
+          <Column id="FALL_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="BAND_CLEAR_YN" type="STRING" size="256"/>
+          <Column id="LOW_HEART_RATE" type="STRING" size="256"/>
+          <Column id="BAN_DT" type="STRING" size="256"/>
+          <Column id="BAN_TIME" type="STRING" size="256"/>
+          <Column id="BAN_NM" type="STRING" size="256"/>
+          <Column id="FAL_NM" type="STRING" size="256"/>
+          <Column id="HIGH_HEART_RATE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE2" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "lib::sct_com.xjs"
+include "lib::pgm_com.xjs"
+
+ 
+var fv_companyCd = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+var clearYn = "Y";
+var newObj;
+this.COMMON_CODE_onload = function (obj:Form, e:nexacro.LoadEventInfo) {
+	
+	this.form_onload_com(obj, e, false);
+	//Multi 선택 여부 파라미터 : MULTI_YN
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	//페이징 처리 초기화
+	this.fn_initPageSet();
+	newObj = obj;
+	this.fn_setComboDs(obj);
+	
+	
+// 	this.ds_search.setColumn(0, "AREA", fv_area);
+// 	this.ds_search.setColumn(0, "LOCATION", fv_location);
+	
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_area.setFocus();
+	
+}; 
+//페이징 처리 초기화
+this.fn_initPageSet = function()
+{
+	//페이징처리 초기화
+	this.ds_list.pageRowCount		= 40;											//조회될 row 갯수 (page Size)
+    this.ds_list.pageCount			= 10;											//최대 페이지 갯수 (page Scale)
+    this.ds_list.pageTotalVisible	= false;										//하단 page Size, pageScale 등 입력 div show YN
+	this.ds_list.pageNo				= 1;											//최초조회시 default 페이지 번호
+	this.ds_list.pageFunctionName	= "fn_search";									//페이지 버튼(1,2,3...)클릭시 조회할 function name
+	this.div_cont.form.div_paging.form.fn_init(this, this.ds_list);	//페이지 form 초기화
+	
+}
+this.fn_search2 = function (obj:Button, e:nexacro.ClickEventInfo) {
+	var svcId = "search2";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getListPaging "
+		 + "sqlId=CM_MONITOR_PP.CM_MONITOR_PP_S ";
+	var callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/monitorController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=monitorSelect "
+				+ "sqlId='CM_MONITOR_PP.CM_MONITOR_PP_JSON_S' "
+				+ "COMPANY_CD=" + fv_companyCd + " ";
+				
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, false, false);
+};
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{				
+			
+			this.ds_list1.clearData(); 
+			this.ds_list2.clearData();
+			this.ds_list3.clearData();
+			this.ds_list4.clearData();
+			
+			this.div_cont.form.div_paging.form.fn_callAfter();
+			
+			for(var i=0; i<this.ds_list.rowcount; i++){
+				if(i<this.ds_list.pageRowCount){
+					var nRow1 = this.ds_list1.addRow();
+					this.ds_list1.copyRow(nRow1, this.ds_list, i);
+				}
+				i++;
+				if(i<this.ds_list.rowcount){
+					var nRow2 = this.ds_list2.addRow();
+					this.ds_list2.copyRow(nRow2, this.ds_list, i);
+				}
+				i++;
+				if(i<this.ds_list.rowcount){
+					var nRow3 = this.ds_list3.addRow();
+					this.ds_list3.copyRow(nRow3, this.ds_list, i);
+				}
+				i++;
+				if(i<this.ds_list.rowcount){
+					var nRow4 = this.ds_list4.addRow();
+					this.ds_list4.copyRow(nRow4, this.ds_list, i);
+				}
+			}
+			//낙상기능의 삭제로 FALL_CLEAR_YN == 'N' >> FALL_CLEAR_YN == 'S' (기능복구시 N으로 변경)
+			this.div_cont.form.grd_list1.setCellProperty("body", 0, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 1, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 2, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 3, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 4, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 5, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 6, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 7, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 8, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 9, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 10, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 11, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 12, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 13, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 14, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list1.setCellProperty("body", 15, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+
+			this.div_cont.form.grd_list2.setCellProperty("body", 0, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 1, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 2, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 3, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 4, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 5, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 6, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 7, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 8, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 9, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 10, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 11, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 12, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 13, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 14, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list2.setCellProperty("body", 15, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			
+			this.div_cont.form.grd_list3.setCellProperty("body", 0, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 1, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 2, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 3, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 4, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 5, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 6, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 7, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 8, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 9, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 10, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 11, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 12, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 13, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 14, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list3.setCellProperty("body", 15, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			
+			this.div_cont.form.grd_list4.setCellProperty("body", 0, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 1, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 2, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 3, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 4, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 5, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 6, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 7, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 8, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 9, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 10, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 11, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 12, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 13, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 14, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.div_cont.form.grd_list4.setCellProperty("body", 15, "cssclass", "expr:dataset.getColumn(currow,'FALL_CLEAR_YN') == 'S' ? 'CellYellow_C' : dataset.getColumn(currow,'BAND_CLEAR_YN') == 'N' ? 'CellYellow_C' : ''");
+			this.ds_list1.applyChange();
+			this.ds_list2.applyChange();
+			this.ds_list3.applyChange();
+			this.ds_list4.applyChange();
+			
+			if(this.ds_list.getColumn(0,"FALL_CLEAR_YN")=="S"||this.ds_list.getColumn(0,"BAND_CLEAR_YN")=="N"){
+				clearYn = "N";
+			}else{
+				clearYn = "Y";
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+
+this.fn_setComboDs = function(obj)
+{
+     var comboDsParamArr = [
+							{ outDsName : "ds_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 층 조회
+						  , { outDsName : "ds_mon_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_MON_AREA_S",param : {COMPANY_CD : fv_companyCd}, bEmptyRow : true} // 생활실 전체 조회
+                    ];
+   this.gfn_setComboDs(obj, comboDsParamArr);
+}
+
+//생활실 조회(outDatasets, 층 데이터)
+this.fn_location_search = function (outDs, col)
+{
+	var svcId = "location_search";
+	var params = "/commonController.do";
+	var inDatasets = "";
+	var outDatasets = outDs+"=output1";
+	var argument = "method=getList "
+		+ "sqlId=NUA101CT.NUA101CT_DS_LOCATION_S "
+		+ " COMPANY_CD="+fv_companyCd
+		+ " AREA="+col;
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc, null, false);
+};
+
+//검색조건 층 콤보박스 변경 이벤트
+this.div_search_cmb_area_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "AREA", ""); 
+};
+this.div_search_cmb_location_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "MON_AREA", "");
+};
+this.div_search_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+
+
+this.fn_popCallback = function(){
+	this.fn_search();
+}
+
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+this.div_cont_grd_list1_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 7 && e.subrow == 2){
+		if(this.ds_list1.getColumn(e.row,"FALL_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list1.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list1.getColumn(e.row, "NAME"),
+				AGE : this.ds_list1.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list1.getColumn(e.row, "AREA"),
+				TM : this.ds_list1.getColumn(e.row, "DIA_TIME"),
+				DTTM : this.ds_list1.getColumn(e.row, "FALL_DT")
+			};
+			Sct.popup(this, "FALL_PP", 326, 226, "", param, "CM_POP::CM_FALL_PP.xfdl", "fn_popCallback");
+		}
+	}
+	if(e.col == 7 && e.subrow == 0){
+		if(this.ds_list1.getColumn(e.row,"BAND_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list1.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list1.getColumn(e.row, "NAME"),
+				AGE : this.ds_list1.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list1.getColumn(e.row, "AREA"),
+				TM : this.ds_list1.getColumn(e.row, "BAN_TIME"),
+				DTTM : this.ds_list1.getColumn(e.row, "BAN_DT")
+			};
+			Sct.popup(this, "BAND_PP", 326, 226, "", param, "CM_POP::CM_BAND_PP.xfdl", "fn_popCallback");
+		}
+	}	
+};
+
+this.div_cont_grd_list2_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 7 && e.subrow == 2){
+		if(this.ds_list2.getColumn(e.row,"FALL_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list2.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list2.getColumn(e.row, "NAME"),
+				AGE : this.ds_list2.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list2.getColumn(e.row, "AREA"),
+				TM : this.ds_list2.getColumn(e.row, "DIA_TIME"),
+				DTTM : this.ds_list2.getColumn(e.row, "FALL_DT")
+			};
+			Sct.popup(this, "FALL_PP", 326, 226, "", param, "CM_POP::CM_FALL_PP.xfdl", "fn_popCallback");
+		}
+	}
+	if(e.col == 7 && e.subrow == 0){
+		if(this.ds_list2.getColumn(e.row,"BAND_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list2.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list2.getColumn(e.row, "NAME"),
+				AGE : this.ds_list2.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list2.getColumn(e.row, "AREA"),
+				TM : this.ds_list2.getColumn(e.row, "BAN_TIME"),
+				DTTM : this.ds_list2.getColumn(e.row, "BAN_DT")
+			};
+			Sct.popup(this, "BAND_PP", 326, 226, "", param, "CM_POP::CM_BAND_PP.xfdl", "fn_popCallback");
+		}
+	}
+};
+
+this.div_cont_grd_list3_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 7 && e.subrow == 2){
+		if(this.ds_list3.getColumn(e.row,"FALL_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list3.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list3.getColumn(e.row, "NAME"),
+				AGE : this.ds_list3.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list3.getColumn(e.row, "AREA"),
+				TM : this.ds_list3.getColumn(e.row, "DIA_TIME"),
+				DTTM : this.ds_list3.getColumn(e.row, "FALL_DT")
+			};
+			Sct.popup(this, "FALL_PP", 326, 226, "", param, "CM_POP::CM_FALL_PP.xfdl", "fn_popCallback");
+		}
+	}
+	if(e.col == 7 && e.subrow == 0){
+		if(this.ds_list3.getColumn(e.row,"BAND_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list3.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list3.getColumn(e.row, "NAME"),
+				AGE : this.ds_list3.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list3.getColumn(e.row, "AREA"),
+				TM : this.ds_list3.getColumn(e.row, "BAN_TIME"),
+				DTTM : this.ds_list3.getColumn(e.row, "BAN_DT")
+			};
+			Sct.popup(this, "BAND_PP", 326, 226, "", param, "CM_POP::CM_BAND_PP.xfdl", "fn_popCallback");
+		}
+	}	
+};
+
+this.div_cont_grd_list4_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.col == 7 && e.subrow == 2){
+		if(this.ds_list4.getColumn(e.row,"FALL_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list4.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list4.getColumn(e.row, "NAME"),
+				AGE : this.ds_list4.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list4.getColumn(e.row, "AREA"),
+				TM : this.ds_list4.getColumn(e.row, "DIA_TIME"),
+				DTTM : this.ds_list4.getColumn(e.row, "FALL_DT")
+			};
+			Sct.popup(this, "FALL_PP", 326, 226, "", param, "CM_POP::CM_FALL_PP.xfdl", "fn_popCallback");
+		}
+	}
+	if(e.col == 7 && e.subrow == 0){
+		if(this.ds_list4.getColumn(e.row,"BAND_CLEAR_YN")=="N"){
+			var param = {
+				RES_ID : this.ds_list4.getColumn(e.row, "RES_ID"),
+				RES_NM : this.ds_list4.getColumn(e.row, "NAME"),
+				AGE : this.ds_list4.getColumn(e.row, "AGE_SEX"),		
+				AREA : this.ds_list4.getColumn(e.row, "AREA"),
+				TM : this.ds_list4.getColumn(e.row, "BAN_TIME"),
+				DTTM : this.ds_list4.getColumn(e.row, "BAN_DT")
+			};
+			Sct.popup(this, "BAND_PP", 326, 226, "", param, "CM_POP::CM_BAND_PP.xfdl", "fn_popCallback");
+		}
+	}
+};
+
+this.div_search_btn_2div_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	newObj.getOwnerFrame().set_formurl("NU::NUA801QR.xfdl");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="MON_AREA"/>
+      <BindItem id="item3" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="AREA"/>
+    </Bind>
+  </Form>
+</FDL>

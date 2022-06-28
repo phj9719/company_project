@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- /** * * WARNING: Auto create * Template File Version : 1.0 * Create 
+	:2020-07-08 13:22 * **/ *================================================================ 
+	* 프로그램 ID : CMA001CT * 프로그램 명 : 전자게시판 * Description :
+	*================================================================ 
+	작성일자 | 작성자 | 비고
+	
+	 *================================================================ 
+	2020-07-08 13:22 | | 최초작성 *================================================================ 
+	* Statement List *================================================================ 
+	*================================================================ -->
+<mapper namespace="TEST0">
+	<select id="TEST0_DS_RESIDENT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		 SELECT 
+		 	COMPANY_CD
+		 ,	RES_ID
+		 ,	NAME
+		 ,	LOCATION
+		 ,	ROOM
+		 ,	REF_SYS_RES_ID
+		 ,	FILE_GRP_ID
+		 FROM
+		 	T_NU_RESIDENT
+		 WHERE
+		 	COMPANY_CD = #{COMPANY_CD}
+	</select>
+	
+	<select id="TEST0_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT DISTINCT
+			LOCATION
+		FROM
+			T_NU_RESIDENT
+		WHERE
+			COMPANY_CD = #{COMPANY_CD}
+	</select>
+	
+	<select id="TEST0_DS_ROOM_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+			A.LOCATION
+		,	A.ROOM
+		,	ROW_NUMBER() OVER(PARTITION BY A.LOCATION ORDER BY A.ROOM) AS ROW_NUM
+		FROM
+			(SELECT DISTINCT
+				LOCATION
+			,	ROOM
+			FROM
+				T_NU_RESIDENT
+			WHERE
+				COMPANY_CD = #{COMPANY_CD}
+				AND	LOCATION = #{LOCATION}
+			) AS A
+	</select>
+	
+	<select id="TEST0_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM T_FILE_TEST
+	</select>
+	
+</mapper>                                                                                                                                                                                                          

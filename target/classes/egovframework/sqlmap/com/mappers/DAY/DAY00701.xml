@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00701                                                         
+     * 프로그램 명     	: 7-1 주야간운영일지                                                     
+     * Description 	: 주야간운영일지 관련 쿼리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-16 13:30        	|  조기종		| 최초작성                         
+	   2022-03-24 13:00			|  이명광		| 쿼리 성능 향상
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00701_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00701">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00701_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-1 조회 */
+    WITH RECURSIVE day AS
+    (
+        SELECT 1 AS rnum
+        UNION ALL
+        SELECT rnum + 1 AS rnum
+        FROM day
+        WHERE rnum &lt; 1000
+    )
+    , daily AS
+    (
+        SELECT 
+          a.date_ymd
+        , DATE_FORMAT(a.date_ymd, '%w') AS ddd
+        , a.date_ym
+        , CASE 
+            WHEN bd.거주자수 = 0 THEN NULL
+            WHEN bd.거주자수 &gt; 999 THEN '***'
+            ELSE bd.거주자수 
+          END AS 거주자수
+        , ROW_NUMBER() OVER(PARTITION BY a.date_ym ORDER BY a.date_ymd) AS rnum
+        , bd.sicode
+        FROM 
+        (
+            SELECT 
+              #{DATE_TO} - INTERVAL (a.rnum-1 ) DAY as date_ymd
+            , DATE_FORMAT(#{DATE_TO} - INTERVAL (a.rnum-1 ) DAY, '%Y-%m') as date_ym 
+            FROM day a
+        ) AS a
+        LEFT JOIN base_daily bd
+        ON a.date_ymd = bd.운영일
+        AND bd.sicode = #{SICODE}
+        WHERE a.date_ymd BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    )
+    SELECT 
+      rnum
+    , MAX(case when substring(date_ym,6,2) = '01' then  date_ymd END) AS 'jan'
+    , MAX(case when substring(date_ym,6,2) = '01' then  ddd END) AS 'jan_wd'
+    , MAX(case when substring(date_ym,6,2) = '01' then  거주자수 END) AS 'jan_c'
+    , MAX(case when substring(date_ym,6,2) = '02' then  date_ymd END) AS 'feb'
+    , MAX(case when substring(date_ym,6,2) = '02' then  ddd END) AS 'feb_wd'
+    , MAX(case when substring(date_ym,6,2) = '02' then  거주자수 END) AS 'feb_c'
+    , MAX(case when substring(date_ym,6,2) = '03' then  date_ymd END) AS 'mar'
+    , MAX(case when substring(date_ym,6,2) = '03' then  ddd END) AS 'mar_wd'
+    , MAX(case when substring(date_ym,6,2) = '03' then  거주자수 END) AS 'mar_c'
+    , MAX(case when substring(date_ym,6,2) = '04' then  date_ymd END) AS 'apr'
+    , MAX(case when substring(date_ym,6,2) = '04' then  ddd END) AS 'apr_wd'
+    , MAX(case when substring(date_ym,6,2) = '04' then  거주자수 END) AS 'apr_c'
+    , MAX(case when substring(date_ym,6,2) = '05' then  date_ymd END) AS 'may'
+    , MAX(case when substring(date_ym,6,2) = '05' then  ddd END) AS 'may_wd'
+    , MAX(case when substring(date_ym,6,2) = '05' then  거주자수 END) AS 'may_c'
+    , MAX(case when substring(date_ym,6,2) = '06' then  date_ymd END) AS 'jun'
+    , MAX(case when substring(date_ym,6,2) = '06' then  ddd END) AS 'jun_wd'
+    , MAX(case when substring(date_ym,6,2) = '06' then  거주자수 END) AS 'jun_c'
+    , MAX(case when substring(date_ym,6,2) = '07' then  date_ymd END) AS 'jul'
+    , MAX(case when substring(date_ym,6,2) = '07' then  ddd END) AS 'jul_wd'
+    , MAX(case when substring(date_ym,6,2) = '07' then  거주자수 END) AS 'jul_c'
+    , MAX(case when substring(date_ym,6,2) = '08' then  date_ymd END) AS 'aug'
+    , MAX(case when substring(date_ym,6,2) = '08' then  ddd END) AS 'aug_wd'
+    , MAX(case when substring(date_ym,6,2) = '08' then  거주자수 END) AS 'aug_c'
+    , MAX(case when substring(date_ym,6,2) = '09' then  date_ymd END) AS 'sep'
+    , MAX(case when substring(date_ym,6,2) = '09' then  ddd END) AS 'sep_wd'
+    , MAX(case when substring(date_ym,6,2) = '09' then  거주자수 END) AS 'sep_c'
+    , MAX(case when substring(date_ym,6,2) = '10' then  date_ymd END) AS 'oct'
+    , MAX(case when substring(date_ym,6,2) = '10' then  ddd END) AS 'oct_wd'
+    , MAX(case when substring(date_ym,6,2) = '10' then  거주자수 END) AS 'oct_c'
+    , MAX(case when substring(date_ym,6,2) = '11' then  date_ymd END) AS 'nov'
+    , MAX(case when substring(date_ym,6,2) = '11' then  ddd END) AS 'nov_wd'
+    , MAX(case when substring(date_ym,6,2) = '11' then  거주자수 END) AS 'nov_c'
+    , MAX(case when substring(date_ym,6,2) = '12' then  date_ymd END) AS 'dec'
+    , MAX(case when substring(date_ym,6,2) = '12' then  ddd END) AS 'dec_wd'
+    , MAX(case when substring(date_ym,6,2) = '12' then  거주자수 END) AS 'dec_c'
+    FROM daily
+    GROUP BY rnum
+    </select>
+</mapper>

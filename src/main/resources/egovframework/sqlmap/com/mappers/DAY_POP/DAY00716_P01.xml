@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00716_P01                                                    
+     * 프로그램 명  : 비상구점검일지 출력                                                     
+     * Description 	: 비상구점검일지 조회, 삽입, 수정, 삭제
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+       2022-03-23 16:00        	|  조기종		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00716_P01_DS_LIST_S		조회
+        DAY00716_P01_DS_DATA_I		삽입
+        DAY00716_P01_DS_DATA_U		수정
+        DAY00716_P01_DS_DATA_D		삭제                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00716_P01">
+	<!-- 조회 -->
+    <select id="DAY00716_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-16 P01 조회 */
+    WITH RECURSIVE line AS
+    (
+    SELECT
+      LAST_DAY(#{DATE_FROM} - INTERVAL 1 MONTH) + INTERVAL 1 DAY AS date
+    , 1 AS row
+    UNION ALL
+    SELECT
+      date + INTERVAL 1 DAY AS date
+    , ROW + 1 AS row
+    FROM line
+    WHERE date <![CDATA[<]]> LAST_DAY(#{DATE_TO})
+    )
+    SELECT
+      li.date
+    , kp.sicode
+    , LPAD(kp.순찰번호, 7, '0') AS 순찰번호
+    , kp.순찰일
+    , kp.비상항목
+    , kp.비상작성
+    , kp.비상코드
+    , kp.비상사항
+    , CASE WHEN kp.순찰번호 IS NOT NULL THEN 'O' ELSE NULL END AS 작성
+    FROM line li
+    LEFT JOIN km_patrol kp
+    ON li.date = kp.순찰일
+    AND kp.sicode = #{SICODE}
+    ORDER BY li.date ASC
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00716_P01_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 7-16 P01 삽입 */
+    INSERT INTO km_patrol
+    (
+      sicode
+    , 순찰일
+    , 비상항목
+    , 비상작성
+    , 비상코드
+    , 비상사항
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{순찰일}
+    , #{비상항목}
+    , #{비상작성}
+    , #{비상코드}
+    , #{비상사항}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00716_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 7-16 P01 수정 */
+    UPDATE km_patrol
+    SET
+      비상항목 = #{비상항목}
+    , 비상작성 = #{비상작성}
+    , 비상코드 = #{비상코드}
+    , 비상사항 = #{비상사항}
+    WHERE sicode = #{sicode}
+    AND 순찰일 = #{순찰일}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00716_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 7-16 P01 삭제 */
+    DELETE FROM km_patrol
+    WHERE sicode = #{sicode}
+    AND 순찰일 = #{순찰일}
+    </delete>
+</mapper>

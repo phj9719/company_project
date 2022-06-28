@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00602_P01                                                    
+     * 프로그램 명  :                                                      
+     * Description 	: 
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+      20220624       	|  이동관		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                 
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00602_P01">
+	<!-- 조회 -->
+    <select id="DAY00602_P01_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P01 HEAD 조회 */
+	SELECT kpr.sicode
+	     , kpr.il_number
+		 , kpr.prg_name
+		 , kpr.prg_number
+		 , substring(pro.pr바코드,1,4) AS pr바코드
+		 , pro.pr영역
+		 , DATE_FORMAT(pro.st_date, '%Y.%m.%d') AS st_date
+		 , DATE_FORMAT(pro.en_date, '%Y.%m.%d') AS en_date
+		 , kpr.운영일 AS pgr_date
+		 , DATE_FORMAT(kpr.운영일, '%Y.%m.%d') AS 운영일
+		 , CONCAT('(', FN_CHANGE_DAY(WEEKDAY(kpr.운영일)), ')') AS weekday		 
+		 , kpr.진행자
+		 , kpr.장소
+		 , kpr.운영시작시
+		 , kpr.운영시작분
+		 , kpr.운영종료시
+		 , kpr.운영종료분
+		 , concat(lpad(kpr.운영시작시,2,'0'),':',lpad(kpr.운영시작분,2,'0'),'-',lpad(kpr.운영종료시,2,'0'),':',lpad(kpr.운영종료분,2,'0'))  AS 운영시간
+		 , kpr.준비물
+		 , kpr.참가인원
+		 , kpr.주제
+		 , kpr.담당자
+		 , kpr.담당코드
+		 , kpr.외부
+		 , case when kpr.외부 = '1' then '외부강사' ELSE '' END AS 외부구분
+		 , kpr.전반적평가
+		 , kpr.진행과정
+		 , SUM(case when hda.참석 = 1 then 1 ELSE 0 END)  AS 참여
+		 , SUM(case when hda.참석 = 2 then 1 ELSE 0 END)  AS 불참
+		 , SUM(case when hda.참석 = 3 then 1 ELSE 0 END)  AS 미이용
+		 , (SELECT b_offname 
+		      FROM base_info bi
+		     WHERE bi.sicode = kpr.sicode ) AS b_offname
+	 FROM km_program kpr
+ 	 JOIN base_program pro 
+	   ON (   pro.sicode = kpr.sicode
+	  AND pro.prg_number = kpr.prg_number)
+	 JOIN heal_daily hda
+	   ON (   hda.sicode = kpr.sicode
+	  AND hda.il_number = kpr.il_number)
+    WHERE kpr.sicode = #{sicode}
+	  AND kpr.il_number = #{il_number}
+    GROUP 
+       BY kpr.il_number
+        , kpr.prg_name
+        , kpr.prg_number
+        , substring(pro.pr바코드,1,4)
+        , pro.pr영역
+        , pro.st_date
+        , pro.en_date
+        , kpr.운영일
+        , kpr.진행자
+        , kpr.장소
+        , concat(lpad(kpr.운영시작시,2,'0'),':',lpad(kpr.운영시작분,2,'0'),'-',lpad(kpr.운영종료시,2,'0'),':',lpad(kpr.운영종료분,2,'0'))
+        , kpr.준비물
+        , kpr.참가인원
+        , kpr.주제
+        , kpr.담당자
+        , kpr.담당코드
+        , case when kpr.외부 = '1' then '외부강사' ELSE '' END
+        , kpr.전반적평가
+	    , kpr.진행과정
+    </select>
+    
+	<!-- 조회 -->
+    <select id="DAY00602_P01_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P01 DETAIL 조회 */
+	SELECT ROW_NUMBER() OVER(ORDER BY hda.healgroup, hda.healname) AS row_num
+		 , hda.sicode
+		 , hda.healnumber
+		 , hda.healday
+		 , hda.il_number
+		 , hda.prg_number 	
+		 , hda.healgroup
+	     , hda.healname
+	     , hda.healcode
+	     , mat.등급
+	     , hda.healroom
+	     , hda.참석
+	     , case when hda.참석 = 1 then '참여'
+	            when hda.참석 = 2 then '불참'
+	            when hda.참석 = 3 then '미이용' END AS 참여확인
+	     , hda.반응사항
+	     , hda.참여도
+	     , hda.만족도
+	     , hda.수행도
+	     , CONCAT(  case when hda.참여도 = 0 then ''
+		  			     when hda.참여도 = 1 then '상'
+	                     when hda.참여도 = 2 then '중'
+	                     when hda.참여도 = 3 then '하' END
+		          , case when hda.만족도 = 0 then ''
+		  			     when hda.만족도 = 1 then '상'
+	                     when hda.만족도 = 2 then '중'
+	                     when hda.만족도 = 3 then '하' END
+	              , case when hda.수행도 = 0 then ''
+		  			     when hda.수행도 = 1 then '상'
+	                     when hda.수행도 = 2 then '중'
+	                     when hda.수행도 = 3 then '하' END
+				 ) AS 참만수 
+	  FROM heal_daily hda
+	  JOIN base_mate  mat
+	    ON (   hda.sicode = mat.sicode
+	   AND hda.healcode = mat.m_code)
+	 WHERE hda.sicode = #{sicode}
+	   AND hda.il_number = #{il_number}
+	 ORDER 
+	    BY hda.healgroup
+	     , hda.healname
+    </select>    
+   
+    <!-- 수정 -->
+    <update id="DAY00602_P01_DS_HEAD_U" parameterType="java.util.HashMap">
+    /* 6-02-P01 HEAD 수정 */
+   	UPDATE km_program
+	   SET 운영시작시       = #{운영시작시}
+		 , 운영시작분       = #{운영시작분}
+		 , 운영종료시       = #{운영종료시}
+		 , 운영종료분       = #{운영종료분}
+		 , 담당자            = #{담당자}
+		 , 담당코드         = #{담당코드}
+		 , 진행자           = #{진행자}
+		 , 참가인원        = #{참가인원}
+		 , 장소             = #{장소}
+		 , 주제             = #{주제}
+		 , 준비물           = #{준비물}
+		 , 진행과정        = #{진행과정}
+		 , 전반적평가     = #{전반적평가}
+		 , 외부             = #{외부}
+	--	 , il_mark    = {il_mark}
+	--	 , 기대효과        = {기대효과}
+	--	 , pgsajin   = {pgsajin}
+	--	 , pgfold    = {pgfold}
+	--	 , prg_name   = {prg_name}
+	--   , prg_number = {prg_number}
+	--   , il_number  = {il_number}
+	 WHERE sicode     = #{sicode}
+	   AND il_number  = #{il_number}
+       AND 운영일            = #{운영일}
+       AND prg_number = #{prg_number}
+    </update>
+    
+    <!-- 수정 -->
+    <update id="DAY00602_P01_DS_DETAIL_U" parameterType="java.util.HashMap">
+    /* 6-02-P01 DETAIL 수정 */
+	UPDATE heal_daily
+	   SET 참석                        = #{참석}
+		 , 참여도                      = #{참여도}
+	 	 , 만족도                      = #{만족도}
+		 , 수행도                       = #{수행도}
+		 , 반응사항                    = #{반응사항}
+	--	 , healtime         = {healtime}
+	--	 , healname         = {healname}
+	--	 , 기록자                       = {기록자}
+	--	 , 기록코드                    = {기록코드}
+	--	 , healgroup        = {healgroup}
+	--	 , healroom         = {healroom}
+	--	 , org_prg_number   = {org_prg_number}
+	--	 , org_il_number    = {org_il_number}
+	--	 , org_healnumber   = {org_healnumber}
+	 WHERE sicode           = #{sicode}
+	   AND healnumber       = #{healnumber}
+	   AND healday          = #{healday}
+	   AND healcode         = #{healcode}
+	   AND prg_number       = #{prg_number}
+	   AND il_number        = #{il_number}
+    </update>
+    
+    <!-- 조회 -->
+    <select id="DAY00602_P01_DS_DETAIL_POPUP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P01 DETAIL_POPUP 조회 */
+	SELECT CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,1)-1)) AS 반응내용01
+	     , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,1)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,2)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,1)-1))  AS 반응내용02
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,2)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,3)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,2)-1))  AS 반응내용03
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,3)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,4)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,3)-1))  AS 반응내용04
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,4)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,5)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,4)-1))  AS 반응내용05
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,5)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,6)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,5)-1))  AS 반응내용06
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,6)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,7)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,6)-1))  AS 반응내용07
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,7)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,8)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,7)-1))  AS 반응내용08
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,8)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,9)   -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,8)-1))  AS 반응내용09
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,9)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,10)  -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,9)-1))  AS 반응내용10
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,10)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,11) -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,10)-1)) AS 반응내용11
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,11)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,12) -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,11)-1)) AS 반응내용12
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,12)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,13) -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,12)-1)) AS 반응내용13
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,13)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,14) -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,13)-1)) AS 반응내용14
+		 , CONCAT('□ ', SUBSTRING(replace(inf.반응내용,'\n',''),fn_instr(replace(inf.반응내용,'\n',''),'\r',1,14)+1,fn_instr(replace(inf.반응내용,'\n',''),'\r',1,15) -fn_instr(replace(inf.반응내용,'\n',''),'\r',1,14)-1)) AS 반응내용15
+	  FROM base_info inf
+     WHERE inf.sicode = #{sicode}
+    </select>
+    
+    <!-- 조회 -->
+    <select id="DAY00602_P01_DS_DETAIL_SATISFACTION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 6-02-P01 DETAIL_POPUP 조회 */
+	SELECT hda.healname
+	     , mat.성별
+	     , hda.healcode
+	     , hda.healroom
+	     , hda.참여도
+	     , hda.만족도
+	     , hda.수행도
+	  FROM heal_daily hda
+	  JOIN base_mate  mat
+	    ON (   hda.sicode = mat.sicode
+	   AND hda.healcode = mat.m_code)
+	 WHERE hda.sicode = #{sicode}
+	   AND hda.il_number = #{il_number}
+	   AND hda.healcode = #{healcode}
+	</select>     
+</mapper>

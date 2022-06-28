@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="2.0">
+  <Application id="argosWeb" screenid="Web" onload="Application_onload">
+    <Layout>
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" width="1920" height="920" titletext="너싱홈 주야간보호센터" showcascadetitletext="false" openstatus="maximize">
+        <VFrameSet id="VFrameSetMain" separatesize="90,*,0">
+          <Frames>
+            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" dragmovetype="none"/>
+            <VFrameSet id="VFrameSetBody" separatesize="36,*">
+              <Frames>
+                <ChildFrame id="mdiFrame" showtitlebar="false" formurl="FrameBase::frameMDI.xfdl" dragmovetype="none"/>
+                <FrameSet id="workFrameSet">
+                  <Frames>
+                    <ChildFrame id="homeFrame" showtitlebar="false" showstatusbar="false" dragmovetype="none"/>
+                  </Frames>
+                </FrameSet>
+              </Frames>
+            </VFrameSet>
+            <ChildFrame id="loginFrame" showtitlebar="false" formurl="FrameBase::frameLogin.xfdl" dragmovetype="none"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+    <Style url="xcssrc::Common.xcss"/>
+    <Style url="xcssrc::Frame.xcss"/>
+    <Style url="xcssrc::MainFrame.xcss"/>
+    <Style url="xcssrc::Work.xcss"/>
+  </Application>
+  <Script type="xscript5.1"><![CDATA[// Frame 변수 정의
+this.av_mainFrame = this.mainframe;
+this.av_vFrameSetMain = this.mainframe.VFrameSetMain;
+this.av_vFrameSetBody = this.mainframe.VFrameSetMain.VFrameSetBody;
+this.av_workFrameSet = this.mainframe.VFrameSetMain.VFrameSetBody.workFrameSet;
+
+this.av_topFrame = this.av_vFrameSetMain.TopFrame;
+this.av_mdiFrame = this.av_vFrameSetBody.mdiFrame;
+this.av_homeFrame = this.av_workFrameSet.homeFrame;
+this.av_loginFrame = this.av_vFrameSetMain.loginFrame;
+
+// Frame Size Mode 정의
+this.av_loginModeSize = "0,0,*";
+this.av_mainModeSize = "90,*,0";
+
+// TOP Frame을 숨겼을 때 / 보여질 때 사이즈 정의
+this.av_showTopModeSize = "90,*,0"; //Top Frame 보여질 때
+this.av_hideTopModeSize = "0,*,0"; //Top Frame 숨겼을 때
+
+
+this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+{
+	// 로컬에서 svcurl 맵핑시키기 (CORS 충돌 방지)
+	const objSrv = nexacro.getEnvironment().services["svcurl"];
+	const sIp = "http://localhost:8080";
+	if(e.url == sIp + "/Argos/argosWeb.xadl.js") {
+		objSrv.url = sIp;
+	}
+	
+	this.av_vFrameSetMain.set_separatesize(this.av_loginModeSize);
+};
+]]></Script>
+</ADL>

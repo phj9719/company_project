@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-05 17:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA020CT_GRPLINE_STATUS_PP                                                         
+     * 프로그램 명  :                                           
+     * Description :                                                            
+     *================================================================                  
+                작성일자         		|  작성자    |  비고                                    
+     *================================================================                  
+       2021-02-05 17:00     |  이승규    |	최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->					
+<mapper namespace="CMA020CT_GRPLINE_STATUS_PP">
+	<!-- 결재진행상태 팝업 -->
+	<select id="CMA020CT_GRPLINE_STATUS_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+			SELECT GAL.COMPANY_CD		
+			     , GAL.PLANT_CD        
+			     , GAL.PK_DOC_NO       
+			     , GAL.PK_APPL_TYPE    
+			     , GAL.GRP_LINE_SEQ    
+			     , GAL.LINE_SORT       
+			     , GAL.GRP_DOC_NO      
+			     , GAL.APPL_LINE_CHRG  
+			     , GAL.APPL_LINE_PSTN  
+			     , GAL.WRITE_CD        
+			     , GAL.APPL_YN         
+			     , GAL.APPVL_PRC_FLAG  
+			     , CONVERT(CHAR(16), GAL.APPL_PRC_DT, 20) AS APPL_PRC_DT
+			     , GAL.APPL_CMT        
+			     , CONVERT(CHAR(16), GAL.STRT_APPVL_DT, 20) AS STRT_APPVL_DT
+			     , GAL.FNL_APPVL_DT    
+			     , GAL.FNL_APPVL_CHARGE
+			     , GAL.ATTACH_FILE_YN  
+			     , GAL.ATTACH_FILE_NM  
+			     , GAL.ATTACH_GRP_ID   
+			     , GAL.WK_FLAG         
+			     , GAL.WK_FIELD        
+			     , GAL.TRANS_JOB_ID    
+			     , GAL.TRANS_ST        
+			     , GAL.TRANS_RST_STS   
+			     , GAL.SND_RCV_CD      
+			     , GAL.REG_PGM_ID      
+			     , GAL.REG_USER        
+			     , GAL.REG_DT          
+			     , GAL.REG_DT_CURR     
+			     , GAL.REG_DT_LOC      
+			     , GAL.REG_IP          
+			     , GAL.MOD_PGM_ID      
+			     , GAL.MOD_USER        
+			     , GAL.MOD_DT          
+			     , GAL.MOD_DT_CURR     
+			     , GAL.MOD_DT_LOC      
+			     , GAL.MOD_IP          
+			  FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+			 WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+			   AND GAL.PLANT_CD   = #{PLANT_CD}
+			   AND GAL.PK_DOC_NO  = #{PK_DOC_NO}
+			   AND GAL.PK_APPL_TYPE = '10'
+		]]>
+	</select>
+</mapper>

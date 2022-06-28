@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00101_P02                                                        
+     * 프로그램 명     	: 집중배설 관찰기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-10 17:00        	|  박한준		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00101_P02_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00101_P02">
+	<!-- 조회 -->
+    <select id="DAY00101_P02_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  */
+		SELECT bm.sicode
+			, IFNULL(kr.cr_number, '') AS cr_number
+			, IFNULL(kr.cr_nalja, STR_TO_DATE(#{date}, '%Y%m%d')) AS cr_nalja
+			, DATE_FORMAT(IFNULL(kr.cr_nalja, #{date}), '%Y.%m.%d') AS nalja
+			, bm.m_name
+			, bm.m_code
+			, bm.성별
+			, CONCAT(SUBSTRING(bm.m_jumin1,1,2),'-',SUBSTRING(bm.m_jumin1,3,2),'-',SUBSTRING(bm.m_jumin1,5,2)) AS jumin1
+			, CASE WHEN bm.배설변의 = '1' THEN '변의장애'
+				ELSE '' END AS cr_state1
+			,CASE WHEN bm.배설뇨의 = '1' THEN '뇨의장애'
+				ELSE '' END AS cr_state2
+			,(CASE WHEN bm.배설보조 = '1' THEN '인공장루(요루)'
+				WHEN bm.배설보조 = '2' THEN '유치도뇨관'
+				WHEN bm.배설보조 = '3' THEN '기저귀착용'
+				WHEN bm.배설보조 = '4' THEN '도뇨관+기저귀'
+				ELSE '' END) AS cr_state3
+			, IFNULL(kr.주간담당,'') AS 주간담당
+			, IFNULL(kr.주간코드, '') AS 주간코드
+			, IFNULL(kr.야간담당, '') AS 야간담당
+			, IFNULL(kr.야간코드, '') AS 야간코드
+			, IFNULL(kr.관찰분, '')  AS 관찰분
+			, IFNULL(SUBSTRING(kr.관찰분,15,2), '') AS cr_08
+			, IFNULL(SUBSTRING(kr.관찰분,17,2), '') AS cr_09
+			, IFNULL(SUBSTRING(kr.관찰분,19,2), '') AS cr_10
+			, IFNULL(SUBSTRING(kr.관찰분,21,2), '') AS cr_11
+			, IFNULL(SUBSTRING(kr.관찰분,23,2), '') AS cr_12
+			, IFNULL(SUBSTRING(kr.관찰분,25,2), '') AS cr_13
+			, IFNULL(SUBSTRING(kr.관찰분,27,2), '') AS cr_14
+			, IFNULL(SUBSTRING(kr.관찰분,29,2), '') AS cr_15
+			, IFNULL(SUBSTRING(kr.관찰분,31,2), '') AS cr_16
+			, IFNULL(SUBSTRING(kr.관찰분,33,2), '') AS cr_17
+			, IFNULL(SUBSTRING(kr.관찰분,35,2), '') AS cr_18
+			, IFNULL(SUBSTRING(kr.관찰분,37,2), '') AS cr_19
+			, IFNULL(SUBSTRING(kr.관찰분,39,2), '') AS cr_20
+			, IFNULL(kr.소변관찰, '') AS 소변관찰
+			, IFNULL(SUBSTRING(kr.소변관찰,8,1), '') AS cr_1_08
+			, IFNULL(SUBSTRING(kr.소변관찰,9,1), '') AS cr_1_09
+			, IFNULL(SUBSTRING(kr.소변관찰,10,1), '') AS cr_1_10
+			, IFNULL(SUBSTRING(kr.소변관찰,11,1), '') AS cr_1_11
+			, IFNULL(SUBSTRING(kr.소변관찰,12,1), '') AS cr_1_12
+			, IFNULL(SUBSTRING(kr.소변관찰,13,1), '') AS cr_1_13
+			, IFNULL(SUBSTRING(kr.소변관찰,14,1), '') AS cr_1_14
+			, IFNULL(SUBSTRING(kr.소변관찰,15,1), '') AS cr_1_15
+			, IFNULL(SUBSTRING(kr.소변관찰,16,1), '') AS cr_1_16
+			, IFNULL(SUBSTRING(kr.소변관찰,17,1), '') AS cr_1_17
+			, IFNULL(SUBSTRING(kr.소변관찰,18,1), '') AS cr_1_18
+			, IFNULL(SUBSTRING(kr.소변관찰,19,1), '') AS cr_1_19
+			, IFNULL(SUBSTRING(kr.소변관찰,20,1), '') AS cr_1_20
+			, IFNULL(kr.배변관찰, '') AS 배변관찰
+			, IFNULL(SUBSTRING(kr.배변관찰,8,1), '') AS cr_2_08
+			, IFNULL(SUBSTRING(kr.배변관찰,9,1), '') AS cr_2_09
+			, IFNULL(SUBSTRING(kr.배변관찰,10,1), '') AS cr_2_10
+			, IFNULL(SUBSTRING(kr.배변관찰,11,1), '') AS cr_2_11
+			, IFNULL(SUBSTRING(kr.배변관찰,12,1), '') AS cr_2_12
+			, IFNULL(SUBSTRING(kr.배변관찰,13,1), '') AS cr_2_13
+			, IFNULL(SUBSTRING(kr.배변관찰,14,1), '') AS cr_2_14
+			, IFNULL(SUBSTRING(kr.배변관찰,15,1), '') AS cr_2_15
+			, IFNULL(SUBSTRING(kr.배변관찰,16,1), '') AS cr_2_16
+			, IFNULL(SUBSTRING(kr.배변관찰,17,1), '') AS cr_2_17
+			, IFNULL(SUBSTRING(kr.배변관찰,18,1), '') AS cr_2_18
+			, IFNULL(SUBSTRING(kr.배변관찰,19,1), '') AS cr_2_19
+			, IFNULL(SUBSTRING(kr.배변관찰,20,1), '') AS cr_2_20
+			, IFNULL(kr.기저귀교환, '') AS 기저귀교환
+			, IFNULL(SUBSTRING(kr.기저귀교환,8,1), '') AS cr_3_08
+			, IFNULL(SUBSTRING(kr.기저귀교환,9,1), '') AS cr_3_09
+			, IFNULL(SUBSTRING(kr.기저귀교환,10,1), '') AS cr_3_10
+			, IFNULL(SUBSTRING(kr.기저귀교환,11,1), '') AS cr_3_11
+			, IFNULL(SUBSTRING(kr.기저귀교환,12,1), '') AS cr_3_12
+			, IFNULL(SUBSTRING(kr.기저귀교환,13,1), '') AS cr_3_13
+			, IFNULL(SUBSTRING(kr.기저귀교환,14,1), '') AS cr_3_14
+			, IFNULL(SUBSTRING(kr.기저귀교환,15,1), '') AS cr_3_15
+			, IFNULL(SUBSTRING(kr.기저귀교환,16,1), '') AS cr_3_16
+			, IFNULL(SUBSTRING(kr.기저귀교환,17,1), '') AS cr_3_17
+			, IFNULL(SUBSTRING(kr.기저귀교환,18,1), '') AS cr_3_18
+			, IFNULL(SUBSTRING(kr.기저귀교환,19,1), '') AS cr_3_19
+			, IFNULL(SUBSTRING(kr.기저귀교환,20,1), '') AS cr_3_20
+			, IFNULL(kr.옷교환, '') AS 옷교환
+			, IFNULL(SUBSTRING(kr.옷교환,8,1), '') AS cr_4_08
+			, IFNULL(SUBSTRING(kr.옷교환,9,1), '') AS cr_4_09
+			, IFNULL(SUBSTRING(kr.옷교환,10,1), '') AS cr_4_10
+			, IFNULL(SUBSTRING(kr.옷교환,11,1), '') AS cr_4_11
+			, IFNULL(SUBSTRING(kr.옷교환,12,1), '') AS cr_4_12
+			, IFNULL(SUBSTRING(kr.옷교환,13,1), '') AS cr_4_13
+			, IFNULL(SUBSTRING(kr.옷교환,14,1), '') AS cr_4_14
+			, IFNULL(SUBSTRING(kr.옷교환,15,1), '') AS cr_4_15
+			, IFNULL(SUBSTRING(kr.옷교환,16,1), '') AS cr_4_16
+			, IFNULL(SUBSTRING(kr.옷교환,17,1), '') AS cr_4_17
+			, IFNULL(SUBSTRING(kr.옷교환,18,1), '') AS cr_4_18
+			, IFNULL(SUBSTRING(kr.옷교환,19,1), '') AS cr_4_19
+			, IFNULL(SUBSTRING(kr.옷교환,20,1), '') AS cr_4_20
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,8,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,8,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('08:',SUBSTRING(kr.관찰분,15,2)), '') AS cr_t_08
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,9,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,9,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('09:',SUBSTRING(kr.관찰분,17,2)), '') AS cr_t_09
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,10,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,10,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('10:',SUBSTRING(kr.관찰분,19,2)), '') AS cr_t_10
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,11,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,11,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('11:',SUBSTRING(kr.관찰분,21,2)), '') AS cr_t_11
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,12,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,12,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('12:',SUBSTRING(kr.관찰분,23,2)), '') AS cr_t_12
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,13,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,13,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('13:',SUBSTRING(kr.관찰분,25,2)), '') AS cr_t_13
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,14,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,14,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('14:',SUBSTRING(kr.관찰분,27,2)), '') AS cr_t_14
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,15,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,15,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('15:',SUBSTRING(kr.관찰분,29,2)), '') AS cr_t_15
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,16,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,16,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('16:',SUBSTRING(kr.관찰분,31,2)), '') AS cr_t_16
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,17,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,17,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('17:',SUBSTRING(kr.관찰분,33,2)), '') AS cr_t_17
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,18,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,18,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('18:',SUBSTRING(kr.관찰분,35,2)), '') AS cr_t_18
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,19,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,19,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('19:',SUBSTRING(kr.관찰분,37,2)), '') AS cr_t_19
+			, IF(((CASE WHEN SUBSTRING(kr.소변관찰,20,1) IN ('2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+			+ (CASE WHEN SUBSTRING(kr.기저귀교환,20,1) = '1' THEN 1 ELSE 0 END)) > 0, CONCAT('20:',SUBSTRING(kr.관찰분,39,2)), '') AS cr_t_20
+			, IF(IFNULL(kr.주간담당,'') = '', '', CONCAT(kr.주간담당,'/',kr.주간코드)) AS VIEW_MANAGER1
+			, IF(IFNULL(kr.야간담당,'') = '', '', CONCAT(kr.야간담당,'/',kr.야간코드)) AS VIEW_MANAGER2
+		FROM base_mate bm
+		  LEFT JOIN (
+			SELECT * FROM kmcretion
+			WHERE sicode = #{sicode}
+			  AND cr_nalja = #{date} 
+			  AND cr_code = #{m_code}
+			) kr
+		  ON bm.sicode = kr.sicode
+		  AND bm.m_code = kr.cr_code
+		WHERE bm.sicode = #{sicode}
+		  AND bm.m_code = #{m_code}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00101_P02_DS_DATA_I" parameterType="java.util.HashMap">
+    /*  */
+    	INSERT INTO kmcretion
+		(
+			sicode
+			, cr_nalja
+			, cr_name
+			, cr_code
+			, 주간담당
+			, 주간코드
+			, 야간담당
+			, 야간코드
+			, 관찰분
+			, 소변관찰
+			, 배변관찰
+			, 기저귀교환
+			, 옷교환
+		)
+		VALUES
+		(
+		 	  #{sicode}
+			, #{cr_nalja}
+			, #{m_name}
+			, #{m_code}
+			, #{주간담당}
+			, #{주간코드}
+			, #{야간담당}
+			, #{야간코드}
+			, #{관찰분}
+			, #{소변관찰}
+			, #{배변관찰}
+			, #{기저귀교환}
+			, #{옷교환}
+		)
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00101_P02_DS_DATA_U" parameterType="java.util.HashMap">
+    /*  */
+    	UPDATE kmcretion
+			SET 주간담당 = #{주간담당}
+			  , 주간코드 = #{주간코드}
+			  , 야간담당 = #{야간담당}
+			  , 야간코드 = #{야간코드}
+			  , 관찰분 = #{관찰분}
+			  , 소변관찰 = #{소변관찰}
+			  , 배변관찰 = #{배변관찰}
+			  , 기저귀교환 = #{기저귀교환}
+			  , 옷교환 = #{옷교환}
+		WHERE sicode = #{sicode}
+		AND cr_number = #{cr_number}
+    </update>
+ 
+    
+
+
+</mapper>                                                                                                                                                                                                          

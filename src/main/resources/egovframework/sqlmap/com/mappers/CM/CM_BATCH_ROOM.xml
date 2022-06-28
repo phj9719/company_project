@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : CM_BATCH_ROOM
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2021-09-30  |  SOOIM    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_BATCH_ROOM">
+	<select id="SCT_ROOM_ARE_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT TRIM(SR.sicode)		AS REF_SYS_COMP_CD
+			  		,(SELECT CC.COMPANY_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.REF_SYS_COMP_CD = SR.sicode) AS COMPANY_CD
+					,TRIM(SR.b_roomno)	AS ROOM_NO
+					,TRIM(SR.b_step)		AS ARE_CD
+					,TRIM(SR.b_step)		AS ARE_NM
+					,TRIM(SR.b_roomname)	AS LOC_CD
+					,TRIM(SR.b_roomname)	AS LOC_NM
+					,'10' 			AS ARE_TP
+					,'10' 			AS LOC_TP
+					,'Y' 			AS USE_YN
+					,SR.b_roomper
+					,SR.b_roomuse
+					,SR.b_roomopen
+					,SR.b_roomend
+					,SR.ir_time
+					,SR.ir_type
+					,SR.ir_comp
+					,SR.ir_status
+			  FROM sct_room SR
+			 WHERE SR.IR_STATUS != '1'
+			   AND NULLIF(TRIM(SR.b_step),'') IS NOT NULL
+         	   AND NULLIF(TRIM(SR.b_roomname),'') IS NOT NULL
+		  GROUP BY SR.b_step, SR.ir_status
+		]]>
+	</select>
+	<select id="SCT_ROOM_LOC_S" resultType="java.util.HashMap">
+		<![CDATA[	
+			  SELECT TRIM(SR.sicode)		AS REF_SYS_COMP_CD
+			  		,(SELECT CC.COMPANY_CD
+						FROM T_CM_COMPANY CC
+					   WHERE CC.REF_SYS_COMP_CD = SR.sicode) AS COMPANY_CD
+					,TRIM(SR.b_roomno)	AS ROOM_NO
+					,TRIM(SR.b_step)		AS ARE_CD
+					,TRIM(SR.b_step)		AS ARE_NM
+					,TRIM(SR.b_roomname)	AS LOC_CD
+					,TRIM(SR.b_roomname)	AS LOC_NM
+					,'10' 			AS ARE_TP
+					,'10' 			AS LOC_TP
+					,'Y' 			AS USE_YN
+					,SR.b_roomper
+					,SR.b_roomuse
+					,SR.b_roomopen
+					,SR.b_roomend
+					,SR.ir_time
+					,SR.ir_type
+					,SR.ir_comp
+					,SR.ir_status
+			  FROM sct_room SR
+			 WHERE SR.IR_STATUS != '1'
+		]]>
+	</select>
+	<insert id="SCT_ARE_I" parameterType="java.util.HashMap">
+    <![CDATA[                                                                                                                                                                                                      
+			   INSERT INTO T_NU_AREA (                                                                                                                                                                                 
+					         COMPANY_CD
+							,ARE_CD
+							,ARE_NM
+							,ARE_TP
+							,USE_YN)
+					  SELECT A.COMPANY_CD
+							,TRIM(SR.b_step)
+							,TRIM(SR.b_step)
+							,'10'
+							,'Y'
+						FROM sct_room SR
+				  INNER JOIN T_CM_COMPANY A
+				  		  ON(SR.sicode = A.REF_SYS_COMP_CD)	
+					   WHERE SR.ir_status != '1'
+					   	 AND SR.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+					     AND NULLIF(TRIM(SR.b_step),'') IS NOT NULL
+         	   			 AND NULLIF(TRIM(SR.b_roomname),'') IS NOT NULL
+         	   			 AND TRIM(SR.b_step) NOT IN (SELECT NA.ARE_CD
+         	   			 						 	   FROM T_NU_AREA NA
+         	   			 							  WHERE NA.COMPANY_CD = A.COMPANY_CD
+         	   			 						  		AND NA.ARE_CD = TRIM(SR.b_step))
+		  			GROUP BY SR.b_step, SR.ir_status
+				                                                                                                                                                                                                       
+    ]]>                                                                                                                                                                                                            
+    </insert>
+     <update id="SCT_ARE_U" parameterType="java.util.HashMap">
+    	<![CDATA[                                                                                                                                                                                                      
+					  UPDATE T_NU_AREA NA
+				  INNER JOIN T_CM_COMPANY CC
+				  		  ON(NA.COMPANY_CD = CC.COMPANY_CD)
+				  INNER JOIN sct_room SR
+				  		  ON(CC.REF_SYS_COMP_CD = SR.sicode)		  
+						 SET NA.ARE_NM = TRIM(SR.b_step)
+			           WHERE SR.ir_status != '1'
+			           	 AND SR.ir_comp = 'G'
+			           	 AND SR.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+			           	 AND NA.ARE_CD IN (SELECT TRIM(SR.b_step)
+         	   			 				   FROM sct_room SR
+         	   			 				  WHERE SR.sicode = CC.REF_SYS_COMP_CD
+         	   			 					AND TRIM(SR.b_step) = NA.ARE_CD)
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <insert id="SCT_LOC_I" parameterType="java.util.HashMap">
+    <![CDATA[                                                                                                                                                                                                      
+			   	 INSERT INTO T_NU_LOCATION (                                                                                                                                                                                 
+					         COMPANY_CD
+							,LOC_SEQ
+							,ARE_CD
+							,LOC_CD
+							,LOC_NM
+							,LOC_TP
+							,USE_YN
+							,ROOMNO)                                                                                                                                                                                
+					 SELECT A.COMPANY_CD
+							,(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL( SQ_NU_LOCATION ),12,0)))
+							,TRIM(SR.b_step)	
+							,TRIM(SR.b_roomname)
+							,TRIM(SR.b_roomname)
+							,'10' 
+							,'Y'
+							,SR.b_roomno
+					   FROM sct_room SR
+				 INNER JOIN T_CM_COMPANY A
+				  		 ON(SR.sicode = A.REF_SYS_COMP_CD)	
+					  WHERE SR.ir_status != '1'
+					  	AND SR.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+					    AND NULLIF(TRIM(SR.b_step),'') IS NOT NULL
+         	   		    AND NULLIF(TRIM(SR.b_roomname),'') IS NOT NULL
+         	   		    AND TRIM(SR.b_step) IN (SELECT NA.ARE_CD
+         	   			 						  FROM T_NU_AREA NA
+         	   			 				   		 WHERE NA.COMPANY_CD = A.COMPANY_CD
+          	   			 					 	   AND NA.ARE_CD = TRIM(SR.b_step))
+          	   			AND SR.b_roomno NOT IN (SELECT NL.ROOMNO
+          	   									  FROM T_NU_LOCATION NL
+          	   									 WHERE NL.COMPANY_CD = A.COMPANY_CD
+          	   									   AND SR.b_roomno = NL.ROOMNO)					 
+          	   			 					 
+    ]]>                                                                                                                                                                                                            
+    </insert>
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="SCT_LOC_U" parameterType="java.util.HashMap">
+    	<![CDATA[                                                                                                                                                                                                      
+			        UPDATE T_NU_LOCATION NL
+		        INNER JOIN T_CM_COMPANY CC
+	 		  		    ON(NL.COMPANY_CD = CC.COMPANY_CD)
+				INNER JOIN sct_room SR
+                        ON(CC.REF_SYS_COMP_CD = SR.sicode
+					   AND NL.ROOMNO = SR.b_roomno)		  
+					   SET NL.LOC_NM		 =TRIM(SR.b_roomname)
+					   	  ,NL.LOC_CD		 =TRIM(SR.b_roomname)
+                     WHERE SR.ir_status != '1'
+                       AND SR.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+			           AND NL.ROOMNO IN (SELECT TRIM(SR.b_roomno)
+                                           FROM sct_room SR
+                                          WHERE SR.sicode = CC.REF_SYS_COMP_CD
+                                            AND SR.b_roomno = NL.ROOMNO)
+
+                       
+    ]]>                                                                                                                                                                                                            
+    </update>
+    <update id="NS_ROOM_U" parameterType="java.util.HashMap">
+    <![CDATA[
+				  UPDATE sct_room SR
+			  INNER JOIN T_CM_COMPANY CC
+			  		  ON(SR.sicode = CC.REF_SYS_COMP_CD)
+					 SET SR.ir_status = '1'            
+		           WHERE SR.ir_status!= '1'
+		           	 AND SR.ir_time >DATE_SUB(NOW(),INTERVAL 1 DAY)
+		           	 AND TRIM(SR.b_step) IN (SELECT NA.ARE_CD
+		           	 					 	   FROM T_NU_AREA NA
+		           	 						  WHERE NA.COMPANY_CD = CC.COMPANY_CD)
+    ]]>
+	</update>
+	<select id="SCT_ARE_DATA_YN_S" resultType="java.lang.String">
+		<![CDATA[	
+			SELECT IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+        	  FROM T_NU_AREA NA
+       		 WHERE NA.COMPANY_CD = #{COMPANY_CD}
+       		   AND NA.ARE_CD = #{ARE_CD}
+		]]>
+	</select>
+	<select id="SCT_LOC_DATA_YN_S" resultType="java.lang.String">
+		<![CDATA[	
+			SELECT IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+        	  FROM T_NU_LOCATION NL
+       		 WHERE NL.COMPANY_CD = #{COMPANY_CD}
+       		   AND NL.LOC_CD = #{LOC_CD}
+		]]>
+	</select>
+</mapper>

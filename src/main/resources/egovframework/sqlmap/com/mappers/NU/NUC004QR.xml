@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC004QR                                                         
+     * 프로그램 명     	: 공지사항                                                 
+     * Description 	: 모바일에서 보호자 공지사항 조회
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-07-06 14:38     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        NUC004QR_DS_LIST_S					공지사항 조회		                                                                                  
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC004QR">
+	<!-- 공지사항 조회 -->
+	<select id="NUC004QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC001CT_DS_LIST_S */
+		SELECT
+				A.COMPANY_CD
+			,	A.NOT_SEQ
+			,	A.NOT_DT
+			,	A.TITLE
+			,	A.CONTENT
+			,	A.FILE_GRP_ID
+			, 	CF.FILE_LIST
+			,	CF.FILE_REAL_LIST
+		FROM 	T_NU_NOTICE A
+		LEFT JOIN (SELECT CCF.*
+					FROM (SELECT CF.COMPANY_CD
+								,CF.FILE_GRP_ID
+								,CF.FILE_REAL_NAME
+								,CF.FILE_NAME
+								,GROUP_CONCAT(CF.FILE_REAL_NAME SEPARATOR ',') AS FILE_REAL_LIST
+								,GROUP_CONCAT(CF.FILE_NAME SEPARATOR ',') AS FILE_LIST
+								,COUNT(*) OVER(PARTITION BY CF.FILE_GRP_ID) CNT
+								,ROW_NUMBER() OVER(PARTITION BY CF.FILE_GRP_ID ORDER BY CF.FILE_ID) ROW_NUM
+							FROM T_CM_FILE CF
+							WHERE CF.COMPANY_CD = #{COMPANY_CD}
+							AND	  CF.DELETE_YN = 'N'
+							GROUP BY CF.FILE_GRP_ID) CCF
+					) CF
+		ON		(A.FILE_GRP_ID = CF.FILE_GRP_ID
+				AND A.COMPANY_CD = CF.COMPANY_CD)
+		WHERE A.COMPANY_CD = #{COMPANY_CD}
+		ORDER BY A.NOT_DT DESC
+	</select>                                                                                                                                                                                   
+</mapper>                                                                                                                                                                                                          

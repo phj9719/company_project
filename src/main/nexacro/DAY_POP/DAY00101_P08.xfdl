@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00101_P08" width="700" height="800" titletext="요양일지 내용검색" onload="form_onload">
+    <Layouts>
+      <Layout width="700" height="800">
+        <Div id="div_cont" taborder="1" left="10" top="81" bottom="10" right="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="0" left="0" top="0" height="700" right="0" autofittype="col" binddataset="ds_data" scrollbartype="fixed">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="370"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="210"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="작성일"/>
+                      <Cell col="1" text="수급자명"/>
+                      <Cell col="2" text="요양일지"/>
+                      <Cell col="3" text="작성자명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:k_nalja" calendardateformat="yyyy-MM-dd"/>
+                      <Cell col="1" text="bind:k_name"/>
+                      <Cell col="2" text="bind:요양일지" textAlign="left" wordWrap="char" verticalAlign="top" displaytype="textareacontrol" edittype="readonly" textareascrollbartype="none fixed"/>
+                      <Cell col="3" text="bind:일지담당"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="1" left="10" top="10" height="66" text="" right="10">
+          <Layouts>
+            <Layout>
+              <Static id="sta_subTitle" taborder="0" text="요양일지 내용검색 ( 2022.01.12 ~2022.05.12 )" left="0" top="0" height="26" right="0" textAlign="left" cssclass="lb01"/>
+              <Static id="sta_body8_00" taborder="3" left="0" top="33" height="33" cssclass="sta_WF_DetailLabel02" right="0"/>
+              <Static id="sta_head1_00_00_01_01" taborder="1" text="검색어1" left="0" top="33" width="78" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Edit id="edt_value1" taborder="2" left="82" top="37" width="170" height="25" maxlength="40"/>
+              <Static id="sta_head1_00_00_01_01_00" taborder="4" text="검색어2" left="256" top="33" width="78" height="33" cssclass="sta_WF_DetailLabel01" textAlign="center"/>
+              <Edit id="edt_value2" taborder="5" left="338" top="37" width="170" height="25" maxlength="40"/>
+              <Combo id="cmb_or" taborder="6" left="512" top="37" width="80" height="25" innerdataset="ds_or" codecolumn="CMCD" datacolumn="CMNM"/>
+              <Button id="btn_search" taborder="7" text="검색" top="37" width="77" height="25" right="6" cssclass="btn_search" onclick="fn_searchBtn"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="sdate" type="STRING" size="256"/>
+          <Column id="edate" type="STRING" size="256"/>
+          <Column id="value1" type="STRING" size="256"/>
+          <Column id="value2" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_data">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="k_nalja" type="STRING" size="256"/>
+          <Column id="k_code" type="STRING" size="256"/>
+          <Column id="k_name" type="STRING" size="256"/>
+          <Column id="요양일지" type="STRING" size="256"/>
+          <Column id="일지담당" type="STRING" size="256"/>
+          <Column id="일지코드" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_or">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">또는</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00101_P08
+ * 화면명   	: 요양일지 내용검색
+ * 화면설명 	: 요양일지 내용검색
+ * 작성일   	: 2022-05-19
+ * 작성자   	: 박한준
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+//const fv_flag = this.parent.FLAG;
+const fv_sicode = this.parent.sicode;
+const fv_sdate = this.parent.sdate;
+const fv_edate = this.parent.edate;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00101_P08";
+	
+	this.ds_search.setColumn(0, "sicode", fv_sicode);
+	this.ds_search.setColumn(0, "sdate", fv_sdate);
+	this.ds_search.setColumn(0, "edate", fv_edate);
+	
+	var sdate = fv_sdate.substr(0,4) + "." + fv_sdate.substr(4,2) + "." + fv_sdate.substr(6,2);
+	var edate = fv_edate.substr(0,4) + "." + fv_edate.substr(4,2) + "." + fv_edate.substr(6,2);
+	this.div_search.form.sta_subTitle.set_text("요양일지 내용검색 ( "+ sdate + " ~ "+ edate +")");
+	this.div_search.form.cmb_or.set_value(1);
+
+	
+	//this.fn_search();
+
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	//if (!this.gfn_findSnull(this.div_search)) return false;
+	// 둘 다 빈값 또는 2글자 이하면 메시지
+	// 0 0 이면 체크
+	// 2 0 이면 체크x
+	// 0 2 이면 체크x
+	// 2 2 이면 체크x
+	// 2 1 이면 체크
+	// 1 2 이면 체크
+	// 1 1 이면 체크 
+	var value1 = this.ds_search.getColumn(0,"value1");
+	var value2 = this.ds_search.getColumn(0,"value2");
+	
+	if(Sct.Util.isEmpty(value1)) value1 = "";
+	if(Sct.Util.isEmpty(value2)) value2 = "";
+
+	if ((Sct.Util.isEmpty(value1) && Sct.Util.isEmpty(value2))
+	|| (value1.length < 2 && value2.length < 2)
+	|| (value1.length > 1 && value2.length == 1)
+	|| (value1.length == 1 && value2.length > 1)) {
+ 		this.alert("두 글자 이상 입력하세요");	
+		return false;
+	}
+	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{	
+	//validation
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search ";
+	const outDatasets = "ds_data=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00101_P08.DAY00101_P08_DS_DATA_S '";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			// 데이터 세팅
+			//this.fn_dataCopy();
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function ()
+{
+	this.fn_search();
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00" propid="text" datasetid="ds_list" columnid="m_code"/>
+      <BindItem id="item2" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00" propid="text" datasetid="ds_list" columnid="m_group"/>
+      <BindItem id="item3" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_01" propid="text" datasetid="ds_list" columnid="sex_nm"/>
+      <BindItem id="item4" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_00_00" propid="text" datasetid="ds_list" columnid="age"/>
+      <BindItem id="item5" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01" propid="text" datasetid="ds_list" columnid="m_jumin1"/>
+      <BindItem id="item6" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_enday"/>
+      <BindItem id="item7" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00" propid="text" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item8" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00" propid="text" datasetid="ds_list" columnid="m_conname"/>
+      <BindItem id="item9" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01" propid="text" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item10" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_00" propid="text" datasetid="ds_list" columnid="m_regist"/>
+      <BindItem id="item11" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_01" propid="text" datasetid="ds_list" columnid="grade_nm"/>
+      <BindItem id="item12" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_01_02" propid="text" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item13" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item14" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item15" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_00" propid="text" datasetid="ds_list" columnid="m_juso1"/>
+      <BindItem id="item16" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_01" propid="text" datasetid="ds_list" columnid="m_juso2"/>
+      <BindItem id="item17" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_02_00_01_00" propid="text" datasetid="ds_list" columnid="m_post"/>
+      <BindItem id="item18" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_01" propid="text" datasetid="ds_state_desc" columnid="view_manager"/>
+      <BindItem id="item22" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00" propid="text" datasetid="ds_list" columnid="m_name"/>
+      <BindItem id="item23" compid="div_cont.form.div_right.form.div_main.form.sta_body16" propid="text" datasetid="ds_data" columnid="din02"/>
+      <BindItem id="item24" compid="div_cont.form.div_right.form.div_main.form.sta_body11" propid="text" datasetid="ds_data" columnid="lun04"/>
+      <BindItem id="item25" compid="div_cont.form.div_right.form.div_main.form.sta_body12" propid="text" datasetid="ds_data" columnid="lun05"/>
+      <BindItem id="item26" compid="div_cont.form.div_right.form.div_main.form.sta_body13" propid="text" datasetid="ds_data" columnid="lun06"/>
+      <BindItem id="item27" compid="div_cont.form.div_right.form.div_main.form.sta_body15" propid="text" datasetid="ds_data" columnid="din01"/>
+      <BindItem id="item28" compid="div_cont.form.div_right.form.div_main.form.sta_body17" propid="text" datasetid="ds_data" columnid="din03"/>
+      <BindItem id="item29" compid="div_cont.form.div_right.form.div_main.form.sta_body18" propid="text" datasetid="ds_data" columnid="din04"/>
+      <BindItem id="item30" compid="div_cont.form.div_right.form.div_main.form.sta_body19" propid="text" datasetid="ds_data" columnid="din05"/>
+      <BindItem id="item36" compid="div_cont.form.div_right.form.div_main.form.mae_00_00" propid="value" datasetid="ds_list" columnid="m_reday"/>
+      <BindItem id="item37" compid="div_cont.form.div_right.form.div_main.form.mae_00_01" propid="value" datasetid="ds_list" columnid="m_liday1"/>
+      <BindItem id="item38" compid="div_cont.form.div_right.form.div_main.form.mae_00_01_00" propid="value" datasetid="ds_list" columnid="m_liday2"/>
+      <BindItem id="item40" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_00" propid="text" datasetid="ds_list_copy" columnid="m_reday"/>
+      <BindItem id="item41" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01" propid="text" datasetid="ds_list_copy" columnid="m_liday1"/>
+      <BindItem id="item42" compid="div_cont.form.div_right.form.div_main.form.sta_body1_00_00_01_00_00_00_00_00_01_00" propid="text" datasetid="ds_list_copy" columnid="m_liday2"/>
+      <BindItem id="item19" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00" propid="value" datasetid="ds_data" columnid=""/>
+      <BindItem id="item20" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_00" propid="value" datasetid="ds_data" columnid="traning_a"/>
+      <BindItem id="item21" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_01" propid="value" datasetid="ds_data" columnid="traning_b"/>
+      <BindItem id="item31" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_02" propid="value" datasetid="ds_data" columnid="traning_c"/>
+      <BindItem id="item32" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_03" propid="value" datasetid="ds_actday" columnid="인지관리"/>
+      <BindItem id="item33" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_04" propid="value" datasetid="ds_actday" columnid="오전활동1"/>
+      <BindItem id="item34" compid="div_cont.form.div_right.form.div_main.form.div_help.form.edt_content00_04_00" propid="value" datasetid="ds_actday" columnid="오후활동1"/>
+      <BindItem id="item0" compid="div_search.form.edt_value1" propid="value" datasetid="ds_search" columnid="value1"/>
+      <BindItem id="item35" compid="div_search.form.edt_value2" propid="value" datasetid="ds_search" columnid="value2"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00214_P01                                                    
+     * 프로그램 명  :                                                      
+     * Description 	: 
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+                     	|  이동관		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                 
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00214_P01">
+	<!-- 조회 -->
+    <select id="DAY00214_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-14 P01 조회 */
+    SELECT sicode
+         , 예방번호
+         , 예방일
+         , 환기시행
+         , 방역여부
+         , 미비사항1
+         , 조치사항1
+         , 조치여부1
+         , 미비사항2
+         , 조치사항2
+         , 조치여부2
+         , 예방자명
+         , 예방직종
+         , 예방코드
+      FROM base_infect
+     WHERE sicode = #{sicode} 
+       AND 예방일 = #{예방일}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00214_P01_DS_LIST_I" parameterType="java.util.HashMap">
+    /* 2-14 P01 삽입 */
+    INSERT INTO base_infect
+    (
+      sicode
+    , 예방일
+    , 환기시행
+    , 방역여부
+    , 미비사항1
+    , 조치사항1
+    , 조치여부1
+    , 미비사항2
+    , 조치사항2
+    , 조치여부2
+    , 예방자명
+    , 예방직종
+    , 예방코드
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{예방일}
+    , #{환기시행}
+    , #{방역여부}
+    , #{미비사항1}
+    , #{조치사항1}
+    , #{조치여부1}
+    , #{미비사항2}
+    , #{조치사항2}
+    , #{조치여부2}
+    , #{예방자명}
+    , #{예방직종}
+    , #{예방코드}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00214_P01_DS_LIST_U" parameterType="java.util.HashMap">
+    /* 2-14 P01 수정 */
+    UPDATE base_infect
+    SET
+          환기시행    = #{환기시행} 
+    , 방역여부   = #{방역여부}
+    , 미비사항1 = #{미비사항1}
+    , 조치사항1 = #{조치사항1}
+    , 조치여부1 = #{조치여부1}
+    , 미비사항2 = #{미비사항2}
+    , 조치사항2 = #{조치사항2}
+    , 조치여부2 = #{조치여부2} 
+    , 예방자명   = #{예방자명}
+    , 예방직종   = #{예방직종}
+    , 예방코드   = #{예방코드} 
+    WHERE sicode = #{sicode}
+    AND  예방번호 = #{예방번호}
+    AND  예방일 =  #{예방일}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00214_P01_DS_LIST_D" parameterType="java.util.HashMap">
+    /* 2-14 P01 삭제 */
+    DELETE FROM base_infect
+    WHERE sicode = #{sicode}
+    AND  예방번호 = #{예방번호}
+    AND  예방일 =  #{예방일}
+    </delete>
+</mapper>

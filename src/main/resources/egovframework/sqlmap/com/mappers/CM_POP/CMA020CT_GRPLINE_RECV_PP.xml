@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-03-18 10:20                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CMA020CT_GRPLINE_RECV_PP                                                         
+     * 프로그램 명  		: 수신처 팝업                                                      
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-18 10:20     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->		
+
+<mapper namespace="CMA020CT_GRPLINE_RECV_PP">
+	<!-- SELECT -->
+	<!-- 결재라인설정 팝업 (본사 사용자) -->
+	<select id="CMA020CT_GRPLINE_RECV_PP_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT *
+		  FROM (
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+						, ''			AS VESSEL_CD
+						, '1000001'		AS DEPT_CD		-- '상지해운'
+						, ''			AS DEPT_NM
+						, ''			AS SORT
+						, '0'			AS T_LEVEL
+						, '상지해운'		AS APPL_LINE
+									  
+				UNION ALL
+								
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+						, ''			AS VESSEL_CD
+						, A.DEPT_CODE	AS DEPT_CD
+						, A.DEPT_NAME	AS DEPT_NM
+						, CONCAT(CASE WHEN A.P_DEPT_CODE = '1000001' 
+						              THEN A.P_DEPT_CODE+10 
+						              ELSE A.P_DEPT_CODE END
+							    , A.DEPT_CODE) AS SORT
+						, '1'			AS T_LEVEL
+						, A.DEPT_NAME	AS APPL_LINE
+				FROM	T_HR_DEPARTMENT A WITH(NOLOCK)
+				WHERE	A.COMPANY_CD = '001'
+				AND		A.DEPT_NAME NOT IN ('', '상지해운')
+				AND		(A.P_DEPT_CODE NOT IN ('1000001')
+						OR A.DEPT_CODE = '1000020')
+				
+				UNION ALL
+								
+				SELECT	#{COMPANY_CD}	AS COMPANY_CD
+						, A.V_CD		AS VESSEL_CD
+						, ''			AS DEPT_CD
+						, ''			AS DEPT_NM
+						, A.V_CD		AS SORT
+						, '1'			AS T_LEVEL
+						, A.V_CD		AS APPL_LINE
+				FROM	T_MM_VESSEL A WITH(NOLOCK)
+				WHERE	A.COMPANY_CD = '001'
+				AND		A.SYS_USE_GB = 'Y'
+		<if test="AUTH.equals('20')"> -- 선박일 때
+	     		AND 	A.V_CD != #{VESSEL_CD}
+	    </if>
+				
+				) A
+		<if test="AUTH.equals('10')"> -- 본사(육상)일 때
+	     WHERE A.APPL_LINE > 'A'
+	    </if>
+		 ORDER 
+		    BY A.SORT
+	</select>
+	
+</mapper>

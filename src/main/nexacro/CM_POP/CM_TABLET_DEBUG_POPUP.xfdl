@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="CM_DEBUG_POPUP" width="1032" height="655" titletext="New Form" onload="CM_DEBUG_POPUP_onload">
+    <Layouts>
+      <Layout width="1032" height="655" screenid="Tablet">
+        <Grid id="grd_head" taborder="0" left="0" top="28" width="197" height="380" binddataset="ds_dslist" autofittype="col" autoenter="select" oncellclick="Grid00_oncellclick" cssclass="grd_DataList">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="FormDS"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DS"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="grd_detail" taborder="1" left="205" top="0" bottom="0%" width="1787" autosizingtype="both" cssclass="grd_DataList_h2">
+          <Formats>
+            <Format id="default"/>
+          </Formats>
+        </Grid>
+        <Grid id="grd_detail2" taborder="2" left="0" top="408" width="197" height="222" binddataset="ds_global" autofittype="col" autoenter="select" oncellclick="Grid00_oncellclick" cssclass="grd_DataList">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="GlobalDS"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:GDS"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="3" left="0" top="0" width="71" height="29" onclick="Button00_onclick" icon="url('imagerc::reset.png')" cssclass="neutest"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_dslist">
+        <ColumnInfo>
+          <Column id="DS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dsCol"/>
+      <Dataset id="ds_global">
+        <ColumnInfo>
+          <Column id="GDS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.CM_DEBUG_POPUP_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	for (var i = 0; i < this.opener.objects.length; i++)
+	{
+		var idx = this.ds_dslist.addRow();
+		this.ds_dslist.setColumn(idx, "DS", this.opener.objects[i].name);
+	}
+	for (var a = 0; a < nexacro.getApplication().all.length; a++)
+	{
+		if (nexacro.getApplication().all[a] != null)
+		{
+			trace("not null : " + nexacro.getApplication().all[a].name);
+			// if(application.all[a] instanceof Dataset){
+			if (nexacro.getApplication().all[a] == "[object Dataset]")
+			{
+				var cidx = this.ds_global.addRow();
+				this.ds_global.setColumn(cidx, "GDS", nexacro.getApplication().all[a].name);
+			}
+		}
+	}
+};
+
+this.Grid00_oncellclick = function (obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var dsnm;
+	var ds;
+	if (this.grd_detail.getBindDataset() != null)
+	{
+		this.ds_dsCol.clear();
+	}
+	if (obj == this.grd_head)
+	{
+		dsnm = this.ds_dslist.getColumn(e.row, "DS");
+		ds = eval("this.opener." + dsnm + ";");
+	}
+	else
+	{
+		dsnm = this.ds_global.getColumn(e.row, "GDS");
+		ds = eval("nexacro.getApplication()." + dsnm + ";");
+	}
+	if (this.parent.isModal == false)
+	{
+		this.ds_dsCol.assign(ds);
+		this.grd_detail.setBindDataset(this.ds_dsCol);
+		this.grd_detail.createFormat();
+		// this.grd_detail.set_autofittype("col");
+		this.grd_detail.set_autosizebandtype("allband");
+		this.grd_detail.set_autosizingtype("both");
+	}
+	else
+	{
+		this.grd_detail.setBindDataset(ds);
+		this.grd_detail.createFormat();
+		// this.grd_detail.set_autofittype("col");
+		this.grd_detail.set_autosizebandtype("allband");
+		this.grd_detail.set_autosizingtype("both");
+	}
+
+
+
+
+	// Modaless - algorithm
+	// var dsnm = this.ds_dslist.getColumn(e.row,"DS");
+	// var ds = eval("this.opener."+dsnm+";");
+	// trace(ds.name);
+	// if(this.grd_detail.getBindDataset() != null){
+	// this.ds_dsCol.clear();
+	// }
+	// var colidx = ds.getColCount();
+	// for(var i=0; i<colidx; i++){
+	// this.ds_dsCol.addColumn(ds.getColID(i),"string",100);
+	// }
+	// this.grd_detail.setBindDataset(this.ds_dsCol);
+	// this.grd_detail.createFormat();
+	// this.grd_detail.set_autofittype("col");
+	// var rowcnt = ds.rowcount;
+	// for(var z=0; z<rowcnt; z++){
+	// var idx = this.ds_dsCol.addRow();
+	// for(var s=0; s<colidx; s++){
+	// this.ds_dsCol.setColumn(idx,ds.getColID(s),ds.getColumn(z,ds.getColID(s)));
+	// }
+	// }
+
+	// modal
+	// var ds = eval("this.opener."+dsnm+";");
+	// var obj = this.grd_detail.setBindDataset(ds);
+	// this.grd_detail.createFormat();
+};
+
+this.Button00_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
+  </Form>
+</FDL>

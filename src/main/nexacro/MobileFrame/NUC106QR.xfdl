@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC106QR" width="480" height="768" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="우울검사" ondevicebuttonup="NUC106QR_ondevicebuttonup" onload="NUC106QR_onload">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile" stepcount="0">
+        <Static id="sta_weekTitle" taborder="0" text="지난 3개월간 검사내역" left="5.00%" top="230" height="40" cssclass="sta_title" right="5.00%"/>
+        <Div id="div_lastSgd" taborder="1" left="5.00%" top="70" height="140" right="5.00%" background="#6a8ed3" borderRadius="6px" formscrolltype="both" formscrollbartype="indicator">
+          <Layouts>
+            <Layout>
+              <Static id="sta_day" taborder="0" text="DAY" left="2.78%" top="11" height="26" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" color="#ffffff" right="2.78%" textAlign="center"/>
+              <Div id="div_line" taborder="1" text="Div00" left="2.78%" top="49" height="2" right="2.78%"/>
+              <Static id="sta_ptH" taborder="2" text="점수" top="44.29%" height="18.57%" color="#ffffff" width="27.78%" textAlign="center" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" left="36.11%"/>
+              <Static id="sta_ptVal" taborder="3" top="69.29%" height="18.57%" font="normal 700 13pt/normal &quot;Noto Sans KR&quot;" color="#bfd5ff" textAlign="center" text="-" width="27.78%" left="36.11%"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_todayTitle" taborder="2" text="마지막 측정정보" left="5%" top="20" height="40" cssclass="sta_title" right="5.00%"/>
+        <Grid id="grd_list" taborder="3" left="5.00%" top="510" autofittype="col" right="4.38%" binddataset="ds_list" height="200">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="130"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="날짜"/>
+                <Cell col="1" text="점수"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SGD_DT" expandchar="dot" displaytype="date"/>
+                <Cell col="1" text="bind:PT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <BasicChart id="cha_sgd" taborder="4" left="5.00%" top="275" height="220" background="#eef3fa" right="5.00%" borderRadius="6px" binddataset="ds_chart" categorycolumn="bind:CHART_DATE" boardspacing="10px 10px 0px 0px">
+          <Contents><![CDATA[{
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 12pt '맑은 고딕'",
+		"labeltextcolor": "#555555",
+		"labeltextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+		"axislinestyle": "1px solid #afc3e8",
+		"ticklinestyle": "1px solid #afc3e8",
+		"boardlinestyle": "1px solid #cccccc",
+		"tickendgap": "20px",
+		"tickstartgap": "20px",
+		"ticksize": "3",
+		"labeltextwidth": "23"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"barvisible": "false",
+			"barsize": "65",
+			"itemtextvisible": true,
+			"itemtextcolor": "#003860",
+			"itemtextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+			"valuecolumn": "bind:PT",
+			"linevisible": "true",
+			"lineitemtextposition": "centertop"
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": "false",
+			"boardlinestyle": "1px solid #cccccc",
+			"labeltextcolor": "#555555",
+			"labeltextfont": "normal 12/normal \"Noto Sans CJK KR Regular\"",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 12pt '맑은 고딕'",
+			"ticklinestyle": "1px solid #afc3e8",
+			"axislinestyle": "1px solid #afc3e8",
+			"autotickscale": "5",
+			"tickmax": "15",
+			"ticksize": "3",
+			"labelgap": "0",
+			"ticks": "3",
+			"tickmin": "0"
+		}
+	]
+}]]></Contents>
+        </BasicChart>
+        <Div id="div_dummy" taborder="5" left="5.00%" top="743" height="5" right="5.00%" background="transparent"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_search" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="FROM" type="STRING" size="256"/>
+          <Column id="TO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="SGD_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="PT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sgds" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="SGD_DT" type="STRING" size="256"/>
+          <Column id="PT" type="STRING" size="256"/>
+          <Column id="SCORE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_chart" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="SGD_DT" type="STRING" size="256"/>
+          <Column id="CHART_DATE" type="STRING" size="256"/>
+          <Column id="PT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_bomi_cont">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_bomi_level">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC106QR
+ * 화면명   	: 우울검사
+ * 화면설명 	: 모바일에서 입소자의 우울검사결과를 확인하는 화면
+ * 작성일    	: 2021-10-26
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC106QR_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const today = Sct.Util.getToday();					// 오늘 날짜
+	const from = Sct.Util.addMonth(today, -3);			// 3개월전 날짜
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD"));
+	this.ds_search.setColumn(0, "RES_ID", nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID"));
+	this.ds_search.setColumn(0, "FROM", from);
+	this.ds_search.setColumn(0, "TO", today);
+	
+	this.fn_search();
+};
+
+// 모바일 디바이스 버튼 이벤트
+this.NUC106QR_ondevicebuttonup = function(obj:nexacro.Form,e:nexacro.DeviceButtonEventInfo)
+{
+	if(e.button == 2)
+	{
+		nexacro.getApplication().av_topFrame.form.btn_back.click();
+	}
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_sgds=output1 ds_list=output2";
+	const argument = "method=getList "
+		+ "sqlId='NUC106QR.NUC106QR_DS_SGDS_S NUC106QR.NUC106QR_DS_LIST_S '";
+
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			if(this.ds_sgds.rowcount < 1)
+			{
+				this.div_lastSgd.form.sta_day.set_text("측정 정보 없음");
+				this.div_lastSgd.form.sta_ptVal.set_text("-");
+			}
+			else
+			{
+				const sgdDt = this.ds_sgds.getColumn(0, "SGD_DT");
+				const day = Sct.Util.getDayH(sgdDt, false);
+				const sgdDate = sgdDt.substr(0, 4) + "." + sgdDt.substr(4, 2) + "." + sgdDt.substr(6, 2) + "(" + day + ")";
+				this.div_lastSgd.form.sta_day.set_text(sgdDate);
+			}
+		
+			if(this.ds_list.rowcount > 0)
+			{
+				this.ds_chart.set_enableevent(false);
+				for(let i = this.ds_list.rowcount-1; i >= 0; i--)
+				{
+					const nRow = this.ds_chart.addRow();
+					this.ds_chart.copyRow(nRow, this.ds_list, i);
+				}
+				this.ds_chart.set_enableevent(true);
+				this.cha_sgd.set_binddataset("ds_chart");
+				this.cha_sgd.set_categorycolumn("BIND:CHART_DATE");
+				
+			}
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+
+]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_lastSgd.form.sta_ptVal" propid="text" datasetid="ds_sgds" columnid="SCORE"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00201_P13" width="509" height="472" titletext="욕창간호기록조회" onload="form_onload">
+    <Layouts>
+      <Layout width="509" height="472">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Static id="sta_title" taborder="16" left="1" top="0" width="130" height="25" cssclass="lb01" text="욕창간호기록"/>
+              <Grid id="grd_list" taborder="1" left="0" top="36" width="489" height="415" binddataset="ds_list" oncelldblclick="grd_list_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="수급자명"/>
+                      <Cell col="1" text="욕창간호일"/>
+                      <Cell col="2" text="진행과정"/>
+                      <Cell col="3" text="방지도구"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:so_name" textAlign="left"/>
+                      <Cell col="1" text="bind:so_nalja" background="#f9feef" cursor="pointer"/>
+                      <Cell col="2" text="bind:욕창시점" displaytype="combocontrol" combodataset="ds_progress" combocodecol="CMCD" combodatacol="CMNM"/>
+                      <Cell col="3" text="bind:방지도구" textAlign="left"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="s_date" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="so_number" type="STRING" size="256"/>
+          <Column id="so_nalja" type="STRING" size="256"/>
+          <Column id="so_code" type="STRING" size="256"/>
+          <Column id="so_name" type="STRING" size="256"/>
+          <Column id="욕창시점" type="STRING" size="256"/>
+          <Column id="방지도구" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="s_date" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_progress">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CMCD">1</Col>
+            <Col id="CMNM">욕창시작</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">2</Col>
+            <Col id="CMNM">욕창간호</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">3</Col>
+            <Col id="CMNM">욕창완치</Col>
+          </Row>
+          <Row>
+            <Col id="CMCD">4</Col>
+            <Col id="CMNM">욕창예방</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00201_P13
+ * 화면명   	: 욕창간호기록조회
+ * 화면설명 	: 
+ * 작성일   	: 2022-06-27
+ * 작성자   	: 박영주
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	2022-00-00
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.set_enableevent(false);
+	this.ds_search.setColumn(0, "sicode", this.parent.SICODE);
+	this.ds_search.setColumn(0, "m_code", this.parent.M_CODE);
+	this.ds_search.setColumn(0, "s_date", this.parent.S_DATE);
+	this.ds_search.set_enableevent(true);
+
+	this.fn_search();
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAY00201_P13.DAY00201_P13_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+this.fn_setReturnData = function() 
+{
+	this.ds_return.clearData();
+	
+	var aRow = this.ds_return.addRow();
+
+	this.ds_return.setColumn(aRow, "sicode", this.ds_search.getColumn(0,"sicode"));
+	this.ds_return.setColumn(aRow, "m_code", this.ds_search.getColumn(0,"m_code"));
+	this.ds_return.setColumn(aRow, "s_date", this.ds_list.getColumn(this.ds_list.rowposition, "so_nalja"));
+	
+	this.close(this.ds_return.saveXML());
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+this.grd_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	const idx = obj.getBindCellIndex("body", "so_nalja");
+	if(e.col==idx) {
+		this.fn_setReturnData();
+	}
+};
+
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+ 
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+
+	}
+}
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_cont.form.sta_title" propid="text" datasetid="ds_item" columnid="create_code"/>
+    </Bind>
+  </Form>
+</FDL>

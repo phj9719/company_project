@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    *================================================================
+    * 프로그램 ID     : SM_FILE
+    * 프로그램 명             : 
+    * Description  : 
+    *================================================================
+                    작성일자    |  작성자    |  비고
+    *================================================================
+      2020-06-10  |  박진국    | 최초작성
+    *================================================================
+    *================================================================
+-->
+<mapper namespace="CM_FILE">
+	<!-- <select id="SEND_DATA" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT ISNULL(A.COMPANY_CD         , '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_GRP_ID)), '') + ',' +
+				    ISNULL(LTRIM(STR(A.FILE_ID)), '') + ',' +
+				    ISNULL(A.FILE_NAME          , '') + ',' +
+				    ISNULL(A.FILE_REAL_NAME     , '') + ',' +
+				    ISNULL(A.FILE_SIZE          , '') + ',' +
+				    ISNULL(A.REG_PGM_ID         , '') + ',' +
+				    ISNULL(A.REG_USER           , '') + ',' +
+				    ISNULL(A.REG_DT             , '') + ',' +
+				    ISNULL(A.REG_DT_CURR        , '') + ',' +
+				    ISNULL(A.REG_DT_LOC         , '') + ',' +
+				    ISNULL(A.REG_IP             , '') + ',' +
+				    ISNULL(A.MOD_PGM_ID         , '') + ',' +
+				    ISNULL(A.MOD_USER           , '') + ',' +
+				    ISNULL(A.MOD_DT             , '') + ',' +
+				    ISNULL(A.MOD_DT_CURR        , '') + ',' +
+				    ISNULL(A.MOD_DT_LOC         , '') + ',' +
+				    ISNULL(A.MOD_IP             , '') AS TXT_DATA
+			FROM    T_CM_FILE A
+			WHERE   A.DELETE_YN = 'N'
+			  AND   A.COMPANY_CD = #{COMPANY_CD}
+          ]]>
+          <if test="FILE_GRP_ID != null and FILE_GRP_ID != '' ">
+              AND   A.FILE_GRP_ID = #{FILE_GRP_ID}
+          </if>
+	</select> -->
+	<select id="SEARCH_FILE" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+             SELECT A.COMPANY_CD
+				  , A.FILE_GRP_ID
+				  , A.FILE_ID
+				  , A.FILE_NAME
+				  , A.FILE_REAL_NAME
+				  , A.FILE_SIZE
+				  , A.DELETE_YN
+				  , A.REG_PGM_ID
+				  , A.REG_USER
+				  , A.REG_DT
+				  , A.REG_DT_CURR
+				  , A.REG_DT_LOC
+				  , A.REG_IP
+				  , A.MOD_PGM_ID
+				  , A.MOD_USER
+				  , A.MOD_DT
+				  , A.MOD_DT_CURR
+				  , A.MOD_DT_LOC
+				  , A.MOD_IP
+				  , (SELECT COUNT(*)
+					   FROM T_CM_FILE SUB 
+					  WHERE SUB.COMPANY_CD = A.COMPANY_CD
+					    AND SUB.FILE_GRP_ID = A.FILE_GRP_ID) AS FILE_GROUP_CNT
+				  , (SELECT COUNT(*)
+					   FROM T_CM_FILE SUB 
+					  WHERE SUB.COMPANY_CD = A.COMPANY_CD
+					    AND SUB.FILE_GRP_ID = A.FILE_GRP_ID
+					    AND SUB.DELETE_YN      = 'N') AS FILE_GROUP_CNT2 
+			FROM    T_CM_FILE A
+			WHERE   A.DELETE_YN      = 'N'
+          ]]>
+          <if test="FILE_GRP_ID != '' and FILE_GRP_ID != null">
+			AND	    A.FILE_GRP_ID = #{FILE_GRP_ID}
+          </if>
+          <if test="FILE_GRP_ID == '' or FILE_GRP_ID == null">
+			AND	    A.FILE_GRP_ID IS NULL
+          </if>
+          <if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND	    A.COMPANY_CD = #{COMPANY_CD}
+          </if>
+          <if test="DELETE_YN != '' and DELETE_YN != null">
+			AND	    A.DELETE_YN = #{DELETE_YN}
+          </if>
+	</select>
+	
+	<select id="SEARCH_GROUP_ID" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+          <![CDATA[
+			 
+
+			SELECT FN_CM_SEQUENCE(#{COMPANY_CD},'','','FILE_GRP_ID',DATE_FORMAT(NOW(),'%Y%m%d'),'FILE_GRP_ID','1','')AS FILE_GRP_ID 
+			  FROM DUAL  
+			 
+			 
+          ]]>
+	</select>
+	<insert id="INSERT_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+			INSERT INTO T_CM_FILE
+			(
+			  COMPANY_CD
+			, FILE_GRP_ID
+			, FILE_ID
+			, FILE_NAME
+			, FILE_REAL_NAME
+			, FILE_SIZE
+			, DELETE_YN
+			, REG_PGM_ID
+			, REG_USER
+			, REG_DT
+			, REG_DT_CURR
+			, REG_DT_LOC
+			, REG_IP
+			, MOD_PGM_ID
+			, MOD_USER
+			, MOD_DT
+			, MOD_DT_CURR
+			, MOD_DT_LOC
+			, MOD_IP
+			)
+			VALUES
+			 (
+			  #{COMPANY_CD}
+			, #{FILE_GRP_ID}
+			, (SELECT COUNT(*)+1
+				 FROM T_CM_FILE A
+				WHERE A.COMPANY_CD = #{COMPANY_CD}
+				  AND A.FILE_GRP_ID = #{FILE_GRP_ID}) 
+			, #{FILE_NAME}
+			, #{FILE_REAL_NAME}
+			, #{FILE_SIZE}
+			, 'N'
+			, #{REG_PGM_ID}
+			, #{REG_USER}
+			, #{REG_DT}
+			, #{REG_DT_CURR}
+			, #{REG_DT_LOC}
+			, #{REG_IP}
+			, ''
+			, ''
+			, ''
+			, ''
+			, ''
+			, ''
+			)
+          ]]>
+	</insert>
+	<update id="DELETE_FILE" parameterType="java.util.HashMap">
+          <![CDATA[
+             UPDATE T_CM_FILE
+             SET    DELETE_YN = 'Y'
+				  , MOD_PGM_ID    = #{MOD_PGM_ID}
+				  , MOD_USER      = #{MOD_USER}
+				  , MOD_DT        = #{MOD_DT}
+				  , MOD_DT_CURR   = #{MOD_DT_CURR}
+				  , MOD_DT_LOC    = #{MOD_DT_LOC}
+				  , MOD_IP        = #{MOD_IP}
+			 WHERE  COMPANY_CD    = #{COMPANY_CD}
+			 AND    FILE_GRP_ID = #{FILE_GRP_ID}
+			 AND    FILE_ID       = #{FILE_ID}
+          ]]>
+	</update>
+</mapper>

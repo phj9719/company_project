@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-03-25 17:30                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: CM_SND_CANCEL_PP                                                         
+     * 프로그램 명  		: 수신처 리스트 팝업                                                      
+     * Description 	:                                                            
+     *================================================================                  
+                작성일자        			|  	작성자    	|  비고                                    
+     *================================================================                  
+       2021-03-25 17:30     |   이승규      	| 최초작성                                                 
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="CM_SND_CANCEL_PP">
+	<!-- select -->
+	<select id="CM_SND_RECV_S" parameterType="java.util.Map" resultType="java.util.Map">
+		<![CDATA[
+			 SELECT GAL.COMPANY_CD
+			      , GAL.PLANT_CD
+			      , GAL.PK_DOC_NO
+			      , GAL.APPL_LINE_CHRG
+			      , GAL.APPL_DEP_NM
+			      , GAL.TRANS_JOB_ID
+			      , (SELECT A.TRANS_STATUS
+			           FROM T_SM_SEND_MAIN A WITH(NOLOCK)
+			          WHERE A.COMPANY_CD = GAL.COMPANY_CD
+			            AND A.PLANT_CD   = GAL.PLANT_CD
+			            AND A.TRANS_ID   = GAL.TRANS_JOB_ID) AS TRANS_STATUS
+			   FROM T_GR_APPL_LINE GAL WITH(NOLOCK)
+			  WHERE GAL.COMPANY_CD = #{COMPANY_CD}
+			    AND GAL.PK_DOC_NO IN (${PK_DOC_NO})
+			    AND GAL.PK_APPL_TYPE = '30'
+		]]>
+    </select>
+    
+    <!-- UPDATE -->
+	<update id="CM_SND_UPDATE" parameterType="java.util.HashMap">
+		<![CDATA[
+			BEGIN
+			
+			UPDATE T_GR_APPL_CNT
+			   SET WK_FLAG      = 'I'
+			     , WK_FIELD     = NULL
+			     , DOC_SND_DT   = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD   = #{COMPANY_CD}
+			   AND PLANT_CD     = #{PLANT_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO};
+			
+			UPDATE T_GR_APPL_LINE
+			   SET WK_FLAG      = 'I'
+			     , TRANS_JOB_ID = NULL
+				 , MOD_PGM_ID 	= #{MOD_PGM_ID}
+				 , MOD_USER 	= #{MOD_USER}
+				 , MOD_DT 		= #{MOD_DT}
+				 , MOD_DT_CURR  = #{MOD_DT_CURR}
+				 , MOD_DT_LOC 	= #{MOD_DT_LOC}
+				 , MOD_IP		= #{MOD_IP}
+			 WHERE COMPANY_CD   = #{COMPANY_CD}
+			   AND PLANT_CD     = #{PLANT_CD}
+			   AND PK_DOC_NO    = #{PK_DOC_NO}
+			   AND APPL_DEP_NM  = #{PLANT_CD}
+			   AND PK_APPL_TYPE = '30';
+			   
+			END
+		]]>
+	</update>
+    
+	<!-- cancel -->
+	<delete id="CM_SND_RECV_CANCEL" parameterType="java.util.HashMap">
+		DELETE FROM T_SM_SEND_MAIN
+		 WHERE COMPANY_CD = #{COMPANY_CD}
+		   AND PLANT_CD   = #{PLANT_CD}
+		   AND TRANS_ID   = #{TRANS_JOB_ID}
+	</delete>
+    
+</mapper>                                                                                                                                                                                                          

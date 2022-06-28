@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA810QR                                                         
+     * 프로그램 명     	: 기저귀사용량조회                                                     
+     * Description 	: 년월별 기저귀 사용량을 파악하기 위한 화면의 쿼리
+     *================================================================                  
+                작성일자         		   |  작성자         |  	비고                                    
+     *================================================================                  
+       2021-08-25 17:30        |  조기종         | 	최초작성                         
+       
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+       NUA810QR_DS_LIST_S		기저귀사용량 조회                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA810QR">
+	<!-- 기저귀사용량 조회 -->
+	<select id="NUA810QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA810QR_DS_LIST_S */
+		WITH A AS 
+		(
+			/* 검색년도 1~12월 까지 만들기 */
+			WITH RECURSIVE CTE AS
+			(
+				SELECT
+						#{YYYY} AS YYYY
+					,	01 AS MM
+				UNION ALL
+				SELECT
+						YYYY
+					,	MM + 1
+				FROM	CTE
+				WHERE	MM <![CDATA[<]]> 12
+			)
+			SELECT
+					YYYY
+				,	MM
+				,	CONCAT(YYYY, LPAD(MM, 2, '0')) AS YYYYMM
+			FROM	CTE
+		)
+		, B AS
+		(
+			/* 검색년도의 월별 일반기저귀, 스마트기저귀 사용량 합 */
+			SELECT
+					NE.COMPANY_CD
+				,	SUBSTRING(NE.EXC_DT, 1, 6) AS EXC_DT2
+				,	SUM(
+						CAST(IF(SUBSTRING(NE.DIAPER_CHG, 1, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 2, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 3, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 4, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 5, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 6, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 7, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 8, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 9, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 10, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 11, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 12, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 13, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 14, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 15, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 16, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 17, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 18, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 19, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 20, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 21, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 22, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 23, 1) = 1, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 24, 1) = 1, 1, 0) AS UNSIGNED)
+					) AS N_DIAPER_SUM
+				,	SUM(
+						CAST(IF(SUBSTRING(NE.DIAPER_CHG, 1, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 2, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 3, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 4, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 5, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 6, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 7, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 8, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 9, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 10, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 11, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 12, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 13, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 14, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 15, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 16, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 17, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 18, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 19, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 20, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 21, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 22, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 23, 1) = 2, 1, 0) AS UNSIGNED)
+						+ CAST(IF(SUBSTRING(NE.DIAPER_CHG, 24, 1) = 2, 1, 0) AS UNSIGNED)
+					) AS S_DIAPER_SUM
+			FROM	T_NU_EXCRETION NE
+			WHERE 	NE.COMPANY_CD = #{COMPANY_CD}
+			AND		NE.EXC_DT LIKE CONCAT(#{YYYY}, '%')
+			GROUP 	BY EXC_DT2
+		)
+		/* 차트에 값이 없는 달에도 데이터를 표시하기위해 1~12월 임시테이블에 LEFT JOIN함 */
+		SELECT
+				B.COMPANY_CD
+			,	A.YYYYMM
+			,	IFNULL(B.N_DIAPER_SUM, 0) AS N_DIAPER_SUM
+			,	IFNULL(B.S_DIAPER_SUM, 0) AS S_DIAPER_SUM
+		FROM		A
+		LEFT JOIN	B
+		ON		(A.YYYYMM = B.EXC_DT2)
+	   	WHERE
+	   			A.YYYY = #{YYYY}
+	   	<if test="MM != '' and MM != null">
+	   	AND		A.MM <![CDATA[<=]]> #{MM}
+	   	</if>
+	</select>                                                                                                                                                    
+</mapper>                                                                                                                                                                                                          

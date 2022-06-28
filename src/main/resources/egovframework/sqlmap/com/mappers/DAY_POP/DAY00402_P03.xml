@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00402_P03                                                   
+     * 프로그램 명     	: 연간 수급자별 송영집계                                                   
+     * Description 		: 연간 수급자별 송영집계 조회
+     *================================================================                  
+       작성일자         		|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-09 10:00        	|  조기종		 | 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00402_P03_DS_LIST_S		조회
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00402_P03">
+	<!-- 조회 -->
+    <select id="DAY00402_P03_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-2 P03 조회 */
+    WITH mate AS
+    (
+        SELECT
+          CASE
+            WHEN bm.m_name REGEXP '[ㄱ-힣]' AND bm.m_name NOT REGEXP '[一-龥]' THEN '2'
+            WHEN bm.m_name REGEXP '[一-龥]' THEN '3'
+            ELSE '1'
+          END AS ord1
+        , bm.sicode
+        , bm.m_code
+        , bm.m_group
+        , bm.m_autoid
+        , bm.m_name
+        , bm.성별
+        , bm.m_jumin1
+        , bm.수급생일
+        , bm.거주현황
+        , bm.m_roomno
+        , bm.m_step
+        , bm.m_roomname
+        , bm.m_conday1
+        , bm.m_conday2
+        , bm.m_enday
+        , bm.m_reday
+        , bm.일요일
+        , bm.이용일
+        , bm.m_regist
+        , CONCAT(bm.m_juso1, ' ', bm.m_juso2) AS 주소
+        , bm.m_phone1
+        , bm.등급
+        , CONCAT(bm.이용일, bm.일요일) AS 요일이용
+        FROM base_mate bm
+        WHERE bm.sicode = #{SICODE}
+    )
+    SELECT
+      ma.sicode
+    , ma.m_code
+    , ma.거주현황
+    , ma.m_group
+    , ma.m_regist
+    , ma.m_name
+    , ma.성별
+    , ma.m_roomname
+    , CONCAT(
+        CASE WHEN SUBSTRING(ma.요일이용, 1, 1) = '1' THEN '월' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 2, 1) = '1' THEN '화' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 3, 1) = '1' THEN '수' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 4, 1) = '1' THEN '목' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 5, 1) = '1' THEN '금' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 6, 1) = '1' THEN '토' ELSE ' ' END
+      , CASE WHEN SUBSTRING(ma.요일이용, 7, 1) = '1' THEN '일' ELSE ' ' END
+      ) AS 송영요일
+    , IFNULL(sub.mon01, 0) AS mon01
+    , IFNULL(sub.mon02, 0) AS mon02
+    , IFNULL(sub.mon03, 0) AS mon03
+    , IFNULL(sub.mon04, 0) AS mon04
+    , IFNULL(sub.mon05, 0) AS mon05
+    , IFNULL(sub.mon06, 0) AS mon06
+    , IFNULL(sub.mon07, 0) AS mon07
+    , IFNULL(sub.mon08, 0) AS mon08
+    , IFNULL(sub.mon09, 0) AS mon09
+    , IFNULL(sub.mon10, 0) AS mon10
+    , IFNULL(sub.mon11, 0) AS mon11
+    , IFNULL(sub.mon12, 0) AS mon12
+    , IFNULL(sub.tot, 0) AS tot
+    , IFNULL(sub.미입소, 0) AS 미입소
+    FROM mate ma
+    LEFT JOIN
+    (
+        SELECT
+          dat.k_name
+        , dat.k_code
+        , SUM(CASE WHEN dat.kmon = '01' THEN dat.제공유무 ELSE 0 END) AS mon01
+        , SUM(CASE WHEN dat.kmon = '02' THEN dat.제공유무 ELSE 0 END) AS mon02
+        , SUM(CASE WHEN dat.kmon = '03' THEN dat.제공유무 ELSE 0 END) AS mon03
+        , SUM(CASE WHEN dat.kmon = '04' THEN dat.제공유무 ELSE 0 END) AS mon04
+        , SUM(CASE WHEN dat.kmon = '05' THEN dat.제공유무 ELSE 0 END) AS mon05
+        , SUM(CASE WHEN dat.kmon = '06' THEN dat.제공유무 ELSE 0 END) AS mon06
+        , SUM(CASE WHEN dat.kmon = '07' THEN dat.제공유무 ELSE 0 END) AS mon07
+        , SUM(CASE WHEN dat.kmon = '08' THEN dat.제공유무 ELSE 0 END) AS mon08
+        , SUM(CASE WHEN dat.kmon = '09' THEN dat.제공유무 ELSE 0 END) AS mon09
+        , SUM(CASE WHEN dat.kmon = '10' THEN dat.제공유무 ELSE 0 END) AS mon10
+        , SUM(CASE WHEN dat.kmon = '11' THEN dat.제공유무 ELSE 0 END) AS mon11
+        , SUM(CASE WHEN dat.kmon = '12' THEN dat.제공유무 ELSE 0 END) AS mon12
+        , SUM(dat.제공유무) AS tot
+        , SUM(dat.미입소) AS 미입소
+        FROM
+        (
+            SELECT
+              kmr.k_name
+            , kmr.k_code
+            , DATE_FORMAT(kmr.k_nalja, '%m') AS kmon
+            , SUM(CASE
+                    WHEN SUBSTRING(kmr.미입소, 1, 1) = 1 THEN 1
+                    ELSE 0
+              END) AS 미입소 <!-- 미입소 2시간 미만인것만 카운트 -->
+            , SUM(CASE
+                    WHEN SUBSTRING(kmr.미입소, 1, 1) &gt; 0 THEN 0
+                    ELSE
+                      CASE
+                        WHEN ((SUBSTRING(kmr.종료시간, 1, 2) * 60) + SUBSTRING(kmr.종료시간, 4, 2)) - ((SUBSTRING(kmr.시작시간, 1, 2) * 60) + SUBSTRING(kmr.시작시간, 4, 2)) &gt;= 9 THEN 1
+                        ELSE 0
+                      END
+              END) AS 제공유무 <!-- 총시간이 9분 이상인 것만 카운트 -->
+            FROM kmrecord kmr
+            WHERE kmr.sicode = #{SICODE}
+            AND kmr.k_nalja &gt;= #{DATE_FROM}
+            AND kmr.k_nalja &lt; DATE_ADD(#{DATE_FROM}, INTERVAL 1 YEAR)
+            GROUP BY
+              kmr.k_name
+            , kmr.k_code
+            , DATE_FORMAT(kmr.k_nalja, '%m')
+        ) AS dat
+        GROUP BY dat.k_name
+    ) AS sub
+    ON (sub.k_code = ma.m_code)
+    WHERE #{DATE_FROM} &lt;= ma.m_reday
+    AND #{DATE_TO} &gt;= ma.m_enday <!-- 계약기간 내에 있는 수급자 조회 -->
+    ORDER BY
+      ma.ord1
+    , ma.m_name
+    </select>
+</mapper>

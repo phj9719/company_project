@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="frameMDI" width="1666" height="36" titletext="MDI Frame" onload="frameMDI_onload" background="#ffb74e" scrolltype="none" scrollbartype="none none" color="#fbab62">
+    <Layouts>
+      <Layout width="1666" height="36" stepcount="0" screenid="">
+        <Tab id="tab_mdi" taborder="0" left="40" right="0" tabindex="0" scrollbars="autoboth" onextrabuttonclick="tab_mdi_onextrabuttonclick" onsetfocus="tab_mdi_onsetfocus" showextrabutton="true" height="36" bottom="0" onchanged="tab_mdi_onchanged" cssclass="tab_MDI">
+          <Tabpages>
+            <Tabpage id="tabpage1" text="tabpage1"/>
+          </Tabpages>
+        </Tab>
+        <Button id="btn_closeAll" taborder="1" onclick="btn_closeAll_onclick" top="4" right="70" width="28" height="28" tooltiptext="Close All" visible="true" cursor="pointer" border="1px solid transparent" background="URL('imagerc::window_close.png') no-repeat center center"/>
+        <Button id="btn_cascade" taborder="2" top="4" width="28" height="28" onclick="btn_cascade_onclick" right="172" visible="true" tooltiptext="창모드" background="url('imagerc::window_small.png') no-repeat center center" cursor="pointer" border="1px solid transparent"/>
+        <Button id="btn_maximize" taborder="3" top="4" width="28" onclick="btn_maximize_onclick" right="206" height="28" visible="true" tooltiptext="최대화" background="url('imagerc::window_big.png') no-repeat center center" cursor="pointer" border="1px solid transparent"/>
+        <Button id="btn_vertical" taborder="4" top="4" right="138" width="28" height="28" onclick="btn_vertical_onclick" visible="true" tooltiptext="세로분할" background="url('imagerc::window_col.png') no-repeat center center" cursor="pointer" border="1px solid transparent"/>
+        <Button id="btn_horizontal" taborder="5" top="4" right="104" width="28" height="28" onclick="btn_horizontal_onclick" visible="true" tooltiptext="가로분할" background="url('imagerc::window_row.png') no-repeat center center" cursor="pointer" border="1px solid transparent"/>
+        <Button id="btn_closeFrame" taborder="6" onclick="btn_closeFrame_onclick" top="0" right="20" width="40" height="20" cursor="pointer" text="▲" borderRadius="0px 0px 2px 2px" background="#ffe4ce" color="#fbab62" font="8pt/normal &quot;Noto Sans CJK KR Regular&quot;" border="1px solid transparent,1px solid #fbab62,1px solid #fbab62"/>
+        <!--<Div id="borderbottom" taborder="7" left="20" width="1578" height="1" bottom="0" background="#d9d9d9"/>-->
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: frmWork
+ * 화면명   	: Work Frame
+ * 화면설명 	: 업무 화면을 반영한다.
+ * 작성일   	: 2017.04
+ * 작성자   	: 송금준
+ * 수정이력 	:
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Include
+ ***********************************************************************/
+
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_isOpen = true;
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.frameMDI_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fn_removeAllPages();
+	var btnSpinUp = this.tab_mdi.spinupbutton;
+	var btnSpinDown = this.tab_mdi.spindownbutton;
+	
+	// btnSpinUp.set_cssclass("btn_MDI_TabSpinup");
+	// btnSpinDown.set_cssclass("btn_MDI_TabSpindown");
+
+	// btnSpinUp.set_visible(false);
+	// btnSpinDown.set_visible(false);
+};
+
+/***********************************************************************
+ * Form Initialize Functions
+ ***********************************************************************/
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+this.tab_mdi_onchanged = function (obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	var winKey = obj.tabpages[e.postindex].name;
+
+	nexacro.getApplication().av_workFrameSet[winKey].setFocus();
+	if (nexacro.getApplication().gds_bookmark.findRow("MENU_CD", winKey.substring(0, winKey.indexOf("_"))) != -1) 
+	{
+	}
+	else 
+	{
+	}
+};
+
+this.tab_mdi_onextrabuttonclick = function (obj:Tab, e:nexacro.TabMouseEventInfo)
+{
+	Sct.closeForm(obj, e.index);
+	if(this.tab_mdi.getTabpageCount() == 0){
+		nexacro.getApplication().av_homeFrame.set_formurl("");
+		nexacro.getApplication().av_homeFrame.set_formurl("FrameBase::frameHome.xfdl");
+	}
+};
+
+this.btn_closeAll_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	for (var i = (this.tab_mdi.getTabpageCount() - 1); i >= 0; --i) 
+	{
+		Sct.closeForm(this.tab_mdi, i);
+		if(i == 0){
+			nexacro.getApplication().av_homeFrame.set_formurl("");
+			nexacro.getApplication().av_homeFrame.set_formurl("FrameBase::frameHome.xfdl");
+		}
+	}
+
+	this.fn_showButtons(false);
+
+};
+
+this.btn_cascade_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (nexacro.getApplication().av_homeFrame.visible) 
+	{
+		return;
+	}
+
+	if (nexacro.getApplication().av_workFrameSet.frames.length == 1) 
+	{
+		return;
+	}
+
+	for (var i = 0; i < nexacro.getApplication().av_workFrameSet.frames.length; i++) 
+	{
+		var frame = nexacro.getApplication().av_workFrameSet.frames[i];
+		frame.set_openstatus("normal");
+		frame.set_showtitlebar(true);
+		frame.set_titlebarheight("25px");
+		frame.set_showtitleicon(false);
+		frame.set_dragmovetype("normal");
+		frame.set_border("2px solid #808080ff");
+	}
+	nexacro.getApplication().av_workFrameSet.arrange("cascade");
+};
+
+this.btn_maximize_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (nexacro.getApplication().av_homeFrame.visible) 
+	{
+		return;
+	}
+
+	if (nexacro.getApplication().av_workFrameSet.frames.length == 1) 
+	{
+		return;
+	}
+
+	var curFormId = this.tab_mdi.tabpages[this.tab_mdi.tabindex].name;
+	for (var i = 0; i < nexacro.getApplication().av_workFrameSet.frames.length; i++) 
+	{
+		var frame = nexacro.getApplication().av_workFrameSet.frames[i];
+		frame.set_openstatus("maximize");
+		frame.set_showtitlebar(false);
+		frame.set_dragmovetype("none");
+		frame.set_border("0px none #808080");
+	}
+
+	var idx = this.tab_mdi.tabindex;
+	if (idx == 0) 
+	{
+		this.tab_mdi.set_tabindex(this.tab_mdi.getTabpageCount() - 1);
+	}
+	else 
+	{
+		this.tab_mdi.set_tabindex(0);
+	}
+	this.tab_mdi.set_tabindex(idx);
+
+	// application.av_workFrameSet.frames[application.gv_curWinKey].setFocus();
+	nexacro.getApplication().av_workFrameSet.frames[curFormId].setFocus();
+};
+
+this.btn_vertical_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (nexacro.getApplication().av_homeFrame.visible) 
+	{
+		return;
+	}
+
+	if (nexacro.getApplication().av_workFrameSet.frames.length == 1) 
+	{
+		return;
+	}
+
+	for (var i = 0; i < nexacro.getApplication().av_workFrameSet.frames.length; i++) 
+	{
+		var frame = nexacro.getApplication().av_workFrameSet.frames[i];
+		frame.set_openstatus("normal");
+		frame.set_showtitlebar(true);
+		frame.set_titlebarheight("25px");
+		frame.set_showtitleicon(false);
+		frame.set_dragmovetype("normal");
+		frame.set_border("2px solid #808080");
+	}
+	nexacro.getApplication().av_workFrameSet.arrange("tilevertical");
+};
+
+this.btn_horizontal_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (nexacro.getApplication().av_homeFrame.visible) 
+	{
+		return;
+	}
+
+	if (nexacro.getApplication().av_workFrameSet.frames.length == 1) 
+	{
+		return;
+	}
+
+	for (var i = 0; i < nexacro.getApplication().av_workFrameSet.frames.length; i++) 
+	{
+		var frame = nexacro.getApplication().av_workFrameSet.frames[i];
+		frame.set_openstatus("normal");
+		frame.set_showtitlebar(true);
+		frame.set_titlebarheight("25px");
+		frame.set_showtitleicon(false);
+		frame.set_dragmovetype("normal");
+		frame.set_border("2px solid #808080");
+	}
+	nexacro.getApplication().av_workFrameSet.arrange("tilehorizontal");
+};
+
+this.tab_mdi_onsetfocus = function (obj:Tab, e:nexacro.SetFocusEventInfo)
+{
+	this.fn_showButtons(true);
+	//nexacro.getApplication().av_homeFrame.set_visible(false);
+};
+
+this.btn_closeFrame_onclick = function (obj:Button, e:nexacro.ClickEventInfo)
+{
+	if (this.fv_isOpen) 
+	{
+		this.fn_closeFrame();
+		this.fv_isOpen = false;
+	}
+	else 
+	{
+		this.fn_openFrame();
+		this.fv_isOpen = true;
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+// 생성된 TabPage를 모두 삭제한다.
+this.fn_removeAllPages = function ()
+{
+	var tabPages = this.tab_mdi.tabpages;
+	var nCnt = tabPages.length;
+
+	for (var i = nCnt; i > 0; --i) 
+	{
+		this.tab_mdi.removeTabpage(i - 1);
+	}
+};
+
+// TabPage를 생성한다. (메뉴 선택 시)
+this.fn_addTabpage = function (pageId, title)
+{
+	// this.btn_home.set_cssclass("btn_MDI_MDIList");
+
+	var tabPages = this.tab_mdi.tabpages;
+	var nCnt = tabPages.length;
+
+	var nIndex = this.tab_mdi.insertTabpage(pageId, nCnt, "", title);
+
+	// var rtn = this.tab_mdi.tabpages[nIndex].addEventHandler("onclick", this.tabPage_onclick, this);
+};
+
+// 오른쪽 버튼들의 Visible 상태 변경
+this.fn_showButtons = function (tf)
+{
+	tf = true;
+
+	this.btn_cascade.set_visible(tf);
+	this.btn_closeAll.set_visible(tf);
+	this.btn_horizontal.set_visible(tf);
+	this.btn_maximize.set_visible(tf);
+	this.btn_vertical.set_visible(tf);
+};
+
+/**	
+ * 설명 	: Top 프레임을 닫는다.
+ * params  	: None
+ * return Type 	: None
+ */
+this.fn_closeFrame = function ()
+{
+	nexacro.getApplication().av_vFrameSetMain.set_separatesize(nexacro.getApplication().av_hideTopModeSize);
+	// this.sta_hideBar.set_visible(true);
+	this.btn_closeFrame.set_text("▼");
+};
+
+/**	
+ * 설명 	: Top 프레임을 연다.
+ * params  	: None
+ * return Type 	: None
+ */
+this.fn_openFrame = function ()
+{
+	nexacro.getApplication().av_vFrameSetMain.set_separatesize(nexacro.getApplication().av_showTopModeSize);
+	// this.sta_hideBar.set_visible(false);
+	this.btn_closeFrame.set_text("▲");
+};
+
+]]></Script>
+  </Form>
+</FDL>

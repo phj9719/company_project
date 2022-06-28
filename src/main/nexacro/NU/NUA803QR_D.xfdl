@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUA803QR_D" width="1500" height="600" titletext="기저귀 모니터링 (2분할)" onload="NUA803QR_D_onload" ontimer="NUA803QR_D_ontimer">
+    <Layouts>
+      <Layout width="1500" height="600">
+        <Div id="div_search" taborder="0" left="0" top="0" height="50" dragscrolltype="vert" right="0" cssclass="s01" background="#2d5dbb">
+          <Layouts>
+            <Layout>
+              <Static id="sta_area" taborder="5" text="모니터링 지역" cssclass="sta_WF_SearchLabel" left="28.6%" top="12" width="90" height="21" color="#ffffff" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_area" taborder="0" left="sta_area:15" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_mon_area" onitemchanged="div_search_cmb_area_onitemchanged"/>
+              <Static id="sta_location" taborder="6" text="층" cssclass="sta_WF_SearchLabel" left="cmb_area:6" top="12" width="90" height="21" color="#ffffff" textAlign="right" verticalAlign="middle"/>
+              <Combo id="cmb_location" taborder="1" left="sta_location:5" top="12" width="130" height="21" codecolumn="ARE_CD" datacolumn="ARE_NM" type="filterlike" autoselect="true" innerdataset="ds_area" onitemchanged="div_search_cmb_location_onitemchanged"/>
+              <Button id="btn_search" taborder="2" text="검색" top="10" width="80" height="24" left="cmb_location:10" onclick="div_search_btn_search_onclick"/>
+              <Button id="btn_close" taborder="4" text="닫기" top="10" width="80" height="24" onclick="div_search_btn_close_onclick" right="10"/>
+              <Button id="btn_4div" taborder="3" text="4분할" top="10" width="80" height="24" right="btn_close:10" onclick="div_search_btn_4div_onclick"/>
+              <Static id="sta_mainTitle" taborder="7" text="모니터링 시스템" left="8" top="0" width="28.10%" height="45" color="#ffffff" font="normal 700 18pt/normal &quot;Noto Sans KR&quot;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="0%" top="50" right="0%" bottom="0%">
+          <Layouts>
+            <Layout>
+              <Div id="div_paging" taborder="0" height="30" bottom="0" url="CM_POP::CM_PAGING_DIV.xfdl" maxheight="" left="1.5%" right="692" text="" onclick="div_cont_div_paging_onclick"/>
+              <Grid id="grd_left" taborder="1" autofittype="col" left="1.5%" top="20" binddataset="ds_left" bottom="46" autosizingtype="none" right="50.5%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" cssclass="grd_DataList_h2">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="130"/>
+                      <Column size="60"/>
+                      <Column size="40"/>
+                      <Column size="50"/>
+                      <Column size="20"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="41"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="1" text="입소자" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2"/>
+                      <Cell col="3" colspan="5" text="기저귀상태(5분전)"/>
+                      <Cell col="8"/>
+                      <Cell col="9" colspan="2" text="기저귀배터리"/>
+                      <Cell col="11"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION" textAlign="center"/>
+                      <Cell col="1" displaytype="normal" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="bind:RESIDENT" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" cssclass="expr:dataset.getColumn(currow,&quot;FALL_CLEAR_YN&quot;) == 'N' ? 'CellYellow' : 'CellYellow' "/>
+                      <Cell col="2"/>
+                      <Cell col="3" displaytype="imagecontrol" padding="0px 0px 0px 7px"/>
+                      <Cell col="4" text="bind:B_HUMI_RATE_VALUE"/>
+                      <Cell col="5" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" imagestretch="fixaspectratio"/>
+                      <Cell col="7" text="bind:HUMI_RATE_VALUE" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="8"/>
+                      <Cell col="9" displaytype="imagecontrol"/>
+                      <Cell col="10" text="bind:BAT_RATE_VALUE"/>
+                      <Cell col="11"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Grid id="grd_right" taborder="2" autofittype="col" left="50.5%" top="20" bottom="46" autosizingtype="none" right="1.5%" background="" readonly="false" selecttype="row" enable="true" useselcolor="false" binddataset="ds_right" cssclass="grd_DataList_h2">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="130"/>
+                      <Column size="60"/>
+                      <Column size="40"/>
+                      <Column size="50"/>
+                      <Column size="20"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="50"/>
+                      <Column size="40"/>
+                      <Column size="40"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="41"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="층/호실" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="1" text="입소자" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc"/>
+                      <Cell col="2"/>
+                      <Cell col="3" colspan="5" text="기저귀상태(5분전)"/>
+                      <Cell col="8"/>
+                      <Cell col="9" colspan="2" text="기저귀배터리"/>
+                      <Cell col="11"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:LOCATION" textAlign="center"/>
+                      <Cell col="1" displaytype="normal" combodataset="ds_nu_sex" combodatacol="CMNM" combocodecol="CMCD" text="bind:RESIDENT" font="normal bold 15pt/normal &quot;Noto Sans KR&quot;" border="1px solid #cccccc,0px solid #cccccc,1px solid #cccccc,1px solid #cccccc" cssclass="expr:dataset.getColumn(currow,&quot;FALL_CLEAR_YN&quot;) == 'N' ? 'CellYellow' : 'CellYellow' "/>
+                      <Cell col="2"/>
+                      <Cell col="3" displaytype="imagecontrol" padding="0px 0px 0px 7px"/>
+                      <Cell col="4" text="bind:B_HUMI_RATE_VALUE"/>
+                      <Cell col="5" displaytype="imagecontrol"/>
+                      <Cell col="6" displaytype="imagecontrol" imagestretch="fixaspectratio"/>
+                      <Cell col="7" text="bind:HUMI_RATE_VALUE" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+                      <Cell col="8"/>
+                      <Cell col="9" displaytype="imagecontrol"/>
+                      <Cell col="10" text="bind:BAT_RATE_VALUE"/>
+                      <Cell col="11"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE_VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="SERVICE_TP" type="STRING" size="256"/>
+          <Column id="APPLICATION_TP" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="ROOM" type="STRING" size="256"/>
+          <Column id="AGE" type="STRING" size="256"/>
+          <Column id="RES_ID" type="STRING" size="256"/>
+          <Column id="AREA" type="STRING" size="256"/>
+          <Column id="MON_AREA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_left" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE_VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_right" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="RESIDENT" type="STRING" size="256"/>
+          <Column id="LOCATION" type="STRING" size="256"/>
+          <Column id="CONN_ST" type="STRING" size="256"/>
+          <Column id="B_HUMI_RATE" type="INT" size="256"/>
+          <Column id="B_HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="HUMI_RATE" type="INT" size="256"/>
+          <Column id="HUMI_RATE_VALUE" type="STRING" size="256"/>
+          <Column id="BAT_RATE" type="INT" size="256"/>
+          <Column id="BAT_RATE_VALUE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mon_area">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="ARE_CD" type="STRING" size="256"/>
+          <Column id="ARE_NM" type="STRING" size="256"/>
+          <Column id="ARE_TP" type="STRING" size="256"/>
+          <Column id="USE_YN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_nu_mon_cycle">
+        <ColumnInfo>
+          <Column id="CMCD" type="STRING" size="256"/>
+          <Column id="CMNM" type="STRING" size="256"/>
+          <Column id="STR1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_etc_list">
+        <ColumnInfo>
+          <Column id="COMPANY_CD" type="STRING" size="256"/>
+          <Column id="COMPANY_NM" type="STRING" size="256"/>
+          <Column id="DIAPER_ALL_COUNT" type="STRING" size="256"/>
+          <Column id="HUMI_LINE" type="STRING" size="256"/>
+          <Column id="BAT_LINE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUA803QR_D
+ * 화면명   	: 기저귀 모니터링(2분할)
+ * 화면설명 	: 기저귀 착용자들의 기저귀 상태를 주기적으로 나타내는 화면
+ * 작성일   	: 2021-12-17 14:30
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *  수정일				수정자			내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_companyCd = nexacro.getApplication().gds_userInfo.getColumn(0,"COMPANY_CD");
+this.newObj;
+this.timeCycle = 0;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.NUA803QR_D_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	// 검색 조건 세팅
+	this.ds_search.setColumn(0, "COMPANY_CD", fv_companyCd);
+	
+	this.fn_initPageSet();
+	
+	this.newObj = obj;
+	
+	this.fn_setComboDs(obj);
+	
+	this.timeCycle = this.ds_nu_mon_cycle.getColumn(1, "STR1") * 1000;
+	
+	this.fn_search();
+	
+	// 오픈시 검색조건 첫 항목에 커서 이동
+	this.div_search.form.cmb_area.setFocus();
+};
+
+// 타이머
+this.NUA803QR_D_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 1)
+	{
+		// 페이징 순차적으로 검색되게 하기
+		this.div_cont.form.div_paging.form.fn_autoSearch("Y");
+	}
+};
+
+//페이징 처리 초기화
+this.fn_initPageSet = function()
+{
+	//페이징처리 초기화
+	this.ds_list.pageRowCount		= 38;								//조회될 row 갯수 (page Size)
+    this.ds_list.pageCount			= 10;								//최대 페이지 갯수 (page Scale)
+    this.ds_list.pageTotalVisible	= false;							//하단 page Size, pageScale 등 입력 div show YN
+	this.ds_list.pageNo				= 1;								//최초조회시 default 페이지 번호
+	this.ds_list.pageFunctionName	= "fn_search";						//페이지 버튼(1,2,3...)클릭시 조회할 function name
+	this.div_cont.form.div_paging.form.fn_init(this, this.ds_list);		//페이지 form 초기화
+};
+
+// 콤보 세팅
+this.fn_setComboDs = function(obj)
+{
+	const comboDsParamArr = [
+			{ outDsName : "ds_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_AREA_S", param : { COMPANY_CD : fv_companyCd }, bEmptyRow : true } // 층 조회
+		,	{ outDsName : "ds_mon_area", sqlId : "CM_MONITOR_PP.CM_MOTITOR_PP_DS_MON_AREA_S", param : { COMPANY_CD : fv_companyCd }, bEmptyRow : true } // 생활실 전체 조회
+	];
+	this.gfn_setComboDs(obj, comboDsParamArr);
+};
+
+// 그리드 expr 세팅
+this.fn_initGrid = function(grid)
+{
+	// 기저귀 5분전 습도 expr
+	const beHumiImg = "expr:(dataset.getColumn(currow, 'CONN_ST') == 1 || dataset.getColumn(currow, 'CONN_ST') == 1.0) ? "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') != null && dataset.getColumn(currow, 'B_HUMI_RATE') != undefined) ? "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') >= 100 ? 'imagerc::ico_diaper2_10.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 99 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 90) ? 'imagerc::ico_diaper2_9.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 89 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 80) ? 'imagerc::ico_diaper2_8.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 79 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 70) ? 'imagerc::ico_diaper2_7.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 69 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 60) ? 'imagerc::ico_diaper2_6.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 59 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 50) ? 'imagerc::ico_diaper2_5.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 49 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 40) ? 'imagerc::ico_diaper2_4.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 39 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 30) ? 'imagerc::ico_diaper2_3.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 29 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 20) ? 'imagerc::ico_diaper2_2.png' : "
+					+ "(dataset.getColumn(currow, 'B_HUMI_RATE') <= 19 && dataset.getColumn(currow, 'B_HUMI_RATE') >= 10) ? 'imagerc::ico_diaper2_1.png' : "
+					+ "'imagerc::ico_diaper2_0.png') : "
+					+ "'' : "
+					+ "''";
+	
+	// 화살표 expr
+	const arrowImg = "expr:(dataset.getColumn(currow, 'CONN_ST') == 1 || dataset.getColumn(currow, 'CONN_ST') == 1.0) ? "
+					+ "((dataset.getColumn(currow, 'B_HUMI_RATE') != null && dataset.getColumn(currow, 'B_HUMI_RATE') != undefined) ? 'imagerc::ico_chev_diaper.png' : '') : "
+					+ "''";
+	
+	// 기저귀 현재 습도 expr
+	const humiImg = "expr:(dataset.getColumn(currow, 'CONN_ST') == 1 || dataset.getColumn(currow, 'CONN_ST') == 1.0) ? "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') >= 100 ? 'imagerc::ico_diaper2_10.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 99 && dataset.getColumn(currow, 'HUMI_RATE') >= 90) ? 'imagerc::ico_diaper2_9.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 89 && dataset.getColumn(currow, 'HUMI_RATE') >= 80) ? 'imagerc::ico_diaper2_8.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 79 && dataset.getColumn(currow, 'HUMI_RATE') >= 70) ? 'imagerc::ico_diaper2_7.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 69 && dataset.getColumn(currow, 'HUMI_RATE') >= 60) ? 'imagerc::ico_diaper2_6.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 59 && dataset.getColumn(currow, 'HUMI_RATE') >= 50) ? 'imagerc::ico_diaper2_5.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 49 && dataset.getColumn(currow, 'HUMI_RATE') >= 40) ? 'imagerc::ico_diaper2_4.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 39 && dataset.getColumn(currow, 'HUMI_RATE') >= 30) ? 'imagerc::ico_diaper2_3.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 29 && dataset.getColumn(currow, 'HUMI_RATE') >= 20) ? 'imagerc::ico_diaper2_2.png' : "
+					+ "(dataset.getColumn(currow, 'HUMI_RATE') <= 19 && dataset.getColumn(currow, 'HUMI_RATE') >= 10) ? 'imagerc::ico_diaper2_1.png' : "
+					+ "'imagerc::ico_diaper2_0.png') : "
+					+ "'imagerc::ico_diaper_uncont.png'";
+	
+	// 배터리 expr
+	const batImg = "expr:(dataset.getColumn(currow, 'CONN_ST') == 1 || dataset.getColumn(currow, 'CONN_ST') == 1.0) ? "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') >= 100 ? 'imagerc::ico_battery_10.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 99 && dataset.getColumn(currow, 'BAT_RATE') >= 90) ? 'imagerc::ico_battery_9.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 89 && dataset.getColumn(currow, 'BAT_RATE') >= 80) ? 'imagerc::ico_battery_8.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 79 && dataset.getColumn(currow, 'BAT_RATE') >= 70) ? 'imagerc::ico_battery_7.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 69 && dataset.getColumn(currow, 'BAT_RATE') >= 60) ? 'imagerc::ico_battery_6.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 59 && dataset.getColumn(currow, 'BAT_RATE') >= 50) ? 'imagerc::ico_battery_5.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 49 && dataset.getColumn(currow, 'BAT_RATE') >= 40) ? 'imagerc::ico_battery_4.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 39 && dataset.getColumn(currow, 'BAT_RATE') >= 30) ? 'imagerc::ico_battery_3.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 29 && dataset.getColumn(currow, 'BAT_RATE') >= 20) ? 'imagerc::ico_battery_2.png' : "
+					+ "(dataset.getColumn(currow, 'BAT_RATE') <= 19 && dataset.getColumn(currow, 'BAT_RATE') >= 10) ? 'imagerc::ico_battery_1.png' : "
+					+ "'imagerc::ico_battery_0.png') : "
+					+ "'imagerc::ico_battery_0.png'";
+					
+	grid.setCellProperty("body", 3, "expr", beHumiImg);	// 5분전 기저귀 이미지
+	grid.setCellProperty("body", 5, "expr", arrowImg);	// 화살표
+	grid.setCellProperty("body", 6, "expr", humiImg);	// 현재 기저귀 이미지
+	grid.setCellProperty("body", 9, "expr", batImg);	// 배터리 이미지
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 검색
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/NUA803QR_DController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1 ds_etc_list=output2";
+	const argument = "method=select ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{				
+			this.killTimer(1);
+			const companyNm = this.ds_etc_list.getColumn(0, "COMPANY_NM");	// 업체명
+			this.div_search.form.sta_mainTitle.set_text(companyNm + " 모니터링 시스템");
+			
+			this.ds_left.clearData(); 
+			this.ds_right.clearData();
+			
+			this.div_cont.form.div_paging.form.fn_callAfter();
+			// 데이터셋 내용 2개의 그리드에 나눠서 표시
+			for (let i = 0; i < this.ds_list.rowcount; i++)
+			{
+				if (i % 2 == 0)
+				{
+					const lRow = this.ds_left.addRow();
+					this.ds_left.copyRow(lRow, this.ds_list, i);
+				}
+				else
+				{					
+					const rRow = this.ds_right.addRow();
+					this.ds_right.copyRow(rRow, this.ds_list, i);
+				}
+			}
+			this.ds_left.applyChange();
+			this.ds_right.applyChange();
+			
+			this.fn_initGrid(this.div_cont.form.grd_left);
+			this.fn_initGrid(this.div_cont.form.grd_right);
+			
+			this.setTimer(1, this.timeCycle);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색조건 모니터링 지역 콤보박스 변경 이벤트
+this.div_search_cmb_area_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "AREA", ""); 
+};
+
+// 검색조건 층 콤보박스 변경 이벤트
+this.div_search_cmb_location_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_search.setColumn(0, "MON_AREA", "");
+};
+
+// 검색 버튼
+this.div_search_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 4분할 버튼
+this.div_search_btn_4div_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.newObj.getOwnerFrame().set_formurl("NU::NUA804QR_D.xfdl");
+};
+
+// 닫기 버튼
+this.div_search_btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};]]></Script>
+    <Bind>
+      <BindItem id="item2" compid="div_search.form.cmb_area" propid="value" datasetid="ds_search" columnid="MON_AREA"/>
+      <BindItem id="item3" compid="div_search.form.cmb_location" propid="value" datasetid="ds_search" columnid="AREA"/>
+    </Bind>
+  </Form>
+</FDL>

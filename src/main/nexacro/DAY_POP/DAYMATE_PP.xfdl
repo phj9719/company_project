@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAYEMP_PP" width="450" height="570" titletext="수급자선택" onload="form_onload" locale="ko_KR">
+    <Layouts>
+      <Layout width="450" height="570">
+        <Div id="div_cont" taborder="1" left="10" top="10" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="2" autofittype="col" left="0" top="30" binddataset="ds_list" right="0" bottom="0" autosizingtype="none" oncellclick="div_cont_grd_list_oncellclick" cellclickbound="cell">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="60"/>
+                      <Column size="40"/>
+                      <Column size="80"/>
+                      <Column size="40"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="현황"/>
+                      <Cell col="1" text="그룹"/>
+                      <Cell col="2" text="수급자명"/>
+                      <Cell col="3" text="성별"/>
+                      <Cell col="4" text="생활실"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:거주현황"/>
+                      <Cell col="1" textAlign="center" cursor="pointer" text="bind:m_group"/>
+                      <Cell col="2" combodataset="ds_cm_rank_cd" combodatacol="CMNM" combocodecol="CMCD" text="bind:m_name" cursor="pointer"/>
+                      <Cell col="3" text="bind:성별"/>
+                      <Cell col="4" expandchar="dot" text="bind:m_roomname"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static id="sta_date_title" taborder="1" text="□ 조회기준일 : " left="7" top="6" width="90" height="20"/>
+              <Static id="sta_date" taborder="2" left="104" top="6" width="150" height="20"/>
+              <Button id="btn_set_data" taborder="3" text="확인" top="4" width="90" height="22" right="0" onclick="div_cont_btn_set_data_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_autoid" type="INT" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="m_jumin1" type="STRING" size="256"/>
+          <Column id="수급생일" type="DATE" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_roomno" type="INT" size="256"/>
+          <Column id="m_step" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAYMATECHK_PP
+ * 화면명   	: 수급자 선택
+ * 화면설명 	: 각 화면에서 수급자를 선택하는 팝업
+ * 작성일   	: 2022-06-24
+ * 작성자   	: 성재영
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = this.parent.SICODE;
+const fv_date = this.parent.DATE;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", fv_date);
+	
+	const dateCol = this.ds_search.getColumn(0, "DATE");
+	const yyyy = dateCol.getFullYear();
+	const mm = (dateCol.getMonth() + 1) + "";
+	const dd = dateCol.getDate() + "";
+	
+	const date = yyyy + "." + mm.padStart(2, "0") + "." + dd.padStart(2, "0");
+	this.div_cont.form.sta_date.set_text(date);
+	
+	this.initGrid(this.div_cont.form.grd_list);
+	
+	this.fn_search();
+};
+
+this.initGrid = function(grid)
+{
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nowIdx = grid.getBindCellIndex("body", "거주현황");
+	
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	const nowCss = "expr:dataset.getColumn(currow, '거주현황') == '퇴소자' ? 'cellBRetire' : ''";
+	
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+this.fn_search = function() 
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId=DAYMATE_PP.DAYMATE_PP_DS_LIST_S ";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+this.fn_setData = function(ds, row) 
+{
+	this.ds_return.copyData(ds);
+	this.ds_return.clearData();
+
+	this.ds_return.addRow();
+	this.ds_return.copyRow(0, ds, row);
+
+	this.close(this.ds_return.saveXML());
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 확인
+this.div_cont_btn_set_data_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close(this.ds_return.saveXML());
+};
+
+this.div_cont_grd_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if (e.col == 2)
+	{
+		this.fn_setData(this.ds_list, e.row);
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

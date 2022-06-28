@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : DAY00212_P01                                                    
+     * 프로그램 명  : 간호.건강수준평가                                                     
+     * Description 	: 
+     *================================================================                  
+          작성일자         		|  작성자       |  비고                                    
+     *================================================================                  
+                    	|  이동관		| 최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                          
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00212_P01">
+	<!-- 조회 -->
+    <select id="DAY00212_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT bn.sicode 
+		 , bn.n_mark 
+	     , bn.n_number 
+	     , bn.사정일
+	     , bn.사정시작 
+	     , bn.사정종료
+         , CONCAT((SELECT MAX(사정시작)
+	               FROM base_nurse bn
+	              WHERE bn.수급코드 = #{m_code}), "-", (SELECT MAX(사정종료)
+	                                                   FROM base_nurse bn
+	                                                  WHERE bn.수급코드 = #{m_code})) AS 평가기간
+	     , bn.수급자명 
+	     , bn.수급코드  AS m_code
+	     , bn.성별 
+	     , bn.생일 
+	     , bn.작성자 
+	     , bn.작성코드 
+	     , bn.작성직종
+	  FROM base_nurse bn
+	 WHERE sicode = #{sicode}
+	   AND 수급코드 = #{m_code}
+	 ORDER
+	    BY 사정일 DESC
+    </select>
+    
+	<!-- 조회 -->
+    <select id="DAY00212_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 2-12 P01 조회 */
+	SELECT bn.sicode 
+		 , bn.n_mark 
+	     , bn.n_number 
+	     , bn.사정일 
+	     , bn.사정시작 
+	     , bn.사정종료 
+	     , bn.사정일  AS date  
+	     , bn.사정시작 AS date_from
+	     , bn.사정종료 AS date_to
+	     , bn.수급자명 
+	     , bn.수급코드 
+	     , bn.성별
+	     , DATE_FORMAT(bn.생일, '%y-%m-%d') AS 생일 
+	     , bn.작성자 
+	     , bn.작성코드 
+	     , bn.작성직종 
+	     , bn.진단명 
+	     , bn.병원진료 
+	     , bn.혈액형 
+	     , bn.혈압
+		 , CASE WHEN SUBSTRING_INDEX(bn.혈압, '/', 1) = '        ' THEN '0' 
+		 		ELSE SUBSTRING_INDEX(bn.혈압, '/', 1) END AS 최고혈압
+		 , CASE WHEN SUBSTRING_INDEX(bn.혈압, '/', -1) = '        ' THEN '0'
+		   		ELSE SUBSTRING_INDEX(bn.혈압, '/', -1) END AS 최저혈압
+	     , bn.맥박 
+	     , bn.혈당 
+	     , bn.체온 
+	     , bn.호흡 
+	     , bn.신장 
+	     , bn.체중 
+	     , bn.전체중 
+	     , bn.체중 - bn.전체중 AS 체중변화
+	     , bn.장애유무 
+	     , bn.장애종류 
+	     , bn.투약유무 
+	     , bn.투약약물 
+	     , bn.가족병력 
+	     , bn.병력기타 
+	     , bn.의식점수 
+	     , bn.과거수술 
+	     , bn.과거알콜 
+	     , bn.과거흡연 
+	     , bn.과거기타 
+	     , bn.과거비고 
+	     , bn.시력보조 
+	     , bn.시력분비 
+	     , bn.시력기타 
+	     , bn.시력비고 
+	     , bn.시력점수 
+	     , bn.청력보조 
+	     , bn.청력분비 
+	     , bn.청력기타 
+	     , bn.청력비고 
+	     , bn.청력점수 
+	     , bn.구강점수 
+	     , bn.질환점수 
+	     , bn.질병01 
+	     , SUBSTRING(bn.질병01,1,1) AS 질병01_1
+		 , SUBSTRING(bn.질병01,2,1) AS 질병01_2
+		 , SUBSTRING(bn.질병01,3,1) AS 질병01_3
+		 , SUBSTRING(bn.질병01,4,1) AS 질병01_4
+		 , SUBSTRING(bn.질병01,5,1) AS 질병01_5
+		 , bn.질병02
+		 , SUBSTRING(bn.질병02,1,1) AS 질병02_1
+		 , SUBSTRING(bn.질병02,2,1) AS 질병02_2
+		 , SUBSTRING(bn.질병02,3,1) AS 질병02_3
+		 , SUBSTRING(bn.질병02,4,1) AS 질병02_4
+		 , SUBSTRING(bn.질병02,5,1) AS 질병02_5
+	     , bn.질병03 
+	     , SUBSTRING(bn.질병03,1,1) AS 질병03_1
+		 , SUBSTRING(bn.질병03,2,1) AS 질병03_2
+		 , SUBSTRING(bn.질병03,3,1) AS 질병03_3
+		 , bn.질병04
+		 , SUBSTRING(bn.질병04,1,1) AS 질병04_1
+		 , SUBSTRING(bn.질병04,2,1) AS 질병04_2
+		 , SUBSTRING(bn.질병04,3,1) AS 질병04_3 
+	     , bn.질병05
+		 , SUBSTRING(bn.질병05,1,1) AS 질병05_1
+		 , SUBSTRING(bn.질병05,2,1) AS 질병05_2
+		 , SUBSTRING(bn.질병05,3,1) AS 질병05_3
+		 , SUBSTRING(bn.질병05,4,1) AS 질병05_4
+		 , bn.질병06 
+	     , SUBSTRING(bn.질병06,1,1) AS 질병06_1
+		 , SUBSTRING(bn.질병06,2,1) AS 질병06_2
+		 , SUBSTRING(bn.질병06,3,1) AS 질병06_3
+		 , SUBSTRING(bn.질병06,4,1) AS 질병06_4
+		 , SUBSTRING(bn.질병06,5,1) AS 질병06_5
+		 , SUBSTRING(bn.질병06,5,1) AS 질병06_6
+		 , bn.질병07 
+	     , SUBSTRING(bn.질병07,1,1) AS 질병07_1
+		 , SUBSTRING(bn.질병07,2,1) AS 질병07_2
+		 , SUBSTRING(bn.질병07,3,1) AS 질병07_3
+		 , SUBSTRING(bn.질병07,4,1) AS 질병07_4
+		 , bn.질병08
+		 , SUBSTRING(bn.질병08,1,1) AS 질병08_1
+		 , SUBSTRING(bn.질병08,2,1) AS 질병08_2
+		 , SUBSTRING(bn.질병08,3,1) AS 질병08_3
+		 , SUBSTRING(bn.질병08,4,1) AS 질병08_4
+		 , SUBSTRING(bn.질병08,5,1) AS 질병08_5 
+	     , bn.질병09 
+	     , SUBSTRING(bn.질병09,1,1) AS 질병09_1
+		 , SUBSTRING(bn.질병09,2,1) AS 질병09_2
+		 , SUBSTRING(bn.질병09,3,1) AS 질병09_3
+		 , SUBSTRING(bn.질병09,4,1) AS 질병09_4
+		 , bn.질병10
+		 , SUBSTRING(bn.질병10,1,1) AS 질병10_1
+		 , SUBSTRING(bn.질병10,2,1) AS 질병10_2
+		 , SUBSTRING(bn.질병10,3,1) AS 질병10_3
+		 , SUBSTRING(bn.질병10,4,1) AS 질병10_4
+		 , SUBSTRING(bn.질병10,5,1) AS 질병10_5
+		 , SUBSTRING(bn.질병10,6,1) AS 질병10_6
+	     , bn.질병11 
+	     , SUBSTRING(bn.질병11,1,1) AS 질병11_1
+		 , SUBSTRING(bn.질병11,2,1) AS 질병11_2
+		 , SUBSTRING(bn.질병11,3,1) AS 질병11_3
+		 , SUBSTRING(bn.질병11,4,1) AS 질병11_4
+		 , bn.질병12 
+	     , SUBSTRING(bn.질병12,1,1) AS 질병12_1
+		 , SUBSTRING(bn.질병12,2,1) AS 질병12_2
+		 , SUBSTRING(bn.질병12,3,1) AS 질병12_3
+		 , SUBSTRING(bn.질병12,4,1) AS 질병12_4
+		 , bn.질병13
+		 , SUBSTRING(bn.질병13,1,1) AS 질병13_1
+		 , SUBSTRING(bn.질병13,2,1) AS 질병13_2
+		 , SUBSTRING(bn.질병13,3,1) AS 질병13_3 
+	     , bn.질병14
+		 , SUBSTRING(bn.질병14,1,1) AS 질병14_1
+		 , SUBSTRING(bn.질병14,2,1) AS 질병14_2
+		 , SUBSTRING(bn.질병14,3,1) AS 질병14_3
+		 , SUBSTRING(bn.질병14,4,1) AS 질병14_4 
+	     , bn.질병15
+		 , SUBSTRING(bn.질병15,1,1) AS 질병15_1
+		 , SUBSTRING(bn.질병15,2,1) AS 질병15_2
+		 , SUBSTRING(bn.질병15,3,1) AS 질병15_3
+		 , SUBSTRING(bn.질병15,4,1) AS 질병15_4
+		 , SUBSTRING(bn.질병15,1,1) AS 질병15_5 
+	     , bn.호소내용 
+	     , bn.추가내용 
+	     , bn.피부점수 
+	     , bn.수면상태
+		 , SUBSTRING(bn.수면상태,1,1) AS 수면상태_1
+		 , SUBSTRING(bn.수면상태,2,1) AS 수면상태_2
+		 , SUBSTRING(bn.수면상태,3,1) AS 수면상태_3
+		 , SUBSTRING(bn.수면상태,4,1) AS 수면상태_4
+		 , SUBSTRING(bn.수면상태,5,1) AS 수면상태_5  
+	     , bn.수면점수 
+	     , bn.수면비고 
+	     , bn.약부작용
+		 , SUBSTRING(bn.약부작용,1,1) AS 약부작용_1
+		 , SUBSTRING(bn.약부작용,2,1) AS 약부작용_2
+		 , SUBSTRING(bn.약부작용,3,1) AS 약부작용_3
+		 , SUBSTRING(bn.약부작용,4,1) AS 약부작용_4 
+	     , bn.약물점수 
+	     , bn.질병약물 
+	     , bn.질병음식 
+	     , bn.호스피스 
+	     , bn.간호교육 
+	     , bn.간호총점 
+	     , bn.결혼 
+	     , bn.직업 
+	     , bn.종교 
+	     , bn.건강행위
+		 , SUBSTRING(bn.건강행위,1,1) AS 건강행위_1
+		 , SUBSTRING(bn.건강행위,2,1) AS 건강행위_2
+		 , SUBSTRING(bn.건강행위,3,1) AS 건강행위_3
+		 , SUBSTRING(bn.건강행위,4,1) AS 건강행위_4  
+	     , bn.건강술 
+	     , bn.건강담배 
+	     , bn.건강수면 
+	     , bn.건강운동 
+	     , bn.현병력 
+	     , bn.과거력
+		 , SUBSTRING(bn.과거력,1,1) AS 과거력_1
+		 , SUBSTRING(bn.과거력,2,1) AS 과거력_2
+		 , SUBSTRING(bn.과거력,3,1) AS 과거력_3
+		 , SUBSTRING(bn.과거력,4,1) AS 과거력_4
+		 , SUBSTRING(bn.과거력,5,1) AS 과거력_5
+		 , SUBSTRING(bn.과거력,6,1) AS 과거력_6
+		 , SUBSTRING(bn.과거력,7,1) AS 과거력_7
+		 , SUBSTRING(bn.과거력,8,1) AS 과거력_8  
+		 , SUBSTRING(bn.과거력,9,1) AS 과거력_9  
+	     , bn.암부위 
+	     , bn.투약상태 
+	     , bn.알레르기 
+	     , bn.의식상태 
+	     , bn.정서상태 
+	     , bn.활동상태
+		 , SUBSTRING(bn.활동상태,1,1) AS 활동상태_1
+		 , SUBSTRING(bn.활동상태,2,1) AS 활동상태_2
+		 , SUBSTRING(bn.활동상태,3,1) AS 활동상태_3
+		 , SUBSTRING(bn.활동상태,4,1) AS 활동상태_4
+		 , SUBSTRING(bn.활동상태,5,1) AS 활동상태_5
+		 , SUBSTRING(bn.활동상태,6,1) AS 활동상태_6 
+	     , bn.활동마비 
+	     , bn.활동감각 
+	     , bn.활동보조 
+	     , bn.호흡기계
+		 , SUBSTRING(bn.호흡기계,1,1) AS 호흡기계_1
+		 , SUBSTRING(bn.호흡기계,2,1) AS 호흡기계_2
+		 , SUBSTRING(bn.호흡기계,3,1) AS 호흡기계_3
+		 , SUBSTRING(bn.호흡기계,4,1) AS 호흡기계_4
+		 , SUBSTRING(bn.호흡기계,5,1) AS 호흡기계_5
+		 , SUBSTRING(bn.호흡기계,6,1) AS 호흡기계_6
+		 , SUBSTRING(bn.호흡기계,7,1) AS 호흡기계_7
+		 , SUBSTRING(bn.호흡기계,8,1) AS 호흡기계_8    
+	     , bn.호흡통증 
+	     , bn.호흡산소 
+	     , bn.소화기계
+		 , SUBSTRING(bn.소화기계,1,1) AS 소화기계_1
+		 , SUBSTRING(bn.소화기계,2,1) AS 소화기계_2
+		 , SUBSTRING(bn.소화기계,3,1) AS 소화기계_3
+		 , SUBSTRING(bn.소화기계,4,1) AS 소화기계_4
+		 , SUBSTRING(bn.소화기계,5,1) AS 소화기계_5
+		 , SUBSTRING(bn.소화기계,6,1) AS 소화기계_6
+		 , SUBSTRING(bn.소화기계,7,1) AS 소화기계_7 
+	     , bn.식이상태 
+	     , SUBSTRING(bn.식이상태,1,1) AS 식이상태_1
+		 , SUBSTRING(bn.식이상태,2,1) AS 식이상태_2
+		 , SUBSTRING(bn.식이상태,3,1) AS 식이상태_3
+		 , SUBSTRING(bn.식이상태,4,1) AS 식이상태_4
+		 , SUBSTRING(bn.식이상태,5,1) AS 식이상태_5
+	     , bn.칼로리 
+	     , bn.심혈관계
+		 , SUBSTRING(bn.심혈관계,1,1) AS 심혈관계_1
+		 , SUBSTRING(bn.심혈관계,2,1) AS 심혈관계_2
+		 , SUBSTRING(bn.심혈관계,3,1) AS 심혈관계_3
+		 , SUBSTRING(bn.심혈관계,4,1) AS 심혈관계_4
+		 , SUBSTRING(bn.심혈관계,5,1) AS 심혈관계_5
+		 , SUBSTRING(bn.심혈관계,6,1) AS 심혈관계_6
+		 , SUBSTRING(bn.심혈관계,7,1) AS 심혈관계_7  
+	     , bn.심혈흉통 
+	     , bn.심혈부종 
+	     , bn.피부상태
+		 , SUBSTRING(bn.피부상태,1,1) AS 피부상태_1
+		 , SUBSTRING(bn.피부상태,2,1) AS 피부상태_2
+		 , SUBSTRING(bn.피부상태,3,1) AS 피부상태_3
+		 , SUBSTRING(bn.피부상태,4,1) AS 피부상태_4
+		 , SUBSTRING(bn.피부상태,5,1) AS 피부상태_5 
+	     , bn.피부욕창 
+	     , bn.피부상처 
+	     , bn.배설소변 
+	     , SUBSTRING(bn.배설소변,1,1) AS 배설소변_1
+		 , SUBSTRING(bn.배설소변,2,1) AS 배설소변_2
+		 , SUBSTRING(bn.배설소변,3,1) AS 배설소변_3
+	     , bn.소변횟수 
+	     , bn.소변종류
+		 , SUBSTRING(bn.소변종류,1,1) AS 소변종류_1
+		 , SUBSTRING(bn.소변종류,2,1) AS 소변종류_2
+		 , SUBSTRING(bn.소변종류,3,1) AS 소변종류_3
+		 , SUBSTRING(bn.소변종류,4,1) AS 소변종류_4
+		 , SUBSTRING(bn.소변종류,5,1) AS 소변종류_5  
+	     , bn.소변양상 
+	     , bn.배설대변
+		 , SUBSTRING(bn.배설대변,1,1) AS 배설대변_1
+		 , SUBSTRING(bn.배설대변,2,1) AS 배설대변_2  
+	     , bn.대변횟수 
+	     , bn.대변양상 
+		 , bn.간호계획 
+		 , DATE_FORMAT(bn.입소일, '%Y.%m.%d') AS 입소일
+	     , bn.인정번호 
+		 , bn.org_n_number 
+	     , (SELECT b_offname
+	          FROM base_info AS binfo
+	         WHERE binfo.sicode = bn.sicode) AS b_offname
+   	     , FN_GRADE_NM(bm.sicode, bm.m_code, bn.사정일) AS grade_nm
+     	 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+		 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                        WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                        WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                        ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age    
+	  FROM base_nurse bn
+	  LEFT 
+	  JOIN base_mate bm
+	    ON bn.sicode = bm.sicode
+	   AND bn.수급코드 = bm.m_code
+	 WHERE bn.sicode = #{sicode}
+	   AND bn.수급코드 = #{m_code}
+	   AND bn.n_number = #{n_number}
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00212_P01_DS_DATA_I" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="n_number">
+    /* 2-14 P01 삽입 */
+    INSERT INTO base_nurse
+    (
+       sicode 
+	 , n_mark 
+	 , 사정일 
+	 , 사정시작 
+	 , 사정종료 
+	 , 수급자명 
+	 , 수급코드 
+	 , 성별 
+	 , 생일 
+	 , 작성자 
+	 , 작성코드 
+	 , 작성직종 
+	 , 진단명 
+	 , 병원진료 
+	 , 혈액형 
+	 , 혈압 
+	 , 맥박 
+	 , 혈당 
+	 , 체온 
+	 , 호흡 
+	 , 신장 
+	 , 체중 
+	 , 전체중 
+	 , 장애유무 
+	 , 장애종류 
+	 , 투약유무 
+	 , 투약약물 
+	 , 가족병력 
+	 , 병력기타 
+	 , 의식점수 
+	 , 과거수술 
+	 , 과거알콜 
+	 , 과거흡연 
+	 , 과거기타 
+	 , 과거비고 
+	 , 시력보조 
+	 , 시력분비 
+	 , 시력기타 
+	 , 시력비고 
+	 , 시력점수 
+	 , 청력보조 
+	 , 청력분비 
+	 , 청력기타 
+	 , 청력비고 
+	 , 청력점수 
+	 , 구강점수 
+	 , 질환점수 
+	 , 질병01 
+	 , 질병02 
+	 , 질병03 
+	 , 질병04 
+	 , 질병05 
+	 , 질병06 
+	 , 질병07 
+	 , 질병08 
+	 , 질병09 
+	 , 질병10 
+	 , 질병11 
+	 , 질병12 
+	 , 질병13 
+	 , 질병14 
+	 , 질병15 
+	 , 호소내용 
+	 , 추가내용 
+	 , 피부점수 
+	 , 수면상태 
+	 , 수면점수 
+	 , 수면비고 
+	 , 약부작용 
+	 , 약물점수 
+	 , 질병약물 
+	 , 질병음식 
+	 , 호스피스 
+	 , 간호교육 
+	 , 간호총점 
+	 , 결혼 
+	 , 직업 
+	 , 종교 
+	 , 건강행위 
+	 , 건강술 
+	 , 건강담배 
+	 , 건강수면 
+	 , 건강운동 
+	 , 현병력 
+	 , 과거력 
+	 , 암부위 
+	 , 투약상태 
+	 , 알레르기 
+	 , 의식상태 
+	 , 정서상태 
+	 , 활동상태 
+	 , 활동마비 
+	 , 활동감각 
+	 , 활동보조 
+	 , 호흡기계 
+	 , 호흡통증 
+	 , 호흡산소 
+	 , 소화기계 
+	 , 식이상태 
+	 , 칼로리 
+	 , 심혈관계 
+	 , 심혈흉통 
+	 , 심혈부종 
+	 , 피부상태 
+	 , 피부욕창 
+	 , 피부상처 
+	 , 배설소변 
+	 , 소변횟수 
+	 , 소변종류 
+	 , 소변양상 
+	 , 배설대변  
+	 , 대변횟수 
+	 , 대변양상 
+	 , 간호계획 
+	 , 입소일 
+	 , 인정번호 
+    )
+    VALUES
+    (
+       #{sicode}
+	 , #{n_mark}
+	 , #{사정일}
+	 , #{사정시작}
+	 , #{사정종료}
+	 , #{수급자명}
+	 , #{수급코드}
+	 , #{성별}
+	 , #{생일}
+	 , #{작성자}
+	 , #{작성코드}
+	 , #{작성직종}
+	 , #{진단명}
+	 , #{병원진료}
+	 , #{혈액형}
+	 , #{혈압}
+	 , #{맥박}
+	 , #{혈당}
+	 , #{체온}
+	 , #{호흡}
+	 , #{신장}
+	 , #{체중}
+	 , #{전체중}
+	 , #{장애유무}
+	 , #{장애종류}
+	 , #{투약유무}
+	 , #{투약약물}
+	 , #{가족병력}
+	 , #{병력기타}
+	 , #{의식점수}
+	 , #{과거수술}
+	 , #{과거알콜}
+	 , #{과거흡연}
+	 , #{과거기타}
+	 , #{과거비고}
+	 , #{시력보조}
+	 , #{시력분비}
+	 , #{시력기타}
+	 , #{시력비고}
+	 , #{시력점수}
+	 , #{청력보조}
+	 , #{청력분비}
+	 , #{청력기타}
+	 , #{청력비고}
+	 , #{청력점수}
+	 , #{구강점수}
+	 , #{질환점수}
+	 , #{질병01}
+	 , #{질병02}
+	 , #{질병03}
+	 , #{질병04}
+	 , #{질병05}
+	 , #{질병06}
+	 , #{질병07}
+	 , #{질병08}
+	 , #{질병09}
+	 , #{질병10}
+	 , #{질병11}
+	 , #{질병12}
+	 , #{질병13}
+	 , #{질병14}
+	 , #{질병15}
+	 , #{호소내용}
+	 , #{추가내용}
+	 , #{피부점수}
+	 , #{수면상태}
+	 , #{수면점수}
+	 , #{수면비고}
+	 , #{약부작용}
+	 , #{약물점수}
+	 , #{질병약물}
+	 , #{질병음식}
+	 , #{호스피스}
+	 , #{간호교육}
+	 , #{간호총점}
+	 , #{결혼}
+	 , #{직업}
+	 , #{종교}
+	 , #{건강행위}
+	 , #{건강술}
+	 , #{건강담배}
+	 , #{건강수면}
+	 , #{건강운동}
+	 , #{현병력}
+	 , #{과거력}
+	 , #{암부위}
+	 , #{투약상태}
+	 , #{알레르기}
+	 , #{의식상태}
+	 , #{정서상태}
+	 , #{활동상태}
+	 , #{활동마비}
+	 , #{활동감각}
+	 , #{활동보조}
+	 , #{호흡기계}
+	 , #{호흡통증}
+	 , #{호흡산소}
+	 , #{소화기계}
+	 , #{식이상태}
+	 , #{칼로리}
+	 , #{심혈관계}
+	 , #{심혈흉통}
+	 , #{심혈부종}
+	 , #{피부상태}
+	 , #{피부욕창}
+	 , #{피부상처}
+	 , #{배설소변}
+	 , #{소변횟수}
+	 , #{소변종류}
+	 , #{소변양상}
+	 , #{배설대변}
+	 , #{대변횟수}
+	 , #{대변양상}
+	 , #{간호계획}
+	 , #{입소일}
+	 , #{인정번호}
+    )
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="DAY00212_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 2-14 P01 수정 */
+    UPDATE base_nurse
+       SET
+		   n_mark       = #{n_mark}
+		 , 사정일               = #{사정일}
+		 , 사정시작            = #{사정시작}
+		 , 사정종료            = #{사정종료}
+		 , 수급자명            = #{수급자명}
+		 , 성별                = #{성별}
+		 , 생일                = #{생일}
+		 , 작성자              = #{작성자}
+		 , 작성코드           = #{작성코드}
+		 , 작성직종           = #{작성직종}
+		 , 진단명              = #{진단명}
+		 , 병원진료            = #{병원진료}
+		 , 혈액형              = #{혈액형}
+		 , 혈압                 = #{혈압}
+		 , 맥박                 = #{맥박}
+		 , 혈당                 = #{혈당}
+		 , 체온                 = #{체온}
+		 , 호흡                 = #{호흡}
+		 , 신장                 = #{신장}
+		 , 체중                 = #{체중}
+		 , 전체중              = #{전체중}
+		 , 장애유무            = #{장애유무}
+		 , 장애종류            = #{장애종류}
+		 , 투약유무            = #{투약유무}
+		 , 투약약물            = #{투약약물}
+		 , 가족병력            = #{가족병력}
+		 , 병력기타            = #{병력기타}
+		 , 의식점수            = #{의식점수}
+		 , 과거수술            = #{과거수술}
+		 , 과거알콜            = #{과거알콜}
+		 , 과거흡연            = #{과거흡연}
+		 , 과거기타            = #{과거기타}
+		 , 과거비고            = #{과거비고}
+		 , 시력보조            = #{시력보조}
+		 , 시력분비            = #{시력분비}
+		 , 시력기타            = #{시력기타}
+		 , 시력비고            = #{시력비고}
+		 , 시력점수            = #{시력점수}
+		 , 청력보조            = #{청력보조}
+		 , 청력분비            = #{청력분비}
+		 , 청력기타            = #{청력기타}
+		 , 청력비고            = #{청력비고}
+		 , 청력점수            = #{청력점수}
+		 , 구강점수            = #{구강점수}
+		 , 질환점수            = #{질환점수}
+		 , 질병01        = #{질병01}
+		 , 질병02        = #{질병02}
+		 , 질병03        = #{질병03}
+		 , 질병04        = #{질병04}
+		 , 질병05        = #{질병05}
+		 , 질병06        = #{질병06}
+		 , 질병07        = #{질병07}
+		 , 질병08        = #{질병08}
+		 , 질병09        = #{질병09}
+		 , 질병10        = #{질병10}
+		 , 질병11        = #{질병11}
+		 , 질병12        = #{질병12}
+		 , 질병13        = #{질병13}
+		 , 질병14        = #{질병14}
+		 , 질병15        = #{질병15}
+		 , 호소내용             = #{호소내용}
+		 , 추가내용             = #{추가내용}
+		 , 피부점수             = #{피부점수}
+		 , 수면상태             = #{수면상태}
+		 , 수면점수             = #{수면점수}
+		 , 수면비고             = #{수면비고}
+		 , 약부작용             = #{약부작용}
+		 , 약물점수             = #{약물점수}
+		 , 질병약물             = #{질병약물}
+		 , 질병음식             = #{질병음식}
+		 , 호스피스             = #{호스피스}
+		 , 간호교육             = #{간호교육}
+		 , 간호총점             = #{간호총점}
+		 , 결혼                  = #{결혼}
+		 , 직업                  = #{직업}
+		 , 종교                   = #{종교}
+		 , 건강행위              = #{건강행위}
+		 , 건강술                = #{건강술}
+		 , 건강담배             = #{건강담배}
+		 , 건강수면             = #{건강수면}
+		 , 건강운동             = #{건강운동}
+		 , 현병력               = #{현병력}
+		 , 과거력               = #{과거력}
+		 , 암부위               = #{암부위}
+		 , 투약상태             = #{투약상태}
+		 , 알레르기             = #{알레르기}
+		 , 의식상태             = #{의식상태}
+		 , 정서상태             = #{정서상태}
+		 , 활동상태             = #{활동상태}
+		 , 활동마비             = #{활동마비}
+		 , 활동감각             = #{활동감각}
+		 , 활동보조             = #{활동보조}
+		 , 호흡기계             = #{호흡기계}
+		 , 호흡통증             = #{호흡통증}
+		 , 호흡산소             = #{호흡산소}
+		 , 소화기계             = #{소화기계}
+		 , 식이상태             = #{식이상태}
+		 , 칼로리                = #{칼로리}
+		 , 심혈관계             = #{심혈관계}
+		 , 심혈흉통             = #{심혈흉통}
+		 , 심혈부종             = #{심혈부종}
+		 , 피부상태             = #{피부상태}
+		 , 피부욕창             = #{피부욕창}
+		 , 피부상처             = #{피부상처}
+		 , 배설소변             = #{배설소변}
+		 , 소변횟수             = #{소변횟수}
+		 , 소변종류             = #{소변종류}
+		 , 소변양상             = #{소변양상}
+		 , 배설대변             = #{배설대변}
+		 , 대변횟수             = #{대변횟수}
+		 , 대변양상             = #{대변양상}
+		 , 간호계획             = #{간호계획}
+		 , 입소일               = #{입소일}
+		 , 인정번호             = #{인정번호}
+	 WHERE sicode = #{sicode}
+	   AND 수급코드 = #{수급코드}
+	   AND n_number = #{n_number}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="DAY00212_P01_DS_DATA_D" parameterType="java.util.HashMap">
+    /* 2-14 P01 삭제 */
+    DELETE FROM base_nurse bn
+	      WHERE sicode = #{sicode}
+	        AND 수급코드 = #{m_code}
+	        AND n_number = #{n_number}
+    </delete>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA012QR                                                         
+     * 프로그램 명     	: 스마트밴드 로그 조회                                                     
+     * Description 	:
+     *================================================================                  
+                작성일자         			   |  작성자         	|  비고                                    
+     *================================================================                  
+       2021-11-04     15:30        |  조기종     	| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA012QR"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA012QR_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA012QR_DS_HEAD_S */
+		SELECT
+			JT.COMPANY_CD
+		,	CC.COMPANY_NM
+		,	NR.BIRTHDAY
+		,	NR.AGE
+		,	NR.SEX
+		,	NR.RES_ID
+		,	NR.NAME
+		,   (SELECT DATE_FORMAT((SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17)), '%Y-%m-%d %T')) AS BAN_TIME
+		,	JT.MAC_ADD
+		,	JT.HEART_RATE
+		,	JT.BLE_RSSI
+		,	JT.ACT_TM_CNT
+		,	JT.KCAL
+		,	JT.SLEEP
+		,	JT.NAME AS IR_NAME
+		,	JT.WALK_CNT
+		,	JT.MOVE_DIS
+		FROM JSON_TABLE(#{JSON}, '$.datas[*]'
+			COLUMNS(
+				DATE VARCHAR(1000) PATH '$.time',
+				HEART_RATE DOUBLE PATH '$.values.last_heart_rate',
+				BLE_RSSI DOUBLE PATH '$.values.rssi',
+				ACT_TM_CNT DOUBLE PATH '$.values.activity_dur',
+				KCAL DOUBLE PATH '$.values.calories',
+				SLEEP DOUBLE PATH '$.values.sleep',
+				NAME VARCHAR(1000) PATH '$.values.name',
+				WALK_CNT DOUBLE PATH '$.values.step',
+				COMPANY_CD VARCHAR(50) PATH '$.values.service_identifier',
+				MAC_ADD VARCHAR(20) PATH '$.values.device_identifier',
+				MOVE_DIS DOUBLE PATH '$.values.dist'
+			)
+		) AS JT
+		INNER JOIN T_CM_MACHINE CM
+		ON JT.COMPANY_CD = CM.COMPANY_CD
+		AND JT.MAC_ADD = CM.MAC_ADD
+		INNER JOIN T_NU_MACH_USE NMU
+		ON CM.COMPANY_CD = NMU.COMPANY_CD
+		AND CM.MAC_SEQ = NMU.MAC_SEQ
+		INNER JOIN T_NU_RESIDENT NR
+		ON NMU.COMPANY_CD = NR.COMPANY_CD
+		AND NMU.USE_ID = NR.RES_ID
+		INNER JOIN T_CM_COMPANY CC
+		ON JT.COMPANY_CD = CC.COMPANY_CD
+		ORDER BY NR.NAME, BAN_TIME
+	</select>	
+                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

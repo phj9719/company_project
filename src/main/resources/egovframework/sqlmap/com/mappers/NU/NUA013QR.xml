@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA013QR
+     * 프로그램 명     	: 기저귀 로그 조회                                                     
+     * Description 	:
+     *================================================================                  
+                작성일자         			   |  작성자         	|  비고                                    
+     *================================================================                  
+       2021-11-04     15:35        |  조기종     	| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA013QR"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUA013QR_DS_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA012QR_DS_HEAD_S */
+		SELECT
+			JT.COMPANY_CD
+		,	CC.COMPANY_NM
+		,	NR.BIRTHDAY
+		,	NR.AGE
+		,	NR.SEX
+		,	NR.RES_ID
+		,	NR.NAME
+		,   (SELECT DATE_FORMAT((SUBSTRING(FROM_UNIXTIME(JT.DATE/1000, '%Y%m%d%H%i%s%f'), 1, 17)), '%Y-%m-%d %T')) AS DIA_TIME
+		,	JT.MAC_ADD
+		,	JT.BLE_RSSI
+		,	JT.FALL
+		,	JT.HUMI
+		,	JT.SLEEP_POSTURE
+		,	JT.SLEEP_LEFT_SIDE
+		,	JT.SLEEP_UP_SIDE
+		,	JT.SLEEP_RIGHT_SIDE
+		,	JT.SLEEP_UPSIDE_DOWN
+		,	JT.INVERTED
+		,	JT.UPRIGHT
+		,	JT.TEMP_C
+		,	JT.BAT_QTY
+		,	JT.INACTIVITY_MONITOR
+		,	JT.CONN_ST
+		,	JT.X_COOR
+		,	JT.Y_COOR
+		,	JT.Z_COOR
+		,	JT.NAME AS IR_NAME
+		FROM JSON_TABLE(#{JSON}, '$.datas[*]'
+			COLUMNS(
+				DATE VARCHAR(1000) PATH '$.time',
+				BLE_RSSI DOUBLE PATH '$.values.rssi',
+				FALL INT PATH '$.values.fall',
+				HUMI DOUBLE PATH '$.values.wetness',
+				SLEEP_POSTURE VARCHAR(10) PATH '$.values.sleep_posture',
+				SLEEP_LEFT_SIDE INT PATH '$.values.sleep_left_side',
+				SLEEP_UP_SIDE INT PATH '$.values.sleep_up_side',
+				SLEEP_RIGHT_SIDE INT PATH '$.values.sleep_right_side',
+				SLEEP_UPSIDE_DOWN INT PATH '$.values.sleep_upside_down',
+				INVERTED INT PATH '$.values.inverted',
+				UPRIGHT INT PATH '$.values.upright',
+				TEMP_C DOUBLE PATH '$.values.temp',
+				COMPANY_CD VARCHAR(50) PATH '$.values.service_identifier',
+				MAC_ADD VARCHAR(20) PATH '$.values.device_identifier',
+				BAT_QTY DOUBLE PATH '$.values.battery',
+				INACTIVITY_MONITOR DOUBLE PATH '$.values.inactivity_monitor',
+				CONN_ST DOUBLE PATH '$.values.connecting_status',
+				X_COOR DOUBLE PATH '$.values.acc_x',
+				Y_COOR DOUBLE PATH '$.values.acc_y',
+				Z_COOR DOUBLE PATH '$.values.acc_z',
+				NAME VARCHAR(1000) PATH '$.values.name'
+			)
+		) AS JT
+		INNER JOIN T_CM_MACHINE CM
+		ON JT.COMPANY_CD = CM.COMPANY_CD
+		AND JT.MAC_ADD = CM.MAC_ADD
+		INNER JOIN T_NU_MACH_USE NMU
+		ON CM.COMPANY_CD = NMU.COMPANY_CD
+		AND CM.MAC_SEQ = NMU.MAC_SEQ
+		INNER JOIN T_NU_RESIDENT NR
+		ON NMU.COMPANY_CD = NR.COMPANY_CD
+		AND NMU.USE_ID = NR.RES_ID
+		INNER JOIN T_CM_COMPANY CC
+		ON JT.COMPANY_CD = CC.COMPANY_CD
+		ORDER BY NR.NAME, DIA_TIME
+	</select>
+                                                                                                                                                         
+</mapper>                                                                                                                                                                                                          

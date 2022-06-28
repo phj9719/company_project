@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="NUC_LOGIN_AGREE_POP" width="460" height="700" titletext="약관 및 개인정보 동의 팝업" onload="NUC_LOGIN_AGREE_POP_onload">
+    <Layouts>
+      <Layout width="460" height="700" screenid="Mobile">
+        <Button id="btn_close" taborder="0" left="25" top="23" width="46" height="47" background="transparent" icon="url('theme://images/btn_close_N.png')" onclick="btn_close_onclick"/>
+        <Button id="btn_agree" taborder="1" text="동의하기" top="23" height="43" cssclass="btn_basic" right="25" width="120"/>
+        <Div id="div_popMain" taborder="2" left="25" top="90" bottom="25" right="25" borderRadius="10px">
+          <Layouts>
+            <Layout>
+              <Div id="div_terms" taborder="0" left="10" top="20" right="10" formscrollbartype="indicator" bottom="20">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_warning" taborder="0" text="※스마트 안심요양원 이용을 위해 서비스이용약관 및 개인정보 취급방침에 동의해 주세요.(동의하지 않으실 경우 서비스 이용이 불가합니다.)" left="20" top="0" height="69" wordWrap="char" cssclass="sta_pop_title" font="normal 12pt/normal &quot;Arial&quot;" right="20"/>
+                    <Static id="sta_title" taborder="1" text="서비스이용약관 및 개인정보취급방침" left="20" top="74" height="36" right="20"/>
+                    <Static id="sta_txt" taborder="2" left="20" top="124" wordWrap="char" text="스마트안심요양원 이용약관&#13;&#10;주식회사 에스씨티(이하 &quot;회사&quot;라 함)는 개인정보보호 관한 법률을 준수하며 회원님의 개인정보가 어떠한 목적과 방식으로 이용되고 있으며 개인정보보호를 위해 어떠한 조치가 취해지고 있는지를 알려드립니다.&#13;&#10;&#13;&#10;본 개인정보처리방침은 관련볍령의 개정이나 당사 내부방침에 의해 변경될 수 있으며, 이를 개정하는 경우 회사는 변경사항에 대하여 서비스 화면에 게시합니다. 회원님께서는 사이트 방문시 수시로 확인하시기 바랍니다.&#13;&#10;&#13;&#10;1. 개인정보 처리 목적&#13;&#10;회사는 이용자의 개인정보를 다음의 목적 이외의 용도로는 이용하지 않으며, 이용 목적이 변경될 경우에는 동의를 받아 처리하겠습니다.&#13;&#10;&#13;&#10;[회원 관리]&#13;&#10;회원제 서비스 이용에 따른 본인확인, 개인식별, 부정이용 방지, 가입의사 확인, 문의사항 또는 불만처리 등 민원 처리, 분쟁조정 해결을 위한 기록 보존, 고지사항 전달&#13;&#10;&#13;&#10;[서비스 제공에 관한 계약의 이행 및 요금정산]&#13;&#10;콘텐츠 제공, 구매 및 요금 결제, 물품 배송, 구매 및 요금 결제&#13;&#10;&#13;&#10;2. 개인정보 수집 항목 및 방법&#13;&#10;회원 가입 또는 서비스 제공을 위해 필요한 최소한의 개인정보를 수집하고 있습니다." verticalAlign="top" height="1000" right="20" cssclass="sta_txt"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_VAL" type="STRING" size="256"/>
+          <Column id="CD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: NUC_LOGIN_AGREE_POP
+ * 화면명   	: 개인정보 동의 팝업
+ * 화면설명 	: 모바일 로그인시 개인정보 동의를 요구하는 팝업이다.
+ * 작성일   	: 2021-07-21
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     수정일     수정자   내용
+ ***********************************************************************
+ *
+ ***********************************************************************
+ */
+ 
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+
+
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.NUC_LOGIN_AGREE_POP_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 배경을 투명하게 하기 위하여 childFrame의 배경을 없앤 cssclass적용
+	this.getOwnerFrame().set_cssclass("mpop");
+};
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 취소
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+]]></Script>
+  </Form>
+</FDL>

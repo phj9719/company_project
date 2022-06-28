@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00402_P01                                                    
+     * 프로그램 명     	: 수급자 주간송영 운행일정                                                     
+     * Description 		: 수급자 주간송영 운행일정 조회, 수정
+     *================================================================                  
+       작성일자         		|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-03 14:00        	|  조기종		 | 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00402_P01_DS_DATA_S		조회
+        DAY00402_P01_DS_DATA_U		수정
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00402_P01">
+	<!-- 조회 -->
+    <select id="DAY00402_P01_DS_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-2 P01 조회 */
+    SELECT
+      bm.sicode
+    , bm.m_code
+    , bm.m_name
+    , bm.성별
+    , bm.m_jumin1
+    , CONCAT(
+        SUBSTRING(bm.m_jumin1, 1, 2)
+      ,	'-'
+      ,	SUBSTRING(bm.m_jumin1, 3, 2)
+      ,	'-'
+      ,	SUBSTRING(bm.m_jumin1, 5)
+      ) AS 생일
+    , bm.m_enday
+    , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS 입소일
+    , bm.m_roomname
+    , bm.이용일
+    , SUBSTRING(bm.이용일, 1, 1) AS 월
+    , SUBSTRING(bm.이용일, 2, 1) AS 화
+    , SUBSTRING(bm.이용일, 3, 1) AS 수
+    , SUBSTRING(bm.이용일, 4, 1) AS 목
+    , SUBSTRING(bm.이용일, 5, 1) AS 금
+    , SUBSTRING(bm.이용일, 6, 1) AS 토
+    , bm.일요일
+    , bm.이용시간
+    , SUBSTRING(bm.이용시간, 1, 2) AS 이용시작시
+    , SUBSTRING(bm.이용시간, 4, 2) AS 이용시작분
+    , SUBSTRING(bm.이용시간, 7, 2) AS 이용종료시
+    , SUBSTRING(bm.이용시간, 10, 2) AS 이용종료분
+    , bm.이용차량
+    , bm.월요시간
+    , SUBSTRING(bm.월요시간, 1, 2) AS 월요시작시
+    , SUBSTRING(bm.월요시간, 4, 2) AS 월요시작분
+    , SUBSTRING(bm.월요시간, 7, 2) AS 월요종료시
+    , SUBSTRING(bm.월요시간, 10, 2) AS 월요종료분
+    , bm.월요차량
+    , bm.화요시간
+    , SUBSTRING(bm.화요시간, 1, 2) AS 화요시작시
+    , SUBSTRING(bm.화요시간, 4, 2) AS 화요시작분
+    , SUBSTRING(bm.화요시간, 7, 2) AS 화요종료시
+    , SUBSTRING(bm.화요시간, 10, 2) AS 화요종료분
+    , bm.화요차량
+    , bm.수요시간
+    , SUBSTRING(bm.수요시간, 1, 2) AS 수요시작시
+    , SUBSTRING(bm.수요시간, 4, 2) AS 수요시작분
+    , SUBSTRING(bm.수요시간, 7, 2) AS 수요종료시
+    , SUBSTRING(bm.수요시간, 10, 2) AS 수요종료분
+    , bm.수요차량
+    , bm.목요시간
+    , SUBSTRING(bm.목요시간, 1, 2) AS 목요시작시
+    , SUBSTRING(bm.목요시간, 4, 2) AS 목요시작분
+    , SUBSTRING(bm.목요시간, 7, 2) AS 목요종료시
+    , SUBSTRING(bm.목요시간, 10, 2) AS 목요종료분
+    , bm.목요차량
+    , bm.금요시간
+    , SUBSTRING(bm.금요시간, 1, 2) AS 금요시작시
+    , SUBSTRING(bm.금요시간, 4, 2) AS 금요시작분
+    , SUBSTRING(bm.금요시간, 7, 2) AS 금요종료시
+    , SUBSTRING(bm.금요시간, 10, 2) AS 금요종료분
+    , bm.금요차량
+    , bm.토요시간
+    , SUBSTRING(bm.토요시간, 1, 2) AS 토요시작시
+    , SUBSTRING(bm.토요시간, 4, 2) AS 토요시작분
+    , SUBSTRING(bm.토요시간, 7, 2) AS 토요종료시
+    , SUBSTRING(bm.토요시간, 10, 2) AS 토요종료분
+    , bm.토요차량
+    , bm.일요시간
+    , SUBSTRING(bm.일요시간, 1, 2) AS 일요시작시
+    , SUBSTRING(bm.일요시간, 4, 2) AS 일요시작분
+    , SUBSTRING(bm.일요시간, 7, 2) AS 일요종료시
+    , SUBSTRING(bm.일요시간, 10, 2) AS 일요종료분
+    , bm.일요차량
+    FROM base_mate bm
+    WHERE bm.sicode = #{SICODE}
+    AND bm.m_code = #{M_CODE}
+    </select>
+    
+    <!-- 수정 -->
+    <update id="DAY00402_P01_DS_DATA_U" parameterType="java.util.HashMap">
+    /* 4-2 P01 수정 */
+    UPDATE base_mate
+    SET
+      이용일 = #{이용일}
+    , 일요일 = #{일요일}
+    , 이용시간 = #{이용시간}
+    , 이용차량 = #{이용차량}
+    , 월요시간 = #{월요시간}
+    , 월요차량 = #{월요차량}
+    , 화요시간 = #{화요시간}
+    , 화요차량 = #{화요차량}
+    , 수요시간 = #{수요시간}
+    , 수요차량 = #{수요차량}
+    , 목요시간 = #{목요시간}
+    , 목요차량 = #{목요차량}
+    , 금요시간 = #{금요시간}
+    , 금요차량 = #{금요차량}
+    , 토요시간 = #{토요시간}
+    , 토요차량 = #{토요차량}
+    , 일요시간 = #{일요시간}
+    , 일요차량 = #{일요차량}
+    WHERE sicode = #{sicode}
+    AND m_code = #{m_code}
+    </update>
+</mapper>

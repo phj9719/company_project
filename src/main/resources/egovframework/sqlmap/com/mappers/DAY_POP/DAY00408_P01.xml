@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--
+	/**
+	 *
+	 * WARNING: Auto create
+	 * Template File Version : 1.0
+	 * Create :2017-07-27 10:11
+	 *
+	 **/
+	 *================================================================
+     * 프로그램 ID  	: DAY00408_P01
+     * 프로그램 명     	: 송영차량일지 입력
+     * Description 		: 송영차량일지 삽입
+     *================================================================
+       작성일자         		|  작성자       |  비고
+     *================================================================
+       2022-05-16 13:00        	|  조기종		| 최초작성
+     *================================================================
+     *  Statement List
+     *================================================================
+        DAY00408_P01_DS_LIST_S		조회
+        DAY00408_P01_DS_DATA_I		삽입
+     *================================================================
+-->
+<mapper namespace="DAY00408_P01">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 조회 -->
+    <select id="DAY00408_P01_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 4-8 P01 조회 */
+    SELECT
+      dm.sicode
+    , dm.차구분
+    , dm.차번호
+    , dm.차종
+    FROM day_motor dm
+    WHERE dm.sicode = #{SICODE}
+    AND dm.차표시 = 1
+    </select>
+    
+    <!-- 삽입 -->
+    <insert id="DAY00408_P01_DS_DATA_I" parameterType="java.util.HashMap">
+    /* 4-8 P01 삽입 */
+    INSERT INTO day_mocount
+    (
+      sicode
+    , mocode
+    , monalja
+    <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(mostart)">, mostart</if>
+    <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(molast)">, molast</if>
+    , 코드1
+    , 내역1
+    , 비용1
+    , 결제1
+    , 코드2
+    , 내역2
+    , 비용2
+    , 결제2
+    , 코드3
+    , 내역3
+    , 비용3
+    , 결제3
+    , 작성자
+    , 작성코드
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{mocode}
+    , #{monalja}
+    <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(mostart)">, #{mostart}</if>
+    <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(molast)">, #{molast}</if>
+    , IFNULL(#{코드1}, '')
+    , IFNULL(#{내역1}, '')
+    , IFNULL(#{비용1}, 0)
+    , IFNULL(#{결제1}, '0')
+    , IFNULL(#{코드2}, '')
+    , IFNULL(#{내역2}, '')
+    , IFNULL(#{비용2}, 0)
+    , IFNULL(#{결제2}, '0')
+    , IFNULL(#{코드3}, '')
+    , IFNULL(#{내역3}, '')
+    , IFNULL(#{비용3}, 0)
+    , IFNULL(#{결제3}, '0')
+    , #{작성자}
+    , #{작성코드}
+    )
+    </insert>
+</mapper>

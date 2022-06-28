@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUB201CT                                                         
+     * 프로그램 명     	: 건강기록일지                                                     
+     * Description 	: 태블릿 입소자별 건강기록일지를 관리
+     *================================================================                  
+                작성일자         			   	|  작성자        	 	|  비고                                    
+     *================================================================                  
+       2021-07-30 14:56        		|  조기종       		|  최초작성
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+     	NUB201CT_DS_LIST_S		해당입소자의 건강기록일지 조회 쿼리                                                                                   
+     *================================================================                      
+-->																											  
+<mapper namespace="NUB201CT"> 
+	<!--SELECT  -->                                                                                                                                                                                                   
+	<select id="NUB201CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUB201CT_DS_LIST_S */	
+			SELECT
+					NHC.COMPANY_CD		/* 시설코드 */
+				,	NHC.RES_ID			/* 입소자코드 */
+				,	NR.NAME				/* 입소자성명 */
+				,	FLOOR
+					(
+						(CAST(REPLACE(CURRENT_DATE, '-', '') AS UNSIGNED) - CAST(REPLACE(NR.BIRTHDAY, '-', '') AS UNSIGNED)) / 10000
+					) AS AGE			/* 나이 */
+				,	NR.AREA				/* 동(생활실) */
+				,	NR.LOCATION			/* 호실 */
+				,	NR.ENTER_DT			/* 입소일 */
+				,	NHC.HEA_SEQ			/* 건강측정관리시퀀스 */
+				,	NHC.HEA_DT			/* 건강기록일자 */
+				,	NHC.PRE_H			/* 혈압(HIGH) */
+				,	NHC.PRE_L			/* 혈압(LOW) */				
+				,	NHC.PULSE			/* 맥박 */
+				,	NHC.BREATH			/* 호흡 */
+				,	NHC.TEMPERATURE1	/* 체온1 */
+				,	NHC.TEMPERATURE2	/* 체온2 */
+				,	NHC.TEMPERATURE3	/* 체온3 */
+				,	NHC.WEIGHT			/* 몸무게 */
+				,	NHC.SUGAR_FBS		/* 혈당1 */
+				,	NHC.SUGAR_PP2		/* 혈당2 */
+				,	NHC.COUGH			/* 기침 */
+				,	NHC.THROAT			/* 인후통 */
+				,	NHC.BREATHING_DIFF	/* 호흡곤란 */
+				,	NHC.SPUTUM			/* 객담 */
+				,	NHC.ETC				/* 기타 */
+				,	NHC.INJECTION		/* 주사제투여 */
+				,	NHC.DRUG			/* 약물투여 */
+				,	NHC.PRE_TIME		/* 혈압시간(HH24MM) */
+				,	NHC.SUG_FBS_TIME	/* 혈당1시간(HH24MM) */
+				,	NHC.SUG_PP2_TIME	/* 혈당2시간(HH24MM) */
+				,	NHC.TEM_TIME1		/* 체온1시간(HH24MM) */
+				,	NHC.TEM_TIME2		/* 체온2시간(HH24MM) */
+				,	NHC.TEM_TIME3		/* 체온3시간(HH24MM) */
+				,	IR_PRE_H			/* 기기등록 혈압(HIGH) */
+				,	IR_PRE_L			/* 기기등록 혈압(LOW) */
+				,	IR_PULSE			/* 기기등록 맥박 */
+				,	IR_PRE_TIME			/* 기기등록 혈압시간 */
+				,	IR_TEMP1			/* 기기등록 체온1(오전) */
+				,	IR_TEMP_TIME1		/* 기기등록 체온1시간 */
+				,	IR_TEMP2			/* 기기등록 체온2(오후) */
+				,	IR_TEM_TIME2		/* 기기등록 체온2시간 */
+				,	IR_TEMP3			/* 기기등록 체온3(저녁) */
+				,	IR_TEMP_TIME3		/* 기기등록 체온3시간 */
+				,	IR_SUGAR_FBS		/* 기기등록 혈당1(식전) */
+				,	IR_SUGAR_FBS_TIME	/* 기기등록 혈당1시간 */
+				,	IR_SUGAR_PP2		/* 기기등록 혈당2(식후) */
+				,	IR_SUGAR_PP2_TIME	/* 기기등록 혈당2시간 */
+				,	NHC.MANAGER_ID		/* 처리자ID(요양사 USER_ID) */
+				,	NHC.REMARK			/* 비고 */
+				,	NHC.REG_PGM_ID
+				,	NHC.REG_USER
+				,	(
+						SELECT	
+							CU.USER_NM_KOR
+						FROM
+							T_CM_USER CU
+						WHERE
+								NHC.COMPANY_CD = CU.COMPANY_CD
+						AND 	NHC.REG_USER = CU.USER_ID
+					) AS REG_USER_NM
+				,	NHC.REG_DT
+				,	NHC.REG_DT_CURR
+				,	NHC.REG_DT_LOC
+				,	NHC.REG_IP
+				,	NHC.MOD_PGM_ID
+				,	NHC.MOD_USER
+				,	(
+						SELECT
+							CU.USER_NM_KOR
+						FROM
+							T_CM_USER CU
+						WHERE
+								NHC.COMPANY_CD = CU.COMPANY_CD
+						AND 	NHC.MOD_USER = CU.USER_ID
+					) AS MOD_USER_NM
+				,	NHC.MOD_DT
+				,	NHC.MOD_DT_CURR
+				,	NHC.MOD_DT_LOC
+				,	NHC.MOD_IP
+				,	CC.REF_SYS_COMP_CD
+				,	NR.REF_SYS_RES_ID
+			FROM
+					T_NU_HEALTH_CHECK NHC
+				,	T_NU_RESIDENT NR
+				,	T_CM_COMPANY CC
+			WHERE
+					NHC.COMPANY_CD = NR.COMPANY_CD
+			AND		NHC.RES_ID = NR.RES_ID
+			AND		NHC.COMPANY_CD = CC.COMPANY_CD
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND		NHC.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="DATE != '' and DATE != null">
+			AND		NHC.HEA_DT = #{DATE}
+		</if>
+		<if test="AREA != '' and AREA != null">
+			AND		NR.AREA = #{AREA}
+		</if>
+		<if test="LOCATION != '' and LOCATION != null">
+			AND		NR.LOCATION = #{LOCATION}
+		</if>
+		<if test="RES_ID != '' and RES_ID != null">
+			AND		NHC.RES_ID = #{RES_ID}
+		</if>
+	</select>
+	                                                                                                                                                                                                                                                                                                                                                                                                               
+	<!--INSERT  -->                                                                                                                                                                                                   
+	<insert id="NUB201CT_DS_LIST_I" parameterType="java.util.HashMap">
+	/* NUB201CT_DS_LIST_I */                                                                                                                                                                                                   
+			INSERT INTO 
+				T_NU_HEALTH_CHECK 
+			(                                                                                                                                                                                 
+					COMPANY_CD
+				,	HEA_SEQ
+				,	RES_ID
+				,	HEA_DT
+				,	PRE_H
+				,	PRE_L
+				,	PULSE
+				,	BREATH
+				,	TEMPERATURE1
+				,	TEMPERATURE2
+				,	TEMPERATURE3
+				,	WEIGHT
+				,	SUGAR_FBS
+				,	SUGAR_PP2
+				,	COUGH
+				,	THROAT
+				,	BREATHING_DIFF
+				,	SPUTUM
+				,	ETC
+				,	INJECTION
+				,	DRUG
+				,	PRE_TIME
+				,	SUG_FBS_TIME
+				,	SUG_PP2_TIME
+				,	TEM_TIME1
+				,	TEM_TIME2
+				,	TEM_TIME3
+				,	MANAGER_ID
+				,	REMARK
+				,	REG_PGM_ID
+				,	REG_USER
+				,	REG_DT
+				,	REG_DT_CURR
+				,	REG_DT_LOC
+				,	REG_IP
+			) 
+			VALUES 
+			(                                                                                                                                                                               
+					#{COMPANY_CD}
+				,	(SELECT CONCAT(DATE_FORMAT(CURDATE(),'%Y%m%d'),LPAD(NEXTVAL(SQ_NU_HEALTH_CHECK),12,0)))
+				,	#{RES_ID}
+				,	DATE_FORMAT(CURDATE(), '%Y%m%d')
+				,	#{PRE_H}
+				,	#{PRE_L}
+				,	#{PULSE}
+				,	#{BREATH}
+				,	#{TEMPERATURE1}
+				,	#{TEMPERATURE2}
+				,	#{TEMPERATURE3}
+				,	#{WEIGHT}
+				,	#{SUGAR_FBS}
+				,	#{SUGAR_PP2}
+				,	#{COUGH}
+				,	#{THROAT}
+				,	#{BREATHING_DIFF}
+				,	#{SPUTUM}
+				,	#{ETC}
+				,	#{INJECTION}
+				,	#{DRUG}
+				,	#{PRE_TIME}
+				,	#{SUG_FBS_TIME}
+				,	#{SUG_PP2_TIME}
+				,	#{TEM_TIME1}
+				,	#{TEM_TIME2}
+				,	#{TEM_TIME3}
+				,	#{MANAGER_ID}
+				,	#{REMARK}
+				,	#{REG_PGM_ID}
+				,	#{REG_USER}
+				,	#{REG_DT}
+				,	#{REG_DT_CURR}
+				,	#{REG_DT_LOC}
+				,	#{REG_IP}
+			)                                                                                                                                                                                                         
+    </insert>
+    
+	<!--UPDATE  -->                                                                                                                                                                                                   
+    <update id="NUB201CT_DS_LIST_U" parameterType="java.util.HashMap">
+    /* NUB201CT_DS_LIST_U */                                                                                                                                                                                                     
+			UPDATE 
+				T_NU_HEALTH_CHECK                                                                                                                                                                                              
+			SET 
+					HEA_DT = DATE_FORMAT(CURDATE(), '%Y%m%d')
+				,	PRE_H = #{PRE_H}
+				,	PRE_L = #{PRE_L}
+				,	PULSE = #{PULSE}
+				,	BREATH = #{BREATH}
+				,	TEMPERATURE1 = #{TEMPERATURE1}
+				,	TEMPERATURE2 = #{TEMPERATURE2}
+				,	TEMPERATURE3 = #{TEMPERATURE3}
+				,	WEIGHT = #{WEIGHT}
+				,	SUGAR_FBS = #{SUGAR_FBS}
+				,	SUGAR_PP2 = #{SUGAR_PP2}
+				,	COUGH = #{COUGH}
+				,	THROAT = #{THROAT}
+				,	BREATHING_DIFF = #{BREATHING_DIFF}
+				,	SPUTUM = #{SPUTUM}
+				,	ETC = #{ETC}
+				,	INJECTION = #{INJECTION}
+				,	DRUG = #{DRUG}
+				,	PRE_TIME = #{PRE_TIME}
+				,	SUG_FBS_TIME = #{SUG_FBS_TIME}
+				,	SUG_PP2_TIME = #{SUG_PP2_TIME}
+				,	TEM_TIME1 = #{TEM_TIME1}
+				,	TEM_TIME2 = #{TEM_TIME2}
+				,	TEM_TIME3 = #{TEM_TIME3}
+				,	MANAGER_ID = #{MANAGER_ID}
+				,	REMARK = #{REMARK}
+				,	MOD_PGM_ID = #{MOD_PGM_ID}
+				,	MOD_USER = #{MOD_USER}
+				,	MOD_DT = #{MOD_DT}
+				,	MOD_DT_CURR = #{MOD_DT_CURR}
+				,	MOD_DT_LOC = #{MOD_DT_LOC}
+				,	MOD_IP = #{MOD_IP}
+			WHERE 	COMPANY_CD = #{COMPANY_CD}
+            AND 	HEA_SEQ = #{HEA_SEQ}
+            AND		RES_ID = #{RES_ID}                                                                                                                                                                                                 
+    </update>
+                                                                                                                                                                                     
+	<!--DELECT  -->                                                                                                                                                                                                   
+    <delete id="NUB201CT_DS_LIST_D" parameterType="java.util.HashMap">
+    /* NUB201CT_DS_LIST_D */
+			DELETE FROM 
+				T_NU_HEALTH_CHECK
+			WHERE 	COMPANY_CD = #{COMPANY_CD}
+			AND 	HEA_SEQ = #{HEA_SEQ};                                                                                                                                                                                                        
+    </delete>
+    
+    <update id="NS_SCT_HEALTH_D" parameterType="java.util.HashMap">
+    /* NUB201CT_SCT_HEALTH_D */
+    	UPDATE 
+    		sct_health
+		SET 
+				ir_status = '2'
+			,	ir_time = NOW()
+			,	ir_comp = 'S'
+			,	ir_type = 'D'
+			,	ir_receive = '0'            
+        WHERE sicode = #{REF_SYS_COMP_CD}
+        AND n_code = #{REF_SYS_RES_ID}
+        AND DATE_FORMAT(n_nalja, '%Y%m%d') = #{HEA_DT}
+    </update>
+    
+    <select id="NS_SCT_HEALTH_DATA_YN_S" parameterType="java.util.HashMap" resultType="java.lang.String">
+    /* NS_SCT_HEALTH_DATA_YN_S */
+    	SELECT 
+    		IF(COUNT(*) = 1, 'U', 'I') AS DATA_YN 
+      	FROM
+      		sct_health 
+     	WHERE sicode = (SELECT CC.REF_SYS_COMP_CD
+     				    FROM T_CM_COMPANY CC
+     				    WHERE CC.COMPANY_CD = #{COMPANY_CD})
+     	AND n_code = (SELECT NR.REF_SYS_RES_ID
+     			   	  FROM T_NU_RESIDENT NR
+     			  	  WHERE NR.COMPANY_CD = #{COMPANY_CD}
+     		  		  AND NR.RES_ID = #{RES_ID})
+     	AND n_nalja = #{HEA_DT}
+    </select>
+    
+    <insert id="NS_SCT_HEALTH_I" parameterType="java.util.HashMap">
+	/* NS_SCT_HEALTH_I */
+		INSERT INTO 
+			sct_health 
+		(                                                                                                                                                                                 
+				sicode
+			,	n_nalja
+			,	n_code
+			,	n_name
+			,	기침2
+			,	인후통2
+			,	호흡곤란2
+			,	객담2
+			,	기타2
+			,	호흡
+			,	간호일지
+			,	담당자
+			,	담당코드
+			,	체중
+			,	약물투여
+			,	주사제
+			,	s혈압
+			,	s혈압시간
+			,	s맥박
+			,	s맥박시간
+			,	s혈당1
+			,	s혈당1시간
+			,	s혈당2
+			,	s혈당2시간
+			,	s체온1
+			,	s체온1시간
+			,	s체온2
+			,	s체온2시간
+			,	s체온3
+			,	s체온3시간
+			,	ir_혈압
+			,	혈압시간
+			,	ir_맥박
+			,	맥박시간
+			,	ir_혈당1
+			,	혈당1시간
+			,	ir_혈당2
+			,	혈당2시간
+			,	ir_체온1
+			,	체온1시간
+			,	ir_체온2
+			,	체온2시간
+			,	ir_체온3
+			,	체온3시간
+			,	ir_time
+			,	ir_type
+			,	ir_comp
+			,	ir_status
+		)
+		VALUES 
+		(
+				(SELECT CC.REF_SYS_COMP_CD
+			 	FROM T_CM_COMPANY CC
+			 	WHERE CC.COMPANY_CD = #{COMPANY_CD})
+			,	#{HEA_DT}
+			,	(SELECT NR.REF_SYS_RES_ID
+				 FROM T_NU_RESIDENT NR
+				 WHERE NR.COMPANY_CD = #{COMPANY_CD}
+				 AND NR.RES_ID = #{RES_ID})
+			,	(SELECT NR.NAME
+				 FROM T_NU_RESIDENT NR
+				 WHERE NR.COMPANY_CD = #{COMPANY_CD}
+				 AND NR.RES_ID = #{RES_ID})   	 
+			,	#{COUGH}
+			,	#{THROAT}
+			,	#{BREATHING_DIFF}
+			,	#{SPUTUM}
+			,	#{ETC}
+			,	#{BREATH}
+			,	#{REMARK}
+			,	(SELECT CU.USER_NM_KOR
+				 FROM T_CM_USER CU
+				 WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				 AND CU.USER_ID = #{MANAGER_ID}) 
+			,	(SELECT CU.REF_USER_ID
+				 FROM T_CM_USER CU
+				 WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				 AND CU.USER_ID = #{MANAGER_ID})
+			,	#{WEIGHT}
+			,	#{DRUG}
+			,	#{INJECTION}
+			,	CONCAT(LPAD(#{PRE_H},3,' '),'/',LPAD(#{PRE_L},3,' '))
+			,	#{PRE_TIME}
+			,	#{PULSE}
+			,	#{PRE_TIME}
+			,	#{SUGAR_FBS}
+			,	#{SUG_FBS_TIME}
+			,	#{SUGAR_PP2}
+			,	#{SUG_PP2_TIME}
+			,	#{TEMPERATURE1}
+			,	#{TEM_TIME1}
+			,	#{TEMPERATURE2}
+			,	#{TEM_TIME2}
+			,	#{TEMPERATURE3}
+			,	#{TEM_TIME3}
+			,	CONCAT(LPAD(#{IR_PRE_H},3,' '),'/',LPAD(#{IR_PRE_L},3,' '))
+			,	#{IR_PRE_TIME}
+			,	#{IR_PULSE}
+			,	#{IR_PRE_TIME}
+			,	#{IR_SUGAR_FBS}
+			,	#{IR_SUGAR_FBS_TIME}
+			,	#{IR_SUGAR_PP2}
+			,	#{IR_SUGAR_PP2_TIME}
+			,	#{IR_TEMP1}
+			,	#{IR_TEMP_TIME1}
+			,	#{IR_TEMP2}
+			,	#{IR_TEMP_TIME2}
+			,	#{IR_TEMP3}
+			,	#{IR_TEMP_TIME3}
+			,	NOW()
+			,	'I'
+			,	'S'
+			,	'0'
+		)  	
+    </insert>
+    
+    <update id="NS_SCT_HEALTH_U" parameterType="java.util.HashMap">
+    /* NS_SCT_HEALTH_U */
+    	UPDATE 
+    		sct_health                                                                                                                                                                                              
+		SET 
+				기침2      =  #{COUGH}
+			,	인후통2     =  #{THROAT}
+			,	호흡곤란2   =  #{BREATHING_DIFF}
+			,	객담2      =  #{SPUTUM}
+			,	기타2      =  #{ETC}
+			,	호흡            =  #{BREATH}
+			,	간호일지 = #{REMARK}
+			,	담당자          =  (SELECT CU.USER_NM_KOR
+							  FROM T_CM_USER CU
+							  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+							  AND CU.USER_ID = #{MANAGER_ID}) 
+			,	담당코드       =  (SELECT CU.REF_USER_ID
+							  FROM T_CM_USER CU
+							  WHERE CU.COMPANY_CD = #{COMPANY_CD}
+							  AND CU.USER_ID = #{MANAGER_ID}) 
+			,	체중            =  #{WEIGHT}
+			,	약물투여       =  #{DRUG}
+			,	주사제         =  #{INJECTION}
+			,	s혈압          =  CONCAT(LPAD(#{PRE_H},3,' '),'/',LPAD(#{PRE_L},3,' '))
+			,	s혈압시간     =  #{PRE_TIME}
+			,	s맥박          =  #{PULSE}
+			,	s맥박시간     =  #{PRE_TIME}
+			,	s혈당1     =  #{SUGAR_FBS}
+			,	s혈당1시간    =  #{SUG_FBS_TIME}
+			,	s혈당2     =  #{SUGAR_PP2}
+			,	s혈당2시간    =  #{SUG_PP2_TIME}
+			,	s체온1     =  #{TEMPERATURE1}
+			,	s체온1시간    =  #{TEM_TIME1}
+			,	s체온2     =  #{TEMPERATURE2}
+			,	s체온2시간    =  #{TEM_TIME2}
+			,	s체온3     =  #{TEMPERATURE3}
+			,	s체온3시간    =  #{TEM_TIME3}
+			,	ir_혈압       =  CONCAT(LPAD(#{IR_PRE_H},3,' '),'/',LPAD(#{IR_PRE_L},3,' '))
+			,	혈압시간       =  #{IR_PRE_TIME}
+			,	ir_맥박       =  #{IR_PULSE}
+			,	맥박시간       =  #{IR_PRE_TIME}
+			,	ir_혈당1   =  #{IR_SUGAR_FBS}
+			,	혈당1시간     =  #{IR_SUGAR_FBS_TIME}
+			,	ir_혈당2   =  #{IR_SUGAR_PP2}
+			,	혈당2시간     =  #{IR_SUGAR_PP2_TIME}
+			,	ir_체온1   =  #{IR_TEMP1}
+			,	체온1시간     =  #{IR_TEMP_TIME1}
+			,	ir_체온2   =  #{IR_TEMP2}
+			,	체온2시간     =  #{IR_TEM_TIME2}
+			,	ir_체온3   =  #{IR_TEMP3}
+			,	체온3시간     =  #{IR_TEMP_TIME3}
+			,	ir_time   =  NOW()
+			,	ir_type   =  'U'
+			,	ir_comp   =  'S'
+			,	ir_status =  '2'
+		WHERE sicode  =  #{REF_SYS_COMP_CD}
+        AND DATE_FORMAT(n_nalja, '%Y%m%d') = #{HEA_DT}
+        AND n_code  = #{REF_SYS_RES_ID}
+    </update>
+    
+    <insert id="NUB201CT_NS_SCT_HEALTH_I" parameterType="java.util.HashMap">
+    /* NUB201CT_NS_SCT_HEALTH_I */
+    	INSERT INTO sct_health (                                                                                                                                                                                 
+			         sicode
+					,n_nalja
+					,n_code
+					,n_name
+				/*	,기침2
+					,인후통2
+					,호흡곤란2
+					,객담2
+					,기타2
+					,호흡
+					,체중
+					,약물투여
+					,주사제  */
+					,간호일지
+					,담당자
+					,담당코드
+					,s혈압
+					,s혈압시간
+					,s맥박
+					,s맥박시간
+					,s혈당1
+					,s혈당1시간
+					,s혈당2
+					,s혈당2시간
+					,s체온1
+					,s체온1시간
+					,s체온2
+					,s체온2시간
+					,s체온3
+					,s체온3시간
+					,ir_혈압
+					,혈압시간
+					,ir_맥박
+					,맥박시간
+					,ir_혈당1
+					,혈당1시간
+					,ir_혈당2
+					,혈당2시간
+					,ir_체온1
+					,체온1시간
+					,ir_체온2
+					,체온2시간
+					,ir_체온3
+					,체온3시간
+					,ir_time
+					,ir_type
+					,ir_comp
+					,ir_status
+		) VALUES (
+					 (SELECT CC.REF_SYS_COMP_CD
+					 	FROM T_CM_COMPANY CC
+					   WHERE CC.COMPANY_CD = #{COMPANY_CD})
+					,IFNULL(#{HEA_DT}, NOW())
+					,IFNULL((SELECT NR.REF_SYS_RES_ID
+						FROM T_NU_RESIDENT NR
+					   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+					   	 AND NR.RES_ID = #{RES_ID}), '')
+					,IFNULL((SELECT NR.NAME
+						FROM T_NU_RESIDENT NR
+					   WHERE NR.COMPANY_CD = #{COMPANY_CD}
+					   	 AND NR.RES_ID = #{RES_ID}), '')   	 
+				/*	,IFNULL({COUGH}, '0')
+					,IFNULL({THROAT}, '0')
+					,IFNULL({BREATHING_DIFF}, '0')
+					,IFNULL({SPUTUM}, '0')
+					,IFNULL({ETC}, '')
+					,IFNULL({BREATH}, '0')
+					,IFNULL({WEIGHT}, '0.0')
+					,IFNULL({DRUG}, '')
+					,IFNULL({INJECTION}, '')  */
+					,IFNULL(#{REMARK}, '')
+					,IFNULL(CASE
+								WHEN #{MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.USER_NM_KOR
+								 FROM T_CM_USER CU
+								INNER JOIN T_CM_COMPANY CC
+								ON CC.COMPANY_CD = CU.COMPANY_CD
+								INNER JOIN sct_emp SE
+								ON CC.REF_SYS_COMP_CD = SE.sicode
+								AND CU.REF_USER_ID = SE.c_staffid
+				   				WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  AND CU.USER_ID = #{MANAGER_ID})
+				   	 		  END, '') 
+					,IFNULL(CASE
+								WHEN #{MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.REF_USER_ID
+								 FROM T_CM_USER CU
+								INNER JOIN T_CM_COMPANY CC
+								ON CC.COMPANY_CD = CU.COMPANY_CD
+								INNER JOIN sct_emp SE
+								ON CC.REF_SYS_COMP_CD = SE.sicode
+								AND CU.REF_USER_ID = SE.c_staffid
+				   				WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  AND CU.USER_ID = #{MANAGER_ID})
+				   	 		  END, '')
+					,IFNULL(CONCAT(LPAD(#{PRE_H},3,' '),'/',LPAD(#{PRE_L},3,' ')), '')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{PRE_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{PULSE}, '0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{PRE_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{SUGAR_FBS}, '0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{SUG_FBS_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{SUGAR_PP2}, '0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{SUG_PP2_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{TEMPERATURE1}, '0.0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME1},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{TEMPERATURE2},'0.0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME2},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(#{TEMPERATURE3}, '0.0')
+					,IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME3},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+					,IFNULL(CONCAT(LPAD(#{IR_PRE_H},3,' '),'/',LPAD(#{IR_PRE_L},3,' ')), '')
+					,IFNULL(#{IR_PRE_TIME}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_PULSE}, '0')
+					,IFNULL(#{IR_PRE_TIME}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_SUGAR_FBS}, '0')
+					,IFNULL(#{IR_SUGAR_FBS_TIME}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_SUGAR_PP2}, '0')
+					,IFNULL(#{IR_SUGAR_PP2_TIME}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_TEMP1}, '0.0')
+					,IFNULL(#{IR_TEMP_TIME1}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_TEMP2}, '0.0')
+					,IFNULL(#{IR_TEMP_TIME2}, '2000-01-01 00:00:00')
+					,IFNULL(#{IR_TEMP3}, '0.0')
+					,IFNULL(#{IR_TEMP_TIME3}, '2000-01-01 00:00:00')
+					,NOW()
+					,'I'
+					,'S'
+					,'0'
+		)
+    </insert>
+    
+    <update id="NUB201CT_NS_SCT_HEALTH_U" parameterType="java.util.HashMap">
+    /* NUB201CT_NS_SCT_HEALTH_U */
+    	UPDATE sct_health                                                                                                                                                                                              
+			 SET 간호일지	   =  IFNULL(#{REMARK}, '')
+				,담당자          =  IFNULL(CASE
+								WHEN #{MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.USER_NM_KOR
+								 FROM T_CM_USER CU
+								INNER JOIN T_CM_COMPANY CC
+								ON CC.COMPANY_CD = CU.COMPANY_CD
+								INNER JOIN sct_emp SE
+								ON CC.REF_SYS_COMP_CD = SE.sicode
+								AND CU.REF_USER_ID = SE.c_staffid
+				   				WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  AND CU.USER_ID = #{MANAGER_ID})
+				   	 		  END, '') 
+				,담당코드       =  IFNULL(CASE
+								WHEN #{MANAGER_ID} = NULL THEN NULL
+								ELSE (SELECT CU.REF_USER_ID
+								 FROM T_CM_USER CU
+								INNER JOIN T_CM_COMPANY CC
+								ON CC.COMPANY_CD = CU.COMPANY_CD
+								INNER JOIN sct_emp SE
+								ON CC.REF_SYS_COMP_CD = SE.sicode
+								AND CU.REF_USER_ID = SE.c_staffid
+				   				WHERE CU.COMPANY_CD = #{COMPANY_CD}
+				   	 			  AND CU.USER_ID = #{MANAGER_ID})
+				   	 		  END, '') 
+			/*	,기침2      =  IFNULL({COUGH}, '0')
+				,인후통2     =  IFNULL({THROAT}, '0')
+				,호흡곤란2   =  IFNULL({BREATHING_DIFF}, '0')
+				,객담2      =  IFNULL({SPUTUM}, '0')
+				,기타2      =  IFNULL({ETC}, '')
+				,호흡            =  IFNULL({BREATH}, '0')
+				,체중            =  IFNULL({WEIGHT}, '0.0')
+				,약물투여       =  IFNULL({DRUG}, '')
+				,주사제         =  IFNULL({INJECTION}, '') */
+				,s혈압          =  IFNULL(CONCAT(LPAD(#{PRE_H},3,' '),'/',LPAD(#{PRE_L},3,' ')), '')
+				,s혈압시간     =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{PRE_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s맥박          =  IFNULL(#{PULSE}, '0')
+				,s맥박시간     =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{PRE_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s혈당1     =  IFNULL(#{SUGAR_FBS}, '0')
+				,s혈당1시간    =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{SUG_FBS_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s혈당2     =  IFNULL(#{SUGAR_PP2}, '0')
+				,s혈당2시간    =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{SUG_PP2_TIME},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s체온1     =  IFNULL(#{TEMPERATURE1}, '0.0')
+				,s체온1시간    =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME1},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s체온2     =  IFNULL(#{TEMPERATURE2}, '0.0')
+				,s체온2시간    =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME2},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,s체온3     =  IFNULL(#{TEMPERATURE3}, '0.0')
+				,s체온3시간    =  IFNULL(DATE_FORMAT(CONCAT(#{HEA_DT},#{TEM_TIME3},'00'),'%Y-%m-%d %H:%i:%s'), '2000-01-01 00:00:00')
+				,ir_혈압       =  IFNULL(CONCAT(LPAD(#{IR_PRE_H},3,' '),'/',LPAD(#{IR_PRE_L},3,' ')), '')
+				,혈압시간       =  IFNULL(#{IR_PRE_TIME}, '2000-01-01 00:00:00')
+				,ir_맥박       =  IFNULL(#{IR_PULSE}, '0')
+				,맥박시간       =  IFNULL(#{IR_PRE_TIME}, '2000-01-01 00:00:00')
+				,ir_혈당1   =  IFNULL(#{IR_SUGAR_FBS}, '0')
+				,혈당1시간     =  IFNULL(#{IR_SUGAR_FBS_TIME}, '2000-01-01 00:00:00')
+				,ir_혈당2   =  IFNULL(#{IR_SUGAR_PP2}, '0')
+				,혈당2시간     =  IFNULL(#{IR_SUGAR_PP2_TIME}, '2000-01-01 00:00:00')
+				,ir_체온1   =  IFNULL(#{IR_TEMP1}, '0.0')
+				,체온1시간     =  IFNULL(#{IR_TEMP_TIME1}, '2000-01-01 00:00:00')
+				,ir_체온2   =  IFNULL(#{IR_TEMP2}, '0.0')
+				,체온2시간     =  IFNULL(#{IR_TEMP_TIME2}, '2000-01-01 00:00:00')
+				,ir_체온3   =  IFNULL(#{IR_TEMP3}, '0.0')
+				,체온3시간     =  IFNULL(#{IR_TEMP_TIME3}, '2000-01-01 00:00:00')
+				,ir_time   =  NOW()
+				,ir_type   =  'U'
+				,ir_comp   =  'S'
+				,ir_status =  '2'
+	        WHERE 1=1
+	          AND sicode  =  #{REF_SYS_COMP_CD}
+	                   AND DATE_FORMAT(n_nalja, '%Y%m%d') = #{HEA_DT}
+	                   AND n_code  = #{REF_SYS_RES_ID}
+    </update>      
+    
+    <!-- 전날 간호일지 조회 -->
+    <select id="NUB201CT_DS_PRE_REMARK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	<![CDATA[
+    		SELECT A.REMARK
+    		  FROM T_NU_HEALTH_CHECK A
+    		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+    		   AND A.RES_ID = #{RES_ID}
+    		   AND A.HEA_DT = DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL -1 DAY),'%Y%m%d')
+    		 ORDER
+    		    BY A.REG_DT_LOC DESC
+    		 LIMIT 1
+    	]]>
+ 	</select>                                                                                                                                                                  
+</mapper>                                                                                                                                                                                                          

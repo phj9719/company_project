@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00214_P01" width="1000" height="700" titletext="일별 감염예방일지" onload="form_onload" onclose="DAY00214_P01_onclose">
+    <Layouts>
+      <Layout width="1000" height="700">
+        <Div id="div_func" taborder="0" left="0" top="0" height="35" formscrollbartype="none" right="0" text="">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="2" text="저장" top="5" width="70" height="25" onclick="fn_saveBtn" right="85" cssclass="btn_save"/>
+              <Button id="btn_report" taborder="0" text="감염예방일지출력" top="5" width="150" height="25" onclick="fn_report" cssclass="btn_print" right="311"/>
+              <Button id="btn_delete" taborder="3" text="삭제" top="5" width="70" height="26" onclick="fn_deleteBtn" right="10" cssclass="btn_delete"/>
+              <Button id="btn_search" taborder="1" text="감염예방기록조회" top="5" width="145" height="25" cssclass="btn_search" right="160" onclick="div_func_btn_search_onclick"/>
+              <Static id="sta_no_value" taborder="4" text="00000000" left="87" top="5" width="60" height="30"/>
+              <Static id="sta_no" taborder="5" text="기록번호 : " left="24" top="5" width="58" height="30"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_cont" taborder="1" left="10" top="40" bottom="10" text="" right="0">
+          <Layouts>
+            <Layout width="200" height="150">
+              <Div id="div_main" taborder="1" left="10" top="0" background="#ffffff" border="1px solid #e2e2e2" text="" cssclass="chk_s1" bottom="5" right="10">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_body6_01_00" taborder="22" left="353" top="308" height="70" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body6_01" taborder="21" left="58" top="308" height="70" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body4" taborder="9" left="15" top="193" height="86" cssclass="sta_WF_DetailLabel02" width="928"/>
+                    <Static id="sta_info1" taborder="1" left="7" top="47" width="182" height="26" cssclass="sta_SearchTxt"/>
+                    <Static id="sta_body1" taborder="2" left="15" top="35" height="30" cssclass="sta_WF_DetailLabel02" width="928"/>
+                    <TextArea id="txt_방역여부" taborder="0" left="19" top="200" width="919" height="70" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="300"/>
+                    <Button id="btn_manager" taborder="3" text="관리자" left="14" top="4" width="80" height="25" onclick="btn_manager_onclick" cssclass="btn_worker"/>
+                    <Static id="sta_manager_value" taborder="4" left="116" top="4" width="198" height="25" text="너싱홈 / 요양보호사 / 20210007"/>
+                    <Static id="sta_예방일자" taborder="5" text="예방일자" left="315" top="4" width="55" height="25"/>
+                    <CheckBox id="chk_환기여부" taborder="6" text="시설 환기 시행 여부 점검" left="25" top="35" width="174" height="25" font="normal bold 10pt/normal &quot;Arial&quot;" readonly="true"/>
+                    <Static id="sta_body2" taborder="7" left="15" top="63" height="85" cssclass="sta_WF_DetailLabel02" width="928"/>
+                    <TextArea id="txt_환기시행" taborder="8" left="19" top="70" width="918" height="70" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <Static id="sta_body3" taborder="10" left="15" top="148" height="45" cssclass="sta_WF_DetailLabel02" width="928"/>
+                    <CheckBox id="chk_방역여부" taborder="11" text="시설 방역 진행 여부 점검" left="25" top="147" width="174" height="25" font="normal bold 10pt/normal &quot;Arial&quot;" readonly="true"/>
+                    <Static id="sta_body5" taborder="12" left="15" top="279" height="30" cssclass="sta_WF_DetailLabel02" text="" width="928"/>
+                    <CheckBox id="chk_00_00_00" taborder="13" text="방역 자체 점검" left="25" top="280" width="119" height="25" font="normal bold 10pt/normal &quot;Arial&quot;" readonly="true"/>
+                    <Static id="sta_body6" taborder="14" left="15" top="308" height="70" cssclass="sta_WF_DetailLabel02" width="43"/>
+                    <Static id="sta_head8" taborder="15" text="방역 미비사항" left="58" top="308" width="295" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+                    <Static id="sta_head8_00" taborder="16" text="연번" left="15" top="308" width="43" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+                    <Static id="sta_head8_02" taborder="18" text="조치사항" left="353" top="308" width="295" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+                    <Static id="sta_body6_00" taborder="19" left="15" top="378" height="130" cssclass="sta_WF_DetailLabel02" width="43" text="①" textAlign="center"/>
+                    <Static id="sta_body6_00_00" taborder="20" left="15" top="508" cssclass="sta_WF_DetailLabel02" width="43" height="130" text="②" textAlign="center"/>
+                    <Static id="sta_body6_01_00_00" taborder="23" top="308" height="70" cssclass="sta_WF_DetailLabel02" width="295" left="648" text=""/>
+                    <Static id="sta_head8_01" taborder="17" text="조치여부(일자)" top="308" height="30" cssclass="sta_WF_DetailLabel01" textAlign="center" left="648" width="295" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+                    <Static id="sta_body6_00_01" taborder="24" left="58" top="378" height="130" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body6_00_01_00" taborder="25" left="353" top="378" height="130" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body6_00_01_00_00" taborder="26" left="648" top="378" height="130" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body6_00_01_01" taborder="27" left="58" top="508" height="130" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <Static id="sta_body6_00_01_00_01" taborder="28" left="353" top="508" height="130" cssclass="sta_WF_DetailLabel02" width="295" text=""/>
+                    <Static id="sta_body6_00_01_00_00_00" taborder="29" left="648" top="508" height="130" cssclass="sta_WF_DetailLabel02" width="295"/>
+                    <TextArea id="txt_미비사항1" taborder="30" left="63" top="383" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <TextArea id="txt_미비사항2" taborder="31" left="62" top="513" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <TextArea id="txt_조치사항1" taborder="32" left="358" top="383" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <TextArea id="txt_조치사항2" taborder="33" left="358" top="513" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <TextArea id="txt_조치여부1" taborder="34" left="653" top="383" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <TextArea id="txt_조치여부2" taborder="35" left="652" top="513" width="285" height="120" wordWrap="char" scrolltype="vertical" scrollbartype="fixed" maxlength="500"/>
+                    <Static id="sta_00" taborder="36" text="(환기시간, 횟수기재)" left="199" top="37" width="119" height="25"/>
+                    <Static id="sta_00_00" taborder="37" text="(진행방식, 진행시간 등 기재)" left="199" top="149" width="175" height="25"/>
+                    <Static id="sta_00_00_00" taborder="38" text="(방역 미비사항 및 감염 가능 경로에 대한 조치기재)" left="137" top="282" width="307" height="25"/>
+                    <Static id="sta_00_01" taborder="39" text="(환기시간, 횟수기재) (예시) 총 3회 (10:00, 12:00, 16:00)" left="569" top="37" width="325" height="25" color="purple"/>
+                    <Static id="sta_00_01_00" taborder="40" text="(예시1) 외주(ㅇㅇㅇㅇ환경) 진행, 14:00 ~ 15:00&#13;&#10;(예시2) 금주 목욕일 외주방역진행, 생활방역 지속실시" left="569" top="149" width="325" height="41" color="purple"/>
+                    <Static id="sta_00_01_00_00" taborder="41" left="59" top="338" width="294" height="41" color="purple" text="(예시) 식사장소 칸막이 미설치에 따른&#13;&#10;        감염 전파 우려"/>
+                    <Static id="sta_00_01_00_00_00" taborder="42" left="356" top="338" width="294" height="41" color="purple" text="(예시) 식사장소 칸막이 설치시까지 식사 중&#13;&#10;        입소자간 철저한 거리 확보"/>
+                    <Static id="sta_00_01_00_00_00_00" taborder="43" left="650" top="338" width="294" height="26" color="purple" text="(예시) 22.00.00 칸막이 설치 완료"/>
+                    <Calendar id="cal_예방일" taborder="44" left="373" width="110" height="26" readonly="true" initvalueid="iv_cal_dot" tooltiptext="점검일" buttonsize="0 0" top="3"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="예방번호" type="STRING" size="256"/>
+          <Column id="예방일" type="DATE" size="256"/>
+          <Column id="환기시행" type="STRING" size="256"/>
+          <Column id="방역여부" type="STRING" size="256"/>
+          <Column id="미비사항1" type="STRING" size="256"/>
+          <Column id="조치사항1" type="STRING" size="200"/>
+          <Column id="조치여부1" type="STRING" size="256"/>
+          <Column id="미비사항2" type="STRING" size="256"/>
+          <Column id="조치사항2" type="STRING" size="256"/>
+          <Column id="조치여부2" type="STRING" size="256"/>
+          <Column id="예방자명" type="STRING" size="256"/>
+          <Column id="예방직종" type="STRING" size="256"/>
+          <Column id="예방코드" type="STRING" size="256"/>
+          <Column id="VIEW_MANAGER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" useclientlayout="false"/>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="sicode" type="STRING" size="256"/>
+          <Column id="예방일" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00214_P01
+ * 화면명   	: 일별 감염예방일지
+ * 화면설명 	: 
+ * 작성일   	: 2022-05-23
+ * 작성자   	: 이동관
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************/
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_date_final = this.parent.DATE;
+this.fv_currentDS = this.ds_list;
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	this.fv_sicode = this.parent.SICODE;
+	this.fv_date = this.parent.DATE;
+	
+	//DAY00214_P02로 올 경우
+	if(!Sct.Util.isEmpty(this.parent.STAFF_ID)){
+		this.fv_staff_id = this.parent.STAFF_ID;
+	}
+	if(!Sct.Util.isEmpty(this.parent.STAFF_NAME)){
+		this.fv_staff_name = this.parent.STAFF_NAME.trim();
+	}
+	if(!Sct.Util.isEmpty(this.parent.STAFF_DUTYNAME)){
+		this.fv_staff_dutyname = this.parent.STAFF_DUTYNAME;
+	}
+	
+	// 삽입, 수정 공통 함수를 사용하기 위해 gv_curWinKey를 세팅
+	nexacro.getApplication().gv_curWinKey = "DAY00214_P01";
+	
+	this.ds_search.setColumn(0, "sicode", this.fv_sicode);
+	this.ds_search.setColumn(0, "예방일", this.fv_date);
+			
+	this.fn_search();
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	// 검색조건 필수 체크 (컴포넌트 tooltiptext 값 넣을 것)
+	if (!this.gfn_findSnull(this.div_search)) return false;
+	
+	return true;
+};
+
+// 저장 전 validation
+this.fn_save_pre = function()
+{
+	if(this.ds_list.rowcount == 0){
+		this.alert("저장할 항목이 없습니다.");
+		return false;
+	}
+	
+	// 저장 내용 체크
+	if(!Sct.Grid.hasInsertAndUpdateRow(this.ds_list)){
+		this.alert("저장할 내용이 없습니다.");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "sicode"))){
+		this.alert("시설코드를 기재해야 합니다!");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "예방일"))){
+		this.alert("예방일을 기재해야 합니다!");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "예방자명"))){
+		this.alert("예방자명을 기재해야 합니다!");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "예방직종"))){
+		this.alert("예방직종을 기재해야 합니다!");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "예방코드"))){
+		this.alert("예방코드를 기재해야 합니다!");
+		return false;
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "환기시행"))){
+		this.alert("시설 환기 시행 여부를 기재해야 합니다!");
+		return false;
+	}else{
+		if(this.ds_list.getColumn(this.ds_list.rowposition, "환기시행").byteLength() < 4){
+		this.alert("시설 환기 시행 여부를 기재해야 합니다!");
+		return false;
+		}
+	}
+	
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "방역여부"))){
+		this.alert("시설 방역 진행 여부를 기재해야 합니다!");
+		return false;
+	}else{
+		if(this.ds_list.getColumn(this.ds_list.rowposition, "방역여부").byteLength() < 4){
+			this.alert("시설 방역 진행 여부를 기재해야 합니다!");
+			return false;
+		}
+	}
+	
+	return true;
+};
+
+// 삭제 전 validation
+this.fn_delete_pre = function()
+{
+	if(this.ds_list.rowcount == 0 || Sct.Util.isEmpty(this.ds_list.getColumn(this.ds_list.rowposition, "예방번호")))
+	{
+		this.alert("삭제할 항목이 없습니다.");
+		return false;
+	}
+	
+	if(this.ds_list.getRowType(this.ds_list.rowposition) == 2)
+	{
+		return false;
+	}
+
+	if(!this.confirm("삭제 하시겠습니까?")){
+		return false;
+	}	
+		
+	this.ds_list.set_updatecontrol(false);
+	this.ds_list.setRowType(0, Dataset.ROWTYPE_DELETE);
+	this.ds_list.set_updatecontrol(true);
+		
+	return true;
+};
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function()
+{
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search";
+	const outDatasets = "ds_list=output1";
+	const argument = "method=getList "
+				   + "sqlId='DAY00214_P01.DAY00214_P01_DS_LIST_S' ";
+				   
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+// 저장
+this.fn_save = function()
+{
+	if (!this.fn_save_pre()) return;
+
+	const svcId = "save";
+ 	const inDs = "ds_list";
+	this.fn_save_com(svcId, inDs);
+};
+
+// 삭제
+this.fn_delete = function()
+{
+	// validation
+	if (!this.fn_delete_pre()) return;
+	
+	const svcId = "delete";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_list:U";
+	const outDatasets = "";
+	const argument = "method=delete "
+				   + "sqlId=DAY00214_P01.DAY00214_P01_DS_LIST_D ";
+	
+	const callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if (strSvcID == "search")
+		{
+			//일자로 조회했을 시 데이터가 없을경우 행추가
+			if(this.ds_list.rowcount < 1){
+			
+				const aRow = this.ds_list.addRow();
+				this.ds_list.setColumn(aRow, "sicode", this.fv_sicode);
+				this.ds_list.setColumn(aRow, "예방자명", this.fv_staff_name);
+				this.ds_list.setColumn(aRow, "예방직종", this.fv_staff_dutyname);
+				this.ds_list.setColumn(aRow, "예방코드", this.fv_staff_id);
+				this.ds_list.setColumn(aRow, "예방일", this.fv_date);
+				this.ds_list.setColumn(aRow, "미비사항1", "");
+				this.ds_list.setColumn(aRow, "조치사항1", "");
+				this.ds_list.setColumn(aRow, "조치여부1", "");
+				this.ds_list.setColumn(aRow, "미비사항2", "");
+				this.ds_list.setColumn(aRow, "조치사항2", "");
+				this.ds_list.setColumn(aRow, "조치여부2", "");
+				this.ds_list.setColumn(aRow, "VIEW_MANAGER", this.fv_staff_name + "/" + this.fv_staff_dutyname + "/" + this.fv_staff_id);
+				
+			}else {
+				this.ds_list.setColumn(this.ds_list.rowposition, "VIEW_MANAGER", 
+									   this.ds_list.getColumn(this.ds_list.rowposition, "예방자명") + "/" + 
+									   this.ds_list.getColumn(this.ds_list.rowposition, "예방직종") + "/" + 
+									   this.ds_list.getColumn(this.ds_list.rowposition, "예방코드"));
+			}
+		}
+		else if (strSvcID == "save")
+		{
+			alert("상태기록 저장완료!");
+			this.ds_return.clearData();
+			this.ds_return.addColumn("REFRESH", "STRING");
+			var nRow = this.ds_return.addRow();
+			this.ds_return.setColumn(nRow, "REFRESH", "Y");
+			
+			this.close(this.ds_return.saveXML());
+		}
+		else if (strSvcID == "delete")
+		{
+			alert("상태기록 삭제완료!");
+			this.ds_return.clearData();
+			this.ds_return.addColumn("REFRESH", "STRING");
+			var nRow = this.ds_return.addRow();
+			this.ds_return.setColumn(nRow, "REFRESH", "Y");
+			
+			this.close(this.ds_return.saveXML());
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 출력
+this.fn_report = function()
+{
+	if(Sct.Util.isEmpty(this.ds_list.getColumn(0, "예방번호"))){
+		this.alert("출력할 내용이 없습니다.");
+		return false;
+	}
+	
+	let params;
+	const dicompNm = " ";
+	const popupUrl = "DAY_POP::DAY00214_R01.xfdl";
+	const popupName = "감염예방일지";
+	
+	params = {
+		sicode : this.ds_list.getColumn(0, "sicode")
+	,   preventionNo : this.ds_list.getColumn(0, "예방번호")
+	,	date : this.ds_list.getColumn(0, "예방일")
+	,   sign : "1"
+	
+	};
+	
+	this.gfn_openPopup(popupUrl, "", "", dicompNm, popupName, params, "", "");
+};
+
+// 점검자 선택 팝업
+this.btn_manager_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (this.ds_list.rowcount < 1)
+		return;
+		
+	const param = {
+			SICODE : this.fv_sicode
+		,	DATE : this.ds_list.getColumn(0, "예방일")
+	};
+
+	Sct.popup(this, "emp", 450, 400, "입력담당자 선택", param, "DAY_POP::DAYEMP_PP.xfdl", "fn_popCallback");
+};
+
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		// 작성자
+		case "emp" :
+			if (objDs.getColumn(0, "DEL") != "1")
+			{
+				const name = nexacro.trim(objDs.getColumn(0, "c_name"));
+				const dutyname = objDs.getColumn(0, "담당직종");
+				const staffid = objDs.getColumn(0, "c_staffid");
+				this.ds_list.setColumn(0, "소독자명", name);
+				this.ds_list.setColumn(0, "소독직종", dutyname);
+				this.ds_list.setColumn(0, "소독코드", staffid);
+				this.ds_list.setColumn(0, "VIEW_MANAGER", name + "/" + dutyname + "/" + staffid);
+			}
+			else
+			{
+				this.ds_list.setColumn(0, "소독자명", "");
+				this.ds_list.setColumn(0, "소독직종", "");
+				this.ds_list.setColumn(0, "소독코드", "");
+				this.ds_list.setColumn(0, "VIEW_MANAGER", "");
+			}
+			break;
+		case "dayRecordSearch" :
+			this.ds_search.setColumn(0, "sicode",  objDs.getColumn(0, "sicode"));
+			this.ds_search.setColumn(0, "예방일",  objDs.getColumn(0, "예방일"));
+			this.fn_search();
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 조회 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 저장 버튼
+this.fn_saveBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_save();
+};
+
+// 삭제 버튼
+this.fn_deleteBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_delete();
+};
+
+
+this.DAY00214_P01_onclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
+{
+	this.ds_return.clearData();
+	this.ds_return.addColumn("REFRESH", "STRING");
+	var nRow = this.ds_return.addRow();
+	this.ds_return.setColumn(nRow, "REFRESH", "Y");
+		
+	this.close(this.ds_return.saveXML());
+};
+
+this.div_func_btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {
+			SICODE : this.fv_sicode
+		,	DATE : fv_date_final
+	};
+
+	Sct.popup(this, "dayRecordSearch", 450, 400, "", param, "DAY_POP::DAY00214_P03.xfdl", "fn_popCallback");
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item8" compid="div_func.form.sta_no_value" propid="text" datasetid="ds_list" columnid="예방번호"/>
+      <BindItem id="item0" compid="div_cont.form.div_main.form.txt_환기시행" propid="value" datasetid="ds_list" columnid="환기시행"/>
+      <BindItem id="item1" compid="div_cont.form.div_main.form.txt_방역여부" propid="value" datasetid="ds_list" columnid="방역여부"/>
+      <BindItem id="item2" compid="div_cont.form.div_main.form.txt_미비사항1" propid="value" datasetid="ds_list" columnid="미비사항1"/>
+      <BindItem id="item3" compid="div_cont.form.div_main.form.txt_조치사항1" propid="value" datasetid="ds_list" columnid="조치사항1"/>
+      <BindItem id="item4" compid="div_cont.form.div_main.form.txt_조치여부1" propid="value" datasetid="ds_list" columnid="조치여부1"/>
+      <BindItem id="item5" compid="div_cont.form.div_main.form.txt_미비사항2" propid="value" datasetid="ds_list" columnid="미비사항2"/>
+      <BindItem id="item6" compid="div_cont.form.div_main.form.txt_조치사항2" propid="value" datasetid="ds_list" columnid="조치사항2"/>
+      <BindItem id="item7" compid="div_cont.form.div_main.form.txt_조치여부2" propid="value" datasetid="ds_list" columnid="조치여부2"/>
+      <BindItem id="item9" compid="div_cont.form.div_main.form.sta_manager_value" propid="text" datasetid="ds_list" columnid="VIEW_MANAGER"/>
+      <BindItem id="item10" compid="div_cont.form.div_main.form.cal_예방일" propid="value" datasetid="ds_list" columnid="예방일"/>
+    </Bind>
+  </Form>
+</FDL>

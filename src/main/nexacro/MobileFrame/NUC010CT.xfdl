@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="606" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="마이페이지">
+    <Layouts>
+      <Layout width="480" height="606" screenid="Mobile">
+        <Div id="div_personal" taborder="0" text="Div00" left="0" top="0" height="280" right="0" background="#172959" border="1px solid #172959">
+          <Layouts>
+            <Layout>
+              <Static id="sta_rName" taborder="0" text="입소자 성함 : " left="6.49%" top="48" width="26.99%" height="33" color="#8b94ac" letterSpacing="-0.5px" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_fName" taborder="1" text="보호자 성함 : " left="6.49%" top="83" width="26.99%" height="33" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;" color="#8b94ac" letterSpacing="-0.5px"/>
+              <Static id="sta_fCellphone" taborder="2" text="보호자 연락처 : " left="6.49%" top="118" width="30.13%" height="33" font="normal 500 16pt/normal &quot;Noto Sans KR&quot;" color="#8b94ac" letterSpacing="-0.5px"/>
+              <Static id="sta_fCellPhoneDetail" taborder="3" text="(※응급 상황 발생 시 연락받으실 전화번호)" left="6.49%" top="149" width="79.92%" height="30" font="normal 500 14pt/normal &quot;Noto Sans KR&quot;" color="#81a0da" letterSpacing="-1px"/>
+              <Static id="sta_fCellPhoneValue" taborder="4" text="-" left="sta_fCellphone:10" top="118" width="162" height="33" color="#e8eaef" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_fNameValue" taborder="5" text="-" left="sta_fName:10" top="83" width="110" height="33" color="#e8eaef" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="sta_rNameValue" taborder="6" text="-" left="sta_rName:10" top="48" width="110" height="33" color="#e8eaef" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <ImageViewer id="imv_profile" taborder="7" left="77.2%" top="16.19%" width="80" height="80" borderRadius="40px" border="1px solid transparent" stretch="fit" image="url('theme://images/imv_profile_e.png')"/>
+              <Button id="btn_passChg" taborder="8" text="비밀번호 변경" left="6.49%" top="194" width="160" height="40" onclick="passChg" cssclass="btn_agree"/>
+              <Button id="btn_passClear" taborder="9" text="비밀번호 초기화" left="42.47%" top="194" width="180" height="40" cssclass="btn_agree" onclick="div_personal_btn_passClear_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_terms" taborder="1" text="Div01" left="0" top="div_personal:0" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="movePersonalInfo">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_terms" taborder="0" left="5%" top="15" width="35" height="35" onclick="movePersonalInfo" background="url('theme://images/ico_mypage1.png') no-repeat center center"/>
+              <Static id="sta_terms" taborder="1" text="서비스이용약관 및 개인정보 처리방침" left="13%" top="15" width="73%" height="40" onclick="movePersonalInfo" color="#555555" textAlign="left" verticalAlign="middle" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;"/>
+              <Button id="btn_terms" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="movePersonalInfo" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_version" taborder="2" text="Div01" left="0" top="div_terms:0" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="moveVersion">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_version" taborder="0" left="5%" top="15" width="35" height="35" onclick="moveVersion" background="url('theme://images/ico_mypage2.png') no-repeat center center"/>
+              <Static id="sta_version" taborder="1" text="버전정보" left="13%" top="15" width="73%" height="40" onclick="moveVersion" color="#555555" font="normal 700 16pt &quot;Noto Sans KR&quot;" textAlign="left" verticalAlign="middle"/>
+              <Button id="btn_version" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="moveVersion" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_logout" taborder="3" text="Div01" left="0" top="div_version:0" height="70" right="0" border="0px none,0px none,1px solid #cccccc" onclick="logoutPop">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="img_logout" taborder="0" left="5%" top="15" width="35" height="35" onclick="logoutPop" background="url('theme://images/ico_mypage3.png') no-repeat center center"/>
+              <Static id="sta_logout" taborder="1" text="로그아웃" left="13%" top="15" width="73%" height="40" onclick="logoutPop" color="#555555" font="normal 700 16pt/normal &quot;Noto Sans KR&quot;" textAlign="left" verticalAlign="middle"/>
+              <Button id="btn_logout" taborder="2" top="15" height="40" icon="url('theme://images/ico_mypage_detail.png')" onclick="logoutPop" right="5%" width="40"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: NUC010CT
+ * 화면명   	: 마이페이지
+ * 화면설명 	: 모바일의 보호자 정보와 약관, 업데이트 확인 및 로그아웃
+ * 작성일    	: 2021-09-06
+ * 작성자   	: 조기종
+ * 수정이력 	: ↓↓↓↓↓↓↓
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const resName = nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_NAME");
+	const name = nexacro.getApplication().gds_mUserInfo.getColumn(0, "FAM_NM");
+	const cellphone = nexacro.getApplication().gds_mUserInfo.getColumn(0, "FAM_TEL1");
+	
+	let cellphoneStr;
+	if (cellphone != null && cellphone != "") 
+	{
+		trace("phone length : " + cellphone.length);
+		if (cellphone.substr(0, 1) == 0 && cellphone.length == 11)
+		{
+			cellphoneStr = cellphone.substr(0, 3) + "-" + cellphone.substr(3, 4) + "-" + cellphone.substr(7, 4);
+		}
+		else if (cellphone.substr(0, 1) == 0 && cellphone.length == 10)
+		{
+			cellphoneStr = cellphone.substr(0, 3) + "-" + cellphone.substr(3, 3) + "-" + cellphone.substr(6, 4);
+		}
+		else
+		{
+			cellphoneStr = cellphone;
+		}
+	}
+		
+	//const nameSize = nexacro.getTextSize(name, "normal 700 19pt/normal 'Noto Sans KR'");
+	
+	this.div_personal.form.sta_fNameValue.set_text(name);
+	this.div_personal.form.sta_rNameValue.set_text(resName);
+	this.div_personal.form.sta_fCellPhoneValue.set_text(cellphoneStr);
+	
+	//this.fn_getSignImage();
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			
+		}
+		else if(strSvcID == "passClear")
+		{
+			Sct.alert(this, "000579");	// 비밀번호 초기화가 완료되었습니다.
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+// 팝업 콜백
+this.fn_popCallback = function (popid, strDs) {
+	if(Sct.Util.isEmpty(strDs)) return;
+	const objDs = this.gfn_createReturnDs(this, "ds_Return", strDs);
+	switch(popid)
+	{
+		case "NUC_PASSWORD_POP":
+			break;
+		case "NUC_LOGOUT_POP" :
+			break;
+		default :
+			this.gfn_createReturnDs(this, "ds_Return", strDs);
+	}
+};
+ /***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 비밀번호 변경 (팝업)
+this.passChg = function()
+{
+	const param = {};
+	
+	Sct.tPopup(this, "NUC_PASSWORD_POP", 350, 300, param, "MobilePOP::NUC_PASSWORD_POP.xfdl", "fn_popCallback");
+};
+
+this.passClear = function()
+{
+	if(!Sct.confirm(this, "000083", " 초기화")) return
+};
+
+// 서비스 이용약관 및 개인정보 처리방침
+this.movePersonalInfo = function()
+{
+	const id = "NUC011QR";
+	const url = "MobileFrame::NUC011QR.xfdl";
+	const title = "마이페이지";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 버전정보
+this.moveVersion = function()
+{
+	const id = "NUC012CT";
+	const url = "MobileFrame::NUC012CT.xfdl";
+	const title = "마이페이지";
+
+	this.mMenuOpen(id, url, title);
+};
+
+// 로그아웃
+this.logoutPop = function()
+{
+	const param = {};
+	
+	Sct.tPopup(this, "NUC_LOGOUT_POP", 350, 300, param, "MobilePOP::NUC_LOGOUT_POP.xfdl", "fn_popCallback");
+};
+
+/***********************************************************************    
+ * FILE
+ ***********************************************************************/
+//이미지 조회
+this.fn_getSignImage = function ()
+{
+	let imgUrl = "";
+	const fileGrp = nexacro.getApplication().gds_mUserInfo.getColumn(0, "FILE_REAL_NAME");
+	if(!Sct.Util.isEmpty(fileGrp))
+	{
+		const webHost = nexacro.getEnvironment().services["svcurl"].url;
+		const path = "/Argos/FILES";
+		imgUrl = webHost + path + fileGrp;
+		const chk = this.fileCheck(imgUrl);
+		if(chk == "404")
+		{
+			this.div_personal.form.imv_profile.set_image("theme://images/imv_profile_e.png");
+			this.div_personal.form.imv_profile.set_stretch("fit");
+		}
+		else
+		{
+			this.div_personal.form.imv_profile.set_image("URL('" + imgUrl + "')");
+			this.div_personal.form.imv_profile.set_stretch("fit");
+		}		
+	}
+	else
+	{
+		this.div_personal.form.imv_profile.set_image("theme://images/imv_profile_e.png");
+		this.div_personal.form.imv_profile.set_stretch("fit");
+	}
+};
+
+// 파일 존재 유무 체크
+// 파일이 존재하지 않으면 404를 리턴함
+this.fileCheck = function(val)
+{
+	let req = new XMLHttpRequest();
+	req.open('GET', val, false);
+	req.send(null);
+	let headers = req.status;
+	return headers;
+};
+
+// 비밀번호 초기화
+this.div_personal_btn_passClear_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(!Sct.confirm(this, "000083", "비밀번호를 초기화")) return;
+	
+	const resId = nexacro.getApplication().gds_mUserInfo.getColumn(0, "RES_ID");
+	const defaultPass = nexacro.getApplication().gds_mUserInfo.getColumn(0, "JU1");
+	const companyCd = nexacro.getApplication().gds_mUserInfo.getColumn(0, "COMPANY_CD");
+	
+	const svcId = "passClear";
+	const params = "/NUC010CTController.do";
+	const inDatasets = "";
+	const outDatasets = "";
+	let argument = "method=passClear ";
+		argument += "COMPANY_CD=" + companyCd + " ";
+		argument += "RES_ID=" + resId + " ";
+		argument += "DEFAULT_PASS=" + sha256_digest(defaultPass) + " ";
+		
+	const callbackFunc = "fn_callback";
+	
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+]]></Script>
+  </Form>
+</FDL>

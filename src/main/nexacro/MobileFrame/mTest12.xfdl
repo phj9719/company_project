@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="form" width="480" height="768" onload="form_onload" ondrop="form_ondrop" onbeforeclose="form_onbeforeclose" onkeyup="fn_openDebugPopup" titletext="버전정보">
+    <Layouts>
+      <Layout width="480" height="768" screenid="Mobile">
+        <Static id="sta_title" taborder="0" text="버전정보" left="5.00%" top="27" height="40" verticalAlign="top" cssclass="sta_title" right="5.00%"/>
+        <Static id="sta_txt" taborder="1" text="앱 버전을 확인하는 중입니다." left="5%" top="42%" height="80" textAlign="center" cssclass="sta_txt" right="5%"/>
+        <Button id="btn_update" taborder="2" text="업데이트" left="5%" top="86%" height="54" right="5%" cssclass="btn_basic" visible="false" onclick="btn_update_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID    	: mTest
+ * 화면명   	:
+ * 화면설명 	:
+ * 작성일    	: 2021-07-06
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ *     	수정일     	수정자   	내용
+ *		2020-07-08		배영걸		1차수정
+ ***********************************************************************
+ ***********************************************************************
+ */
+
+/***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+include "lib::mpgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+this.fv_currentDS = "";
+this.fv_currentGrid = "";
+this.nMoveY;
+this.fv_flag;
+// 서비스 단에서 받는 variable, 초기화 필요함
+this.outvar = "";
+this.fileGroupId = "";
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+this.form_onload = function (obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e);
+	
+	const standard = this.makeStandardObject();
+	
+	if(standard)
+	{
+		const param = {};
+		this.standardPlugin.callMethod("versionCheck", param);
+	}	
+};
+
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+//조회
+this.fn_search = function ()
+{
+	//validation
+	if(!this.fn_search_pre()) return;
+	
+	var svcId = "search";
+	var params = "/commonController.do";
+	var inDatasets = "input1=ds_search";
+	var outDatasets = "ds_list=output1";
+	var argument = "method=getList "
+		+ "sqlId=mTest7.mTest7_DS_LIST_S ";
+
+	var callbackFunc = "fn_callback";
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.fnMakeAccordionForm(this.div_acco, this.ds_list);
+		}
+	}
+	else
+	{
+		Sct.alert(this, "", strErrorMsg);
+	}
+};
+
+/***********************************************************************
+ * User Functions
+ ***********************************************************************/
+
+/***********************************************************************
+ * Component Event Functions
+ ***********************************************************************/
+// 앱에서 _oncallback의 callback 호출시
+this.on_standardPlugin_callback = function(obj, e)
+{
+	trace("this.on_callback ::: " + e.svcid);
+	trace("this.on_callback ::: " + e.reason);
+	trace("this.on_callback ::: " + e.returnvalue);
+	
+
+	if(e.svcid == "versionCheck")
+	{
+		if(e.reason == 0)
+		{
+			trace("this.on_callback ::: " + JSON.stringify(e.returnvalue));
+			let txt;
+			const json = e.returnvalue;
+			const curVer = json.curVersion;
+			const makVer = json.makVersion;
+			const curVerRe = curVer.replace(/\./g, "");
+			const makVerRe = makVer.replace(/\./g, "");
+			trace("replace CurrentVersion : " + curVerRe);
+			trace("replace MaketVersion : " + makVerRe);
+			const intCurVer = parseInt(curVerRe);
+			const intMakVer = parseInt(makVerRe);
+			if(intCurVer < intMakVer)
+			{
+				txt = "새로운 버전이 출시되었습니다.\n\n";
+				txt += "최신버전 " + makVer + "\n";
+				txt += "현재버전 " + curVer;
+				
+				this.btn_update.set_visible(true);
+			}
+			else
+			{
+				txt = "현재 최신 버전 이용중입니다.\n\n";
+				txt += "현재 버전 " + curVer;
+				
+				this.btn_update.set_visible(false);
+			}
+			
+			this.sta_txt.set_text(txt);
+		}
+		else if(e.reason == -1)
+		{
+			let txt = "버전 확인에 실패하였습니다.";
+			
+			this.sta_txt.set_text(txt);
+		}
+	}
+};
+
+
+this.btn_update_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	const param = {};
+	this.standardPlugin.callMethod("appUpdate", param);
+};
+]]></Script>
+  </Form>
+</FDL>

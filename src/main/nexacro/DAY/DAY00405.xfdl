@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="DAY00405" width="1920" height="800" titletext="4-5 월간 출석률·송영집계" onload="form_onload">
+    <Layouts>
+      <Layout width="1920" height="800">
+        <Div id="div_cont" taborder="1" left="0" top="40" right="0" bottom="10">
+          <Layouts>
+            <Layout>
+              <Div id="div_left" taborder="0" left="0" top="0" width="800" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_subTitle1" taborder="0" text="수급자별 월간 출석·식사집계" left="0" top="0" width="220" height="25" cssclass="lb01"/>
+                    <Grid id="grd_list1" taborder="1" left="0" top="30" right="0" bottom="0" binddataset="ds_list1" autofittype="col" onexpandup="div_cont_div_left_grd_list1_onexpandup">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="90"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="50"/>
+                            <Column size="80"/>
+                            <Column size="80"/>
+                            <Column size="50"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="현황"/>
+                            <Cell col="1" text="그룹"/>
+                            <Cell col="2" text="수급자명"/>
+                            <Cell col="3" text="성별"/>
+                            <Cell col="4" text="등급"/>
+                            <Cell col="5" text="생활실"/>
+                            <Cell col="6" text="일수"/>
+                            <Cell col="7" text="아침"/>
+                            <Cell col="8" text="점심"/>
+                            <Cell col="9" text="저녁"/>
+                            <Cell col="10" text="입소일"/>
+                            <Cell col="11" text="퇴소일"/>
+                            <Cell col="12" text="조회"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:거주현황"/>
+                            <Cell col="1" text="bind:m_group"/>
+                            <Cell col="2" text="bind:m_name" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" textAlign="left"/>
+                            <Cell col="3" text="bind:성별"/>
+                            <Cell col="4" text="bind:등급"/>
+                            <Cell col="5" text="bind:m_roomname"/>
+                            <Cell col="6" text="bind:일수" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '일수') == 0 ? '' : dataset.getColumn(currow, '일수')"/>
+                            <Cell col="7" text="bind:아침" expr="dataset.getColumn(currow, '아침') == 0 ? '' : dataset.getColumn(currow, '아침')"/>
+                            <Cell col="8" text="bind:점심" expr="dataset.getColumn(currow, '점심') == 0 ? '' : dataset.getColumn(currow, '점심')"/>
+                            <Cell col="9" text="bind:저녁" expr="dataset.getColumn(currow, '저녁') == 0 ? '' : dataset.getColumn(currow, '저녁')"/>
+                            <Cell col="10" text="bind:m_enday" displaytype="date" expandchar="dot"/>
+                            <Cell col="11" text="bind:퇴소일" displaytype="date" expandchar="dot" color="red"/>
+                            <Cell col="12" text="bind:조회" expandimage="url('theme://images/ico_search.png')" expandshow="show" expandsize="50"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="div_right" taborder="1" text="div_00" left="div_left:10" top="0" right="0" bottom="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="sta_subTitle2" taborder="0" text="월간 출석,송영,식사 집계" left="0" top="0" width="190" height="25" cssclass="lb01"/>
+                    <Grid id="grd_list2" taborder="1" left="0" top="30" right="0" bottom="0" binddataset="ds_list2" autofittype="col">
+                      <Formats>
+                        <Format id="default">
+                          <Columns>
+                            <Column size="100"/>
+                            <Column size="50"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                            <Column size="60"/>
+                          </Columns>
+                          <Rows>
+                            <Row size="24" band="head"/>
+                            <Row size="24"/>
+                          </Rows>
+                          <Band id="head">
+                            <Cell text="송영일"/>
+                            <Cell col="1" text="요일"/>
+                            <Cell col="2" text="현인원"/>
+                            <Cell col="3" text="출석"/>
+                            <Cell col="4" text="남"/>
+                            <Cell col="5" text="여"/>
+                            <Cell col="6" text="시작(Y)"/>
+                            <Cell col="7" text="시작(N)"/>
+                            <Cell col="8" text="종료(Y)"/>
+                            <Cell col="9" text="종료(N)"/>
+                            <Cell col="10" text="야간"/>
+                            <Cell col="11" text="아침"/>
+                            <Cell col="12" text="점심"/>
+                            <Cell col="13" text="저녁"/>
+                            <Cell col="14" text="식수합"/>
+                          </Band>
+                          <Band id="body">
+                            <Cell text="bind:nalja"/>
+                            <Cell col="1" text="bind:요일"/>
+                            <Cell col="2" text="bind:현인원" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '현인원') == 0 ? '' : dataset.getColumn(currow, '현인원')"/>
+                            <Cell col="3" text="bind:출석" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '출석') == 0 ? '' : dataset.getColumn(currow, '출석')"/>
+                            <Cell col="4" text="bind:남자" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '남자') == 0 ? '' : dataset.getColumn(currow, '남자')"/>
+                            <Cell col="5" text="bind:여자" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '여자') == 0 ? '' : dataset.getColumn(currow, '여자')"/>
+                            <Cell col="6" text="bind:시작거주지y" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '시작거주지y') == 0 ? '' : dataset.getColumn(currow, '시작거주지y')"/>
+                            <Cell col="7" text="bind:시작거주지n" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '시작거주지n') == 0 ? '' : dataset.getColumn(currow, '시작거주지n')"/>
+                            <Cell col="8" text="bind:종료거주지y" expr="dataset.getColumn(currow, '종료거주지y') == 0 ? '' : dataset.getColumn(currow, '종료거주지y')"/>
+                            <Cell col="9" text="bind:종료거주지n" expr="dataset.getColumn(currow, '종료거주지n') == 0 ? '' : dataset.getColumn(currow, '종료거주지n')"/>
+                            <Cell col="10" text="bind:야간" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" color="red" expr="dataset.getColumn(currow, '야간') == 0 ? '' : dataset.getColumn(currow, '야간')"/>
+                            <Cell col="11" text="bind:아침" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '아침') == 0 ? '' : dataset.getColumn(currow, '아침')"/>
+                            <Cell col="12" text="bind:점심" font="normal 700 10pt/normal &quot;Noto Sans KR&quot;" expr="dataset.getColumn(currow, '점심') == 0 ? '' : dataset.getColumn(currow, '점심')"/>
+                            <Cell col="13" text="bind:저녁" expr="dataset.getColumn(currow, '저녁') == 0 ? '' : dataset.getColumn(currow, '저녁')"/>
+                            <Cell col="14" text="bind:식수합" expr="dataset.getColumn(currow, '식수합') == 0 ? '' : dataset.getColumn(currow, '식수합')"/>
+                          </Band>
+                        </Format>
+                      </Formats>
+                    </Grid>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_search" taborder="0" left="0" top="0" height="35" text="" width="365">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_date_from" taborder="1" left="122" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="시작날짜" buttonsize="0" tabstop="false"/>
+              <Static id="sta_00" taborder="2" text="~" left="235" top="5" width="15" height="25" textAlign="center"/>
+              <Calendar id="cal_date_to" taborder="3" left="250" top="5" width="110" height="25" readonly="true" initvalueid="iv_cal_dot" cssclass="essential" tooltiptext="종료날짜" buttonsize="0" tabstop="false"/>
+              <Calendar id="cal_date" taborder="0" left="0" top="5" width="90" height="25" initvalueid="iv_cal_yyyyMM" calendarfunc="month" buttonsize="0 0" readonly="true" tabstop="false"/>
+              <Calendar id="cal_date_pic" taborder="4" left="cal_date:-1" top="5" width="25" height="25" initvalueid="iv_cal_yyyyMM" onchanged="div_search_cal_date_pic_onchanged" tabstop="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_func" taborder="2" left="div_search:10" top="0" height="36" formscrollbartype="none" width="868">
+          <Layouts>
+            <Layout>
+              <Button id="btn_report1" taborder="0" text="월간 수급자 송영집계" left="0" top="4" width="175" height="26" onclick="fn_report" cssclass="btn_print"/>
+              <Button id="btn_report2" taborder="1" text="월간 출석률 식수 집계" left="180" top="4" width="175" height="26" cssclass="btn_print" onclick="fn_report"/>
+              <Button id="btn_report3" taborder="2" text="월간 수급자 결석리스트" left="360" top="4" width="185" height="26" onclick="fn_report" cssclass="btn_print"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list1" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="ord1" type="STRING" size="256"/>
+          <Column id="거주현황" type="STRING" size="256"/>
+          <Column id="m_group" type="STRING" size="256"/>
+          <Column id="m_name" type="STRING" size="256"/>
+          <Column id="성별" type="STRING" size="256"/>
+          <Column id="등급" type="STRING" size="256"/>
+          <Column id="m_roomname" type="STRING" size="256"/>
+          <Column id="일수" type="STRING" size="256"/>
+          <Column id="아침" type="STRING" size="256"/>
+          <Column id="점심" type="STRING" size="256"/>
+          <Column id="저녁" type="STRING" size="256"/>
+          <Column id="m_enday" type="STRING" size="256"/>
+          <Column id="m_reday" type="STRING" size="256"/>
+          <Column id="퇴소일" type="STRING" size="256"/>
+          <Column id="조회" type="STRING" size="256"/>
+          <Column id="m_code" type="STRING" size="256"/>
+          <Column id="생일" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SICODE" type="STRING" size="256"/>
+          <Column id="DATE" type="STRING" size="256"/>
+          <Column id="DATE_FROM" type="DATE" size="256"/>
+          <Column id="DATE_TO" type="DATE" size="256"/>
+          <Column id="MON" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list2" useclientlayout="true">
+        <ColumnInfo>
+          <Column id="nalja" type="STRING" size="256"/>
+          <Column id="요일" type="STRING" size="256"/>
+          <Column id="현인원" type="STRING" size="256"/>
+          <Column id="출석" type="STRING" size="256"/>
+          <Column id="남자" type="STRING" size="256"/>
+          <Column id="여자" type="STRING" size="256"/>
+          <Column id="시작거주지y" type="STRING" size="256"/>
+          <Column id="시작거주지n" type="STRING" size="256"/>
+          <Column id="종료거주지y" type="STRING" size="256"/>
+          <Column id="종료거주지n" type="STRING" size="256"/>
+          <Column id="야간" type="STRING" size="256"/>
+          <Column id="아침" type="STRING" size="256"/>
+          <Column id="점심" type="STRING" size="256"/>
+          <Column id="저녁" type="STRING" size="256"/>
+          <Column id="식수합" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/***********************************************************************
+ * 화면ID   	: DAY00405
+ * 화면명   	: 월간 출석률·송영집계
+ * 화면설명 	: 해당월의 출석,송영,식사 집계를 확인하는 화면
+ * 작성일   	: 2022-05-09
+ * 작성자   	: 조기종
+ * 수정이력 	:
+ ***********************************************************************
+ ***********************************************************************
+ *     수정일     	수정자   	내용
+ *	
+ ***********************************************************************
+ * 비고 : 
+ */
+ /***********************************************************************
+ * Library Include
+ ***********************************************************************/
+include "lib::sct_com.xjs";
+include "lib::pgm_com.xjs";
+/***********************************************************************
+ * Form Variables
+ ***********************************************************************/
+const fv_sicode = nexacro.getApplication().gds_userInfo.getColumn(0, "sicode");
+/***********************************************************************
+ * Form Event Functions
+ ***********************************************************************/
+// 온로드
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.form_onload_com(obj, e, false);
+	
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth();
+	const firstDay = new Date(year, month, 1);
+	const lastDay = new Date(year, month + 1, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMon = year + ((month + 1) + "").padStart(2, '0');
+	
+	// 검색조건 세팅
+	this.ds_search.setColumn(0, "SICODE", fv_sicode);
+	this.ds_search.setColumn(0, "DATE", firstDay);
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMon);
+	
+	// 조회
+	this.fn_search();
+};
+
+// 그리드에 css 적용
+this.initGrid = function(grid)
+{
+	// 성별에 따라 이름 배경색 변경
+	const nameIdx = grid.getBindCellIndex("body", "m_name");
+	const nameCss = "expr:dataset.getColumn(currow, '성별') == '남' ? 'cellBMan' : 'cellBWoman'";
+	grid.setCellProperty("body", nameIdx, "cssclass", nameCss);
+	
+	// 퇴소여부에 따라 수급상태 배경색 변경
+	const nowIdx = grid.getBindCellIndex("body", "거주현황");
+	const nowCss = "expr:dataset.getColumn(currow, '거주현황') == '퇴소자' ? 'cellBRetire' : ''";
+	grid.setCellProperty("body", nowIdx, "cssclass", nowCss);
+};
+
+// 그리드에 css 적용
+this.initGrid2 = function(grid)
+{
+	// 요일에 따라 송영일 색 변경
+	const dayIdx = grid.getBindCellIndex("body", "nalja");
+	const dayCss = "expr:dataset.getColumn(currow, '요일') == '(일)' ? 'RedFontCell' : ''";
+	grid.setCellProperty("body", dayIdx, "cssclass", dayCss);
+	
+	// 요일에 따라 요일 색 변경
+	const dddIdx = grid.getBindCellIndex("body", "요일");
+	const dddCss = "expr:dataset.getColumn(currow, '요일') == '(일)' ? 'RedFontCell' : ''";
+	grid.setCellProperty("body", dddIdx, "cssclass", dddCss);
+};
+/***********************************************************************
+ * Data Validation check Functions
+ ************************************************************************/
+//조회 전 validation
+this.fn_search_pre = function ()
+{	
+	return true;
+};
+
+/***********************************************************************
+ * Data Transaction Functions
+ ************************************************************************/
+// 조회
+this.fn_search = function() 
+{
+	if (!this.fn_search_pre()) return;
+	
+	const svcId = "search";
+	const params = "/commonController.do";
+	const inDatasets = "input1=ds_search input2=ds_search";
+	const outDatasets = "ds_list1=output1 ds_list2=output2";
+	const argument = "method=getList"
+				   + " sqlId='DAY00405.DAY00405_DS_LIST1_S DAY00405.DAY00405_DS_LIST2_S'";
+	const callbackFunc = "fn_callback";
+
+	Sct.transaction(this, svcId, params, inDatasets, outDatasets, argument, callbackFunc);
+};
+
+//콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg)
+{
+	if (nErrorCode == 0) 
+	{
+		if(strSvcID == "search")
+		{
+			this.initGrid(this.div_cont.form.div_left.form.grd_list1);
+			this.initGrid2(this.div_cont.form.div_right.form.grd_list2);
+		}
+	}
+	else
+	{
+		this.alert(strErrorMsg);
+	}
+};
+
+/***********************************************************************                                                                                                                                                                                                                                                       
+ * User Functions
+ ***********************************************************************/
+/* 날짜 스트링 만들기
+ *
+ * @param date DATE
+ * @return String yyyyMMdd
+ */
+this.fn_getDateString = function(date)
+{
+	const year = date.getFullYear() + "";
+	const month = ((date.getMonth() + 1) + "").padStart(2, '0');
+	const day = (date.getDate() + "").padStart(2, '0');
+	
+	return year + month + day;
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Popup Functions
+ ***********************************************************************/
+// 리포트 출력
+this.fn_report = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	/*
+	 * ubireport 용 변수 
+	 * ubiPreview 함수에 파라미터로 사용됨 필수 이외의 파라미터는 생략가능 
+	 * 파라미터 순서는 아래 순서를 따라감
+	 * jrfFile : 리포트 파일명 (필수)
+	 * arg : 리포트 아규먼트 ( 세팅 예 : COMPANY#유비디시전#HOMEPAGE#http://www.ubireport.com# )
+	 * mul : 멀티리포트 여부 ( 멀티리포트 사용시 true로 세팅 )
+	 * mulCount : 멀티리포트 사용시 리포트 반복횟수 설정 숫자형태의 문자열
+	 * pdf : pdf 프린트 바로 열기 여부 모달로 띄울시 false
+	 * type : 리포트 데이타 유형 ( 0:SQL, 1:Nexacro 데이터셋, 2:화면 내 Grid(자동리포트) )
+	 *		  정의하지 않을경우 0으로 자동 세팅
+	 * ds : Nexacro 데이터셋 정보 ( 배열 : [["SQL01", this.ds_list], ["SQL02", this.ds_data]] 
+	 *								데이터셋을 사용한 리포트 호출시 필요 )
+	 * grid : 자동 리포트에서 사용하는 그리드 객체 ( 데이타 유형이 2일 경우 필요 )
+	 */
+	let jrfFile = "";
+	switch(obj.id) 
+	{
+		case "btn_report1" :
+			jrfFile = "DAY00405_R01.jrf";
+			break;
+		case "btn_report2" :
+			jrfFile = "DAY00405_R02.jrf";
+			break;
+		case "btn_report3" :
+			jrfFile = "DAY00405_R03.jrf";
+			break;
+		default:
+	}
+	
+	const arg = "P_SICODE#" + fv_sicode + "#"
+			  + "P_DATE#" + this.ds_search.getColumn(0, "DATE") + "#"
+			  + "P_DATE_FROM#" + this.ds_search.getColumn(0, "DATE_FROM") + "#"
+			  + "P_DATE_TO#" + this.ds_search.getColumn(0, "DATE_TO") + "#"
+			  + "P_MONTH#" + this.ds_search.getColumn(0, "MON") + "#";
+	
+	// frameTop에 있는 리포트 div 내용 갱신
+	nexacro.getApplication().av_topFrame.form.components["UbiDiv"].form.ubiPreview(jrfFile, arg);
+};
+
+/***********************************************************************                                                                                                                                                                                                                                  
+ * Component Event Functions
+ ***********************************************************************/
+// 검색 버튼
+this.fn_searchBtn = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
+
+// 날짜 변경 이벤트
+this.div_search_cal_date_pic_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	// 선택월의 1일, 마지막일 구하기
+	const year = this.ds_search.getColumn(0, "DATE").substr(0,4);
+	const month = this.ds_search.getColumn(0, "DATE").substr(4);
+	const firstDay = new Date(year, month - 1 , 1);
+	const lastDay = new Date(year, month, 0);
+	const firstString = this.fn_getDateString(firstDay);
+	const lastString = this.fn_getDateString(lastDay);
+	const yearMonth = year + month;
+	
+	// from to 날짜 셋팅
+	this.ds_search.setColumn(0, "DATE_FROM", firstString);
+	this.ds_search.setColumn(0, "DATE_TO", lastString);
+	this.ds_search.setColumn(0, "MON", yearMonth);
+	
+	this.fn_search();
+};
+
+// 그리드 확장 버튼 이벤트
+this.div_cont_div_left_grd_list1_onexpandup = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+{
+	const exIdx = obj.getBindCellIndex("body", "조회");
+	
+	if (e.col == exIdx)
+	{
+		const tot = this.ds_list1.getColumn(e.row, "일수");
+		const name = this.ds_list1.getColumn(e.row, "m_name");
+		const code = this.ds_list1.getColumn(e.row, "m_code");
+		const sex = this.ds_list1.getColumn(e.row, "성별");
+		const birth = this.ds_list1.getColumn(e.row, "생일");
+		const enday = this.ds_list1.getColumn(e.row, "m_enday");
+		const reday = this.ds_list1.getColumn(e.row, "퇴소일");
+		
+		if (tot == undefined)
+			return;
+		if (tot < 1)
+			return;
+	
+		const param = {
+			SICODE : fv_sicode
+		,	NAME : name
+		,	CODE : code
+		,	SEX : sex
+		,	BIRTH : birth
+		,	ENDAY : enday
+		,	REDAY : reday
+		,	TOT : tot
+		,	FROM : this.ds_search.getColumn(0, "DATE_FROM")
+		,	TO : this.ds_search.getColumn(0, "DATE_TO")
+		,	YEARMON : this.ds_search.getColumn(0, "MON")
+		};
+		
+		Sct.popup(this, "search", 450, 400, "월간 수급자 송영·식사 기록", param, "DAY_POP::DAY00405_P01.xfdl", "fn_popCallback");
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item1" compid="div_search.form.cal_date_from" propid="value" datasetid="ds_search" columnid="DATE_FROM"/>
+      <BindItem id="item2" compid="div_search.form.cal_date_to" propid="value" datasetid="ds_search" columnid="DATE_TO"/>
+      <BindItem id="item0" compid="div_search.form.cal_date" propid="value" datasetid="ds_search" columnid="DATE"/>
+      <BindItem id="item3" compid="div_search.form.cal_date_pic" propid="value" datasetid="ds_search" columnid="DATE"/>
+    </Bind>
+  </Form>
+</FDL>

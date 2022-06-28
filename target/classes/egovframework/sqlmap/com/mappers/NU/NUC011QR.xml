@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUC011QR                                                         
+     * 프로그램 명     	: 이용약관 개인정보취급방침                                              
+     * Description 	: 이용약관 및 개인정보취급방침을 조회
+     *================================================================                  
+                작성일자         		|  작성자         	|  비고                                    
+     *================================================================                  
+       2021-09-02 15:56     |  조기종        		| 최초작성                         
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="NUC011QR">
+	<!-- 이용약관 및 개인정보취급방침 조회 -->
+	<select id="NUC011QR_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUC011QR_DS_LIST_S */
+		SELECT
+				COMPANY_CD
+			,	TOS_TP
+			,	TOS_TITLE
+			,	TOS_SUB_TITLE
+			,	TOS_SUB_DATA_TITLE
+			,	TOS_DATA
+		FROM
+				T_NU_TOS
+		WHERE
+				COMPANY_CD = #{COMPANY_CD}
+		ORDER BY
+				TOS_TP
+	</select>                                                                                                                                                                                 
+</mapper>                                                                                                                                                                                                          

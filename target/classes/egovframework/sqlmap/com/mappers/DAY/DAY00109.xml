@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00109
+     * 프로그램 명     	: 1-9  기능회복훈련 급여제공기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-05-09 10:00        	|  박영주		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00109_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00109">
+	<!-- 조회 -->
+    <select id="DAY00109_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00109_DS_LIST_S */
+		SELECT bm.m_jumin1
+			 , bm.m_jumin2
+		     , bm.sicode
+		     , bm.거주현황 AS s_nm
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},1,'%Y.%m.%d') AS m_liday1
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},2,'%Y.%m.%d') AS m_liday2
+		     , bm.m_regist
+		     , bm.m_juso1
+		     , bm.m_juso2
+		     , bm.m_post
+		     , CONCAT(bm.m_juso1,' ',bm.m_juso2) AS m_juso
+		     , bm.m_conname AS m_conname
+			 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		     , DATE_FORMAT(CURRENT_DATE,'%Y.%m.%d') AS today
+		     , m_contel11	AS tel
+		     , m_contel12	AS phone
+		     , 종교	AS religion
+		  FROM base_mate bm	  	  
+		  WHERE bm.sicode = #{sicode}
+			AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+			AND bm.m_reday >= #{date_from}
+		<if test="m_group != '전체'">
+			AND bm.m_group = #{m_group}			/* A,B,C,D,E 중 하나인 경우 */
+		</if>
+		  ORDER BY bm.m_name
+    </select>
+
+    <select id="DAY00109_DS_LIST_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00109_DS_LIST_CNT_S */
+    	SELECT
+    		COUNT(*) AS cnt
+		FROM base_mate bm
+		WHERE bm.sicode = #{sicode}
+		 AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+		 AND bm.m_reday >= #{date_from}
+    </select>
+    
+    <select id="DAY00109_DS_PERSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00109_DS_PERSON_S */
+		SELECT
+		      bm.sicode
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},1,'%Y.%m.%d') AS m_liday1
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},2,'%Y.%m.%d') AS m_liday2
+		     , bm.m_regist
+		     , bm.m_conname AS m_conname
+			 , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			 		 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		  FROM base_mate bm
+		  WHERE bm.sicode = #{sicode}
+			AND bm.m_code = #{m_code}
+    </select>
+    
+	<select id="DAY00109_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00109_DS_DETAIL_S */
+		WITH recursive dayz AS (			/* 파라메터로 받은 날짜 기준 해당월의 1일부터 말일까지 리스팅 */
+			SELECT DATE_ADD(#{date_from}, INTERVAL -DAY(#{date_from}) + 1 DAY) AS dy
+			UNION ALL
+			SELECT DATE_ADD(dy, INTERVAL 1 DAY) FROM dayz
+			WHERE DATE_ADD(dy, INTERVAL 1 DAY) <![CDATA[ <= ]]> LAST_DAY(#{date_from})
+		)
+		SELECT dy AS m_all_day
+				, X.*
+		FROM dayz
+		LEFT OUTER JOIN (
+				SELECT kr.sicode
+					 , kr.k_nalja
+					 , kr.k_number
+					 , kr.k_code
+					 , kr.k_name
+				  , kr.기능훈련a
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,1,1) = '1' THEN '◎' ELSE '' END) AS tta_1
+				  	 , (CASE WHEN SUBSTRING(kr.기능훈련a,2,1) = '1' THEN '◎' ELSE '' END) AS tta_2
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,3,1) = '1' THEN '◎' ELSE '' END) AS tta_3
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,4,1) = '1' THEN '◎' ELSE '' END) AS tta_4
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,5,1) = '1' THEN '◎' ELSE '' END) AS tta_5
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,6,1) = '1' THEN '◎' ELSE '' END) AS tta_6
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,7,1) = '1' THEN '◎' ELSE '' END) AS tta_7
+				     , (CASE WHEN SUBSTRING(kr.기능훈련a,8,1) = '1' THEN '◎' ELSE '' END) AS tta_8
+				  , kr.기능훈련b
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,1,1) = '1' THEN '◈' ELSE '' END) AS ttb_1
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,2,1) = '1' THEN '◈' ELSE '' END) AS ttb_2
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,3,1) = '1' THEN '◈' ELSE '' END) AS ttb_3
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,4,1) = '1' THEN '◈' ELSE '' END) AS ttb_4
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,5,1) = '1' THEN '◈' ELSE '' END) AS ttb_5
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,6,1) = '1' THEN '◈' ELSE '' END) AS ttb_6
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,7,1) = '1' THEN '◈' ELSE '' END) AS ttb_7
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,8,1) = '1' THEN '◈' ELSE '' END) AS ttb_8
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,9,1) = '1' THEN '◈' ELSE '' END) AS ttb_9
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,10,1) = '1' THEN '◈' ELSE '' END) AS ttb_10
+				     , (CASE WHEN SUBSTRING(kr.기능훈련b,11,1) = '1' THEN '◈' ELSE '' END) AS ttb_11
+				  , kr.기능훈련c
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,1,1) = '1' THEN '▣' ELSE '' END) AS ttc_1
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,2,1) = '1' THEN '▣' ELSE '' END) AS ttc_2
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,3,1) = '1' THEN '▣' ELSE '' END) AS ttc_3
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,4,1) = '1' THEN '▣' ELSE '' END) AS ttc_4
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,5,1) = '1' THEN '▣' ELSE '' END) AS ttc_5
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,6,1) = '1' THEN '▣' ELSE '' END) AS ttc_6
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,7,1) = '1' THEN '▣' ELSE '' END) AS ttc_7
+				     , (CASE WHEN SUBSTRING(kr.기능훈련c,8,1) = '1' THEN '▣' ELSE '' END) AS ttc_8
+				     , kr.훈련시a
+				     , kr.훈련시b
+				     , kr.훈련시c
+				     , TRIM(kr.훈련담당) AS 훈련담당	/* 이름 뒤에 특이하게 공백문자가 여럿 들어간 경우가 있어 trim 사용 */
+				  FROM kmrecord kr
+				  WHERE 1 = 1
+				  	AND kr.sicode = #{sicode}
+				  	AND kr.k_nalja >= #{date_from}
+				  	AND kr.k_nalja <![CDATA[ <= ]]> #{date_to}
+				  	AND kr.k_code = #{m_code}
+			) X
+				ON dayz.dy = X.k_nalja
+			ORDER BY dayz.dy ASC
+    </select>
+
+	<select id="DAY00109_DS_YEAR_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00109_DS_YEAR_S */
+		WITH recursive cte1 AS (	-- 과거 10년 + 현재년 + 미래 9년
+				SELECT YEAR(DATE_ADD(CURRENT_DATE, INTERVAL -10 YEAR)) AS CMCD,
+						CONCAT(YEAR(DATE_ADD(CURRENT_DATE, INTERVAL -10 YEAR)), '년') AS CMNM
+			UNION ALL
+				SELECT CMCD + 1, CONCAT((CMCD + 1), '년') FROM cte1
+				WHERE CMCD + 1 <![CDATA[ <= ]]> YEAR(CURRENT_DATE) + 9
+		)
+		
+		SELECT * FROM cte1  
+    </select>
+</mapper>

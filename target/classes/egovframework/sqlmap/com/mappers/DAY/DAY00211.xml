@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00211
+     * 프로그램 명     	: 2-11  월간 간호제공기록
+     * Description 	: 
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-06-08 17:10        	|  박영주		| 최초작성                         
+	   2022-06-17 17:00			|  정준우         | 설계서 내용이 변경되어 수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+        DAY00211_DS_LIST_S		조회                                                                                     
+     *================================================================                      
+-->
+<mapper namespace="DAY00211">
+	<!-- 조회 -->
+    <select id="DAY00211_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    /*  DAY00211_DS_LIST_S */
+	    <![CDATA[
+		    SELECT bm.sicode
+			     , bm.m_code
+			     , bm.m_group
+			     , bm.m_name
+			     , bm.성별
+			     , bm.거주현황
+			 	  ,bm.m_roomname
+			     , cr.cr_cnt
+			     , kg.g_cnt
+			     , hd.hd_cnt
+			     ,0 AS chk
+			  FROM base_mate bm
+			  LEFT JOIN (SELECT sicode
+			     , cr_code
+			     , COUNT(*) AS cr_cnt
+			  FROM kmcretion 
+			 WHERE sicode = #{sicode}
+			   AND CAST(배설처치  AS INT) > 0
+			   AND cr_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			GROUP BY sicode
+			     , cr_code
+			) cr
+			ON (bm.sicode = cr.sicode AND bm.m_code = cr.cr_code)
+			  LEFT JOIN (SELECT sicode
+			     , g_code
+			     , COUNT(*) AS g_cnt
+			  FROM kmganho 
+			 WHERE sicode = #{sicode}
+			   AND g_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			GROUP BY sicode
+			     , g_code
+			) kg
+			ON (bm.sicode = kg.sicode AND bm.m_code = kg.g_code)
+			  LEFT JOIN (SELECT sicode
+			     , 수급자코드
+			     , COUNT(*) AS hd_cnt
+			  FROM home_daily 
+			 WHERE sicode = #{sicode}
+			   AND 제공일 BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			GROUP BY sicode
+			     , 수급자코드
+			) hd
+			ON (bm.sicode = hd.sicode AND bm.m_code = hd.수급자코드)
+			
+			 WHERE bm.sicode = #{sicode}
+			   AND bm.m_reday >= STR_TO_DATE(#{date_from},'%Y%m%d')
+			   AND bm.m_enday <= STR_TO_DATE(#{date_to},'%Y%m%d')
+	    ]]>
+		<if test="m_group != '전체' and m_group != '' ">
+			AND bm.m_group = #{m_group}			/* A,B,C,D,E 중 하나인 경우 */
+		</if>
+		  ORDER BY bm.m_name
+    </select>
+
+    <select id="DAY00211_DS_LIST_CNT_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_LIST_CNT_S */
+    	SELECT
+    		COUNT(*) AS cnt
+		FROM base_mate bm
+		WHERE bm.sicode = #{sicode}
+		 AND bm.m_enday <![CDATA[ <= ]]> #{date_to}
+		 AND bm.m_reday >= #{date_from}
+    </select>
+    
+    <select id="DAY00211_DS_PERSON_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_PERSON_S */
+		SELECT
+		      bm.sicode
+		     , bm.m_group
+		     , bm.m_code
+		     , bm.m_name
+		     , bm.성별 AS sex_nm
+		     , FN_GRADE_NM(bm.sicode, bm.m_code, #{date_to}) AS grade_nm
+		     , bm.m_roomname
+		     , DATE_FORMAT(bm.m_enday, '%Y.%m.%d') AS m_enday
+		     , if(bm.m_reday = '2100-01-01','', DATE_FORMAT(bm.m_reday, '%Y.%m.%d')) AS m_reday
+		     , bm.m_history
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},1,'%Y.%m.%d') AS m_liday1
+             , FN_LIDAY_FROM_TO(bm.sicode,bm.m_code,#{date_to},2,'%Y.%m.%d') AS m_liday2
+		     , bm.m_regist
+		     , bm.m_conname AS m_conname
+			 , TIMESTAMPDIFF(YEAR, STR_TO_DATE(
+			        CONCAT(CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN(1,2,5,6) THEN 19 /* 주민번호 뒷자리 */
+			              		WHEN SUBSTRING(bm.m_jumin2,1,1) IN(3,4,7,8) THEN 20
+			              		ELSE 19		END
+			         	, bm.m_jumin1), '%Y%m%d'), CURRENT_DATE) AS age
+		     , insert(insert(bm.m_jumin1,3,0,'-'),6,0,'-') AS b_date
+		  FROM base_mate bm	  
+		  WHERE bm.sicode = #{sicode}
+			AND bm.m_code = #{m_code}
+    </select>
+    
+	<select id="DAY00211_DS_DETAIL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_DETAIL_S */
+    	<![CDATA[
+		WITH recursive dayz AS (         /* 파라메터로 받은 날짜 기준 해당월의 1일부터 말일까지 리스팅 */
+		   SELECT DATE_ADD(#{date_from}, INTERVAL -DAY(#{date_from}) + 1 DAY) AS dy
+		   UNION ALL
+		   SELECT DATE_ADD(dy, INTERVAL 1 DAY) FROM dayz
+		   WHERE DATE_ADD(dy, INTERVAL 1 DAY)   <=   LAST_DAY(#{date_from})
+		)
+		SELECT dy AS m_all_day
+		     , DAYOFWEEK(dy) AS week
+		     , kn.혈압 
+		     , kn.맥박 
+		     , kn.혈당 
+		     , kn.혈당2
+		     , kn.체온 
+		     , kn.체온2
+		     , kn.체온3
+		     , kn.호흡 
+		     , IFNULL(ks.투약종류,'') AS do_cnt /* 투약 */
+		     , (CASE WHEN bs.so_cnt > 0 THEN '○' ELSE '' END) AS so_cnt /* 욕창 */
+		     , SUBSTRING(kg.g_type1,1,2) AS g_type1/* 구강 */
+		     , kc.cr_type1
+		     , (CASE WHEN hd.hd_cnt > 0 THEN '○' ELSE '' END) AS hd_cnt /* 상비약 */
+		     , (CASE WHEN km.km_cnt > 0 THEN '○' ELSE '' END) AS km_cnt /* 진료 */
+		
+		     
+		     , (CASE WHEN kc.cr_a_cnt > 0 THEN kc.cr_a_cnt ELSE NULL END) AS cr_a_cnt /* 배뇨 */
+		     , (CASE WHEN kc.cr_b_cnt > 0 THEN kc.cr_b_cnt ELSE NULL END) AS cr_b_cnt /* 배변 */
+		     , (CASE WHEN kc.cr_c_cnt > 0 THEN kc.cr_c_cnt ELSE NULL END) AS cr_c_cnt /* 기저귀 */
+		     , kn.간호일지
+		     , kn.담당자      
+		  FROM dayz
+		LEFT JOIN (SELECT sicode
+		       , so_code
+		       , so_nalja
+		       , COUNT(*) AS so_cnt 
+		    FROM base_sore
+		   WHERE sicode = #{sicode}
+		     AND so_code = #{m_code}
+		     AND so_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		     AND 욕창시점 > 0
+		   GROUP BY sicode
+		          , so_code
+		            , so_nalja
+		  ) bs
+		ON (dayz.dy = bs.so_nalja)
+		LEFT JOIN (SELECT sicode
+		     , n_code 
+		     , n_nalja
+		     , 혈압
+		     , IF(맥박 = 0, '', 맥박) AS 맥박
+		     , IF(혈당  = 0, '', 혈당) AS 혈당
+		     , IF(혈당2 = 0, '', 혈당2) AS 혈당2
+		     , IF(체온 = 0, '', 체온) AS 체온 
+		     , IF(체온2 = 0, '', 체온2) AS 체온2
+		     , IF(체온3 = 0, '', 체온3) AS 체온3
+		     , IF(호흡 = 0, '', 호흡) AS 호흡
+		     , 간호일지
+		     , TRIM(담당자) AS 담당자 
+		     , 담당코드
+		  FROM kmnurse
+		 WHERE sicode = #{sicode}
+		   AND n_code = #{m_code}
+		   AND n_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')) kn
+		ON (dayz.dy = kn.n_nalja)
+		LEFT JOIN (SELECT sicode
+		     , docode
+		     , donalja
+		     , IF(투약종류 = 0, '' , 투약종류) AS 투약종류
+		  FROM kmdosage
+		WHERE sicode = #{sicode}
+		 AND docode = #{m_code}
+		 AND donalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		) ks
+		ON (dayz.dy = ks.donalja)
+		LEFT JOIN (SELECT sicode
+		    , cr_nalja
+		      , cr_code
+		      , (CASE WHEN SUBSTRING(소변관찰,8,1) IN ('2','3') THEN 1 ELSE 0 END) 
+		      + (CASE WHEN SUBSTRING(소변관찰,9,1) IN ('2','3') THEN 1 ELSE 0 END) 
+		      + (CASE WHEN SUBSTRING(소변관찰,10,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,11,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,12,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,13,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,14,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,15,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,16,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,17,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,18,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,19,1) IN ('2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(소변관찰,20,1) IN ('2','3') THEN 1 ELSE 0 END) AS cr_a_cnt /* 배뇨건수 */
+		      , (CASE WHEN SUBSTRING(배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END) 
+		      + (CASE WHEN SUBSTRING(배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END) AS cr_b_cnt /* 배변건수 */
+		      
+		, (CASE WHEN SUBSTRING(기저귀교환,8,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,9,1) = '1' THEN 1 ELSE 0 END) 
+		      + (CASE WHEN SUBSTRING(기저귀교환,10,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,11,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,12,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,13,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,14,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,15,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,16,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,17,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,18,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,19,1) = '1' THEN 1 ELSE 0 END)
+		      + (CASE WHEN SUBSTRING(기저귀교환,20,1) = '1' THEN 1 ELSE 0 END) AS cr_c_cnt /* 기저귀건수 */
+		      
+		      , (CASE WHEN CAST(배설처치  AS INT) > 0 THEN '○' ELSE '' END) AS cr_type1
+		  FROM kmcretion
+		 WHERE sicode = #{sicode}
+		   AND cr_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		   AND cr_code = #{m_code}) kc
+		ON (dayz.dy = kc.cr_nalja)
+		LEFT JOIN (SELECT sicode
+		     , g_code
+		     , g_nalja
+		     , (CASE WHEN 구강상태 = '1' THEN '정상'
+		             WHEN 구강상태 = '2' THEN '흔들림'
+		             WHEN 구강상태 = '3' THEN '통증'
+		             WHEN 구강상태 = '4' THEN '부분치아'
+		             WHEN 구강상태 = '5' THEN '치아없음'
+		  ELSE '' END) AS g_type1 
+		  FROM kmganho 
+		 WHERE sicode = #{sicode}
+		       AND g_code = #{m_code}
+		   AND g_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		) kg
+		ON (dayz.dy = kg.g_nalja)
+		LEFT JOIN (SELECT sicode
+		          , 수급자코드
+		          , 제공일
+		 , COUNT(*) AS hd_cnt 
+		    FROM home_daily
+		   WHERE sicode = #{sicode}
+		     AND 수급자코드 = #{m_code}
+		     AND 제공일 BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		   GROUP BY sicode
+		          , 수급자코드
+		          , 제공일
+		  ) hd
+		ON (dayz.dy = hd.제공일)
+		LEFT JOIN (SELECT sicode
+		          , 거주코드
+		          , 진료일
+		 , COUNT(*) AS km_cnt 
+		    FROM kmmedi
+		   WHERE sicode = #{sicode}
+		     AND 거주코드 = #{m_code}
+		     AND 진료일 BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		   GROUP BY sicode
+		          , 거주코드
+		          , 진료일
+		  ) km
+		ON (STR_TO_DATE(dayz.dy,'%Y-%m-%d') = STR_TO_DATE(km.진료일,'%Y-%m-%d'))
+		ORDER BY dayz.dy ASC
+    	]]>
+    </select>
+    <select id="DAY00211_DS_REPORT_CNT1" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT1 */
+	    <![CDATA[
+			SELECT 
+				COUNT(*) AS cnt
+			FROM 
+				kmnurse
+			WHERE 
+				sicode = #{sicode}
+			AND
+				n_code = #{m_code}
+			AND 
+				n_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND  STR_TO_DATE(#{date_to},'%Y%m%d')
+	    ]]>
+    </select>	   
+    <select id="DAY00211_DS_REPORT_CNT4" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT4 */
+	    <![CDATA[
+			SELECT 
+				COUNT(*) AS cnt
+			FROM 
+				kmdosage
+			WHERE 
+				sicode = #{sicode}
+			AND donalja BETWEEN  STR_TO_DATE(#{date_from},'%Y%m%d') AND  STR_TO_DATE(#{date_to},'%Y%m%d')
+			AND docode = #{m_code}
+	    ]]>
+    </select>
+    <select id="DAY00211_DS_REPORT_CNT7" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT7 */
+	    <![CDATA[
+			SELECT 
+				COUNT(*) AS cnt
+			FROM 
+				kmcretion
+			WHERE 
+				sicode = #{sicode}
+			AND cr_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			AND (CAST(배설처치 AS INT) > 0 OR LENGTH(배설결과) > 0)
+	    ]]>
+    </select>
+    <select id="DAY00211_DS_REPORT_CNT8" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT8 */
+	    <![CDATA[
+	    SELECT
+			IF(SUM(count_cnt) > 0, 1, 0) AS cnt   
+		  from base_mate a
+		  LEFT JOIN(SELECT sicode
+		, cr_code
+		, SUM(cr_b_cnt) AS count_cnt
+		FROM (
+		SELECT sicode
+		 , cr_code
+		 , (CASE WHEN SUBSTRING(배변관찰,8,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,9,1) IN ('1','2','3') THEN 1 ELSE 0 END) 
+		     + (CASE WHEN SUBSTRING(배변관찰,10,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,11,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,12,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,13,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,14,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,15,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,16,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,17,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,18,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,19,1) IN ('1','2','3') THEN 1 ELSE 0 END)
+		     + (CASE WHEN SUBSTRING(배변관찰,20,1) IN ('1','2','3') THEN 1 ELSE 0 END) AS cr_b_cnt /* 배변 */
+		FROM kmcretion
+		WHERE sicode = #{sicode}
+		   AND cr_nalja BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+		   ) a
+		GROUP BY sicode
+		 , cr_code
+		) kc
+		ON (a.sicode = kc.sicode AND a.m_code = kc.cr_code)
+		 WHERE a.sicode =  #{sicode}
+		   AND a.m_reday >= STR_TO_DATE(#{date_from},'%Y%m%d')
+		   AND a.m_enday <= STR_TO_DATE(#{date_to},'%Y%m%d')
+	    ]]>
+    </select>
+    <select id="DAY00211_DS_REPORT_CNT9" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT9 */
+	    <![CDATA[
+			SELECT
+				COUNT(*) AS cnt
+			FROM
+			(SELECT sicode
+			  FROM home_daily 
+			WHERE sicode = #{sicode}
+			  AND 제공일  BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			GROUP BY sicode
+			     , 제공일
+			     , 약품명) a
+	    ]]>
+    </select> 
+    
+    <select id="DAY00211_DS_REPORT_CNT10" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_REPORT_CNT10 */
+	    <![CDATA[
+			SELECT 
+				COUNT(*) AS cnt
+			FROM base_mate a
+			   , base_info b
+			   , home_daily c
+			WHERE a.sicode = b.sicode
+			  AND a.sicode = c.sicode
+			  AND a.m_code = c.수급자코드
+			  AND a.sicode = #{sicode}
+			  AND c.제공일 BETWEEN STR_TO_DATE(#{date_from},'%Y%m%d') AND STR_TO_DATE(#{date_to},'%Y%m%d')
+			ORDER BY c.제공일 , a.m_name
+	    ]]>
+    </select>
+    
+    <select id="DAY00211_DS_EXCEL_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /*  DAY00211_DS_EXCEL_S */
+	    <![CDATA[
+	    WITH t AS(
+			SELECT 
+					bm.m_group AS '그룹1'
+			     , bm.m_code AS '수급코드1'
+			     , bm.m_name AS '수급자명1'
+			     , bm.성별 AS '성별1'
+			     , FLOOR( (CAST(REPLACE(CURRENT_DATE,'-','') AS UNSIGNED) 
+			                 - CAST(CONCAT((CASE WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('1','2') THEN '19'
+			                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('3','4') THEN '20'
+			                                         WHEN SUBSTRING(bm.m_jumin2,1,1) IN ('9','0') THEN '18'
+			                                         ELSE '19' END),bm.m_jumin1) AS UNSIGNED)) / 10000 ) AS '나이1'
+			     , bm.m_enday AS '입소일1'
+			     , IF(bm.m_reday <'21000101',bm.m_reday,'') AS '퇴소일1'
+			     , kn.n_nalja AS '제공일'
+			     , kn.혈압
+			     , CAST(SUBSTRING_INDEX( kn.혈압, '/', 1 ) AS INT) AS '혈압1'
+			     , CAST(SUBSTRING_INDEX( kn.혈압, '/', -1 ) AS INT) AS '혈압2'
+			     , kn.맥박
+			     , kn.혈당
+			     , kn.체온
+			     , kn.호흡
+			     , kn.체중
+			     , kn.담당자
+			     , kn.담당코드
+			  FROM base_mate bm
+			     , kmnurse kn
+			 WHERE bm.sicode = #{sicode}
+			   AND bm.sicode = kn.sicode
+			   AND bm.m_code = kn.n_code
+			   AND n_nalja LIKE CONCAT(#{yyyymm},'%')
+			   AND bm.m_code IN 
+		]]>
+		    <foreach item="item" index="index" collection="m_code"
+		        open="(" separator="," close=")">
+		          #{item}
+		    </foreach>
+		<![CDATA[
+			ORDER BY bm.m_name
+			     , bm.m_code
+			     , kn.n_nalja
+			)
+			SELECT
+				IF(LAG(그룹1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 그룹1,'', 그룹1) AS 그룹
+				,IF(LAG(수급코드1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 수급코드1,'', 수급코드1) AS 수급코드
+				,IF(LAG(수급자명1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 수급자명1,'', 수급자명1) AS 수급자명
+				,IF(LAG(성별1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 성별1,'', 성별1) AS 성별
+				,IF(LAG(나이1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 나이1,'', 나이1) AS 나이
+				,DATE_FORMAT(IF(LAG(입소일1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 입소일1,'', 입소일1),'%Y.%m.%d') AS 입소일
+				,DATE_FORMAT(IF(LAG(퇴소일1,1) OVER(PARTITION BY 그룹1,수급자명1,수급코드1,성별1,나이1 ORDER BY 제공일) = 퇴소일1,'', 퇴소일1),'%Y.%m.%d') AS 퇴소일
+				,DATE_FORMAT(제공일,'%Y.%m.%d') AS 제공일
+				,혈압
+				,혈압1
+				,혈압2
+				,맥박
+				,혈당
+				,체온
+				,호흡
+				,체중
+				,담당자
+				,담당코드
+			FROM t
+		]]>
+    </select>
+</mapper>

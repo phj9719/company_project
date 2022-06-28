@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: NUA800CT                                                         
+     * 프로그램 명     	: 모니터링지역설정                                                     
+     * Description 	: 모니터링지역설정
+     *================================================================                  
+                작성일자         		   |  작성자         |  	비고                                    
+     *================================================================                  
+       2021-08-23 17:30        |  조기종         | 	최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+       NUA800CT_DS_MON_AREA_S		모니터링 지역 목록 조회
+       NUA800CT_DS_MON_AREA_I		모니터링 지역 목록 삽입
+       NUA800CT_DS_MON_AREA_U		모니터링 지역 목록 수정
+       NUA800CT_DS_MON_AREA_D		모니터링 지역 목록 삭제
+       NUA800CT_DS_LOCATION_S		생활실 목록 조회
+       NUA800CT_DS_MON_LOCATION_S	모니터링 생활실 목록 조회
+       NUA800CT_DS_MON_LOCATION_I	모니터링 생활실 목록 삽입
+       NUA800CT_DS_MON_LOCATION_U	모니터링 생활실 목록 수정
+       NUA800CT_DS_MON_LOCATION_D	모니터링 생활실 목록 삭제                                                                                     
+     *================================================================                      
+-->																											  
+<mapper namespace="NUA800CT">
+	<!-- 모니터링 지역 목록 조회 -->
+	<select id="NUA800CT_DS_MON_AREA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA800CT_DS_MON_AREA_S */
+		SELECT
+				NMA.COMPANY_CD
+			,	NMA.ARE_CD
+			,	NMA.ARE_NM
+			,	NMA.USE_YN
+			,	NMA.REMARK
+			,	NMA.REG_PGM_ID
+			,	NMA.REG_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM 
+					T_CM_USER CU
+				 WHERE
+				 		NMA.COMPANY_CD = CU.COMPANY_CD
+				 AND	NMA.REG_USER = CU.USER_ID
+				) AS REG_USER_NM
+			,	NMA.REG_DT
+			,	NMA.REG_DT_CURR
+			,	NMA.REG_DT_LOC
+			,	NMA.REG_IP
+			,	NMA.MOD_PGM_ID
+			,	NMA.MOD_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM
+				 	T_CM_USER CU
+				 WHERE
+				 		NMA.COMPANY_CD = CU.COMPANY_CD
+				 AND	NMA.MOD_USER = CU.USER_ID
+				) AS MOD_USER_NM
+			,	NMA.MOD_DT
+			,	NMA.MOD_DT_CURR
+			,	NMA.MOD_DT_LOC
+			,	NMA.MOD_IP
+		FROM
+				T_NU_MON_AREA NMA
+	   <where>
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+		AND		NMA.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="ARE_NM != '' and ARE_NM != null">
+		AND		NMA.ARE_NM LIKE CONCAT('%', #{ARE_NM}, '%')
+		</if>
+		<if test="USE_YN != '' and USE_YN != null">
+		AND		NMA.USE_YN = #{USE_YN}
+		</if>
+	   </where>
+	</select>
+	
+	<!-- 모니터링 지역 목록 삽입 -->
+	<insert id="NUA800CT_DS_MON_AREA_I" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_AREA_I */
+		INSERT INTO
+			T_NU_MON_AREA
+		(
+				COMPANY_CD
+			,	ARE_CD
+			,	ARE_NM
+			,	USE_YN
+			,	REMARK
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	#{ARE_CD}
+			,	#{ARE_NM}
+			,	#{USE_YN}
+			,	#{REMARK}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 모니터링 지역 목록 수정 -->
+	<update id="NUA800CT_DS_MON_AREA_U" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_AREA_U */
+		UPDATE
+			T_NU_MON_AREA
+		SET
+				ARE_NM = #{ARE_NM}
+			,	USE_YN = #{USE_YN}
+			,	REMARK = #{REMARK}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE
+				COMPANY_CD = #{COMPANY_CD}
+		AND		ARE_CD = #{ARE_CD}
+	</update>
+	
+	<!-- 모니터링 지역 목록 삭제 -->
+	<delete id="NUA800CT_DS_MON_AREA_D" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_AREA_D */
+		BEGIN NOT ATOMIC
+			DELETE FROM
+				T_NU_MON_AREA
+			WHERE
+					COMPANY_CD = #{COMPANY_CD}
+			AND		ARE_CD = #{ARE_CD};
+			
+			DELETE FROM
+				T_NU_MON_LOCATION
+			WHERE
+					COMPANY_CD = #{COMPANY_CD}
+			AND		ARE_CD = #{ARE_CD};
+		END
+	</delete>
+	
+	<!-- 생활실 목록 조회 -->
+	<select id="NUA800CT_DS_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA800CT_DS_LOCATION_S */
+		SELECT
+				NL.COMPANY_CD
+			,	NL.LOC_SEQ
+			,	NL.ARE_CD
+			,	NA.ARE_NM
+			,	NL.LOC_CD
+			,	NL.LOC_NM
+			,	NL.LOC_TP
+			,	NL.USE_YN
+			,	NL.REMARK
+			,	NL.REG_PGM_ID
+			,	NL.REG_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM 
+					T_CM_USER CU
+				 WHERE
+				 		NL.COMPANY_CD = CU.COMPANY_CD
+				 AND	NL.REG_USER = CU.USER_ID
+				) AS REG_USER_NM
+			,	NL.REG_DT
+			,	NL.REG_DT_CURR
+			,	NL.REG_DT_LOC
+			,	NL.REG_IP
+			,	NL.MOD_PGM_ID
+			,	NL.MOD_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM 
+					T_CM_USER CU
+				 WHERE
+				 		NL.COMPANY_CD = CU.COMPANY_CD
+				 AND	NL.MOD_USER = CU.USER_ID
+				) AS MOD_USER_NM
+			,	NL.MOD_DT
+			,	NL.MOD_DT_CURR
+			,	NL.MOD_DT_LOC
+			,	NL.MOD_IP
+		FROM
+				T_NU_LOCATION NL
+			,	T_NU_AREA NA
+		WHERE
+	   			NL.COMPANY_CD = NA.COMPANY_CD
+	   	AND		NL.ARE_CD = NA.ARE_CD
+	   	AND		NL.LOC_TP = '10'
+	   	AND		NL.USE_YN = 'Y'
+	   	AND		NL.LOC_SEQ NOT IN (SELECT
+		   								NML.LOC_SEQ
+		   							FROM
+		   								T_NU_MON_LOCATION NML
+		   							WHERE
+		   								NL.COMPANY_CD = NML.COMPANY_CD
+		   							AND	NL.LOC_SEQ = NML.LOC_SEQ
+		   							AND	NL.COMPANY_CD = #{COMPANY_CD}
+		   							AND NML.ARE_CD = #{ARE_CD})
+	   	AND 	NL.COMPANY_CD = #{COMPANY_CD}
+	</select>
+	
+	<!-- 모니터링 생활실 목록 조회 -->
+	<select id="NUA800CT_DS_MON_LOCATION_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	/* NUA800CT_DS_MON_LOCATION_S */
+		SELECT
+				NML.COMPANY_CD
+			,	NML.ARE_CD
+			,	NML.LOC_SEQ
+			,	NA.ARE_NM
+			,	NL.LOC_CD
+			,	NL.LOC_NM
+			,	NML.USE_YN
+			,	NML.REG_PGM_ID
+			,	NML.REG_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM 
+					T_CM_USER CU
+				 WHERE
+				 		NML.COMPANY_CD = CU.COMPANY_CD
+				 AND	NML.REG_USER = CU.USER_ID
+				) AS REG_USER_NM
+			,	NML.REG_DT
+			,	NML.REG_DT_CURR
+			,	NML.REG_DT_LOC
+			,	NML.REG_IP
+			,	NML.MOD_PGM_ID
+			,	NML.MOD_USER
+			,	(SELECT
+					CU.USER_NM_KOR
+				 FROM 
+					T_CM_USER CU
+				 WHERE
+				 		NML.COMPANY_CD = CU.COMPANY_CD
+				 AND	NML.MOD_USER = CU.USER_ID
+				) AS MOD_USER_NM
+			,	NML.MOD_DT
+			,	NML.MOD_DT_CURR
+			,	NML.MOD_DT_LOC
+			,	NML.MOD_IP
+		FROM
+				T_NU_MON_LOCATION NML
+			,	T_NU_MON_AREA NMA
+			,	T_NU_LOCATION NL
+			,	T_NU_AREA NA
+		WHERE
+				NML.COMPANY_CD = NMA.COMPANY_CD
+		AND		NML.ARE_CD = NMA.ARE_CD
+		AND		NML.COMPANY_CD = NL.COMPANY_CD
+		AND		NML.LOC_SEQ = NL.LOC_SEQ
+		AND		NL.COMPANY_CD = NA.COMPANY_CD
+		AND		NL.ARE_CD = NA.ARE_CD
+		AND		NML.COMPANY_CD = #{COMPANY_CD}
+		AND		NML.ARE_CD = #{ARE_CD}
+	</select>
+	
+	<!-- 모니터링 생활실 목록 삽입 -->
+	<insert id="NUA800CT_DS_MON_LOCATION_I" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_LOCATION_I */
+		INSERT INTO
+			T_NU_MON_LOCATION
+		(
+				COMPANY_CD
+			,	ARE_CD
+			,	LOC_SEQ
+			,	USE_YN
+			,	REG_PGM_ID
+			,	REG_USER
+			,	REG_DT
+			,	REG_DT_CURR
+			,	REG_DT_LOC
+			,	REG_IP
+		)
+		VALUES
+		(
+				#{COMPANY_CD}
+			,	#{ARE_CD}
+			,	#{LOC_SEQ}
+			,	#{USE_YN}
+			,	#{REG_PGM_ID}
+			,	#{REG_USER}
+			,	#{REG_DT}
+			,	#{REG_DT_CURR}
+			,	#{REG_DT_LOC}
+			,	#{REG_IP}
+		)
+	</insert>
+	
+	<!-- 모니터링 생활실 목록 수정 -->
+	<update id="NUA800CT_DS_MON_LOCATION_U" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_LOCATION_U */
+		UPDATE
+			T_NU_MON_LOCATION
+		SET
+				USE_YN = #{USE_YN}
+			,	MOD_PGM_ID = #{MOD_PGM_ID}
+			,	MOD_USER = #{MOD_USER}
+			,	MOD_DT = #{MOD_DT}
+			,	MOD_DT_CURR = #{MOD_DT_CURR}
+			,	MOD_DT_LOC = #{MOD_DT_LOC}
+			,	MOD_IP = #{MOD_IP}
+		WHERE
+				COMPANY_CD = #{COMPANY_CD}
+		AND		ARE_CD = #{ARE_CD}
+		AND		LOC_SEQ = #{LOC_SEQ}
+	</update>
+	
+	<!-- 모니터링 생활실 목록 삭제 -->
+	<delete id="NUA800CT_DS_MON_LOCATION_D" parameterType="java.util.HashMap">
+	/* NUA800CT_DS_MON_LOCATION_D */
+		DELETE FROM
+			T_NU_MON_LOCATION
+		WHERE
+				COMPANY_CD = #{COMPANY_CD}
+		AND		ARE_CD = #{ARE_CD}
+		AND		LOC_SEQ = #{LOC_SEQ}
+	</delete>                                                                                                                                                        
+</mapper>                                                                                                                                                                                                          

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">                                                                                                            
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2017-07-27 10:11                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  	: DAY00702_EXCEL                                                        
+     * 프로그램 명     	: 주간식단표 엑셀
+     * Description 	: 주간식단표 엑셀 업·다운로드를 위한 쿼리
+     *================================================================                  
+                작성일자         			|  작성자        |  비고                                    
+     *================================================================                  
+       2022-03-29 15:00        	|  조기종		| 최초작성                         
+
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->																											  
+<mapper namespace="DAY00702_EXCEL">
+	<!-- &gt; : >, &lt; : < -->
+	<!-- 양식과 업로드를 위한 월 날짜 조회 -->
+    <select id="DAY00702_EXCEL_DS_EXCEL_DAY_MONTH_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-2 EXCEL 월 날짜 조회 */
+    WITH RECURSIVE t AS 
+    (
+        SELECT DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d') - INTERVAL 1 MONTH) + INTERVAL 1 DAY, '%Y-%m-%d') AS Date
+        UNION ALL
+        SELECT Date + INTERVAL 1 DAY 
+        FROM t
+        WHERE Date &lt; DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d')), '%Y-%m-%d')
+    )
+    SELECT
+      t.Date
+    FROM t
+    LEFT JOIN kmdiet kd
+    ON t.Date = kd.f_nalja
+    AND kd.sicode = #{SICODE}
+    ORDER BY t.Date
+    </select>
+    
+    <!-- 양식과 업로드를 위한 주 날짜 조회 -->
+    <select id="DAY00702_EXCEL_DS_EXCEL_DAY_WEEK_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-2 EXCEL 주 날짜 조회 */
+    WITH RECURSIVE t AS 
+    (
+        SELECT DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-1) DAY), '%Y-%m-%d') AS Date
+        UNION ALL
+        SELECT Date + INTERVAL 1 DAY 
+        FROM t 
+        WHERE Date &lt; DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-7) DAY), '%Y-%m-%d')
+    )
+    SELECT t.Date
+    FROM t
+    LEFT JOIN kmdiet kd
+    ON t.Date = kd.f_nalja
+    AND kd.sicode = #{SICODE}
+    ORDER BY t.Date
+    </select>
+    
+    <!-- 기존 자료 삭제 -->
+    <delete id="DAY00702_EXCEL_D" parameterType="java.util.HashMap">
+    /* 7-2 EXCEL 기존 자료 삭제 */
+    DELETE FROM kmdiet
+    WHERE sicode = #{sicode}
+    AND f_nalja BETWEEN #{DATE_FROM} AND #{DATE_TO}
+    </delete>
+    
+    <!-- 엑셀 업로드 후 가공된 데이터 인서트 -->
+    <insert id="DAY00702_EXCEL_I" parameterType="java.util.HashMap">
+    /* 7-2 EXCEL INSERT */
+    INSERT INTO kmdiet
+    (
+      sicode
+    , f_nalja
+    <if test="mor01 != null and mor01 != ''">, mor01</if>
+    <if test="mor02 != null and mor02 != ''">, mor02</if>
+    <if test="mor03 != null and mor03 != ''">, mor03</if>
+    <if test="mor04 != null and mor04 != ''">, mor04</if>
+    <if test="mor05 != null and mor05 != ''">, mor05</if>
+    <if test="mor06 != null and mor06 != ''">, mor06</if>
+    <if test="lun01 != null and lun01 != ''">, lun01</if>
+    <if test="lun02 != null and lun02 != ''">, lun02</if>
+    <if test="lun03 != null and lun03 != ''">, lun03</if>
+    <if test="lun04 != null and lun04 != ''">, lun04</if>
+    <if test="lun05 != null and lun05 != ''">, lun05</if>
+    <if test="lun06 != null and lun06 != ''">, lun06</if>
+    <if test="din01 != null and din01 != ''">, din01</if>
+    <if test="din02 != null and din02 != ''">, din02</if>
+    <if test="din03 != null and din03 != ''">, din03</if>
+    <if test="din04 != null and din04 != ''">, din04</if>
+    <if test="din05 != null and din05 != ''">, din05</if>
+    <if test="din06 != null and din06 != ''">, din06</if>
+    <if test="sna01 != null and sna01 != ''">, sna01</if>
+    <if test="sna02 != null and sna02 != ''">, sna02</if>
+    <if test="sna03 != null and sna03 != ''">, sna03</if>
+    <if test="sna04 != null and sna04 != ''">, sna04</if>
+    <if test="sna05 != null and sna05 != ''">, sna05</if>
+    <if test="sna06 != null and sna06 != ''">, sna06</if>
+    <if test="GUBUN != null and GUBUN != ''">, 구분</if>
+    <if test="f_name1 != null and f_name1 != ''">, f_name1</if>
+    <if test="f_name2 != null and f_name2 != ''">, f_name2</if>
+    <if test="f_name3 != null and f_name3 != ''">, f_name3</if>
+    <if test="f_name4 != null and f_name4 != ''">, f_name4</if>
+    <if test="f_name5 != null and f_name5 != ''">, f_name5</if>
+    <if test="f_name6 != null and f_name6 != ''">, f_name6</if>
+    )
+    VALUES
+    (
+      #{sicode}
+    , #{f_nalja}
+    <if test="mor01 != null and mor01 != ''">, TRIM(#{mor01})</if>
+    <if test="mor02 != null and mor02 != ''">, TRIM(#{mor02})</if>
+    <if test="mor03 != null and mor03 != ''">, TRIM(#{mor03})</if>
+    <if test="mor04 != null and mor04 != ''">, TRIM(#{mor04})</if>
+    <if test="mor05 != null and mor05 != ''">, TRIM(#{mor05})</if>
+    <if test="mor06 != null and mor06 != ''">, TRIM(#{mor06})</if>
+    <if test="lun01 != null and lun01 != ''">, TRIM(#{lun01})</if>
+    <if test="lun02 != null and lun02 != ''">, TRIM(#{lun02})</if>
+    <if test="lun03 != null and lun03 != ''">, TRIM(#{lun03})</if>
+    <if test="lun04 != null and lun04 != ''">, TRIM(#{lun04})</if>
+    <if test="lun05 != null and lun05 != ''">, TRIM(#{lun05})</if>
+    <if test="lun06 != null and lun06 != ''">, TRIM(#{lun06})</if>
+    <if test="din01 != null and din01 != ''">, TRIM(#{din01})</if>
+    <if test="din02 != null and din02 != ''">, TRIM(#{din02})</if>
+    <if test="din03 != null and din03 != ''">, TRIM(#{din03})</if>
+    <if test="din04 != null and din04 != ''">, TRIM(#{din04})</if>
+    <if test="din05 != null and din05 != ''">, TRIM(#{din05})</if>
+    <if test="din06 != null and din06 != ''">, TRIM(#{din06})</if>
+    <if test="sna01 != null and sna01 != ''">, TRIM(#{sna01})</if>
+    <if test="sna02 != null and sna02 != ''">, TRIM(#{sna02})</if>
+    <if test="sna03 != null and sna03 != ''">, TRIM(#{sna03})</if>
+    <if test="sna04 != null and sna04 != ''">, TRIM(#{sna04})</if>
+    <if test="sna05 != null and sna05 != ''">, TRIM(#{sna05})</if>
+    <if test="sna06 != null and sna06 != ''">, TRIM(#{sna06})</if>
+    <if test="GUBUN != null and GUBUN != ''">, #{GUBUN}</if>
+    <if test="f_name1 != null and f_name1 != ''">, TRIM(#{f_name1})</if>
+    <if test="f_name2 != null and f_name2 != ''">, TRIM(#{f_name2})</if>
+    <if test="f_name3 != null and f_name3 != ''">, TRIM(#{f_name3})</if>
+    <if test="f_name4 != null and f_name4 != ''">, TRIM(#{f_name4})</if>
+    <if test="f_name5 != null and f_name5 != ''">, TRIM(#{f_name5})</if>
+    <if test="f_name6 != null and f_name6 != ''">, TRIM(#{f_name6})</if>
+    )
+    </insert>
+    
+    <!-- 다운로드를 위한 헤더 조회 -->
+    <select id="DAY00702_EXCEL_DS_EXCEL_HEAD_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-2 EXCEL 다운로드 헤더 조회 */
+    SELECT
+      bi.sicode
+    , bi.b_offname
+    , CASE
+        WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=1 THEN 
+          DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-1) DAY), '%Y-%m-%d')
+        WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=2 THEN 
+          DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d') - interval 1 MONTH) + interval 1 DAY, '%Y-%m-%d')
+      END AS firstday
+    , CASE 
+        WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=1 THEN 
+          DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-7) DAY), '%Y-%m-%d')
+        WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=2 THEN 
+          DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d')), '%Y-%m-%d')
+      END AS lastday
+    , YEAR(STR_TO_DATE(#{DATE}, '%Y%m%d')) AS YEAR
+    , MONTH(STR_TO_DATE(#{DATE}, '%Y%m%d')) AS MON
+    , (SELECT kd.식단제공 
+       FROM kmdiet kd 
+       WHERE kd.sicode = #{SICODE}
+       AND kd.f_nalja = #{DATE}) AS 식단제공
+    FROM base_info bi
+    WHERE bi.sicode = #{SICODE}
+    </select>
+    
+    <!-- 다운로드를 위한 데이터 조회 -->
+    <select id="DAY00702_EXCEL_DS_EXCEL_DATA_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    /* 7-2 EXCEL 다운로드 데이터 조회 */
+    WITH RECURSIVE line AS
+    (
+        SELECT 
+          CASE 
+            WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=1 THEN	<!-- && 사용이 불가능하므로 &amp;&amp; 로 대체 <![CDATA[]> 대신 사용해봄 --> 
+              DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-1) DAY), '%Y-%m-%d')
+            WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=2 THEN 
+              DATE_FORMAT(DATE_SUB(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d') - interval 1 MONTH) + interval 1 DAY, INTERVAL (DAYOFWEEK(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d') - interval 1 MONTH) + interval 1 DAY)-1) DAY), '%Y-%m-%d')
+          END AS Date
+        , #{SICODE} AS sicode
+        UNION ALL
+        SELECT 
+          Date + interval 1 day 
+        , sicode AS sicode
+        FROM line 
+        WHERE Date &lt; CASE
+                          WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=1 THEN 
+                            DATE_FORMAT(DATE_SUB(STR_TO_DATE(#{DATE}, '%Y%m%d'), INTERVAL (DAYOFWEEK(STR_TO_DATE(#{DATE}, '%Y%m%d'))-7) DAY), '%Y-%m-%d')
+                          WHEN #{WEEKLY}=1 &amp;&amp; #{MONTHLY}=2 THEN 
+                            DATE_FORMAT(DATE_SUB(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d')), INTERVAL (DAYOFWEEK(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d')))-7) DAY), '%Y-%m-%d')
+                        END
+    )
+    SELECT 
+      li.sicode
+    , li.Date
+    , CASE DATE_FORMAT(li.Date, '%w') 
+        WHEN 0 THEN '일요일'
+        WHEN 1 THEN '월요일'
+        WHEN 2 THEN '화요일'
+        WHEN 3 THEN '수요일'
+        WHEN 4 THEN '목요일'
+        WHEN 5 THEN '금요일'
+        WHEN 6 THEN '토요일'
+      END 식단요일
+    , DATEDIFF(li.Date, DATE_FORMAT(LAST_DAY(STR_TO_DATE(#{DATE}, '%Y%m%d') - interval 1 MONTH) + interval 1 DAY, '%Y-%m-%d')) as diff1 <!-- 해당월의 첫째날과 비교 -->
+    , DATEDIFF(li.Date, DATE_FORMAT(LAST_DAY(#{DATE}), '%Y-%m-%d')) AS diff2 <!-- 해당월의 마지막날과 비교 -->
+    , CASE WHEN kd.mor01 IS NULL THEN '' ELSE kd.mor01 END AS mor01
+    , CASE WHEN kd.mor02 IS NULL THEN '' ELSE kd.mor02 END AS mor02
+    , CASE WHEN kd.mor03 IS NULL THEN '' ELSE kd.mor03 END AS mor03
+    , CASE WHEN kd.mor04 IS NULL THEN '' ELSE kd.mor04 END AS mor04
+    , CASE WHEN kd.mor05 IS NULL THEN '' ELSE kd.mor05 END AS mor05
+    , CASE WHEN kd.mor06 IS NULL THEN '' ELSE kd.mor06 END AS mor06
+    , CASE WHEN kd.lun01 IS NULL THEN '' ELSE kd.lun01 END AS lun01
+    , CASE WHEN kd.lun02 IS NULL THEN '' ELSE kd.lun02 END AS lun02
+    , CASE WHEN kd.lun03 IS NULL THEN '' ELSE kd.lun03 END AS lun03
+    , CASE WHEN kd.lun04 IS NULL THEN '' ELSE kd.lun04 END AS lun04
+    , CASE WHEN kd.lun05 IS NULL THEN '' ELSE kd.lun05 END AS lun05
+    , CASE WHEN kd.lun06 IS NULL THEN '' ELSE kd.lun06 END AS lun06
+    , CASE WHEN kd.din01 IS NULL THEN '' ELSE kd.din01 END AS din01
+    , CASE WHEN kd.din02 IS NULL THEN '' ELSE kd.din02 END AS din02
+    , CASE WHEN kd.din03 IS NULL THEN '' ELSE kd.din03 END AS din03
+    , CASE WHEN kd.din04 IS NULL THEN '' ELSE kd.din04 END AS din04
+    , CASE WHEN kd.din05 IS NULL THEN '' ELSE kd.din05 END AS din05
+    , CASE WHEN kd.din06 IS NULL THEN '' ELSE kd.din06 END AS din06
+    , CASE WHEN kd.sna01 IS NULL THEN '' ELSE kd.sna01 END AS sna01
+    , CASE WHEN kd.sna02 IS NULL THEN '' ELSE kd.sna02 END AS sna02
+    , CASE WHEN kd.sna03 IS NULL THEN '' ELSE kd.sna03 END AS sna03
+    , CASE WHEN kd.sna04 IS NULL THEN '' ELSE kd.sna04 END AS sna04
+    , CASE WHEN kd.sna05 IS NULL THEN '' ELSE kd.sna05 END AS sna05
+    , CASE WHEN kd.sna06 IS NULL THEN '' ELSE kd.sna06 END AS sna06
+    , CASE WHEN kd.f_name1 IS NULL THEN '' ELSE kd.f_name1 END AS f_name1
+    , CASE WHEN kd.f_name2 IS NULL THEN '' ELSE kd.f_name2 END AS f_name2
+    , CASE WHEN kd.f_name3 IS NULL THEN '' ELSE kd.f_name3 END AS f_name3
+    , CASE WHEN kd.f_name4 IS NULL THEN '' ELSE kd.f_name4 END AS f_name4
+    , CASE WHEN kd.f_name5 IS NULL THEN '' ELSE kd.f_name5 END AS f_name5
+    , CASE WHEN kd.f_name6 IS NULL THEN '' ELSE kd.f_name6 END AS f_name6
+    , CASE WHEN kd.식단제공 IS NULL THEN '' ELSE kd.식단제공 END AS 식단제공
+    FROM line li
+    LEFT JOIN kmdiet kd
+    ON li.Date = kd.f_nalja
+    AND li.sicode = kd.sicode
+    WHERE li.sicode = #{SICODE}
+    </select>
+</mapper>                                                                                                                                                                                                          

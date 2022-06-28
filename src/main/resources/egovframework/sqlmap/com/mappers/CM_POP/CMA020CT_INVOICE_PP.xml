@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--                                                                                                        
+	/**                                                                                                       
+	 *                                                                                                        
+	 * WARNING: Auto create                                                                                   
+	 * Template File Version : 1.0                                                                            
+	 * Create :2021-02-04 15:00                                                                  
+	 *                                                                                                        
+	 **/                                                                                                      
+	 *================================================================                  
+     * 프로그램 ID  : CMA020CT_INVOICE_PP                                                         
+     * 프로그램 명  :                                           
+     * Description :                                                            
+     *================================================================                  
+                작성일자         		|  작성자    |  비고                                    
+     *================================================================                  
+       2021-02-04 15:00     |  이승규    |	ACA150CT_INVOICE_PP(구매보급, 일반수리),
+       									ALC100CT_INVOICE_PP(국내항비, 외항항비),
+       									ACA150CT_ACC_PP(회계전표) 수정
+     *================================================================                      
+     *  Statement List                                                                        
+     *================================================================                      
+                                                                                            
+     *================================================================                      
+-->							
+<mapper namespace="CMA020CT_INVOICE_PP">
+<!--SELECT  -->            
+	<!-- 업무구분 일반수리일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS10" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.VND_CD
+		     , (SELECT Z.KOR_NM
+		          FROM T_CM_VND_MST Z WITH(NOLOCK)
+		         WHERE A.VND_CD = Z.VND_CD) AS VND_NM		
+		     , A.DOC_DATE
+		     , A.PK_INV_NO
+		     , A.PK_ORD_NO
+		     , A.INV_SUBJECT AS SUBJECT
+		     , A.ITEM_AMT
+		     , A.CURR_CD
+		     , A.V_CD
+		     , (SELECT Z.VSL_NM
+			 	  FROM T_MM_VESSEL Z WITH(NOLOCK)
+			     WHERE A.COMPANY_CD = Z.COMPANY_CD
+			 	   AND A.V_CD = Z.V_CD
+			 	   AND Z.SM_COM_CD = '001'
+			 	   AND Z.SYS_USE_GB = 'Y'
+				) AS VESSEL_NM
+			 , A.DOC_PIC
+			 , CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE B WITH(NOLOCK)
+                          WHERE  B.USE_YN = 'Y'
+                          AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                          AND    B.COMPANY_CD    = A.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD) = 1    -- 파일이 1개인 경우
+                     THEN (SELECT MAX(B.FILE_NAME)
+               			   FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(B.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+			 , A.ATTACH_GRP_ID
+		     , A.ACC_SLIP_YN AS ACC_SLIP_YN 
+		  FROM T_RM_INV_HEAD A WITH(NOLOCK)
+		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+		<if test="DOC_DATE_FROM != '' and DOC_DATE_FROM != null">
+		<![CDATA[
+		   AND A.DOC_DATE >= #{DOC_DATE_FROM}
+		]]>
+		</if>
+		<if test="DOC_DATE_TO != '' and DOC_DATE_TO != null">
+		<![CDATA[
+		   AND A.DOC_DATE <= #{DOC_DATE_TO}
+		]]>
+		</if>
+		<if test="VND_CD != '' and VND_CD != null">
+		   AND A.VND_CD = #{VND_CD}
+		</if>
+		<if test="V_CD != '' and V_CD != null">
+		   AND A.V_CD = #{V_CD}
+		</if>
+		<if test="PK_INV_NO != '' and PK_INV_NO != null">
+		   AND A.PK_INV_NO = #{PK_INV_NO}
+		</if>
+		<if test="PK_ORD_NO != '' and PK_ORD_NO != null">
+		   AND A.PK_ORD_NO = #{PK_ORD_NO}
+		</if>
+		<if test="DEPT_CD != '' and DEPT_CD != null">
+   		   AND (SELECT Z.DEPT_CD
+				  FROM T_CM_USER Z WITH(NOLOCK)
+				 WHERE A.COMPANY_CD = Z.COMPANY_CD
+				   AND B.REG_USER   = Z.USER_ID) = #{DEPT_CD}
+		</if>
+    </select>
+ 
+	<!-- 업무구분 일거수리일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS20" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		
+    </select>
+                                                                                                                                                                                      
+	<!-- 업무구분 구매보급일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS30" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.VND_CD
+		     , (SELECT Z.KOR_NM
+				  FROM T_CM_VND_MST Z WITH(NOLOCK)
+				 WHERE A.VND_CD = Z.VND_CD) AS VND_NM		
+		     , A.DOC_DATE
+		     , A.PK_INV_NO
+		     , A.PK_ORD_NO
+		     , A.SUBJECT
+		     , A.ITEM_AMT
+		     , A.CURR_CD
+		     , A.V_CD
+		     , (SELECT Z.VSL_NM
+			      FROM T_MM_VESSEL Z WITH(NOLOCK)
+			     WHERE A.COMPANY_CD = Z.COMPANY_CD
+			       AND A.V_CD = Z.V_CD
+			       AND Z.SM_COM_CD = '001'
+			       AND Z.SYS_USE_GB = 'Y') AS VESSEL_NM
+		     , A.DOC_PIC
+		     , A.DPET AS DEPT_CD
+		     , (SELECT B.DEPT_NAME
+		          FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+		         WHERE A.COMPANY_CD = B.COMPANY_CD
+		           AND A.DPET		= B.DEPT_CODE) AS DEPT_NM 
+             , CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE B WITH(NOLOCK)
+                          WHERE  B.USE_YN = 'Y'
+                          AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                          AND    B.COMPANY_CD    = A.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD) = 1    -- 파일이 1개인 경우
+                     THEN (SELECT MAX(B.FILE_NAME)
+               			   FROM   T_SM_FILE B WITH(NOLOCK)
+                           WHERE  B.USE_YN = 'Y'
+                           AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                           AND    B.COMPANY_CD    = A.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(B.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE B WITH(NOLOCK)
+                                  WHERE  B.USE_YN = 'Y'
+                                  AND    B.FILE_GROUP_ID = A.ATTACH_GRP_ID
+                                  AND    B.COMPANY_CD    = A.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+             , A.ATTACH_GRP_ID
+        
+        -- Receive
+             
+             , E.PK_RCV_NO 		AS PK_RCV_NO
+             , E.IN_DATE 		AS DOC_DATE_RCV
+             , E.SUBJECT 		AS SUBJECT_RCV
+             , E.V_CD 			AS V_CD_RCV
+             , E.ATTACH_FILE_NM	AS ATTACH_FILE_NM_RCV
+             , E.ATTACH_GRP_ID	AS ATTACH_GRP_ID_RCV
+             , E.DOC_USER_NM    AS DOC_PIC_RCV
+             , E.DEPT           AS DEPT_CD_RCV
+             , (SELECT B.DEPT_NAME
+			      FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+			     WHERE E.COMPANY_CD = B.COMPANY_CD
+			       AND E.DEPT       = B.DEPT_CODE) AS DEPT_NM_RCV
+		
+		-- Order
+		     
+		     , C.PK_ORD_NO      AS PK_ORD_NO
+		     , C.DOC_DATE       AS DOC_DATE_ORD
+		     , C.SUBJECT        AS SUBJECT_ORD
+		     , C.V_CD           AS V_CD_ORD
+		     , C.ATTACH_FILE_NM AS ATTACH_FILE_NM_ORD
+		     , C.ATTACH_GRP_ID  AS ATTACH_GRP_ID_ORD
+		     , C.DOC_USER_NM    AS DOC_PIC_ORD
+		     , C.REQ_DEPT       AS DEPT_CD_ORD
+		     , (SELECT B.DEPT_NAME
+			      FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+			     WHERE C.COMPANY_CD = B.COMPANY_CD
+			       AND C.REQ_DEPT   = B.DEPT_CODE) AS DEPT_NM_ORD
+		     , C.COMPANY_CD		AS ORD_UBI1
+		     , C.PK_ORD_NO		AS ORD_UBI2
+		     , C.VND_CD			AS ORD_UBI3
+		
+		-- Requestion
+		     
+		     , D.PK_REQ_NO      AS PK_REQ_NO
+		     , D.DOC_DATE       AS DOC_DATE_REQ
+		     , D.SUBJECT        AS SUBJECT_REQ
+		     , D.V_CD           AS V_CD_REQ
+		     , D.ATTACH_FILE_NM AS ATTACH_FILE_NM_REQ
+		     , D.ATTACH_GRP_ID  AS ATTACH_GRP_ID_REQ
+		     , D.DOC_USER_NM    AS DOC_PIC_REQ
+		     , D.REQ_DEPT       AS DEPT_CD_REQ
+		     , (SELECT B.DEPT_NAME
+			      FROM T_HR_DEPARTMENT B WITH(NOLOCK)
+			     WHERE D.COMPANY_CD = B.COMPANY_CD
+			       AND D.REQ_DEPT   = B.DEPT_CODE) AS DEPT_NM_REQ
+			 
+		  FROM T_MM_INV_HEAD A WITH(NOLOCK)
+		  LEFT
+		  JOIN T_MM_ORD_HEAD C WITH(NOLOCK)
+		    ON A.COMPANY_CD = C.COMPANY_CD
+		   AND A.PK_ORD_NO  = C.PK_ORD_NO
+		  LEFT
+		  JOIN T_MM_REQ_HEAD D WITH(NOLOCK)
+		    ON A.COMPANY_CD = D.COMPANY_CD
+		   AND A.PK_REQ_NO  = D.PK_REQ_NO
+		  LEFT
+		  JOIN T_MM_RCV_HEAD E WITH(NOLOCK)
+		    ON A.COMPANY_CD = E.COMPANY_CD
+		   AND A.PK_ORD_NO  = E.PK_ORD_NO
+		   AND A.PK_REQ_NO  = E.PK_REQ_NO
+		 WHERE A.COMPANY_CD = #{COMPANY_CD}
+		<if test="DOC_DATE_FROM != '' and DOC_DATE_FROM != null">
+		<![CDATA[
+		   AND A.DOC_DATE >= #{DOC_DATE_FROM}
+		]]>
+		</if>
+		<if test="DOC_DATE_TO != '' and DOC_DATE_TO != null">
+		<![CDATA[
+		   AND A.DOC_DATE <= #{DOC_DATE_TO}
+		]]>
+		</if>
+		<if test="VND_CD != '' and VND_CD != null">
+		   AND A.VND_CD = #{VND_CD}
+		</if>
+		<if test="V_CD != '' and V_CD != null">
+		   AND A.V_CD = #{V_CD}
+		</if>
+		<if test="PK_INV_NO != '' and PK_INV_NO != null">
+		   AND A.PK_INV_NO = #{PK_INV_NO}
+		</if>
+		<if test="PK_ORD_NO != '' and PK_ORD_NO != null">
+		   AND A.PK_ORD_NO = #{PK_ORD_NO}
+		</if>
+		<if test="DEPT_CD != '' and DEPT_CD != null">
+   		   AND (SELECT Z.DEPT_CD
+				  FROM T_CM_USER Z WITH(NOLOCK)
+				 WHERE A.COMPANY_CD = Z.COMPANY_CD
+				   AND B.REG_USER = Z.USER_ID) = #{DEPT_CD}
+		</if>
+			
+	</select>
+	
+	<!-- 업무구분 선원비일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS40" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		
+    </select>
+	
+	<!-- 업무구분 국내항비일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS50" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.SPPLY_CD AS SPPLY_CD
+		,      (SELECT Z.KOR_NM
+				FROM T_CM_VND_MST Z WITH(NOLOCK)
+				WHERE A.SPPLY_CD = Z.VND_CD) AS SPPLY_NM     
+		,      A.TAX_BILL_DT AS TAX_BILL_DT
+		,      A.TAX_BILL_NUM AS TAX_BILL_NUM
+		,      A.TRNSCTN_NOTE AS TRNSCTN_NOTE
+		,      A.PRT_CHRG_AMT AS PRT_CHRG_AMT
+		,      A.BASIC_CRRNCY_CD AS BASIC_CRRNCY_CD 
+		,      A.VESSEL_CD AS VESSEL_CD
+		,	   (SELECT Z.VSL_NM
+				FROM T_MM_VESSEL Z WITH(NOLOCK)
+				WHERE A.COMPANY_CD = Z.COMPANY_CD
+				AND   A.VESSEL_CD = Z.V_CD
+				AND   Z.SM_COM_CD = '001'
+				AND   Z.SYS_USE_GB = 'Y'
+			   ) AS VESSEL_NM   
+		,      (SELECT COUNT(DISTINCT Z.SPEC_TRNSCTN_NO)
+				FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+				WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM) AS COUNT_SPEC_TRNSCTN_NO
+		,      (CASE WHEN (SELECT COUNT(DISTINCT Z.SPEC_TRNSCTN_NO)
+				           FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+				           WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM) = 1  THEN (SELECT MIN(Z.SPEC_TRNSCTN_NO)
+																			 FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+																			 WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM)
+					 WHEN (SELECT COUNT(DISTINCT Z.SPEC_TRNSCTN_NO)
+						   FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+						   WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM) > 1 THEN	CONCAT((SELECT MIN(Z.SPEC_TRNSCTN_NO)
+				                                                                    FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+				                                                                    WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM) ,' 외',((SELECT COUNT(DISTINCT Z.SPEC_TRNSCTN_NO)
+																															  FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+				                                                                                                              WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM)-1),' 건')	   END)AS SPEC_TRNSCTN_NO			   	   
+		,      A.ACC_SLIP_YN AS ACC_SLIP_YN 
+		,      A.APPVL_PRC_FLAG AS APPVL_PRC_FLAG 
+		,	   (SELECT C.USER_NM_KOR
+				FROM   T_CM_USER C WITH(NOLOCK)
+				WHERE  C.COMPANY_CD = A.COMPANY_CD
+				AND    C.USER_ID    = A.REG_USER) AS DOC_PIC
+		,	   (SELECT C.DEPT_CD
+		        FROM   T_CM_USER C WITH(NOLOCK)
+		        WHERE  C.COMPANY_CD = A.COMPANY_CD
+		        AND	   C.USER_ID    = A.REG_USER) AS DEPT_CD
+		,	   (SELECT C.DEPT_NAME
+				FROM   T_HR_DEPARTMENT C WITH(NOLOCK)
+				WHERE  C.COMPANY_CD = A.COMPANY_CD
+				AND	   C.DEPT_CODE  = (SELECT D.DEPT_CD
+								       FROM   T_CM_USER D WITH(NOLOCK)
+								       WHERE  D.COMPANY_CD = A.COMPANY_CD
+								       AND	  D.USER_ID    = A.REG_USER)) AS DEPT_NM
+        ,      CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE C WITH(NOLOCK)
+                          WHERE  C.USE_YN = 'Y'
+                          AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                          AND    C.COMPANY_CD    = B.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE C WITH(NOLOCK)
+                           WHERE  C.USE_YN = 'Y'
+                           AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    C.COMPANY_CD    = B.COMPANY_CD) = 1    -- 파일이 1개인 경우
+                     THEN (SELECT MAX(C.FILE_NAME)
+               			   FROM   T_SM_FILE C WITH(NOLOCK)
+                           WHERE  C.USE_YN = 'Y'
+                           AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    C.COMPANY_CD    = B.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(C.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE C WITH(NOLOCK)
+                                  WHERE  C.USE_YN = 'Y'
+                                  AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    C.COMPANY_CD    = B.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE C WITH(NOLOCK)
+                                  WHERE  C.USE_YN = 'Y'
+                                  AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    C.COMPANY_CD    = B.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+		,	   B.ATTACH_GRP_ID
+		FROM   T_AL_PRTCHRG_TAXBILL_SETTLE_ORG A WITH(NOLOCK)
+		LEFT
+		JOIN   T_SR_PRTCHRG_SPPY_TRNSCTN_HEAD B WITH(NOLOCK)
+		ON	   A.COMPANY_CD 	= B.COMPANY_CD
+		AND    A.ACC_UNIT 		= B.ACC_UNIT
+		AND    A.BIZ_CD 		= B.BIZ_CD
+		AND    A.PRT_CHRG_TP 	= B.PRT_CHRG_TP
+		AND    A.ADJST_YYYYMM	= B.ADJST_YYYYMM
+		AND    A.SPPLY_CD		= B.SPPLY_CD
+		AND    A.SPEC_TRNSCTN_NO = B.SPEC_TRNSCTN_NO
+		WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.PRT_CHRG_TP = '10'
+		<if test="SPPLY_CD != '' and SPPLY_CD != null">
+		AND    A.SPPLY_CD = #{SPPLY_CD}
+		</if>
+		<if test="TAX_BILL_DT_FROM != '' and TAX_BILL_DT_FROM != null">
+		<![CDATA[
+		AND    A.TAX_BILL_DT >= #{TAX_BILL_DT_FROM}
+		]]>
+		</if>
+		<if test="TAX_BILL_DT != '' and TAX_BILL_DT_TO != null">
+		<![CDATA[
+		AND    A.TAX_BILL_DT <= #{TAX_BILL_DT_TO}
+		]]>
+		</if>
+		<if test="VESSEL_CD != '' and VESSEL_CD != null">
+		AND    A.VESSEL_CD = #{VESSEL_CD}
+		</if>
+		<if test="SPEC_TRNSCTN_NO != '' and SPEC_TRNSCTN_NO != null">
+		AND	   (SELECT MAX(Z.SPEC_TRNSCTN_NO)
+			    FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+			    WHERE #{SPPLY_CD} = Z.SPPLY_CD
+                AND #{SPPLY_DT} = Z.SPPLY_DT
+                AND #{TAX_BILL_NUM} = Z.TAX_BILL_NUM ) LIKE CONCAT('%', #{SPEC_TRNSCTN_NO},'%')
+		</if>
+		<if test="TAX_BILL_NUM != '' and TAX_BILL_NUM != null">
+		AND    A.TAX_BILL_NUM LIKE CONCAT('%', #{TAX_BILL_NUM},'%')
+		</if>
+		<if test="ACC_SLIP_YN != '' and ACC_SLIP_YN != null">
+		AND    ISNULL(A.ACC_SLIP_YN,'N') = #{ACC_SLIP_YN}
+		</if>
+		<if test="DEPT_CD != '' and DEPT_CD != null">
+		AND    (SELECT Z.DEPT_CD
+				FROM T_CM_USER Z WITH(NOLOCK)
+				WHERE A.COMPANY_CD = Z.COMPANY_CD
+				AND A.REG_USER = Z.USER_ID) = #{DEPT_CD}
+		</if>
+    </select>
+	
+	<!-- 업무구분 외항항비일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS55" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.SPPLY_CD AS SPPLY_CD
+		,      (SELECT Z.KOR_NM
+				FROM T_CM_VND_MST Z WITH(NOLOCK)
+				WHERE A.SPPLY_CD = Z.VND_CD) AS SPPLY_NM
+		,      A.SPPLY_DT AS SPPLY_DT
+		,      A.TAX_BILL_NUM AS TAX_BILL_NUM
+		,      A.TRNSCTN_NOTE AS TRNSCTN_NOTE 
+		,      A.PRT_CHRG_AMT AS PRT_CHRG_AMT 
+		,      A.BASIC_CRRNCY_CD AS BASIC_CRRNCY_CD 
+		,      A.FN_PRT_CHRG_AMT1 AS FN_PRT_CHRG_AMT1 
+		,      (SELECT MAX(Z.EXG_RATE1)
+				FROM T_AL_PRTCHRG_TAXBILL_SETTLE Z
+				WHERE A.TAX_BILL_NUM = Z.TAX_BILL_NUM)AS EXG_RATE1 
+		,      A.VESSEL_CD AS VESSEL_CD 
+		,	   ( SELECT Z.VSL_NM
+				 FROM T_MM_VESSEL Z WITH(NOLOCK)
+				 WHERE A.COMPANY_CD = Z.COMPANY_CD
+				 AND   A.VESSEL_CD = Z.V_CD
+				 AND   Z.SM_COM_CD = '001'
+				 AND   Z.SYS_USE_GB = 'Y'
+		       ) AS VESSEL_NM
+		,      A.ACC_SLIP_YN AS ACC_SLIP_YN
+		,      A.APPVL_PRC_FLAG AS APPVL_PRC_FLAG
+		,	   (SELECT C.USER_NM_KOR
+				FROM   T_CM_USER C WITH(NOLOCK)
+				WHERE  C.COMPANY_CD = A.COMPANY_CD
+				AND    C.USER_ID    = A.REG_USER) AS DOC_PIC
+		,	   (SELECT C.DEPT_CD
+		        FROM   T_CM_USER C WITH(NOLOCK)
+		        WHERE  C.COMPANY_CD = A.COMPANY_CD
+		        AND	   C.USER_ID    = A.REG_USER) AS DEPT_CD
+		,	   (SELECT C.DEPT_NAME
+				FROM   T_HR_DEPARTMENT C WITH(NOLOCK)
+				WHERE  C.COMPANY_CD = A.COMPANY_CD
+				AND	   C.DEPT_CODE  = (SELECT D.DEPT_CD
+								       FROM   T_CM_USER D WITH(NOLOCK)
+								       WHERE  D.COMPANY_CD = A.COMPANY_CD
+								       AND	  D.USER_ID    = A.REG_USER)) AS DEPT_NM
+        ,      CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE C WITH(NOLOCK)
+                          WHERE  C.USE_YN = 'Y'
+                          AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                          AND    C.COMPANY_CD    = B.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE C WITH(NOLOCK)
+                           WHERE  C.USE_YN = 'Y'
+                           AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    C.COMPANY_CD    = B.COMPANY_CD) = 1    -- 파일이 1개인 경우
+                     THEN (SELECT MAX(C.FILE_NAME)
+               			   FROM   T_SM_FILE C WITH(NOLOCK)
+                           WHERE  C.USE_YN = 'Y'
+                           AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    C.COMPANY_CD    = B.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(C.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE C WITH(NOLOCK)
+                                  WHERE  C.USE_YN = 'Y'
+                                  AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    C.COMPANY_CD    = B.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE C WITH(NOLOCK)
+                                  WHERE  C.USE_YN = 'Y'
+                                  AND    C.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    C.COMPANY_CD    = B.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+		,	   B.ATTACH_GRP_ID
+		FROM   T_AL_PRTCHRG_TAXBILL_SETTLE_ORG A WITH(NOLOCK)
+		LEFT
+		JOIN   T_SR_PRTCHRG_SPPY_TRNSCTN_HEAD B WITH(NOLOCK)
+		ON	   A.COMPANY_CD 	= B.COMPANY_CD
+		AND    A.ACC_UNIT 		= B.ACC_UNIT
+		AND    A.BIZ_CD 		= B.BIZ_CD
+		AND    A.PRT_CHRG_TP 	= B.PRT_CHRG_TP
+		AND    A.ADJST_YYYYMM	= B.ADJST_YYYYMM
+		AND    A.SPPLY_CD		= B.SPPLY_CD
+		AND    A.SPEC_TRNSCTN_NO = B.SPEC_TRNSCTN_NO
+		WHERE  A.COMPANY_CD = #{COMPANY_CD}
+		AND    A.PRT_CHRG_TP = '20'
+		<if test="SPPLY_CD != '' and SPPLY_CD != null">
+		AND    A.SPPLY_CD = #{SPPLY_CD}
+		</if>
+		<if test="SPPLY_DT_FROM != '' and SPPLY_DT_FROM != null">
+		<![CDATA[
+		AND    A.SPPLY_DT >= #{SPPLY_DT_FROM}
+		]]>
+		</if>
+		<if test="SPPLY_DT_TO != '' and SPPLY_DT_TO != null">
+		<![CDATA[
+		AND    A.SPPLY_DT <= #{SPPLY_DT_TO}
+		]]>
+		</if>
+		<if test="VESSEL_CD != '' and VESSEL_CD != null">
+		AND    A.VESSEL_CD = #{VESSEL_CD}
+		</if>
+
+		<if test="TAX_BILL_NUM != '' and TAX_BILL_NUM != null">
+		AND    A.TAX_BILL_NUM LIKE CONCAT('%', #{TAX_BILL_NUM},'%')
+		</if>
+		<if test="ACC_SLIP_YN != '' and ACC_SLIP_YN != null">
+		AND    ISNULL(A.ACC_SLIP_YN,'N') = #{ACC_SLIP_YN}
+		</if>
+		<if test="DEPT_CD != '' and DEPT_CD != null">
+		AND    (SELECT Z.DEPT_CD
+				FROM T_CM_USER Z WITH(NOLOCK)
+				WHERE A.COMPANY_CD = Z.COMPANY_CD
+				AND A.REG_USER = Z.USER_ID) = #{DEPT_CD}
+		</if>
+	</select>
+	
+	<!-- 업무구분 회계전표일경우  -->
+	<select id="CMA020CT_INVOICE_PP_GET_STATUS60" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT B.HD_VND_CD
+		,  (SELECT Z.KOR_NM
+			FROM T_CM_VND_MST Z WITH(NOLOCK)
+			WHERE B.HD_VND_CD = Z.VND_CD) AS HD_VND_NM
+		,      B.ACC_DATE
+		,      A.ACC_NO
+		,      A.ACC_SEQ
+		,      A.INVOICE_NO
+		,      B.SLIP_TITLE
+		,      A.NOTE
+		,      A.ACC_AMOUNT
+		,      A.CHG_PAY_AMT
+		,      C.TAX_CLASS_CD
+		,      C.TAX_AMT
+		,      A.V_CODE
+		,      B.APPVL_PRC_FLAG
+		,      B.ACC_SUB_SYS
+		,      B.DZN_INF
+		,	   B.EDIT_DEPT AS DEPT_CD
+		,	   (SELECT Z.DEPT_NAME
+				FROM   T_HR_DEPARTMENT Z WITH(NOLOCK)
+				WHERE  Z.COMPANY_CD = B.COMPANY_CD
+				AND	   Z.DEPT_CODE  = B.EDIT_DEPT) AS DEPT_NM
+		,	   (SELECT Z.USER_NM_KOR
+				FROM   T_CM_USER Z WITH(NOLOCK)
+				WHERE  Z.COMPANY_CD = A.COMPANY_CD
+				AND    Z.USER_ID    = A.REG_USER) AS DOC_PIC
+        ,      CASE WHEN (SELECT COUNT(*)
+                          FROM   T_SM_FILE Z WITH(NOLOCK)
+                          WHERE  Z.USE_YN = 'Y'
+                          AND    Z.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                          AND    Z.COMPANY_CD    = B.COMPANY_CD) = 0    -- 파일이 없는 경우
+                     THEN NULL
+                     WHEN (SELECT COUNT(*)
+                           FROM   T_SM_FILE Z WITH(NOLOCK)
+                           WHERE  Z.USE_YN = 'Y'
+                           AND    Z.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    Z.COMPANY_CD    = B.COMPANY_CD) = 1    -- 파일이 1개인 경우
+                     THEN (SELECT MAX(Z.FILE_NAME)
+               			   FROM   T_SM_FILE Z WITH(NOLOCK)
+                           WHERE  Z.USE_YN = 'Y'
+                           AND    Z.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                           AND    Z.COMPANY_CD    = B.COMPANY_CD)
+                     ELSE CONCAT((SELECT MAX(Z.FILE_NAME)               -- 그 외의 경우
+                      			  FROM   T_SM_FILE Z WITH(NOLOCK)
+                                  WHERE  Z.USE_YN = 'Y'
+                                  AND    Z.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    Z.COMPANY_CD    = B.COMPANY_CD)
+			                    ,'외 '
+			                    ,(SELECT COUNT(*)
+                                  FROM   T_SM_FILE Z WITH(NOLOCK)
+                                  WHERE  Z.USE_YN = 'Y'
+                                  AND    Z.FILE_GROUP_ID = B.ATTACH_GRP_ID
+                                  AND    Z.COMPANY_CD    = B.COMPANY_CD)-1
+                                ,'건') END           AS ATTACH_FILE_NM
+		,	   B.ATTACH_GRP_ID
+		FROM T_AC_DV_DIST_DTL A WITH(NOLOCK)
+		INNER 
+		JOIN  T_AC_DV_HEAD B WITH(NOLOCK)
+		ON(A.COMPANY_CD = B.COMPANY_CD
+		AND A.ACC_UNIT = B.ACC_UNIT
+		AND A.BIZ_CD = B.BIZ_CD
+		AND A.ACC_NO = B.ACC_NO)
+		LEFT 
+		JOIN T_AC_DV_TAX C WITH(NOLOCK)
+		ON(A.COMPANY_CD = C.COMPANY_CD
+		AND A.ACC_UNIT = C.ACC_UNIT
+		AND A.BIZ_CD = C.BIZ_CD
+		AND A.ACC_NO = C.ACC_NO
+		AND A.ACC_SEQ = C.ACC_SEQ)
+		WHERE 1 = 1
+--		AND B.HD_VND_CD IS NOT NULL
+--		AND A.INVOICE_NO IS NOT NULL
+		AND    A.COMPANY_CD = #{COMPANY_CD}
+		<if test="ACC_SUB_SYS != '' and ACC_SUB_SYS != null">
+		AND    B.ACC_SUB_SYS = #{ACC_SUB_SYS}
+		</if>
+		<if test="HD_VND_CD != '' and HD_VND_CD != null">
+		AND    B.HD_VND_CD = #{HD_VND_CD}
+		</if>
+		<if test="ACC_DT_FROM != '' and ACC_DT_FROM != null">
+		<![CDATA[
+		AND    B.ACC_DATE >= #{ACC_DT_FROM}
+		]]>
+		</if>
+		<if test="ACC_DT_TO != '' and ACC_DT_TO != null">
+		<![CDATA[
+		AND    B.ACC_DATE <= #{ACC_DT_TO}
+		]]>
+		</if>
+		<if test="V_CODE != '' and V_CODE != null">
+		AND    A.V_CODE = #{V_CODE}
+		</if>
+		<if test="INVOICE_NO != '' and INVOICE_NO != null">
+		AND    A.INVOICE_NO LIKE CONCAT('%', #{INVOICE_NO},'%')
+		</if>
+		<if test="SUB_SYS_DOC != '' and SUB_SYS_DOC != null">
+		AND    A.SUB_SYS_DOC LIKE CONCAT('%', #{SUB_SYS_DOC},'%')
+		</if>
+		<if test="ACC_NO != '' and ACC_NO != null">
+		AND    A.ACC_NO LIKE CONCAT('%', #{ACC_NO},'%')
+		</if>
+		<if test="ACC_SLIP_YN != '' and ACC_SLIP_YN != null">
+		AND    ISNULL(B.ACC_CFM,'N') = #{ACC_SLIP_YN}
+		</if>
+		<if test="EDIT_DEPT != '' and EDIT_DEPT != null">
+		AND    (SELECT Z.DEPT_CD
+				FROM T_CM_USER Z WITH(NOLOCK)
+				WHERE A.COMPANY_CD = Z.COMPANY_CD
+				AND B.REG_USER = Z.USER_ID) = #{EDIT_DEPT}
+		</if>
+		<if test="ACC_NO != '' and ACC_NO != null">
+		AND    A.ACC_NO = #{ACC_NO}
+		</if>
+    </select>
+
+</mapper>                                                                                                                                                                                                          

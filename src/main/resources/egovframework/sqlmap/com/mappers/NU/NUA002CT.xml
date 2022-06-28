@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NUA002CT">
+	<select id="NUA002CT_DS_LIST_S" parameterType="java.util.HashMap" resultType="java.util.HashMap">                                                                                                           
+     <![CDATA[
+                 SELECT A.COMPANY_CD
+						,A.SERVICE_TP
+						,A.USER_ID
+						,A.USER_ID AS REAL_USER_ID
+						,A.USER_NO
+						,A.USER_PASSWD
+						,A.RANK_CD
+						,A.SAL_CD
+						,A.USER_NM_KOR
+						,A.USER_NM_ENG
+						,A.USER_NM_CHI
+						,A.USE_YN
+						,A.DEPT_CD
+						,A.DEPT_NM
+						,A.INOUT_USER_TP
+						,A.ZIP_CODE
+						,A.ADDRESS
+						,CAST(AES_DECRYPT(UNHEX(A.TEL_NO), (SELECT CC.STR1
+    												   		  FROM T_CM_CODE CC
+    												  		 WHERE CC.COMPANY_CD = A.COMPANY_CD
+    												  		   AND CC.GRP_CD = 'CM_AES_KEY'))AS CHAR) AS TEL_NO
+						,CAST(AES_DECRYPT(UNHEX(A.TEL_NO2), (SELECT CC.STR1
+    												   	 	   FROM T_CM_CODE CC
+    												  		  WHERE CC.COMPANY_CD = A.COMPANY_CD
+    												  		  	AND CC.GRP_CD = 'CM_AES_KEY'))AS CHAR) AS TEL_NO2
+						,A.FAX_NO
+						,A.EMAIL
+						,A.DEF_LANG
+						,A.AUTH1
+						,A.AUTH2
+						,A.AUTH3
+						,A.AUTH4
+						,A.AUTH5
+						,A.BIRTH_DT
+						,A.HIRE_DT
+						,A.RETIRE_DT
+						,A.FILE_GRP_ID
+						,(SELECT CF.FILE_REAL_NAME
+							FROM T_CM_FILE CF
+						   WHERE CF.COMPANY_CD = A.COMPANY_CD
+						   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID
+						   	 AND CF.DELETE_YN = 'N'
+						   LIMIT 1) AS FILE_REAL_NAME
+						,A.FILE_GRP_ID2
+						,(SELECT CF.FILE_REAL_NAME
+							FROM T_CM_FILE CF
+						   WHERE CF.COMPANY_CD = A.COMPANY_CD
+						   	 AND CF.FILE_GRP_ID = A.FILE_GRP_ID2
+						   	 AND CF.DELETE_YN = 'N'
+						   LIMIT 1) AS FILE_REAL_NAME2      
+						,A.VALID_PERIOD_FR
+						,A.VALID_PERIOD_TO
+						,A.VALID_PASSWD_DT
+						,A.REF_USER_ID
+						,A.CARE_GRP
+						,A.REG_PGM_ID
+						,A.REG_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.REG_USER = CU.USER_ID) AS REG_USER_NM
+						,A.REG_DT
+						,A.REG_DT_CURR
+						,A.REG_DT_LOC
+						,A.REG_IP
+						,A.MOD_PGM_ID
+						,A.MOD_USER
+						,(SELECT CU.USER_NM_KOR
+							FROM T_CM_USER CU
+						   WHERE A.COMPANY_CD = CU.COMPANY_CD
+						     AND A.SERVICE_TP = CU.SERVICE_TP
+						     AND A.MOD_USER = CU.USER_ID) AS MOD_USER_NM
+						,A.MOD_DT
+						,A.MOD_DT_CURR
+						,A.MOD_DT_LOC
+						,A.MOD_IP
+                FROM T_CM_USER A
+               WHERE 1=1
+     		 ]]>
+
+		<if test="COMPANY_CD != '' and COMPANY_CD != null">
+			AND A.COMPANY_CD = #{COMPANY_CD}
+		</if>
+		<if test="SERVICE_TP != '' and SERVICE_TP != null">
+			AND A.SERVICE_TP = #{SERVICE_TP}
+		</if>
+		<if test="USER_ID != '' and USER_ID != null">
+			AND A.USER_ID LIKE CONCAT('%' , #{USER_ID} , '%')
+		</if>
+		<if test="USER_NM_KOR != '' and USER_NM_KOR != null">
+			AND A.USER_NM_KOR LIKE CONCAT('%' , #{USER_NM_KOR} , '%')
+		</if>
+		<if test="USE_YN != '' and USE_YN != null">
+			AND A.USE_YN = #{USE_YN}
+		</if>
+
+	</select>
+	<insert id="NUA002CT_DS_LIST_I" parameterType="java.util.Map">                                                                                            
+    <![CDATA[                                                                                                                                                                                                      
+              INSERT INTO T_CM_USER ( COMPANY_CD
+                                   , SERVICE_TP
+                                   , USER_ID
+                                   , USER_NO
+                                   , USER_PASSWD
+                                   , RANK_CD
+                                   , SAL_CD
+                                   , USER_NM_KOR
+                                   , USER_NM_ENG
+                                   , USER_NM_CHI
+                                   , USE_YN
+                                   , DEPT_CD
+                                   , DEPT_NM
+                                   , INOUT_USER_TP
+                                   , ZIP_CODE
+                                   , ADDRESS
+                                   , TEL_NO
+                                   , TEL_NO2
+                                   , FAX_NO
+                                   , EMAIL
+                                   , DEF_LANG
+                                   , AUTH1
+                                   , AUTH2
+                                   , AUTH3
+                                   , AUTH4
+                                   , AUTH5
+                                   , BIRTH_DT
+                                   , HIRE_DT
+                                   , RETIRE_DT
+                                   , FILE_GRP_ID
+                                   , FILE_GRP_ID2
+                                   , VALID_PERIOD_FR
+                                   , VALID_PERIOD_TO
+                                   , VALID_PASSWD_DT
+                                   , REF_USER_ID
+                                   , CARE_GRP
+                                   , REG_PGM_ID
+                                   , REG_USER
+                                   , REG_DT
+                                   , REG_DT_CURR
+                                   , REG_DT_LOC
+                                   , REG_IP
+                                   , MOD_PGM_ID
+                                   , MOD_USER
+                                   , MOD_DT
+                                   , MOD_DT_CURR
+                                   , MOD_DT_LOC
+                                   , MOD_IP
+                                   )
+                            VALUES ( #{COMPANY_CD        }
+                                   , #{SERVICE_TP        }
+                                   , #{USER_ID           }
+                                   , #{USER_NO           }
+                                   , #{USER_PASSWD       }
+                                   , #{RANK_CD           }
+                                   , #{SAL_CD            }
+                                   , #{USER_NM_KOR       }
+                                   , #{USER_NM_ENG       }
+                                   , #{USER_NM_CHI       }
+                                   , #{USE_YN            }
+                                   , #{DEPT_CD           }
+                                   , #{DEPT_NM           }
+                                   , #{INOUT_USER_TP     }
+                                   , #{ZIP_CODE          }
+                                   , #{ADDRESS           }
+                                   ,HEX(AES_ENCRYPT(#{TEL_NO}, (SELECT CC.STR1
+															  	  FROM T_CM_CODE CC
+													   		 	 WHERE CC.COMPANY_CD = #{COMPANY_CD}
+													   		 	   AND CC.GRP_CD = 'CM_AES_KEY')))
+                                   ,HEX(AES_ENCRYPT(#{TEL_NO2}, (SELECT CC.STR1
+															  	   FROM T_CM_CODE CC
+													   		 	  WHERE CC.COMPANY_CD = #{COMPANY_CD}
+													   		 	    AND CC.GRP_CD = 'CM_AES_KEY')))
+                                   , #{FAX_NO            }
+                                   , #{EMAIL             }
+                                   , #{DEF_LANG          }
+                                   , #{AUTH1             }
+                                   , #{AUTH2             }
+                                   , #{AUTH3             }
+                                   , #{AUTH4             }
+                                   , #{AUTH5             }
+                                   , #{BIRTH_DT          }
+                                   , #{HIRE_DT           }
+                                   , #{RETIRE_DT         }
+                                   , #{FILE_GRP_ID       }
+                                   , #{FILE_GRP_ID2		 }
+                                   , #{VALID_PERIOD_FR   }
+                                   , #{VALID_PERIOD_TO   }
+                                   , #{VALID_PASSWD_DT   }
+                                   , #{REF_USER_ID       }
+                                   , #{CARE_GRP}
+                                   , #{REG_PGM_ID        }
+                                   , #{REG_USER          }
+                                   , #{REG_DT            }
+                                   , #{REG_DT_CURR       }
+                                   , #{REG_DT_LOC        }
+                                   , #{REG_IP            }
+                                   , #{MOD_PGM_ID        }
+                                   , #{MOD_USER          }
+                                   , #{MOD_DT            }
+                                   , #{MOD_DT_CURR       }
+                                   , #{MOD_DT_LOC        }
+                                   , #{MOD_IP            }
+                                   )                                                                                                                                                                                  
+    ]]>
+	</insert>
+	<update id="NUA002CT_DS_LIST_U" parameterType="java.util.Map">
+    <![CDATA[  
+           	  UPDATE T_CM_USER
+              	 SET USER_NO         =#{USER_NO}
+					,RANK_CD         =#{RANK_CD}
+					,SAL_CD          =#{SAL_CD}
+					,USER_NM_KOR     =#{USER_NM_KOR}
+					,USER_NM_ENG     =#{USER_NM_ENG}
+					,USER_NM_CHI     =#{USER_NM_CHI}
+					,USE_YN          =#{USE_YN}
+					,DEPT_CD         =#{DEPT_CD}
+					,DEPT_NM         =#{DEPT_NM}
+					,INOUT_USER_TP   =#{INOUT_USER_TP}
+					,ZIP_CODE        =#{ZIP_CODE}
+					,ADDRESS         =#{ADDRESS}
+					,TEL_NO          =HEX(AES_ENCRYPT(#{TEL_NO}, (SELECT CC.STR1
+															  	  	FROM T_CM_CODE CC
+													   		 	   WHERE CC.COMPANY_CD = #{COMPANY_CD}
+													   		 	     AND CC.GRP_CD = 'CM_AES_KEY')))
+					,TEL_NO2         =HEX(AES_ENCRYPT(#{TEL_NO2}, (SELECT CC.STR1
+																	 FROM T_CM_CODE CC
+																	WHERE CC.COMPANY_CD = #{COMPANY_CD}
+																	  AND CC.GRP_CD = 'CM_AES_KEY')))
+					,FAX_NO          =#{FAX_NO}
+					,EMAIL           =#{EMAIL}
+					,DEF_LANG        =#{DEF_LANG}
+					,AUTH1           =#{AUTH1}
+					,AUTH2           =#{AUTH2}
+					,AUTH3           =#{AUTH3}
+					,AUTH4           =#{AUTH4}
+					,AUTH5           =#{AUTH5}
+					,BIRTH_DT        =#{BIRTH_DT}
+					,HIRE_DT         =#{HIRE_DT}
+					,RETIRE_DT       =#{RETIRE_DT}
+					,FILE_GRP_ID     =#{FILE_GRP_ID}
+					,FILE_GRP_ID2    =#{FILE_GRP_ID2}
+					,VALID_PERIOD_FR =#{VALID_PERIOD_FR}
+					,VALID_PERIOD_TO =#{VALID_PERIOD_TO}
+					,VALID_PASSWD_DT =#{VALID_PASSWD_DT}
+					,REF_USER_ID	 =#{REF_USER_ID}
+					,CARE_GRP = #{CARE_GRP}
+					,MOD_PGM_ID      =#{MOD_PGM_ID}
+					,MOD_USER        =#{MOD_USER}
+					,MOD_DT          =#{MOD_DT}
+					,MOD_DT_CURR     =#{MOD_DT_CURR}
+					,MOD_DT_LOC      =#{MOD_DT_LOC}
+					,MOD_IP          =#{MOD_IP}
+            WHERE COMPANY_CD = #{COMPANY_CD}
+              AND USER_ID = #{USER_ID} 
+              AND SERVICE_TP = #{SERVICE_TP}
+           ]]>
+	</update>
+	<delete id="NUA002CT_DS_LIST_D" parameterType="java.util.Map">                                                                                         
+	    <![CDATA[                                                                                                                                                                                           
+		BEGIN NOT ATOMIC
+		        DELETE FROM T_CM_USER
+		         WHERE COMPANY_CD = #{COMPANY_CD}
+		           AND USER_ID = #{USER_ID}
+		           AND SERVICE_TP = #{SERVICE_TP};
+		END ;
+	    ]]>
+	</delete>
+	<select id="NUA002CT_PP_PASS_CHK" parameterType="java.util.HashMap"	resultType="java.lang.String">
+	<![CDATA[
+			SELECT USER_PASSWD 
+			  FROM T_CM_USER 
+			 WHERE USER_ID = #{USER_ID}
+			   AND COMPANY_CD = #{COMPANY_CD}
+			   AND SERVICE_TP = #{SERVICE_TP}
+           ]]>
+	</select>
+	<update id="NUA002CT_PP_CHG_PASS" parameterType="java.util.HashMap">
+    <![CDATA[  
+			 UPDATE T_CM_USER  
+			    SET USER_PASSWD = #{NEW_PASS},
+                    MOD_PGM_ID  = #{MOD_PGM_ID},
+                    MOD_USER    = #{MOD_USER},
+                    MOD_DT      = #{MOD_DT},
+                    MOD_DT_CURR = #{MOD_DT_CURR},
+                    MOD_DT_LOC  = #{MOD_DT_LOC},
+                    MOD_IP      = #{MOD_IP}
+			  WHERE USER_ID = #{USER_ID}
+			    AND COMPANY_CD = #{COMPANY_CD}
+			    AND SERVICE_TP = #{SERVICE_TP}
+           ]]>
+	</update>
+	<select id="NUA002CT_SIGN" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+	<![CDATA[
+			SELECT 
+				   FILE_GRP_ID
+				 , FILE_ID
+				 , FILE_NAME
+				 , FILE_SIZE
+				 , BLOB_FILE
+			  FROM T_CM_FILE
+			 WHERE FILE_GRP_ID = #{FILE_GRP_ID}
+			   AND DELETE_YN = 'N'
+           ]]>
+	</select>
+
+</mapper>                                                                                                                                                                                                          
